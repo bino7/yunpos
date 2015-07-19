@@ -1,5 +1,6 @@
 package com.yunpos.persistence.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.yunpos.model.DataRule;
@@ -24,6 +25,6 @@ public interface DataRuleMapper {
 	DataRule selectByRoleID(Integer roleid);
 
 	// 查询用户对应的数据权限
-	@Select("select * from Data_Rule dr , User_Role ur where ur.userid = #{userid} and dr.roleid = ur.roleid and datatype= #{datatype}")
-	DataRule selectByUserID(Integer userid, String datatype);
+	@Select("select * from Data_Rule dr , User_Role ur where ur.UserID = #{userid} and dr.RoleID = ur.RoleID and DataType= #{datatype}")
+	DataRule selectByUserID(@Param("userid") Integer userid, @Param("datatype")String datatype);
 }

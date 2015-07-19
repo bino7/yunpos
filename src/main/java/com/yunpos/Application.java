@@ -1,6 +1,7 @@
 package com.yunpos;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,6 +14,7 @@ import com.yunpos.service.FooBarService;
 @EnableAutoConfiguration
 @Configuration
 @EnableConfigurationProperties
+@SpringBootApplication
 public class Application {
     
     public static void main(String[] args) {

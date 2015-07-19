@@ -1,4 +1,4 @@
-package com.yunpos.dataFilter;
+package com.yunpos.translation;
 
 public class DataPrivilegeRule {
 

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.User" >
+    <id column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="LoginName" property="loginname" jdbcType="VARCHAR" />
+    <result column="LoginPassword" property="loginpassword" jdbcType="VARCHAR" />
+    <result column="OrgID" property="orgid" jdbcType="INTEGER" />
+    <result column="RealName" property="realname" jdbcType="VARCHAR" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Sex" property="sex" jdbcType="VARCHAR" />
+    <result column="Phone" property="phone" jdbcType="VARCHAR" />
+    <result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="ModifyUserID" property="modifyuserid" jdbcType="INTEGER" />
+    <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UserID, LoginName, LoginPassword, OrgID, RealName, Title, Sex, Phone, CreateUserID, 
+    CreateDate, ModifyUserID, ModifyDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where UserID = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where UserID = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.User" >
+    insert into user (UserID, LoginName, LoginPassword, 
+      OrgID, RealName, Title, 
+      Sex, Phone, CreateUserID, 
+      CreateDate, ModifyUserID, ModifyDate
+      )
+    values (#{userid,jdbcType=INTEGER}, #{loginname,jdbcType=VARCHAR}, #{loginpassword,jdbcType=VARCHAR}, 
+      #{orgid,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createuserid,jdbcType=INTEGER}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{modifyuserid,jdbcType=INTEGER}, #{modifydate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="loginname != null" >
+        LoginName,
+      </if>
+      <if test="loginpassword != null" >
+        LoginPassword,
+      </if>
+      <if test="orgid != null" >
+        OrgID,
+      </if>
+      <if test="realname != null" >
+        RealName,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="sex != null" >
+        Sex,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="modifyuserid != null" >
+        ModifyUserID,
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="loginname != null" >
+        #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpassword != null" >
+        #{loginpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuserid != null" >
+        #{modifyuserid,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.User" >
+    update user
+    <set >
+      <if test="loginname != null" >
+        LoginName = #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpassword != null" >
+        LoginPassword = #{loginpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        OrgID = #{orgid,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null" >
+        RealName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        Sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuserid != null" >
+        ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UserID = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.User" >
+    update user
+    set LoginName = #{loginname,jdbcType=VARCHAR},
+      LoginPassword = #{loginpassword,jdbcType=VARCHAR},
+      OrgID = #{orgid,jdbcType=INTEGER},
+      RealName = #{realname,jdbcType=VARCHAR},
+      Title = #{title,jdbcType=VARCHAR},
+      Sex = #{sex,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=VARCHAR},
+      CreateUserID = #{createuserid,jdbcType=INTEGER},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP}
+    where UserID = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

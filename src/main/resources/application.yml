@@ -1,0 +1,19 @@
+# common settings
+spring:
+  # profile
+  profiles.active: development
+  main.show_banner: false
+  application.name: mybatis-spring-sample
+  velocity.checkTemplateLocation: false
+
+# info endpoints settings
+info.app.name: ${spring.application.name} - ${spring.profiles.active}
+
+management.contextPath: "/_actuator"
+
+# foobar settings
+foobar:
+  fooName: FOO
+  barName: BAR
+  hoge: hoge
+  hogeNum: 1234

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysButtonMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysButton" >
+    <id column="BtnID" property="btnid" jdbcType="INTEGER" />
+    <result column="BtnName" property="btnname" jdbcType="VARCHAR" />
+    <result column="BtnNo" property="btnno" jdbcType="INTEGER" />
+    <result column="BtnIcon" property="btnicon" jdbcType="VARCHAR" />
+    <result column="MenuNo" property="menuno" jdbcType="INTEGER" />
+    <result column="InitStatus" property="initstatus" jdbcType="INTEGER" />
+    <result column="SeqNo" property="seqno" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.SysButtonWithBLOBs" extends="BaseResultMap" >
+    <result column="BtnClass" property="btnclass" jdbcType="LONGVARCHAR" />
+    <result column="BtnScript" property="btnscript" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BtnID, BtnName, BtnNo, BtnIcon, MenuNo, InitStatus, SeqNo
+  </sql>
+  <sql id="Blob_Column_List" >
+    BtnClass, BtnScript
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_button
+    where BtnID = #{btnid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_button
+    where BtnID = #{btnid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysButtonWithBLOBs" >
+    insert into sys_button (BtnID, BtnName, BtnNo, 
+      BtnIcon, MenuNo, InitStatus, 
+      SeqNo, BtnClass, BtnScript
+      )
+    values (#{btnid,jdbcType=INTEGER}, #{btnname,jdbcType=VARCHAR}, #{btnno,jdbcType=INTEGER}, 
+      #{btnicon,jdbcType=VARCHAR}, #{menuno,jdbcType=INTEGER}, #{initstatus,jdbcType=INTEGER}, 
+      #{seqno,jdbcType=INTEGER}, #{btnclass,jdbcType=LONGVARCHAR}, #{btnscript,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysButtonWithBLOBs" >
+    insert into sys_button
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="btnid != null" >
+        BtnID,
+      </if>
+      <if test="btnname != null" >
+        BtnName,
+      </if>
+      <if test="btnno != null" >
+        BtnNo,
+      </if>
+      <if test="btnicon != null" >
+        BtnIcon,
+      </if>
+      <if test="menuno != null" >
+        MenuNo,
+      </if>
+      <if test="initstatus != null" >
+        InitStatus,
+      </if>
+      <if test="seqno != null" >
+        SeqNo,
+      </if>
+      <if test="btnclass != null" >
+        BtnClass,
+      </if>
+      <if test="btnscript != null" >
+        BtnScript,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="btnid != null" >
+        #{btnid,jdbcType=INTEGER},
+      </if>
+      <if test="btnname != null" >
+        #{btnname,jdbcType=VARCHAR},
+      </if>
+      <if test="btnno != null" >
+        #{btnno,jdbcType=INTEGER},
+      </if>
+      <if test="btnicon != null" >
+        #{btnicon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuno != null" >
+        #{menuno,jdbcType=INTEGER},
+      </if>
+      <if test="initstatus != null" >
+        #{initstatus,jdbcType=INTEGER},
+      </if>
+      <if test="seqno != null" >
+        #{seqno,jdbcType=INTEGER},
+      </if>
+      <if test="btnclass != null" >
+        #{btnclass,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="btnscript != null" >
+        #{btnscript,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysButtonWithBLOBs" >
+    update sys_button
+    <set >
+      <if test="btnname != null" >
+        BtnName = #{btnname,jdbcType=VARCHAR},
+      </if>
+      <if test="btnno != null" >
+        BtnNo = #{btnno,jdbcType=INTEGER},
+      </if>
+      <if test="btnicon != null" >
+        BtnIcon = #{btnicon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuno != null" >
+        MenuNo = #{menuno,jdbcType=INTEGER},
+      </if>
+      <if test="initstatus != null" >
+        InitStatus = #{initstatus,jdbcType=INTEGER},
+      </if>
+      <if test="seqno != null" >
+        SeqNo = #{seqno,jdbcType=INTEGER},
+      </if>
+      <if test="btnclass != null" >
+        BtnClass = #{btnclass,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="btnscript != null" >
+        BtnScript = #{btnscript,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where BtnID = #{btnid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunpos.model.SysButtonWithBLOBs" >
+    update sys_button
+    set BtnName = #{btnname,jdbcType=VARCHAR},
+      BtnNo = #{btnno,jdbcType=INTEGER},
+      BtnIcon = #{btnicon,jdbcType=VARCHAR},
+      MenuNo = #{menuno,jdbcType=INTEGER},
+      InitStatus = #{initstatus,jdbcType=INTEGER},
+      SeqNo = #{seqno,jdbcType=INTEGER},
+      BtnClass = #{btnclass,jdbcType=LONGVARCHAR},
+      BtnScript = #{btnscript,jdbcType=LONGVARCHAR}
+    where BtnID = #{btnid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysButton" >
+    update sys_button
+    set BtnName = #{btnname,jdbcType=VARCHAR},
+      BtnNo = #{btnno,jdbcType=INTEGER},
+      BtnIcon = #{btnicon,jdbcType=VARCHAR},
+      MenuNo = #{menuno,jdbcType=INTEGER},
+      InitStatus = #{initstatus,jdbcType=INTEGER},
+      SeqNo = #{seqno,jdbcType=INTEGER}
+    where BtnID = #{btnid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.OrgMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.Org" >
+    <id column="OrgID" property="orgid" jdbcType="INTEGER" />
+    <result column="OrgNo" property="orgno" jdbcType="VARCHAR" />
+    <result column="OrgName" property="orgname" jdbcType="VARCHAR" />
+    <result column="OrgParentID" property="orgparentid" jdbcType="INTEGER" />
+    <result column="OrgParentName" property="orgparentname" jdbcType="VARCHAR" />
+    <result column="OrgParentNo" property="orgparentno" jdbcType="VARCHAR" />
+    <result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="ModifyUserID" property="modifyuserid" jdbcType="INTEGER" />
+    <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OrgID, OrgNo, OrgName, OrgParentID, OrgParentName, OrgParentNo, CreateUserID, CreateDate, 
+    ModifyUserID, ModifyDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from org
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from org
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.Org" >
+    insert into org (OrgID, OrgNo, OrgName, 
+      OrgParentID, OrgParentName, OrgParentNo, 
+      CreateUserID, CreateDate, ModifyUserID, 
+      ModifyDate)
+    values (#{orgid,jdbcType=INTEGER}, #{orgno,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, 
+      #{orgparentid,jdbcType=INTEGER}, #{orgparentname,jdbcType=VARCHAR}, #{orgparentno,jdbcType=VARCHAR}, 
+      #{createuserid,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, #{modifyuserid,jdbcType=INTEGER}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.Org" >
+    insert into org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgid != null" >
+        OrgID,
+      </if>
+      <if test="orgno != null" >
+        OrgNo,
+      </if>
+      <if test="orgname != null" >
+        OrgName,
+      </if>
+      <if test="orgparentid != null" >
+        OrgParentID,
+      </if>
+      <if test="orgparentname != null" >
+        OrgParentName,
+      </if>
+      <if test="orgparentno != null" >
+        OrgParentNo,
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="modifyuserid != null" >
+        ModifyUserID,
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgid != null" >
+        #{orgid,jdbcType=INTEGER},
+      </if>
+      <if test="orgno != null" >
+        #{orgno,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgparentid != null" >
+        #{orgparentid,jdbcType=INTEGER},
+      </if>
+      <if test="orgparentname != null" >
+        #{orgparentname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgparentno != null" >
+        #{orgparentno,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuserid != null" >
+        #{modifyuserid,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.Org" >
+    update org
+    <set >
+      <if test="orgno != null" >
+        OrgNo = #{orgno,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        OrgName = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgparentid != null" >
+        OrgParentID = #{orgparentid,jdbcType=INTEGER},
+      </if>
+      <if test="orgparentname != null" >
+        OrgParentName = #{orgparentname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgparentno != null" >
+        OrgParentNo = #{orgparentno,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyuserid != null" >
+        ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
+      </if>
+      <if test="modifydate != null" >
+        ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.Org" >
+    update org
+    set OrgNo = #{orgno,jdbcType=VARCHAR},
+      OrgName = #{orgname,jdbcType=VARCHAR},
+      OrgParentID = #{orgparentid,jdbcType=INTEGER},
+      OrgParentName = #{orgparentname,jdbcType=VARCHAR},
+      OrgParentNo = #{orgparentno,jdbcType=VARCHAR},
+      CreateUserID = #{createuserid,jdbcType=INTEGER},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP}
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </update>
+</mapper>

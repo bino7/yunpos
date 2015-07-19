@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysMenu" >
+    <id column="MenuID" property="menuid" jdbcType="INTEGER" />
+    <result column="MenuNo" property="menuno" jdbcType="INTEGER" />
+    <result column="ApplicationCode" property="applicationcode" jdbcType="INTEGER" />
+    <result column="MenuParentNo" property="menuparentno" jdbcType="INTEGER" />
+    <result column="MenuOrder" property="menuorder" jdbcType="INTEGER" />
+    <result column="MenuName" property="menuname" jdbcType="VARCHAR" />
+    <result column="MenuUrl" property="menuurl" jdbcType="VARCHAR" />
+    <result column="IsVisible" property="isvisible" jdbcType="INTEGER" />
+    <result column="IsLeaf" property="isleaf" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MenuID, MenuNo, ApplicationCode, MenuParentNo, MenuOrder, MenuName, MenuUrl, IsVisible, 
+    IsLeaf
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where MenuID = #{menuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_menu
+    where MenuID = #{menuid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysMenu" >
+    insert into sys_menu (MenuID, MenuNo, ApplicationCode, 
+      MenuParentNo, MenuOrder, MenuName, 
+      MenuUrl, IsVisible, IsLeaf
+      )
+    values (#{menuid,jdbcType=INTEGER}, #{menuno,jdbcType=INTEGER}, #{applicationcode,jdbcType=INTEGER}, 
+      #{menuparentno,jdbcType=INTEGER}, #{menuorder,jdbcType=INTEGER}, #{menuname,jdbcType=VARCHAR}, 
+      #{menuurl,jdbcType=VARCHAR}, #{isvisible,jdbcType=INTEGER}, #{isleaf,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysMenu" >
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        MenuID,
+      </if>
+      <if test="menuno != null" >
+        MenuNo,
+      </if>
+      <if test="applicationcode != null" >
+        ApplicationCode,
+      </if>
+      <if test="menuparentno != null" >
+        MenuParentNo,
+      </if>
+      <if test="menuorder != null" >
+        MenuOrder,
+      </if>
+      <if test="menuname != null" >
+        MenuName,
+      </if>
+      <if test="menuurl != null" >
+        MenuUrl,
+      </if>
+      <if test="isvisible != null" >
+        IsVisible,
+      </if>
+      <if test="isleaf != null" >
+        IsLeaf,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="menuno != null" >
+        #{menuno,jdbcType=INTEGER},
+      </if>
+      <if test="applicationcode != null" >
+        #{applicationcode,jdbcType=INTEGER},
+      </if>
+      <if test="menuparentno != null" >
+        #{menuparentno,jdbcType=INTEGER},
+      </if>
+      <if test="menuorder != null" >
+        #{menuorder,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuurl != null" >
+        #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="isvisible != null" >
+        #{isvisible,jdbcType=INTEGER},
+      </if>
+      <if test="isleaf != null" >
+        #{isleaf,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysMenu" >
+    update sys_menu
+    <set >
+      <if test="menuno != null" >
+        MenuNo = #{menuno,jdbcType=INTEGER},
+      </if>
+      <if test="applicationcode != null" >
+        ApplicationCode = #{applicationcode,jdbcType=INTEGER},
+      </if>
+      <if test="menuparentno != null" >
+        MenuParentNo = #{menuparentno,jdbcType=INTEGER},
+      </if>
+      <if test="menuorder != null" >
+        MenuOrder = #{menuorder,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null" >
+        MenuName = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuurl != null" >
+        MenuUrl = #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="isvisible != null" >
+        IsVisible = #{isvisible,jdbcType=INTEGER},
+      </if>
+      <if test="isleaf != null" >
+        IsLeaf = #{isleaf,jdbcType=INTEGER},
+      </if>
+    </set>
+    where MenuID = #{menuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysMenu" >
+    update sys_menu
+    set MenuNo = #{menuno,jdbcType=INTEGER},
+      ApplicationCode = #{applicationcode,jdbcType=INTEGER},
+      MenuParentNo = #{menuparentno,jdbcType=INTEGER},
+      MenuOrder = #{menuorder,jdbcType=INTEGER},
+      MenuName = #{menuname,jdbcType=VARCHAR},
+      MenuUrl = #{menuurl,jdbcType=VARCHAR},
+      IsVisible = #{isvisible,jdbcType=INTEGER},
+      IsLeaf = #{isleaf,jdbcType=INTEGER}
+    where MenuID = #{menuid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -24,7 +24,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 	 * @param registry
 	 */
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/**").excludePathPatterns("/login**",
+		registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/user/**").excludePathPatterns("/login**",
 				"/index**","/error");
 	}
 }

@@ -47,6 +47,7 @@ public class UserController {
 	
 	@RequestMapping("/list")
 	public ModelAndView listUser() {
+		userService.findAllUsers();
 		ModelAndView mav = new ModelAndView("security/user/listUser");
 		return mav;
 	}

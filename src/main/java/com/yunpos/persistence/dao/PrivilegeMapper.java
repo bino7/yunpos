@@ -21,4 +21,6 @@ public interface PrivilegeMapper {
     
     @Select("select * from Privilege")
 	List<Privilege> findAll();
+
+	List<Privilege> findListByIds(Object[] array);
 }

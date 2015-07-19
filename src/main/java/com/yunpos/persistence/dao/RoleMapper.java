@@ -22,5 +22,7 @@ public interface RoleMapper {
     @Select("select * from Org")
     List<Role> findAll();
     
+	List<Role> findByIdsMap(Object[] objects);
+    
     
 }

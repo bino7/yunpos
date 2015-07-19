@@ -42,4 +42,10 @@ public class PrivilegeService {
 		return false;
 	}
 
+	
+	public List<Privilege> findListByIds(Object[] array) {
+		// TODO Auto-generated method stub
+		return privilegeMapper.findListByIds(array);
+	}
+
 }

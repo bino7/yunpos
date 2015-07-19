@@ -174,4 +174,14 @@
       ModifyDate = #{modifydate,jdbcType=TIMESTAMP}
     where UserID = #{userid,jdbcType=INTEGER}
   </update>
+  
+  <!-- ###############自动以方法############################## -->
+<!--   <select id="selectUserByName" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where LoginName = #{loginname,jdbcType=VARCHAR}
+  </select> -->
+  
+  
 </mapper>

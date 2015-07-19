@@ -1,5 +1,6 @@
 package com.yunpos.service;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,10 @@ public class RoleService {
 
 	public Role findById(int id) {
 		return roleMapper.selectByPrimaryKey(id);
+	}
+	
+	public List<Role> findListByIds(Object[] objects) {
+		return roleMapper.findByIdsMap(objects);
 	}
 
 }

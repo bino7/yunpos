@@ -49,11 +49,11 @@ CREATE TABLE IF NOT EXISTS `org` (
 -- 导出  表 yunpos.privilege 结构
 CREATE TABLE IF NOT EXISTS `privilege` (
   `PrivilegeID` int(10) unsigned NOT NULL,
-  `PrivilegeMaster` varchar(50) DEFAULT NULL,
-  `PrivilegeMasterValue` int(10) DEFAULT NULL,
-  `PrivilegeAccess` varchar(50) DEFAULT NULL,
-  `PrivilegeAccessValue` int(10) DEFAULT NULL,
-  `PrivilegeOperation` int(10) DEFAULT NULL,
+  `PrivilegeMaster` varchar(50) DEFAULT NULL, COMMENT='主体（角色/用户）'
+  `PrivilegeMasterValue` int(10) DEFAULT NULL, COMMENT='主体Id'
+  `PrivilegeAccess` varchar(50) DEFAULT NULL, COMMENT='资源类型'
+  `PrivilegeAccessValue` int(10) DEFAULT NULL COMMENT='资源ID（按钮/菜单）';
+  `PrivilegeOperation` int(10) DEFAULT NULL ，COMMENT='CRUD';
   PRIMARY KEY (`PrivilegeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='功能权限表';
 

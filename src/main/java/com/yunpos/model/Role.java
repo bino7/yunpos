@@ -82,4 +82,6 @@ public class Role {
     public void setModifydate(Date modifydate) {
         this.modifydate = modifydate;
     }
+    
+
 }

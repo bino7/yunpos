@@ -3,15 +3,24 @@ package com.yunpos.model;
 public class Privilege {
     private Integer privilegeid;
 
-    private String privilegemaster;
+    private String privilegemaster;	//	主体类型
 
-    private Integer privilegemastervalue;
+    private Integer privilegemastervalue;	//主体对应ID
 
-    private String privilegeaccess;
+    private String privilegeaccess;	//资源类型
 
-    private Integer privilegeaccessvalue;
+    private Integer privilegeaccessvalue; //资源ID
 
     private Integer privilegeoperation;
+    
+    
+	public enum Privilegemaster{
+		 ROLE,USER;
+	}
+	
+	public enum Privilegeaccess{
+		 SYSBUTTON,SYSAPP,SYSMENU;
+	}
 
     public Integer getPrivilegeid() {
         return privilegeid;

@@ -42,7 +42,9 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 				DATA_ROLE.set(dr);
 				request.setAttribute("DATA_RULE", dr);
 				request.getServletContext().setAttribute("DATA_RULE", dr);
+				request.getSession().setAttribute("DATA_RULE", dr);
 				SqlHelper.orderBy(dr);
+				
 			}
 			return true;
 		}

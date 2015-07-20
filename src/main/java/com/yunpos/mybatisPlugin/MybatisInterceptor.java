@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -20,6 +22,8 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.yunpos.model.DataRule;
 
@@ -30,6 +34,10 @@ public class MybatisInterceptor   implements Interceptor {
 	private Properties properties;
 
 	public Object intercept(Invocation invocation) throws Throwable {
+		
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		
 		MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
 		DataRule orderBy=SqlHelper.getOrderBy();
 		Object parameter = null;

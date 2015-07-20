@@ -4,6 +4,7 @@ import static java.util.Collections.singletonList;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.net.URI;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,12 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping("/list")
-	public ModelAndView listUser() {
+	public ModelAndView listUser(HttpServletRequest request) {
+		Enumeration enu=request.getParameterNames();  
+		while(enu.hasMoreElements()){  
+		String paraName=(String)enu.nextElement();  
+		System.out.println(paraName+": "+request.getParameter(paraName));  
+		}  
 		userService.findAllUsers();
 		ModelAndView mav = new ModelAndView("security/user/listUser");
 		return mav;

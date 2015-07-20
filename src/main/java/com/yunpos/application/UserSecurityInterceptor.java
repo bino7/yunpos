@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yunpos.model.DataRule;
 import com.yunpos.model.User;
+import com.yunpos.mybatisPlugin.SqlHelper;
 import com.yunpos.service.DataRuleService;
 
 /**
@@ -20,7 +21,7 @@ import com.yunpos.service.DataRuleService;
 @Service
 public class UserSecurityInterceptor implements HandlerInterceptor {
 
-	private static final ThreadLocal<DataRule> DR = new ThreadLocal<DataRule>();
+	private static final ThreadLocal<DataRule> DATA_ROLE = new ThreadLocal<DataRule>();
 
 	@Autowired
 	private DataRuleService dataRuleService;
@@ -36,14 +37,21 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 			response.sendRedirect(request.getContextPath() + "/index");
 			return true;
 		} else if (userid != null && datatype != null) {
-//			DataRule dr = dataRuleService.findByUserID(Integer.parseInt(userid), datatype);
-//			if (dr != null && !"".equals(dr)) {
-//				DR.set(dr);
-//			}
+			DataRule dr = dataRuleService.findByUserID(Integer.parseInt(userid), datatype);
+			if (dr != null && !"".equals(dr)) {
+				DATA_ROLE.set(dr);
+				request.setAttribute("DATA_RULE", dr);
+				request.getServletContext().setAttribute("DATA_RULE", dr);
+				SqlHelper.orderBy(dr);
+			}
 			return true;
 		}
 
 		return false;
+	}
+
+	public static DataRule getDataRule() {
+		return DATA_ROLE.get();
 	}
 
 	@Override

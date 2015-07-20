@@ -21,14 +21,17 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
+import com.yunpos.model.DataRule;
+
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
 				RowBounds.class, ResultHandler.class }) })
-public class MybatisInterceptor implements Interceptor {
+public class MybatisInterceptor   implements Interceptor {
 	private Properties properties;
 
 	public Object intercept(Invocation invocation) throws Throwable {
 		MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+		DataRule orderBy=SqlHelper.getOrderBy();
 		Object parameter = null;
 		if (invocation.getArgs().length > 1) {
 			parameter = invocation.getArgs()[1];

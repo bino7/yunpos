@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 
 public class FilterTranslator {
 
@@ -39,7 +40,7 @@ public class FilterTranslator {
 	 */
 	public String getOperatorQueryText(String tableName) {
 
-		return "select * from " + tableName + " where " + regCurrentParamMatch();
+		return "select * from (" + tableName + ") t where " + regCurrentParamMatch();
 	}
 
 	/**
@@ -129,7 +130,7 @@ public class FilterTranslator {
 		// ="{\"rules\":[{\"field\":\"OrderDate\",\"op\":\"less\",\"value\":\"2012-01-01\"}],\"groups\":[{\"rules\":[{\"field\":\"CustomerID\",\"op\":\"equal\",\"value\":\"VINET\"},
 		// {\"field\":\"CustomerID\",\"op\":\"equal\",\"value\":\"TOMSP\"}],\"op\":\"or\"}],\"op\":\"and\"}";
 		ObjectMapper objectMapper = new ObjectMapper();
-		// ObjectReader reader=objectMapper.reader(FilterGroup.class);
+		 ObjectReader reader=objectMapper.reader(FilterGroup.class);
 		// FilterGroup fg = reader.readValue(s);
 		// System.out.println(fg);
 		// 例子一
@@ -155,6 +156,12 @@ public class FilterTranslator {
 		System.out.println(objectMapper.writeValueAsString(fgs));
 		FilterTranslator ft = new FilterTranslator("select * from abc where", fgs);
 		System.out.println(ft.translate());
+		
+		
+		String s="{\"groups\":[{\"groups\":null,\"op\":\"or\",\"rules\":[{\"field\":\"CustomerID\",\"op\":\"equal\",\"type\":\"\",\"value\":\"VINET\"},{\"field\":\"CustomerID\",\"op\":\"equal\",\"type\":\"\",\"value\":\"TOMSP\"}]}],\"op\":\"and\",\"rules\":[{\"field\":\"OrderDate\",\"op\":\"less\",\"type\":\"\",\"value\":\"2012-01-01\"}]}";
+		System.out.println(s);
+		FilterGroup fg = reader.readValue(s);
+		System.out.println(fg);
 		// 例子二
 		// List<FilterRule> rules = new ArrayList<FilterRule>();
 		// List<FilterGroup> fglist = new ArrayList<FilterGroup>();

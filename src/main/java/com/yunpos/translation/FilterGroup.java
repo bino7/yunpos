@@ -10,6 +10,11 @@ public class FilterGroup {
 
 	public List<FilterRule> rules;
 
+	
+	public FilterGroup() {
+		super();
+	}
+
 	public List<FilterGroup> getGroups() {
 		return groups;
 	}

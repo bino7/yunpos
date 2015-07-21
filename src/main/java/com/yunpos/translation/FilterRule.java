@@ -10,6 +10,8 @@ public class FilterRule {
 
 	public String value;
 
+	public FilterRule(){}
+	
 	public FilterRule(String field, String op, String type, String value) {
 		this.field = field;
 		this.op = op;

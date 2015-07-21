@@ -134,17 +134,22 @@ public class FilterTranslator {
 		// FilterGroup fg = reader.readValue(s);
 		// System.out.println(fg);
 		// 例子一
-		FilterRule fr = new FilterRule("CustomerID", "equal", "", "VINET");
+		FilterRule fr = new FilterRule("userID", "equal", "", "1");
 		FilterRule fr1 = new FilterRule("CustomerID", "equal", "", "TOMSP");
 		FilterRule fr2 = new FilterRule("OrderDate", "less", "", "2012-01-01");
 		FilterGroup fg0 = new FilterGroup();
-
-		fg0.setOp("or");
 		List<FilterRule> rules = new ArrayList<FilterRule>();
-		rules.add(fr);
-		rules.add(fr1);
-		fg0.setRules(rules);
 
+		
+		fg0.setOp("or");
+		rules.add(fr);
+		fg0.setRules(rules);
+		
+		
+		fg0.setRules(rules);
+		System.out.println(objectMapper.writeValueAsString(fg0));
+		
+		rules.add(fr1);
 		FilterGroup fgs = new FilterGroup();
 		List<FilterGroup> fglist = new ArrayList<FilterGroup>();
 		fglist.add(fg0);

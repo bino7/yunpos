@@ -18,7 +18,7 @@
 					"hoverrows" : false,
 					"viewrecords" : false,
 					"gridview" : true,
-					"url" : "treegridjs/all_crud/data.json",
+					"url" : "static/treegridjs/all_crud/data.json",
 					"editurl" : "clientArray",
 					"ExpandColumn" : "name",
 					"height" : "auto",

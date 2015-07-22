@@ -54,11 +54,12 @@ public class WebSecurityConfig {
 		logger.debug("create shiro filter.");
 		Map<String, Filter> filters = new HashMap<>();
 		filters.put("authc", new CaptchaFormAuthenticationFilter());
-		filters.put("anon", new CaptchaFormAuthenticationFilter());
+//		filters.put("anon", new CaptchaFormAuthenticationFilter());
 
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setLoginUrl("/login");
 		shiroFilterFactoryBean.setSuccessUrl("/home");
+		
 		shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
 		shiroFilterFactoryBean.setFilters(filters);
 		

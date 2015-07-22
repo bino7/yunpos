@@ -55,7 +55,7 @@ public class SysAppController {
 	@RequestMapping(method = GET)
 	public @ResponseBody ViewPage<SysApp> list() {
 		ViewPage<SysApp> viewPage = new ViewPage<SysApp>();
-		List<SysApp> list = sysAppService.list();
+		List<SysApp> list = sysAppService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
 		viewPage.setMax(10);
@@ -81,7 +81,8 @@ public class SysAppController {
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createSysApp(HttpServletRequest request, @RequestBody SysApp sysApp) {
-		final int id = sysAppService.insert(sysApp);
+		sysAppService.insert(sysApp);
+	    final int id =sysApp.getApplicationid();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

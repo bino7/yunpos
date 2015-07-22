@@ -38,8 +38,8 @@ public class FooBarService {
     }
     
     public void printAllFooAndAllBar() {
-    	User u =userMapper.selectByPrimaryKey(1);
-    	System.out.println("user phone"+u.getPhone());
+//    	User u =userMapper.selectByPrimaryKey(1);
+//    	System.out.println("user phone"+u.getPhone());
         System.out.println("foo:");
         fooMapper.findAll().stream().forEach(System.out::println);
     }

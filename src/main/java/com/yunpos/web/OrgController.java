@@ -50,7 +50,7 @@ public class OrgController {
 	@RequestMapping(method = GET)
 	public @ResponseBody ViewPage<Org> list() {
 		ViewPage<Org> viewPage = new ViewPage<Org>();
-		List<Org> list = orgService.list();
+		List<Org> list = orgService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
 		viewPage.setMax(10);
@@ -76,7 +76,8 @@ public class OrgController {
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createOrg(HttpServletRequest request, @RequestBody Org org) {
-		final int id = orgService.insert(org);
+		orgService.insert(org);
+		int id = org.getOrgid();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

@@ -1,12 +1,12 @@
 package com.yunpos.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yunpos.model.Org;
+import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.OrgMapper;
+
 /**
  * 
  * 功能描述：组织服务层
@@ -20,42 +20,13 @@ import com.yunpos.persistence.dao.OrgMapper;
  *
  */
 @Service
-public class OrgService {
-	
+public class OrgService extends EntityService<Org> {
 	@Autowired
 	private OrgMapper orgMapper;
-	
-	 
 
-    public List<Org> list() {
-        return orgMapper.findAll();
-    }
-    
-    public int insert(Org record) {
-    	return orgMapper.insert(record);
-    }
-    
-    public int delete(int uid) {
-    	return orgMapper.deleteByPrimaryKey(uid);
-    }
-    
-    public int update(Org record) {
-    	return orgMapper.updateByPrimaryKey(record);
-    }
-
-	public Org findById(int id) {
-		return orgMapper.selectByPrimaryKey(id);
+	@Override
+	public EntityMapper<Org> getMapper() {
+		return orgMapper;
 	}
-
-	public boolean exists(int id) {
-		Org org = orgMapper.selectByPrimaryKey(id);
-		if(org!=null) {
-			return true;
-		}
-		return false;
-	}
-	
-	
-	
 
 }

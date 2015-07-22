@@ -1,6 +1,6 @@
 package com.yunpos.model;
 
-public class SysMenu {
+public class SysMenu  {
     private Integer menuid;
 
     private Integer menuno;
@@ -90,4 +90,5 @@ public class SysMenu {
     public void setIsleaf(Integer isleaf) {
         this.isleaf = isleaf;
     }
+
 }

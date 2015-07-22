@@ -155,6 +155,24 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`UserRoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
+
+
+-- ----------------------------
+-- Table structure for sys_users_session
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_users_session`;
+CREATE TABLE `sys_users_session` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `session_id` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `host` varchar(255) NOT NULL,
+  `last_access_time` datetime DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+
+
 -- 数据导出被取消选择。
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

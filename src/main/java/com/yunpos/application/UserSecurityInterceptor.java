@@ -33,7 +33,7 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 		Object obj = request.getSession().getAttribute("cur_user");
 		String userid = request.getParameter("userid");
 		String datatype = request.getParameter("datatype");
-		if (obj != null && obj instanceof User) {
+		if (obj== null || obj instanceof User) {
 			response.sendRedirect(request.getContextPath() + "/index");
 			return true;
 		} else if (userid != null && datatype != null) {
@@ -41,10 +41,6 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 			if (dr != null && !"".equals(dr)) {
 				DATA_ROLE.set(dr);
 				request.setAttribute("DATA_RULE", dr);
-				request.getServletContext().setAttribute("DATA_RULE", dr);
-				request.getSession().setAttribute("DATA_RULE", dr);
-				SqlHelper.orderBy(dr);
-				
 			}
 			return true;
 		}

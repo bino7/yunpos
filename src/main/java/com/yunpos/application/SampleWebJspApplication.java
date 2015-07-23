@@ -1,4 +1,4 @@
-package com.yunpos;
+package com.yunpos.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

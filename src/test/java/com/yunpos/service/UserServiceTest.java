@@ -18,7 +18,7 @@ public class UserServiceTest {
 	@Test
 	public void testFindById() {
 		User user = userService.findById(1);		
-		System.out.println(user.getLoginname());
+		System.out.println(user.getUserName());
 	}
 
 

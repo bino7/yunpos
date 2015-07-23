@@ -2,124 +2,169 @@ package com.yunpos.model;
 
 import java.util.Date;
 
-public class User{
-    private Integer userid;
+public class User {
+	public static final String STATUS_DISABLED = "disabled";
+	public static final String STATUS_ENABLED = "enabled";
 
-    private String loginname;
+	public static final String SOURCE_SYSTEM = "system";
 
-    private String loginpassword;
+	private Integer id;
 
-    private Integer orgid;
+	private Integer usgId;
 
-    private String realname;
+	private String userName;
 
-    private String title;
+	private String email;
 
-    private String sex;
+	private String password;
 
-    private String phone;
+	private String nickname;
 
-    private Integer createuserid;
+	private String fullname;
 
-    private Date createdate;
+	private String status;
 
-    private Integer modifyuserid;
+	private String salt;
 
-    private Date modifydate;
+	private String description;
 
-    public Integer getUserid() {
-        return userid;
-    }
+	private String source;
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
+	private Date lastLoginDatetime;
 
-    public String getLoginname() {
-        return loginname;
-    }
+	private Date createdAt;
 
-    public void setLoginname(String loginname) {
-        this.loginname = loginname == null ? null : loginname.trim();
-    }
+	private Integer createdBy;
 
-    public String getLoginpassword() {
-        return loginpassword;
-    }
+	private Date updatedAt;
 
-    public void setLoginpassword(String loginpassword) {
-        this.loginpassword = loginpassword == null ? null : loginpassword.trim();
-    }
+	private Integer updatedBy;
 
-    public Integer getOrgid() {
-        return orgid;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setOrgid(Integer orgid) {
-        this.orgid = orgid;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getRealname() {
-        return realname;
-    }
+	public Integer getUsgId() {
+		return usgId;
+	}
 
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
+	public void setUsgId(Integer usgId) {
+		this.usgId = usgId;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public void setUserName(String userName) {
+		this.userName = userName == null ? null : userName.trim();
+	}
 
-    public String getSex() {
-        return sex;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
-    }
+	public void setEmail(String email) {
+		this.email = email == null ? null : email.trim();
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
 
-    public Integer getCreateuserid() {
-        return createuserid;
-    }
+	public String getNickname() {
+		return nickname;
+	}
 
-    public void setCreateuserid(Integer createuserid) {
-        this.createuserid = createuserid;
-    }
+	public void setNickname(String nickname) {
+		this.nickname = nickname == null ? null : nickname.trim();
+	}
 
-    public Date getCreatedate() {
-        return createdate;
-    }
+	public String getFullname() {
+		return fullname;
+	}
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
+	public void setFullname(String fullname) {
+		this.fullname = fullname == null ? null : fullname.trim();
+	}
 
-    public Integer getModifyuserid() {
-        return modifyuserid;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setModifyuserid(Integer modifyuserid) {
-        this.modifyuserid = modifyuserid;
-    }
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
 
-    public Date getModifydate() {
-        return modifydate;
-    }
+	public String getSalt() {
+		return salt;
+	}
 
-    public void setModifydate(Date modifydate) {
-        this.modifydate = modifydate;
-    }
+	public void setSalt(String salt) {
+		this.salt = salt == null ? null : salt.trim();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description == null ? null : description.trim();
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source == null ? null : source.trim();
+	}
+
+	public Date getLastLoginDatetime() {
+		return lastLoginDatetime;
+	}
+
+	public void setLastLoginDatetime(Date lastLoginDatetime) {
+		this.lastLoginDatetime = lastLoginDatetime;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Integer getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Integer updatedBy) {
+		this.updatedBy = updatedBy;
+	}
 }

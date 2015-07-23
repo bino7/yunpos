@@ -7,7 +7,7 @@ import com.yunpos.model.User;
 
 public interface UserMapper extends EntityMapper<User> {
 
-	@Select("select * from User u where u.loginname=#{loginname}")
-	User findByUserName(@Param("loginname") String loginname);
+	@Select("select * from sys_user u where u.userName=#{userName}")
+	User findByUserName(@Param("userName") String userName);
 
 }

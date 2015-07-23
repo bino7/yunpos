@@ -18,7 +18,7 @@ public class UserController {
 	public void findById(){
 		User user = userService.findById(1);
 		User user2 = userService.findByUserName("yang");
-		System.out.println(user.getLoginname());
+		System.out.println(user.getUserName());
 	}
 
 }

@@ -31,8 +31,8 @@ public class UserPrincipal implements Serializable,Comparable<UserPrincipal>{
 	
 	
 	public UserPrincipal(User user, UsernamePasswordToken token){
-		this.id = Long.valueOf(user.getUserid().toString());
-		this.name = user.getLoginname();
+		this.id = Long.valueOf(user.getId().toString());
+		this.name = user.getUserName();
 	}
 	
 	

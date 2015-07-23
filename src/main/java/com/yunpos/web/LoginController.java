@@ -30,7 +30,7 @@ import com.yunpos.security.exception.IncorrectCaptchaException;
  *
  */
 @Controller
-public class LoginController {
+public class LoginController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

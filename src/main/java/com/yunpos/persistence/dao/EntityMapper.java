@@ -3,7 +3,9 @@ package com.yunpos.persistence.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import com.yunpos.utils.Page;
+import com.yunpos.model.Page;
+import com.yunpos.utils.PageDate;
+
 /**
  * 
  * 功能描述：通用接口
@@ -28,8 +30,8 @@ public interface EntityMapper<T> extends BaseMapper {
 	int updateByPrimaryKeySelective(T record);
 
 	int updateByPrimaryKey(T record);
-
-	List<T> findByPage(Page<T> page);
+	
+	List<PageDate> findByPage(Page page);
 	
 	List<T> findAll();
 

@@ -5,6 +5,6 @@
     <title>Home Page</title>
 </head>
 <body>
-<c:out value="Home Page"></c:out>
+欢迎来到云铺后台！
 </body>
 </html>

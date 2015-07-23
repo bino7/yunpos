@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/role")
-public class RoleController {
+public class RoleController extends BaseController{
 }

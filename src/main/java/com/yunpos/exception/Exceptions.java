@@ -1,4 +1,4 @@
-package com.yunpos.utils;
+package com.yunpos.exception;
 
 public class Exceptions {
     public static RuntimeException unchecked(Throwable ex) {

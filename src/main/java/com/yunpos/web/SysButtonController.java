@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yunpos.model.SysButton;
 import com.yunpos.model.SysButtonWithBLOBs;
 import com.yunpos.model.ViewPage;
@@ -43,7 +42,7 @@ import com.yunpos.service.SysButtonService;
  */
 @Controller
 @RequestMapping("rest/button")
-public class SysButtonController {
+public class SysButtonController extends BaseController{
 	@Autowired
 	private SysButtonService sysButtonService;
 	

@@ -29,7 +29,7 @@ import com.yunpos.service.UserRoleService;
 
 @Controller
 @RequestMapping("rest/userRole")
-public class UserRoleController {
+public class UserRoleController extends BaseController{
 	@Autowired
 	private UserRoleService userRoleService;
 

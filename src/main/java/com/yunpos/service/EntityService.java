@@ -2,8 +2,9 @@ package com.yunpos.service;
 
 import java.util.List;
 
+import com.yunpos.model.Page;
 import com.yunpos.persistence.dao.EntityMapper;
-import com.yunpos.utils.Page;
+import com.yunpos.utils.PageDate;
 
 /**
  * 
@@ -24,7 +25,7 @@ public abstract class EntityService<T> extends BaseService {
 		return getMapper().selectByPrimaryKey(id);
 	}
 
-	public List<T> findByPage(Page<T> page) {
+	public List<PageDate> findByPage(Page page) {
 		return getMapper().findByPage(page);
 	}
 
@@ -40,6 +41,14 @@ public abstract class EntityService<T> extends BaseService {
 		insert(entity);
 	}
 
+	// public void save(T entity) {
+	// if (entity.getId() != null && entity.getId() > 0) {
+	// update(entity);
+	// } else {
+	// insert(entity);
+	// }
+	// }
+
 	public void insert(T entity) {
 		getMapper().insert(entity);
 	}
@@ -47,9 +56,9 @@ public abstract class EntityService<T> extends BaseService {
 	public void update(T entity) {
 		getMapper().updateByPrimaryKey(entity);
 	}
-	
-	public boolean exists(Integer id){
-		if(getMapper().selectByPrimaryKey(id)!=null){
+
+	public boolean exists(Integer id) {
+		if (getMapper().selectByPrimaryKey(id) != null) {
 			return true;
 		}
 		return false;

@@ -41,7 +41,7 @@ import com.yunpos.service.PrivilegeService;
  */
 @Controller
 @RequestMapping("rest/privilege")
-public class PrivilegeController {
+public class PrivilegeController extends BaseController{
 	@Autowired
 	private PrivilegeService privilegeService;
 	

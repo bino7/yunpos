@@ -6,6 +6,8 @@ import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 
+import com.yunpos.exception.Exceptions;
+
 public class Digests {
     private static final String SHA1 = "SHA-1";
     private static final String MD5 = "MD5";

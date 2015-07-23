@@ -41,7 +41,7 @@ import com.yunpos.service.OrgService;
  */
 @Controller
 @RequestMapping("rest/org")
-public class OrgController {
+public class OrgController extends BaseController{
 	
 	@Autowired
 	private  OrgService orgService;

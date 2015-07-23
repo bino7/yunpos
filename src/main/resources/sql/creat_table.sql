@@ -155,6 +155,41 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`UserRoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
+
+-- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usgId` int(11) DEFAULT NULL,
+  `userName` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
+  `fullname` varchar(255) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `salt` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `source` varchar(50) DEFAULT NULL,
+  `lastLoginDatetime` datetime DEFAULT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  `updatedBy` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_sys_users_username` (`userName`),
+  UNIQUE KEY `idx_sys_users_email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES ('1', '1', 'sysadmin', 'sysadmin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', null, null, '046548c3b1e3ab57', null, 'SYSTEM', null, null, null, null, null);
+INSERT INTO `sys_user` VALUES ('2', '1', 'admin', 'admin@elvea.cn', 'db8ce0a0872d80fa31b7ebd0d0c06cf02a900e57', 'Administrator', null, null, 'e416781ea9858934', null, 'SYSTEM', null, null, null, null, null);
+INSERT INTO `sys_user` VALUES ('3', '1', 'test', 'test@elvea.cn', 'dc26ff929f275650cb1787c8492c89f1c7c8892a', 'Test', null, null, 'c7a112741c92434b', null, 'SYSTEM', null, null, null, null, null);
+
+
 -- 数据导出被取消选择。
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

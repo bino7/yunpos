@@ -6,12 +6,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,10 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yunpos.model.Org;
 import com.yunpos.model.SysApp;
 import com.yunpos.model.ViewPage;
 import com.yunpos.service.SysAppService;
@@ -47,7 +41,7 @@ import com.yunpos.service.SysAppService;
  */
 @Controller
 @RequestMapping("rest/sysapp")
-public class SysAppController {
+public class SysAppController extends BaseController{
 	
 	@Autowired
 	private  SysAppService sysAppService;

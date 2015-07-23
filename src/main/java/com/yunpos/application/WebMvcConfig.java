@@ -1,0 +1,67 @@
+package com.yunpos.application;
+
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.yunpos.web.filter.SitemeshFilter;
+import com.yunpos.web.servlet.CaptchaServlet;
+
+@Configuration
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+    /**
+     * 视图设置
+     */
+    @Bean
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".jsp");
+        return resolver;
+    }
+
+    /**
+     * 扩展已至此上传进度监控
+     */
+//    @Bean
+//    public MultipartResolver multipartResolver() {
+//        CommonsMultipartResolver resolver = new FileUploadMultipartResolver();
+//        resolver.setMaxUploadSize(1000000000);
+//        return resolver;
+//    }
+
+    
+    /**
+     * sitemeshFilter过滤器配置
+     * @return
+     */
+    @Bean(name = "sitemeshFilter")
+    public FilterRegistrationBean sitemeshFilter() {
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        bean.setFilter(new SitemeshFilter());
+        bean.addUrlPatterns("/*");
+        bean.setOrder(1111);
+        return bean;
+    }
+    
+    /**
+     * 页面登录验证码Servlet配置
+     * @return
+     */
+    @Bean(name = "captchaServlet")
+    public ServletRegistrationBean captchaServlet() {
+        ServletRegistrationBean bean = new ServletRegistrationBean();
+        bean.setServlet(new CaptchaServlet());
+        bean.addUrlMappings("/captcha");
+        return bean;
+    }
+}

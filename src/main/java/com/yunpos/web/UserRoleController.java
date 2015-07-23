@@ -36,7 +36,7 @@ public class UserRoleController {
 	@RequestMapping(method = GET)
 	public @ResponseBody ViewPage<UserRole> list() {
 		ViewPage<UserRole> viewPage = new ViewPage<UserRole>();
-		List<UserRole> list = userRoleService.list();
+		List<UserRole> list = userRoleService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
 		viewPage.setMax(10);
@@ -62,7 +62,8 @@ public class UserRoleController {
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createUserRole(HttpServletRequest request, @RequestBody UserRole userRole) {
-		final int id = userRoleService.insert(userRole);
+		userRoleService.insert(userRole);
+		final int id = userRole.getRoleid();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

@@ -56,7 +56,7 @@ public class SysMenuController {
 	@RequestMapping(method = GET)
 	public @ResponseBody ViewPage<SysMenu> list() {
 		ViewPage<SysMenu> viewPage = new ViewPage<SysMenu>();
-		List<SysMenu> list = sysMenuService.list();
+		List<SysMenu> list = sysMenuService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
 		viewPage.setMax(10);
@@ -82,7 +82,8 @@ public class SysMenuController {
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createSysMenu(HttpServletRequest request, @RequestBody SysMenu sysMenu) {
-		final int id = sysMenuService.insert(sysMenu);
+		sysMenuService.insert(sysMenu);
+		final int id = sysMenu.getMenuid();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

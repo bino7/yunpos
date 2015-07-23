@@ -6,46 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yunpos.model.Privilege;
+import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.PrivilegeMapper;
 
+
 @Service
-public class PrivilegeService {
+public class PrivilegeService extends EntityService<Privilege>{
 	@Autowired
 	private PrivilegeMapper privilegeMapper;
+
+	@Override
+	public EntityMapper<Privilege> getMapper() {
+		return  privilegeMapper;
+	}
 	
 
-    public List<Privilege> list() {
-        return privilegeMapper.findAll();
-    }
-    
-    public int insert(Privilege record) {
-    	return privilegeMapper.insert(record);
-    }
-    
-    public int delete(int uid) {
-    	return privilegeMapper.deleteByPrimaryKey(uid);
-    }
-    
-    public int update(Privilege record) {
-    	return privilegeMapper.updateByPrimaryKey(record);
-    }
-
-	public Privilege findById(int id) {
-		return privilegeMapper.selectByPrimaryKey(id);
-	}
-
-	public boolean exists(int id) {
-		Privilege privilege =privilegeMapper.selectByPrimaryKey(id);
-		if(privilege!=null){
-			return true;
-		}
-		return false;
-	}
-
-	
 	public List<Privilege> findListByIds(Object[] array) {
 		// TODO Auto-generated method stub
 		return privilegeMapper.findListByIds(array);
 	}
+
+
+
+
+
+
 
 }

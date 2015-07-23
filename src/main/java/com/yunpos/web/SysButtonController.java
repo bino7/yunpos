@@ -51,7 +51,7 @@ public class SysButtonController {
 	@RequestMapping(method = GET)
 	public @ResponseBody ViewPage<SysButton> list() {
 		ViewPage<SysButton> viewPage = new ViewPage<SysButton>();
-		List<SysButton> list = sysButtonService.list();
+		List<SysButton> list = sysButtonService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
 		viewPage.setMax(10);
@@ -77,7 +77,8 @@ public class SysButtonController {
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createSysButton(HttpServletRequest request, @RequestBody SysButtonWithBLOBs sysButton) {
-		final int id = sysButtonService.insert(sysButton);
+		sysButtonService.insert(sysButton);
+		final int id = sysButton.getBtnid();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

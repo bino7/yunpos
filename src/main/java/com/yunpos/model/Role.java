@@ -2,7 +2,8 @@ package com.yunpos.model;
 
 import java.util.Date;
 
-public class Role {
+public class Role{
+	
     private Integer roleid;
 
     private String rolename;
@@ -82,6 +83,4 @@ public class Role {
     public void setModifydate(Date modifydate) {
         this.modifydate = modifydate;
     }
-    
-
 }

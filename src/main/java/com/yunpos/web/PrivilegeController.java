@@ -48,7 +48,7 @@ public class PrivilegeController {
 	@RequestMapping(method = GET)
 	public @ResponseBody ViewPage<Privilege> list() {
 		ViewPage<Privilege> viewPage = new ViewPage<Privilege>();
-		List<Privilege> list = privilegeService.list();
+		List<Privilege> list = privilegeService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
 		viewPage.setMax(10);
@@ -74,7 +74,8 @@ public class PrivilegeController {
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createPrivilege(HttpServletRequest request, @RequestBody Privilege privilege) {
-		final int id = privilegeService.insert(privilege);
+		privilegeService.insert(privilege);
+		final int id  = privilege.getPrivilegeid();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

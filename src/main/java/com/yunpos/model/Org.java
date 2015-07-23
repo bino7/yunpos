@@ -102,4 +102,5 @@ public class Org {
     public void setModifydate(Date modifydate) {
         this.modifydate = modifydate;
     }
+
 }

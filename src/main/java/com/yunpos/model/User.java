@@ -2,7 +2,7 @@ package com.yunpos.model;
 
 import java.util.Date;
 
-public class User {
+public class User{
     private Integer userid;
 
     private String loginname;

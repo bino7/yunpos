@@ -1,4 +1,4 @@
-package com.yunpos;
+package com.yunpos.application;
 
 import javax.sql.DataSource;
 

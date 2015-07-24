@@ -8,8 +8,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.yunpos.service.FooBarService;
-
 @ComponentScan
 @EnableAutoConfiguration
 @Configuration
@@ -19,7 +17,7 @@ public class Application {
     
     public static void main(String[] args) {
         ConfigurableApplicationContext cac = new SpringApplicationBuilder(Application.class).run(args);
-        FooBarService service = cac.getBean(FooBarService.class);
+//        UserService service = cac.getBean(UserService.class);
 //        service.createTestData();
 //        service.printAllFooAndAllBar();
     }

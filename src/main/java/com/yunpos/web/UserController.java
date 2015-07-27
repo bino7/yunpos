@@ -21,6 +21,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
+	
 	@RequestMapping(method= RequestMethod.GET)
 	public void findById(){
 		User user = userService.findById(1);

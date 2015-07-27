@@ -18,7 +18,7 @@ $(function(){
 	              {name:"salt",index:"salt",label:"盐值",width:120,sortable:false},
 	              {name:"description",index:"description",label:"描述",width:120,sortable:false},
 	              {name:"source",index:"source",label:"描述",width:120,sortable:false},
-	              {name:"lastLoginDatetime",index:"lastLoginDatetime",label:"最后登录时间",sortable:false}
+	              {name:"lastLoginDatetime",index:"lastLoginDatetime",label:"最后登录时间",sortable:false,width:200}
 	              //{name:"createdAt",index:"lastLoginDatetime",label:"创建时间",width:120,sortable:false},
 	              //{name:"createdBy",index:"createdBy",label:"创建人",width:120,sortable:false},
 	              //{name:"updatedAt",index:"lastLoginDatetime",label:"更新时间",width:120,sortable:false},

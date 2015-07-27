@@ -23,5 +23,9 @@ public class UserRoleService extends EntityService<UserRole> {
 	public List<UserRole> findRoleByUserId(int intValue) {
 		return userRoleMapper.selectByUserId(intValue);
 	}
+	
+	public List<UserRole> findAll(){
+		return userRoleMapper.findAll();
+	}
 
 }

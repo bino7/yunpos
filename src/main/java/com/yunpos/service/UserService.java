@@ -1,5 +1,7 @@
 package com.yunpos.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +22,9 @@ public class UserService extends EntityService<User> {
 	public User findByUserName(String username) {
 		return userMapper.findByUserName(username);
 	}
+	
+	public List<User> findAll(){
+		return userMapper.findAll();
+	}
+	
 }

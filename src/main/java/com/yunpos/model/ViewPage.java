@@ -1,15 +1,18 @@
 package com.yunpos.model;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class ViewPage<T> {
 
 	private List<T> rows;
 	private int page;
-	private int max;
+	//private int max;
+	private int records;
 	private long total;
-
+	private Map<String,Object> userdata;	//扩展字段
+	
 	public ViewPage() {
 	}
 
@@ -29,13 +32,6 @@ public class ViewPage<T> {
 		this.page = page;
 	}
 
-	public int getMax() {
-		return max;
-	}
-
-	public void setMax(int max) {
-		this.max = max;
-	}
 
 	public long getTotal() {
 		return total;
@@ -45,5 +41,22 @@ public class ViewPage<T> {
 		this.total = total;
 	}
 
+	public int getRecords() {
+		return records;
+	}
+
+	public void setRecords(int records) {
+		this.records = records;
+	}
+
+	public Map<String, Object> getUserdata() {
+		return userdata;
+	}
+
+	public void setUserdata(Map<String, Object> userdata) {
+		this.userdata = userdata;
+	}
+	
+	
 
 }

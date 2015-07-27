@@ -5,14 +5,14 @@
 <head>
 <title>Dashboard Template for Bootstrap</title>
 </head>
+
 <body>
-	<h2 class="sub-header">角色</h2>
+	<h2 class="sub-header">app资源</h2>
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>
-		<script src="static/formjs/role.js"></script></script>
+		<script src="static/formjs/app_res.js"></script>
 	</div>
-
 </body>
 
 </html>

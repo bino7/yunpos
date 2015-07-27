@@ -8,9 +8,11 @@ import org.apache.ibatis.annotations.Select;
 import com.yunpos.model.UserRole;
 
 public interface UserRoleMapper extends EntityMapper<UserRole> {
-	
-	  @Select("select * from user_role t where t.userid=#{userid}")
-	List<UserRole> selectByUserId(@Param("userid")int userId);
- 
+
+	@Select("select * from user_role t where t.userid=#{userid}")
+	List<UserRole> selectByUserId(@Param("userid") int userId);
+
+	@Select("select * from user_role")
+	List<UserRole> findAll();
 
 }

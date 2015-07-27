@@ -33,6 +33,6 @@ public interface EntityMapper<T> extends BaseMapper {
 	
 	List<PageDate> findByPage(Page page);
 	
-	List<T> findAll();
+	//List<T> findAll();
 
 }

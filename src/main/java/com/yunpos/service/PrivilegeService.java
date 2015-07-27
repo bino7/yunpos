@@ -25,6 +25,12 @@ public class PrivilegeService extends EntityService<Privilege>{
 		// TODO Auto-generated method stub
 		return privilegeMapper.findListByIds(array);
 	}
+	 
+	public List<Privilege> findAll(){
+		return privilegeMapper.findAll();
+	}
+	
+	
 
 
 

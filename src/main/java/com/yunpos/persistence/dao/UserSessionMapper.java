@@ -1,6 +1,7 @@
 package com.yunpos.persistence.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
@@ -11,5 +12,9 @@ public interface UserSessionMapper extends EntityMapper<UserSession> {
 	UserSession findBySessionId(Serializable sessionId);
 	
 	void update(UserSession userSession);
+	
+	@Select("select * from sys_users_session")
+	List<UserSession> findAll();
+
 
 }

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<h2 class="sub-header">用户</h2>
+	<h2 class="sub-header">用户管理</h2>
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>

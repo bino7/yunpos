@@ -5,8 +5,8 @@ import java.util.Date;
 public class User {
 	public static final String STATUS_DISABLED = "disabled";
 	public static final String STATUS_ENABLED = "enabled";
-
 	public static final String SOURCE_SYSTEM = "system";
+	
 
 	private Integer id;
 

@@ -39,7 +39,7 @@ public class UserRoleController extends BaseController{
 		List<UserRole> list = userRoleService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
-		viewPage.setMax(10);
+		//viewPage.setMax(10);
 		viewPage.setTotal(list.size());
 		return viewPage;
 	}

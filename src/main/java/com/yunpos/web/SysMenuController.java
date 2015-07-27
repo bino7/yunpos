@@ -52,7 +52,7 @@ public class SysMenuController extends BaseController{
 		List<SysMenu> list = sysMenuService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
-		viewPage.setMax(10);
+		//viewPage.setMax(10);
 		viewPage.setTotal(list.size());
 		return viewPage;
 	}

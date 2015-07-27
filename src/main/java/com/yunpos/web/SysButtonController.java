@@ -47,14 +47,15 @@ public class SysButtonController extends BaseController{
 	private SysButtonService sysButtonService;
 	
 	
-	@RequestMapping(method = GET)
+	@RequestMapping(value="/list")
 	public @ResponseBody ViewPage<SysButton> list() {
 		ViewPage<SysButton> viewPage = new ViewPage<SysButton>();
 		List<SysButton> list = sysButtonService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
-		viewPage.setMax(10);
+//		viewPage.setMax(10);
 		viewPage.setTotal(list.size());
+		viewPage.setRecords(list.size());
 		return viewPage;
 	}
 	

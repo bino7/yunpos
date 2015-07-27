@@ -40,5 +40,22 @@ public class DefaultController extends BaseController {
     public String org() {
         return "org";
     }
+    
+    @RequestMapping("/menu_res")
+    public String res_menu() {
+        return "resource/menu_res";
+    }
+    
+    @RequestMapping("/app_res")
+    public String res_app() {
+        return "resource/app_res";
+    }
+    
+    @RequestMapping("/button_res")
+    public String res_button() {
+        return "resource/button_res";
+    }
+    
+    
       
 }

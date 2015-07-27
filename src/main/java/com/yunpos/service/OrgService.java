@@ -1,5 +1,7 @@
 package com.yunpos.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,10 @@ public class OrgService extends EntityService<Org> {
 	@Override
 	public EntityMapper<Org> getMapper() {
 		return orgMapper;
+	}
+	
+	public List<Org> findAll(){
+		return orgMapper.findAll();
 	}
 
 }

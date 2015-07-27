@@ -29,10 +29,6 @@ public abstract class EntityService<T> extends BaseService {
 		return getMapper().findByPage(page);
 	}
 
-	public List<T> findAll() {
-		return getMapper().findAll();
-	}
-
 	public void delete(Integer id) {
 		getMapper().deleteByPrimaryKey(id);
 	}

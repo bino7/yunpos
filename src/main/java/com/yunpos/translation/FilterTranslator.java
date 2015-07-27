@@ -130,7 +130,7 @@ public class FilterTranslator {
 		// ="{\"rules\":[{\"field\":\"OrderDate\",\"op\":\"less\",\"value\":\"2012-01-01\"}],\"groups\":[{\"rules\":[{\"field\":\"CustomerID\",\"op\":\"equal\",\"value\":\"VINET\"},
 		// {\"field\":\"CustomerID\",\"op\":\"equal\",\"value\":\"TOMSP\"}],\"op\":\"or\"}],\"op\":\"and\"}";
 		ObjectMapper objectMapper = new ObjectMapper();
-		 ObjectReader reader=objectMapper.reader(FilterGroup.class);
+		ObjectReader reader = objectMapper.reader(FilterGroup.class);
 		// FilterGroup fg = reader.readValue(s);
 		// System.out.println(fg);
 		// 例子一
@@ -140,15 +140,13 @@ public class FilterTranslator {
 		FilterGroup fg0 = new FilterGroup();
 		List<FilterRule> rules = new ArrayList<FilterRule>();
 
-		
 		fg0.setOp("or");
 		rules.add(fr);
 		fg0.setRules(rules);
-		
-		
+
 		fg0.setRules(rules);
 		System.out.println(objectMapper.writeValueAsString(fg0));
-		
+
 		rules.add(fr1);
 		FilterGroup fgs = new FilterGroup();
 		List<FilterGroup> fglist = new ArrayList<FilterGroup>();
@@ -161,9 +159,8 @@ public class FilterTranslator {
 		System.out.println(objectMapper.writeValueAsString(fgs));
 		FilterTranslator ft = new FilterTranslator("select * from abc where", fgs);
 		System.out.println(ft.translate());
-		
-		
-		String s="{\"groups\":[{\"groups\":null,\"op\":\"or\",\"rules\":[{\"field\":\"CustomerID\",\"op\":\"equal\",\"type\":\"\",\"value\":\"VINET\"},{\"field\":\"CustomerID\",\"op\":\"equal\",\"type\":\"\",\"value\":\"TOMSP\"}]}],\"op\":\"and\",\"rules\":[{\"field\":\"OrderDate\",\"op\":\"less\",\"type\":\"\",\"value\":\"2012-01-01\"}]}";
+
+		String s = "{\"groups\":[{\"groups\":null,\"op\":\"or\",\"rules\":[{\"field\":\"CustomerID\",\"op\":\"equal\",\"type\":\"\",\"value\":\"VINET\"},{\"field\":\"CustomerID\",\"op\":\"equal\",\"type\":\"\",\"value\":\"TOMSP\"}]}],\"op\":\"and\",\"rules\":[{\"field\":\"OrderDate\",\"op\":\"less\",\"type\":\"\",\"value\":\"2012-01-01\"}]}";
 		System.out.println(s);
 		FilterGroup fg = reader.readValue(s);
 		System.out.println(fg);

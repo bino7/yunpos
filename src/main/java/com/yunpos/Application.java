@@ -1,4 +1,4 @@
-package com.yunpos.application;
+package com.yunpos;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +7,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import com.yunpos.service.UserService;
-
 
 @ComponentScan
 @EnableAutoConfiguration
@@ -20,7 +17,7 @@ public class Application {
     
     public static void main(String[] args) {
         ConfigurableApplicationContext cac = new SpringApplicationBuilder(Application.class).run(args);
-        UserService service = cac.getBean(UserService.class);
+//        UserService service = cac.getBean(UserService.class);
 //        service.createTestData();
 //        service.printAllFooAndAllBar();
     }

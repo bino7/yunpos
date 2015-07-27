@@ -28,7 +28,7 @@ import com.yunpos.model.ViewPage;
 import com.yunpos.service.UserRoleService;
 
 @Controller
-@RequestMapping("rest/userRole")
+@RequestMapping("/sys/userRole")
 public class UserRoleController extends BaseController{
 	@Autowired
 	private UserRoleService userRoleService;

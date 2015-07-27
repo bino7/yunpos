@@ -10,7 +10,7 @@
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>
-		<script src="static/formjs/role.js"></script></script>
+		<script src="static/formjs/role.js"></script>
 	</div>
 
 </body>

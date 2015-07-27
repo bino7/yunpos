@@ -1,12 +1,39 @@
 //按钮资源JS
 
 $(function(){
+	
+	//编辑参数
+	var editOptions = {
+			drag : true,
+			resize : true,
+			closeOnEscape : true,
+			dataheight : 200	
+	}
+	
+	//新增初始化参数
+	var addOptions = {
+			drag : true,
+			resize : true,
+			closeOnEscape : true,
+			dataheight : 200	
+	}
+
+	//删除参数
+	var delOptions = {
+			
+	}
+	
+	//搜索参数
+	var searchOptions = {
+			
+	}
+	
 	//自动以表格
 	 $("#grid").jqGrid({
-	        url: "rest/button/list",  
+	        url: "res/button",  
 	        datatype: "json",  
-	        mtype: "POST",  
-	        height: 350,  
+	        mtype: "GET",  
+	        height: 'auto',  
 	        width: 960,  
 	        colModel: [  
 	              {name:"btnid",index:"btnid",label:"按钮ID",width:40,sortable:true,sorttype:"int",},
@@ -25,7 +52,7 @@ $(function(){
 	        jsonReader: {  
 	            root:"rows",  
 	            total: "total",
-	            page: "page",
+	            //page: "page",
 	            records: "records",
 	            repeatitems: false,
 	        },  
@@ -36,8 +63,17 @@ $(function(){
 	    });
 	 
 	 
+	//开启键盘上下选择行数据
+	jQuery('#tree').jqGrid('bindKeys');
+	 
 	 //导航栏定义
-	 $("#grid").jqGrid('navGrid', '#pager', {edit : true,add : true,del : true});
+	 $("#grid").jqGrid('navGrid', '#pager', 
+			 {edit : true,add : true,del : true},
+			 editOptions,
+			 addOptions,
+			 delOptions,
+			 searchOptions
+	 );
 	 
 	 
 	

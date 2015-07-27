@@ -40,7 +40,7 @@ import com.yunpos.service.SysAppService;
  *
  */
 @Controller
-@RequestMapping("rest/sysapp")
+@RequestMapping("/res/app")
 public class SysAppController extends BaseController{
 	
 	@Autowired
@@ -52,7 +52,7 @@ public class SysAppController extends BaseController{
 		List<SysApp> list = sysAppService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
-		//viewPage.setMax(10);
+		viewPage.setRecords(list.size());
 		viewPage.setTotal(list.size());
 		return viewPage;
 	}

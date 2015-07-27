@@ -19,11 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
 
 import com.yunpos.model.Privilege;
+import com.yunpos.model.Role;
 import com.yunpos.model.ViewPage;
 import com.yunpos.service.PrivilegeService;
 
@@ -40,7 +42,7 @@ import com.yunpos.service.PrivilegeService;
  *
  */
 @Controller
-@RequestMapping("rest/privilege")
+@RequestMapping("sys/privilege")
 public class PrivilegeController extends BaseController{
 	@Autowired
 	private PrivilegeService privilegeService;
@@ -51,8 +53,8 @@ public class PrivilegeController extends BaseController{
 		List<Privilege> list = privilegeService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
-		//viewPage.setMax(10);
 		viewPage.setTotal(list.size());
+		viewPage.setRecords(list.size());
 		return viewPage;
 	}
 	

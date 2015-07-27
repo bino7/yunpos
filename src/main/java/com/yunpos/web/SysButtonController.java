@@ -41,21 +41,20 @@ import com.yunpos.service.SysButtonService;
  *
  */
 @Controller
-@RequestMapping("rest/button")
+@RequestMapping("/res/button")
 public class SysButtonController extends BaseController{
 	@Autowired
 	private SysButtonService sysButtonService;
 	
 	
-	@RequestMapping(value="/list")
+	@RequestMapping(method = GET)
 	public @ResponseBody ViewPage<SysButton> list() {
 		ViewPage<SysButton> viewPage = new ViewPage<SysButton>();
 		List<SysButton> list = sysButtonService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
-//		viewPage.setMax(10);
-		viewPage.setTotal(list.size());
 		viewPage.setRecords(list.size());
+		viewPage.setTotal(list.size());
 		return viewPage;
 	}
 	

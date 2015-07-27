@@ -40,7 +40,7 @@ import com.yunpos.service.SysMenuService;
  *
  */
 @Controller
-@RequestMapping("rest/menu")
+@RequestMapping("/res/menu")
 public class SysMenuController extends BaseController{
 	
 	@Autowired
@@ -52,7 +52,7 @@ public class SysMenuController extends BaseController{
 		List<SysMenu> list = sysMenuService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
-		//viewPage.setMax(10);
+		viewPage.setRecords(list.size());
 		viewPage.setTotal(list.size());
 		return viewPage;
 	}

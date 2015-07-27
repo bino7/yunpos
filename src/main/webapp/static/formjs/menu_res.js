@@ -1,11 +1,38 @@
 //菜单资源
 $(function(){
+	
+	//编辑参数
+	var editOptions = {
+			drag : true,
+			resize : true,
+			closeOnEscape : true,
+			dataheight : 200	
+	}
+	
+	//新增初始化参数
+	var addOptions = {
+			drag : true,
+			resize : true,
+			closeOnEscape : true,
+			dataheight : 200	
+	}
+
+	//删除参数
+	var delOptions = {
+			
+	}
+	
+	//搜索参数
+	var searchOptions = {
+			
+	}
+	
 	//自动以表格
 	 $("#grid").jqGrid({
-	        url: "xx",  
+	        url: "res/menu",
 	        datatype: "json",  
-	        mtype: "GET",  
-	        height: 350,  
+	        mtype: "GET", 
+	        height: 'auto',  
 	        width: 960,  
 	        colModel: [  
 	              {name:"menuid",index:"menuid",label:"系统菜单ID",width:40},    
@@ -22,10 +49,12 @@ $(function(){
 	        rowNum: 15,  
 	        rowList: [10,20,30],  
 	        prmNames: {search: "search"},  
-	        jsonReader: {  
-	            root:"gridModel",  
-	            records: "record",  
-	            repeatitems : false  
+	        jsonReader: { 
+	        	root:"rows",  
+	            total: "total",
+	            page: "page",
+	            records: "records",
+	            repeatitems: false,  
 	        },  
 	        pager: "#pager",  
 	        //caption: "用户列表",  
@@ -33,7 +62,16 @@ $(function(){
 	        shrikToFit: true  
 	    });
 	 
-	 //导航栏定义
-	 $("#grid").jqGrid('navGrid', '#pager', {edit : true,add : true,del : true});
+	//开启键盘上下选择行数据
+	jQuery('#tree').jqGrid('bindKeys');
+		 
+	//导航栏定义
+	$("#grid").jqGrid('navGrid', '#pager', 
+				 {edit : true,add : true,del : true},
+				 editOptions,
+				 addOptions,
+				 delOptions,
+				 searchOptions
+		 );
 	
 });

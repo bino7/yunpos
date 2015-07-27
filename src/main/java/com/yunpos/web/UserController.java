@@ -16,20 +16,20 @@ import com.yunpos.service.UserService;
 import com.yunpos.utils.PageDate;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/sys/user")
 public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
 	
-	@RequestMapping(method= RequestMethod.GET)
-	public void findById(){
-		User user = userService.findById(1);
-		User user2 = userService.findByUserName("yang");
-		System.out.println(user.getUserName());
-	}
+//	@RequestMapping(method= RequestMethod.GET)
+//	public void findById(){
+//		User user = userService.findById(1);
+//		User user2 = userService.findByUserName("yang");
+//		System.out.println(user.getUserName());
+//	}
 	
-	@RequestMapping(value="/list")
+	@RequestMapping(method= RequestMethod.GET)
 	public @ResponseBody ViewPage<User> list() {
 		ViewPage<User> viewPage = new ViewPage<User>();
 		List<User> list = userService.findAll();

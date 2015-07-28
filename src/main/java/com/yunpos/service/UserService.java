@@ -27,4 +27,13 @@ public class UserService extends EntityService<User> {
 		return userMapper.findAll();
 	}
 	
+	//批量删除
+	public void batchDeleteByIds(Object[] ids){
+		 userMapper.batchDeleteByIds(ids);
+	}
+	//通过邮箱查询
+	public User findByEmail(String email) {
+		return userMapper.findByEmail(email);
+	}
+	
 }

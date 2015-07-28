@@ -116,7 +116,7 @@
 		where PrivilegeID = #{privilegeid,jdbcType=INTEGER}
 	</update>
 
-
+	<!-- ##################################### -->
 	<select id="findListByIds" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
@@ -126,5 +126,14 @@
 			#{item}
 		</foreach>
 	</select>
+	
+	 
+	<delete id="batchDeleteByIds">
+		delete from privilege where id in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 
 </mapper>

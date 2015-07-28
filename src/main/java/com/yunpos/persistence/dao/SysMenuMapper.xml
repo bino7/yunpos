@@ -139,4 +139,13 @@
       IsLeaf = #{isleaf,jdbcType=INTEGER}
     where MenuID = #{menuid,jdbcType=INTEGER}
   </update>
+  
+  <!-- ##################################### -->
+	<delete id="batchDeleteByIds">
+		delete from sys_menu where id in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

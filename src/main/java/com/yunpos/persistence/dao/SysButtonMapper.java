@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
-import com.yunpos.model.SysButton;
+import com.yunpos.model.SysButtonWithBLOBs;
 
-public interface SysButtonMapper extends EntityMapper<SysButton> {
+public interface SysButtonMapper extends EntityMapper<SysButtonWithBLOBs> {
 	
 	@Select("select * from sys_button")
-	public List<SysButton> findAll();
+	public List<SysButtonWithBLOBs> findAll();
 
 }

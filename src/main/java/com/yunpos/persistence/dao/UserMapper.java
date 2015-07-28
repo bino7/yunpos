@@ -14,5 +14,8 @@ public interface UserMapper extends EntityMapper<User> {
 	
 	@Select("select * from sys_user")
 	List<User> findAll();
+	
+	 //通过邮件查询
+	User findByEmail(String email);
 
 }

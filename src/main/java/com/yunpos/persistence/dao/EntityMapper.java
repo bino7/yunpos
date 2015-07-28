@@ -34,5 +34,7 @@ public interface EntityMapper<T> extends BaseMapper {
 	List<PageDate> findByPage(Page page);
 	
 	//List<T> findAll();
+	//批量删除
+	void batchDeleteByIds(Object[] array);
 
 }

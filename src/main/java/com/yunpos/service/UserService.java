@@ -27,4 +27,9 @@ public class UserService extends EntityService<User> {
 		return userMapper.findAll();
 	}
 	
+	//通过邮箱查询
+	public User findByEmail(String email) {
+		return userMapper.findByEmail(email);
+	}
+	
 }

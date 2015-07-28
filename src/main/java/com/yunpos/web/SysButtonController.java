@@ -10,7 +10,9 @@ import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,14 +21,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
 
+import com.google.common.base.Strings;
 import com.yunpos.model.SysButton;
 import com.yunpos.model.SysButtonWithBLOBs;
 import com.yunpos.model.ViewPage;
 import com.yunpos.service.SysButtonService;
+import com.yunpos.utils.PageDate;
 
 /**
  * 
@@ -48,14 +53,52 @@ public class SysButtonController extends BaseController{
 	
 	
 	@RequestMapping(method = GET)
-	public @ResponseBody ViewPage<SysButton> list() {
-		ViewPage<SysButton> viewPage = new ViewPage<SysButton>();
-		List<SysButton> list = sysButtonService.findAll();
+	public @ResponseBody ViewPage<SysButtonWithBLOBs> list() {
+		ViewPage<SysButtonWithBLOBs> viewPage = new ViewPage<SysButtonWithBLOBs>();
+		List<SysButtonWithBLOBs> list = sysButtonService.findAll();
 		viewPage.setPage(0);
 		viewPage.setRows(list);
 		viewPage.setRecords(list.size());
 		viewPage.setTotal(list.size());
 		return viewPage;
+	}
+	
+	@RequestMapping(value = "/operate", method = { RequestMethod.POST, RequestMethod.GET })
+	public void operate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PageDate pageParam = this.getPageParam();
+		String oper = pageParam.getString("oper");
+		String id = pageParam.getString("id");
+		if (oper.equals("del") && !Strings.isNullOrEmpty(id)) {
+			String[] ids = id.split(",");
+			sysButtonService.batchDeleteByIds( (Integer[])ConvertUtils.convert(ids, Integer.class));
+		}else {
+			SysButtonWithBLOBs sysButton = null;
+			if (oper.equals("edit")) {
+				sysButton = sysButtonService.findById(Integer.valueOf(id));
+			}
+			SysButtonWithBLOBs entity = new SysButtonWithBLOBs();
+			
+			entity.setBtnicon(pageParam.getString("btnicon"));
+			entity.setBtnname(pageParam.getString("btnname"));
+			if(!Strings.isNullOrEmpty(pageParam.getString("btnno"))){
+				entity.setBtnno(Integer.valueOf(pageParam.getString("btnno")));
+			}
+			entity.setInitstatus(1);
+			if(!Strings.isNullOrEmpty(pageParam.getString("menuno"))){
+				entity.setMenuno(Integer.valueOf(pageParam.getString("menuno")));
+			}
+			if(!Strings.isNullOrEmpty(pageParam.getString("seqno"))){
+				entity.setSeqno(Integer.valueOf(pageParam.getString("seqno")));
+			}
+			entity.setBtnclass(pageParam.getString("btnclass"));
+			entity.setBtnscript(pageParam.getString("btnscript"));
+			if (oper.equals("edit")) {
+				entity.setBtnid(Integer.valueOf(sysButton.getBtnid()));
+				sysButtonService.update(entity);
+			} else if (oper.equals("add")) {
+				sysButtonService.save(entity);
+			}
+		}
 	}
 	
 	
@@ -67,7 +110,7 @@ public class SysButtonController extends BaseController{
 
 	@RequestMapping(value = "/{id}", method = PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateSysButton(@PathVariable("id") int id, @RequestBody SysButton sysButton) {
+	public void updateSysButton(@PathVariable("id") int id, @RequestBody SysButtonWithBLOBs sysButton) {
 	    if (sysButtonService.exists(id)) {
 	    	sysButton.setBtnid(id);
 	    	sysButtonService.update(sysButton);

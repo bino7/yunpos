@@ -1,13 +1,12 @@
 //按钮资源JS
 
 $(function(){
-	
 	//编辑参数
 	var editOptions = {
 			drag : true,
 			resize : true,
 			closeOnEscape : true,
-			dataheight : 200	
+			dataheight : "auto"	
 	};
 	
 	//新增初始化参数
@@ -15,7 +14,7 @@ $(function(){
 			drag : true,
 			resize : true,
 			closeOnEscape : true,
-			dataheight : 200	
+			dataheight : "auto"	
 	};
 
 	//删除参数
@@ -38,26 +37,36 @@ $(function(){
 	        height: "auto",
 	        width: 960,  
 	        colModel: [  
-	 	              {name:"btnid",index:"btnid",label:"按钮ID",width:40,sortable:true,editable:true},
+	 	              {name:"btnid",index:"btnid",label:"按钮ID",width:40,sortable:true,editable:true,hidden:true},
 	 	              {name:"btnname",index: "btnname",label:"按钮名称",width:80,editable:true},
 	 	              {name:"btnno",index: "btnno",label:"按钮编号",width:80,editable:true}, 
 	 	              {name:"btnicon",index: "btnicon",label:"按钮css风格",width:200,editable:true},
 	 	              {name:"menuno",index:"menuno",label:"按钮图标",width:160,editable:true},
 	 	              {name:"initstatus",index:"initstatus",label:"初始状态",width:160,editable:true},
 	 	              {name:"seqno",index:"seqno",label:"菜单编号",width:160,editable:true},
+	 	              {name:"btnclass",index:"btnclass",label:"class",width:160,editable:true,edittype:"textarea"},
+	 	              {name:"btnscript",index:"btnscript",label:"脚本",width:160,editable:true,edittype:"textarea"},
 	 	              {name:"description",index:"description",label:"按钮脚本",width:160,editable:true}
 	 	        ],  
 	        //viewrecords: true,  
 	        //rowNum: 15,  
 	        rowList: [10,20,30],  
 	        prmNames: {search: "search"},  
+	        viewrecords: true,
+	        altRows : true,
+		    multiselect : true,
+		    editurl : "res/button/operate",
 	        jsonReader: {  
+	        	id: "btnid",
 	            root:"rows",  
 	            total: "total",
 	            records: "records",
 	            repeatitems: false
 	        },  
-	        pager: "#pager"
+	        pager: "#pager",
+	        ondblClickRow: function(id) {
+				jQuery(this).jqGrid('editGridRow', id, editOptions);
+			}
 	    });
 	
 	 

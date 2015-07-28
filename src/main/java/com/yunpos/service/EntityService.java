@@ -59,4 +59,9 @@ public abstract class EntityService<T> extends BaseService {
 		}
 		return false;
 	}
+
+	// 批量删除
+	public void batchDeleteByIds(Object[] ids) {
+		getMapper().batchDeleteByIds(ids);
+	}
 }

@@ -10,7 +10,9 @@ import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,13 +21,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
 
+import com.google.common.base.Strings;
 import com.yunpos.model.SysApp;
 import com.yunpos.model.ViewPage;
 import com.yunpos.service.SysAppService;
+import com.yunpos.utils.PageDate;
 
 /**
  * 
@@ -55,6 +60,37 @@ public class SysAppController extends BaseController{
 		viewPage.setRecords(list.size());
 		viewPage.setTotal(list.size());
 		return viewPage;
+	}
+	
+	
+	@RequestMapping(value = "/operate", method = { RequestMethod.POST, RequestMethod.GET })
+	public void operate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PageDate pageParam = this.getPageParam();
+		String oper = pageParam.getString("oper");
+		String id = pageParam.getString("id");
+		if (oper.equals("del") && !Strings.isNullOrEmpty(id)) {
+			String[] ids = id.split(",");
+			sysAppService.batchDeleteByIds( (Integer[])ConvertUtils.convert(ids, Integer.class));
+		}else {
+			SysApp sysApp = null;
+			if (oper.equals("edit")) {
+				sysApp = sysAppService.findById(Integer.valueOf(id));
+			}
+			SysApp entity = new SysApp();
+			if(!Strings.isNullOrEmpty(pageParam.getString("applicationcode"))){
+				entity.setApplicationcode(Integer.valueOf(pageParam.getString("applicationcode")));
+			}
+			entity.setApplicationdesc(pageParam.getString("applicationdesc"));
+			entity.setApplicationname(pageParam.getString("applicationname"));
+			
+			if (oper.equals("edit")) {
+				entity.setApplicationid(Integer.valueOf(sysApp.getApplicationid()));
+				sysAppService.update(entity);
+			} else if (oper.equals("add")) {
+				sysAppService.save(entity);
+				
+			}
+		}
 	}
 	
 	

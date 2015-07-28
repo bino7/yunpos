@@ -1,117 +1,129 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yunpos.persistence.dao.UserRoleMapper" >
-  <resultMap id="BaseResultMap" type="com.yunpos.model.UserRole" >
-    <id column="UserRoleID" property="userroleid" jdbcType="INTEGER" />
-    <result column="UserID" property="userid" jdbcType="INTEGER" />
-    <result column="RoleID" property="roleid" jdbcType="INTEGER" />
-    <result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
-    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
-    <result column="ModifyUserID" property="modifyuserid" jdbcType="INTEGER" />
-    <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    UserRoleID, UserID, RoleID, CreateUserID, CreateDate, ModifyUserID, ModifyDate
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from user_role
-    where UserRoleID = #{userroleid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user_role
-    where UserRoleID = #{userroleid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.yunpos.model.UserRole" >
-    insert into user_role (UserRoleID, UserID, RoleID, 
-      CreateUserID, CreateDate, ModifyUserID, 
-      ModifyDate)
-    values (#{userroleid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}, 
-      #{createuserid,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, #{modifyuserid,jdbcType=INTEGER}, 
-      #{modifydate,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.yunpos.model.UserRole" >
-    insert into user_role
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userroleid != null" >
-        UserRoleID,
-      </if>
-      <if test="userid != null" >
-        UserID,
-      </if>
-      <if test="roleid != null" >
-        RoleID,
-      </if>
-      <if test="createuserid != null" >
-        CreateUserID,
-      </if>
-      <if test="createdate != null" >
-        CreateDate,
-      </if>
-      <if test="modifyuserid != null" >
-        ModifyUserID,
-      </if>
-      <if test="modifydate != null" >
-        ModifyDate,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userroleid != null" >
-        #{userroleid,jdbcType=INTEGER},
-      </if>
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="roleid != null" >
-        #{roleid,jdbcType=INTEGER},
-      </if>
-      <if test="createuserid != null" >
-        #{createuserid,jdbcType=INTEGER},
-      </if>
-      <if test="createdate != null" >
-        #{createdate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyuserid != null" >
-        #{modifyuserid,jdbcType=INTEGER},
-      </if>
-      <if test="modifydate != null" >
-        #{modifydate,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.UserRole" >
-    update user_role
-    <set >
-      <if test="userid != null" >
-        UserID = #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="roleid != null" >
-        RoleID = #{roleid,jdbcType=INTEGER},
-      </if>
-      <if test="createuserid != null" >
-        CreateUserID = #{createuserid,jdbcType=INTEGER},
-      </if>
-      <if test="createdate != null" >
-        CreateDate = #{createdate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyuserid != null" >
-        ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
-      </if>
-      <if test="modifydate != null" >
-        ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where UserRoleID = #{userroleid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.UserRole" >
-    update user_role
-    set UserID = #{userid,jdbcType=INTEGER},
-      RoleID = #{roleid,jdbcType=INTEGER},
-      CreateUserID = #{createuserid,jdbcType=INTEGER},
-      CreateDate = #{createdate,jdbcType=TIMESTAMP},
-      ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
-      ModifyDate = #{modifydate,jdbcType=TIMESTAMP}
-    where UserRoleID = #{userroleid,jdbcType=INTEGER}
-  </update>
+<mapper namespace="com.yunpos.persistence.dao.UserRoleMapper">
+	<resultMap id="BaseResultMap" type="com.yunpos.model.UserRole">
+		<id column="UserRoleID" property="userroleid" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="RoleID" property="roleid" jdbcType="INTEGER" />
+		<result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+		<result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="ModifyUserID" property="modifyuserid" jdbcType="INTEGER" />
+		<result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		UserRoleID, UserID, RoleID, CreateUserID, CreateDate, ModifyUserID, ModifyDate
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user_role
+		where UserRoleID = #{userroleid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from user_role
+		where UserRoleID = #{userroleid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.yunpos.model.UserRole">
+		insert into user_role (UserRoleID, UserID, RoleID,
+		CreateUserID, CreateDate, ModifyUserID,
+		ModifyDate)
+		values (#{userroleid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{roleid,jdbcType=INTEGER},
+		#{createuserid,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, #{modifyuserid,jdbcType=INTEGER},
+		#{modifydate,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yunpos.model.UserRole">
+		insert into user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userroleid != null">
+				UserRoleID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="roleid != null">
+				RoleID,
+			</if>
+			<if test="createuserid != null">
+				CreateUserID,
+			</if>
+			<if test="createdate != null">
+				CreateDate,
+			</if>
+			<if test="modifyuserid != null">
+				ModifyUserID,
+			</if>
+			<if test="modifydate != null">
+				ModifyDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userroleid != null">
+				#{userroleid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="roleid != null">
+				#{roleid,jdbcType=INTEGER},
+			</if>
+			<if test="createuserid != null">
+				#{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="createdate != null">
+				#{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyuserid != null">
+				#{modifyuserid,jdbcType=INTEGER},
+			</if>
+			<if test="modifydate != null">
+				#{modifydate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.UserRole">
+		update user_role
+		<set>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="roleid != null">
+				RoleID = #{roleid,jdbcType=INTEGER},
+			</if>
+			<if test="createuserid != null">
+				CreateUserID = #{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="createdate != null">
+				CreateDate = #{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyuserid != null">
+				ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
+			</if>
+			<if test="modifydate != null">
+				ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where UserRoleID = #{userroleid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.UserRole">
+		update user_role
+		set UserID = #{userid,jdbcType=INTEGER},
+		RoleID = #{roleid,jdbcType=INTEGER},
+		CreateUserID = #{createuserid,jdbcType=INTEGER},
+		CreateDate = #{createdate,jdbcType=TIMESTAMP},
+		ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
+		ModifyDate = #{modifydate,jdbcType=TIMESTAMP}
+		where UserRoleID = #{userroleid,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- ##################################### -->
+	<delete id="batchDeleteByIds">
+		delete from user_role where userroleid in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

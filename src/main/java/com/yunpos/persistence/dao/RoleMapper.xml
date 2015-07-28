@@ -150,4 +150,13 @@
 			#{item}
 		</foreach>
 	</select>
+	
+	 <!-- ##################################### -->
+	<delete id="batchDeleteByIds">
+		delete from role where roleid in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

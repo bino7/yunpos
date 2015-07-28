@@ -90,4 +90,13 @@
       ShowInMenu = #{showinmenu,jdbcType=INTEGER}
     where ApplicationID = #{applicationid,jdbcType=INTEGER}
   </update>
+  
+   <!-- ##################################### -->
+	<delete id="batchDeleteByIds">
+		delete from sys_app where applicationid in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

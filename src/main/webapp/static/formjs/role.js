@@ -35,16 +35,27 @@ $(function(){
 		height : "auto",
 		datatype : "json",
 		colModel:[  
-	              {name: "roleid" ,index: "roleid" ,label:"角色ID",width:40,sortable:true,editable : true},
+	              {name: "roleid" ,index: "roleid" ,label:"角色ID",width:40,sortable:true,editable : true,hidden:true},
 	              {name:"rolename",index:"rolename",label:"角色名称",width:80,editable : true},
 	              {name:"roledesc",index:"roledesc",label:"描述",width:80,editable : true}, 
 	              {name:"orgid",index:"orgid",label:"所属组织机构",width:200,editable : true},
 	              {name:"createuserid",index:"createuserid",label:"创建用户ID",width:160,editable : true},
-	              {name:"createdate",index:"createdate",label:"创建时间",width:120,editable : true},
-	              {name:"modifyuserid",index:"modifyuserid",label:"修改用户ID",width:120,editable : true},
-	              {name:"modifydate",index:"modifydate",label:"修改时间",width:120,editable : true}
+	              //{name:"createdate",index:"createdate",label:"创建时间",width:120,editable : true},
+	              {name:"modifyuserid",index:"modifyuserid",label:"修改用户ID",width:120,editable : true}
+	              //{name:"modifydate",index:"modifydate",label:"修改时间",width:120,editable : true}
 	        ], 
-		pager : "#pager"
+		pager : "#pager",
+		editurl : "sys/role/operate",
+		jsonReader: {  
+        	id: "roleid",
+            root:"rows",  
+            total: "total",
+            records: "records",
+            repeatitems: false
+        },  
+        ondblClickRow: function(id) {
+			jQuery(this).jqGrid('editGridRow', id, editOptions);
+		}
 	});
 	 
 	//开启键盘上下选择行数据

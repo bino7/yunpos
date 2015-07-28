@@ -155,4 +155,13 @@
       SeqNo = #{seqno,jdbcType=INTEGER}
     where BtnID = #{btnid,jdbcType=INTEGER}
   </update>
+  
+   <!-- ##################################### -->
+	<delete id="batchDeleteByIds">
+		delete from sys_button where btnid in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

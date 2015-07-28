@@ -150,4 +150,13 @@
       ModifyDate = #{modifydate,jdbcType=TIMESTAMP}
     where OrgID = #{orgid,jdbcType=INTEGER}
   </update>
+  
+  <!-- ##################################### -->
+  <delete id="batchDeleteByIds">
+		delete from org where id orgid
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>

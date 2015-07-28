@@ -10,7 +10,9 @@ import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,13 +21,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
 
+import com.google.common.base.Strings;
 import com.yunpos.model.SysMenu;
 import com.yunpos.model.ViewPage;
 import com.yunpos.service.SysMenuService;
+import com.yunpos.utils.PageDate;
 
 /**
  * 
@@ -56,6 +61,54 @@ public class SysMenuController extends BaseController{
 		viewPage.setTotal(list.size());
 		return viewPage;
 	}
+	
+	
+	
+	@RequestMapping(value = "/operate", method = { RequestMethod.POST, RequestMethod.GET })
+	public void operate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PageDate pageParam = this.getPageParam();
+		String oper = pageParam.getString("oper");
+		String id = pageParam.getString("id");
+		if (oper.equals("del") && !Strings.isNullOrEmpty(id)) {
+			String[] ids = id.split(",");
+			sysMenuService.batchDeleteByIds( (Integer[])ConvertUtils.convert(ids, Integer.class));
+		}else {
+			SysMenu sysMenu = null;
+			if (oper.equals("edit")) {
+				sysMenu = sysMenuService.findById(Integer.valueOf(id));
+			}
+			SysMenu entity = new SysMenu();
+			
+			if(!Strings.isNullOrEmpty(pageParam.getString("applicationcode"))){
+				entity.setApplicationcode(Integer.valueOf(pageParam.getString("applicationcode")));
+			}
+			if(!Strings.isNullOrEmpty(pageParam.getString("isleaf"))){
+				entity.setIsleaf(Integer.valueOf(pageParam.getString("isleaf")));
+			}
+			if(!Strings.isNullOrEmpty(pageParam.getString("isvisible"))){
+				entity.setIsvisible(Integer.valueOf(pageParam.getString("isvisible")));
+			}
+			entity.setMenuname(pageParam.getString("menuname"));
+			
+			if(!Strings.isNullOrEmpty(pageParam.getString("menuno"))){
+				entity.setMenuno(Integer.valueOf(pageParam.getString("menuno")));
+			}
+			entity.setMenuorder(Strings.isNullOrEmpty(pageParam.getString("menuorder"))?0:Integer.valueOf(pageParam.getString("menuorder")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("menuparentno"))){
+				entity.setMenuparentno(Integer.valueOf(pageParam.getString("menuparentno")));
+			}
+			entity.setMenuurl(pageParam.getString("menuurl"));
+			
+			
+			if (oper.equals("edit")) {
+				entity.setMenuid(Integer.valueOf(sysMenu.getMenuid()));
+				sysMenuService.update(entity);
+			} else if (oper.equals("add")) {
+				sysMenuService.save(entity);
+			}
+		}
+	}
+	
 	
 	
 	@RequestMapping(value = "/{id}", method = GET)

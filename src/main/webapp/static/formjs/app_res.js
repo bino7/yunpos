@@ -15,46 +15,38 @@ $(function(){
 			drag : true,
 			resize : true,
 			closeOnEscape : true,
-			dataheight : 200	
-	}
+			dataheight : "auto"	
+	};
 
 	//删除参数
 	var delOptions = {
 			
-	}
+	};
 	
 	//搜索参数
 	var searchOptions = {
 			
-	}
+	};
 	
 	//自动以表格
 	 $("#grid").jqGrid({
 	        url: "res/app", 
-	        datatype: "json",  
-	        mtype: "GET",  
-	        height: 'auto',  
-	        width: 960,  
+	    	width : 960,
+			mtype: "GET",
+			height : "auto",
+			datatype : "json", 
 	        colModel: [  
-	              {name:"applicationid",index:"applicationid",label:"应用ID",width:40},    
-	              {name:"applicationcode",index:"applicationcode",label:"应用编号",width:80,sortable:false},  
-	              {name:"applicationname",index:"applicationname",label:"应用名称",width:80,sortable:false},  
-	              {name:"applicationdesc",index:"applicationdesc",label:"应用描述",width:160,sortable:false},  
-	              {name:"showinmenu",index:"showinmenu",label:"是否在菜单显示",width:120,sortable:false}
+	              {name: "applicationid" ,index: "applicationid" ,label:"应用ID",width:40,sortable:true,editable : true},
+	              {name:"applicationcode",index:"applicationcode",label:"应用编号",width:80,editable : true},
+	              {name:"applicationname",index:"applicationname",label:"应用名称",width:80,editable : true}, 
+	              {name:"applicationdesc",index:"applicationdesc",label:"应用描述",width:200,editable : true},
+	              {name:"showinmenu",index:"showinmenu",label:"是否在菜单显示",width:160,editable : true}
 	        ],  
-	        viewrecords: true,  
-	        rowNum: 15,  
+	        viewrecords: true,
+	        rowNum: 10,  
 	        rowList: [10,20,30],  
 	        prmNames: {search: "search"},  
-	        jsonReader: {  
-	            root:"rows",  
-	            records: "record",  
-	            repeatitems : false  
-	        },  
-	        pager: "#pager",  
-	        //caption: "用户列表",  
-	        hidegrid: false,  
-	        shrikToFit: true  
+	        pager: "#pager"
 	    });
 	 
 	//开启键盘上下选择行数据

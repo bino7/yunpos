@@ -20,7 +20,6 @@ import com.yunpos.model.User;
 import com.yunpos.model.ViewPage;
 import com.yunpos.security.SecurityUtils;
 import com.yunpos.service.UserService;
-import com.yunpos.utils.PageDate;
 
 @Controller
 @RequestMapping("/sys/user")
@@ -47,13 +46,12 @@ public class UserController extends BaseController {
 		return viewPage;
 	}
 	
-	//public void operateSysUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	
+
 	@RequestMapping(value = "/operate", method = { RequestMethod.POST, RequestMethod.GET })
 	public void operateSysUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		PageDate pageParam = this.getPageParam();
-		String oper = pageParam.getString("oper");
-		String id = pageParam.getString("id");
+		String oper = request.getParameter("oper");
+		String id = request.getParameter("id");
+
 		if (oper.equals("del")) {
 			String[] ids = id.split(",");
 			userService.batchDeleteByIds( (Integer[])ConvertUtils.convert(ids, Integer.class));

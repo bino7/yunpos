@@ -7,6 +7,8 @@ $(function(){
 			drag : true,
 			resize : true,
 			closeOnEscape : true,
+			reloadAfterSubmit:true,
+			closeAfterEdit:true, 
 			dataheight : 200	
 	}
 	
@@ -15,6 +17,7 @@ $(function(){
 			drag : true,
 			resize : true,
 			closeOnEscape : true,
+			closeAfterAdd:true,
 			dataheight : "auto"	
 	};
 

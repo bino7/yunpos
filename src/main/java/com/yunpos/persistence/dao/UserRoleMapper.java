@@ -15,4 +15,5 @@ public interface UserRoleMapper extends EntityMapper<UserRole> {
 	@Select("select * from user_role")
 	List<UserRole> findAll();
 
+
 }

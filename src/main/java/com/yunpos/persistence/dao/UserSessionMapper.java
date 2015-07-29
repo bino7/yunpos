@@ -18,3 +18,4 @@ public interface UserSessionMapper extends EntityMapper<UserSession> {
 
 
 }
+

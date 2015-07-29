@@ -9,8 +9,8 @@ import com.yunpos.model.UserRole;
 
 public interface UserRoleMapper extends EntityMapper<UserRole> {
 
-	@Select("select * from user_role t where t.userid=#{userid}")
-	List<UserRole> selectByUserId(@Param("userid") int userId);
+	@Select("select * from user_role t where t.userId=#{userId}")
+	List<UserRole> selectByUserId(@Param("userId") int userId);
 
 	@Select("select * from user_role")
 	List<UserRole> findAll();

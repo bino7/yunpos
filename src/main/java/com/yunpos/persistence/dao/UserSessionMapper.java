@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import com.yunpos.model.UserSession;
 
 public interface UserSessionMapper extends EntityMapper<UserSession> {
-	@Select("select * from sys_users_session t where session_id=#{sessionId} ")
+	@Select("select * from sys_users_session t where sessionId=#{sessionId} ")
 	UserSession findBySessionId(Serializable sessionId);
 	
 	void update(UserSession userSession);

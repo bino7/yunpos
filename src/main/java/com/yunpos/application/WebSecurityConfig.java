@@ -74,22 +74,22 @@ public class WebSecurityConfig {
 
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		securityManager.setRealm(realm());
-		securityManager.setSessionManager(sessionManager());
+		//securityManager.setSessionManager(sessionManager());
 		securityManager.setRememberMeManager(rememberMeManager());
 		securityManager.setCacheManager(cacheManager());
 		return securityManager;
 	}
 
-	@Bean(name = "sessionManager")
-	public ValidatingSessionManager sessionManager() {
-		logger.debug("create session manager.");
-
-		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		sessionManager.setGlobalSessionTimeout(1800000);
-		sessionManager.setSessionDAO(shiroSessionDao());
-		sessionManager.setCacheManager(cacheManager());
-		return sessionManager;
-	}
+//	@Bean(name = "sessionManager")
+//	public ValidatingSessionManager sessionManager() {
+//		logger.debug("create session manager.");
+//
+//		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+//		sessionManager.setGlobalSessionTimeout(1800000);
+//		sessionManager.setSessionDAO(shiroSessionDao());
+//		sessionManager.setCacheManager(cacheManager());
+//		return sessionManager;
+//	}
 
 	@Bean(name = "shiroSessionDao")
 	public SessionDAO shiroSessionDao() {

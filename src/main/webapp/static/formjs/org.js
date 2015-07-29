@@ -28,36 +28,42 @@ $(function() {
 	 jQuery("#tree").jqGrid({   
 		    treeGrid: true,  
 		    treeGridModel: 'adjacency', //treeGrid模式，跟json元数据有关  
-		    ExpandColumn : 'username',       
+		    ExpandColumn : 'orgname',     
+		    width: 'auto',
+		    height: "auto",
 		    scroll: "true",  
-		    url: '',  
-		    datatype: 'json',      
-		    colNames:['','姓名','密码','年龄','地址','出生日期'],      
+		    url: 'sys/org',  
+		    datatype: 'json',   
 		    colModel:[      
-		        {name:'id',index:'id',lable:"编号", width:90,sorttype:"int"},      
-		        {name:'username',index:'username', width:110,sorttype:"int"},      
-		        {name:'password',index:'password', width:80},      
-		        {name:'age',index:'age', width:80},        
-		        {name:'address',index:'address', width:80},       
-		        {name:'time',index:'time', width:80,sorttype:"date"}        
+		        {name:'orgid',index:'orgid',label:"ID", width:90,sorttype:"int",editable : true,hidden:true},      
+		        {name:'orgno',index:'orgno',label:"代码", width:110,sorttype:"int",editable:true,hidden:true},      
+		        {name:'orgname',index:'orgname',label:"名称", width:80,editable:true},      
+		        {name:'orgparentid',index:'orgparentid',label:"父级ID", width:80,editable:true},        
+		        {name:'orgparentname',index:'orgparentname',label:"父级名称", width:80,editable:true},       
+		        {name:'orgparentno',index:'orgparentno',label:"父级代码", width:80,editable:true},
+		        {name:'createuserid',index:'createuserid',label:"创建用户ID", width:80,editable:true},
+		        {name:'createdate',index:'createdate',label:"创建时间", width:80,editable:true},
+		        {name:'modifyuserid',index:'modifyuserid',label:"修改用户ID", width:80,editable:true},
+		        {name:'modifydate',index:'modifydate',label:"修改时间", width:80,editable:true},
+		        {name:'level',index:'level',label:"level", width:80,editable:true},
+		        {name:'isleaf',index:'isleaf',label:"isleaf", width:80,editable:true},
+		        {name:'loaded',index:'loaded',label:"loaded", width:80,editable:true},
+		        {name:'expanded',index:'expanded',label:"expanded", width:80,editable:true}
 		     ],  
 		    pager: "false",    
-		    sortname: 'id',      
+		    sortname: 'orgid',      
 		    sortorder: "desc",   
-		        
 		    jsonReader: {      
 		      root: "rows",    
 		      repeatitems : false  
 		    },      
 		    treeReader : {  
 		      level_field: "level",  
-		      parent_id_field: "parent",   
-		      leaf_field: "isLeaf",  
+		      parent_id_field: "orgparentid",
+		      leaf_field: "isleaf",  
 		      expanded_field: "expanded"  
 		    },  
-		    caption: "jqGrid test",     
-		    mtype: "POST",  
-		    height: "auto",    // 设为具体数值则会根据实际记录数出现垂直滚动条  
+		    mtype: "GET",
 		    rowNum : "-1",     // 显示全部记录  
 		    shrinkToFit:false  // 控制水平滚动条  
 		 });  

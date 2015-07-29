@@ -14,6 +14,7 @@
 CREATE DATABASE IF NOT EXISTS `yunpos` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `yunpos`;
 
+
 -- ----------------------------
 -- Table structure for data_rule
 -- ----------------------------
@@ -56,6 +57,14 @@ CREATE TABLE `org` (
 -- ----------------------------
 -- Records of org
 -- ----------------------------
+INSERT INTO `org` VALUES ('1', '1', 'Cash', null, null, '1', '1', '2015-07-29 15:49:26', null, null, '0', '0', '1', '1');
+INSERT INTO `org` VALUES ('2', '2', 'Cash 1', '1', null, '1', '1', null, null, null, '1', '0', '1', '1');
+INSERT INTO `org` VALUES ('3', '3', 'Sub Cash 1', '2', null, '1', '1', null, null, null, '2', '1', '1', '1');
+INSERT INTO `org` VALUES ('4', '4', 'Cash 2', '1', null, '1', '1', null, null, null, '1', '1', '1', '1');
+INSERT INTO `org` VALUES ('5', '5', 'Banks', null, null, '1', '1', null, null, null, '0', '0', '1', '1');
+INSERT INTO `org` VALUES ('6', '6', 'Bank 1', '5', null, '1', '1', null, null, null, '1', '1', '1', '1');
+INSERT INTO `org` VALUES ('7', '7', 'Bank 2', '5', null, '1', '1', null, null, null, '1', '1', '1', '1');
+INSERT INTO `org` VALUES ('8', '8', 'Fixed asset', null, '1', null, '1', null, null, null, '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for privilege
@@ -122,7 +131,7 @@ CREATE TABLE `sys_app` (
 -- ----------------------------
 INSERT INTO `sys_app` VALUES ('1', '10001', '系统app1', '商城系统', '1');
 INSERT INTO `sys_app` VALUES ('2', '10002', '系统app2', '商城系统', '1');
-INSERT INTO `sys_app` VALUES ('4', '1003', '22', '44', null);
+INSERT INTO `sys_app` VALUES ('4', '1004', '22', '44', null);
 
 -- ----------------------------
 -- Table structure for sys_button
@@ -201,7 +210,6 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1', '1', 'sysadmin', null, 'sysadmin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', null, '1', '046548c3b1e3ab57', null, 'SYSTEM', '2015-07-27 15:37:14', null, null, null, null);
 INSERT INTO `sys_user` VALUES ('2', '1', 'admin', null, 'admin@elvea.cn', 'db8ce0a0872d80fa31b7ebd0d0c06cf02a900e57', 'Administrator', null, '1', 'e416781ea9858934', null, 'SYSTEM', '2015-07-27 15:37:16', null, null, null, null);
-INSERT INTO `sys_user` VALUES ('6', null, 'yang', null, '375455761@qq.com', '123456', 'www', '1111', null, null, null, null, null, '2015-07-28 17:22:10', '1', null, null);
 
 -- ----------------------------
 -- Table structure for sys_users_session
@@ -216,9 +224,11 @@ CREATE TABLE `sys_users_session` (
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8;
 
-
+-- ----------------------------
+-- Records of sys_users_session
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_role
@@ -240,8 +250,3 @@ CREATE TABLE `user_role` (
 -- ----------------------------
 INSERT INTO `user_role` VALUES ('1', '1', '1', null, null, null, null);
 INSERT INTO `user_role` VALUES ('2', '1', '2', null, null, null, null);
-
--- 数据导出被取消选择。
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

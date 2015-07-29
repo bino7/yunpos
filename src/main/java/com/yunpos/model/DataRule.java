@@ -1,53 +1,53 @@
 package com.yunpos.model;
 
 public class DataRule {
-    private Integer ruleid;
+	private Integer ruleId;
 
-    private Integer datatype;
+	private Integer dataType;
 
-    private Integer userid;
+	private Integer userId;
 
-    private Integer roleid;
+	private Integer roleId;
 
-    private String datarule;
+	private String dataRule;
 
-    public Integer getRuleid() {
-        return ruleid;
-    }
+	public Integer getRuleId() {
+		return ruleId;
+	}
 
-    public void setRuleid(Integer ruleid) {
-        this.ruleid = ruleid;
-    }
+	public void setRuleId(Integer ruleId) {
+		this.ruleId = ruleId;
+	}
 
-    public Integer getDatatype() {
-        return datatype;
-    }
+	public Integer getDataType() {
+		return dataType;
+	}
 
-    public void setDatatype(Integer datatype) {
-        this.datatype = datatype;
-    }
+	public void setDataType(Integer dataType) {
+		this.dataType = dataType;
+	}
 
-    public Integer getUserid() {
-        return userid;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public Integer getRoleid() {
-        return roleid;
-    }
+	public Integer getRoleId() {
+		return roleId;
+	}
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
-    }
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
-    public String getDatarule() {
-        return datarule;
-    }
+	public String getDataRule() {
+		return dataRule;
+	}
 
-    public void setDatarule(String datarule) {
-        this.datarule = datarule == null ? null : datarule.trim();
-    }
+	public void setDataRule(String dataRule) {
+		this.dataRule = dataRule == null ? null : dataRule.trim();
+	}
 }

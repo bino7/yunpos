@@ -55,7 +55,7 @@ public class UserRoleController extends BaseController{
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateUserRole(@PathVariable("id") int id, @RequestBody UserRole userRole) {
 	    if (userRoleService.exists(id)) {
-	    	userRole.setUserid(id);
+	    	userRole.setUserId(id);
 	    	userRoleService.update(userRole);
 	    }
 	}
@@ -63,7 +63,7 @@ public class UserRoleController extends BaseController{
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createUserRole(HttpServletRequest request, @RequestBody UserRole userRole) {
 		userRoleService.insert(userRole);
-		final int id = userRole.getRoleid();
+		final int id = userRole.getRoleId();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

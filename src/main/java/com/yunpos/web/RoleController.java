@@ -55,18 +55,18 @@ public class RoleController extends BaseController{
 				role = roleService.findById(Integer.valueOf(id));
 			}
 			Role entity = new Role();
-			entity.setCreatedate(new Date());
-			entity.setCreateuserid(1);
+			entity.setCreateDate(new Date());
+			entity.setCreateUserId(1);
 			
-			if(!Strings.isNullOrEmpty(pageParam.getString("orgid"))){
-				entity.setOrgid(Integer.valueOf(pageParam.getString("orgid")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("orgId"))){
+				entity.setOrgId(Integer.valueOf(pageParam.getString("orgId")));
 			}
-			entity.setRoledesc(pageParam.getString("roledesc"));
-			entity.setRolename(pageParam.getString("rolename"));
+			entity.setRoleDesc(pageParam.getString("roleDesc"));
+			entity.setRoleName(pageParam.getString("roleName"));
 			
 			
 			if (oper.equals("edit")) {
-				entity.setRoleid(Integer.valueOf(role.getRoleid()));
+				entity.setRoleId(Integer.valueOf(role.getRoleId()));
 				roleService.update(entity);
 			} else if (oper.equals("add")) {
 				roleService.save(entity);

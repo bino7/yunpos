@@ -2,84 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.OrgMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.Org">
-		<id column="OrgID" property="orgID" jdbcType="INTEGER" />
-		<result column="OrgNo" property="orgNo" jdbcType="VARCHAR" />
-		<result column="OrgName" property="orgName" jdbcType="VARCHAR" />
-		<result column="OrgParentID" property="orgParentID" jdbcType="INTEGER" />
-		<result column="OrgParentName" property="orgParentName"
+		<id column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="orgNo" property="orgNo" jdbcType="VARCHAR" />
+		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
+		<result column="orgParentId" property="orgParentId" jdbcType="INTEGER" />
+		<result column="orgParentName" property="orgParentName"
 			jdbcType="VARCHAR" />
-		<result column="OrgParentNo" property="orgParentNo" jdbcType="VARCHAR" />
-		<result column="CreateUserID" property="createUserID" jdbcType="INTEGER" />
-		<result column="CreateDate" property="createDate" jdbcType="TIMESTAMP" />
-		<result column="ModifyUserID" property="modifyUserID" jdbcType="INTEGER" />
-		<result column="ModifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+		<result column="orgParentNo" property="orgParentNo" jdbcType="VARCHAR" />
+		<result column="createUserId" property="createUserId" jdbcType="INTEGER" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="modifyUserId" property="modifyUserId" jdbcType="INTEGER" />
+		<result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
 		<result column="level" property="level" jdbcType="INTEGER" />
 		<result column="isLeaf" property="isLeaf" jdbcType="BIT" />
 		<result column="loaded" property="loaded" jdbcType="BIT" />
 		<result column="expanded" property="expanded" jdbcType="BIT" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		OrgID, OrgNo, OrgName, OrgParentID, OrgParentName, OrgParentNo,
-		CreateUserID, CreateDate,
-		ModifyUserID, ModifyDate, level, isLeaf, loaded, expanded
+		orgId, orgNo, orgName, orgParentId, orgParentName, orgParentNo,
+		createUserId, createDate,
+		modifyUserId, modifyDate, level, isLeaf, loaded, expanded
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
 		from org
-		where OrgID = #{orgID,jdbcType=INTEGER}
+		where orgId = #{orgId,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from org
-		where OrgID = #{orgID,jdbcType=INTEGER}
+		where orgId = #{orgId,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.yunpos.model.Org">
-		insert into org (OrgID, OrgNo, OrgName,
-		OrgParentID, OrgParentName, OrgParentNo,
-		CreateUserID, CreateDate, ModifyUserID,
-		ModifyDate, level, isLeaf,
+		insert into org (orgId, orgNo, orgName,
+		orgParentId, orgParentName, orgParentNo,
+		createUserId, createDate, modifyUserId,
+		modifyDate, level, isLeaf,
 		loaded, expanded)
-		values (#{orgID,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR},
+		values (#{orgId,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR},
 		#{orgName,jdbcType=VARCHAR},
-		#{orgParentID,jdbcType=INTEGER}, #{orgParentName,jdbcType=VARCHAR}, #{orgParentNo,jdbcType=VARCHAR},
-		#{createUserID,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
-		#{modifyUserID,jdbcType=INTEGER},
+		#{orgParentId,jdbcType=INTEGER}, #{orgParentName,jdbcType=VARCHAR}, #{orgParentNo,jdbcType=VARCHAR},
+		#{createUserId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
+		#{modifyUserId,jdbcType=INTEGER},
 		#{modifyDate,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT},
 		#{loaded,jdbcType=BIT}, #{expanded,jdbcType=BIT})
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.Org">
 		insert into org
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="orgID != null">
-				OrgID,
+			<if test="orgId != null">
+				orgId,
 			</if>
 			<if test="orgNo != null">
-				OrgNo,
+				orgNo,
 			</if>
 			<if test="orgName != null">
-				OrgName,
+				orgName,
 			</if>
-			<if test="orgParentID != null">
-				OrgParentID,
+			<if test="orgParentId != null">
+				orgParentId,
 			</if>
 			<if test="orgParentName != null">
-				OrgParentName,
+				orgParentName,
 			</if>
 			<if test="orgParentNo != null">
-				OrgParentNo,
+				orgParentNo,
 			</if>
-			<if test="createUserID != null">
-				CreateUserID,
+			<if test="createUserId != null">
+				createUserId,
 			</if>
 			<if test="createDate != null">
-				CreateDate,
+				createDate,
 			</if>
-			<if test="modifyUserID != null">
-				ModifyUserID,
+			<if test="modifyUserId != null">
+				modifyUserId,
 			</if>
 			<if test="modifyDate != null">
-				ModifyDate,
+				modifyDate,
 			</if>
 			<if test="level != null">
 				level,
@@ -95,8 +95,8 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="orgID != null">
-				#{orgID,jdbcType=INTEGER},
+			<if test="orgId != null">
+				#{orgId,jdbcType=INTEGER},
 			</if>
 			<if test="orgNo != null">
 				#{orgNo,jdbcType=VARCHAR},
@@ -104,8 +104,8 @@
 			<if test="orgName != null">
 				#{orgName,jdbcType=VARCHAR},
 			</if>
-			<if test="orgParentID != null">
-				#{orgParentID,jdbcType=INTEGER},
+			<if test="orgParentId != null">
+				#{orgParentId,jdbcType=INTEGER},
 			</if>
 			<if test="orgParentName != null">
 				#{orgParentName,jdbcType=VARCHAR},
@@ -113,14 +113,14 @@
 			<if test="orgParentNo != null">
 				#{orgParentNo,jdbcType=VARCHAR},
 			</if>
-			<if test="createUserID != null">
-				#{createUserID,jdbcType=INTEGER},
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=INTEGER},
 			</if>
 			<if test="createDate != null">
 				#{createDate,jdbcType=TIMESTAMP},
 			</if>
-			<if test="modifyUserID != null">
-				#{modifyUserID,jdbcType=INTEGER},
+			<if test="modifyUserId != null">
+				#{modifyUserId,jdbcType=INTEGER},
 			</if>
 			<if test="modifyDate != null">
 				#{modifyDate,jdbcType=TIMESTAMP},
@@ -143,31 +143,31 @@
 		update org
 		<set>
 			<if test="orgNo != null">
-				OrgNo = #{orgNo,jdbcType=VARCHAR},
+				orgNo = #{orgNo,jdbcType=VARCHAR},
 			</if>
 			<if test="orgName != null">
-				OrgName = #{orgName,jdbcType=VARCHAR},
+				orgName = #{orgName,jdbcType=VARCHAR},
 			</if>
-			<if test="orgParentID != null">
-				OrgParentID = #{orgParentID,jdbcType=INTEGER},
+			<if test="orgParentId != null">
+				orgParentId = #{orgParentId,jdbcType=INTEGER},
 			</if>
 			<if test="orgParentName != null">
-				OrgParentName = #{orgParentName,jdbcType=VARCHAR},
+				orgParentName = #{orgParentName,jdbcType=VARCHAR},
 			</if>
 			<if test="orgParentNo != null">
-				OrgParentNo = #{orgParentNo,jdbcType=VARCHAR},
+				orgParentNo = #{orgParentNo,jdbcType=VARCHAR},
 			</if>
-			<if test="createUserID != null">
-				CreateUserID = #{createUserID,jdbcType=INTEGER},
+			<if test="createUserId != null">
+				createUserId = #{createUserId,jdbcType=INTEGER},
 			</if>
 			<if test="createDate != null">
-				CreateDate = #{createDate,jdbcType=TIMESTAMP},
+				createDate = #{createDate,jdbcType=TIMESTAMP},
 			</if>
-			<if test="modifyUserID != null">
-				ModifyUserID = #{modifyUserID,jdbcType=INTEGER},
+			<if test="modifyUserId != null">
+				modifyUserId = #{modifyUserId,jdbcType=INTEGER},
 			</if>
 			<if test="modifyDate != null">
-				ModifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+				modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="level != null">
 				level = #{level,jdbcType=INTEGER},
@@ -182,29 +182,29 @@
 				expanded = #{expanded,jdbcType=BIT},
 			</if>
 		</set>
-		where OrgID = #{orgID,jdbcType=INTEGER}
+		where orgId = #{orgId,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.Org">
 		update org
-		set OrgNo = #{orgNo,jdbcType=VARCHAR},
-		OrgName = #{orgName,jdbcType=VARCHAR},
-		OrgParentID = #{orgParentID,jdbcType=INTEGER},
-		OrgParentName = #{orgParentName,jdbcType=VARCHAR},
-		OrgParentNo = #{orgParentNo,jdbcType=VARCHAR},
-		CreateUserID = #{createUserID,jdbcType=INTEGER},
-		CreateDate = #{createDate,jdbcType=TIMESTAMP},
-		ModifyUserID = #{modifyUserID,jdbcType=INTEGER},
-		ModifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+		set orgNo = #{orgNo,jdbcType=VARCHAR},
+		orgName = #{orgName,jdbcType=VARCHAR},
+		orgParentId = #{orgParentId,jdbcType=INTEGER},
+		orgParentName = #{orgParentName,jdbcType=VARCHAR},
+		orgParentNo = #{orgParentNo,jdbcType=VARCHAR},
+		createUserId = #{createUserId,jdbcType=INTEGER},
+		createDate = #{createDate,jdbcType=TIMESTAMP},
+		modifyUserId = #{modifyUserId,jdbcType=INTEGER},
+		modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
 		level = #{level,jdbcType=INTEGER},
 		isLeaf = #{isLeaf,jdbcType=BIT},
 		loaded = #{loaded,jdbcType=BIT},
 		expanded = #{expanded,jdbcType=BIT}
-		where OrgID = #{orgID,jdbcType=INTEGER}
+		where orgId = #{orgId,jdbcType=INTEGER}
 	</update>
 
 	<!-- ##################################### -->
 	<delete id="batchDeleteByIds">
-		delete from org where id orgid
+		delete from org where orgId in
 		<foreach item="item" index="index" collection="array" open="("
 			separator="," close=")">
 			#{item}

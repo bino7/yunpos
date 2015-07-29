@@ -2,134 +2,134 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.PrivilegeMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.Privilege">
-		<id column="PrivilegeID" property="privilegeid" jdbcType="INTEGER" />
-		<result column="PrivilegeMaster" property="privilegemaster"
+		<id column="privilegeId" property="privilegeId" jdbcType="INTEGER" />
+		<result column="privilegeMaster" property="privilegeMaster"
 			jdbcType="VARCHAR" />
-		<result column="PrivilegeMasterValue" property="privilegemastervalue"
+		<result column="privilegeMasterValue" property="privilegeMasterValue"
 			jdbcType="INTEGER" />
-		<result column="PrivilegeAccess" property="privilegeaccess"
+		<result column="privilegeAccess" property="privilegeAccess"
 			jdbcType="VARCHAR" />
-		<result column="PrivilegeAccessValue" property="privilegeaccessvalue"
+		<result column="privilegeAccessValue" property="privilegeAccessValue"
 			jdbcType="INTEGER" />
-		<result column="PrivilegeOperation" property="privilegeoperation"
+		<result column="privilegeOperation" property="privilegeOperation"
 			jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		PrivilegeID, PrivilegeMaster, PrivilegeMasterValue, PrivilegeAccess,
-		PrivilegeAccessValue,
-		PrivilegeOperation
+		privilegeId, privilegeMaster, privilegeMasterValue, privilegeAccess,
+		privilegeAccessValue,
+		privilegeOperation
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
 		from privilege
-		where PrivilegeID = #{privilegeid,jdbcType=INTEGER}
+		where privilegeId = #{privilegeId,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from privilege
-		where PrivilegeID = #{privilegeid,jdbcType=INTEGER}
+		where privilegeId = #{privilegeId,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.yunpos.model.Privilege">
-		insert into privilege (PrivilegeID, PrivilegeMaster,
-		PrivilegeMasterValue,
-		PrivilegeAccess, PrivilegeAccessValue,
-		PrivilegeOperation)
-		values (#{privilegeid,jdbcType=INTEGER},
-		#{privilegemaster,jdbcType=VARCHAR},
-		#{privilegemastervalue,jdbcType=INTEGER},
-		#{privilegeaccess,jdbcType=VARCHAR},
-		#{privilegeaccessvalue,jdbcType=INTEGER},
-		#{privilegeoperation,jdbcType=INTEGER})
+		insert into privilege (privilegeId, privilegeMaster,
+		privilegeMasterValue,
+		privilegeAccess, privilegeAccessValue,
+		privilegeOperation)
+		values (#{privilegeId,jdbcType=INTEGER},
+		#{privilegeMaster,jdbcType=VARCHAR},
+		#{privilegeMasterValue,jdbcType=INTEGER},
+		#{privilegeAccess,jdbcType=VARCHAR},
+		#{privilegeAccessValue,jdbcType=INTEGER},
+		#{privilegeOperation,jdbcType=INTEGER})
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.Privilege">
 		insert into privilege
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="privilegeid != null">
-				PrivilegeID,
+			<if test="privilegeId != null">
+				privilegeId,
 			</if>
-			<if test="privilegemaster != null">
-				PrivilegeMaster,
+			<if test="privilegeMaster != null">
+				privilegeMaster,
 			</if>
-			<if test="privilegemastervalue != null">
-				PrivilegeMasterValue,
+			<if test="privilegeMasterValue != null">
+				privilegeMasterValue,
 			</if>
-			<if test="privilegeaccess != null">
-				PrivilegeAccess,
+			<if test="privilegeAccess != null">
+				privilegeAccess,
 			</if>
-			<if test="privilegeaccessvalue != null">
-				PrivilegeAccessValue,
+			<if test="privilegeAccessValue != null">
+				privilegeAccessValue,
 			</if>
-			<if test="privilegeoperation != null">
-				PrivilegeOperation,
+			<if test="privilegeOperation != null">
+				privilegeOperation,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="privilegeid != null">
-				#{privilegeid,jdbcType=INTEGER},
+			<if test="privilegeId != null">
+				#{privilegeId,jdbcType=INTEGER},
 			</if>
-			<if test="privilegemaster != null">
-				#{privilegemaster,jdbcType=VARCHAR},
+			<if test="privilegeMaster != null">
+				#{privilegeMaster,jdbcType=VARCHAR},
 			</if>
-			<if test="privilegemastervalue != null">
-				#{privilegemastervalue,jdbcType=INTEGER},
+			<if test="privilegeMasterValue != null">
+				#{privilegeMasterValue,jdbcType=INTEGER},
 			</if>
-			<if test="privilegeaccess != null">
-				#{privilegeaccess,jdbcType=VARCHAR},
+			<if test="privilegeAccess != null">
+				#{privilegeAccess,jdbcType=VARCHAR},
 			</if>
-			<if test="privilegeaccessvalue != null">
-				#{privilegeaccessvalue,jdbcType=INTEGER},
+			<if test="privilegeAccessValue != null">
+				#{privilegeAccessValue,jdbcType=INTEGER},
 			</if>
-			<if test="privilegeoperation != null">
-				#{privilegeoperation,jdbcType=INTEGER},
+			<if test="privilegeOperation != null">
+				#{privilegeOperation,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.Privilege">
 		update privilege
 		<set>
-			<if test="privilegemaster != null">
-				PrivilegeMaster = #{privilegemaster,jdbcType=VARCHAR},
+			<if test="privilegeMaster != null">
+				privilegeMaster = #{privilegeMaster,jdbcType=VARCHAR},
 			</if>
-			<if test="privilegemastervalue != null">
-				PrivilegeMasterValue = #{privilegemastervalue,jdbcType=INTEGER},
+			<if test="privilegeMasterValue != null">
+				privilegeMasterValue = #{privilegeMasterValue,jdbcType=INTEGER},
 			</if>
-			<if test="privilegeaccess != null">
-				PrivilegeAccess = #{privilegeaccess,jdbcType=VARCHAR},
+			<if test="privilegeAccess != null">
+				privilegeAccess = #{privilegeAccess,jdbcType=VARCHAR},
 			</if>
-			<if test="privilegeaccessvalue != null">
-				PrivilegeAccessValue = #{privilegeaccessvalue,jdbcType=INTEGER},
+			<if test="privilegeAccessValue != null">
+				privilegeAccessValue = #{privilegeAccessValue,jdbcType=INTEGER},
 			</if>
-			<if test="privilegeoperation != null">
-				PrivilegeOperation = #{privilegeoperation,jdbcType=INTEGER},
+			<if test="privilegeOperation != null">
+				privilegeOperation = #{privilegeOperation,jdbcType=INTEGER},
 			</if>
 		</set>
-		where PrivilegeID = #{privilegeid,jdbcType=INTEGER}
+		where privilegeId = #{privilegeId,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.Privilege">
 		update privilege
-		set PrivilegeMaster = #{privilegemaster,jdbcType=VARCHAR},
-		PrivilegeMasterValue = #{privilegemastervalue,jdbcType=INTEGER},
-		PrivilegeAccess = #{privilegeaccess,jdbcType=VARCHAR},
-		PrivilegeAccessValue = #{privilegeaccessvalue,jdbcType=INTEGER},
-		PrivilegeOperation = #{privilegeoperation,jdbcType=INTEGER}
-		where PrivilegeID = #{privilegeid,jdbcType=INTEGER}
+		set privilegeMaster = #{privilegeMaster,jdbcType=VARCHAR},
+		privilegeMasterValue = #{privilegeMasterValue,jdbcType=INTEGER},
+		privilegeAccess = #{privilegeAccess,jdbcType=VARCHAR},
+		privilegeAccessValue = #{privilegeAccessValue,jdbcType=INTEGER},
+		privilegeOperation = #{privilegeOperation,jdbcType=INTEGER}
+		where privilegeId = #{privilegeId,jdbcType=INTEGER}
 	</update>
 
 	<!-- ##################################### -->
 	<select id="findListByIds" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from privilege where privilegeid in
+		from privilege where privilegeId in
 		<foreach item="item" index="index" collection="array" open="("
 			separator="," close=")">
 			#{item}
 		</foreach>
 	</select>
-	
-	 
+
+
 	<delete id="batchDeleteByIds">
-		delete from privilege where id in
+		delete from privilege where privilegeId in
 		<foreach item="item" index="index" collection="array" open="("
 			separator="," close=")">
 			#{item}

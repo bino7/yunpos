@@ -1,53 +1,55 @@
 package com.yunpos.model;
 
 public class SysApp {
-    private Integer applicationid;
+	private Integer applicationId;
 
-    private Integer applicationcode;
+	private Integer applicationCode;
 
-    private String applicationname;
+	private String applicationName;
 
-    private String applicationdesc;
+	private String applicationDesc;
 
-    private Integer showinmenu;
+	private Integer showInMenu;
 
-    public Integer getApplicationid() {
-        return applicationid;
-    }
+	public Integer getApplicationId() {
+		return applicationId;
+	}
 
-    public void setApplicationid(Integer applicationid) {
-        this.applicationid = applicationid;
-    }
+	public void setApplicationId(Integer applicationId) {
+		this.applicationId = applicationId;
+	}
 
-    public Integer getApplicationcode() {
-        return applicationcode;
-    }
+	public Integer getApplicationCode() {
+		return applicationCode;
+	}
 
-    public void setApplicationcode(Integer applicationcode) {
-        this.applicationcode = applicationcode;
-    }
+	public void setApplicationCode(Integer applicationCode) {
+		this.applicationCode = applicationCode;
+	}
 
-    public String getApplicationname() {
-        return applicationname;
-    }
+	public String getApplicationName() {
+		return applicationName;
+	}
 
-    public void setApplicationname(String applicationname) {
-        this.applicationname = applicationname == null ? null : applicationname.trim();
-    }
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName == null ? null : applicationName
+				.trim();
+	}
 
-    public String getApplicationdesc() {
-        return applicationdesc;
-    }
+	public String getApplicationDesc() {
+		return applicationDesc;
+	}
 
-    public void setApplicationdesc(String applicationdesc) {
-        this.applicationdesc = applicationdesc == null ? null : applicationdesc.trim();
-    }
+	public void setApplicationDesc(String applicationDesc) {
+		this.applicationDesc = applicationDesc == null ? null : applicationDesc
+				.trim();
+	}
 
-    public Integer getShowinmenu() {
-        return showinmenu;
-    }
+	public Integer getShowInMenu() {
+		return showInMenu;
+	}
 
-    public void setShowinmenu(Integer showinmenu) {
-        this.showinmenu = showinmenu;
-    }
+	public void setShowInMenu(Integer showInMenu) {
+		this.showInMenu = showInMenu;
+	}
 }

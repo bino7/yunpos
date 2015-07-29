@@ -69,7 +69,7 @@ public class OrgController extends BaseController{
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateOrg(@PathVariable("id") int id, @RequestBody Org org) {
 	    if (orgService.exists(id)) {
-	    	org.setOrgid(id);
+	    	org.setOrgId(id);
 	    	orgService.update(org);
 	    }
 	}
@@ -77,7 +77,7 @@ public class OrgController extends BaseController{
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createOrg(HttpServletRequest request, @RequestBody Org org) {
 		orgService.insert(org);
-		int id = org.getOrgid();
+		int id = org.getOrgId();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

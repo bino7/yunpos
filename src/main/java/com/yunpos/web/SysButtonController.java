@@ -78,22 +78,22 @@ public class SysButtonController extends BaseController{
 			}
 			SysButtonWithBLOBs entity = new SysButtonWithBLOBs();
 			
-			entity.setBtnicon(pageParam.getString("btnicon"));
-			entity.setBtnname(pageParam.getString("btnname"));
-			if(!Strings.isNullOrEmpty(pageParam.getString("btnno"))){
-				entity.setBtnno(Integer.valueOf(pageParam.getString("btnno")));
+			entity.setBtnIcon(pageParam.getString("btnIcon"));
+			entity.setBtnName(pageParam.getString("btnName"));
+			if(!Strings.isNullOrEmpty(pageParam.getString("btnNo"))){
+				entity.setBtnNo(Integer.valueOf(pageParam.getString("btnNo")));
 			}
-			entity.setInitstatus(1);
-			if(!Strings.isNullOrEmpty(pageParam.getString("menuno"))){
-				entity.setMenuno(Integer.valueOf(pageParam.getString("menuno")));
+			entity.setInitStatus(1);
+			if(!Strings.isNullOrEmpty(pageParam.getString("menuNo"))){
+				entity.setMenuNo(Integer.valueOf(pageParam.getString("menuNo")));
 			}
-			if(!Strings.isNullOrEmpty(pageParam.getString("seqno"))){
-				entity.setSeqno(Integer.valueOf(pageParam.getString("seqno")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("seqNo"))){
+				entity.setSeqNo(Integer.valueOf(pageParam.getString("seqNo")));
 			}
-			entity.setBtnclass(pageParam.getString("btnclass"));
-			entity.setBtnscript(pageParam.getString("btnscript"));
+			entity.setBtnClass(pageParam.getString("btnClass"));
+			entity.setBtnScript(pageParam.getString("btnScript"));
 			if (oper.equals("edit")) {
-				entity.setBtnid(Integer.valueOf(sysButton.getBtnid()));
+				entity.setBtnId(Integer.valueOf(sysButton.getBtnId()));
 				sysButtonService.update(entity);
 			} else if (oper.equals("add")) {
 				sysButtonService.save(entity);
@@ -112,7 +112,7 @@ public class SysButtonController extends BaseController{
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateSysButton(@PathVariable("id") int id, @RequestBody SysButtonWithBLOBs sysButton) {
 	    if (sysButtonService.exists(id)) {
-	    	sysButton.setBtnid(id);
+	    	sysButton.setBtnId(id);
 	    	sysButtonService.update(sysButton);
 	    }
 	}
@@ -120,7 +120,7 @@ public class SysButtonController extends BaseController{
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createSysButton(HttpServletRequest request, @RequestBody SysButtonWithBLOBs sysButton) {
 		sysButtonService.insert(sysButton);
-		final int id = sysButton.getBtnid();
+		final int id = sysButton.getBtnId();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

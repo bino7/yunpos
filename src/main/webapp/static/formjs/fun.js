@@ -7,7 +7,7 @@ $(function(){
 	        mtype: "GET",  
 	        height: 350,  
 	        width: 960,  
-	        colModel: [  
+	        colModel: [
 	              {name:"roleid",index:"roleid",label:"角色ID",width:40},    
 	              {name:"rolename",index:"rolename",label:"角色名称",width:80,sortable:false},  
 	              {name:"roledesc",index:"roledesc",label:"描述",width:80,sortable:false},  

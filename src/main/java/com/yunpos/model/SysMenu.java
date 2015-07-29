@@ -1,94 +1,93 @@
 package com.yunpos.model;
 
-public class SysMenu  {
-    private Integer menuid;
+public class SysMenu {
+	private Integer menuId;
 
-    private Integer menuno;
+	private Integer menuNo;
 
-    private Integer applicationcode;
+	private Integer applicationCode;
 
-    private Integer menuparentno;
+	private Integer menuParentNo;
 
-    private Integer menuorder;
+	private Integer menuOrder;
 
-    private String menuname;
+	private String menuName;
 
-    private String menuurl;
+	private String menuUrl;
 
-    private Integer isvisible;
+	private Integer isVisible;
 
-    private Integer isleaf;
+	private Integer isLeaf;
 
-    public Integer getMenuid() {
-        return menuid;
-    }
+	public Integer getMenuId() {
+		return menuId;
+	}
 
-    public void setMenuid(Integer menuid) {
-        this.menuid = menuid;
-    }
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
 
-    public Integer getMenuno() {
-        return menuno;
-    }
+	public Integer getMenuNo() {
+		return menuNo;
+	}
 
-    public void setMenuno(Integer menuno) {
-        this.menuno = menuno;
-    }
+	public void setMenuNo(Integer menuNo) {
+		this.menuNo = menuNo;
+	}
 
-    public Integer getApplicationcode() {
-        return applicationcode;
-    }
+	public Integer getApplicationCode() {
+		return applicationCode;
+	}
 
-    public void setApplicationcode(Integer applicationcode) {
-        this.applicationcode = applicationcode;
-    }
+	public void setApplicationCode(Integer applicationCode) {
+		this.applicationCode = applicationCode;
+	}
 
-    public Integer getMenuparentno() {
-        return menuparentno;
-    }
+	public Integer getMenuParentNo() {
+		return menuParentNo;
+	}
 
-    public void setMenuparentno(Integer menuparentno) {
-        this.menuparentno = menuparentno;
-    }
+	public void setMenuParentNo(Integer menuParentNo) {
+		this.menuParentNo = menuParentNo;
+	}
 
-    public Integer getMenuorder() {
-        return menuorder;
-    }
+	public Integer getMenuOrder() {
+		return menuOrder;
+	}
 
-    public void setMenuorder(Integer menuorder) {
-        this.menuorder = menuorder;
-    }
+	public void setMenuOrder(Integer menuOrder) {
+		this.menuOrder = menuOrder;
+	}
 
-    public String getMenuname() {
-        return menuname;
-    }
+	public String getMenuName() {
+		return menuName;
+	}
 
-    public void setMenuname(String menuname) {
-        this.menuname = menuname == null ? null : menuname.trim();
-    }
+	public void setMenuName(String menuName) {
+		this.menuName = menuName == null ? null : menuName.trim();
+	}
 
-    public String getMenuurl() {
-        return menuurl;
-    }
+	public String getMenuUrl() {
+		return menuUrl;
+	}
 
-    public void setMenuurl(String menuurl) {
-        this.menuurl = menuurl == null ? null : menuurl.trim();
-    }
+	public void setMenuUrl(String menuUrl) {
+		this.menuUrl = menuUrl == null ? null : menuUrl.trim();
+	}
 
-    public Integer getIsvisible() {
-        return isvisible;
-    }
+	public Integer getIsVisible() {
+		return isVisible;
+	}
 
-    public void setIsvisible(Integer isvisible) {
-        this.isvisible = isvisible;
-    }
+	public void setIsVisible(Integer isVisible) {
+		this.isVisible = isVisible;
+	}
 
-    public Integer getIsleaf() {
-        return isleaf;
-    }
+	public Integer getIsLeaf() {
+		return isLeaf;
+	}
 
-    public void setIsleaf(Integer isleaf) {
-        this.isleaf = isleaf;
-    }
-
+	public void setIsLeaf(Integer isLeaf) {
+		this.isLeaf = isLeaf;
+	}
 }

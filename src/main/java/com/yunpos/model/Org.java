@@ -3,113 +3,113 @@ package com.yunpos.model;
 import java.util.Date;
 
 public class Org {
-	private Integer orgid;
+	private Integer orgId;
 
-	private String orgno;
+	private String orgNo;
 
-	private String orgname;
+	private String orgName;
 
-	private Integer orgparentid;
+	private Integer orgParentId;
 
-	private String orgparentname;
+	private String orgParentName;
 
-	private String orgparentno;
+	private String orgParentNo;
 
-	private Integer createuserid;
+	private Integer createUserId;
 
-	private Date createdate;
+	private Date createDate;
 
-	private Integer modifyuserid;
+	private Integer modifyUserId;
 
-	private Date modifydate;
+	private Date modifyDate;
 
 	private Integer level;
 
-	private Boolean isleaf;
+	private Boolean isLeaf;
 
 	private Boolean loaded;
 
 	private Boolean expanded;
 
-	public Integer getOrgid() {
-		return orgid;
+	public Integer getOrgId() {
+		return orgId;
 	}
 
-	public void setOrgid(Integer orgid) {
-		this.orgid = orgid;
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
 	}
 
-	public String getOrgno() {
-		return orgno;
+	public String getOrgNo() {
+		return orgNo;
 	}
 
-	public void setOrgno(String orgno) {
-		this.orgno = orgno == null ? null : orgno.trim();
+	public void setOrgNo(String orgNo) {
+		this.orgNo = orgNo == null ? null : orgNo.trim();
 	}
 
-	public String getOrgname() {
-		return orgname;
+	public String getOrgName() {
+		return orgName;
 	}
 
-	public void setOrgname(String orgname) {
-		this.orgname = orgname == null ? null : orgname.trim();
+	public void setOrgName(String orgName) {
+		this.orgName = orgName == null ? null : orgName.trim();
 	}
 
-	public Integer getOrgparentid() {
-		return orgparentid;
+	public Integer getOrgParentId() {
+		return orgParentId;
 	}
 
-	public void setOrgparentid(Integer orgparentid) {
-		this.orgparentid = orgparentid;
+	public void setOrgParentId(Integer orgParentId) {
+		this.orgParentId = orgParentId;
 	}
 
-	public String getOrgparentname() {
-		return orgparentname;
+	public String getOrgParentName() {
+		return orgParentName;
 	}
 
-	public void setOrgparentname(String orgparentname) {
-		this.orgparentname = orgparentname == null ? null : orgparentname
+	public void setOrgParentName(String orgParentName) {
+		this.orgParentName = orgParentName == null ? null : orgParentName
 				.trim();
 	}
 
-	public String getOrgparentno() {
-		return orgparentno;
+	public String getOrgParentNo() {
+		return orgParentNo;
 	}
 
-	public void setOrgparentno(String orgparentno) {
-		this.orgparentno = orgparentno == null ? null : orgparentno.trim();
+	public void setOrgParentNo(String orgParentNo) {
+		this.orgParentNo = orgParentNo == null ? null : orgParentNo.trim();
 	}
 
-	public Integer getCreateuserid() {
-		return createuserid;
+	public Integer getCreateUserId() {
+		return createUserId;
 	}
 
-	public void setCreateuserid(Integer createuserid) {
-		this.createuserid = createuserid;
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
 	}
 
-	public Date getCreatedate() {
-		return createdate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreatedate(Date createdate) {
-		this.createdate = createdate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
-	public Integer getModifyuserid() {
-		return modifyuserid;
+	public Integer getModifyUserId() {
+		return modifyUserId;
 	}
 
-	public void setModifyuserid(Integer modifyuserid) {
-		this.modifyuserid = modifyuserid;
+	public void setModifyUserId(Integer modifyUserId) {
+		this.modifyUserId = modifyUserId;
 	}
 
-	public Date getModifydate() {
-		return modifydate;
+	public Date getModifyDate() {
+		return modifyDate;
 	}
 
-	public void setModifydate(Date modifydate) {
-		this.modifydate = modifydate;
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 
 	public Integer getLevel() {
@@ -120,12 +120,12 @@ public class Org {
 		this.level = level;
 	}
 
-	public Boolean getIsleaf() {
-		return isleaf;
+	public Boolean getIsLeaf() {
+		return isLeaf;
 	}
 
-	public void setIsleaf(Boolean isleaf) {
-		this.isleaf = isleaf;
+	public void setIsLeaf(Boolean isLeaf) {
+		this.isLeaf = isLeaf;
 	}
 
 	public Boolean getLoaded() {

@@ -39,11 +39,11 @@ $(function(){
 			height : "auto",
 			datatype : "json", 
 	        colModel: [  
-	              {name:"applicationid" ,index: "applicationid" ,label:"应用ID",width:40,sortable:true,editable : true,hidden:true},
-	              {name:"applicationcode",index:"applicationcode",label:"应用编号",width:80,editable : true},
-	              {name:"applicationname",index:"applicationname",label:"应用名称",width:80,editable : true}, 
-	              {name:"applicationdesc",index:"applicationdesc",label:"应用描述",width:200,editable : true},
-	              {name:"showinmenu",index:"showinmenu",label:"是否在菜单显示",width:160,editable : true}
+	              {name:"applicationId" ,index: "applicationId" ,label:"应用ID",width:40,sortable:true,editable : true,hidden:true},
+	              {name:"applicationCode",index:"applicationCode",label:"应用编号",width:80,editable : true},
+	              {name:"applicationName",index:"applicationName",label:"应用名称",width:80,editable : true}, 
+	              {name:"applicationDesc",index:"applicationDesc",label:"应用描述",width:200,editable : true},
+	              {name:"showInMenu",index:"showInMenu",label:"是否在菜单显示",width:160,editable : true}
 	        ],  
 	        viewrecords: true,
 	        altRows : true,
@@ -54,7 +54,7 @@ $(function(){
 	        prmNames: {search: "search"},
 	        pager: "#pager",
 	        jsonReader: {  
-	        	id: "applicationid",
+	        	id: "applicationId",
 	            root:"rows",  
 	            total: "total",
 	            records: "records",

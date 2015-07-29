@@ -1,25 +1,23 @@
 package com.yunpos.model;
 
-
-
 public class SysButtonWithBLOBs extends SysButton {
-    private String btnclass;
+	private String btnClass;
 
-    private String btnscript;
+	private String btnScript;
 
-    public String getBtnclass() {
-        return btnclass;
-    }
+	public String getBtnClass() {
+		return btnClass;
+	}
 
-    public void setBtnclass(String btnclass) {
-        this.btnclass = btnclass == null ? null : btnclass.trim();
-    }
+	public void setBtnClass(String btnClass) {
+		this.btnClass = btnClass == null ? null : btnClass.trim();
+	}
 
-    public String getBtnscript() {
-        return btnscript;
-    }
+	public String getBtnScript() {
+		return btnScript;
+	}
 
-    public void setBtnscript(String btnscript) {
-        this.btnscript = btnscript == null ? null : btnscript.trim();
-    }
+	public void setBtnScript(String btnScript) {
+		this.btnScript = btnScript == null ? null : btnScript.trim();
+	}
 }

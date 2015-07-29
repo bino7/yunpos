@@ -51,7 +51,7 @@ public class UserSessionService extends EntityService<UserSession> {
 					.getAttribute(CaptchaFormAuthenticationFilter.Shiro_Session_Username_Key) != null) {
 				String username = (String) session
 						.getAttribute(CaptchaFormAuthenticationFilter.Shiro_Session_Username_Key);
-				userSession.setUsername(username);
+				userSession.setUserName(username);
 			}
 			userSessionMapper.insert(userSession);
 		}
@@ -65,9 +65,8 @@ public class UserSessionService extends EntityService<UserSession> {
 					.getAttribute(CaptchaFormAuthenticationFilter.Shiro_Session_Username_Key) != null) {
 				String username = (String) session
 						.getAttribute(CaptchaFormAuthenticationFilter.Shiro_Session_Username_Key);
-				userSession.setUsername(username);
+				userSession.setUserName(username);
 			}
-			userSession.setEndTime(new Date());
 			userSession.setSessionId(userSession.getSessionId());
 			userSessionMapper.update(userSession);
 		}
@@ -81,7 +80,7 @@ public class UserSessionService extends EntityService<UserSession> {
 					.getAttribute(CaptchaFormAuthenticationFilter.Shiro_Session_Username_Key) != null) {
 				String username = (String) session
 						.getAttribute(CaptchaFormAuthenticationFilter.Shiro_Session_Username_Key);
-				userSession.setUsername(username);
+				userSession.setUserName(username);
 			}
 			userSession.setLastAccessTime(new Date());
 			userSession.setSessionId(userSession.getSessionId());

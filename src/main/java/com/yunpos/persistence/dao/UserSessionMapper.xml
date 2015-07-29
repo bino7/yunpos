@@ -3,17 +3,16 @@
 <mapper namespace="com.yunpos.persistence.dao.UserSessionMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.UserSession">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="session_id" property="sessionId" jdbcType="VARCHAR" />
-		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
 		<result column="host" property="host" jdbcType="VARCHAR" />
-		<result column="last_access_time" property="lastAccessTime"
+		<result column="lastAccessTime" property="lastAccessTime"
 			jdbcType="TIMESTAMP" />
-		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
-		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, session_id, username, host, last_access_time,
-		start_time, end_time
+		id, sessionId, userName, host, lastAccessTime, startTime, endTime
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -23,18 +22,15 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from
-		sys_users_session
+		delete from sys_users_session
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.yunpos.model.UserSession">
-		insert into sys_users_session
-		(id, session_id, username,
-		host, last_access_time, start_time,
-		end_time)
-		values (#{id,jdbcType=INTEGER},
-		#{sessionId,jdbcType=VARCHAR},
-		#{username,jdbcType=VARCHAR},
+		insert into sys_users_session (id, sessionId, userName,
+		host, lastAccessTime, startTime,
+		endTime)
+		values (#{id,jdbcType=INTEGER}, #{sessionId,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},
 		#{host,jdbcType=VARCHAR}, #{lastAccessTime,jdbcType=TIMESTAMP},
 		#{startTime,jdbcType=TIMESTAMP},
 		#{endTime,jdbcType=TIMESTAMP})
@@ -46,22 +42,22 @@
 				id,
 			</if>
 			<if test="sessionId != null">
-				session_id,
+				sessionId,
 			</if>
-			<if test="username != null">
-				username,
+			<if test="userName != null">
+				userName,
 			</if>
 			<if test="host != null">
 				host,
 			</if>
 			<if test="lastAccessTime != null">
-				last_access_time,
+				lastAccessTime,
 			</if>
 			<if test="startTime != null">
-				start_time,
+				startTime,
 			</if>
 			<if test="endTime != null">
-				end_time,
+				endTime,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -71,8 +67,8 @@
 			<if test="sessionId != null">
 				#{sessionId,jdbcType=VARCHAR},
 			</if>
-			<if test="username != null">
-				#{username,jdbcType=VARCHAR},
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
 			</if>
 			<if test="host != null">
 				#{host,jdbcType=VARCHAR},
@@ -92,53 +88,47 @@
 		update sys_users_session
 		<set>
 			<if test="sessionId != null">
-				session_id = #{sessionId,jdbcType=VARCHAR},
+				sessionId = #{sessionId,jdbcType=VARCHAR},
 			</if>
-			<if test="username != null">
-				username = #{username,jdbcType=VARCHAR},
+			<if test="userName != null">
+				userName = #{userName,jdbcType=VARCHAR},
 			</if>
 			<if test="host != null">
 				host = #{host,jdbcType=VARCHAR},
 			</if>
 			<if test="lastAccessTime != null">
-				last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+				lastAccessTime = #{lastAccessTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="startTime != null">
-				start_time = #{startTime,jdbcType=TIMESTAMP},
+				startTime = #{startTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="endTime != null">
-				end_time = #{endTime,jdbcType=TIMESTAMP},
+				endTime = #{endTime,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.UserSession">
-		update
-		sys_users_session
-		set session_id = #{sessionId,jdbcType=VARCHAR},
-		username = #{username,jdbcType=VARCHAR},
-		host =
-		#{host,jdbcType=VARCHAR},
-		last_access_time =
-		#{lastAccessTime,jdbcType=TIMESTAMP},
-		start_time =
-		#{startTime,jdbcType=TIMESTAMP},
-		end_time =
-		#{endTime,jdbcType=TIMESTAMP}
+		update sys_users_session
+		set sessionId = #{sessionId,jdbcType=VARCHAR},
+		userName = #{userName,jdbcType=VARCHAR},
+		host = #{host,jdbcType=VARCHAR},
+		lastAccessTime = #{lastAccessTime,jdbcType=TIMESTAMP},
+		startTime = #{startTime,jdbcType=TIMESTAMP},
+		endTime = #{endTime,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 
+
 	<!-- 用户自定义Mapper -->
 	<update id="update" parameterType="com.yunpos.model.UserSession">
-		update sys_users_session set
-		session_id = #{sessionId,jdbcType=VARCHAR},
-		host =#{host,jdbcType=VARCHAR},
-		last_access_time =
-		#{lastAccessTime,jdbcType=TIMESTAMP},
-		start_time =
-		#{startTime,jdbcType=TIMESTAMP},
-		end_time =
-		#{endTime,jdbcType=TIMESTAMP}
+		update sys_users_session
+		set sessionId = #{sessionId,jdbcType=VARCHAR},
+		userName = #{userName,jdbcType=VARCHAR},
+		host = #{host,jdbcType=VARCHAR},
+		lastAccessTime = #{lastAccessTime,jdbcType=TIMESTAMP},
+		startTime = #{startTime,jdbcType=TIMESTAMP},
+		endTime = #{endTime,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 </mapper>

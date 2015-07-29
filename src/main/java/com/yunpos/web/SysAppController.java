@@ -77,18 +77,17 @@ public class SysAppController extends BaseController{
 				sysApp = sysAppService.findById(Integer.valueOf(id));
 			}
 			SysApp entity = new SysApp();
-			if(!Strings.isNullOrEmpty(pageParam.getString("applicationcode"))){
-				entity.setApplicationcode(Integer.valueOf(pageParam.getString("applicationcode")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("applicationCode"))){
+				entity.setApplicationCode(Integer.valueOf(pageParam.getString("applicationCode")));
 			}
-			entity.setApplicationdesc(pageParam.getString("applicationdesc"));
-			entity.setApplicationname(pageParam.getString("applicationname"));
+			entity.setApplicationDesc(pageParam.getString("applicationDesc"));
+			entity.setApplicationName(pageParam.getString("applicationName"));
 			
 			if (oper.equals("edit")) {
-				entity.setApplicationid(Integer.valueOf(sysApp.getApplicationid()));
+				entity.setApplicationId(Integer.valueOf(sysApp.getApplicationId()));
 				sysAppService.update(entity);
 			} else if (oper.equals("add")) {
 				sysAppService.save(entity);
-				
 			}
 		}
 	}
@@ -104,7 +103,7 @@ public class SysAppController extends BaseController{
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateSysApp(@PathVariable("id") int id, @RequestBody SysApp sysApp) {
 	    if (sysAppService.exists(id)) {
-	    	sysApp.setApplicationid(id);
+	    	sysApp.setApplicationId(id);
 	    	sysAppService.update(sysApp);
 	    }
 	}
@@ -112,7 +111,7 @@ public class SysAppController extends BaseController{
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createSysApp(HttpServletRequest request, @RequestBody SysApp sysApp) {
 		sysAppService.insert(sysApp);
-	    final int id =sysApp.getApplicationid();
+	    final int id =sysApp.getApplicationId();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

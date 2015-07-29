@@ -79,29 +79,29 @@ public class SysMenuController extends BaseController{
 			}
 			SysMenu entity = new SysMenu();
 			
-			if(!Strings.isNullOrEmpty(pageParam.getString("applicationcode"))){
-				entity.setApplicationcode(Integer.valueOf(pageParam.getString("applicationcode")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("applicationCode"))){
+				entity.setApplicationCode(Integer.valueOf(pageParam.getString("applicationCode")));
 			}
-			if(!Strings.isNullOrEmpty(pageParam.getString("isleaf"))){
-				entity.setIsleaf(Integer.valueOf(pageParam.getString("isleaf")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("isLeaf"))){
+				entity.setIsLeaf(Integer.valueOf(pageParam.getString("isLeaf")));
 			}
-			if(!Strings.isNullOrEmpty(pageParam.getString("isvisible"))){
-				entity.setIsvisible(Integer.valueOf(pageParam.getString("isvisible")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("isVisible"))){
+				entity.setIsVisible(Integer.valueOf(pageParam.getString("isVisible")));
 			}
-			entity.setMenuname(pageParam.getString("menuname"));
+			entity.setMenuName(pageParam.getString("menuName"));
 			
-			if(!Strings.isNullOrEmpty(pageParam.getString("menuno"))){
-				entity.setMenuno(Integer.valueOf(pageParam.getString("menuno")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("menuNo"))){
+				entity.setMenuNo(Integer.valueOf(pageParam.getString("menuNo")));
 			}
-			entity.setMenuorder(Strings.isNullOrEmpty(pageParam.getString("menuorder"))?0:Integer.valueOf(pageParam.getString("menuorder")));
-			if(!Strings.isNullOrEmpty(pageParam.getString("menuparentno"))){
-				entity.setMenuparentno(Integer.valueOf(pageParam.getString("menuparentno")));
+			entity.setMenuOrder(Strings.isNullOrEmpty(pageParam.getString("menuOrder"))?0:Integer.valueOf(pageParam.getString("menuOrder")));
+			if(!Strings.isNullOrEmpty(pageParam.getString("menuParentNo"))){
+				entity.setMenuParentNo(Integer.valueOf(pageParam.getString("menuParentNo")));
 			}
-			entity.setMenuurl(pageParam.getString("menuurl"));
+			entity.setMenuUrl(pageParam.getString("menuUrl"));
 			
 			
 			if (oper.equals("edit")) {
-				entity.setMenuid(Integer.valueOf(sysMenu.getMenuid()));
+				entity.setMenuId(Integer.valueOf(sysMenu.getMenuId()));
 				sysMenuService.update(entity);
 			} else if (oper.equals("add")) {
 				sysMenuService.save(entity);
@@ -121,7 +121,7 @@ public class SysMenuController extends BaseController{
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateSysMenu(@PathVariable("id") int id, @RequestBody SysMenu sysMenu) {
 	    if (sysMenuService.exists(id)) {
-	    	sysMenu.setMenuid(id);
+	    	sysMenu.setMenuId(id);
 	    	sysMenuService.update(sysMenu);
 	    }
 	}
@@ -129,7 +129,7 @@ public class SysMenuController extends BaseController{
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createSysMenu(HttpServletRequest request, @RequestBody SysMenu sysMenu) {
 		sysMenuService.insert(sysMenu);
-		final int id = sysMenu.getMenuid();
+		final int id = sysMenu.getMenuId();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

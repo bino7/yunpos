@@ -3,73 +3,73 @@ package com.yunpos.model;
 import java.util.Date;
 
 public class UserRole {
-    private Integer userroleid;
+	private Integer userRoleId;
 
-    private Integer userid;
+	private Integer userId;
 
-    private Integer roleid;
+	private Integer roleId;
 
-    private Integer createuserid;
+	private Integer createUserId;
 
-    private Date createdate;
+	private Date createDate;
 
-    private Integer modifyuserid;
+	private Integer modifyUserId;
 
-    private Date modifydate;
+	private Date modifyDate;
 
-    public Integer getUserroleid() {
-        return userroleid;
-    }
+	public Integer getUserRoleId() {
+		return userRoleId;
+	}
 
-    public void setUserroleid(Integer userroleid) {
-        this.userroleid = userroleid;
-    }
+	public void setUserRoleId(Integer userRoleId) {
+		this.userRoleId = userRoleId;
+	}
 
-    public Integer getUserid() {
-        return userid;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public Integer getRoleid() {
-        return roleid;
-    }
+	public Integer getRoleId() {
+		return roleId;
+	}
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
-    }
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
-    public Integer getCreateuserid() {
-        return createuserid;
-    }
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
 
-    public void setCreateuserid(Integer createuserid) {
-        this.createuserid = createuserid;
-    }
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
+	}
 
-    public Date getCreatedate() {
-        return createdate;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public Integer getModifyuserid() {
-        return modifyuserid;
-    }
+	public Integer getModifyUserId() {
+		return modifyUserId;
+	}
 
-    public void setModifyuserid(Integer modifyuserid) {
-        this.modifyuserid = modifyuserid;
-    }
+	public void setModifyUserId(Integer modifyUserId) {
+		this.modifyUserId = modifyUserId;
+	}
 
-    public Date getModifydate() {
-        return modifydate;
-    }
+	public Date getModifyDate() {
+		return modifyDate;
+	}
 
-    public void setModifydate(Date modifydate) {
-        this.modifydate = modifydate;
-    }
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
 }

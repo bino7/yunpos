@@ -1,73 +1,73 @@
 package com.yunpos.model;
 
 public class SysButton {
-    private Integer btnid;
+	private Integer btnId;
 
-    private String btnname;
+	private String btnName;
 
-    private Integer btnno;
+	private Integer btnNo;
 
-    private String btnicon;
+	private String btnIcon;
 
-    private Integer menuno;
+	private Integer menuNo;
 
-    private Integer initstatus;
+	private Integer initStatus;
 
-    private Integer seqno;
+	private Integer seqNo;
 
-    public Integer getBtnid() {
-        return btnid;
-    }
+	public Integer getBtnId() {
+		return btnId;
+	}
 
-    public void setBtnid(Integer btnid) {
-        this.btnid = btnid;
-    }
+	public void setBtnId(Integer btnId) {
+		this.btnId = btnId;
+	}
 
-    public String getBtnname() {
-        return btnname;
-    }
+	public String getBtnName() {
+		return btnName;
+	}
 
-    public void setBtnname(String btnname) {
-        this.btnname = btnname == null ? null : btnname.trim();
-    }
+	public void setBtnName(String btnName) {
+		this.btnName = btnName == null ? null : btnName.trim();
+	}
 
-    public Integer getBtnno() {
-        return btnno;
-    }
+	public Integer getBtnNo() {
+		return btnNo;
+	}
 
-    public void setBtnno(Integer btnno) {
-        this.btnno = btnno;
-    }
+	public void setBtnNo(Integer btnNo) {
+		this.btnNo = btnNo;
+	}
 
-    public String getBtnicon() {
-        return btnicon;
-    }
+	public String getBtnIcon() {
+		return btnIcon;
+	}
 
-    public void setBtnicon(String btnicon) {
-        this.btnicon = btnicon == null ? null : btnicon.trim();
-    }
+	public void setBtnIcon(String btnIcon) {
+		this.btnIcon = btnIcon == null ? null : btnIcon.trim();
+	}
 
-    public Integer getMenuno() {
-        return menuno;
-    }
+	public Integer getMenuNo() {
+		return menuNo;
+	}
 
-    public void setMenuno(Integer menuno) {
-        this.menuno = menuno;
-    }
+	public void setMenuNo(Integer menuNo) {
+		this.menuNo = menuNo;
+	}
 
-    public Integer getInitstatus() {
-        return initstatus;
-    }
+	public Integer getInitStatus() {
+		return initStatus;
+	}
 
-    public void setInitstatus(Integer initstatus) {
-        this.initstatus = initstatus;
-    }
+	public void setInitStatus(Integer initStatus) {
+		this.initStatus = initStatus;
+	}
 
-    public Integer getSeqno() {
-        return seqno;
-    }
+	public Integer getSeqNo() {
+		return seqNo;
+	}
 
-    public void setSeqno(Integer seqno) {
-        this.seqno = seqno;
-    }
+	public void setSeqNo(Integer seqNo) {
+		this.seqNo = seqNo;
+	}
 }

@@ -19,13 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriTemplate;
 
 import com.yunpos.model.Privilege;
-import com.yunpos.model.Role;
 import com.yunpos.model.ViewPage;
 import com.yunpos.service.PrivilegeService;
 
@@ -69,7 +67,7 @@ public class PrivilegeController extends BaseController{
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updatePrivilege(@PathVariable("id") int id, @RequestBody Privilege privilege) {
 	    if (privilegeService.exists(id)) {
-	    	privilege.setPrivilegeid(id);
+	    	privilege.setPrivilegeId(id);
 	    	privilegeService.update(privilege);
 	    }
 	}
@@ -77,7 +75,7 @@ public class PrivilegeController extends BaseController{
 	@RequestMapping(method = POST)
 	public ResponseEntity<String> createPrivilege(HttpServletRequest request, @RequestBody Privilege privilege) {
 		privilegeService.insert(privilege);
-		final int id  = privilege.getPrivilegeid();
+		final int id  = privilege.getPrivilegeId();
 		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.put("Location", singletonList(uri.toASCIIString()));

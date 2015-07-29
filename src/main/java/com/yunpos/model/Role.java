@@ -2,90 +2,84 @@ package com.yunpos.model;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.yunpos.utils.serializer.JsonDateSerializer;
+public class Role {
+	private Integer roleId;
 
-public class Role{
-	
-    private Integer roleid;
+	private String roleName;
 
-    private String rolename;
+	private String roleDesc;
 
-    private String roledesc;
+	private Integer orgId;
 
-    private Integer orgid;
+	private Integer createUserId;
 
-    private Integer createuserid;
+	private Date createDate;
 
-    private Date createdate;
+	private Integer modifyUserId;
 
-    private Integer modifyuserid;
+	private Date modifyDate;
 
-    private Date modifydate;
+	public Integer getRoleId() {
+		return roleId;
+	}
 
-    public Integer getRoleid() {
-        return roleid;
-    }
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
-    }
+	public String getRoleName() {
+		return roleName;
+	}
 
-    public String getRolename() {
-        return rolename;
-    }
+	public void setRoleName(String roleName) {
+		this.roleName = roleName == null ? null : roleName.trim();
+	}
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename == null ? null : rolename.trim();
-    }
+	public String getRoleDesc() {
+		return roleDesc;
+	}
 
-    public String getRoledesc() {
-        return roledesc;
-    }
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc == null ? null : roleDesc.trim();
+	}
 
-    public void setRoledesc(String roledesc) {
-        this.roledesc = roledesc == null ? null : roledesc.trim();
-    }
+	public Integer getOrgId() {
+		return orgId;
+	}
 
-    public Integer getOrgid() {
-        return orgid;
-    }
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
+	}
 
-    public void setOrgid(Integer orgid) {
-        this.orgid = orgid;
-    }
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
 
-    public Integer getCreateuserid() {
-        return createuserid;
-    }
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
+	}
 
-    public void setCreateuserid(Integer createuserid) {
-        this.createuserid = createuserid;
-    }
-    
-	@JsonSerialize(using=JsonDateSerializer.class)
-    public Date getCreatedate() {
-        return createdate;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public Integer getModifyuserid() {
-        return modifyuserid;
-    }
+	public Integer getModifyUserId() {
+		return modifyUserId;
+	}
 
-    public void setModifyuserid(Integer modifyuserid) {
-        this.modifyuserid = modifyuserid;
-    }
+	public void setModifyUserId(Integer modifyUserId) {
+		this.modifyUserId = modifyUserId;
+	}
 
-	@JsonSerialize(using=JsonDateSerializer.class)
-    public Date getModifydate() {
-        return modifydate;
-    }
+	public Date getModifyDate() {
+		return modifyDate;
+	}
 
-    public void setModifydate(Date modifydate) {
-        this.modifydate = modifydate;
-    }
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
 }

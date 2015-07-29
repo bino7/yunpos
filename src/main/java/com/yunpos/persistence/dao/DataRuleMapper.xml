@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.DataRuleMapper" >
   <resultMap id="BaseResultMap" type="com.yunpos.model.DataRule" >
-    <id column="RuleID" property="ruleid" jdbcType="INTEGER" />
-    <result column="DataType" property="datatype" jdbcType="INTEGER" />
-    <result column="UserID" property="userid" jdbcType="INTEGER" />
-    <result column="RoleID" property="roleid" jdbcType="INTEGER" />
+    <id column="ruleId" property="ruleId" jdbcType="INTEGER" />
+    <result column="dataType" property="dataType" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.DataRule" extends="BaseResultMap" >
-    <result column="DataRule" property="datarule" jdbcType="LONGVARCHAR" />
+    <result column="dataRule" property="dataRule" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    RuleID, DataType, UserID, RoleID
+    ruleId, dataType, userId, roleId
   </sql>
   <sql id="Blob_Column_List" >
-    DataRule
+    dataRule
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
@@ -22,86 +22,86 @@
     ,
     <include refid="Blob_Column_List" />
     from data_rule
-    where RuleID = #{ruleid,jdbcType=INTEGER}
+    where ruleId = #{ruleId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from data_rule
-    where RuleID = #{ruleid,jdbcType=INTEGER}
+    where ruleId = #{ruleId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.DataRule" >
-    insert into data_rule (RuleID, DataType, UserID, 
-      RoleID, DataRule)
-    values (#{ruleid,jdbcType=INTEGER}, #{datatype,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
-      #{roleid,jdbcType=INTEGER}, #{datarule,jdbcType=LONGVARCHAR})
+    insert into data_rule (ruleId, dataType, userId, 
+      roleId, dataRule)
+    values (#{ruleId,jdbcType=INTEGER}, #{dataType,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=INTEGER}, #{dataRule,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.DataRule" >
     insert into data_rule
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="ruleid != null" >
-        RuleID,
+      <if test="ruleId != null" >
+        ruleId,
       </if>
-      <if test="datatype != null" >
-        DataType,
+      <if test="dataType != null" >
+        dataType,
       </if>
-      <if test="userid != null" >
-        UserID,
+      <if test="userId != null" >
+        userId,
       </if>
-      <if test="roleid != null" >
-        RoleID,
+      <if test="roleId != null" >
+        roleId,
       </if>
-      <if test="datarule != null" >
-        DataRule,
+      <if test="dataRule != null" >
+        dataRule,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="ruleid != null" >
-        #{ruleid,jdbcType=INTEGER},
+      <if test="ruleId != null" >
+        #{ruleId,jdbcType=INTEGER},
       </if>
-      <if test="datatype != null" >
-        #{datatype,jdbcType=INTEGER},
+      <if test="dataType != null" >
+        #{dataType,jdbcType=INTEGER},
       </if>
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="roleid != null" >
-        #{roleid,jdbcType=INTEGER},
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="datarule != null" >
-        #{datarule,jdbcType=LONGVARCHAR},
+      <if test="dataRule != null" >
+        #{dataRule,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.DataRule" >
     update data_rule
     <set >
-      <if test="datatype != null" >
-        DataType = #{datatype,jdbcType=INTEGER},
+      <if test="dataType != null" >
+        dataType = #{dataType,jdbcType=INTEGER},
       </if>
-      <if test="userid != null" >
-        UserID = #{userid,jdbcType=INTEGER},
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="roleid != null" >
-        RoleID = #{roleid,jdbcType=INTEGER},
+      <if test="roleId != null" >
+        roleId = #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="datarule != null" >
-        DataRule = #{datarule,jdbcType=LONGVARCHAR},
+      <if test="dataRule != null" >
+        dataRule = #{dataRule,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where RuleID = #{ruleid,jdbcType=INTEGER}
+    where ruleId = #{ruleId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunpos.model.DataRule" >
     update data_rule
-    set DataType = #{datatype,jdbcType=INTEGER},
-      UserID = #{userid,jdbcType=INTEGER},
-      RoleID = #{roleid,jdbcType=INTEGER},
-      DataRule = #{datarule,jdbcType=LONGVARCHAR}
-    where RuleID = #{ruleid,jdbcType=INTEGER}
+    set dataType = #{dataType,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=INTEGER},
+      roleId = #{roleId,jdbcType=INTEGER},
+      dataRule = #{dataRule,jdbcType=LONGVARCHAR}
+    where ruleId = #{ruleId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.DataRule" >
     update data_rule
-    set DataType = #{datatype,jdbcType=INTEGER},
-      UserID = #{userid,jdbcType=INTEGER},
-      RoleID = #{roleid,jdbcType=INTEGER}
-    where RuleID = #{ruleid,jdbcType=INTEGER}
+    set dataType = #{dataType,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=INTEGER},
+      roleId = #{roleId,jdbcType=INTEGER}
+    where ruleId = #{ruleId,jdbcType=INTEGER}
   </update>
 </mapper>

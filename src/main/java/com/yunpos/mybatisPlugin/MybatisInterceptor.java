@@ -63,7 +63,7 @@ public class MybatisInterceptor implements Interceptor {
 		DataRule dataRule = (DataRule) request.getAttribute("DATA_RULE");
 
 		if (dataRule != null) {
-			String rule = dataRule.getDatarule();
+			String rule = dataRule.getDataRule();
 			System.out.println("rule:" + rule);
 			ObjectMapper objectMapper = new ObjectMapper();
 			ObjectReader reader = objectMapper.reader(FilterGroup.class);

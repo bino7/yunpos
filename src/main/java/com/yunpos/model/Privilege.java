@@ -1,72 +1,65 @@
 package com.yunpos.model;
 
 public class Privilege {
-    private Integer privilegeid;
+	private Integer privilegeId;
 
-    private String privilegemaster;	//	主体类型
+	private String privilegeMaster;
 
-    private Integer privilegemastervalue;	//主体对应ID
+	private Integer privilegeMasterValue;
 
-    private String privilegeaccess;	//资源类型
+	private String privilegeAccess;
 
-    private Integer privilegeaccessvalue; //资源ID
+	private Integer privilegeAccessValue;
 
-    private Integer privilegeoperation;
-    
-    
-	public enum Privilegemaster{
-		 ROLE,USER;
-	}
-	
-	public enum Privilegeaccess{
-		 SYSBUTTON,SYSAPP,SYSMENU;
+	private Integer privilegeOperation;
+
+	public Integer getPrivilegeId() {
+		return privilegeId;
 	}
 
-    public Integer getPrivilegeid() {
-        return privilegeid;
-    }
+	public void setPrivilegeId(Integer privilegeId) {
+		this.privilegeId = privilegeId;
+	}
 
-    public void setPrivilegeid(Integer privilegeid) {
-        this.privilegeid = privilegeid;
-    }
+	public String getPrivilegeMaster() {
+		return privilegeMaster;
+	}
 
-    public String getPrivilegemaster() {
-        return privilegemaster;
-    }
+	public void setPrivilegeMaster(String privilegeMaster) {
+		this.privilegeMaster = privilegeMaster == null ? null : privilegeMaster
+				.trim();
+	}
 
-    public void setPrivilegemaster(String privilegemaster) {
-        this.privilegemaster = privilegemaster == null ? null : privilegemaster.trim();
-    }
+	public Integer getPrivilegeMasterValue() {
+		return privilegeMasterValue;
+	}
 
-    public Integer getPrivilegemastervalue() {
-        return privilegemastervalue;
-    }
+	public void setPrivilegeMasterValue(Integer privilegeMasterValue) {
+		this.privilegeMasterValue = privilegeMasterValue;
+	}
 
-    public void setPrivilegemastervalue(Integer privilegemastervalue) {
-        this.privilegemastervalue = privilegemastervalue;
-    }
+	public String getPrivilegeAccess() {
+		return privilegeAccess;
+	}
 
-    public String getPrivilegeaccess() {
-        return privilegeaccess;
-    }
+	public void setPrivilegeAccess(String privilegeAccess) {
+		this.privilegeAccess = privilegeAccess == null ? null : privilegeAccess
+				.trim();
+	}
 
-    public void setPrivilegeaccess(String privilegeaccess) {
-        this.privilegeaccess = privilegeaccess == null ? null : privilegeaccess.trim();
-    }
+	public Integer getPrivilegeAccessValue() {
+		return privilegeAccessValue;
+	}
 
-    public Integer getPrivilegeaccessvalue() {
-        return privilegeaccessvalue;
-    }
+	public void setPrivilegeAccessValue(Integer privilegeAccessValue) {
+		this.privilegeAccessValue = privilegeAccessValue;
+	}
 
-    public void setPrivilegeaccessvalue(Integer privilegeaccessvalue) {
-        this.privilegeaccessvalue = privilegeaccessvalue;
-    }
+	public Integer getPrivilegeOperation() {
+		return privilegeOperation;
+	}
 
-    public Integer getPrivilegeoperation() {
-        return privilegeoperation;
-    }
-
-    public void setPrivilegeoperation(Integer privilegeoperation) {
-        this.privilegeoperation = privilegeoperation;
-    }
+	public void setPrivilegeOperation(Integer privilegeOperation) {
+		this.privilegeOperation = privilegeOperation;
+	}
 }

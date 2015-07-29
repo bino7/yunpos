@@ -2,6 +2,9 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.serializer.JsonDateSerializer;
+
 public class User {
 	public static final String STATUS_DISABLED = "disabled";
 	public static final String STATUS_ENABLED = "enabled";
@@ -136,7 +139,8 @@ public class User {
 	public void setSource(String source) {
 		this.source = source == null ? null : source.trim();
 	}
-
+	
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getLastLoginDatetime() {
 		return lastLoginDatetime;
 	}

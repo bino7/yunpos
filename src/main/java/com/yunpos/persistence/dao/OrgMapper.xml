@@ -12,10 +12,14 @@
     <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
     <result column="ModifyUserID" property="modifyuserid" jdbcType="INTEGER" />
     <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="isLeaf" property="isleaf" jdbcType="BIT" />
+    <result column="loaded" property="loaded" jdbcType="BIT" />
+    <result column="expanded" property="expanded" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
     OrgID, OrgNo, OrgName, OrgParentID, OrgParentName, OrgParentNo, CreateUserID, CreateDate, 
-    ModifyUserID, ModifyDate
+    ModifyUserID, ModifyDate, level, isLeaf, loaded, expanded
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,11 +35,13 @@
     insert into org (OrgID, OrgNo, OrgName, 
       OrgParentID, OrgParentName, OrgParentNo, 
       CreateUserID, CreateDate, ModifyUserID, 
-      ModifyDate)
+      ModifyDate, level, isLeaf, 
+      loaded, expanded)
     values (#{orgid,jdbcType=INTEGER}, #{orgno,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, 
       #{orgparentid,jdbcType=INTEGER}, #{orgparentname,jdbcType=VARCHAR}, #{orgparentno,jdbcType=VARCHAR}, 
       #{createuserid,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, #{modifyuserid,jdbcType=INTEGER}, 
-      #{modifydate,jdbcType=TIMESTAMP})
+      #{modifydate,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}, #{isleaf,jdbcType=BIT}, 
+      #{loaded,jdbcType=BIT}, #{expanded,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.Org" >
     insert into org
@@ -70,6 +76,18 @@
       <if test="modifydate != null" >
         ModifyDate,
       </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="isleaf != null" >
+        isLeaf,
+      </if>
+      <if test="loaded != null" >
+        loaded,
+      </if>
+      <if test="expanded != null" >
+        expanded,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orgid != null" >
@@ -101,6 +119,18 @@
       </if>
       <if test="modifydate != null" >
         #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="isleaf != null" >
+        #{isleaf,jdbcType=BIT},
+      </if>
+      <if test="loaded != null" >
+        #{loaded,jdbcType=BIT},
+      </if>
+      <if test="expanded != null" >
+        #{expanded,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -134,6 +164,18 @@
       <if test="modifydate != null" >
         ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
       </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="isleaf != null" >
+        isLeaf = #{isleaf,jdbcType=BIT},
+      </if>
+      <if test="loaded != null" >
+        loaded = #{loaded,jdbcType=BIT},
+      </if>
+      <if test="expanded != null" >
+        expanded = #{expanded,jdbcType=BIT},
+      </if>
     </set>
     where OrgID = #{orgid,jdbcType=INTEGER}
   </update>
@@ -147,7 +189,11 @@
       CreateUserID = #{createuserid,jdbcType=INTEGER},
       CreateDate = #{createdate,jdbcType=TIMESTAMP},
       ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
-      ModifyDate = #{modifydate,jdbcType=TIMESTAMP}
+      ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      level = #{level,jdbcType=INTEGER},
+      isLeaf = #{isleaf,jdbcType=BIT},
+      loaded = #{loaded,jdbcType=BIT},
+      expanded = #{expanded,jdbcType=BIT}
     where OrgID = #{orgid,jdbcType=INTEGER}
   </update>
   

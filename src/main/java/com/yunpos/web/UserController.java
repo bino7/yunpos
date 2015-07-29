@@ -82,6 +82,7 @@ public class UserController extends BaseController {
 				entity.setCreatedAt(new Date());
 				entity.setCreatedBy(1);
 				entity.setEmail(email);
+				entity.setPhone(request.getParameter("phone"));
 				entity.setFullname(request.getParameter("fullname"));
 				entity.setNickname(request.getParameter("nickname"));
 				entity.setPassword(request.getParameter("password"));

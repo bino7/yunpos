@@ -40,6 +40,7 @@ $(function() {
 	              {name:"usgId",index:"usgId",label:"组ID",width:40,editable : true},
 	              {name:"userName",index:"userName",label:"用户名",width:100,editable : true}, 
 	              {name:"email",index:"email",label:"电子邮箱",width:160,editable : true},
+	              {name:"phone",index:"email",label:"电话",width:160,editable : true},
 	              {name:"password",index:"password",label:"密码",width:200,editable : true},
 	              {name:"nickname",index:"nickname",label:"昵称",width:120,editable : true},
 	              {name:"fullname",index:"fullname",label:"全名",width:120,editable : true},

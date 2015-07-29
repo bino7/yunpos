@@ -1,204 +1,209 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yunpos.persistence.dao.OrgMapper" >
-  <resultMap id="BaseResultMap" type="com.yunpos.model.Org" >
-    <id column="OrgID" property="orgid" jdbcType="INTEGER" />
-    <result column="OrgNo" property="orgno" jdbcType="VARCHAR" />
-    <result column="OrgName" property="orgname" jdbcType="VARCHAR" />
-    <result column="OrgParentID" property="orgparentid" jdbcType="INTEGER" />
-    <result column="OrgParentName" property="orgparentname" jdbcType="VARCHAR" />
-    <result column="OrgParentNo" property="orgparentno" jdbcType="VARCHAR" />
-    <result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
-    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
-    <result column="ModifyUserID" property="modifyuserid" jdbcType="INTEGER" />
-    <result column="ModifyDate" property="modifydate" jdbcType="TIMESTAMP" />
-    <result column="level" property="level" jdbcType="INTEGER" />
-    <result column="isLeaf" property="isleaf" jdbcType="BIT" />
-    <result column="loaded" property="loaded" jdbcType="BIT" />
-    <result column="expanded" property="expanded" jdbcType="BIT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    OrgID, OrgNo, OrgName, OrgParentID, OrgParentName, OrgParentNo, CreateUserID, CreateDate, 
-    ModifyUserID, ModifyDate, level, isLeaf, loaded, expanded
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from org
-    where OrgID = #{orgid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from org
-    where OrgID = #{orgid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.yunpos.model.Org" >
-    insert into org (OrgID, OrgNo, OrgName, 
-      OrgParentID, OrgParentName, OrgParentNo, 
-      CreateUserID, CreateDate, ModifyUserID, 
-      ModifyDate, level, isLeaf, 
-      loaded, expanded)
-    values (#{orgid,jdbcType=INTEGER}, #{orgno,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, 
-      #{orgparentid,jdbcType=INTEGER}, #{orgparentname,jdbcType=VARCHAR}, #{orgparentno,jdbcType=VARCHAR}, 
-      #{createuserid,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, #{modifyuserid,jdbcType=INTEGER}, 
-      #{modifydate,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}, #{isleaf,jdbcType=BIT}, 
-      #{loaded,jdbcType=BIT}, #{expanded,jdbcType=BIT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.yunpos.model.Org" >
-    insert into org
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="orgid != null" >
-        OrgID,
-      </if>
-      <if test="orgno != null" >
-        OrgNo,
-      </if>
-      <if test="orgname != null" >
-        OrgName,
-      </if>
-      <if test="orgparentid != null" >
-        OrgParentID,
-      </if>
-      <if test="orgparentname != null" >
-        OrgParentName,
-      </if>
-      <if test="orgparentno != null" >
-        OrgParentNo,
-      </if>
-      <if test="createuserid != null" >
-        CreateUserID,
-      </if>
-      <if test="createdate != null" >
-        CreateDate,
-      </if>
-      <if test="modifyuserid != null" >
-        ModifyUserID,
-      </if>
-      <if test="modifydate != null" >
-        ModifyDate,
-      </if>
-      <if test="level != null" >
-        level,
-      </if>
-      <if test="isleaf != null" >
-        isLeaf,
-      </if>
-      <if test="loaded != null" >
-        loaded,
-      </if>
-      <if test="expanded != null" >
-        expanded,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="orgid != null" >
-        #{orgid,jdbcType=INTEGER},
-      </if>
-      <if test="orgno != null" >
-        #{orgno,jdbcType=VARCHAR},
-      </if>
-      <if test="orgname != null" >
-        #{orgname,jdbcType=VARCHAR},
-      </if>
-      <if test="orgparentid != null" >
-        #{orgparentid,jdbcType=INTEGER},
-      </if>
-      <if test="orgparentname != null" >
-        #{orgparentname,jdbcType=VARCHAR},
-      </if>
-      <if test="orgparentno != null" >
-        #{orgparentno,jdbcType=VARCHAR},
-      </if>
-      <if test="createuserid != null" >
-        #{createuserid,jdbcType=INTEGER},
-      </if>
-      <if test="createdate != null" >
-        #{createdate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyuserid != null" >
-        #{modifyuserid,jdbcType=INTEGER},
-      </if>
-      <if test="modifydate != null" >
-        #{modifydate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="level != null" >
-        #{level,jdbcType=INTEGER},
-      </if>
-      <if test="isleaf != null" >
-        #{isleaf,jdbcType=BIT},
-      </if>
-      <if test="loaded != null" >
-        #{loaded,jdbcType=BIT},
-      </if>
-      <if test="expanded != null" >
-        #{expanded,jdbcType=BIT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.Org" >
-    update org
-    <set >
-      <if test="orgno != null" >
-        OrgNo = #{orgno,jdbcType=VARCHAR},
-      </if>
-      <if test="orgname != null" >
-        OrgName = #{orgname,jdbcType=VARCHAR},
-      </if>
-      <if test="orgparentid != null" >
-        OrgParentID = #{orgparentid,jdbcType=INTEGER},
-      </if>
-      <if test="orgparentname != null" >
-        OrgParentName = #{orgparentname,jdbcType=VARCHAR},
-      </if>
-      <if test="orgparentno != null" >
-        OrgParentNo = #{orgparentno,jdbcType=VARCHAR},
-      </if>
-      <if test="createuserid != null" >
-        CreateUserID = #{createuserid,jdbcType=INTEGER},
-      </if>
-      <if test="createdate != null" >
-        CreateDate = #{createdate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyuserid != null" >
-        ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
-      </if>
-      <if test="modifydate != null" >
-        ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="level != null" >
-        level = #{level,jdbcType=INTEGER},
-      </if>
-      <if test="isleaf != null" >
-        isLeaf = #{isleaf,jdbcType=BIT},
-      </if>
-      <if test="loaded != null" >
-        loaded = #{loaded,jdbcType=BIT},
-      </if>
-      <if test="expanded != null" >
-        expanded = #{expanded,jdbcType=BIT},
-      </if>
-    </set>
-    where OrgID = #{orgid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.Org" >
-    update org
-    set OrgNo = #{orgno,jdbcType=VARCHAR},
-      OrgName = #{orgname,jdbcType=VARCHAR},
-      OrgParentID = #{orgparentid,jdbcType=INTEGER},
-      OrgParentName = #{orgparentname,jdbcType=VARCHAR},
-      OrgParentNo = #{orgparentno,jdbcType=VARCHAR},
-      CreateUserID = #{createuserid,jdbcType=INTEGER},
-      CreateDate = #{createdate,jdbcType=TIMESTAMP},
-      ModifyUserID = #{modifyuserid,jdbcType=INTEGER},
-      ModifyDate = #{modifydate,jdbcType=TIMESTAMP},
-      level = #{level,jdbcType=INTEGER},
-      isLeaf = #{isleaf,jdbcType=BIT},
-      loaded = #{loaded,jdbcType=BIT},
-      expanded = #{expanded,jdbcType=BIT}
-    where OrgID = #{orgid,jdbcType=INTEGER}
-  </update>
-  
-  <!-- ##################################### -->
-  <delete id="batchDeleteByIds">
+<mapper namespace="com.yunpos.persistence.dao.OrgMapper">
+	<resultMap id="BaseResultMap" type="com.yunpos.model.Org">
+		<id column="OrgID" property="orgID" jdbcType="INTEGER" />
+		<result column="OrgNo" property="orgNo" jdbcType="VARCHAR" />
+		<result column="OrgName" property="orgName" jdbcType="VARCHAR" />
+		<result column="OrgParentID" property="orgParentID" jdbcType="INTEGER" />
+		<result column="OrgParentName" property="orgParentName"
+			jdbcType="VARCHAR" />
+		<result column="OrgParentNo" property="orgParentNo" jdbcType="VARCHAR" />
+		<result column="CreateUserID" property="createUserID" jdbcType="INTEGER" />
+		<result column="CreateDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="ModifyUserID" property="modifyUserID" jdbcType="INTEGER" />
+		<result column="ModifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="isLeaf" property="isLeaf" jdbcType="BIT" />
+		<result column="loaded" property="loaded" jdbcType="BIT" />
+		<result column="expanded" property="expanded" jdbcType="BIT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		OrgID, OrgNo, OrgName, OrgParentID, OrgParentName, OrgParentNo,
+		CreateUserID, CreateDate,
+		ModifyUserID, ModifyDate, level, isLeaf, loaded, expanded
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from org
+		where OrgID = #{orgID,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from org
+		where OrgID = #{orgID,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.yunpos.model.Org">
+		insert into org (OrgID, OrgNo, OrgName,
+		OrgParentID, OrgParentName, OrgParentNo,
+		CreateUserID, CreateDate, ModifyUserID,
+		ModifyDate, level, isLeaf,
+		loaded, expanded)
+		values (#{orgID,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR},
+		#{orgName,jdbcType=VARCHAR},
+		#{orgParentID,jdbcType=INTEGER}, #{orgParentName,jdbcType=VARCHAR}, #{orgParentNo,jdbcType=VARCHAR},
+		#{createUserID,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
+		#{modifyUserID,jdbcType=INTEGER},
+		#{modifyDate,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT},
+		#{loaded,jdbcType=BIT}, #{expanded,jdbcType=BIT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yunpos.model.Org">
+		insert into org
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orgID != null">
+				OrgID,
+			</if>
+			<if test="orgNo != null">
+				OrgNo,
+			</if>
+			<if test="orgName != null">
+				OrgName,
+			</if>
+			<if test="orgParentID != null">
+				OrgParentID,
+			</if>
+			<if test="orgParentName != null">
+				OrgParentName,
+			</if>
+			<if test="orgParentNo != null">
+				OrgParentNo,
+			</if>
+			<if test="createUserID != null">
+				CreateUserID,
+			</if>
+			<if test="createDate != null">
+				CreateDate,
+			</if>
+			<if test="modifyUserID != null">
+				ModifyUserID,
+			</if>
+			<if test="modifyDate != null">
+				ModifyDate,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="isLeaf != null">
+				isLeaf,
+			</if>
+			<if test="loaded != null">
+				loaded,
+			</if>
+			<if test="expanded != null">
+				expanded,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orgID != null">
+				#{orgID,jdbcType=INTEGER},
+			</if>
+			<if test="orgNo != null">
+				#{orgNo,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				#{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentID != null">
+				#{orgParentID,jdbcType=INTEGER},
+			</if>
+			<if test="orgParentName != null">
+				#{orgParentName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentNo != null">
+				#{orgParentNo,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserID != null">
+				#{createUserID,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyUserID != null">
+				#{modifyUserID,jdbcType=INTEGER},
+			</if>
+			<if test="modifyDate != null">
+				#{modifyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="level != null">
+				#{level,jdbcType=INTEGER},
+			</if>
+			<if test="isLeaf != null">
+				#{isLeaf,jdbcType=BIT},
+			</if>
+			<if test="loaded != null">
+				#{loaded,jdbcType=BIT},
+			</if>
+			<if test="expanded != null">
+				#{expanded,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.Org">
+		update org
+		<set>
+			<if test="orgNo != null">
+				OrgNo = #{orgNo,jdbcType=VARCHAR},
+			</if>
+			<if test="orgName != null">
+				OrgName = #{orgName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentID != null">
+				OrgParentID = #{orgParentID,jdbcType=INTEGER},
+			</if>
+			<if test="orgParentName != null">
+				OrgParentName = #{orgParentName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgParentNo != null">
+				OrgParentNo = #{orgParentNo,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserID != null">
+				CreateUserID = #{createUserID,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				CreateDate = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyUserID != null">
+				ModifyUserID = #{modifyUserID,jdbcType=INTEGER},
+			</if>
+			<if test="modifyDate != null">
+				ModifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="level != null">
+				level = #{level,jdbcType=INTEGER},
+			</if>
+			<if test="isLeaf != null">
+				isLeaf = #{isLeaf,jdbcType=BIT},
+			</if>
+			<if test="loaded != null">
+				loaded = #{loaded,jdbcType=BIT},
+			</if>
+			<if test="expanded != null">
+				expanded = #{expanded,jdbcType=BIT},
+			</if>
+		</set>
+		where OrgID = #{orgID,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.Org">
+		update org
+		set OrgNo = #{orgNo,jdbcType=VARCHAR},
+		OrgName = #{orgName,jdbcType=VARCHAR},
+		OrgParentID = #{orgParentID,jdbcType=INTEGER},
+		OrgParentName = #{orgParentName,jdbcType=VARCHAR},
+		OrgParentNo = #{orgParentNo,jdbcType=VARCHAR},
+		CreateUserID = #{createUserID,jdbcType=INTEGER},
+		CreateDate = #{createDate,jdbcType=TIMESTAMP},
+		ModifyUserID = #{modifyUserID,jdbcType=INTEGER},
+		ModifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+		level = #{level,jdbcType=INTEGER},
+		isLeaf = #{isLeaf,jdbcType=BIT},
+		loaded = #{loaded,jdbcType=BIT},
+		expanded = #{expanded,jdbcType=BIT}
+		where OrgID = #{orgID,jdbcType=INTEGER}
+	</update>
+
+	<!-- ##################################### -->
+	<delete id="batchDeleteByIds">
 		delete from org where id orgid
 		<foreach item="item" index="index" collection="array" open="("
 			separator="," close=")">

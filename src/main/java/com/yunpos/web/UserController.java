@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.base.Strings;
 import com.yunpos.model.User;
 import com.yunpos.model.ViewPage;
 import com.yunpos.security.SecurityUtils;
 import com.yunpos.service.UserService;
+import com.yunpos.utils.PageDate;
 
 @Controller
 @RequestMapping("/sys/user")
@@ -49,16 +51,17 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/operate", method = { RequestMethod.POST, RequestMethod.GET })
 	public void operateSysUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String oper = request.getParameter("oper");
-		String id = request.getParameter("id");
+		PageDate pageParm = this.getPageParam();
+		String oper = pageParm.getString("oper");
+		String id = pageParm.getString("id");
 
 		if (oper.equals("del")) {
 			String[] ids = id.split(",");
 			userService.batchDeleteByIds( (Integer[])ConvertUtils.convert(ids, Integer.class));
 		}else {
 			Map<String, Object> result = new HashMap<String, Object>();
-			String userName = request.getParameter("userName");
-			String email = request.getParameter("email");
+			String userName = pageParm.getString("userName");
+			String email = pageParm.getString("email");
 			User user = null;
 			if (oper.equals("edit")) {
 				user = userService.findById(Integer.valueOf(id));
@@ -81,11 +84,15 @@ public class UserController extends BaseController {
 				User entity = new User();
 				entity.setCreatedAt(new Date());
 				entity.setCreatedBy(1);
+				if(!Strings.isNullOrEmpty(pageParm.getString("usgId"))){
+					entity.setUsgId(Integer.valueOf(pageParm.getString("usgId")));
+				}
+				
 				entity.setEmail(email);
-				entity.setPhone(request.getParameter("phone"));
-				entity.setFullname(request.getParameter("fullname"));
-				entity.setNickname(request.getParameter("nickname"));
-				entity.setPassword(request.getParameter("password"));
+				entity.setPhone(pageParm.getString("phone"));
+				entity.setFullname(pageParm.getString("fullname"));
+				entity.setNickname(pageParm.getString("nickname"));
+				entity.setPassword(pageParm.getString("password"));
 				entity.setUserName(userName);
 				if (oper.equals("edit")) {
 					entity.setId(Integer.valueOf(id));

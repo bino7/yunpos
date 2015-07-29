@@ -9,7 +9,6 @@ public class User {
 	public static final String STATUS_DISABLED = "disabled";
 	public static final String STATUS_ENABLED = "enabled";
 	public static final String SOURCE_SYSTEM = "system";
-	
 
 	private Integer id;
 
@@ -17,17 +16,9 @@ public class User {
 
 	private String userName;
 
-	private String email;
-	
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	private String phone;
+
+	private String email;
 
 	private String password;
 
@@ -75,6 +66,14 @@ public class User {
 
 	public void setUserName(String userName) {
 		this.userName = userName == null ? null : userName.trim();
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone == null ? null : phone.trim();
 	}
 
 	public String getEmail() {
@@ -141,7 +140,7 @@ public class User {
 		this.source = source == null ? null : source.trim();
 	}
 
-	@JsonSerialize(using=JsonDateSerializer.class)
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getLastLoginDatetime() {
 		return lastLoginDatetime;
 	}
@@ -181,4 +180,5 @@ public class User {
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+
 }

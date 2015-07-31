@@ -15,6 +15,11 @@
 <script type="text/ecmascript" src="static/js/jquery.min.js"></script>
 <script type="text/ecmascript" src="static/js/trirand/jquery.jqGrid.min.js"></script>
 <script type="text/ecmascript" src="static/js/trirand/i18n/grid.locale-cn.js"></script>
+
+
+<script type="text/ecmascript" src="static/jqgridjs/integrations/amdsupport/js/grid.treegrid.js"></script>
+
+
 <script src="static/js/ie-emulation-modes-warning.js"></script>
 
 <!-- Bootstrap core JavaScript

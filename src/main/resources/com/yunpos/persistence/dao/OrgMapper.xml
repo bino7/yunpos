@@ -13,15 +13,16 @@
 		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
 		<result column="modifyUserId" property="modifyUserId" jdbcType="INTEGER" />
 		<result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
-		<result column="level" property="level" jdbcType="INTEGER" />
-		<result column="isLeaf" property="isLeaf" jdbcType="BIT" />
-		<result column="loaded" property="loaded" jdbcType="BIT" />
-		<result column="expanded" property="expanded" jdbcType="BIT" />
+		<result column="extLevel" property="extLevel" jdbcType="INTEGER" />
+		<result column="extIsLeaf" property="extIsLeaf" jdbcType="BIT" />
+		<result column="extLoaded" property="extLoaded" jdbcType="BIT" />
+		<result column="extExpanded" property="extExpanded" jdbcType="BIT" />
+		<result column="extParent" property="extParent" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		orgId, orgNo, orgName, orgParentId, orgParentName, orgParentNo,
 		createUserId, createDate,
-		modifyUserId, modifyDate, level, isLeaf, loaded, expanded
+		modifyUserId, modifyDate, extLevel, extIsLeaf, extLoaded, extExpanded, extParent
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -38,15 +39,18 @@
 		insert into org (orgId, orgNo, orgName,
 		orgParentId, orgParentName, orgParentNo,
 		createUserId, createDate, modifyUserId,
-		modifyDate, level, isLeaf,
-		loaded, expanded)
+		modifyDate, extLevel, extIsLeaf,
+		extLoaded, extExpanded, extParent
+		)
 		values (#{orgId,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR},
 		#{orgName,jdbcType=VARCHAR},
 		#{orgParentId,jdbcType=INTEGER}, #{orgParentName,jdbcType=VARCHAR}, #{orgParentNo,jdbcType=VARCHAR},
 		#{createUserId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
 		#{modifyUserId,jdbcType=INTEGER},
-		#{modifyDate,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT},
-		#{loaded,jdbcType=BIT}, #{expanded,jdbcType=BIT})
+		#{modifyDate,jdbcType=TIMESTAMP}, #{extLevel,jdbcType=INTEGER}, #{extIsLeaf,jdbcType=BIT},
+		#{extLoaded,jdbcType=BIT}, #{extExpanded,jdbcType=BIT},
+		#{extParent,jdbcType=INTEGER}
+		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.Org">
 		insert into org
@@ -81,17 +85,20 @@
 			<if test="modifyDate != null">
 				modifyDate,
 			</if>
-			<if test="level != null">
-				level,
+			<if test="extLevel != null">
+				extLevel,
 			</if>
-			<if test="isLeaf != null">
-				isLeaf,
+			<if test="extIsLeaf != null">
+				extIsLeaf,
 			</if>
-			<if test="loaded != null">
-				loaded,
+			<if test="extLoaded != null">
+				extLoaded,
 			</if>
-			<if test="expanded != null">
-				expanded,
+			<if test="extExpanded != null">
+				extExpanded,
+			</if>
+			<if test="extParent != null">
+				extParent,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -125,17 +132,20 @@
 			<if test="modifyDate != null">
 				#{modifyDate,jdbcType=TIMESTAMP},
 			</if>
-			<if test="level != null">
-				#{level,jdbcType=INTEGER},
+			<if test="extLevel != null">
+				#{extLevel,jdbcType=INTEGER},
 			</if>
-			<if test="isLeaf != null">
-				#{isLeaf,jdbcType=BIT},
+			<if test="extIsLeaf != null">
+				#{extIsLeaf,jdbcType=BIT},
 			</if>
-			<if test="loaded != null">
-				#{loaded,jdbcType=BIT},
+			<if test="extLoaded != null">
+				#{extLoaded,jdbcType=BIT},
 			</if>
-			<if test="expanded != null">
-				#{expanded,jdbcType=BIT},
+			<if test="extExpanded != null">
+				#{extExpanded,jdbcType=BIT},
+			</if>
+			<if test="extParent != null">
+				#{extParent,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>
@@ -169,17 +179,20 @@
 			<if test="modifyDate != null">
 				modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
 			</if>
-			<if test="level != null">
-				level = #{level,jdbcType=INTEGER},
+			<if test="extLevel != null">
+				extLevel = #{extLevel,jdbcType=INTEGER},
 			</if>
-			<if test="isLeaf != null">
-				isLeaf = #{isLeaf,jdbcType=BIT},
+			<if test="extIsLeaf != null">
+				extIsLeaf = #{extIsLeaf,jdbcType=BIT},
 			</if>
-			<if test="loaded != null">
-				loaded = #{loaded,jdbcType=BIT},
+			<if test="extLoaded != null">
+				extLoaded = #{extLoaded,jdbcType=BIT},
 			</if>
-			<if test="expanded != null">
-				expanded = #{expanded,jdbcType=BIT},
+			<if test="extExpanded != null">
+				extExpanded = #{extExpanded,jdbcType=BIT},
+			</if>
+			<if test="extParent != null">
+				extParent = #{extParent,jdbcType=INTEGER},
 			</if>
 		</set>
 		where orgId = #{orgId,jdbcType=INTEGER}
@@ -195,13 +208,14 @@
 		createDate = #{createDate,jdbcType=TIMESTAMP},
 		modifyUserId = #{modifyUserId,jdbcType=INTEGER},
 		modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
-		level = #{level,jdbcType=INTEGER},
-		isLeaf = #{isLeaf,jdbcType=BIT},
-		loaded = #{loaded,jdbcType=BIT},
-		expanded = #{expanded,jdbcType=BIT}
+		extLevel = #{extLevel,jdbcType=INTEGER},
+		extIsLeaf = #{extIsLeaf,jdbcType=BIT},
+		extLoaded = #{extLoaded,jdbcType=BIT},
+		extExpanded = #{extExpanded,jdbcType=BIT},
+		extParent = #{extParent,jdbcType=INTEGER}
 		where orgId = #{orgId,jdbcType=INTEGER}
 	</update>
-
+	
 	<!-- ##################################### -->
 	<delete id="batchDeleteByIds">
 		delete from org where orgId in

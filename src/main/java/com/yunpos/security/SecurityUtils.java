@@ -48,6 +48,12 @@ public class SecurityUtils {
     public static Subject getSubject() {
         return SecurityUtils.getSubject();
     }
+    
+    public static SecurityUser getCurrentUser(){
+    	Subject currentUser = SecurityUtils.getSubject();
+		SecurityUser securityUser =(SecurityUser) currentUser.getPrincipals().getPrimaryPrincipal();
+		return securityUser;
+    }
 
     /**
      * 对传入的明文密码进行加密

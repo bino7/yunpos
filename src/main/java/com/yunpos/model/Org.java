@@ -2,6 +2,9 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.serializer.JsonDateSerializer;
+
 public class Org {
 	private Integer orgId;
 
@@ -23,13 +26,15 @@ public class Org {
 
 	private Date modifyDate;
 
-	private Integer level;
+	private Integer extLevel;
 
-	private Boolean isLeaf;
+	private Boolean extIsLeaf;
 
-	private Boolean loaded;
+	private Boolean extLoaded;
 
-	private Boolean expanded;
+	private Boolean extExpanded;
+
+	private Integer extParent;
 
 	public Integer getOrgId() {
 		return orgId;
@@ -112,36 +117,44 @@ public class Org {
 		this.modifyDate = modifyDate;
 	}
 
-	public Integer getLevel() {
-		return level;
+	public Integer getExtLevel() {
+		return extLevel;
 	}
 
-	public void setLevel(Integer level) {
-		this.level = level;
+	public void setExtLevel(Integer extLevel) {
+		this.extLevel = extLevel;
 	}
 
-	public Boolean getIsLeaf() {
-		return isLeaf;
+	public Boolean getExtIsLeaf() {
+		return extIsLeaf;
 	}
 
-	public void setIsLeaf(Boolean isLeaf) {
-		this.isLeaf = isLeaf;
+	public void setExtIsLeaf(Boolean extIsLeaf) {
+		this.extIsLeaf = extIsLeaf;
 	}
 
-	public Boolean getLoaded() {
-		return loaded;
+	public Boolean getExtLoaded() {
+		return extLoaded;
 	}
 
-	public void setLoaded(Boolean loaded) {
-		this.loaded = loaded;
+	public void setExtLoaded(Boolean extLoaded) {
+		this.extLoaded = extLoaded;
 	}
 
-	public Boolean getExpanded() {
-		return expanded;
+	public Boolean getExtExpanded() {
+		return extExpanded;
 	}
 
-	public void setExpanded(Boolean expanded) {
-		this.expanded = expanded;
+	public void setExtExpanded(Boolean extExpanded) {
+		this.extExpanded = extExpanded;
+	}
+
+	public Integer getExtParent() {
+		return extParent;
+	}
+
+	public void setExtParent(Integer extParent) {
+		this.extParent = extParent;
 	}
 
 }

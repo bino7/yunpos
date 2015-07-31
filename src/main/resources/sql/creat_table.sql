@@ -36,8 +36,11 @@ CREATE TABLE `data_rule` (
 -- Table structure for org
 -- ----------------------------
 DROP TABLE IF EXISTS `org`;
+-- ----------------------------
+-- Table structure for org
+-- ----------------------------
 CREATE TABLE `org` (
-  `orgId` int(10) unsigned NOT NULL COMMENT '组织机构ID',
+  `orgId` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '组织机构ID',
   `orgNo` varchar(255) DEFAULT NULL COMMENT '组织机构代码',
   `orgName` varchar(255) DEFAULT NULL COMMENT '组织机构名称',
   `orgParentId` int(10) unsigned DEFAULT NULL COMMENT '父级组织机构ID',
@@ -47,25 +50,23 @@ CREATE TABLE `org` (
   `createDate` datetime DEFAULT NULL COMMENT '创建时间',
   `modifyUserId` int(10) unsigned DEFAULT NULL COMMENT '修改用户ID',
   `modifyDate` datetime DEFAULT NULL COMMENT '修改时间',
-  `level` int(10) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
-  `isLeaf` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
-  `loaded` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
-  `expanded` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
+  `extLevel` int(10) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
+  `extIsLeaf` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
+  `extLoaded` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
+  `extExpanded` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
+  `extParent` int(10) DEFAULT NULL,
   PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织机构';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='组织机构';
 
 -- ----------------------------
 -- Records of org
 -- ----------------------------
-INSERT INTO `org` VALUES ('1', '1', 'Cash', null, null, '1', '1', '2015-07-29 15:49:26', null, null, '0', '0', '1', '1');
-INSERT INTO `org` VALUES ('2', '2', 'Cash 1', '1', null, '1', '1', null, null, null, '1', '0', '1', '1');
-INSERT INTO `org` VALUES ('3', '3', 'Sub Cash 1', '2', null, '1', '1', null, null, null, '2', '1', '1', '1');
-INSERT INTO `org` VALUES ('4', '4', 'Cash 2', '1', null, '1', '1', null, null, null, '1', '1', '1', '1');
-INSERT INTO `org` VALUES ('5', '5', 'Banks', null, null, '1', '1', null, null, null, '0', '0', '1', '1');
-INSERT INTO `org` VALUES ('6', '6', 'Bank 1', '5', null, '1', '1', null, null, null, '1', '1', '1', '1');
-INSERT INTO `org` VALUES ('7', '7', 'Bank 2', '5', null, '1', '1', null, null, null, '1', '1', '1', '1');
-INSERT INTO `org` VALUES ('8', '8', 'Fixed asset', null, '1', null, '1', null, null, null, '0', '1', '1', '1');
-
+INSERT INTO `org` VALUES ('1', '1', 'Cash', null, null, '1', '1', '2015-07-29 15:49:26', null, null, '0', '0', '1', '1', null);
+INSERT INTO `org` VALUES ('2', '4', 'Cash_2', '1', null, '1', '1', null, null, null, '1', '1', '1', '1', null);
+INSERT INTO `org` VALUES ('3', '2', 'Cash_1', '1', null, '1', '1', null, null, null, '1', '0', '1', '1', null);
+INSERT INTO `org` VALUES ('4', '3', 'Sub_Cash_1', '2', null, '1', '1', null, null, null, '2', '1', '1', '1', null);
+INSERT INTO `org` VALUES ('8', '9', 'Cash_3', '1', null, '1', '1', null, null, null, '1', '1', '1', '1', null);
+INSERT INTO `org` VALUES ('9', '8', 'Fixed_asset', null, '1', null, '1', null, null, null, '0', '1', '1', '1', null);
 -- ----------------------------
 -- Table structure for privilege
 -- ----------------------------

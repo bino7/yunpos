@@ -146,6 +146,12 @@
 			<artifactId>spring-cache-ehcache</artifactId>
 			<version>1.1</version>
 		</dependency>
+		
+		<!-- 支持热部署 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

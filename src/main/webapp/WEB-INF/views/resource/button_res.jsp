@@ -11,7 +11,7 @@
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>
-		<script src="static/formjs/button_res.js"></script>
+		<script src="${ctx}/static/formjs/button_res.js"></script>
 	</div>
 </body>
 

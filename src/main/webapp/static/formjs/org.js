@@ -33,7 +33,7 @@ $(function() {
 		    width: 'auto',
 		    height: "auto",
 		    //scroll: "true",  
-		    url: 'sys/org',  
+		    url: $ctx+'/sys/org',  
 		    datatype: 'json',   
 		    colModel:[      
 		        {name:'orgId',index:'orgId',label:"ID", width:90,key: true,editable:true,hidden:true},//  

@@ -31,7 +31,7 @@ $(function(){
 	
 	//自动以表格
 		$("#grid").jqGrid({
-	        url: "res/button",
+	        url: $ctx+"/res/button",
 	        datatype: "json",
 	        mtype: "GET",
 	        height: "auto",

@@ -4,6 +4,8 @@
 <html>
 <head>
 <title>Dashboard Template for Bootstrap</title>
+
+
 </head>
 
 <body>
@@ -11,7 +13,8 @@
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>
-		<script src="static/formjs/user.js"></script>
+		 <script src="${ctx}/static/formjs/user.js"> 
+		</script>
 	</div>
 </body>
 

@@ -16,7 +16,7 @@
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">帮助</a></li>
-                <li><a href="#">退出</a></li>
+                <li><a href="${ctx}/logout">退出</a></li>
             </ul>
         </div>
     </div>

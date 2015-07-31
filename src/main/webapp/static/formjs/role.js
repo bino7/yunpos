@@ -30,7 +30,7 @@ $(function(){
 	//自动以表格
 	jQuery('#grid').jqGrid({
 		width : 960,
-		url : "sys/role",
+		url : $ctx+"/sys/role",
 		mtype: "GET",
 		height : "auto",
 		datatype : "json",

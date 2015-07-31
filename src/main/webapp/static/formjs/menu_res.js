@@ -29,7 +29,7 @@ $(function(){
 	
 	//自动以表格
 	 $("#grid").jqGrid({
-	        url: "res/menu",
+	        url: $ctx+"/res/menu",
 	        datatype: "json",  
 	        mtype: "GET", 
 	        height: 'auto',

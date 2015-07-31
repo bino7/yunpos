@@ -1,8 +1,6 @@
 //用户JS
 
 $(function() {
-
-	
 	// 编辑参数
 	var editOptions = {
 		drag : true,
@@ -28,10 +26,11 @@ $(function() {
 	var searchOptions = {
 
 	};	
+	
 
 	jQuery('#grid').jqGrid({
 		width : 1100,
-		url : 'sys/user',
+		url : $ctx+"/sys/user",
 		mtype: "GET",
 		height : "auto",
 		datatype : "json",
@@ -56,7 +55,7 @@ $(function() {
 	        ], 
 	    altRows : true,
 	    multiselect : true,
-	    editurl : "sys/user/operate",
+	    editurl : "${ctx}/sys/user/operate",
 		pager : "#pager",
 		ondblClickRow: function(id) {
 			jQuery(this).jqGrid('editGridRow', id, editOptions);
@@ -64,7 +63,6 @@ $(function() {
 	});
 	
 	
-	$(window).triggerHandler('resize.jqGrid');// trigger window resize to make the grid get the correct size
 	// 键盘上下选行
 	jQuery('#grid').jqGrid('bindKeys');
 	

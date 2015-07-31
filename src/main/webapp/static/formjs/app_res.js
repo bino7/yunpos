@@ -33,7 +33,7 @@ $(function(){
 	
 	//自动以表格
 	 $("#grid").jqGrid({
-	        url: "res/app", 
+	        url: $ctx+"/res/app", 
 	    	width : 960,
 			mtype: "GET",
 			height : "auto",

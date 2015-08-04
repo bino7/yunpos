@@ -24,11 +24,11 @@
 		delete from user_role
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.UserRole">
-		insert into user_role (id, userId, roleId,
+	<insert id="insert" parameterType="com.yunpos.model.UserRole" useGeneratedKeys="true" keyProperty="id">
+		insert into user_role (userId, roleId,
 		createUserId, createDate, modifyUserId,
 		modifyDate)
-		values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+		values (#{userId,jdbcType=INTEGER},
 		#{roleId,jdbcType=INTEGER},
 		#{createUserId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER},
 		#{modifyDate,jdbcType=TIMESTAMP})

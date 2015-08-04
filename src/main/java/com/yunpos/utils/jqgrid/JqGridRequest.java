@@ -1,14 +1,25 @@
 package com.yunpos.utils.jqgrid;
 
-
+/**
+ * 
+ * 功能描述：分页查询请求参数
+ * <p>
+ * 版权所有：小牛信息科技有限公司
+ * <p>
+ * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
+ * 
+ * @author Devin_Yang 新增日期：2015年8月4日
+ * @author Devin_Yang 修改日期：2015年8月4日
+ *
+ */
 public class JqGridRequest {
-	protected int page;
-	protected int rows;
-	protected String sidx;
-	protected String sord;
-	protected String searchField;
-	protected String searchString;	
-	protected String searchOper;
+	protected int page;				//当前页数
+	protected int rows;				//每页显示行数
+	protected String sidx;			//
+	protected String sord;			//排序字段
+	protected String searchField;	//查询字段
+	protected String searchString;	//查询参数
+	protected String searchOper;	//查询操作or/and
 
 	public int getPage() {
 		return page;

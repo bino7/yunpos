@@ -34,12 +34,12 @@
 		delete from sys_button
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysButtonWithBLOBs">
-		insert into sys_button (id, btnName, btnNo,
+	<insert id="insert" parameterType="com.yunpos.model.SysButtonWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_button (btnName, btnNo,
 		btnIcon, menuNo, InitStatus,
 		seqNo, btnClass, btnScript
 		)
-		values (#{id,jdbcType=INTEGER}, #{btnName,jdbcType=VARCHAR},
+		values (#{btnName,jdbcType=VARCHAR},
 		#{btnNo,jdbcType=INTEGER},
 		#{btnIcon,jdbcType=VARCHAR}, #{menuNo,jdbcType=INTEGER}, #{initStatus,jdbcType=INTEGER},
 		#{seqNo,jdbcType=INTEGER}, #{btnClass,jdbcType=LONGVARCHAR},

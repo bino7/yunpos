@@ -2,20 +2,22 @@ package com.yunpos.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.yunpos.exception.ServiceException;
 import com.yunpos.model.Privilege;
-import com.yunpos.model.ViewPage;
 import com.yunpos.service.PrivilegeService;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
+import com.yunpos.utils.jqgrid.GridRowResponse;
+import com.yunpos.utils.jqgrid.JqGridRequest;
+import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
  * 
@@ -29,37 +31,35 @@ import com.yunpos.service.PrivilegeService;
  * @author Devin_Yang 修改日期：2015年7月17日
  *
  */
-@Controller
+@RestController
 public class PrivilegeController extends BaseController{
 	@Autowired
 	private PrivilegeService privilegeService;
 	
 	@RequestMapping(value="/ajax/privilege",method = GET)
-	public @ResponseBody ViewPage<Privilege> list() {
-		ViewPage<Privilege> viewPage = new ViewPage<Privilege>();
-		List<Privilege> list = privilegeService.findAll();
-		viewPage.setPage(0);
-		viewPage.setRows(list);
-		viewPage.setTotal(list.size());
-		viewPage.setRecords(list.size());
-		return viewPage;
+	public JqGridResponse<Privilege> list(JqGridRequest jqGridRequest)throws ServiceException{
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<Privilege> dataResponse = privilegeService.findPageUsers(gridRequest);
+		return new JqGridResponse<Privilege>(dataResponse);
 	}
 	
 	@RequestMapping(value = "/ajax/privilege/{id}", method = GET)
-	public @ResponseBody  Privilege read(@PathVariable("id") int id) {
+	public Privilege read(@PathVariable("id") int id) {
 		return privilegeService.findById(id);
 	}
 	
 	
 	@RequestMapping(value = "/ajax/privilege", method = RequestMethod.POST)
-	public void create(@Valid Privilege privilege) {
+	public GridRowResponse create(@Valid Privilege privilege) {
 		privilegeService.save(privilege);
+		return new GridRowResponse(privilege.getId());
 	}
 
 	@RequestMapping(value = "/ajax/privilege/{id}", method = RequestMethod.PUT)
-	public void update(@Valid Privilege privilege, @PathVariable("id") int id) {
+	public GridRowResponse update(@Valid Privilege privilege, @PathVariable("id") int id) {
 		privilege.setId(id);
 		privilegeService.update(privilege);
+		return new GridRowResponse(privilege.getId());
 	}
 
 	@RequestMapping(value = "/ajax/privilege/{id}", method = RequestMethod.DELETE)

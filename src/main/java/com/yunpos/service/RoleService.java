@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.yunpos.model.Role;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.RoleMapper;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
 
 @Service
 public class RoleService extends EntityService<Role> {
@@ -26,6 +28,16 @@ public class RoleService extends EntityService<Role> {
 	
 	public List<Role> findAll(){
 		return roleMapper.findAll();
+	}
+
+	public GridResponse<Role> findPageUsers(GridRequest gridRequest) {
+		GridResponse<Role> response = new GridResponse<Role>();
+		List<Role> roles =  roleMapper.findAll();
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(roles);
+		response.setTotalRowCount(roles.size());
+		return response;
 	}
 
 }

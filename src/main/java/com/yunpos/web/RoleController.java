@@ -9,17 +9,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.yunpos.exception.ServiceException;
 import com.yunpos.model.Role;
-import com.yunpos.model.ViewPage;
 import com.yunpos.service.RoleService;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
+import com.yunpos.utils.jqgrid.GridRowResponse;
+import com.yunpos.utils.jqgrid.JqGridRequest;
+import com.yunpos.utils.jqgrid.JqGridResponse;
 
-@Controller
+@RestController
 public class RoleController extends BaseController{
 	@Autowired
 	private RoleService roleService;
@@ -29,31 +33,29 @@ public class RoleController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value="/ajax/role",method =RequestMethod.GET)
-	public @ResponseBody ViewPage<Role> list() {
-		ViewPage<Role> viewPage = new ViewPage<Role>();
-		List<Role> list = roleService.findAll();
-		viewPage.setPage(0);
-		viewPage.setRows(list);
-		viewPage.setTotal(list.size());
-		viewPage.setRecords(list.size());
-		return viewPage;
+	public JqGridResponse<Role> list(JqGridRequest jqGridRequest) throws ServiceException{
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<Role> dataResponse = roleService.findPageUsers(gridRequest);
+		return new JqGridResponse<Role>(dataResponse);
 	}
 
 	@RequestMapping(value = "/ajax/role/{id}", method = GET)
-	public @ResponseBody Role read(@PathVariable("id") int id) {
+	public Role read(@PathVariable("id") int id) {
 		return roleService.findById(id);
 	}
 	
 	
 	@RequestMapping(value = "/ajax/role", method = RequestMethod.POST)
-	public void create(@Valid Role role) {
+	public GridRowResponse create(@Valid Role role) {
 		roleService.save(role);
+		return new  GridRowResponse(role.getId());
 	}
 
 	@RequestMapping(value = "/ajax/role/{id}", method = RequestMethod.PUT)
-	public void update(@Valid Role role, @PathVariable("id") int id) {
+	public GridRowResponse update(@Valid Role role, @PathVariable("id") int id) {
 		role.setOrgId(id);
 		roleService.update(role);
+		return new  GridRowResponse(role.getId());
 	}
 
 	@RequestMapping(value = "/ajax/role/{id}", method = RequestMethod.DELETE)
@@ -62,7 +64,7 @@ public class RoleController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/ajax/role/select", method =RequestMethod.GET )
-	public  @ResponseBody List<Role> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<Role> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<Role> roleList = roleService.findAll();
 		return roleList;
 	}

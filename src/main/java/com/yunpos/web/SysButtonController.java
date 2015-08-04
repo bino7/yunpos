@@ -9,15 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysButtonWithBLOBs;
-import com.yunpos.model.ViewPage;
 import com.yunpos.service.SysButtonService;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
+import com.yunpos.utils.jqgrid.GridRowResponse;
+import com.yunpos.utils.jqgrid.JqGridRequest;
+import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
  * 
@@ -31,37 +35,36 @@ import com.yunpos.service.SysButtonService;
  * @author Devin_Yang 修改日期：2015年7月17日
  *
  */
-@Controller
+@RestController
 public class SysButtonController extends BaseController{
 	@Autowired
 	private SysButtonService sysButtonService;
 	
 	
 	@RequestMapping(value="/ajax/button",method = GET)
-	public @ResponseBody ViewPage<SysButtonWithBLOBs> list() {
-		ViewPage<SysButtonWithBLOBs> viewPage = new ViewPage<SysButtonWithBLOBs>();
-		List<SysButtonWithBLOBs> list = sysButtonService.findAll();
-		viewPage.setPage(0);
-		viewPage.setRows(list);
-		viewPage.setRecords(list.size());
-		viewPage.setTotal(list.size());
-		return viewPage;
+	public JqGridResponse<SysButtonWithBLOBs> list(JqGridRequest jqGridRequest)throws ServiceException {
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<SysButtonWithBLOBs> dataResponse = sysButtonService.findPageUsers(gridRequest);
+		return new JqGridResponse<SysButtonWithBLOBs>(dataResponse);
 	}
 	
 	@RequestMapping(value = "/ajax/button/{id}", method = GET)
-	public @ResponseBody SysButtonWithBLOBs read(@PathVariable("id") int id) {
+	public SysButtonWithBLOBs read(@PathVariable("id") int id) {
 		return sysButtonService.findById(id);
 	}
 	
 	@RequestMapping(value = "/ajax/button", method = RequestMethod.POST)
-	public void create(@Valid SysButtonWithBLOBs sysButton) {
+	public GridRowResponse create(@Valid SysButtonWithBLOBs sysButton) {
 		sysButtonService.save(sysButton);
+		return new  GridRowResponse(sysButton.getId());
 	}
 
 	@RequestMapping(value = "/ajax/button/{id}", method = RequestMethod.PUT)
-	public void update(@Valid SysButtonWithBLOBs sysButton, @PathVariable("id") int id) {
+	public GridRowResponse update(@Valid SysButtonWithBLOBs sysButton, @PathVariable("id") int id) {
 		sysButton.setId(id);
 		sysButtonService.update(sysButton);
+		return new GridRowResponse(sysButton.getId());
+		
 	}
 
 	@RequestMapping(value = "/ajax/button/{id}", method = RequestMethod.DELETE)
@@ -70,7 +73,7 @@ public class SysButtonController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/ajax/button/select", method =RequestMethod.GET )
-	public  @ResponseBody List<SysButtonWithBLOBs> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<SysButtonWithBLOBs> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysButtonWithBLOBs> roleList = sysButtonService.findAll();
 		return roleList;
 	}

@@ -31,14 +31,14 @@
 		privilege
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.Privilege">
-		insert into privilege (id,
+	<insert id="insert" parameterType="com.yunpos.model.Privilege" useGeneratedKeys="true" keyProperty="id">
+		insert into privilege (
 		privilegeMaster, privilegeMasterValue,
 		privilegeAccess,
 		privilegeAccessValue,
 		privilegeOperation)
 		values
-		(#{id,jdbcType=INTEGER}, #{privilegeMaster,jdbcType=VARCHAR},
+		(#{privilegeMaster,jdbcType=VARCHAR},
 		#{privilegeMasterValue,jdbcType=INTEGER},
 		#{privilegeAccess,jdbcType=VARCHAR},
 		#{privilegeAccessValue,jdbcType=INTEGER},

@@ -62,7 +62,7 @@ function serializeEditDataCallback(data) {
 	}
 
 	delete modifiedData.oper;
-	alert(JSON.stringify(modifiedData));
+	//alert(JSON.stringify(modifiedData));
 	return $.param(modifiedData);
 
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.yunpos.model.Org;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.OrgMapper;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
 
 /**
  * 
@@ -33,6 +35,16 @@ public class OrgService extends EntityService<Org> {
 	
 	public List<Org> findAll(){
 		return orgMapper.findAll();
+	}
+
+	public GridResponse<Org> findPageUsers(GridRequest gridRequest) {
+		GridResponse<Org> response = new GridResponse<Org>();
+		List<Org> orgs =  orgMapper.findAll();
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(orgs);
+		response.setTotalRowCount(orgs.size());
+		return response;
 	}
 
 }

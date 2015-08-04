@@ -9,15 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysMenu;
-import com.yunpos.model.ViewPage;
 import com.yunpos.service.SysMenuService;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
+import com.yunpos.utils.jqgrid.GridRowResponse;
+import com.yunpos.utils.jqgrid.JqGridRequest;
+import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
  * 
@@ -31,38 +35,36 @@ import com.yunpos.service.SysMenuService;
  * @author Devin_Yang 修改日期：2015年7月17日
  *
  */
-@Controller
+@RestController
 public class SysMenuController extends BaseController{
 	
 	@Autowired
 	private SysMenuService sysMenuService;
 
 	@RequestMapping(value = "/ajax/menu/{id}", method = GET)
-	public @ResponseBody SysMenu read(@PathVariable("id") int id) {
+	public SysMenu read(@PathVariable("id") int id) {
 		return sysMenuService.findById(id);
 	}
 	
 	@RequestMapping(value="/ajax/menu",method = GET)
-	public @ResponseBody ViewPage<SysMenu> list() {
-		ViewPage<SysMenu> viewPage = new ViewPage<SysMenu>();
-		List<SysMenu> list = sysMenuService.findAll();
-		viewPage.setPage(0);
-		viewPage.setRows(list);
-		viewPage.setRecords(list.size());
-		viewPage.setTotal(list.size());
-		return viewPage;
+	public JqGridResponse<SysMenu> list(JqGridRequest jqGridRequest)  throws ServiceException {
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<SysMenu> dataResponse = sysMenuService.findPageUsers(gridRequest);
+		return new JqGridResponse<SysMenu>(dataResponse);
 	}
 
 	
 	@RequestMapping(value = "/rest/menu/{id}", method = RequestMethod.PUT)
-	public void update(@Valid SysMenu sysMenu, @PathVariable("id") int id) {
+	public GridRowResponse update(@Valid SysMenu sysMenu, @PathVariable("id") int id) {
 		sysMenu.setId(id);
 		sysMenuService.update(sysMenu);
+		return new GridRowResponse(sysMenu.getId());
 	}
 	
 	@RequestMapping(value = "/ajax/menu", method = RequestMethod.POST)
-	public void create(@Valid SysMenu sysMenu) {
+	public GridRowResponse create(@Valid SysMenu sysMenu) {
 		sysMenuService.save(sysMenu);
+		return new GridRowResponse(sysMenu.getId());
 	}
 
 	@RequestMapping(value = "/ajax/menu/{id}", method = RequestMethod.DELETE)
@@ -71,7 +73,7 @@ public class SysMenuController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/ajax/menu/select", method =RequestMethod.GET )
-	public  @ResponseBody List<SysMenu> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<SysMenu> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysMenu> roleList = sysMenuService.findAll();
 		return roleList;
 	}

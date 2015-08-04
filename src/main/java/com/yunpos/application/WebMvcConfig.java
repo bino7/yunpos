@@ -2,8 +2,10 @@ package com.yunpos.application;
 
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -39,6 +41,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 //        resolver.setMaxUploadSize(1000000000);
 //        return resolver;
 //    }
+    
+    /**
+     * 错误信息国际化配置
+     */
+    @Bean(name = "messageSource")
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("/WEB-INF/i18n/messages");
+        messageSource.setCacheSeconds(5);
+        return messageSource;
+    }
 
     
     /**

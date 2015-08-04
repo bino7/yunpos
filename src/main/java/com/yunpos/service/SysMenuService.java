@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.yunpos.model.SysMenu;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysMenuMapper;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
 @Service
 public class SysMenuService extends EntityService<SysMenu>{
 	
@@ -25,6 +27,16 @@ public class SysMenuService extends EntityService<SysMenu>{
 
 	public List<SysMenu> findListByIds(Object[] array) {
 		return sysMenuMapper.findListByIds(array);
+	}
+
+	public GridResponse<SysMenu> findPageUsers(GridRequest gridRequest) {
+		GridResponse<SysMenu> response = new GridResponse<SysMenu>();
+		List<SysMenu> sysMenus =  sysMenuMapper.findAll();
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(sysMenus);
+		response.setTotalRowCount(sysMenus.size());
+		return response;
 	}
 
   

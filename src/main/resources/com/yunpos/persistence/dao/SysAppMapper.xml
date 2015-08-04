@@ -25,10 +25,10 @@
 		delete from sys_app
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysApp">
-		insert into sys_app (id, applicationCode, applicationName,
+	<insert id="insert" parameterType="com.yunpos.model.SysApp" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_app (applicationCode, applicationName,
 		applicationDesc, showInMenu)
-		values (#{id,jdbcType=INTEGER}, #{applicationCode,jdbcType=INTEGER},
+		values (#{applicationCode,jdbcType=INTEGER},
 		#{applicationName,jdbcType=VARCHAR},
 		#{applicationDesc,jdbcType=VARCHAR}, #{showInMenu,jdbcType=INTEGER})
 	</insert>

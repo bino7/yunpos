@@ -29,12 +29,12 @@
 		delete from sys_menu
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysMenu">
-		insert into sys_menu (id, menuNo, applicationCode,
+	<insert id="insert" parameterType="com.yunpos.model.SysMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_menu ( menuNo, applicationCode,
 		menuParentNo, menuOrder, menuName,
 		menuUrl, isVisible, isLeaf
 		)
-		values (#{id,jdbcType=INTEGER}, #{menuNo,jdbcType=INTEGER},
+		values (#{menuNo,jdbcType=INTEGER},
 		#{applicationCode,jdbcType=INTEGER},
 		#{menuParentNo,jdbcType=INTEGER}, #{menuOrder,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR},
 		#{menuUrl,jdbcType=VARCHAR}, #{isVisible,jdbcType=INTEGER},

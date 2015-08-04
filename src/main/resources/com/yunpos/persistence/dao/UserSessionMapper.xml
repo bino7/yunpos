@@ -25,11 +25,11 @@
 		delete from sys_users_session
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.UserSession">
-		insert into sys_users_session (id, sessionId, userName,
+	<insert id="insert" parameterType="com.yunpos.model.UserSession" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_users_session (sessionId, userName,
 		host, lastAccessTime, startTime,
 		endTime)
-		values (#{id,jdbcType=INTEGER}, #{sessionId,jdbcType=VARCHAR},
+		values (#{sessionId,jdbcType=VARCHAR},
 		#{userName,jdbcType=VARCHAR},
 		#{host,jdbcType=VARCHAR}, #{lastAccessTime,jdbcType=TIMESTAMP},
 		#{startTime,jdbcType=TIMESTAMP},

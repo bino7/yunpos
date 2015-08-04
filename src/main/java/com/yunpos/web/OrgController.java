@@ -10,16 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Strings;
+import com.yunpos.exception.ServiceException;
 import com.yunpos.model.Org;
-import com.yunpos.model.ViewPage;
 import com.yunpos.service.OrgService;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
+import com.yunpos.utils.jqgrid.GridRowResponse;
+import com.yunpos.utils.jqgrid.JqGridRequest;
+import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
  * 
@@ -33,32 +36,28 @@ import com.yunpos.service.OrgService;
  * @author Devin_Yang 修改日期：2015年7月17日
  *
  */
-@Controller
+@RestController
 public class OrgController extends BaseController{
 	@Autowired
 	private  OrgService orgService;
 	
 
 	@RequestMapping(value="/ajax/org",method = GET)
-	public @ResponseBody ViewPage<Org> list() {
-		ViewPage<Org> viewPage = new ViewPage<Org>();
-		List<Org> list = orgService.findAll();
-		viewPage.setPage(0);
-		viewPage.setRows(list);
-		//viewPage.setMax(10);
-		viewPage.setTotal(list.size());
-		return viewPage;
+	public JqGridResponse<Org> list(JqGridRequest jqGridRequest) throws ServiceException{
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<Org> dataResponse = orgService.findPageUsers(gridRequest);
+		return new JqGridResponse<Org>(dataResponse);
 	}
 
 	
 	@RequestMapping(value = "/ajax/org/{id}", method = GET)
-	public @ResponseBody  Org read(@PathVariable("id") int id) {
+	public Org read(@PathVariable("id") int id) {
 		return orgService.findById(id);
 	}
 	
 	
 	@RequestMapping(value = "/ajax/org", method = RequestMethod.POST)
-	public void create(@Valid  Org  org) {
+	public GridRowResponse create(@Valid  Org  org) {
 		org.setCreateDate(new Date());
 		org.setCreateUserId(this.getUser().getId());
 		org.setExtExpanded(true);
@@ -78,14 +77,16 @@ public class OrgController extends BaseController{
 			org.setExtLevel(0);
 		}
 		orgService.save(org);
+		return new  GridRowResponse(org.getId());
 	}
 
 	@RequestMapping(value = "/ajax/org/{id}", method = RequestMethod.PUT)
-	public void update(@Valid Org org, @PathVariable("id") int id) {
+	public GridRowResponse update(@Valid Org org, @PathVariable("id") int id) {
 		org.setId(id);
 		org.setModifyDate(new Date());
 		org.setModifyUserId(this.getUser().getId());
 		orgService.update(org);
+		return new GridRowResponse(org.getId());
 	}
 
 	@RequestMapping(value = "/ajax/org/{id}", method = RequestMethod.DELETE)
@@ -94,7 +95,7 @@ public class OrgController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/ajax/org/select", method =RequestMethod.GET )
-	public  @ResponseBody List<Org> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<Org> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<Org> list = orgService.findAll();
 		return list;
 	}

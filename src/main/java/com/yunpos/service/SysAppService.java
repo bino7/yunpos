@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.yunpos.model.SysApp;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysAppMapper;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
 @Service
 public class SysAppService extends EntityService<SysApp> {
 	@Autowired
@@ -20,6 +22,16 @@ public class SysAppService extends EntityService<SysApp> {
 	
 	public List<SysApp> findAll(){
 		return sysAppMapper.findAll();
+	}
+
+	public GridResponse<SysApp> findPageUsers(GridRequest gridRequest) {
+		GridResponse<SysApp> response = new GridResponse<SysApp>();
+		List<SysApp> sysApps =  sysAppMapper.findAll();
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(sysApps);
+		response.setTotalRowCount(sysApps.size());
+		return response;
 	}
 
 }

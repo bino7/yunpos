@@ -27,13 +27,13 @@
 		delete from role
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.Role">
-		insert into role (id,
+	<insert id="insert" parameterType="com.yunpos.model.Role" useGeneratedKeys="true" keyProperty="id">
+		insert into role (
 		roleName, roleDesc,
 		orgId, createUserId, createDate,
 		modifyUserId,
 		modifyDate)
-		values (#{id,jdbcType=INTEGER},
+		values (
 		#{roleName,jdbcType=VARCHAR},
 		#{roleDesc,jdbcType=VARCHAR},
 		#{orgId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER},

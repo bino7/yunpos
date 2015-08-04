@@ -34,8 +34,9 @@
     delete from sys_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.User" >
-    insert into sys_user (id, usgId, userName, 
+  
+  <!-- 
+  insert into sys_user (id, usgId, userName, 
       phone, email, password, 
       nickname, fullname, status, 
       salt, description, source, 
@@ -47,7 +48,22 @@
       #{salt,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
       #{lastLoginDatetime,jdbcType=TIMESTAMP}, #{createdAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER})
+   -->
+  <insert id="insert" parameterType="com.yunpos.model.User" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_user (usgId, userName, 
+      phone, email, password, 
+      nickname, fullname, status, 
+      salt, description, source, 
+      lastLoginDatetime, createdAt, createdBy, 
+      updatedAt, updatedBy)
+    values (#{usgId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{salt,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
+      #{lastLoginDatetime,jdbcType=TIMESTAMP}, #{createdAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER})
   </insert>
+  
   <insert id="insertSelective" parameterType="com.yunpos.model.User" >
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >

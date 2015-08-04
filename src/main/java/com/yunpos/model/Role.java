@@ -3,7 +3,7 @@ package com.yunpos.model;
 import java.util.Date;
 
 public class Role {
-	private Integer roleId;
+	private Integer id;
 
 	private String roleName;
 
@@ -19,12 +19,14 @@ public class Role {
 
 	private Date modifyDate;
 
-	public Integer getRoleId() {
-		return roleId;
+	
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getRoleName() {

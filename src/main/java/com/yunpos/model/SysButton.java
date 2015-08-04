@@ -1,9 +1,10 @@
 package com.yunpos.model;
 
 public class SysButton {
-	private Integer btnId;
+	private Integer id;
 
 	private String btnName;
+	private String name;
 
 	private Integer btnNo;
 
@@ -15,12 +16,14 @@ public class SysButton {
 
 	private Integer seqNo;
 
-	public Integer getBtnId() {
-		return btnId;
+	
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setBtnId(Integer btnId) {
-		this.btnId = btnId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getBtnName() {
@@ -70,4 +73,14 @@ public class SysButton {
 	public void setSeqNo(Integer seqNo) {
 		this.seqNo = seqNo;
 	}
+
+	public String getName() {
+		return btnName;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 }

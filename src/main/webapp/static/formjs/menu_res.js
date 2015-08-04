@@ -1,81 +1,74 @@
-//菜单资源
-$(function(){
-	
-	//编辑参数
-	var editOptions = {
-			drag : true,
-			resize : true,
-			closeOnEscape : true,
-			dataheight : 200	
-	};
-	
-	//新增初始化参数
-	var addOptions = {
-			drag : true,
-			resize : true,
-			closeOnEscape : true,
-			dataheight : "auto"	
-	};
+var URL = $ctx + "/ajax/menu";
 
-	//删除参数
-	var delOptions = {
-			
-	};
+$(document).ready(function() {
+	$("#grid").jqGrid({
+		url:URL, 
+		editurl:URL, 
+		datatype:"json", 
+		jsonReader:{repeatitems:false, id:"id"}, // the unique ID of a row
+		colModel: [
+		              {name:"id",index:"id",label:"系统菜单ID",width:40,editable : true,hidden:true},    
+		              {name:"menuNo",index:"menuNo",label:"编号",width:80,sortable:false,editable : true},  
+		              {name:"applicationCode",index:"applicationCode",label:"应用编号",width:80,sortable:false,editable : true},  
+		              {name:"menuOrder",index:"menuOrder",label:"排序号",width:120,sortable:false,editable : true},
+		              {name:"menuName",index:"menuName",label:"名称",width:120,sortable:false,editable : true},
+		              {name:"menuUrl",index:"menuUrl",label:"url",width:120,sortable:false,editable : true},
+		              {
+		            	  name:"menuParentNo",index:"menuParentNo",label:"父级编号",width:160,sortable:false,editable : true,
+		            	  edittype:'select',
+		            	  editoptions : {value:getSelectList(URL+"/select")}
+		              },  
+		              {
+		            	  name:"isVisible",index:"isVisible",label:"是否允许访问",width:120,sortable:false,editable : true,
+		            	  edittype:'select',
+		            	  editoptions : {value: "0:否;1:是",defaultValue:1},
+		              },
+		              {
+		            	  name:"isLeaf",index:"isLeaf",label:"是否子菜单",width:120,sortable:false,editable : true,
+		            	  edittype:'select',
+		            	  editoptions : {value: "0:否;1:是",defaultValue:0},
+		              }
+		        ],  
+		rowNum:10,
+		rowList:[10,20,30],
+		height:'auto',
+		width: 960,
+		shrinkToFit:true,
+		sortname:"id",
+		sortorder:"asc",
+		pager:"#pager",
+		viewrecords:true,
+		loadError:loadErrorCallback, // error handler; add/edit/delete errors are processed by other methods
+		loadComplete:loadCompleteCallback, // is called after loading all data to the grid
+		autoencode:true, //when set to true encodes (HTML encode) the incoming (from server) and posted data. It prevents Cross-site scripting (XSS) attacks.
+		ondblClickRow: function(id) {
+			jQuery(this).jqGrid('editGridRow', id, jqGridEditOptions);
+		}
+	});
+
+	jQuery('#grid').jqGrid('bindKeys');
+	$("#grid").jqGrid("navGrid", "#pager", jqGridNavBarOptions, jqGridEditOptions, jqGridAddOptions, jqGridDelOptions, jqGridSearchOptions);
+
 	
-	//搜索参数
-	var searchOptions = {
-			
-	};
-	
-	//自动以表格
-	 $("#grid").jqGrid({
-	        url: $ctx+"/res/menu",
-	        datatype: "json",  
-	        mtype: "GET", 
-	        height: 'auto',
-	        width: 960,  
-	        colModel: [
-	              {name:"menuId",index:"menuId",label:"系统菜单ID",width:40,editable : true,hidden:true},    
-	              {name:"menuNo",index:"menuNo",label:"系统菜单编号",width:80,sortable:false,editable : true},  
-	              {name:"applicationCode",index:"applicationCode",label:"应用编号",width:80,sortable:false,editable : true},  
-	              {name:"menuParentNo",index:"menuParentNo",label:"父级菜单编号",width:160,sortable:false,editable : true},  
-	              {name:"menuOrder",index:"menuOrder",label:"菜单排序编号",width:120,sortable:false,editable : true},
-	              {name:"menuName",index:"menuName",label:"菜单名称",width:120,sortable:false,editable : true},
-	              {name:"menuUrl",index:"menuUrl",label:"菜单URL",width:120,sortable:false,editable : true},
-	              {name:"isVisible",index:"isVisible",label:"是否允许访问",width:120,sortable:false,editable : true},
-	              {name:"isLeaf",index:"isLeaf",label:"是否子菜单",width:120,sortable:false,editable : true}
-	        ],  
-	        viewrecords: true,  
-	        rowNum: 15,  
-	        rowList: [10,20,30],  
-	        prmNames: {search: "search"},  
-	        editurl : "res/menu/operate",
-	        jsonReader: { 
-	        	id : "menuid",
-	        	root:"rows",  
-	            total: "total",
-	            page: "page",
-	            records: "records",
-	            repeatitems: false
-	        },  
-	        pager: "#pager",  
-	        hidegrid: false,  
-	        shrikToFit: true,
-	        ondblClickRow: function(id) {
-				jQuery(this).jqGrid('editGridRow', id, editOptions);
+	function getSelectList(url) {
+		var str ="";
+		$.ajax({
+			url :url,
+			async : false,
+			success : function (data) {
+				if(data!=null){
+					var jsonobj = eval(data);
+					var length = jsonobj.length;
+					for(var i = 0; i < length; i++) {
+						if(i != length - 1) {
+							str += jsonobj[i].id + ":" + jsonobj[i].name + ";";
+						}else{
+							str += jsonobj[i].id + ":" + jsonobj[i].name;
+						}
+					}
+				}
 			}
-	    });
-	 
-	//开启键盘上下选择行数据
-	jQuery('#tree').jqGrid('bindKeys');
-		 
-	//导航栏定义
-	$("#grid").jqGrid('navGrid', '#pager', 
-				 {edit : true,add : true,del : true},
-				 editOptions,
-				 addOptions,
-				 delOptions,
-				 searchOptions
-		 );
-	
+		});
+		return str;
+	}
 });

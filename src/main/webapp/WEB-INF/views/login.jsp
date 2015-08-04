@@ -19,7 +19,7 @@
                             if (error != null) {
                         %>
                         <div class="form-control-static alert alert-danger">
-                            <button class="close" data-dismiss="alert">×</button>
+                            <button class="close" data-dismiss="alert"></button>
                             <%
                                 if (error.contains("IncorrectCaptchaException")) {
                                     out.print("验证码错误.");
@@ -36,13 +36,13 @@
 
                         <div class="form-group">
                             <div class="col-lg-12">
-                                <input value="sysadmin" placeholder="Username" type="text" name="username"
+                                <input value="" placeholder="Username" type="text" name="username"
                                        class="form-control col-lg-12"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12">
-                                <input value="sysadmin" placeholder="Password" type="password" name="password"
+                                <input value="" placeholder="Password" type="password" name="password"
                                        class="form-control col-lg-12"/>
                             </div>
                         </div>

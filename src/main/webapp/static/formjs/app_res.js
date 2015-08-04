@@ -1,80 +1,44 @@
-//按钮资源JS
+var URL = $ctx + "/ajax/app";
 
-$(function(){
+$(document).ready(function() {
+	var showArray = {0:"否",1:"是"};
 	
-	//编辑参数
-	var editOptions = {
-			drag : true,
-			resize : true,
-			closeOnEscape : true,
-			reloadAfterSubmit:true,
-			closeAfterEdit:true, 
-			dataheight : 200	
-	}
-	
-	//新增初始化参数
-	var addOptions = {
-			drag : true,
-			resize : true,
-			closeOnEscape : true,
-			closeAfterAdd:true,
-			dataheight : "auto"	
-	};
+	$("#grid").jqGrid({
+		url:URL, 
+		editurl:URL, 
+		datatype:"json", 
+		jsonReader:{repeatitems:false, id:"id"}, // the unique ID of a row
+		 colModel: [  
+		              {name:"id" ,index: "id" ,label:"应用ID",width:40,sortable:true,editable : true,hidden:true},
+		              {name:"applicationCode",index:"applicationCode",label:"应用编号",width:80,editable : true},
+		              {name:"applicationName",index:"applicationName",label:"应用名称",width:80,editable : true}, 
+		              {name:"applicationDesc",index:"applicationDesc",label:"应用描述",width:200,editable : true,edittype:'textarea'},
+		              {
+		            	  name:"showInMenu",index:"showInMenu",label:"是否在菜单显示",width:160,editable : true,
+		            	  edittype : "select",
+				          editoptions : {value:"0:否;1:是",defaultValue:1} ,
+				          formatter:function(v,opt,rec){return showArray[v]},
+		            	  unformat:function(v){if(v=='否')return '0';return '1'}
+		              }
+		        ],  
+		rowNum:5,
+		rowList:[5,10,20],
+		height:'auto',
+		width: 960,
+		shrinkToFit:true,
+		sortname:"id",
+		sortorder:"asc",
+		pager:"#pager",
+		viewrecords:true,
+		loadError:loadErrorCallback, // error handler; add/edit/delete errors are processed by other methods
+		loadComplete:loadCompleteCallback, // is called after loading all data to the grid
+		autoencode:true, //when set to true encodes (HTML encode) the incoming (from server) and posted data. It prevents Cross-site scripting (XSS) attacks.
+		ondblClickRow: function(id) {
+			jQuery(this).jqGrid('editGridRow', id, jqGridEditOptions);
+		}
+	});
 
-	//删除参数
-	var delOptions = {
-			
-	};
-	
-	//搜索参数
-	var searchOptions = {
-			
-	};
-	
-	//自动以表格
-	 $("#grid").jqGrid({
-	        url: $ctx+"/res/app", 
-	    	width : 960,
-			mtype: "GET",
-			height : "auto",
-			datatype : "json", 
-	        colModel: [  
-	              {name:"applicationId" ,index: "applicationId" ,label:"应用ID",width:40,sortable:true,editable : true,hidden:true},
-	              {name:"applicationCode",index:"applicationCode",label:"应用编号",width:80,editable : true},
-	              {name:"applicationName",index:"applicationName",label:"应用名称",width:80,editable : true}, 
-	              {name:"applicationDesc",index:"applicationDesc",label:"应用描述",width:200,editable : true},
-	              {name:"showInMenu",index:"showInMenu",label:"是否在菜单显示",width:160,editable : true}
-	        ],  
-	        viewrecords: true,
-	        altRows : true,
-		    multiselect : true,
-		    editurl : "res/app/operate",
-	        rowNum: 10,  
-	        rowList: [10,20,30],  
-	        prmNames: {search: "search"},
-	        pager: "#pager",
-	        jsonReader: {  
-	        	id: "applicationId",
-	            root:"rows",  
-	            total: "total",
-	            records: "records",
-	            repeatitems: false
-	        },  
-	        ondblClickRow: function(id) {
-				jQuery(this).jqGrid('editGridRow', id, editOptions);
-			}
-	    });
-	 
-	//开启键盘上下选择行数据
-	jQuery('#tree').jqGrid('bindKeys');
-	 
-	 //导航栏定义
-	 $("#grid").jqGrid('navGrid', '#pager', 
-			 {edit : true,add : true,del : true},
-			 editOptions,
-			 addOptions,
-			 delOptions,
-			 searchOptions
-	 );
-	
+	jQuery('#grid').jqGrid('bindKeys');
+	$("#grid").jqGrid("navGrid", "#pager", jqGridNavBarOptions, jqGridEditOptions, jqGridAddOptions, jqGridDelOptions, jqGridSearchOptions);
+
 });

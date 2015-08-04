@@ -8,7 +8,7 @@ import com.yunpos.model.Role;
 
 public interface RoleMapper extends EntityMapper<Role> {
 
-	List<Role> findByIdsMap(Object[] objects);
+	List<Role> findListByIds(Object[] array);
 	
 	@Select("select * from role")
 	List<Role> findAll();

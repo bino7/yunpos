@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.DataRuleMapper" >
   <resultMap id="BaseResultMap" type="com.yunpos.model.DataRule" >
-    <id column="ruleId" property="ruleId" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="INTEGER" />
     <result column="dataType" property="dataType" jdbcType="INTEGER" />
     <result column="userId" property="userId" jdbcType="INTEGER" />
     <result column="roleId" property="roleId" jdbcType="INTEGER" />
@@ -11,7 +11,7 @@
     <result column="dataRule" property="dataRule" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ruleId, dataType, userId, roleId
+    id, dataType, userId, roleId
   </sql>
   <sql id="Blob_Column_List" >
     dataRule
@@ -22,23 +22,23 @@
     ,
     <include refid="Blob_Column_List" />
     from data_rule
-    where ruleId = #{ruleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from data_rule
-    where ruleId = #{ruleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.DataRule" >
-    insert into data_rule (ruleId, dataType, userId, 
+    insert into data_rule (id, dataType, userId, 
       roleId, dataRule)
-    values (#{ruleId,jdbcType=INTEGER}, #{dataType,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{dataType,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{roleId,jdbcType=INTEGER}, #{dataRule,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.DataRule" >
     insert into data_rule
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="ruleId != null" >
-        ruleId,
+      <if test="id != null" >
+        id,
       </if>
       <if test="dataType != null" >
         dataType,
@@ -54,8 +54,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="ruleId != null" >
-        #{ruleId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="dataType != null" >
         #{dataType,jdbcType=INTEGER},
@@ -87,7 +87,7 @@
         dataRule = #{dataRule,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where ruleId = #{ruleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunpos.model.DataRule" >
     update data_rule
@@ -95,13 +95,13 @@
       userId = #{userId,jdbcType=INTEGER},
       roleId = #{roleId,jdbcType=INTEGER},
       dataRule = #{dataRule,jdbcType=LONGVARCHAR}
-    where ruleId = #{ruleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.DataRule" >
     update data_rule
     set dataType = #{dataType,jdbcType=INTEGER},
       userId = #{userId,jdbcType=INTEGER},
       roleId = #{roleId,jdbcType=INTEGER}
-    where ruleId = #{ruleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

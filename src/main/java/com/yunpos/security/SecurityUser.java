@@ -24,6 +24,7 @@ public class SecurityUser implements Serializable {
     public Integer id;
 
     public SecurityUser(Integer id,String username, String name) {
+    	this.id = id;
         this.username = username;
         this.name = name;
     }

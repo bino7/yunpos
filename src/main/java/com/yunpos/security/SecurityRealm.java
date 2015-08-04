@@ -1,5 +1,10 @@
 package com.yunpos.security;
 
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,7 +19,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Sets;
+import com.yunpos.model.Privilege;
+import com.yunpos.model.Role;
+import com.yunpos.model.SysMenu;
 import com.yunpos.model.User;
+import com.yunpos.model.UserRole;
+import com.yunpos.service.PrivilegeService;
+import com.yunpos.service.RoleService;
+import com.yunpos.service.SysMenuService;
+import com.yunpos.service.UserRoleService;
 import com.yunpos.service.UserService;
 import com.yunpos.utils.Encodes;
 
@@ -23,6 +37,14 @@ public class SecurityRealm extends AuthorizingRealm {
 
 	    @Autowired
 	    UserService userService;
+	    @Autowired
+	    UserRoleService userRoleService;
+	    @Autowired
+	    RoleService roleService;
+	    @Autowired
+	    PrivilegeService privilegeService;
+	    @Autowired
+	    SysMenuService sysMenuService;
 
 	    /**
 	     * 授权
@@ -35,20 +57,43 @@ public class SecurityRealm extends AuthorizingRealm {
 
 	        SecurityUser securityUser = (SecurityUser) principals.getPrimaryPrincipal();
 	        User user = userService.findByUserName(securityUser.username);
-
-//	        if (user != null) {
-//	            info = new SimpleAuthorizationInfo();
-//
-//	            for (Role role : user.getRoles()) {
-//	                // 用户拥有角色
-//	                info.addRole(role.getCode());
-//
-//	                // 角色的授权信息
-//	                info.addStringPermissions(role.getPermissions().stream().map(Permission::getCode).collect(Collectors.toSet()));
-//	            }
-//	            // 用户的授权信息
-//	            info.addStringPermissions();
-//	        }
+	        
+	        if (user != null) {
+	        	List<UserRole> listuserRole = userRoleService.findRoleByUserId(user.getId());
+				HashSet<Integer> roleIds = Sets.newHashSet();
+				HashSet<Integer> privilegeIds = Sets.newHashSet();
+				
+				HashSet<String> roleNames = Sets.newHashSet();
+				HashSet<String> permissions = Sets.newHashSet();
+				
+				for (UserRole userRole : listuserRole) {
+					roleIds.add(userRole.getRoleId());
+				}
+				List<Role> roleList = roleService.findListByIds(roleIds.toArray());
+				List<Privilege> privilegeList = privilegeService.findListByRoleIds(roleIds.toArray());
+				for (Role role : roleList) {
+					roleNames.add(role.getRoleName());
+				}
+				System.out.println("当前用户具有的角色：" + roleNames.toString());
+				
+				for (Privilege privilege : privilegeList) {
+					privilegeIds.add(privilege.getPrivilegeAccessValue());
+				}
+				
+				List<SysMenu> menus = new ArrayList<SysMenu>();
+				if(!privilegeIds.isEmpty()){
+					menus = sysMenuService.findListByIds(privilegeIds.toArray());
+				}
+				
+				for(SysMenu menu: menus){
+					permissions.add("menu:"+menu.getMenuUrl());
+				}
+				
+				System.out.println("当前用户具有的权限信息：" + permissions.toString());
+				info = new SimpleAuthorizationInfo(roleNames);
+				info.setStringPermissions(permissions);
+				return info;
+	        }
 	        return null;
 	    }
 

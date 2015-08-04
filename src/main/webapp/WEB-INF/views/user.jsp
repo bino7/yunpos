@@ -13,9 +13,12 @@
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>
+		<span id="error-message" class="error-message"></span>
 		 <script src="${ctx}/static/formjs/user.js"> 
 		</script>
 	</div>
+	
 </body>
 
 </html>
+

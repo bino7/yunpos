@@ -1,7 +1,7 @@
 package com.yunpos.model;
 
 public class Privilege {
-	private Integer privilegeId;
+	private Integer id;
 
 	private String privilegeMaster;
 
@@ -13,12 +13,14 @@ public class Privilege {
 
 	private Integer privilegeOperation;
 
-	public Integer getPrivilegeId() {
-		return privilegeId;
+	
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setPrivilegeId(Integer privilegeId) {
-		this.privilegeId = privilegeId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getPrivilegeMaster() {

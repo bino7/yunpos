@@ -14,18 +14,17 @@
 CREATE DATABASE IF NOT EXISTS `yunpos` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `yunpos`;
 
-
 -- ----------------------------
 -- Table structure for data_rule
 -- ----------------------------
 DROP TABLE IF EXISTS `data_rule`;
 CREATE TABLE `data_rule` (
-  `ruleId` int(10) unsigned NOT NULL COMMENT '规则ID',
+  `id` int(10) unsigned NOT NULL COMMENT '规则ID',
   `dataType` int(10) DEFAULT NULL COMMENT '数据类型',
   `dataRule` text COMMENT '数据规则',
   `userId` int(10) unsigned DEFAULT NULL COMMENT '操作员ID',
   `roleId` int(10) unsigned DEFAULT NULL COMMENT '角色ID',
-  PRIMARY KEY (`ruleId`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据规则';
 
 -- ----------------------------
@@ -36,11 +35,8 @@ CREATE TABLE `data_rule` (
 -- Table structure for org
 -- ----------------------------
 DROP TABLE IF EXISTS `org`;
--- ----------------------------
--- Table structure for org
--- ----------------------------
 CREATE TABLE `org` (
-  `orgId` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '组织机构ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '组织机构ID',
   `orgNo` varchar(255) DEFAULT NULL COMMENT '组织机构代码',
   `orgName` varchar(255) DEFAULT NULL COMMENT '组织机构名称',
   `orgParentId` int(10) unsigned DEFAULT NULL COMMENT '父级组织机构ID',
@@ -55,48 +51,45 @@ CREATE TABLE `org` (
   `extLoaded` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
   `extExpanded` tinyint(1) DEFAULT NULL COMMENT 'jqgrid树表扩展字段',
   `extParent` int(10) DEFAULT NULL,
-  PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='组织机构';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='组织机构';
 
 -- ----------------------------
 -- Records of org
 -- ----------------------------
-INSERT INTO `org` VALUES ('1', '1', 'Cash', null, null, '1', '1', '2015-07-29 15:49:26', null, null, '0', '0', '1', '1', null);
-INSERT INTO `org` VALUES ('2', '4', 'Cash_2', '1', null, '1', '1', null, null, null, '1', '1', '1', '1', null);
-INSERT INTO `org` VALUES ('3', '2', 'Cash_1', '1', null, '1', '1', null, null, null, '1', '0', '1', '1', null);
-INSERT INTO `org` VALUES ('4', '3', 'Sub_Cash_1', '2', null, '1', '1', null, null, null, '2', '1', '1', '1', null);
-INSERT INTO `org` VALUES ('8', '9', 'Cash_3', '1', null, '1', '1', null, null, null, '1', '1', '1', '1', null);
-INSERT INTO `org` VALUES ('9', '8', 'Fixed_asset', null, '1', null, '1', null, null, null, '0', '1', '1', '1', null);
+INSERT INTO `org` VALUES ('24', '1', 'cash', null, null, null, '1', '2015-08-03 17:54:06', null, null, '0', '0', '1', '1', null);
+INSERT INTO `org` VALUES ('25', '2', 'cash_1', '24', 'cash', '1', '1', '2015-08-03 17:54:31', null, null, '1', '1', '1', '1', '24');
+INSERT INTO `org` VALUES ('26', '4', 'moush', null, null, null, '1', '2015-08-03 17:57:24', null, null, '0', '1', '1', '1', null);
+INSERT INTO `org` VALUES ('27', '3', 'cash_2', '24', 'cash', '1', '1', '2015-08-03 17:57:45', null, null, '1', '1', '1', '1', '24');
+
 -- ----------------------------
 -- Table structure for privilege
 -- ----------------------------
 DROP TABLE IF EXISTS `privilege`;
 CREATE TABLE `privilege` (
-  `privilegeId` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `privilegeMaster` varchar(50) DEFAULT NULL,
   `privilegeMasterValue` int(10) DEFAULT NULL,
   `privilegeAccess` varchar(50) DEFAULT NULL,
   `privilegeAccessValue` int(10) DEFAULT NULL,
   `privilegeOperation` int(10) DEFAULT NULL,
-  PRIMARY KEY (`privilegeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='功能权限表';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='功能权限表';
 
 -- ----------------------------
 -- Records of privilege
 -- ----------------------------
-INSERT INTO `privilege` VALUES ('1', 'role', '1', 'menu', '1', null);
-INSERT INTO `privilege` VALUES ('2', 'role', '2', 'menu', '1', null);
-INSERT INTO `privilege` VALUES ('3', 'role', '1', 'menu', '2', null);
-INSERT INTO `privilege` VALUES ('4', 'role', '1', 'button', '1', null);
-INSERT INTO `privilege` VALUES ('5', 'role', '1', 'button', '2', null);
-INSERT INTO `privilege` VALUES ('6', 'role', '1', 'button', '3', null);
+INSERT INTO `privilege` VALUES ('3', 'role', '8', 'menu', '2', null);
+INSERT INTO `privilege` VALUES ('4', 'role', '8', 'menu', '3', null);
+INSERT INTO `privilege` VALUES ('5', 'role', '8', 'menu', '4', null);
+INSERT INTO `privilege` VALUES ('6', 'role', '8', 'menu', '5', null);
 
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
-  `roleId` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `roleName` varchar(50) NOT NULL COMMENT '角色名称',
   `roleDesc` varchar(255) DEFAULT NULL COMMENT '描述',
   `orgId` int(10) unsigned DEFAULT NULL COMMENT '所属组织机构',
@@ -104,42 +97,44 @@ CREATE TABLE `role` (
   `createDate` datetime DEFAULT NULL COMMENT '创建时间',
   `modifyUserId` int(10) unsigned DEFAULT NULL COMMENT '修改用户ID',
   `modifyDate` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`roleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='角色表（组织机构，岗位）';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='角色表（组织机构，岗位）';
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('1', 'admin', 'aaaaa', '1', '11', '2015-07-27 17:08:54', '1', '2015-07-27 17:09:01');
-INSERT INTO `role` VALUES ('2', 'user', 'bbbb', '1', '1', '2015-07-28 18:43:50', null, null);
-INSERT INTO `role` VALUES ('4', 'yang1111', '1', '1', '1', '2015-07-29 21:52:54', null, null);
+INSERT INTO `role` VALUES ('8', 'admin', '系统管理员', '24', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_app
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_app`;
 CREATE TABLE `sys_app` (
-  `applicationId` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '应用ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '应用ID',
   `applicationCode` int(10) DEFAULT NULL COMMENT '应用编号',
   `applicationName` varchar(50) DEFAULT NULL COMMENT '应用名称',
   `applicationDesc` varchar(255) DEFAULT NULL COMMENT '应用描述',
   `showInMenu` int(10) DEFAULT NULL COMMENT '是否在菜单显示',
-  PRIMARY KEY (`applicationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='系统应用';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='系统应用';
 
 -- ----------------------------
 -- Records of sys_app
 -- ----------------------------
 INSERT INTO `sys_app` VALUES ('1', '10001', '系统app1', '商城系统', '1');
 INSERT INTO `sys_app` VALUES ('2', '10002', '系统app2', '商城系统', '1');
-INSERT INTO `sys_app` VALUES ('4', '1004', '22', '44', null);
+INSERT INTO `sys_app` VALUES ('6', '1007', 'eee', 'eee', '1');
+INSERT INTO `sys_app` VALUES ('7', '1007', 'eeee', 'eee', '1');
+INSERT INTO `sys_app` VALUES ('8', '1007', 'WWW', 'WW', '0');
+INSERT INTO `sys_app` VALUES ('9', '2009', 'wwww', 'ww', '1');
+INSERT INTO `sys_app` VALUES ('10', '2009', '2www', 'ww', '1');
 
 -- ----------------------------
 -- Table structure for sys_button
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_button`;
 CREATE TABLE `sys_button` (
-  `btnId` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '按钮ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '按钮ID',
   `btnName` varchar(50) DEFAULT NULL COMMENT '按钮名称',
   `btnNo` int(10) DEFAULT NULL COMMENT '按钮编号',
   `btnClass` text COMMENT '按钮css风格',
@@ -148,21 +143,21 @@ CREATE TABLE `sys_button` (
   `menuNo` int(10) DEFAULT NULL COMMENT '菜单编号',
   `InitStatus` int(10) DEFAULT NULL COMMENT '初始状态',
   `seqNo` int(10) DEFAULT NULL,
-  PRIMARY KEY (`btnId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='系统按钮';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='系统按钮';
 
 -- ----------------------------
 -- Records of sys_button
 -- ----------------------------
 INSERT INTO `sys_button` VALUES ('1', '用户新增', '1', '1', 'ee', 'ee', '1', '1', '1');
-INSERT INTO `sys_button` VALUES ('2', '用户删除', '2', '1', 'ee', 'ee', '1', '1', '2');
+INSERT INTO `sys_button` VALUES ('2', '用户删除', '2', '1', 'rrr', 'ee', '1', '1', null);
 
 -- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
-  `menuId` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '系统菜单ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '系统菜单ID',
   `menuNo` int(10) DEFAULT NULL COMMENT '系统菜单编号',
   `applicationCode` int(10) DEFAULT NULL COMMENT '应用编号',
   `menuParentNo` int(10) DEFAULT NULL COMMENT '父级菜单编号',
@@ -171,13 +166,21 @@ CREATE TABLE `sys_menu` (
   `menuUrl` varchar(255) DEFAULT NULL COMMENT '菜单URL',
   `isVisible` int(10) DEFAULT NULL COMMENT '是否允许访问',
   `isLeaf` int(10) DEFAULT NULL COMMENT '是否子菜单',
-  PRIMARY KEY (`menuId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='系统菜单';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '1', '1', null, '1', 'user:add', 'rest/user', '1', '1');
+INSERT INTO `sys_menu` VALUES ('1', '1', '1', null, '1', '组织机构', 'page/org', '1', null);
+INSERT INTO `sys_menu` VALUES ('2', '2', '2', null, '2', '用户管理', 'page/user', '1', null);
+INSERT INTO `sys_menu` VALUES ('3', '3', '3', null, '3', '角色管理', 'page/role', '1', null);
+INSERT INTO `sys_menu` VALUES ('4', '4', '4', null, '4', '用户角色管理', 'page/user_role', '1', null);
+INSERT INTO `sys_menu` VALUES ('5', '5', '5', null, '5', '权限管理', 'page/privilege', '1', null);
+INSERT INTO `sys_menu` VALUES ('6', '6', '6', null, '6', '资源', '', '1', null);
+INSERT INTO `sys_menu` VALUES ('7', '7', '7', '6', '7', '菜单资源管理', 'page/menu_res', '1', null);
+INSERT INTO `sys_menu` VALUES ('8', '8', '8', '6', '8', 'app资源管理', 'page/app_res', '1', null);
+INSERT INTO `sys_menu` VALUES ('9', '9', '9', '6', '9', '按钮资源', 'page/button_res', '1', null);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -204,13 +207,15 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_sys_users_email` (`email`),
   UNIQUE KEY `idx_sys_users_username` (`userName`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1', '1', 'sysadmin', null, 'sysadmin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', null, '1', '046548c3b1e3ab57', null, 'SYSTEM', '2015-07-27 15:37:14', null, null, null, null);
-INSERT INTO `sys_user` VALUES ('2', '1', 'admin', null, 'admin@elvea.cn', 'db8ce0a0872d80fa31b7ebd0d0c06cf02a900e57', 'Administrator', null, '1', 'e416781ea9858934', null, 'SYSTEM', '2015-07-27 15:37:16', null, null, null, null);
+INSERT INTO `sys_user` VALUES ('2', '1', 'admin', '', 'admin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', '', '0', null, '', null, null, null, null, '2015-08-03 09:49:19', '1');
+INSERT INTO `sys_user` VALUES ('5', '1', 'yang', '18200982382', '375455761@qq.com', '123456', '1111', '1111', '0', null, '111', null, null, null, null, '2015-08-03 09:47:44', '1');
+INSERT INTO `sys_user` VALUES ('6', null, 'a7', '18200982384', 'chentuyong_cty@163.com', '', 'DevinYang', '2', '1', null, 'www', null, null, '2015-08-03 09:57:24', '1', null, null);
 
 -- ----------------------------
 -- Table structure for sys_users_session
@@ -225,29 +230,25 @@ CREATE TABLE `sys_users_session` (
   `startTime` datetime DEFAULT NULL,
   `endTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of sys_users_session
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
-  `userRoleId` int(10) unsigned NOT NULL COMMENT '用户角色表ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户角色表ID',
   `userId` int(10) unsigned NOT NULL COMMENT '用户ID',
   `roleId` int(10) unsigned NOT NULL COMMENT '角色ID',
   `createUserId` int(10) unsigned DEFAULT NULL COMMENT '创建用户ID',
   `createDate` datetime DEFAULT NULL COMMENT '创建时间',
   `modifyUserId` int(10) unsigned DEFAULT NULL COMMENT '修改用户ID',
   `modifyDate` datetime DEFAULT NULL COMMENT '修改I时间',
-  PRIMARY KEY (`userRoleId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
-INSERT INTO `user_role` VALUES ('1', '1', '1', null, null, null, null);
-INSERT INTO `user_role` VALUES ('2', '1', '2', null, null, null, null);
+INSERT INTO `user_role` VALUES ('8', '1', '8', '1', '2015-08-04 11:19:30', null, null);

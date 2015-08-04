@@ -23,6 +23,10 @@ public class SysMenuService extends EntityService<SysMenu>{
 		return sysMenuMapper.findAll();
 	}
 
+	public List<SysMenu> findListByIds(Object[] array) {
+		return sysMenuMapper.findListByIds(array);
+	}
+
   
 
 }

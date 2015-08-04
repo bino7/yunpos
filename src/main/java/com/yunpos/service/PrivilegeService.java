@@ -21,9 +21,9 @@ public class PrivilegeService extends EntityService<Privilege>{
 	}
 	
 	
-	public List<Privilege> findListByIds(Object[] array) {
+	public List<Privilege> findListByRoleIds(Object[] array) {
 		// TODO Auto-generated method stub
-		return privilegeMapper.findListByIds(array);
+		return privilegeMapper.findListByRoleIds(array);
 	}
 	 
 	public List<Privilege> findAll(){

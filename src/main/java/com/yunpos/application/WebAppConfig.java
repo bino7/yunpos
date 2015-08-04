@@ -34,4 +34,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(this.userSecurityInterceptor).addPathPatterns("/rest/**").excludePathPatterns("/login**",
 				"/index**","/error");
 	}
+	
+	
 }

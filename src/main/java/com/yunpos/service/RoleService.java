@@ -20,8 +20,8 @@ public class RoleService extends EntityService<Role> {
 		return roleMapper;
 	}
 
-	public List<Role> findListByIds(Object[] objects) {
-		return roleMapper.findByIdsMap(objects);
+	public List<Role> findListByIds(Object[] array) {
+		return roleMapper.findListByIds(array);
 	}
 	
 	public List<Role> findAll(){

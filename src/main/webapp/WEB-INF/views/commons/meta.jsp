@@ -18,9 +18,14 @@
 
 
 <script type="text/ecmascript" src="${ctx}/static/jqgridjs/integrations/amdsupport/js/grid.treegrid.js"></script>
-
-
 <script src="${ctx}/static/js/ie-emulation-modes-warning.js"></script>
+
+<script type="text/ecmascript" src="${ctx}/static/formjs/common.js"></script>
+
+
+<%-- <script type="text/ecmascript" src="${ctx}/static/libs/jquery.min.js"></script> --%>
+<script type="text/ecmascript" src="${ctx}/static/libs/common.js"></script>
+<script type="text/ecmascript" src="${ctx}/static/libs/jquery-ui.min.js"></script>
 
 <!-- Bootstrap core JavaScript
  ================================================== -->

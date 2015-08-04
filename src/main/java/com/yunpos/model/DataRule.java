@@ -1,7 +1,7 @@
 package com.yunpos.model;
 
 public class DataRule {
-	private Integer ruleId;
+	private Integer id;
 
 	private Integer dataType;
 
@@ -11,12 +11,14 @@ public class DataRule {
 
 	private String dataRule;
 
-	public Integer getRuleId() {
-		return ruleId;
+	
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setRuleId(Integer ruleId) {
-		this.ruleId = ruleId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getDataType() {

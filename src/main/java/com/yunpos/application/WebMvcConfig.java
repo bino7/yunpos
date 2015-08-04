@@ -4,6 +4,7 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -50,6 +51,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         bean.setFilter(new SitemeshFilter());
         bean.addUrlPatterns("/*");
         bean.setOrder(1111);
+        return bean;
+    }
+    
+    /**
+     * 解决springmvc 控制器接收不了put请求参数问题
+     * @return
+     */
+    @Bean(name = "HttpMethodFilter")
+    public FilterRegistrationBean httpMethodFilter() {
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        bean.setFilter(new HttpPutFormContentFilter());
+        bean.addUrlPatterns("/*");
         return bean;
     }
     

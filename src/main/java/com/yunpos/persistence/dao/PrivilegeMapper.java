@@ -12,4 +12,8 @@ public interface PrivilegeMapper extends EntityMapper<Privilege> {
 	
 	@Select("select * from privilege")
 	List<Privilege> findAll();
+	
+	List<Privilege> findListByRoleIds(Object[] array);
+	
+	
 }

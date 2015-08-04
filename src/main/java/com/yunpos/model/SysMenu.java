@@ -1,7 +1,7 @@
 package com.yunpos.model;
 
 public class SysMenu {
-	private Integer menuId;
+	private Integer id;
 
 	private Integer menuNo;
 
@@ -12,6 +12,7 @@ public class SysMenu {
 	private Integer menuOrder;
 
 	private String menuName;
+	private String name;
 
 	private String menuUrl;
 
@@ -19,12 +20,12 @@ public class SysMenu {
 
 	private Integer isLeaf;
 
-	public Integer getMenuId() {
-		return menuId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setMenuId(Integer menuId) {
-		this.menuId = menuId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getMenuNo() {
@@ -90,4 +91,14 @@ public class SysMenu {
 	public void setIsLeaf(Integer isLeaf) {
 		this.isLeaf = isLeaf;
 	}
+
+	public String getName() {
+		return menuName;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 }

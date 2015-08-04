@@ -1,27 +1,17 @@
 package com.yunpos.web;
 
-import static java.util.Collections.singletonList;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
-import java.net.URI;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.util.UriTemplate;
 
 import com.yunpos.model.Privilege;
 import com.yunpos.model.ViewPage;
@@ -40,12 +30,11 @@ import com.yunpos.service.PrivilegeService;
  *
  */
 @Controller
-@RequestMapping("sys/privilege")
 public class PrivilegeController extends BaseController{
 	@Autowired
 	private PrivilegeService privilegeService;
 	
-	@RequestMapping(method = GET)
+	@RequestMapping(value="/ajax/privilege",method = GET)
 	public @ResponseBody ViewPage<Privilege> list() {
 		ViewPage<Privilege> viewPage = new ViewPage<Privilege>();
 		List<Privilege> list = privilegeService.findAll();
@@ -56,36 +45,25 @@ public class PrivilegeController extends BaseController{
 		return viewPage;
 	}
 	
-	
-	@RequestMapping(value = "/{id}", method = GET)
+	@RequestMapping(value = "/ajax/privilege/{id}", method = GET)
 	public @ResponseBody  Privilege read(@PathVariable("id") int id) {
 		return privilegeService.findById(id);
 	}
-
-
-	@RequestMapping(value = "/{id}", method = PUT)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updatePrivilege(@PathVariable("id") int id, @RequestBody Privilege privilege) {
-	    if (privilegeService.exists(id)) {
-	    	privilege.setPrivilegeId(id);
-	    	privilegeService.update(privilege);
-	    }
+	
+	
+	@RequestMapping(value = "/ajax/privilege", method = RequestMethod.POST)
+	public void create(@Valid Privilege privilege) {
+		privilegeService.save(privilege);
 	}
 
-	@RequestMapping(method = POST)
-	public ResponseEntity<String> createPrivilege(HttpServletRequest request, @RequestBody Privilege privilege) {
-		privilegeService.insert(privilege);
-		final int id  = privilege.getPrivilegeId();
-		URI uri = new UriTemplate("{requestUrl}/{id}").expand(request.getRequestURL().toString(), id);
-		final HttpHeaders headers = new HttpHeaders();
-		headers.put("Location", singletonList(uri.toASCIIString()));
-		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+	@RequestMapping(value = "/ajax/privilege/{id}", method = RequestMethod.PUT)
+	public void update(@Valid Privilege privilege, @PathVariable("id") int id) {
+		privilege.setId(id);
+		privilegeService.update(privilege);
 	}
 
-
-	@RequestMapping(value = "/{id}", method = DELETE)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deletePrivilege(@PathVariable("id") int id) {
+	@RequestMapping(value = "/ajax/privilege/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable("id") int id) {
 		privilegeService.delete(id);
 	}
 }

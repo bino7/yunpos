@@ -2,8 +2,11 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.serializer.JsonDateSerializer;
+
 public class UserRole {
-	private Integer userRoleId;
+	private Integer id;
 
 	private Integer userId;
 
@@ -17,12 +20,12 @@ public class UserRole {
 
 	private Date modifyDate;
 
-	public Integer getUserRoleId() {
-		return userRoleId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setUserRoleId(Integer userRoleId) {
-		this.userRoleId = userRoleId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getUserId() {
@@ -48,7 +51,8 @@ public class UserRole {
 	public void setCreateUserId(Integer createUserId) {
 		this.createUserId = createUserId;
 	}
-
+	
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -64,7 +68,7 @@ public class UserRole {
 	public void setModifyUserId(Integer modifyUserId) {
 		this.modifyUserId = modifyUserId;
 	}
-
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getModifyDate() {
 		return modifyDate;
 	}

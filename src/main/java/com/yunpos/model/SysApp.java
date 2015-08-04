@@ -1,22 +1,24 @@
 package com.yunpos.model;
 
 public class SysApp {
-	private Integer applicationId;
+	private Integer id;
 
 	private Integer applicationCode;
 
 	private String applicationName;
+	private String name;
 
 	private String applicationDesc;
 
 	private Integer showInMenu;
 
-	public Integer getApplicationId() {
-		return applicationId;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setApplicationId(Integer applicationId) {
-		this.applicationId = applicationId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getApplicationCode() {
@@ -52,4 +54,14 @@ public class SysApp {
 	public void setShowInMenu(Integer showInMenu) {
 		this.showInMenu = showInMenu;
 	}
+
+	public String getName() {
+		return applicationName;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 }

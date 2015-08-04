@@ -4,6 +4,7 @@ package com.yunpos.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -11,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yunpos.model.Page;
+import com.yunpos.security.SecurityUser;
 import com.yunpos.utils.PageDate;
 import com.yunpos.utils.UuidUtil;
 
@@ -41,6 +43,12 @@ public class BaseController {
 	public String get32UUID() {
 
 		return UuidUtil.get32UUID();
+	}
+	
+	
+	public SecurityUser getUser(){
+		 SecurityUser currentUser = (SecurityUser) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+		 return currentUser;
 	}
 
 	/**

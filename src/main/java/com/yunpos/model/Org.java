@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.serializer.JsonDateSerializer;
 
 public class Org {
-	private Integer orgId;
+	private Integer id;
 
 	private String orgNo;
 
@@ -36,12 +36,14 @@ public class Org {
 
 	private Integer extParent;
 
-	public Integer getOrgId() {
-		return orgId;
+
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setOrgId(Integer orgId) {
-		this.orgId = orgId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getOrgNo() {
@@ -92,7 +94,8 @@ public class Org {
 	public void setCreateUserId(Integer createUserId) {
 		this.createUserId = createUserId;
 	}
-
+	
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -108,7 +111,8 @@ public class Org {
 	public void setModifyUserId(Integer modifyUserId) {
 		this.modifyUserId = modifyUserId;
 	}
-
+	
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getModifyDate() {
 		return modifyDate;
 	}

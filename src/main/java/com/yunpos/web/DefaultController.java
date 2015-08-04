@@ -1,7 +1,5 @@
 package com.yunpos.web;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -58,6 +56,16 @@ public class DefaultController extends BaseController {
         return "resource/button_res";
     }
     
+    @RequestMapping("/page/user_role")
+    public String user_role() {
+        return "user_role";
+    }
+    
+    
+    @RequestMapping("/page/privilege")
+    public String privilege() {
+        return "privilege";
+    }
     
       
 }

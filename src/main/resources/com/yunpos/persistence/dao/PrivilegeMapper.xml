@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.PrivilegeMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.Privilege">
-		<id column="privilegeId" property="privilegeId" jdbcType="INTEGER" />
+		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="privilegeMaster" property="privilegeMaster"
 			jdbcType="VARCHAR" />
 		<result column="privilegeMasterValue" property="privilegeMasterValue"
@@ -15,7 +15,7 @@
 			jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		privilegeId, privilegeMaster, privilegeMasterValue, privilegeAccess,
+		id, privilegeMaster, privilegeMasterValue, privilegeAccess,
 		privilegeAccessValue,
 		privilegeOperation
 	</sql>
@@ -24,19 +24,21 @@
 		select
 		<include refid="Base_Column_List" />
 		from privilege
-		where privilegeId = #{privilegeId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from privilege
-		where privilegeId = #{privilegeId,jdbcType=INTEGER}
+		delete from
+		privilege
+		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.yunpos.model.Privilege">
-		insert into privilege (privilegeId, privilegeMaster,
-		privilegeMasterValue,
-		privilegeAccess, privilegeAccessValue,
+		insert into privilege (id,
+		privilegeMaster, privilegeMasterValue,
+		privilegeAccess,
+		privilegeAccessValue,
 		privilegeOperation)
-		values (#{privilegeId,jdbcType=INTEGER},
-		#{privilegeMaster,jdbcType=VARCHAR},
+		values
+		(#{id,jdbcType=INTEGER}, #{privilegeMaster,jdbcType=VARCHAR},
 		#{privilegeMasterValue,jdbcType=INTEGER},
 		#{privilegeAccess,jdbcType=VARCHAR},
 		#{privilegeAccessValue,jdbcType=INTEGER},
@@ -45,8 +47,8 @@
 	<insert id="insertSelective" parameterType="com.yunpos.model.Privilege">
 		insert into privilege
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="privilegeId != null">
-				privilegeId,
+			<if test="id != null">
+				id,
 			</if>
 			<if test="privilegeMaster != null">
 				privilegeMaster,
@@ -65,8 +67,8 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="privilegeId != null">
-				#{privilegeId,jdbcType=INTEGER},
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
 			</if>
 			<if test="privilegeMaster != null">
 				#{privilegeMaster,jdbcType=VARCHAR},
@@ -92,19 +94,22 @@
 				privilegeMaster = #{privilegeMaster,jdbcType=VARCHAR},
 			</if>
 			<if test="privilegeMasterValue != null">
-				privilegeMasterValue = #{privilegeMasterValue,jdbcType=INTEGER},
+				privilegeMasterValue =
+				#{privilegeMasterValue,jdbcType=INTEGER},
 			</if>
 			<if test="privilegeAccess != null">
 				privilegeAccess = #{privilegeAccess,jdbcType=VARCHAR},
 			</if>
 			<if test="privilegeAccessValue != null">
-				privilegeAccessValue = #{privilegeAccessValue,jdbcType=INTEGER},
+				privilegeAccessValue =
+				#{privilegeAccessValue,jdbcType=INTEGER},
 			</if>
 			<if test="privilegeOperation != null">
-				privilegeOperation = #{privilegeOperation,jdbcType=INTEGER},
+				privilegeOperation =
+				#{privilegeOperation,jdbcType=INTEGER},
 			</if>
 		</set>
-		where privilegeId = #{privilegeId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.Privilege">
 		update privilege
@@ -113,14 +118,26 @@
 		privilegeAccess = #{privilegeAccess,jdbcType=VARCHAR},
 		privilegeAccessValue = #{privilegeAccessValue,jdbcType=INTEGER},
 		privilegeOperation = #{privilegeOperation,jdbcType=INTEGER}
-		where privilegeId = #{privilegeId,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</update>
+
 
 	<!-- ##################################### -->
 	<select id="findListByIds" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from privilege where privilegeId in
+		from privilege where id in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="findListByRoleIds" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from privilege where privilegeMasterValue in
 		<foreach item="item" index="index" collection="array" open="("
 			separator="," close=")">
 			#{item}
@@ -128,8 +145,10 @@
 	</select>
 
 
+
+
 	<delete id="batchDeleteByIds">
-		delete from privilege where privilegeId in
+		delete from privilege where id in
 		<foreach item="item" index="index" collection="array" open="("
 			separator="," close=")">
 			#{item}

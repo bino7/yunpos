@@ -71,6 +71,9 @@ public class SecurityRealm extends AuthorizingRealm {
 				}
 				List<Role> roleList = roleService.findListByIds(roleIds.toArray());
 				List<Privilege> privilegeList = privilegeService.findListByRoleIds(roleIds.toArray());
+				
+				securityUser.setRoles(roleList);
+				
 				for (Role role : roleList) {
 					roleNames.add(role.getRoleName());
 				}
@@ -88,6 +91,8 @@ public class SecurityRealm extends AuthorizingRealm {
 				for(SysMenu menu: menus){
 					permissions.add("menu:"+menu.getMenuUrl());
 				}
+				securityUser.setPermissions(permissions);
+				
 				
 				System.out.println("当前用户具有的权限信息：" + permissions.toString());
 				info = new SimpleAuthorizationInfo(roleNames);

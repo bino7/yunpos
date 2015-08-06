@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.WxuserMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.Wxuser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="routerid" property="routerid" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="wxname" property="wxname" jdbcType="VARCHAR" />
+    <result column="winxintype" property="winxintype" jdbcType="SMALLINT" />
+    <result column="appid" property="appid" jdbcType="VARCHAR" />
+    <result column="appsecret" property="appsecret" jdbcType="VARCHAR" />
+    <result column="wxid" property="wxid" jdbcType="VARCHAR" />
+    <result column="weixin" property="weixin" jdbcType="CHAR" />
+    <result column="headerpic" property="headerpic" jdbcType="CHAR" />
+    <result column="token" property="token" jdbcType="CHAR" />
+    <result column="pigsecret" property="pigsecret" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="CHAR" />
+    <result column="wxfans" property="wxfans" jdbcType="INTEGER" />
+    <result column="typeid" property="typeid" jdbcType="INTEGER" />
+    <result column="typename" property="typename" jdbcType="VARCHAR" />
+    <result column="allcardnum" property="allcardnum" jdbcType="INTEGER" />
+    <result column="cardisok" property="cardisok" jdbcType="INTEGER" />
+    <result column="yetcardnum" property="yetcardnum" jdbcType="INTEGER" />
+    <result column="totalcardnum" property="totalcardnum" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="tpltypeid" property="tpltypeid" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="tpltypename" property="tpltypename" jdbcType="VARCHAR" />
+    <result column="tpllistid" property="tpllistid" jdbcType="VARCHAR" />
+    <result column="tpllistname" property="tpllistname" jdbcType="VARCHAR" />
+    <result column="tplcontentid" property="tplcontentid" jdbcType="VARCHAR" />
+    <result column="tplcontentname" property="tplcontentname" jdbcType="VARCHAR" />
+    <result column="transfer_customer_service" property="transfer_customer_service" jdbcType="BIT" />
+    <result column="openphotoprint" property="openphotoprint" jdbcType="BIT" />
+    <result column="freephotocount" property="freephotocount" jdbcType="INTEGER" />
+    <result column="oauth" property="oauth" jdbcType="BIT" />
+    <result column="color_id" property="color_id" jdbcType="INTEGER" />
+    <result column="partnerid" property="partnerid" jdbcType="VARCHAR" />
+    <result column="alipaykey" property="alipaykey" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.Wxuser" extends="BaseResultMap" >
+    <result column="tongji" property="tongji" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, routerid, uid, wxname, winxintype, appid, appsecret, wxid, weixin, headerpic, 
+    token, pigsecret, province, city, qq, wxfans, typeid, typename, allcardnum, cardisok, 
+    yetcardnum, totalcardnum, createtime, tpltypeid, updatetime, tpltypename, tpllistid, 
+    tpllistname, tplcontentid, tplcontentname, transfer_customer_service, openphotoprint, 
+    freephotocount, oauth, color_id, partnerid, alipaykey
+  </sql>
+  <sql id="Blob_Column_List" >
+    tongji
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pigcms_wxuser
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pigcms_wxuser
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.Wxuser" >
+    insert into pigcms_wxuser (id, routerid, uid, 
+      wxname, winxintype, appid, 
+      appsecret, wxid, weixin, 
+      headerpic, token, pigsecret, 
+      province, city, qq, wxfans, 
+      typeid, typename, allcardnum, 
+      cardisok, yetcardnum, totalcardnum, 
+      createtime, tpltypeid, updatetime, 
+      tpltypename, tpllistid, tpllistname, 
+      tplcontentid, tplcontentname, transfer_customer_service, 
+      openphotoprint, freephotocount, oauth, 
+      color_id, partnerid, alipaykey, 
+      tongji)
+    values (#{id,jdbcType=INTEGER}, #{routerid,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
+      #{wxname,jdbcType=VARCHAR}, #{winxintype,jdbcType=SMALLINT}, #{appid,jdbcType=VARCHAR}, 
+      #{appsecret,jdbcType=VARCHAR}, #{wxid,jdbcType=VARCHAR}, #{weixin,jdbcType=CHAR}, 
+      #{headerpic,jdbcType=CHAR}, #{token,jdbcType=CHAR}, #{pigsecret,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{qq,jdbcType=CHAR}, #{wxfans,jdbcType=INTEGER}, 
+      #{typeid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{allcardnum,jdbcType=INTEGER}, 
+      #{cardisok,jdbcType=INTEGER}, #{yetcardnum,jdbcType=INTEGER}, #{totalcardnum,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=VARCHAR}, #{tpltypeid,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, 
+      #{tpltypename,jdbcType=VARCHAR}, #{tpllistid,jdbcType=VARCHAR}, #{tpllistname,jdbcType=VARCHAR}, 
+      #{tplcontentid,jdbcType=VARCHAR}, #{tplcontentname,jdbcType=VARCHAR}, #{transfer_customer_service,jdbcType=BIT}, 
+      #{openphotoprint,jdbcType=BIT}, #{freephotocount,jdbcType=INTEGER}, #{oauth,jdbcType=BIT}, 
+      #{color_id,jdbcType=INTEGER}, #{partnerid,jdbcType=VARCHAR}, #{alipaykey,jdbcType=VARCHAR}, 
+      #{tongji,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.Wxuser" >
+    insert into pigcms_wxuser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="routerid != null" >
+        routerid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="wxname != null" >
+        wxname,
+      </if>
+      <if test="winxintype != null" >
+        winxintype,
+      </if>
+      <if test="appid != null" >
+        appid,
+      </if>
+      <if test="appsecret != null" >
+        appsecret,
+      </if>
+      <if test="wxid != null" >
+        wxid,
+      </if>
+      <if test="weixin != null" >
+        weixin,
+      </if>
+      <if test="headerpic != null" >
+        headerpic,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="pigsecret != null" >
+        pigsecret,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="wxfans != null" >
+        wxfans,
+      </if>
+      <if test="typeid != null" >
+        typeid,
+      </if>
+      <if test="typename != null" >
+        typename,
+      </if>
+      <if test="allcardnum != null" >
+        allcardnum,
+      </if>
+      <if test="cardisok != null" >
+        cardisok,
+      </if>
+      <if test="yetcardnum != null" >
+        yetcardnum,
+      </if>
+      <if test="totalcardnum != null" >
+        totalcardnum,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="tpltypeid != null" >
+        tpltypeid,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="tpltypename != null" >
+        tpltypename,
+      </if>
+      <if test="tpllistid != null" >
+        tpllistid,
+      </if>
+      <if test="tpllistname != null" >
+        tpllistname,
+      </if>
+      <if test="tplcontentid != null" >
+        tplcontentid,
+      </if>
+      <if test="tplcontentname != null" >
+        tplcontentname,
+      </if>
+      <if test="transfer_customer_service != null" >
+        transfer_customer_service,
+      </if>
+      <if test="openphotoprint != null" >
+        openphotoprint,
+      </if>
+      <if test="freephotocount != null" >
+        freephotocount,
+      </if>
+      <if test="oauth != null" >
+        oauth,
+      </if>
+      <if test="color_id != null" >
+        color_id,
+      </if>
+      <if test="partnerid != null" >
+        partnerid,
+      </if>
+      <if test="alipaykey != null" >
+        alipaykey,
+      </if>
+      <if test="tongji != null" >
+        tongji,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="routerid != null" >
+        #{routerid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="wxname != null" >
+        #{wxname,jdbcType=VARCHAR},
+      </if>
+      <if test="winxintype != null" >
+        #{winxintype,jdbcType=SMALLINT},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="appsecret != null" >
+        #{appsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="wxid != null" >
+        #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        #{weixin,jdbcType=CHAR},
+      </if>
+      <if test="headerpic != null" >
+        #{headerpic,jdbcType=CHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=CHAR},
+      </if>
+      <if test="pigsecret != null" >
+        #{pigsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=CHAR},
+      </if>
+      <if test="wxfans != null" >
+        #{wxfans,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="allcardnum != null" >
+        #{allcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="cardisok != null" >
+        #{cardisok,jdbcType=INTEGER},
+      </if>
+      <if test="yetcardnum != null" >
+        #{yetcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="totalcardnum != null" >
+        #{totalcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="tpltypeid != null" >
+        #{tpltypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="tpltypename != null" >
+        #{tpltypename,jdbcType=VARCHAR},
+      </if>
+      <if test="tpllistid != null" >
+        #{tpllistid,jdbcType=VARCHAR},
+      </if>
+      <if test="tpllistname != null" >
+        #{tpllistname,jdbcType=VARCHAR},
+      </if>
+      <if test="tplcontentid != null" >
+        #{tplcontentid,jdbcType=VARCHAR},
+      </if>
+      <if test="tplcontentname != null" >
+        #{tplcontentname,jdbcType=VARCHAR},
+      </if>
+      <if test="transfer_customer_service != null" >
+        #{transfer_customer_service,jdbcType=BIT},
+      </if>
+      <if test="openphotoprint != null" >
+        #{openphotoprint,jdbcType=BIT},
+      </if>
+      <if test="freephotocount != null" >
+        #{freephotocount,jdbcType=INTEGER},
+      </if>
+      <if test="oauth != null" >
+        #{oauth,jdbcType=BIT},
+      </if>
+      <if test="color_id != null" >
+        #{color_id,jdbcType=INTEGER},
+      </if>
+      <if test="partnerid != null" >
+        #{partnerid,jdbcType=VARCHAR},
+      </if>
+      <if test="alipaykey != null" >
+        #{alipaykey,jdbcType=VARCHAR},
+      </if>
+      <if test="tongji != null" >
+        #{tongji,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.Wxuser" >
+    update pigcms_wxuser
+    <set >
+      <if test="routerid != null" >
+        routerid = #{routerid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="wxname != null" >
+        wxname = #{wxname,jdbcType=VARCHAR},
+      </if>
+      <if test="winxintype != null" >
+        winxintype = #{winxintype,jdbcType=SMALLINT},
+      </if>
+      <if test="appid != null" >
+        appid = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="appsecret != null" >
+        appsecret = #{appsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="wxid != null" >
+        wxid = #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        weixin = #{weixin,jdbcType=CHAR},
+      </if>
+      <if test="headerpic != null" >
+        headerpic = #{headerpic,jdbcType=CHAR},
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=CHAR},
+      </if>
+      <if test="pigsecret != null" >
+        pigsecret = #{pigsecret,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=CHAR},
+      </if>
+      <if test="wxfans != null" >
+        wxfans = #{wxfans,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        typeid = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="typename != null" >
+        typename = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="allcardnum != null" >
+        allcardnum = #{allcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="cardisok != null" >
+        cardisok = #{cardisok,jdbcType=INTEGER},
+      </if>
+      <if test="yetcardnum != null" >
+        yetcardnum = #{yetcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="totalcardnum != null" >
+        totalcardnum = #{totalcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="tpltypeid != null" >
+        tpltypeid = #{tpltypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="tpltypename != null" >
+        tpltypename = #{tpltypename,jdbcType=VARCHAR},
+      </if>
+      <if test="tpllistid != null" >
+        tpllistid = #{tpllistid,jdbcType=VARCHAR},
+      </if>
+      <if test="tpllistname != null" >
+        tpllistname = #{tpllistname,jdbcType=VARCHAR},
+      </if>
+      <if test="tplcontentid != null" >
+        tplcontentid = #{tplcontentid,jdbcType=VARCHAR},
+      </if>
+      <if test="tplcontentname != null" >
+        tplcontentname = #{tplcontentname,jdbcType=VARCHAR},
+      </if>
+      <if test="transfer_customer_service != null" >
+        transfer_customer_service = #{transfer_customer_service,jdbcType=BIT},
+      </if>
+      <if test="openphotoprint != null" >
+        openphotoprint = #{openphotoprint,jdbcType=BIT},
+      </if>
+      <if test="freephotocount != null" >
+        freephotocount = #{freephotocount,jdbcType=INTEGER},
+      </if>
+      <if test="oauth != null" >
+        oauth = #{oauth,jdbcType=BIT},
+      </if>
+      <if test="color_id != null" >
+        color_id = #{color_id,jdbcType=INTEGER},
+      </if>
+      <if test="partnerid != null" >
+        partnerid = #{partnerid,jdbcType=VARCHAR},
+      </if>
+      <if test="alipaykey != null" >
+        alipaykey = #{alipaykey,jdbcType=VARCHAR},
+      </if>
+      <if test="tongji != null" >
+        tongji = #{tongji,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunpos.model.Wxuser" >
+    update pigcms_wxuser
+    set routerid = #{routerid,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      wxname = #{wxname,jdbcType=VARCHAR},
+      winxintype = #{winxintype,jdbcType=SMALLINT},
+      appid = #{appid,jdbcType=VARCHAR},
+      appsecret = #{appsecret,jdbcType=VARCHAR},
+      wxid = #{wxid,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=CHAR},
+      headerpic = #{headerpic,jdbcType=CHAR},
+      token = #{token,jdbcType=CHAR},
+      pigsecret = #{pigsecret,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=CHAR},
+      wxfans = #{wxfans,jdbcType=INTEGER},
+      typeid = #{typeid,jdbcType=INTEGER},
+      typename = #{typename,jdbcType=VARCHAR},
+      allcardnum = #{allcardnum,jdbcType=INTEGER},
+      cardisok = #{cardisok,jdbcType=INTEGER},
+      yetcardnum = #{yetcardnum,jdbcType=INTEGER},
+      totalcardnum = #{totalcardnum,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      tpltypeid = #{tpltypeid,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=VARCHAR},
+      tpltypename = #{tpltypename,jdbcType=VARCHAR},
+      tpllistid = #{tpllistid,jdbcType=VARCHAR},
+      tpllistname = #{tpllistname,jdbcType=VARCHAR},
+      tplcontentid = #{tplcontentid,jdbcType=VARCHAR},
+      tplcontentname = #{tplcontentname,jdbcType=VARCHAR},
+      transfer_customer_service = #{transfer_customer_service,jdbcType=BIT},
+      openphotoprint = #{openphotoprint,jdbcType=BIT},
+      freephotocount = #{freephotocount,jdbcType=INTEGER},
+      oauth = #{oauth,jdbcType=BIT},
+      color_id = #{color_id,jdbcType=INTEGER},
+      partnerid = #{partnerid,jdbcType=VARCHAR},
+      alipaykey = #{alipaykey,jdbcType=VARCHAR},
+      tongji = #{tongji,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.Wxuser" >
+    update pigcms_wxuser
+    set routerid = #{routerid,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      wxname = #{wxname,jdbcType=VARCHAR},
+      winxintype = #{winxintype,jdbcType=SMALLINT},
+      appid = #{appid,jdbcType=VARCHAR},
+      appsecret = #{appsecret,jdbcType=VARCHAR},
+      wxid = #{wxid,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=CHAR},
+      headerpic = #{headerpic,jdbcType=CHAR},
+      token = #{token,jdbcType=CHAR},
+      pigsecret = #{pigsecret,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=CHAR},
+      wxfans = #{wxfans,jdbcType=INTEGER},
+      typeid = #{typeid,jdbcType=INTEGER},
+      typename = #{typename,jdbcType=VARCHAR},
+      allcardnum = #{allcardnum,jdbcType=INTEGER},
+      cardisok = #{cardisok,jdbcType=INTEGER},
+      yetcardnum = #{yetcardnum,jdbcType=INTEGER},
+      totalcardnum = #{totalcardnum,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      tpltypeid = #{tpltypeid,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=VARCHAR},
+      tpltypename = #{tpltypename,jdbcType=VARCHAR},
+      tpllistid = #{tpllistid,jdbcType=VARCHAR},
+      tpllistname = #{tpllistname,jdbcType=VARCHAR},
+      tplcontentid = #{tplcontentid,jdbcType=VARCHAR},
+      tplcontentname = #{tplcontentname,jdbcType=VARCHAR},
+      transfer_customer_service = #{transfer_customer_service,jdbcType=BIT},
+      openphotoprint = #{openphotoprint,jdbcType=BIT},
+      freephotocount = #{freephotocount,jdbcType=INTEGER},
+      oauth = #{oauth,jdbcType=BIT},
+      color_id = #{color_id,jdbcType=INTEGER},
+      partnerid = #{partnerid,jdbcType=VARCHAR},
+      alipaykey = #{alipaykey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

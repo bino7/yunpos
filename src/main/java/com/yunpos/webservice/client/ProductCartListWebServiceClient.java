@@ -1,0 +1,22 @@
+package com.yunpos.webservice.client;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.alipaybox.model.ProductCartList;
+import com.alipaybox.service.EntityService;
+import com.alipaybox.service.ProductCartListService;
+import com.alipaybox.webservice.request.ProductCartListRequest;
+
+
+@Component
+public class ProductCartListWebServiceClient extends BaseWebserviceClient<ProductCartListRequest,ProductCartList>{
+	@Autowired
+	ProductCartListService productCartListService;
+
+	@Override
+	public EntityService<ProductCartList> getService() {
+		return productCartListService;
+	}
+
+}

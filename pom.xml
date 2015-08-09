@@ -176,7 +176,7 @@
 <artifactId>alipaybox</artifactId>
 <version>1.0</version>
 <scope>system</scope>
-<systemPath>G:/alipaybox.jar</systemPath>
+<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/alipaybox.jar</systemPath>
 </dependency>
 
 <dependency>

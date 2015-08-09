@@ -19,7 +19,7 @@ import com.yunpos.mybatisPlugin.MybatisInterceptor;
 @Configuration
 @EnableTransactionManagement
 //@MapperScan("com.*.*.mapper")
-@MapperScan(value = "com.yunpos.persistence.dao", sqlSessionFactoryRef = "sqlSessionFactoryForPrimary")
+@MapperScan(value = "com.*.persistence.dao", sqlSessionFactoryRef = "sqlSessionFactoryForPrimary")
 public class MyBatisConfig {
 	
 	

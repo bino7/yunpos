@@ -8,7 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-@ComponentScan
+@ComponentScan(basePackages="com")
 @EnableAutoConfiguration
 @Configuration
 @EnableConfigurationProperties

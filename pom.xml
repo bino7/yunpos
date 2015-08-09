@@ -165,6 +165,26 @@
 			<artifactId>spring-ws-core</artifactId>
 			<version>2.2.1.RELEASE</version>
 	   </dependency>
+	   
+	   <dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+		</dependency>
+	   
+	   <dependency>
+<groupId>com.alipaybox</groupId>
+<artifactId>alipaybox</artifactId>
+<version>1.0</version>
+<scope>system</scope>
+<systemPath>G:/alipaybox.jar</systemPath>
+</dependency>
+
+<dependency>
+	<groupId>org.jdom</groupId>
+	<artifactId>jdom2</artifactId>
+	<version>2.0.6</version>
+</dependency>
+
 
 	</dependencies>
 	<build>

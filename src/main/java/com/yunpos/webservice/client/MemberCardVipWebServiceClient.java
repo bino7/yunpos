@@ -23,10 +23,11 @@ public class MemberCardVipWebServiceClient extends BaseWebserviceClient<MemberCa
 	}
 
 	@Override
-	public void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public MemberCardVip[] dataProcess(MemberCardVip[] list)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }

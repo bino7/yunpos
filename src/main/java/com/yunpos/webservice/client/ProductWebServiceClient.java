@@ -23,10 +23,12 @@ public class ProductWebServiceClient extends BaseWebserviceClient<ProductRequest
 	}
 
 	@Override
-	public void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public Product[] dataProcess(Product[] list)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
+
 
 }

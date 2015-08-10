@@ -23,10 +23,12 @@ public class MemberCardCustomWebServiceClient extends BaseWebserviceClient<Membe
 	}
 
 	@Override
-	public void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public MemberCardCustom[] dataProcess(MemberCardCustom[] list)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
+
 
 }

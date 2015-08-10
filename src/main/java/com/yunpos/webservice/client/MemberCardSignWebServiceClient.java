@@ -23,10 +23,12 @@ public class MemberCardSignWebServiceClient extends BaseWebserviceClient<MemberC
 	}
 
 	@Override
-	public void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public MemberCardSign[] dataProcess(MemberCardSign[] list)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
+
 
 }

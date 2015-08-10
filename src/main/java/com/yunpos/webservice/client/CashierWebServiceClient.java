@@ -23,10 +23,12 @@ public class CashierWebServiceClient extends BaseWebserviceClient<CashierRequest
 	}
 
 	@Override
-	public void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public Cashier[] dataProcess(Cashier[] list)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
+
 
 }

@@ -25,11 +25,8 @@ public class UsersWebServiceClient extends BaseWebserviceClient<UsersRequest, Us
 		return usersService;
 	}
 
-	public void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
+	public Users[] dataProcess(Users[] list) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("startId", 12);
-		Users[] list = super.marshalSendAndReceive(data);
 		// 数据处理
 		List<Users> newlist = new ArrayList<Users>();
 		for (int i = 0; i < list.length; i++) {
@@ -38,6 +35,6 @@ public class UsersWebServiceClient extends BaseWebserviceClient<UsersRequest, Us
 			if (us.getUser_flg() == true && us.getUsername() != "")
 				newlist.add(us);
 		}
-		super.pullAndUpdate((Users[]) newlist.toArray());
+		return (Users[]) newlist.toArray();
 	}
 }

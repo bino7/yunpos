@@ -12,6 +12,7 @@ import java.util.Map;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
+import com.alipaybox.model.Users;
 import com.alipaybox.service.EntityService;
 import com.alipaybox.webservice.PayboxResponse;
 import com.fasterxml.jackson.databind.JavaType;
@@ -76,6 +77,7 @@ public abstract class BaseWebserviceClient<T1, T2> {
 
 	public void pullAndUpdate(T2[] list) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+		list = dataProcess(list);
 		for (T2 entity : list) {
 			// int id = entity.getId();
 			Method method = resultBean.getDeclaredMethod("getId");
@@ -90,6 +92,6 @@ public abstract class BaseWebserviceClient<T1, T2> {
 
 	public abstract EntityService<T2> getService();
 
-	public abstract void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
+	public abstract T2[] dataProcess(T2[] list) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException;
 }

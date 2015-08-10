@@ -24,12 +24,13 @@ public class WechatGroupListWebServiceClient extends BaseWebserviceClient<Wechat
 	}
 
 	@Override
-	public void dataProcess() throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public WechatGroupList[] dataProcess(WechatGroupList[] list)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
-	
+
 	
 }	
 	

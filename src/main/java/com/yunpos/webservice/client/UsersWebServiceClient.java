@@ -2,9 +2,13 @@ package com.yunpos.webservice.client;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+=======
+import java.util.HashMap;
+>>>>>>> branch 'master' of https://git.oschina.net/tcwork/yunpos.git
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;

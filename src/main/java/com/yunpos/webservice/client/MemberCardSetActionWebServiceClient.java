@@ -1,8 +1,5 @@
 package com.yunpos.webservice.client;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +20,7 @@ public class MemberCardSetActionWebServiceClient extends BaseWebserviceClient<Me
 	}
 
 	@Override
-	public MemberCardSetAction[] dataProcess(MemberCardSetAction[] list)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException, IOException {
+	public MemberCardSetAction[] dataProcess(MemberCardSetAction[] list){
 		// TODO Auto-generated method stub
 		return list;
 	}

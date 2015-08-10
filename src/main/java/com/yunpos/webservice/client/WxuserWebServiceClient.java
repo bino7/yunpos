@@ -1,8 +1,5 @@
 package com.yunpos.webservice.client;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +20,7 @@ public class WxuserWebServiceClient extends BaseWebserviceClient<WxuserRequest,W
 	}
 
 	@Override
-	public WxUser[] dataProcess(WxUser[] list) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public WxUser[] dataProcess(WxUser[] list) {
 		// TODO Auto-generated method stub
 		return list;
 	}

@@ -92,6 +92,5 @@ public abstract class BaseWebserviceClient<T1, T2> {
 
 	public abstract EntityService<T2> getService();
 
-	public abstract T2[] dataProcess(T2[] list) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException;
+	public abstract T2[] dataProcess(T2[] list);
 }

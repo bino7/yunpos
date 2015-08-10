@@ -25,8 +25,7 @@ public class UsersWebServiceClient extends BaseWebserviceClient<UsersRequest, Us
 		return usersService;
 	}
 
-	public Users[] dataProcess(Users[] list) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	public Users[] dataProcess(Users[] list){
 		// 数据处理
 		List<Users> newlist = new ArrayList<Users>();
 		for (int i = 0; i < list.length; i++) {

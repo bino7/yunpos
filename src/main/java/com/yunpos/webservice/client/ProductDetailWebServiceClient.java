@@ -1,8 +1,12 @@
 package com.yunpos.webservice.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alipaybox.model.Product;
 import com.alipaybox.model.ProductDetail;
 import com.alipaybox.service.EntityService;
 import com.alipaybox.service.ProductDetailService;
@@ -20,9 +24,20 @@ public class ProductDetailWebServiceClient extends BaseWebserviceClient<ProductD
 	}
 
 	@Override
-	public ProductDetail[] dataProcess(ProductDetail[] list){
-		// TODO Auto-generated method stub
-		return list;
+	public ProductDetail[] dataProcess(ProductDetail[] list) {
+		// 数据处理
+		List<ProductDetail> resultList = new ArrayList<ProductDetail>();
+		for (ProductDetail entity : list) {
+			String format = entity.getFormat();
+			
+			if (format == null || format.length() == 0) {
+				continue;
+			}
+
+			resultList.add(entity);
+		}
+
+		return resultList.toArray(new ProductDetail[] {});
 	}
 
 }

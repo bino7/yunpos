@@ -84,9 +84,11 @@ public abstract class BaseWebserviceClient<T1, T2> {
 			int id = (int) method.invoke(entity);
 
 			if (getService().findById(id) != null) {
-				getService().delete(id);
+				getService().update(entity);
+			}else {
+				getService().save(entity);
 			}
-			getService().save(entity);
+			
 		}
 	}
 

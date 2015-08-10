@@ -8,13 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yunpos.service.UserSessionService;
+import com.yunpos.service.SysUserSessionService;
 
 public class SecuritySessionDao extends CachingSessionDAO {
     private static Logger logger = LoggerFactory.getLogger(SecuritySessionDao.class);
 
     @Autowired
-    UserSessionService userSessionService;
+    SysUserSessionService sysUserSessionService;
 
     @Override
     protected Serializable doCreate(Session session) {
@@ -28,18 +28,18 @@ public class SecuritySessionDao extends CachingSessionDAO {
         Serializable sessionId = generateSessionId(session);
         assignSessionId(session, sessionId);
 
-        userSessionService.createUserSession(session);
+        sysUserSessionService.createUserSession(session);
         return sessionId;
     }
 
     @Override
     protected void doDelete(Session session) {
-        userSessionService.deleteUserSession(session);
+    	sysUserSessionService.deleteUserSession(session);
     }
 
     @Override
     protected void doUpdate(Session session) {
-        userSessionService.updateUserSession(session);
+    	sysUserSessionService.updateUserSession(session);
     }
 
     @Override

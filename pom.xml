@@ -170,14 +170,14 @@
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 		</dependency>
-	   
-	   <dependency>
-<groupId>com.alipaybox</groupId>
-<artifactId>alipaybox</artifactId>
-<version>1.0</version>
-<scope>system</scope>
-<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/alipaybox.jar</systemPath>
-</dependency>
+
+	<dependency>
+		<groupId>com.alipaybox</groupId>
+		<artifactId>alipaybox</artifactId>
+		<version>1.0</version>
+		<scope>system</scope>
+		<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/alipaybox.jar</systemPath>
+	</dependency>
 
 <dependency>
 	<groupId>org.jdom</groupId>

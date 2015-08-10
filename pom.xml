@@ -172,14 +172,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.alipaybox</groupId>
-			<artifactId>alipaybox</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/alipaybox.jar</systemPath>
-		</dependency>
-
-		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
 			<version>2.0.6</version>

@@ -80,7 +80,7 @@ public abstract class BaseWebserviceClient<T1, T2> {
 		list = dataProcess(list);
 		for (T2 entity : list) {
 			// int id = entity.getId();
-			Method method = resultBean.getDeclaredMethod("getId");
+			Method method = resultBean.getMethod("getId");
 			int id = (int) method.invoke(entity);
 
 			if (getService().findById(id) != null) {

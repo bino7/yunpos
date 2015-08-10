@@ -27,7 +27,7 @@ public class MemberCardIntegralWebServiceClient extends BaseWebserviceClient<Mem
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+		return list;
 	}
 
 }

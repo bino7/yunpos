@@ -27,7 +27,7 @@ public class ProductWebServiceClient extends BaseWebserviceClient<ProductRequest
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+		return list;
 	}
 
 

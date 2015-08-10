@@ -27,7 +27,7 @@ public class MemberCardVipWebServiceClient extends BaseWebserviceClient<MemberCa
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+		return list;
 	}
 
 }

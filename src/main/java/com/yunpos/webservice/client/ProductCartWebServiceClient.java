@@ -27,7 +27,7 @@ public class ProductCartWebServiceClient extends BaseWebserviceClient<ProductCar
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+		return list;
 	}
 
 }

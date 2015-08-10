@@ -1,5 +1,8 @@
 package com.yunpos.webservice.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +24,22 @@ public class CashierWebServiceClient extends BaseWebserviceClient<CashierRequest
 
 	@Override
 	public Cashier[] dataProcess(Cashier[] list){
-		// TODO Auto-generated method stub
-		return list;
+		// 数据处理
+		List<Cashier> resultList = new ArrayList<Cashier>();
+		for (Cashier entity : list) {
+			String token = entity.getToken();
+			if (token == null || token.length() == 0) {
+				continue;
+			}
+			String username = entity.getUsername();//用户名
+			if (username == null || username.length() == 0) {
+				continue;
+			}
+			
+			resultList.add(entity);
+		}
+
+		return resultList.toArray(new Cashier[]{});
 	}
 
 

@@ -1,11 +1,7 @@
 package com.yunpos.webservice.client;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +30,6 @@ public class UsersWebServiceClient extends BaseWebserviceClient<UsersRequest, Us
 			if (us.getUser_flg() == true && us.getUsername() != "")
 				newlist.add(us);
 		}
-		return (Users[]) newlist.toArray();
+		return newlist.toArray((new Users[]{}));
 	}
 }

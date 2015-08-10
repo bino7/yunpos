@@ -77,8 +77,8 @@ public abstract class BaseWebserviceClient<T1, T2> {
 
 	public void pullAndUpdate(T2[] list) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
-		list = dataProcess(list);
-		for (T2 entity : list) {
+		T2[] resultList = dataProcess(list);
+		for (T2 entity : resultList) {
 			// int id = entity.getId();
 			Method method = resultBean.getMethod("getId");
 			int id = (int) method.invoke(entity);

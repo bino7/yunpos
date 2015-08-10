@@ -3,6 +3,8 @@ package com.yunpos.application;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yunpos.model.DataRule;
 import com.yunpos.model.User;
-import com.yunpos.mybatisPlugin.SqlHelper;
+import com.yunpos.security.SecurityUser;
 import com.yunpos.service.DataRuleService;
 
 /**
@@ -30,6 +32,11 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// 验证用户是否登陆
+		PrincipalCollection principals= (PrincipalCollection) SecurityUtils.getSubject().getPrincipals();
+		SecurityUser securityUser = (SecurityUser) principals.getPrimaryPrincipal();
+		
+		
+		
 		Object obj = request.getSession().getAttribute("cur_user");
 		String userid = request.getParameter("userid");
 		String datatype = request.getParameter("datatype");

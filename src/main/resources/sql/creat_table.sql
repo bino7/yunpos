@@ -255,3 +255,33 @@ CREATE TABLE `sys_user_role` (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('8', '1', '8', '1', '2015-08-04 11:19:30', null, null);
+
+
+-- ----------------------------
+-- Table structure for sys_pay_order
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_pay_order`;
+CREATE TABLE `sys_pay_order` (
+  `id` int(11) NOT NULL,
+  `payOrderNo` varchar(50) DEFAULT NULL COMMENT '支付流水号',
+  `status` tinyint(4) DEFAULT NULL COMMENT '支付状态',
+  `payCode` varchar(50) DEFAULT NULL,
+  `roleId` int(11) DEFAULT NULL COMMENT '角色ID',
+  `userId` int(11) DEFAULT NULL COMMENT '收银员ID',
+  `price` decimal(10,0) DEFAULT NULL COMMENT '支付金额',
+  `barCode` varchar(20) DEFAULT NULL COMMENT '条码',
+  `imei` varchar(20) DEFAULT NULL,
+  `deviceType` tinyint(4) DEFAULT NULL,
+  `notify_time` datetime DEFAULT NULL COMMENT '异步回调时间',
+  `trade_no` varchar(50) DEFAULT NULL COMMENT '支付宝交易号',
+  `seller_email` varchar(50) DEFAULT NULL COMMENT '卖家支付宝账号',
+  `buyer_email` varchar(50) DEFAULT NULL,
+  `seller_id` varchar(50) DEFAULT NULL,
+  `buyer_id` varchar(50) DEFAULT NULL COMMENT '买家支付宝用户号',
+  `body` varchar(200) DEFAULT NULL COMMENT '商品描述',
+  `createAt` datetime DEFAULT NULL COMMENT '创建时间',
+  `createBy` int(11) DEFAULT NULL,
+  `updateAt` datetime DEFAULT NULL COMMENT '更新时间',
+  `updateBy` int(11) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -13,7 +13,7 @@ public class AESTest {
 	
 	@Test
 	public void encrypt(){
-		String str ="slqdu3mcpt194w77j9z1k5d2w6gerzo7";
+		String str ="MD5";
 		System.out.println(AESUtils.encrypt(AESUtils.key, str));
 	}
 }

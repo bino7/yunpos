@@ -27,29 +27,42 @@ import com.yunpos.utils.AESUtils;
  */
 
 public class AlipayConfig {
-	
-	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+	// ↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	// 合作身份者ID，以2088开头由16位纯数字组成的字符串
-	public static String partner = "2088811505144045";
+	public static String partner = "";
 	// 商户的私钥
-	public static String key = "slqdu3mcpt194w77j9z1k5d2w6gerzo7";
-	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+	public static String key = "";
+	// ↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 	// 调试用，创建TXT日志文件夹路径
 	public static String log_path = "D:\\";
 
 	// 字符编码格式 目前支持 gbk 或 utf-8
 	public static String input_charset = "utf-8";
-	
+
 	// 签名方式 不需修改
 	public static String sign_type = "MD5";
+
+	public static String service = "alipay.acquire.createandpay";
 	
-	static{
+	public static String notify_url = "";
+	
+	public static String pay_time_out="";
+
+	static {
 		ResourceBundle rb = ResourceBundle.getBundle("payconfig/alipay");
-		
+		AlipayConfig.partner = getDecryptString(rb.getString("partner").trim());
+		AlipayConfig.key = getDecryptString(rb.getString("key").trim());
+		AlipayConfig.sign_type = getDecryptString(rb.getString("sign_type").trim());
+
+		AlipayConfig.service = rb.getString("service").trim();
+		AlipayConfig.input_charset = rb.getString("input_charset").trim();
+		AlipayConfig.log_path = rb.getString("log_path").trim();
+		AlipayConfig.notify_url = rb.getString("notify_url").trim();
+		AlipayConfig.pay_time_out = rb.getString("pay_time_out").trim();
 	}
 
-	
-	 private static String getDecryptString(String value){
-			return Strings.isNullOrEmpty(value) ? AESUtils.decrypt(AESUtils.key, value) : value;
-		}
+	private static String getDecryptString(String value) {
+		return Strings.isNullOrEmpty(value) ? AESUtils.decrypt(AESUtils.key, value) : value;
+	}
 }

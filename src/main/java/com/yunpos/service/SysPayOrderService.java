@@ -1,0 +1,18 @@
+package com.yunpos.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.yunpos.model.SysPayOrder;
+import com.yunpos.persistence.dao.EntityMapper;
+import com.yunpos.persistence.dao.SysPayOrderMapper;
+
+public class SysPayOrderService extends EntityService<SysPayOrder>{
+	@Autowired
+	private SysPayOrderMapper sysPayOrderMapper;
+	
+	@Override
+	public EntityMapper<SysPayOrder> getMapper() {
+		return sysPayOrderMapper;
+	}
+
+}

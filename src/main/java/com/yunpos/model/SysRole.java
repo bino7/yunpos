@@ -1,11 +1,17 @@
 package com.yunpos.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.serializer.JsonDateSerializer;
 
-public class SysRole {
+public class SysRole implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Integer id;
 
 	private String roleName;

@@ -16,4 +16,8 @@ public class SysPayOrderService extends EntityService<SysPayOrder>{
 		return sysPayOrderMapper;
 	}
 
+	public SysPayOrder findByPayOrderNo(String orderNo) {
+		return sysPayOrderMapper.findByPayOrderNo(orderNo);
+	}
+
 }

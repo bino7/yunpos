@@ -37,6 +37,8 @@ import com.yunpos.utils.DateUtil;
 public class AlipayController {
 	Logger log = LoggerFactory.getLogger(AlipayController.class);
 	
+	
+	
 	@Autowired
 	private AlipayService alipayService;
 	
@@ -67,17 +69,13 @@ public class AlipayController {
 			log.info("支付宝异步通知参数：",params);
 			//商户网站唯一订单号
 			String out_trade_no = request.getParameter("out_trade_no");
-			//对应商户网站的订单系统中的唯一订单号
 			//交易状态
 			String trade_status = request.getParameter("trade_status");
-			//String subject = request.getParameter("subject");
-			//交易目前所处的状态(例如：TRADE_SUCCESS)
-			//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
 			if(AlipayNotify.verify(params)){//验证成功
 				if(!Objects.equal("TRADE_CLOSED", trade_status)){
-					alipayService.notifyPayment(out_trade_no, true, DateUtil.formatDate(params.get("gmt_payment").trim(), "yyyy-MM-dd HH:mm:ss"),null);
+					alipayService.notifyPayment(params,true,"");
 				}else{
-					alipayService.notifyPayment(out_trade_no, false, null, "TRADE_CLOSED");
+					alipayService.notifyPayment(params, false, "TRADE_CLOSED");
 				}
 				writer.write("success");
 				writer.flush();

@@ -15,6 +15,7 @@ public class AESTest {
 	public void encrypt(){
 		String str ="MD5";
 //		System.out.println(AESUtils.encrypt(AESUtils.key, str));
-		System.out.println(Double.valueOf("0.01").longValue());
+		//System.out.println(Double.valueOf("0.01").longValue());
+		System.out.println(Byte.valueOf("2") ==Byte.valueOf("1"));
 	}
 }

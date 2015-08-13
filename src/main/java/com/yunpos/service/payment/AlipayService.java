@@ -6,14 +6,17 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yunpos.model.SalesOrder;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import com.yunpos.model.SysPayOrder;
 import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.util.AlipaySubmit;
 import com.yunpos.payment.alipay.util.Constant;
+import com.yunpos.service.SysPayOrderService;
 import com.yunpos.service.payment.Message.PayStatus;
-import com.yunpos.service.payment.PayParam.productCod;
 import com.yunpos.utils.XMLUtil;
 
 /**
@@ -31,6 +34,11 @@ import com.yunpos.utils.XMLUtil;
 @Service
 public class AlipayService {
 	private final static Logger log = LoggerFactory.getLogger(AlipayService.class);
+	public static final String FLAG_NAME = "isSuccess";
+	public static final String MSG_NAME = "msg";
+	
+	@Autowired
+	private SysPayOrderService sysPayOrderService;
 	
 	/**
 	 * 支付宝支付同步方法业务逻辑处理
@@ -72,24 +80,68 @@ public class AlipayService {
 	}
 	
 	
-	
+
 	/**
-	 * 支付宝支付异步回调业务逻辑处理
-	 * @param order
+	 * 支付宝异步回调处理函数
+	 * @param orderNo
 	 * @param isSuccess
 	 * @param paymentDate
 	 * @param resultMsg
 	 * @return
 	 */
-	public Map<String, Object> notifyPayment(SalesOrder order,
-			boolean isSuccess, Date paymentDate, String resultMsg) {
-		return null;
+
+	public Map<String,Object> notifyPayment(Map<String, String> params,boolean isSuccess, String resultMsg){
+		Map<String,Object> returnMap = Maps.newHashMap();
+		String orderNo = params.get("out_trade_no");
+
+		if(Strings.isNullOrEmpty(orderNo)){
+			String msg = "无法完成支付，支付接口的回调没有订单号信息！"; 
+			log.error(msg);
+			returnMap.put(FLAG_NAME, false);
+			returnMap.put(MSG_NAME, msg);
+			return returnMap;
+		}
 		
+		SysPayOrder sysPayOrder = sysPayOrderService.findByPayOrderNo(orderNo);
+		if(sysPayOrder == null){
+			String msg = "无法完成支付，支付接口返回的订单号["+orderNo+"]无效！"; 
+			log.error(msg);
+			returnMap.put(FLAG_NAME, false);
+			returnMap.put(MSG_NAME, msg);
+			return returnMap;
+		}
+		
+		if(sysPayOrder.getStatus() ==Byte.valueOf("1")){
+			String msg = "支付接口返回的订单流水["+sysPayOrder+"]已经完成支付，无需再次处理！"; 
+			log.warn(msg);
+			returnMap.put(FLAG_NAME, true);
+			returnMap.put(MSG_NAME, msg);
+			return returnMap;
+		}
+		
+		if(isSuccess){
+			sysPayOrder.setStatus(Byte.valueOf("1"));//支付成功
+			sysPayOrder.setNotify_time(new Date());
+			
+			sysPayOrderService.update(sysPayOrder);
+			
+			String msg = "订单["+sysPayOrder.getPayOrderNo()+"]支付交易成功！";
+			log.info(msg);
+			returnMap.put(FLAG_NAME, true);
+			returnMap.put(MSG_NAME,msg);
+			return returnMap;
+		}else{
+			sysPayOrder.setStatus(Byte.valueOf("0"));//支付失败
+			sysPayOrder.setNotify_time(new Date());
+			sysPayOrderService.update(sysPayOrder);
+			
+			String msg = "支付接口返回的订单["+sysPayOrder.getPayOrderNo()+"]支付失败！"; 
+			log.info(msg);
+			returnMap.put(FLAG_NAME, false);
+			returnMap.put(MSG_NAME, msg);
+			return returnMap;
+		}
 	}
-	
-	public Map<String,Object> notifyPayment(String orderNo, boolean isSuccess, 
-			Date paymentDate, String resultMsg) {
-		return null;
-	}
+
 
 }

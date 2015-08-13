@@ -13,6 +13,7 @@ import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.util.AlipaySubmit;
 import com.yunpos.payment.alipay.util.Constant;
 import com.yunpos.service.payment.Message.PayStatus;
+import com.yunpos.service.payment.PayParam.productCod;
 import com.yunpos.utils.XMLUtil;
 
 /**
@@ -43,16 +44,21 @@ public class AlipayService {
         sParaTemp.put(PayConst.PARTNER, AlipayConfig.partner);
         sParaTemp.put(PayConst._INPUT_CHARSET, AlipayConfig.input_charset);
         sParaTemp.put(PayConst.SIGN_TYPE, AlipayConfig.sign_type);
+        sParaTemp.put(PayConst.PRODUCT_CODE, "BARCODE_PAY_OFFLINE");//条码支付
+        
         sParaTemp.put(PayConst.NOTIFY_URL, AlipayConfig.notify_url);
-        sParaTemp.put(PayConst.OUT_TRADE_NO, param.getOrderNo());
-        sParaTemp.put(PayConst.SUBJECT, param.getOrderTitle());
-        sParaTemp.put(PayConst.PRODUCT_CODE, param.getBarCode());
-        sParaTemp.put(PayConst.IT_B_PAY, AlipayConfig.pay_time_out);
-		
+        sParaTemp.put(PayConst.OUT_TRADE_NO, param.getOrderNo().trim());
+        sParaTemp.put(PayConst.SUBJECT, param.getOrderTitle().trim());
+        sParaTemp.put(PayConst.TOTAL_FEE, param.getPrice());
+        sParaTemp.put(PayConst.DYNAMIC_ID_TYPE, "bar_code");
+        sParaTemp.put(PayConst.DYNAMIC_ID, param.getBarCode());//条码
+        //sParaTemp.put(PayConst.IT_B_PAY, AlipayConfig.pay_time_out);
+        log.info("支付宝条码支付请求参数:"+sParaTemp.toString());
 		try {//建立请求
 			String responseXml = AlipaySubmit.buildRequest("", "", sParaTemp);
 			Map<String,String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
+			log.info("同步返回结果："+result.toString());
 			if("T".equalsIgnoreCase(result.get("is_success"))){//T代表成功
 				return new Message(PayStatus.REQUEST_SUCCESS,result.get("trade_no")); //支付宝交易流水号
 			}else{

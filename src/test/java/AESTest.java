@@ -14,6 +14,7 @@ public class AESTest {
 	@Test
 	public void encrypt(){
 		String str ="MD5";
-		System.out.println(AESUtils.encrypt(AESUtils.key, str));
+//		System.out.println(AESUtils.encrypt(AESUtils.key, str));
+		System.out.println(Double.valueOf("0.01").longValue());
 	}
 }

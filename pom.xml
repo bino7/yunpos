@@ -192,6 +192,12 @@
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
 			<version>1.1-beta-6</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>icu4j</artifactId>
+					<groupId>com.ibm.icu</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 

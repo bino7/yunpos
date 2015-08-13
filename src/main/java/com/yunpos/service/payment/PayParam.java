@@ -26,6 +26,8 @@ public class PayParam {
 	private String orderTitle;	
 	
 
+	
+
 	public String getChannel() {
 		return channel;
 	}
@@ -135,11 +137,6 @@ public class PayParam {
 	}
 
 
-
-
-
-
-
 	public enum dynamicIdType{
 		wave_code,	//声波
 		bar_code;	//条码
@@ -158,25 +155,12 @@ public class PayParam {
 		FUND_TRADE_FAST_PAY,	//预授权产品
 		FINGERPRINT_FAST_PAY;	//指纹支付
 	}
-
 	
-
 	@Override
 	public String toString() {
-//		return "PayParam [channel=" + channel + ", carrier=" + carrier
-//				+ ", phone=" + phone + ", cardType=" + cardType + ", cardNo="
-//				+ cardNo + ", cardName=" + cardName + ", idType=" + idType
-//				+ ", idNo=" + idNo + ", bankAdd=" + bankAdd + ", cardCertAdd="
-//				+ cardCertAdd + ", cardTelePhone=" + cardTelePhone
-//				+ ", cardMobile=" + cardMobile + ", orderNo=" + orderNo
-//				+ ", orderAmount=" + orderAmount + ", productName="
-//				+ productName + ", productRemark=" + productRemark
-//				+ ", operatorName=" + operatorName + ", bankName=" + bankName
-//				+ ", bankCode=" + bankCode + ", expiredDate=" + expiredDate
-//				+ ", cvv2=" + cvv2 + ", beneficiaryCertNo=" + beneficiaryCertNo
-//				+ ", beneficiaryMobile=" + beneficiaryMobile
-//				+ ", beneficiaryName=" + beneficiaryName + ", clientIp="
-//				+ clientIp + "]";
-		return "";
+		return "PayParam [channel=" + channel + ", roleId=" + roleId
+				+ ", userId=" + userId + ", price=" + price + ", barCode="
+				+ barCode + ", imei=" + imei + ", deviceType=" + deviceType
+				+ ", orderNo=" + orderNo + ", orderTitle=" + orderTitle + "]";
 	} 
 }

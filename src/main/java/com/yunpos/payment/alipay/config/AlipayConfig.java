@@ -51,10 +51,11 @@ public class AlipayConfig {
 
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("payconfig/alipay");
+		//获取加密配置信息
 		AlipayConfig.partner = getDecryptString(rb.getString("partner").trim());
 		AlipayConfig.key = getDecryptString(rb.getString("key").trim());
 		AlipayConfig.sign_type = getDecryptString(rb.getString("sign_type").trim());
-
+		//获取明文配置信息
 		AlipayConfig.service = rb.getString("service").trim();
 		AlipayConfig.input_charset = rb.getString("input_charset").trim();
 		AlipayConfig.log_path = rb.getString("log_path").trim();
@@ -63,6 +64,6 @@ public class AlipayConfig {
 	}
 
 	private static String getDecryptString(String value) {
-		return Strings.isNullOrEmpty(value) ? AESUtils.decrypt(AESUtils.key, value) : value;
+		return  Strings.isNullOrEmpty(value)?value : AESUtils.decrypt(AESUtils.key, value);
 	}
 }

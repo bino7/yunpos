@@ -39,8 +39,8 @@
     delete from sys_pay_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysPayOrder" >
-    insert into sys_pay_order (id, payOrderNo, status, 
+  <insert id="insert" parameterType="com.yunpos.model.SysPayOrder" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_pay_order (payOrderNo, status, 
       payCode, roleId, userId, 
       price, barCode, imei, 
       deviceType, notify_time, trade_no, 
@@ -48,7 +48,7 @@
       buyer_id, body, createAt, 
       createBy, updateAt, updateBy
       )
-    values (#{id,jdbcType=INTEGER}, #{payOrderNo,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+    values (#{payOrderNo,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
       #{payCode,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{price,jdbcType=DECIMAL}, #{barCode,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, 
       #{deviceType,jdbcType=TINYINT}, #{notify_time,jdbcType=TIMESTAMP}, #{trade_no,jdbcType=VARCHAR}, 

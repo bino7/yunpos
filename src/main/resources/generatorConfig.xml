@@ -101,6 +101,11 @@
 			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
+		<table tableName="sys_role" domainObjectName="SysRole"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
 
 	</context>
 </generatorConfiguration>

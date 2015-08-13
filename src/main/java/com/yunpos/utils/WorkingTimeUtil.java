@@ -11,8 +11,7 @@ public class WorkingTimeUtil {
 		PrincipalCollection principals= (PrincipalCollection) SecurityUtils.getSubject().getPrincipals();
 		SecurityUser user = (SecurityUser) principals.getPrimaryPrincipal();
 		StringBuffer actionInfo = new StringBuffer();
-		actionInfo.append("支付请求");
-		actionInfo.append("|").append(title);
+		actionInfo.append(title);
 		actionInfo.append("|").append("用户:"+user.getUsername());
 		actionInfo.append("|").append("开始时间:"+DateUtil.format(startTime));
 		long endTime = System.currentTimeMillis();

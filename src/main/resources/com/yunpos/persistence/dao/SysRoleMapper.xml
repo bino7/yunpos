@@ -26,8 +26,7 @@
 		delete from sys_role
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysRole"
-		useGeneratedKeys="true" keyProperty="id">
+	<insert id="insert" parameterType="com.yunpos.model.SysRole" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_role (roleName, roleDesc,
 		orgId, createUserId, createDate,
 		modifyUserId, modifyDate)

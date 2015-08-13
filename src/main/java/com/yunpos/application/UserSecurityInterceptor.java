@@ -41,7 +41,7 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 		String userid = request.getParameter("userid");
 		String datatype = request.getParameter("datatype");
 		if (obj== null || obj instanceof SysUser) {
-			response.sendRedirect(request.getContextPath() + "/index");
+			//response.sendRedirect(request.getContextPath() + "/index");
 			return true;
 		} else if (userid != null && datatype != null) {
 			SysDataRule dr = sysDataRuleService.findByUserID(Integer.parseInt(userid), datatype);

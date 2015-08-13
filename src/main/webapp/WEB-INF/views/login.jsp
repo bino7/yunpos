@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading" align="center"><h3>云铺后台登录</h3></div>
                 <div class="panel-body">
-                    <form id="loginForm" action="/login" class="form-horizontal" method="post">
+                    <form id="loginForm" action="${ctx}/login" class="form-horizontal" method="post">
                         <%
                             String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 
@@ -56,7 +56,7 @@
                                     <tr>
                                         <td style="height: 35px; vertical-align: middle;">
                                             <img class="captcha" style="vertical-align: middle; margin: 0; padding: 0;"
-                                                 src="/captcha"/>
+                                                 src="${ctx}/captcha"/>
                                         </td>
                                     </tr>
                                 </table>

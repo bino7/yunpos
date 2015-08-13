@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yunpos.security.exception.IncorrectCaptchaException;
-import com.yunpos.web.servlet.CaptchaServlet;
 /**
  * 
  * 功能描述：重写表单登录过滤器
@@ -56,7 +55,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
 
     // 验证码校验
     protected void doCaptchaValidate(HttpServletRequest request, CaptchaUsernamePasswordToken token) {
-        String captcha = (String) request.getSession().getAttribute(CaptchaServlet.CAPTCHA);
+        String captcha = (String) request.getSession().getAttribute("captcha");
 
         logger.debug("captcha in session : {}", captcha);
         logger.debug("captcha post : {}", token.getCaptcha());

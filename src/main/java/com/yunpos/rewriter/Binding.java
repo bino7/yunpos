@@ -37,8 +37,6 @@ import java.util.function.Consumer;
  * @author bino 新增日期：2015/8/6
  * @author bino 修改日期：2015/8/6
  */
-@Component
-@ConfigurationProperties(prefix="binding")
 public interface Binding {
     public void bind(Map<String,Object> params);
 

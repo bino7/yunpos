@@ -34,6 +34,10 @@ public class SysParamValue extends Value implements Binding {
     public Object getValue() {
         return value;
     }
+    
+    public Object getName() {
+        return value;
+    }
 
     @Override
     public void bind(Map<String, Object> params) {

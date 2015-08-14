@@ -44,7 +44,7 @@
 		</javaClientGenerator>
 
 		<!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等 -->
-		<table tableName="sys_user" domainObjectName="User"
+	<!-- 	<table tableName="sys_user" domainObjectName="User"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
@@ -91,6 +91,17 @@
 		</table>
 
 		<table tableName="sys_users_session" domainObjectName="UserSession"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table> -->
+		
+		<table tableName="sys_pay_order" domainObjectName="SysPayOrder"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+		<table tableName="sys_role" domainObjectName="SysRole"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />

@@ -7,18 +7,18 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yunpos.Application;
-import com.yunpos.model.User;
+import com.yunpos.model.SysUser;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 public class UserServiceTest {
 
 	@Autowired
-	private UserService userService;
+	private SysUserService sysUserService;
 
 	@Test
 	public void testFindById() {
-		User user = userService.findById(1);		
-		System.out.println(user.getUserName());
+		SysUser sysUser = sysUserService.findById(1);		
+		System.out.println(sysUser.getUserName());
 	}
 
 

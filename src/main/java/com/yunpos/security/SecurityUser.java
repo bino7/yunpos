@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
-import com.yunpos.model.Role;
+import com.yunpos.model.SysRole;
 /**
  * 
  * 功能描述：认证用户信息扩展实体，实体所需字段可以再次基础上扩展
@@ -26,7 +26,7 @@ public class SecurityUser implements Serializable {
 	public String username;
     public String name;
     public Integer id;
-    public List<Role> roles;
+    public List<SysRole> sysRoles;
     public HashSet<String> permissions;
     
 
@@ -92,12 +92,12 @@ public class SecurityUser implements Serializable {
 		this.id = id;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+	public List<SysRole> getSysRoles() {
+		return sysRoles;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setSysRoles(List<SysRole> sysRoles) {
+		this.sysRoles = sysRoles;
 	}
 
 	public HashSet<String> getPermissions() {

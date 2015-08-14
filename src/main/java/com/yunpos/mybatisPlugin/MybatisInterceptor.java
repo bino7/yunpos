@@ -27,7 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.yunpos.model.DataRule;
+import com.yunpos.model.SysDataRule;
 import com.yunpos.translation.FilterGroup;
 import com.yunpos.translation.FilterTranslator;
 
@@ -60,7 +60,7 @@ public class MybatisInterceptor implements Interceptor {
 
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
-		DataRule dataRule = (DataRule) request.getAttribute("DATA_RULE");
+		SysDataRule dataRule = (SysDataRule) request.getAttribute("DATA_RULE");
 
 		if (dataRule != null) {
 			String rule = dataRule.getDataRule();

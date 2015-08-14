@@ -30,9 +30,9 @@ public class UserPrincipal implements Serializable,Comparable<UserPrincipal>{
 	private String clientIp = "";
 	
 	
-	public UserPrincipal(User user, UsernamePasswordToken token){
-		this.id = Long.valueOf(user.getId().toString());
-		this.name = user.getUserName();
+	public UserPrincipal(SysUser sysUser, UsernamePasswordToken token){
+		this.id = Long.valueOf(sysUser.getId().toString());
+		this.name = sysUser.getUserName();
 	}
 	
 	

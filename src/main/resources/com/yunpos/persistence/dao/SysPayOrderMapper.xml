@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysPayOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysPayOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="payOrderNo" property="payOrderNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="payCode" property="payCode" jdbcType="VARCHAR" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="barCode" property="barCode" jdbcType="VARCHAR" />
+    <result column="imei" property="imei" jdbcType="VARCHAR" />
+    <result column="deviceType" property="deviceType" jdbcType="TINYINT" />
+    <result column="notify_time" property="notify_time" jdbcType="TIMESTAMP" />
+    <result column="trade_no" property="trade_no" jdbcType="VARCHAR" />
+    <result column="seller_email" property="seller_email" jdbcType="VARCHAR" />
+    <result column="buyer_email" property="buyer_email" jdbcType="VARCHAR" />
+    <result column="seller_id" property="seller_id" jdbcType="VARCHAR" />
+    <result column="buyer_id" property="buyer_id" jdbcType="VARCHAR" />
+    <result column="body" property="body" jdbcType="VARCHAR" />
+    <result column="createAt" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="createBy" property="createBy" jdbcType="INTEGER" />
+    <result column="updateAt" property="updateAt" jdbcType="TIMESTAMP" />
+    <result column="updateBy" property="updateBy" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, payOrderNo, status, payCode, roleId, userId, price, barCode, imei, deviceType, 
+    notify_time, trade_no, seller_email, buyer_email, seller_id, buyer_id, body, createAt, 
+    createBy, updateAt, updateBy
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_pay_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_pay_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysPayOrder" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_pay_order (payOrderNo, status, 
+      payCode, roleId, userId, 
+      price, barCode, imei, 
+      deviceType, notify_time, trade_no, 
+      seller_email, buyer_email, seller_id, 
+      buyer_id, body, createAt, 
+      createBy, updateAt, updateBy
+      )
+    values (#{payOrderNo,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{payCode,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{barCode,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, 
+      #{deviceType,jdbcType=TINYINT}, #{notify_time,jdbcType=TIMESTAMP}, #{trade_no,jdbcType=VARCHAR}, 
+      #{seller_email,jdbcType=VARCHAR}, #{buyer_email,jdbcType=VARCHAR}, #{seller_id,jdbcType=VARCHAR}, 
+      #{buyer_id,jdbcType=VARCHAR}, #{body,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=INTEGER}, #{updateAt,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysPayOrder" >
+    insert into sys_pay_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="payOrderNo != null" >
+        payOrderNo,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payCode != null" >
+        payCode,
+      </if>
+      <if test="roleId != null" >
+        roleId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="barCode != null" >
+        barCode,
+      </if>
+      <if test="imei != null" >
+        imei,
+      </if>
+      <if test="deviceType != null" >
+        deviceType,
+      </if>
+      <if test="notify_time != null" >
+        notify_time,
+      </if>
+      <if test="trade_no != null" >
+        trade_no,
+      </if>
+      <if test="seller_email != null" >
+        seller_email,
+      </if>
+      <if test="buyer_email != null" >
+        buyer_email,
+      </if>
+      <if test="seller_id != null" >
+        seller_id,
+      </if>
+      <if test="buyer_id != null" >
+        buyer_id,
+      </if>
+      <if test="body != null" >
+        body,
+      </if>
+      <if test="createAt != null" >
+        createAt,
+      </if>
+      <if test="createBy != null" >
+        createBy,
+      </if>
+      <if test="updateAt != null" >
+        updateAt,
+      </if>
+      <if test="updateBy != null" >
+        updateBy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="payOrderNo != null" >
+        #{payOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payCode != null" >
+        #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="barCode != null" >
+        #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=TINYINT},
+      </if>
+      <if test="notify_time != null" >
+        #{notify_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trade_no != null" >
+        #{trade_no,jdbcType=VARCHAR},
+      </if>
+      <if test="seller_email != null" >
+        #{seller_email,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer_email != null" >
+        #{buyer_email,jdbcType=VARCHAR},
+      </if>
+      <if test="seller_id != null" >
+        #{seller_id,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer_id != null" >
+        #{buyer_id,jdbcType=VARCHAR},
+      </if>
+      <if test="body != null" >
+        #{body,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateAt != null" >
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysPayOrder" >
+    update sys_pay_order
+    <set >
+      <if test="payOrderNo != null" >
+        payOrderNo = #{payOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payCode != null" >
+        payCode = #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        roleId = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="barCode != null" >
+        barCode = #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        imei = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        deviceType = #{deviceType,jdbcType=TINYINT},
+      </if>
+      <if test="notify_time != null" >
+        notify_time = #{notify_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trade_no != null" >
+        trade_no = #{trade_no,jdbcType=VARCHAR},
+      </if>
+      <if test="seller_email != null" >
+        seller_email = #{seller_email,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer_email != null" >
+        buyer_email = #{buyer_email,jdbcType=VARCHAR},
+      </if>
+      <if test="seller_id != null" >
+        seller_id = #{seller_id,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer_id != null" >
+        buyer_id = #{buyer_id,jdbcType=VARCHAR},
+      </if>
+      <if test="body != null" >
+        body = #{body,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        createAt = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        createBy = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateAt != null" >
+        updateAt = #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        updateBy = #{updateBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysPayOrder" >
+    update sys_pay_order
+    set payOrderNo = #{payOrderNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      payCode = #{payCode,jdbcType=VARCHAR},
+      roleId = #{roleId,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      barCode = #{barCode,jdbcType=VARCHAR},
+      imei = #{imei,jdbcType=VARCHAR},
+      deviceType = #{deviceType,jdbcType=TINYINT},
+      notify_time = #{notify_time,jdbcType=TIMESTAMP},
+      trade_no = #{trade_no,jdbcType=VARCHAR},
+      seller_email = #{seller_email,jdbcType=VARCHAR},
+      buyer_email = #{buyer_email,jdbcType=VARCHAR},
+      seller_id = #{seller_id,jdbcType=VARCHAR},
+      buyer_id = #{buyer_id,jdbcType=VARCHAR},
+      body = #{body,jdbcType=VARCHAR},
+      createAt = #{createAt,jdbcType=TIMESTAMP},
+      createBy = #{createBy,jdbcType=INTEGER},
+      updateAt = #{updateAt,jdbcType=TIMESTAMP},
+      updateBy = #{updateBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -20,29 +20,29 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Sets;
-import com.yunpos.model.Privilege;
-import com.yunpos.model.Role;
 import com.yunpos.model.SysMenu;
-import com.yunpos.model.User;
-import com.yunpos.model.UserRole;
-import com.yunpos.service.PrivilegeService;
-import com.yunpos.service.RoleService;
+import com.yunpos.model.SysPrivilege;
+import com.yunpos.model.SysRole;
+import com.yunpos.model.SysUser;
+import com.yunpos.model.SysUserRole;
 import com.yunpos.service.SysMenuService;
-import com.yunpos.service.UserRoleService;
-import com.yunpos.service.UserService;
+import com.yunpos.service.SysPrivilegeService;
+import com.yunpos.service.SysRoleService;
+import com.yunpos.service.SysUserRoleService;
+import com.yunpos.service.SysUserService;
 import com.yunpos.utils.Encodes;
 
 public class SecurityRealm extends AuthorizingRealm {
 	  private static final Logger logger = LoggerFactory.getLogger(SecurityRealm.class);
 
 	    @Autowired
-	    UserService userService;
+	    SysUserService sysUserService;
 	    @Autowired
-	    UserRoleService userRoleService;
+	    SysUserRoleService sysUserRoleService;
 	    @Autowired
-	    RoleService roleService;
+	    SysRoleService sysRoleService;
 	    @Autowired
-	    PrivilegeService privilegeService;
+	    SysPrivilegeService sysPrivilegeService;
 	    @Autowired
 	    SysMenuService sysMenuService;
 
@@ -56,30 +56,30 @@ public class SecurityRealm extends AuthorizingRealm {
 	        SimpleAuthorizationInfo info = null;
 
 	        SecurityUser securityUser = (SecurityUser) principals.getPrimaryPrincipal();
-	        User user = userService.findByUserName(securityUser.username);
+	        SysUser sysUser = sysUserService.findByUserName(securityUser.username);
 	        
-	        if (user != null) {
-	        	List<UserRole> listuserRole = userRoleService.findRoleByUserId(user.getId());
+	        if (sysUser != null) {
+	        	List<SysUserRole> listuserRole = sysUserRoleService.findRoleByUserId(sysUser.getId());
 				HashSet<Integer> roleIds = Sets.newHashSet();
 				HashSet<Integer> privilegeIds = Sets.newHashSet();
 				
 				HashSet<String> roleNames = Sets.newHashSet();
 				HashSet<String> permissions = Sets.newHashSet();
 				
-				for (UserRole userRole : listuserRole) {
+				for (SysUserRole userRole : listuserRole) {
 					roleIds.add(userRole.getRoleId());
 				}
-				List<Role> roleList = roleService.findListByIds(roleIds.toArray());
-				List<Privilege> privilegeList = privilegeService.findListByRoleIds(roleIds.toArray());
+				List<SysRole> roleList = sysRoleService.findListByIds(roleIds.toArray());
+				List<SysPrivilege> privilegeList = sysPrivilegeService.findListByRoleIds(roleIds.toArray());
 				
-				securityUser.setRoles(roleList);
+				securityUser.setSysRoles(roleList);
 				
-				for (Role role : roleList) {
-					roleNames.add(role.getRoleName());
+				for (SysRole sysRole : roleList) {
+					roleNames.add(sysRole.getRoleName());
 				}
 				System.out.println("当前用户具有的角色：" + roleNames.toString());
 				
-				for (Privilege privilege : privilegeList) {
+				for (SysPrivilege privilege : privilegeList) {
 					privilegeIds.add(privilege.getPrivilegeAccessValue());
 				}
 				
@@ -110,17 +110,17 @@ public class SecurityRealm extends AuthorizingRealm {
 	        logger.debug("doGetAuthenticationInfo......");
 	        CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
 
-	        User user = userService.findByUserName(token.getUsername());
-	        if (user != null) {
+	        SysUser sysUser = sysUserService.findByUserName(token.getUsername());
+	        if (sysUser != null) {
 	            // 检查用户是否禁用
-	            if (User.STATUS_DISABLED.equalsIgnoreCase(user.getStatus())) {
+	            if (SysUser.STATUS_DISABLED.equalsIgnoreCase(sysUser.getStatus())) {
 	                throw new DisabledAccountException();
 	            }
 
-	            byte[] salt = Encodes.decodeHex(user.getSalt());
+	            byte[] salt = Encodes.decodeHex(sysUser.getSalt());
 
-	            return new SimpleAuthenticationInfo(new SecurityUser(user.getId(),user.getUserName(), user.getNickname()),
-	                    user.getPassword(), ByteSource.Util.bytes(salt), getName());
+	            return new SimpleAuthenticationInfo(new SecurityUser(sysUser.getId(),sysUser.getUserName(), sysUser.getNickname()),
+	            		sysUser.getPassword(), ByteSource.Util.bytes(salt), getName());
 	        }
 	        return null;
 	    }

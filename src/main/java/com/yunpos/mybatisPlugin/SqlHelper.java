@@ -1,12 +1,12 @@
 package com.yunpos.mybatisPlugin;
 
-import com.yunpos.model.DataRule;
+import com.yunpos.model.SysDataRule;
 
 public class SqlHelper {
-	 private static final ThreadLocal<DataRule> ORDER_BY = new ThreadLocal<DataRule>();
+	 private static final ThreadLocal<SysDataRule> ORDER_BY = new ThreadLocal<SysDataRule>();
 
-	    public static DataRule getOrderBy() {
-	    	DataRule orderBy = ORDER_BY.get();
+	    public static SysDataRule getOrderBy() {
+	    	SysDataRule orderBy = ORDER_BY.get();
 	        return orderBy;
 	    }
 
@@ -15,7 +15,7 @@ public class SqlHelper {
 	     *
 	     * @param orderBy
 	     */
-	    public static void orderBy(DataRule orderBy) {
+	    public static void orderBy(SysDataRule orderBy) {
 	        ORDER_BY.set(orderBy);
 	    }
 

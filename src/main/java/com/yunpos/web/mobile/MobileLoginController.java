@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
-import com.yunpos.model.User;
-import com.yunpos.service.UserService;
+import com.yunpos.model.SysUser;
+import com.yunpos.service.SysUserService;
 import com.yunpos.utils.Response.Code;
 import com.yunpos.web.BaseController;
 /**
@@ -37,7 +37,7 @@ public class MobileLoginController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(MobileLoginController.class);
     private ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
-    private UserService userService;
+    private SysUserService sysUserService;
 
     
     @RequestMapping(value = "/mobile/login")
@@ -48,16 +48,16 @@ public class MobileLoginController extends BaseController{
              	jsonMap.put("error", Code.PARAM_NULL);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             User user = userService.findByUserName(userName);
-             if(user== null){
+             SysUser sysUser = sysUserService.findByUserName(userName);
+             if(sysUser== null){
              	jsonMap.put("error", Code.USER_NOT_EXISTS);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             if(!user.getPassword().equals(password)){
+             if(!sysUser.getPassword().equals(password)){
              	jsonMap.put("error", Code.PASSWORD_ERROR);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             jsonMap.put("user", user);
+             jsonMap.put("user", sysUser);
 		} catch (Exception e) {
 			jsonMap.put("error", Code.EXCEPTION);
 			logger.error("error:"+e.getMessage());

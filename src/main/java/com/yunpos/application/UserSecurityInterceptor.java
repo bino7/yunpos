@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yunpos.model.DataRule;
-import com.yunpos.model.User;
+import com.yunpos.model.SysDataRule;
+import com.yunpos.model.SysUser;
 import com.yunpos.security.SecurityUser;
-import com.yunpos.service.DataRuleService;
+import com.yunpos.service.SysDataRuleService;
 
 /**
  * 拦截未登录的用户信息
@@ -23,10 +23,10 @@ import com.yunpos.service.DataRuleService;
 @Service
 public class UserSecurityInterceptor implements HandlerInterceptor {
 
-	private static final ThreadLocal<DataRule> DATA_ROLE = new ThreadLocal<DataRule>();
+	private static final ThreadLocal<SysDataRule> DATA_ROLE = new ThreadLocal<SysDataRule>();
 
 	@Autowired
-	private DataRuleService dataRuleService;
+	private SysDataRuleService sysDataRuleService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -40,11 +40,11 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 		Object obj = request.getSession().getAttribute("cur_user");
 		String userid = request.getParameter("userid");
 		String datatype = request.getParameter("datatype");
-		if (obj== null || obj instanceof User) {
-			response.sendRedirect(request.getContextPath() + "/index");
+		if (obj== null || obj instanceof SysUser) {
+			//response.sendRedirect(request.getContextPath() + "/index");
 			return true;
 		} else if (userid != null && datatype != null) {
-			DataRule dr = dataRuleService.findByUserID(Integer.parseInt(userid), datatype);
+			SysDataRule dr = sysDataRuleService.findByUserID(Integer.parseInt(userid), datatype);
 			if (dr != null && !"".equals(dr)) {
 				DATA_ROLE.set(dr);
 				request.setAttribute("DATA_RULE", dr);
@@ -55,7 +55,7 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 		return false;
 	}
 
-	public static DataRule getDataRule() {
+	public static SysDataRule getDataRule() {
 		return DATA_ROLE.get();
 	}
 

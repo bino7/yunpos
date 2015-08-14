@@ -1,0 +1,6 @@
+lexer grammar MySQLBase;
+
+@header {
+}
+
+

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
@@ -28,6 +29,7 @@ public class SysUserController extends BaseController {
 	private SysUserService sysUserService;
 	
 	@RequestMapping(value="/ajax/user",method = RequestMethod.GET)
+	
 	public JqGridResponse<SysUser> list(JqGridRequest jqGridRequest) throws ServiceException{
 		GridRequest gridRequest = jqGridRequest.createDataRequest();
 		GridResponse<SysUser> dataResponse = sysUserService.findPageUsers(gridRequest);

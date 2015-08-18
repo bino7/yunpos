@@ -43,6 +43,10 @@ public class DateUtil {
 	public static String getNow() {
 		return format(new Date(), YYYYMMDDHHMMSS);
 	}
+	
+	public static String getNow(String format) {
+		return format(new Date(), format);
+	}
 
 	public static Date getToday() {
 		Calendar now = Calendar.getInstance();

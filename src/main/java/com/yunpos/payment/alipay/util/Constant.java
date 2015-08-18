@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 public class Constant {
 	
 	private static ResourceBundle err_msg_alipay = null;
+	private static ResourceBundle err_msg_wxpay = null;
 	
 	/**
 	 * 获取支付异常信息
@@ -28,6 +29,18 @@ public class Constant {
 			err_msg_alipay = ResourceBundle.getBundle("paymsg/alipay_error_msg");
 		}
 		return err_msg_alipay.containsKey(errorCode)?err_msg_alipay.getString(errorCode):"";
+	}
+	
+	/**
+	 * 获取微信支付异常信息
+	 * @param errorCode
+	 * @return
+	 */
+	public static String getWechatPayErrMsg(String errorCode){
+		if(null == err_msg_wxpay){
+			err_msg_wxpay = ResourceBundle.getBundle("paymsg/wxpay_error_msg");
+		}
+		return err_msg_wxpay.containsKey(errorCode)?err_msg_wxpay.getString(errorCode):"";
 	}
 
 }

@@ -32,7 +32,7 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// 验证用户是否登陆
-		PrincipalCollection principals= (PrincipalCollection) SecurityUtils.getSubject().getPrincipals();
+	/*	PrincipalCollection principals= (PrincipalCollection) SecurityUtils.getSubject().getPrincipals();
 		SecurityUser securityUser = (SecurityUser) principals.getPrimaryPrincipal();
 		
 		
@@ -50,9 +50,9 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
 				request.setAttribute("DATA_RULE", dr);
 			}
 			return true;
-		}
+		}*/
 
-		return false;
+		return true;
 	}
 
 	public static SysDataRule getDataRule() {

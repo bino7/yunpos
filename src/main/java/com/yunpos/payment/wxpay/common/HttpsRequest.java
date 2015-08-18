@@ -30,15 +30,14 @@ import org.slf4j.LoggerFactory;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
-import com.yunpos.payment.wxpay.service.IServiceRequest;
 
 /**
  * User: rizenguo
  * Date: 2014/10/29
  * Time: 14:36
  */
-public class HttpsRequest implements IServiceRequest{
-
+public class HttpsRequest{
+	
     public interface ResultListener {
 
 
@@ -66,6 +65,7 @@ public class HttpsRequest implements IServiceRequest{
     public HttpsRequest() throws UnrecoverableKeyException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException {
         init();
     }
+    
 
     private void init() throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
 

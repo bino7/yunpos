@@ -57,6 +57,7 @@ public class CaptchaController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
         response.setHeader("Pragma", "no-cache");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setDateHeader("Max-Age", 0);
         response.setContentType("image/jpeg");
 

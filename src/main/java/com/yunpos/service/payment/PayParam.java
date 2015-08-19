@@ -36,7 +36,6 @@ public class PayParam {
 	private String goodsTag;
 	
 	
-	
 
 
 	public String getBody() {

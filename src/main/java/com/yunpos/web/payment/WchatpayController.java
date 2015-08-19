@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.base.Strings;
 import com.yunpos.model.SysPayOrder;
-import com.yunpos.payment.wxpay.config.WechatPayConfig;
+import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
+import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
 import com.yunpos.service.SysPayOrderService;
 import com.yunpos.service.payment.Message.PayStatus;
 import com.yunpos.service.payment.PayParam;
@@ -23,7 +24,6 @@ import com.yunpos.utils.AmountUtils;
 import com.yunpos.utils.DateUtil;
 import com.yunpos.utils.IdWorker;
 import com.yunpos.utils.Message;
-import com.yunpos.utils.WorkingTimeUtil;
 
 /**
  * 
@@ -57,7 +57,6 @@ public class WchatpayController {
 	@RequestMapping(value = "/create")
 	@ResponseBody
 	public Object wechatCreate(HttpServletRequest request, HttpServletResponse response) {
-		long startTime = System.currentTimeMillis();
 		PayParam param = buildPayParam(request);
 
 		if (Strings.isNullOrEmpty(param.getRoleId()) || Strings.isNullOrEmpty(param.getUserId())
@@ -93,8 +92,9 @@ public class WchatpayController {
 			com.yunpos.service.payment.Message payMsg = wechatPayService.scanPay(param);
 			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
 				// 操作时间记录日志
-				//StringBuffer actionInfo = WorkingTimeUtil.doTime(startTime, "微信条码支付成功");
-				//log.info(actionInfo.toString());
+				// StringBuffer actionInfo = WorkingTimeUtil.doTime(startTime,
+				// "微信条码支付成功");
+				// log.info(actionInfo.toString());
 				return new Message(true, "", "微信条码支付成功！");
 			}
 		} catch (Exception e) {
@@ -105,55 +105,174 @@ public class WchatpayController {
 	}
 
 	/**
-	 * 支付宝异步通知
+	 * 查询订单
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/query")
+	@ResponseBody
+	public Object query(HttpServletRequest request, HttpServletResponse response) {
+		// 参数获取
+		String role = request.getParameter("role");
+		String token = request.getParameter("token");
+		String uid = request.getParameter("uid");
+		String outtradeno = request.getParameter("outtradeno");
+
+		if (Strings.isNullOrEmpty(role) || Strings.isNullOrEmpty(token) || Strings.isNullOrEmpty(uid)
+				|| Strings.isNullOrEmpty(outtradeno)) {
+			return new Message(false, "", "传递参数为空！");
+		}
+		try {
+			com.yunpos.service.payment.Message payMsg = wechatPayService.query(outtradeno);
+			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
+				// 操作时间记录日志
+				return new Message(true, "", "微信支付成功！");
+			}
+		} catch (Exception e) {
+			log.error("微信退款出现异常：", e);
+			return new Message(false, "", "支付查询出现异常" + e.getMessage());
+		}
+		return new Message(true, "", "微信支付成功！");
+	}
+
+	/**
+	 * 微信支付退款申请
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/refund")
+	@ResponseBody
+	public Object refund(HttpServletRequest request, HttpServletResponse response) {
+		PayParam param = buildPayParam(request);
+		/*if (Strings.isNullOrEmpty(param.getRoleId()) || Strings.isNullOrEmpty(param.getUserId())
+				|| Strings.isNullOrEmpty(param.getPrice()) || Strings.isNullOrEmpty(param.getChannel())
+				|| Strings.isNullOrEmpty(param.getImei()) || Strings.isNullOrEmpty(param.getDeviceType())
+				|| Strings.isNullOrEmpty(param.getBarCode())) {
+			return new Message(false, "", "传递参数为空！");
+		}*/
+
+		try {
+			String transactionID = "1002120689201508180645805301"; // 微信订单号
+			String outTradeNo = "15099500695552"; // 系统订单号
+			String deviceInfo = "设备信息"; // 设备信息
+			String outRefundNo = "0000000003"; // 商户退款单号
+			int totalFee = 1;
+			int refundFee = 1;
+			String opUserID = "1";
+			String refundFeeType = "CNY";
+
+			RefundReqData refundReqData = new RefundReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, totalFee,
+					refundFee, opUserID, refundFeeType);
+			
+			com.yunpos.service.payment.Message payMsg = wechatPayService.refund(refundReqData);
+			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
+				// 操作时间记录日志
+				return new Message(true, "", "微信条码支付退款申请成功！");
+			}else{
+				return new Message(false, "", payMsg.getMsg());
+			}
+		} catch (Exception e) {
+			log.error("微信退款出现异常：", e);
+			return new Message(false, "", "微信退款出现异常" + e.getMessage());
+		}
+	}
+
+	/**
+	 * 退款查询
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/refundQuery")
+	@ResponseBody
+	public Object refundQuery(HttpServletRequest request, HttpServletResponse response) {
+//		PayParam param = buildPayParam(request);
+//		if (Strings.isNullOrEmpty(param.getRoleId()) || Strings.isNullOrEmpty(param.getUserId())
+//				|| Strings.isNullOrEmpty(param.getPrice()) || Strings.isNullOrEmpty(param.getChannel())
+//				|| Strings.isNullOrEmpty(param.getImei()) || Strings.isNullOrEmpty(param.getDeviceType())
+//				|| Strings.isNullOrEmpty(param.getBarCode())) {
+//			return new Message(false, "", "传递参数为空！");
+//		}
+
+		try {
+			String transactionID = "1002120689201508180645805301"; // 微信订单号
+			String outTradeNo = "15099500695552"; // 系统订单号
+			String deviceInfo = "设备信息"; // 设备信息
+			String outRefundNo = "0000000003"; // 商户退款单号
+			String refundID = "2002120689201508190029977856";//
+
+			RefundQueryReqData refundQueryReqData = new RefundQueryReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, refundID);
+			com.yunpos.service.payment.Message payMsg = wechatPayService.refundQuery(refundQueryReqData);
+			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
+				// 操作时间记录日志
+				return new Message(true, "", "微信条码支付退款申请成功！");
+			}else{
+				return new Message(false, "", payMsg.getMsg());
+			}
+		} catch (Exception e) {
+			log.error("微信退款出现异常：", e);
+			return new Message(false, "", "微信退款出现异常" + e.getMessage());
+		}
+	}
+
+	/**
+	 * 微信支付异步回调
 	 * 
 	 * @param request
 	 * @param response
 	 */
-//	@SuppressWarnings("rawtypes")
-//	@RequestMapping("/notify")
-//	public void asynNotify(HttpServletRequest request, HttpServletResponse response) {
-//		log.info("收到微信支付异步通知");
-//		try {
-//			PrintWriter writer = response.getWriter();
-//			// 获取支付宝POST过来反馈信息
-//			Map<String, String> params = new HashMap<String, String>();
-//			Map requestParams = request.getParameterMap();
-//			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-//				String name = (String) iter.next();
-//				String[] values = (String[]) requestParams.get(name);
-//				String valueStr = "";
-//				for (int i = 0; i < values.length; i++) {
-//					valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
-//				}
-//				params.put(name, valueStr);
-//			}
-//			log.info("支付宝异步通知参数：", params);
-//			// 商户网站唯一订单号
-//			String out_trade_no = request.getParameter("out_trade_no");
-//			// 交易状态
-//			String trade_status = request.getParameter("trade_status");
-//			if (AlipayNotify.verify(params)) {// 验证成功
-//				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
-//					alipayService.notifyPayment(params, true, "");
-//				} else {
-//					alipayService.notifyPayment(params, false, "TRADE_CLOSED");
-//				}
-//				writer.write("success");
-//				writer.flush();
-//			} else {// 验证失败
-//				log.info("支付宝异步通知请求验证失败...");
-//				writer.write("fail");
-//				writer.flush();
-//			}
-//		} catch (IOException e) {
-//			log.error("处理支付宝异步通知异常", e);
-//		}
-//	}
+	// @SuppressWarnings("rawtypes")
+	// @RequestMapping("/notify")
+	// public void asynNotify(HttpServletRequest request, HttpServletResponse
+	// response) {
+	// log.info("收到微信支付异步通知");
+	// try {
+	// PrintWriter writer = response.getWriter();
+	// // 获取支付宝POST过来反馈信息
+	// Map<String, String> params = new HashMap<String, String>();
+	// Map requestParams = request.getParameterMap();
+	// for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();)
+	// {
+	// String name = (String) iter.next();
+	// String[] values = (String[]) requestParams.get(name);
+	// String valueStr = "";
+	// for (int i = 0; i < values.length; i++) {
+	// valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr +
+	// values[i] + ",";
+	// }
+	// params.put(name, valueStr);
+	// }
+	// log.info("支付宝异步通知参数：", params);
+	// // 商户网站唯一订单号
+	// String out_trade_no = request.getParameter("out_trade_no");
+	// // 交易状态
+	// String trade_status = request.getParameter("trade_status");
+	// if (AlipayNotify.verify(params)) {// 验证成功
+	// if (!Objects.equal("TRADE_CLOSED", trade_status)) {
+	// alipayService.notifyPayment(params, true, "");
+	// } else {
+	// alipayService.notifyPayment(params, false, "TRADE_CLOSED");
+	// }
+	// writer.write("success");
+	// writer.flush();
+	// } else {// 验证失败
+	// log.info("支付宝异步通知请求验证失败...");
+	// writer.write("fail");
+	// writer.flush();
+	// }
+	// } catch (IOException e) {
+	// log.error("处理支付宝异步通知异常", e);
+	// }
+	// }
 
 	private PayParam buildPayParam(HttpServletRequest request) {
 		PayParam param = new PayParam();
-		//接口传递参数
+		// 接口传递参数
 		param.setBarCode(request.getParameter("barCode"));
 		param.setChannel(request.getParameter("channel"));
 		param.setDeviceType(request.getParameter("deviceType"));
@@ -162,8 +281,8 @@ public class WchatpayController {
 		param.setRoleId(request.getParameter("roleId"));
 		param.setUserId(request.getParameter("userId"));
 		log.info("支付传递参数：" + param.toString());
-		
-		//其他参数
+
+		// 其他参数
 		String timeStart = DateUtil.getNow("yyyyMMddHHmmss");
 		param.setTimeStart(timeStart);
 		param.setTimeExpire(DateUtil.getDateAfter(timeStart, "yyyyMMddHHmmss", 1));

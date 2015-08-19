@@ -43,7 +43,7 @@ public class RefundReqData {
      */
     public RefundReqData(String transactionID,String outTradeNo,String deviceInfo,String outRefundNo,int totalFee,int refundFee,String opUserID,String refundFeeType){
 
-        setSdk_version(Configure.getSdkVersion());
+        //setSdk_version(Configure.getSdkVersion());
 
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(Configure.getAppid());

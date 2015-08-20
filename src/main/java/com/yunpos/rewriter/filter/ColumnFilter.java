@@ -14,6 +14,11 @@
 
 package com.yunpos.rewriter.filter;
 
+import com.yunpos.rewriter.Binding;
+import com.yunpos.rewriter.value.Value;
+
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -29,9 +34,21 @@ import java.util.Map;
 public class ColumnFilter extends Filter {
     private String tableAlias,tableName,colName;
 
+    public ColumnFilter(Integer dataTypeCode,String valueStr) throws IOException, ParseException {
+        super(Value.DataType.fromCode(dataTypeCode),valueStr);
+    }
+    public ColumnFilter(Value.DataType dataType,String valueStr) throws IOException, ParseException {
+        super(dataType,valueStr);
+    }
+
     @Override
-    protected String getLeftValue(Map<String, Object> params) {
-        return (tableAlias!=null)?tableAlias:(tableName!=null)?tableName:""+colName;
+    protected void bindKey(Map<String, Object> params) throws MissBindingParamExecption {
+        //pass
+    }
+
+    @Override
+    protected String getFilterKey() {
+        return tableAlias!=null?tableAlias+"."+colName:colName;
     }
 
     public String getTableAlias() {
@@ -56,5 +73,14 @@ public class ColumnFilter extends Filter {
 
     public void setColName(String colName) {
         this.colName = colName;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+" ColumnFilter{" +
+                "tableAlias='" + tableAlias + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", colName='" + colName + '\'' +
+                '}';
     }
 }

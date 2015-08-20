@@ -28,14 +28,7 @@ import java.util.List;
  * @author bino 修改日期：2015/8/13
  */
 public class ValueList extends Value {
-    private List<Object> valueList;
-    public ValueList(){
-        valueList=new ArrayList<>();
-    }
-    public Object getValue(){
-        return valueList;
-    }
-    public void setValueList(List valueList){
-        this.valueList=valueList;
+    public ValueList(DataType dataType,List value){
+        super(dataType,value);
     }
 }

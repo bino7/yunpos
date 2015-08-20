@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysRole;
@@ -59,6 +57,7 @@ public class SysRoleController extends BaseController{
 	}
 
 	@RequestMapping(value = "/ajax/role/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable("id") int id) {
 		sysRoleService.delete(id);
 	}

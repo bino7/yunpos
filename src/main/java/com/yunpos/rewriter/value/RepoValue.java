@@ -14,6 +14,8 @@
 
 package com.yunpos.rewriter.value;
 
+import java.util.List;
+
 /**
  * 功能描述：
  * <p>
@@ -27,6 +29,10 @@ package com.yunpos.rewriter.value;
 public class RepoValue extends ValueList {
     private String sql;
 
+    public RepoValue(DataType dataType, List value) {
+        super(dataType, value);
+    }
+
     public String getSql() {
         return sql;
     }
@@ -35,7 +41,7 @@ public class RepoValue extends ValueList {
         this.sql = sql;
     }
 
-    public Object getValue(){
+    public List getValue(){
         return null;
     }
 }

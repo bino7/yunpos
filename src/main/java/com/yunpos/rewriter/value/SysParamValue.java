@@ -30,20 +30,34 @@ import java.util.Map;
  * @author bino 修改日期：2015/8/13
  */
 public class SysParamValue extends Value implements Binding {
+    private String paramName;
+
+    public SysParamValue(DataType dataType,String paramName){
+        super(dataType);
+        this.paramName=paramName;
+    }
     @Override
     public Object getValue() {
         return value;
     }
     
-    public Object getName() {
-        return value;
+    public String getParamName() {
+        return paramName;
     }
 
     @Override
-    public void bind(Map<String, Object> params) {
-        Object value=params.get(this.getName());
-        if(value!=null){
-            this.setValue(value);
+    public void bind(Map<String, Object> params) throws MissBindingParamExecption{
+        Object value=params.get(paramName);
+        if(value==null){
+            throw new Binding.MissBindingParamExecption(paramName,"");
         }
+        this.setValue(value);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+" SysParamValue{" +
+                "paramName='" + paramName + '\'' +
+                '}';
     }
 }

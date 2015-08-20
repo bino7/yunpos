@@ -7,7 +7,7 @@
 <generatorConfiguration>
 	<!--数据库驱动jar -->
 	<classPathEntry
-		location="D:\repo\tytrepository\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
+		location="C:\Program Files (x86)\MySQL\Connector J 5.1.30\mysql-connector-java-5.1.30-bin.jar" />
 
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!--去除注释 -->
@@ -95,17 +95,21 @@
 			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table> -->
-		
-		<table tableName="sys_pay_order" domainObjectName="SysPayOrder"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		<table tableName="sys_role" domainObjectName="SysRole"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
 
+		<!--<table tableName="filter_group" domainObjectName="FilterGroup"
+			   enableCountByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>-->
+		<table tableName="filter" domainObjectName="Filter"
+			   enableCountByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+		<table tableName="filter_group" domainObjectName="FilterGroup"
+			   enableCountByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
 	</context>
 </generatorConfiguration>

@@ -14,6 +14,7 @@
 
 package com.yunpos.rewriter;
 
+import com.yunpos.exception.Exceptions;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.SqlSession;
@@ -38,7 +39,13 @@ import java.util.function.Consumer;
  * @author bino 修改日期：2015/8/6
  */
 public interface Binding {
-    public void bind(Map<String,Object> params);
+    static final String USER_ID="{user_id}",USER_NAME="{user_name}",SYS_ROLE="{sys_role}";
+    void bind(Map<String,Object> params) throws MissBindingParamExecption;
+    static class MissBindingParamExecption extends Exception{
+        public MissBindingParamExecption(String paramName,String message){
+            super("miss binding param "+paramName+" "+message);
+        }
+    }
 
 }
 

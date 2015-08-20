@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -71,7 +72,7 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
     }
 
     @Override
-    public RewritenStatement rewrite(String sql,Filter filter,Binding binding) {
+    public String rewrite(String sql,Filter filter,Map<String,Object> params) {
         MySQLLexer lexer = new MySQLLexer(new ANTLRInputStream(sql));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MySQLParser parser = new MySQLParser(tokens);
@@ -79,9 +80,9 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
         parser.stat();
         rootStatement.resolveNodes();
         if(filter!=null){
-            rootStatement.addFilter(filter, binding);
+            rootStatement.addFilter(filter, params);
         }
-        return null;
+        return rootStatement.getText();
     }
 
     public static void main(String[] args){
@@ -217,8 +218,7 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
 
     @Override
     public void exitFunction(MySQLParser.FunctionContext ctx) {
-        finishBuilder(curBuilder);
-        curBuilder=null;
+        finishBuilder();
         Node node=nodeStack.pop();
         nodeStack.peek().add(node);
     }
@@ -436,8 +436,7 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
 
     @Override
     public void exitWhere_clause(MySQLParser.Where_clauseContext ctx) {
-        finishBuilder(curBuilder);
-        curBuilder=null;
+        finishBuilder();
         Node node=nodeStack.pop();
         nodeStack.peek().add(node);
     }

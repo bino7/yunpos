@@ -16,6 +16,8 @@ package com.yunpos.rewriter;
 
 import com.yunpos.rewriter.filter.Filter;
 
+import java.util.Map;
+
 /**
  * 功能描述：
  * <p>
@@ -27,5 +29,5 @@ import com.yunpos.rewriter.filter.Filter;
  * @author bino 修改日期：2015/8/6
  */
 public interface StatementRewriter {
-    RewritenStatement rewrite(String sql,Filter filter,Binding binding);
+    String rewrite(String sql,Filter filter,Map<String,Object> params);
 }

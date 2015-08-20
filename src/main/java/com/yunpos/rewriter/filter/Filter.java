@@ -16,12 +16,19 @@ package com.yunpos.rewriter.filter;
 
 import com.yunpos.rewriter.Binding;
 import com.yunpos.rewriter.value.Value;
+import com.yunpos.rewriter.value.ValueList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
 public abstract class Filter implements Binding{
-
+    private static Logger logger = LoggerFactory.getLogger(Filter.class);
     public static enum Op{
         EQ(0,"="),GE(1,">="),GT(2,">"),LE(3,"<="),LT(4,"<"),LIKE(5,"like"),IN(6,"in");
         private int code;
@@ -47,65 +54,126 @@ public abstract class Filter implements Binding{
                 default:throw new java.lang.IllegalArgumentException("unsported code "+code+" for enum Filter.Op");
             }
         }
+
+        public static List<Op> disjoint(int code){
+            List<Filter.Op> opList=new ArrayList<>();
+            for(Filter.Op op:Filter.Op.values()){
+                if(isOp(code,op.getCode())){
+                    opList.add(op);
+                }
+            }
+            return opList;
+        }
+        public static int overlap(List<Filter.Op> opList){
+            int code=0;
+            for(Filter.Op op:opList){
+                code=setOp(code,code);
+            }
+            return code;
+        }
+        public static int setOp(int code,int opCode) {
+            code |= 1 << opCode;
+            return code;
+        }
+
+        public static int unsetOp(int code,int opCode) {
+            code &= ~(1 << opCode);
+            return code;
+        }
+
+        public static boolean isOp(int code,int opCode) {
+            return (code >> opCode & 1) == 1;
+        }
+    }
+    private int id;
+    private String name;
+    private Op op;
+    protected Value filterValue;
+    public Filter(){
+
     }
 
-    private Op op;
-    private Value rightValue;
+    public Filter(int dataTypeCode,String json) throws IOException, ParseException {
+        this(Value.DataType.fromCode(dataTypeCode),json);
+    }
 
-    public String toSql(Map<String,Object> params){
-        String left= getLeftValue(params);
-        String right= getRightValue(params);
+    public Filter(Value.DataType dataType,String json) throws IOException, ParseException {
+        filterValue =Value.fromJson(dataType, json);
+    }
+
+    public String toSql(){
+        String key= getFilterKey();
+        String value= getFilterValue().toString();
         StringJoiner joiner = new StringJoiner(" ");
-        joiner.add(left);
+        joiner.add(key);
         joiner.add(op.getSymbol());
         switch (op){
             case IN:
-                joiner.add("("+right+")");
+                joiner.add("("+value+")");
                 break;
             default:
-                joiner.add(right);
+                joiner.add(value);
         }
         return joiner.toString();
     }
-    private Map<String,Object> params;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Op getOp() {
+        return op;
+    }
+
+    public void setOp(Op op) {
+        this.op = op;
+        if(filterValue instanceof ValueList && op!=Op.IN){
+            throw new java.lang.IllegalArgumentException(this.getClass()+" filter value is a list "+filterValue+
+                    " when op is "+op.name());
+        }
+    }
+
+    public Value getFilterValue() {
+        return filterValue;
+    }
+
+    public void setFilterValue(Value filterValue) {
+        this.filterValue = filterValue;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void bind(Map<String,Object> params){
-        this.params=params;
-    }
-    protected abstract String getLeftValue(Map<String, Object> params);
-    protected String getRightValue(Map<String, Object> params){
-        return rightValue.toString();
-    }
-
-
-    /*public String toSql(Map<String,String> params){
-        String leftParam=parseValue(this.getLeftParam(),params);
-        String rightParam=null;
-        if(rightParams.length==1){
-            rightParam=rightParams[0];
-        }else {
-            StringJoiner joiner = new StringJoiner(",");
-            for (int i = 0; i < this.getRightParams().length; i++) {
-                joiner.add(parseValue(this.getRightParams()[i], params));
+        try {
+            bindKey(params);
+            if (filterValue instanceof Binding){
+                ((Binding) filterValue).bind(params);
             }
-            rightParam=joiner.toString();
+        }catch (MissBindingParamExecption e){
+            logger.error("filter error when binding",e);
         }
-        switch(op){
-            case LIKE:
-                return (leftTableAlias!=null?leftTableAlias+".":"")+leftParam+" "+op.getSymbol()+" '"
-                        +(rightTableAlias!=null?rightTableAlias+".":"")+rightParam+"'";
-            case IN:
-                return (leftTableAlias!=null?leftTableAlias+".":"")+leftParam+" "+op.getSymbol()+" ("
-                        +rightParam+")";
-            default:
-                return (leftTableAlias!=null?leftTableAlias+".":"")+leftParam+" "+op.getSymbol()+" "
-                        +(rightTableAlias!=null?rightTableAlias+".":"")+rightParam;
-        }
-    }
 
-    private String parseValue(String value,Map<String,String> params){
-        if(params.containsKey(value)){
-            return params.get(value);
-        }
-        return value;
-    }*/
+    };
+    protected abstract void bindKey (Map<String,Object> params) throws MissBindingParamExecption;
+    protected  abstract String getFilterKey();
+
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", op=" + op +
+                ", filterValue=" + filterValue +
+                '}';
+    }
 }

@@ -19,10 +19,7 @@ import com.yunpos.rewriter.filter.ColumnFilter;
 import com.yunpos.rewriter.filter.Filter;
 import com.yunpos.rewriter.filter.FilterGroup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * 功能描述：
@@ -74,9 +71,10 @@ public class Statement extends RewritableNode implements NodeList {
         }
     }
 
-    public void addFilter(Filter filter,Binding binding){
+    public void addFilter(Filter filter,Map<String,Object> params){
         resolveFilterTableAlias(filter);
-        String filterSql=filter.toSql(new HashMap<>());
+        filter.bind(params);
+        String filterSql=filter.toSql();
         if (whereClause==null){
             whereClause=new WhereClause();
             whereClause.add(new BaseNode("where"));
@@ -102,7 +100,7 @@ public class Statement extends RewritableNode implements NodeList {
     }
 
     private void resolveFilterGroupTableAlias(FilterGroup filterGroup){
-        for(FilterGroup group:filterGroup.children){
+        for(FilterGroup group:filterGroup.getChildren()){
             resolveFilterGroupTableAlias(group);
         }
         for(Filter filter:filterGroup.getFilterList()){

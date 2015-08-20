@@ -1,6 +1,7 @@
 package com.yunpos.rewriter.filter;
 
 import com.yunpos.model.Resource;
+import com.yunpos.rewriter.Binding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,28 +9,53 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class FilterGroup extends Filter{
-    private Integer id;
-
-    private Integer parent_id;
-
+    private int id;
     private Resource resource;
 
     private List<Filter> filterList;
 
-    public Integer getId() {
+    private List<FilterGroup> children;
+
+
+    public FilterGroup(){
+        filterList=new ArrayList<>();
+        children=new ArrayList<>();
+    }
+
+    @Override
+    public String toSql(){
+        StringJoiner joiner=new StringJoiner(" and ");
+        for(Filter filter:filterList){
+            joiner.add(filter.toSql());
+        }
+
+        StringJoiner joiner2=new StringJoiner(" or ");
+        joiner2.add(joiner.toString());
+        for(FilterGroup group:children){
+            joiner2.add("("+group.toSql()+")");
+        }
+        return joiner2.toString();
+    }
+
+
+    @Override
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    @Override
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getParent_id() {
-        return parent_id;
+    @Override
+    protected void bindKey(Map<String, Object> params) throws MissBindingParamExecption {
+        //pass
     }
 
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
+    @Override
+    protected String getFilterKey() {
+        return null;
     }
 
     public Resource getResource() {
@@ -40,16 +66,6 @@ public class FilterGroup extends Filter{
         this.resource = resource;
     }
 
-    public List<FilterGroup> children;
-
-    public List<FilterGroup> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<FilterGroup> children) {
-        this.children = children;
-    }
-
     public List<Filter> getFilterList() {
         return filterList;
     }
@@ -58,28 +74,11 @@ public class FilterGroup extends Filter{
         this.filterList = filterList;
     }
 
-    public FilterGroup(){
-        filterList=new ArrayList<>();
-        children=new ArrayList<>();
+    public List<FilterGroup> getChildren() {
+        return children;
     }
 
-    @Override
-    public String toSql(Map<String,Object> params){
-        StringJoiner joiner=new StringJoiner(" and ");
-        for(Filter filter:filterList){
-            joiner.add(filter.toSql(params));
-        }
-
-        StringJoiner joiner2=new StringJoiner(" or ");
-        joiner2.add(joiner.toString());
-        for(FilterGroup group:children){
-            joiner2.add("("+group.toSql(params)+")");
-        }
-        return joiner2.toString();
-    }
-
-    @Override
-    protected String getLeftValue(Map<String, Object> params) {
-        throw new java.lang.UnsupportedOperationException(FilterGroup.class+" getLeftValue method is unsupported for filtergroup");
+    public void setChildren(List<FilterGroup> children) {
+        this.children = children;
     }
 }

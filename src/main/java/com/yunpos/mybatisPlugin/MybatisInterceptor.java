@@ -53,7 +53,7 @@ public class MybatisInterceptor implements Interceptor {
 	public Object intercept(Invocation invocation) throws Throwable {
 
 		StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
-		*//*MetaObject metaStatementHandler = MetaObject.forObject(statementHandler, DEFAULT_OBJECT_FACTORY,
+		MetaObject metaStatementHandler = MetaObject.forObject(statementHandler, DEFAULT_OBJECT_FACTORY,
 				DEFAULT_OBJECT_WRAPPER_FACTORY);
 		// 分离代理对象链
 		while (metaStatementHandler.hasGetter("h")) {
@@ -64,7 +64,7 @@ public class MybatisInterceptor implements Interceptor {
 		while (metaStatementHandler.hasGetter("target")) {
 			Object object = metaStatementHandler.getValue("target");
 			metaStatementHandler = MetaObject.forObject(object, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY);
-		}*//*
+		}
 		statementHandler.getBoundSql();
 
 		String originalSql = (String) metaStatementHandler.getValue("delegate.boundSql.sql");

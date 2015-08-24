@@ -1,7 +1,5 @@
 package com.yunpos.web.payment;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,16 +12,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.base.Strings;
 import com.yunpos.model.SysPayOrder;
+import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
 import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
 import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
 import com.yunpos.service.SysPayOrderService;
-import com.yunpos.service.payment.Message.PayStatus;
 import com.yunpos.service.payment.PayParam;
 import com.yunpos.service.payment.WechatPayService;
 import com.yunpos.utils.AmountUtils;
 import com.yunpos.utils.DateUtil;
 import com.yunpos.utils.IdWorker;
 import com.yunpos.utils.Message;
+import com.yunpos.utils.Message.ErrorCode;
+import com.yunpos.utils.Message.ResultCode;
 
 /**
  * 
@@ -57,51 +57,58 @@ public class WchatpayController {
 	@RequestMapping(value = "/create")
 	@ResponseBody
 	public Object wechatCreate(HttpServletRequest request, HttpServletResponse response) {
-		PayParam param = buildPayParam(request);
+		String pay_channel = request.getParameter("pay_channel");
+		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
+		String dynamic_id = request.getParameter("dynamic_id"); // 支付码（非空）
+		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
+		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
+		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
+		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
 
-		if (Strings.isNullOrEmpty(param.getRoleId()) || Strings.isNullOrEmpty(param.getUserId())
-				|| Strings.isNullOrEmpty(param.getPrice()) || Strings.isNullOrEmpty(param.getChannel())
-				|| Strings.isNullOrEmpty(param.getImei()) || Strings.isNullOrEmpty(param.getDeviceType())
-				|| Strings.isNullOrEmpty(param.getBarCode())) {
-			return new Message(false, "", "传递参数为空！");
+		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee) || Strings.isNullOrEmpty(dynamic_id)
+				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
+				|| Strings.isNullOrEmpty(client_type)) {
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
-
+		Message payMsg = null;
 		try {
 			SysPayOrder payOrder = new SysPayOrder();
 			// 生成流水表信息
 			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
 			IdWorker iw = new IdWorker(idepo);
-			long orderNo = iw.getId();
+			String orderNo = iw.getId()+"";
 			System.out.println("微信生成订单号：" + orderNo);
-			String price = AmountUtils.changeY2F(param.getPrice());
-			payOrder.setPayOrderNo(orderNo + "");
-			payOrder.setStatus(Byte.parseByte("2"));// 支付中
-			payOrder.setRoleId(Integer.getInteger(param.getRoleId()));
-			payOrder.setUserId(Integer.getInteger(param.getUserId()));
-			payOrder.setPrice(Long.valueOf(price)); // 微信支付单位分
-			payOrder.setBarCode(param.getBarCode());
-			payOrder.setImei(param.getImei());
-			payOrder.setDeviceType(Byte.valueOf(param.getDeviceType()));
-			payOrder.setCreateAt(new Date());
-			payOrder.setCreateBy(Integer.getInteger(param.getUserId()));
-			// 保存支付流水
-			sysPayOrderService.save(payOrder);
+			// String price =
+			// AmountUtils.changeY2F(request.getParameter("price"));
+			// payOrder.setPayOrderNo(orderNo + "");
+			// payOrder.setStatus(Byte.parseByte("2"));// 支付中
+			// payOrder.setRoleId(Integer.getInteger(param.getRoleId()));
+			// payOrder.setUserId(Integer.getInteger(param.getUserId()));
+			// payOrder.setPrice(Long.valueOf(price)); // 微信支付单位分
+			// payOrder.setBarCode(param.getBarCode());
+			// payOrder.setImei(param.getImei());
+			// payOrder.setDeviceType(Byte.valueOf(param.getDeviceType()));
+			// payOrder.setCreateAt(new Date());
+			// payOrder.setCreateBy(Integer.getInteger(param.getUserId()));
+			//
+			// // 保存支付流水
+			// sysPayOrderService.save(payOrder);
 
 			// 调用支付接口发起支付请求
-			param.setOrderNo(orderNo + "");
-			com.yunpos.service.payment.Message payMsg = wechatPayService.scanPay(param);
-			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
-				// 操作时间记录日志
-				// StringBuffer actionInfo = WorkingTimeUtil.doTime(startTime,
-				// "微信条码支付成功");
-				// log.info(actionInfo.toString());
-				return new Message(true, "", "微信条码支付成功！");
-			}
+			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
+			String goodsTag = "条码支付";
+			// 支付请求
+			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "微信条码支付测试", "测试附件", orderNo, totalFee, terminal_unique_no,
+					"192.168.0.116", goodsTag);
+			
+			/*ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id.trim(), "微信条码支付测试", "测试附件", orderNo + "",
+					totalFee, terminal_unique_no, request.getLocalAddr(), goodsTag);*/
+			payMsg = wechatPayService.scanPay(scanPayReqData);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
-			return new Message(false, "", "微信支付出现异常" + e.getMessage());
+			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(),"支付出现异常！", null);
 		}
-		return new Message(true, "", "微信条码支付成功！");
+		return payMsg;
 	}
 
 	/**
@@ -114,27 +121,22 @@ public class WchatpayController {
 	@RequestMapping(value = "/query")
 	@ResponseBody
 	public Object query(HttpServletRequest request, HttpServletResponse response) {
-		// 参数获取
-		String role = request.getParameter("role");
-		String token = request.getParameter("token");
-		String uid = request.getParameter("uid");
-		String outtradeno = request.getParameter("outtradeno");
-
-		if (Strings.isNullOrEmpty(role) || Strings.isNullOrEmpty(token) || Strings.isNullOrEmpty(uid)
-				|| Strings.isNullOrEmpty(outtradeno)) {
-			return new Message(false, "", "传递参数为空！");
+		String pay_channel = request.getParameter("pay_channel");
+		String merchant_num = request.getParameter("merchant_num");
+		String trace_num = request.getParameter("trace_num");
+		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
+				|| Strings.isNullOrEmpty(trace_num) || Strings.isNullOrEmpty("terminal_unique_no")) {
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
+		Message payMsg = null;
 		try {
-			com.yunpos.service.payment.Message payMsg = wechatPayService.query(outtradeno);
-			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
-				// 操作时间记录日志
-				return new Message(true, "", "微信支付成功！");
-			}
+			payMsg = wechatPayService.query(trace_num);
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);
-			return new Message(false, "", "支付查询出现异常" + e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
-		return new Message(true, "", "微信支付成功！");
+		return payMsg;
 	}
 
 	/**
@@ -147,38 +149,35 @@ public class WchatpayController {
 	@RequestMapping(value = "/refund")
 	@ResponseBody
 	public Object refund(HttpServletRequest request, HttpServletResponse response) {
-		PayParam param = buildPayParam(request);
-		/*if (Strings.isNullOrEmpty(param.getRoleId()) || Strings.isNullOrEmpty(param.getUserId())
-				|| Strings.isNullOrEmpty(param.getPrice()) || Strings.isNullOrEmpty(param.getChannel())
-				|| Strings.isNullOrEmpty(param.getImei()) || Strings.isNullOrEmpty(param.getDeviceType())
-				|| Strings.isNullOrEmpty(param.getBarCode())) {
-			return new Message(false, "", "传递参数为空！");
-		}*/
+		String pay_channel = request.getParameter("pay_channel");
+		String merchant_num = request.getParameter("merchant_num");
+		String trace_num = request.getParameter("trace_num");
+		String transactionID = request.getParameter("transactionID");
+		String refund_amount = request.getParameter("refund_amount");
+		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
+				|| Strings.isNullOrEmpty(trace_num) || Strings.isNullOrEmpty(refund_amount)
+				|| Strings.isNullOrEmpty(terminal_unique_no)) {
+			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(),"传递参数为空！", null);
+		}
 
+		Message payMsg = null;
 		try {
-			String transactionID = "1002120689201508180645805301"; // 微信订单号
-			String outTradeNo = "15099500695552"; // 系统订单号
-			String deviceInfo = "设备信息"; // 设备信息
-			String outRefundNo = "0000000003"; // 商户退款单号
-			int totalFee = 1;
-			int refundFee = 1;
-			String opUserID = "1";
-			String refundFeeType = "CNY";
+			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+			IdWorker iw = new IdWorker(idepo);
+			String refundNo = "R"+iw.getId();
 
-			RefundReqData refundReqData = new RefundReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, totalFee,
-					refundFee, opUserID, refundFeeType);
+			RefundReqData refundReqData = new RefundReqData(transactionID, trace_num, terminal_unique_no, refundNo,
+					Integer.valueOf(AmountUtils.changeY2F(refund_amount)),
+					Integer.valueOf(AmountUtils.changeY2F(refund_amount)), merchant_num, "CNY");
+			//refundReqData.set
 			
-			com.yunpos.service.payment.Message payMsg = wechatPayService.refund(refundReqData);
-			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
-				// 操作时间记录日志
-				return new Message(true, "", "微信条码支付退款申请成功！");
-			}else{
-				return new Message(false, "", payMsg.getMsg());
-			}
+			payMsg = wechatPayService.refund(refundReqData);
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);
-			return new Message(false, "", "微信退款出现异常" + e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
+		return payMsg;
 	}
 
 	/**
@@ -191,33 +190,32 @@ public class WchatpayController {
 	@RequestMapping(value = "/refundQuery")
 	@ResponseBody
 	public Object refundQuery(HttpServletRequest request, HttpServletResponse response) {
-//		PayParam param = buildPayParam(request);
-//		if (Strings.isNullOrEmpty(param.getRoleId()) || Strings.isNullOrEmpty(param.getUserId())
-//				|| Strings.isNullOrEmpty(param.getPrice()) || Strings.isNullOrEmpty(param.getChannel())
-//				|| Strings.isNullOrEmpty(param.getImei()) || Strings.isNullOrEmpty(param.getDeviceType())
-//				|| Strings.isNullOrEmpty(param.getBarCode())) {
-//			return new Message(false, "", "传递参数为空！");
-//		}
-
+		String pay_channel = request.getParameter("pay_channel");
+		String merchant_num = request.getParameter("merchant_num");
+		String trace_num = request.getParameter("trace_num");
+		String refund_amount = request.getParameter("refund_amount");
+		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		
+		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
+				|| Strings.isNullOrEmpty(trace_num) || Strings.isNullOrEmpty(refund_amount)
+				|| Strings.isNullOrEmpty(terminal_unique_no)) {
+			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(),"传递参数为空！", null);
+		}
+		
+		Message payMsg = null;
 		try {
-			String transactionID = "1002120689201508180645805301"; // 微信订单号
-			String outTradeNo = "15099500695552"; // 系统订单号
-			String deviceInfo = "设备信息"; // 设备信息
-			String outRefundNo = "0000000003"; // 商户退款单号
-			String refundID = "2002120689201508190029977856";//
+			
 
-			RefundQueryReqData refundQueryReqData = new RefundQueryReqData(transactionID, outTradeNo, deviceInfo, outRefundNo, refundID);
-			com.yunpos.service.payment.Message payMsg = wechatPayService.refundQuery(refundQueryReqData);
-			if (payMsg.getStatus() == PayStatus.REQUEST_SUCCESS) {
-				// 操作时间记录日志
-				return new Message(true, "", "微信条码支付退款申请成功！");
-			}else{
-				return new Message(false, "", payMsg.getMsg());
-			}
+//			RefundQueryReqData refundQueryReqData = new RefundQueryReqData(transactionID, outTradeNo, deviceInfo,
+//					outRefundNo, refundID);
+			RefundQueryReqData refundQueryReqData = new RefundQueryReqData(trace_num, terminal_unique_no);
+			payMsg = wechatPayService.refundQuery(refundQueryReqData);
+
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);
-			return new Message(false, "", "微信退款出现异常" + e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
+		return payMsg;
 	}
 
 	/**

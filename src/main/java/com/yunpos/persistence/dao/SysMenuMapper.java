@@ -13,6 +13,8 @@ public interface SysMenuMapper extends EntityMapper<SysMenu>{
 	List<SysMenu> findAll();
 
 	List<SysMenu> findListByIds(Object[] array);
-	
+
+	@Select("select * from sys_menu where menuParentNo=#{id}")
+	List<SysMenu> findBymenuParentNo(int id);
 
 }

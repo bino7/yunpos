@@ -7,6 +7,7 @@ import java.util.Map;
 import com.yunpos.payment.wxpay.common.Configure;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
+import com.yunpos.utils.DateUtil;
 
 /**
  * 请求被扫支付API需要提交的数据
@@ -42,7 +43,7 @@ public class ScanPayReqData {
      * @param timeExpire 订单失效时间，格式同上
      * @param goodsTag 商品标记，微信平台配置的商品标记，用于优惠券或者满减使用
      */
-    public ScanPayReqData(String authCode,String body,String attach,String outTradeNo,int totalFee,String deviceInfo,String spBillCreateIP,String timeStart,String timeExpire,String goodsTag){
+    public ScanPayReqData(String authCode,String body,String attach,String outTradeNo,int totalFee,String deviceInfo,String spBillCreateIP,String goodsTag){
 
         setSdk_version(Configure.getSdkVersion());
 
@@ -76,10 +77,10 @@ public class ScanPayReqData {
         setSpbill_create_ip(spBillCreateIP);
 
         //订单生成时间， 格式为yyyyMMddHHmmss，如2009年12 月25 日9 点10 分10 秒表示为20091225091010。时区为GMT+8 beijing。该时间取自商户服务器
-        setTime_start(timeStart);
+        setTime_start(DateUtil.getNow("yyyyMMddHHmmss"));
 
         //订单失效时间，格式同上
-        setTime_expire(timeExpire);
+        setTime_expire(DateUtil.getDateAfter(DateUtil.getNow("yyyyMMddHHmmss"), "yyyyMMddHHmmss", 1));
 
         //商品标记，微信平台配置的商品标记，用于优惠券或者满减使用
         setGoods_tag(goodsTag);
@@ -92,6 +93,11 @@ public class ScanPayReqData {
         setSign(sign);//把签名数据设置到Sign这个属性中
 
     }
+    
+ /*   public ScanPayReqData(String authCode,String body,attach){
+    	
+    	
+    }*/
 
     public String getAppid() {
         return appid;
@@ -222,6 +228,29 @@ public class ScanPayReqData {
                 obj = field.get(this);
                 if(obj!=null){
                     map.put(field.getName(), obj);
+                }
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return map;
+    }
+    
+    public Map<String,String> toStringMap(){
+        Map<String,String> map = new HashMap<String, String>();
+        Field[] fields = this.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            Object obj;
+            try {
+                obj = field.get(this);
+                if(obj!=null){
+                	if (field.getType() == int.class) {
+						map.put(field.getName(), String.valueOf(obj));
+					} else {
+						map.put(field.getName(), (String) obj);
+					}
                 }
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();

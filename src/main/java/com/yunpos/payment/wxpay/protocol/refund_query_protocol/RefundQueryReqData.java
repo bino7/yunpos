@@ -65,6 +65,36 @@ public class RefundQueryReqData {
         setSign(sign);//把签名数据设置到Sign这个属性中
 
     }
+    
+    public RefundQueryReqData(String out_trade_no,String device_info){
+    	 //微信分配的公众号ID（开通公众号之后可以获取到）
+        setAppid(Configure.getAppid());
+
+        //微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+        setMch_id(Configure.getMchid());
+
+        //transaction_id是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
+        //setTransaction_id(transactionID);
+
+        //商户系统自己生成的唯一的订单号
+        setOut_trade_no(out_trade_no);
+
+        //微信支付分配的终端设备号，与下单一致
+        setDevice_info(device_info);
+
+        //setOut_refund_no(outRefundNo);
+
+        //商户系统自己管理的退款号，商户自身必须保证这个号在系统内唯一
+        //setRefund_id(refundID);
+
+        //随机字符串，不长于32 位
+        setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
+
+        //根据API给的签名规则进行签名
+        String sign = Signature.getSign(toMap());
+        setSign(sign);//把签名数据设置到Sign这个属性中
+        
+    }
 
     public String getAppid() {
         return appid;

@@ -10,8 +10,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
@@ -54,7 +56,7 @@ public class SysMenuController extends BaseController{
 	}
 
 	
-	@RequestMapping(value = "/rest/menu/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/ajax/menu/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysMenu sysMenu, @PathVariable("id") int id) {
 		sysMenu.setId(id);
 		sysMenuService.update(sysMenu);
@@ -77,5 +79,34 @@ public class SysMenuController extends BaseController{
 		List<SysMenu> roleList = sysMenuService.findAll();
 		return roleList;
 	}
+	
+	/**
+	 * 判断是否有子节点
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/ajax/menu/{id}/haschild",method = RequestMethod.GET)
+	@ResponseBody
+	public Object hasChild(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") int id)throws Exception{
+		return sysMenuService.hasChild(id);
+	}
+	
+	/**
+	 * 是否有父节点
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+//	@RequestMapping(value="/ajax/menu/{id}/hasparent",method = RequestMethod.GET)
+//	@ResponseBody
+//	public Object hasparent(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") int id)throws Exception{
+//		return sysMenuService.hasParent();
+//	}
+	
+	
 	
 }

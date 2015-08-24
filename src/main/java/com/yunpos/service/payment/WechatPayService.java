@@ -9,6 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
+import com.yunpos.payment.PayResData;
+import com.yunpos.payment.QueryResData;
+import com.yunpos.payment.RefundQueryResData;
+import com.yunpos.payment.RefundResData;
+import com.yunpos.payment.RefundResData.PayChannel;
 import com.yunpos.payment.alipay.util.Constant;
 import com.yunpos.payment.wxpay.common.Configure;
 import com.yunpos.payment.wxpay.common.HttpsRequest;
@@ -20,14 +25,13 @@ import com.yunpos.payment.wxpay.common.report.service.ReportService;
 import com.yunpos.payment.wxpay.config.WechatPayConfig;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
 import com.yunpos.payment.wxpay.protocol.pay_query_protocol.ScanPayQueryReqData;
-import com.yunpos.payment.wxpay.protocol.pay_query_protocol.ScanPayQueryResData;
 import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
-import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundResData;
 import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
 import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseResData;
-import com.yunpos.service.payment.Message.PayStatus;
-import com.yunpos.utils.AmountUtils;
+import com.yunpos.utils.Message;
+import com.yunpos.utils.Message.ErrorCode;
+import com.yunpos.utils.Message.ResultCode;
 import com.yunpos.utils.XMLUtil;
 
 /**
@@ -60,23 +64,7 @@ public class WechatPayService {
 	 * @param param
 	 * @return
 	 */
-	public Message scanPay(PayParam param) throws Exception {
-		// 把请求参数打包成数组
-		String authCode = param.getBarCode();
-		String body = param.getBody();
-		String attach = param.getAttach();
-		String outTradeNo = param.getOrderNo();
-		int totalFee = Integer.valueOf(AmountUtils.changeY2F(param.getPrice()));
-		String deviceInfo = param.getDeviceType();
-		String spBillCreateIP = param.getSpBillCreateIP();
-		String timeStart = param.getTimeStart();
-		String timeExpire = param.getTimeExpire();
-		String goodsTag = param.getGoodsTag();
-
-		// 支付请求
-		ScanPayReqData scanPayReqData = new ScanPayReqData(authCode, body, attach, outTradeNo, totalFee, deviceInfo,
-				spBillCreateIP, timeStart, timeExpire, goodsTag);
-
+	public Message scanPay(ScanPayReqData scanPayReqData) throws Exception {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -87,10 +75,7 @@ public class WechatPayService {
 			log.info("api请求总耗时：" + totalTimeCost + "ms");
 			log.info("同步返回结果：" + payServiceResponseString);
 
-			// 将从API返回的XML数据映射到Java对象
-			// ScanPayResData scanPayResData = (ScanPayResData)
-			// Util.getObjectFromXML(payServiceResponseString,
-			// ScanPayResData.class);
+		
 			Map<String, String> responseXml = XMLUtil.parse(payServiceResponseString);
 			// 异步发送统计请求
 			ReportReqData reportReqData = new ReportReqData(scanPayReqData.getDevice_info(), Configure.PAY_API,
@@ -98,15 +83,6 @@ public class WechatPayService {
 					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
 					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
 					responseXml.get("spbill_create_ip"));
-			// ReportReqData reportReqData = new
-			// ReportReqData(scanPayReqData.getDevice_info(),
-			// WechatPayConfig.PAY_API,
-			// (int) (totalTimeCost), // 本次请求耗时
-			// scanPayResData.getReturn_code(), scanPayResData.getReturn_msg(),
-			// scanPayResData.getResult_code(),
-			// scanPayResData.getErr_code(), scanPayResData.getErr_code_des(),
-			// scanPayResData.getOut_trade_no(),
-			// scanPayReqData.getSpbill_create_ip());
 			long timeAfterReport;
 			if (Configure.isUseThreadToDoReport()) {
 				ReporterFactory.getReporter(reportReqData).run();
@@ -122,40 +98,39 @@ public class WechatPayService {
 			if (responseXml == null || Strings.isNullOrEmpty(responseXml.get("return_code"))) {
 				log.error("【支付失败】支付请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
 				// resultListener.onFailByReturnCodeError(scanPayResData);
-				return new Message(PayStatus.FAILD, "支付请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
+				return new Message(ResultCode.FAIL.name(),"RETURN_CODE_NULL", "支付请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问",null);
 			}
 
 			if (responseXml.get("return_code").equals("FAIL")) {
 				// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
 				log.error("【支付失败】支付API系统返回失败，请检测Post给API的数据是否规范合法");
-				// resultListener.onFailByReturnCodeFail(scanPayResData);
-				return new Message(PayStatus.FAILD, "【支付失败】支付API系统返回失败，请检测Post给API的数据是否规范合法");
+				return new Message(ResultCode.FAIL.name(),"FAIL","支付API系统返回失败，请检测Post给API的数据是否规范合法",null);
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
 				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString)) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
-					return new Message(PayStatus.FAILD, "【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
+					return new Message(ResultCode.FAIL.name(),"CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",null);
 				}
 
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("【一次性支付成功】");
-					// resultListener.onSuccess(scanPayResData, transactionID);
-					return new Message(PayStatus.REQUEST_SUCCESS, responseXml.get("transaction_id")); // 微信支付订单号
+					PayResData payResData = new PayResData(PayChannel.WECHAT, responseXml, scanPayReqData.toStringMap());
+					return new Message(ResultCode.SUCCESS.name(),"SUCCESS","支付成功",payResData.toMap()); //支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
 					String errorCodeDes = responseXml.get("err_code_des");
 					log.error("业务返回失败,err_code" + errorCode + "|err_code_des:" + errorCodeDes);
 
 					// 对于扣款明确失败的情况直接走撤销逻辑
-					doReverseLoop(outTradeNo);
-					return new Message(PayStatus.FAILD, Constant.getWechatPayErrMsg(errorCode));
+					doReverseLoop(scanPayReqData.getOut_trade_no());
+					return new Message(ResultCode.FAIL.name(),errorCode,errorCodeDes,null);
 				}
 			}
 		} catch (Exception e) {
 			log.error("微信支付异常:", e);
-			return new Message(PayStatus.FAILD, e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！",null);
 		}
 	}
 
@@ -176,36 +151,37 @@ public class WechatPayService {
 			
 			if (responseXml == null || Strings.isNullOrEmpty(responseXml.get("return_code"))) {
 				log.info("支付订单查询请求逻辑错误，请仔细检测传过去的每一个参数是否合法");
-				return new Message(PayStatus.FAILD, "支付订单查询请求逻辑错误，请仔细检测传过去的每一个参数是否合法");
+				return new Message(ResultCode.FAIL.name(),"RETURN_CODE_NULL","支付订单查询请求逻辑错误，请仔细检测传过去的每一个参数是否合法",null);
 			}
 			
 			if (responseXml.get("return_code").equals("FAIL")) {
 				// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
 				log.error("支付订单查询API系统返回失败，失败信息为");
 				// resultListener.onFailByReturnCodeFail(scanPayResData);
-				return new Message(PayStatus.FAILD, "支付订单查询API系统返回失败，失败信息为"+responseXml.get("return_msg"));
+				return new Message(ResultCode.FAIL.name(),"FAIL",responseXml.get("return_msg"),null);
 			}else{
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
 				if (!Signature.checkIsSignValidFromResponseString(payQueryServiceResponseString)) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
-					return new Message(PayStatus.FAILD, "【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
+					return new Message(ResultCode.FAIL.name(),"CONTEXT_INCONSISTENT","支付请求API返回的数据签名验证失败，有可能数据被篡改了",null);
 				}
 				if (responseXml.get("result_code").equals("SUCCESS") && responseXml.get("trade_state").equals("SUCCESS")) {
 					log.info("查询到订单支付成功");
-					// resultListener.onSuccess(scanPayResData, transactionID);
-					return new Message(PayStatus.REQUEST_SUCCESS, responseXml.get("transaction_id")); // 微信支付订单号
+					QueryResData queryResData = new QueryResData(PayChannel.WECHAT, responseXml, null);
+					return new Message(ResultCode.SUCCESS.name(),"SUCCESS","支付成功",queryResData.toMap()); //支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
 					String errorCodeDes = responseXml.get("err_code_des");
 					log.error("查询出错，错误码err_code:" + errorCode + "|err_code_des:" + errorCodeDes);
-					return new Message(PayStatus.FAILD, responseXml.get("err_code")+responseXml.get("err_code_des"));
+					return new Message(ResultCode.FAIL.name(),errorCode ,errorCodeDes,null);
+					
 				}
 			}
 		} catch (Exception e) {
 			log.error("支付查询异常:", e);
-			return new Message(PayStatus.FAILD, e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！",null);
 		}
 	}
 
@@ -251,37 +227,38 @@ public class WechatPayService {
 			if (responseXml == null || Strings.isNullOrEmpty(responseXml.get("return_code"))) {
 				log.error("退款API请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
 				// resultListener.onFailByReturnCodeError(scanPayResData);
-				return new Message(PayStatus.FAILD, "退款API请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
+				return new Message(ResultCode.FAIL.name(),"RETURN_CODE_NULL","退款API请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问",null);
 			}
 
 			if (responseXml.get("return_code").equals("FAIL")) {
 				// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
 				log.error("退款API系统返回失败，请检测Post给API的数据是否规范合法");
 				// resultListener.onFailByReturnCodeFail(scanPayResData);
-				return new Message(PayStatus.FAILD, "退款API系统返回失败，请检测Post给API的数据是否规范合法");
+				return new Message(ResultCode.FAIL.name(),"FAIL",responseXml.get("return_msg"),null);
 			} else {
 				log.info("退款API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
 				if (!Signature.checkIsSignValidFromResponseString(refundServiceResponseString)) {
 					log.error("退款请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
-					return new Message(PayStatus.FAILD, "退款请求API返回的数据签名验证失败，有可能数据被篡改了");
+					return new Message(ResultCode.FAIL.name(),"CONTEXT_INCONSISTENT","退款请求API返回的数据签名验证失败，有可能数据被篡改了",null);
 				}
 
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("退款成功");
-					// resultListener.onSuccess(scanPayResData, transactionID);
-					return new Message(PayStatus.REQUEST_SUCCESS, ""); // 微信支付订单号
+					RefundResData refundResData = new RefundResData(PayChannel.WECHAT, responseXml, refundReqData.toMap2());
+					return new Message(ResultCode.SUCCESS.name(),"SUCCESS","退款成功",refundResData.toMap()); //支付宝交易流水号
+					
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
 					String errorCodeDes = responseXml.get("err_code_des");
 					log.error("业务返回失败,err_code" + errorCode + "|err_code_des:" + errorCodeDes);
-					return new Message(PayStatus.FAILD, errorCode+":"+errorCodeDes);
+					return new Message(ResultCode.FAIL.name(),errorCode,errorCodeDes,null);
 				}
 			}
 		} catch (Exception e) {
 			log.error("微信退款异常:", e);
-			return new Message(PayStatus.FAILD, e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！",null);
 		}
 	}
 
@@ -327,37 +304,36 @@ public class WechatPayService {
 			if (responseXml == null || Strings.isNullOrEmpty(responseXml.get("return_code"))) {
 				log.error("退款查询API请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
 				// resultListener.onFailByReturnCodeError(scanPayResData);
-				return new Message(PayStatus.FAILD, "退款查询API请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
+				return new Message(ResultCode.FAIL.name(),"RETURN_CODE_NULL","退款查询API请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问",null);
 			}
 
 			if (responseXml.get("return_code").equals("FAIL")) {
 				// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
 				log.error("退款查询API系统返回失败，请检测Post给API的数据是否规范合法");
 				// resultListener.onFailByReturnCodeFail(scanPayResData);
-				return new Message(PayStatus.FAILD, "退款查询API系统返回失败，请检测Post给API的数据是否规范合法");
+				return new Message(ResultCode.FAIL.name(),"FAIL","退款查询API系统返回失败，请检测Post给API的数据是否规范合法",null);
 			} else {
 				log.info("退款查询API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
 				if (!Signature.checkIsSignValidFromResponseString(refundQueryServiceResponseString)) {
 					log.error("退款查询API返回的数据签名验证失败，有可能数据被篡改了");
-					// resultListener.onFailBySignInvalid(scanPayResData);
-					return new Message(PayStatus.FAILD, "退款查询API返回的数据签名验证失败，有可能数据被篡改了");
+					return new Message(ResultCode.FAIL.name(),"CONTEXT_INCONSISTENT","退款查询API返回的数据签名验证失败，有可能数据被篡改了",null);
 				}
 
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("退款查询成功");
-					// resultListener.onSuccess(scanPayResData, transactionID);
-					return new Message(PayStatus.REQUEST_SUCCESS, ""); // 微信支付订单号
+					RefundQueryResData refundQueryResData = new RefundQueryResData(PayChannel.WECHAT, responseXml, null);
+					return new Message(ResultCode.SUCCESS.name(),"SUCCESS","查询成功",refundQueryResData.toMap()); // 微信支付订单号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
 					String errorCodeDes = responseXml.get("err_code_des");
 					log.error("业务返回失败,err_code" + errorCode + "|err_code_des:" + errorCodeDes);
-					return new Message(PayStatus.FAILD, Constant.getWechatPayErrMsg(errorCode));
+					return new Message(ResultCode.FAIL.name(),errorCode, errorCodeDes,null);
 				}
 			}
 		} catch (Exception e) {
 			log.error("微信退款查询异常:", e);
-			return new Message(PayStatus.FAILD, e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！",null);
 		}
 	}
 

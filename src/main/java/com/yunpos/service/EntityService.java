@@ -50,7 +50,7 @@ public abstract class EntityService<T> extends BaseService {
 	}
 
 	public void update(T entity) {
-		getMapper().updateByPrimaryKey(entity);
+		getMapper().updateByPrimaryKeySelective(entity);
 	}
 
 	public boolean exists(Integer id) {

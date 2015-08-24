@@ -12,11 +12,19 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.yunpos.model.SysPayOrder;
-import com.yunpos.payment.alipay.config.AlipayConfig;
+import com.yunpos.payment.PayResData;
+import com.yunpos.payment.QueryResData;
+import com.yunpos.payment.RefundResData;
+import com.yunpos.payment.RefundResData.PayChannel;
+import com.yunpos.payment.alipay.model.AlipayQueryReqData;
+import com.yunpos.payment.alipay.model.AlipayRefundReqData;
+import com.yunpos.payment.alipay.model.AlipayScanPayReqData;
 import com.yunpos.payment.alipay.util.AlipaySubmit;
 import com.yunpos.payment.alipay.util.Constant;
 import com.yunpos.service.SysPayOrderService;
-import com.yunpos.service.payment.Message.PayStatus;
+import com.yunpos.utils.Message;
+import com.yunpos.utils.Message.ErrorCode;
+import com.yunpos.utils.Message.ResultCode;
 import com.yunpos.utils.XMLUtil;
 
 /**
@@ -45,37 +53,96 @@ public class AlipayService {
 	 * @param param
 	 * @return
 	 */
-	public Message pay(PayParam param) {
-		//把请求参数打包成数组
-		Map<String, String> sParaTemp = new HashMap<String, String>();
-		sParaTemp.put(PayConst.SERVICE, AlipayConfig.service);
-        sParaTemp.put(PayConst.PARTNER, AlipayConfig.partner);
-        sParaTemp.put(PayConst._INPUT_CHARSET, AlipayConfig.input_charset);
-        sParaTemp.put(PayConst.SIGN_TYPE, AlipayConfig.sign_type);
-        sParaTemp.put(PayConst.PRODUCT_CODE, "BARCODE_PAY_OFFLINE");//条码支付
-        
-        sParaTemp.put(PayConst.NOTIFY_URL, AlipayConfig.notify_url);
-        sParaTemp.put(PayConst.OUT_TRADE_NO, param.getOrderNo().trim());
-        sParaTemp.put(PayConst.SUBJECT, param.getOrderTitle().trim());
-        sParaTemp.put(PayConst.TOTAL_FEE, param.getPrice());
-        sParaTemp.put(PayConst.DYNAMIC_ID_TYPE, "bar_code");
-        sParaTemp.put(PayConst.DYNAMIC_ID, param.getBarCode());//条码
-        //sParaTemp.put(PayConst.IT_B_PAY, AlipayConfig.pay_time_out);
-        log.info("支付宝条码支付请求参数:"+sParaTemp.toString());
+	public Message pay(AlipayScanPayReqData payReqData) {
+        log.info("支付宝条码支付请求参数:"+payReqData.toMap().toString());
 		try {//建立请求
-			String responseXml = AlipaySubmit.buildRequest("", "", sParaTemp);
+			String responseXml = AlipaySubmit.buildRequest("", "", payReqData.toMap());
 			Map<String,String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果："+result.toString());
 			if("T".equalsIgnoreCase(result.get("is_success"))){//T代表成功
-				return new Message(PayStatus.REQUEST_SUCCESS,result.get("trade_no")); //支付宝交易流水号
+				if(result.get("result_code").equals("ORDER_SUCCESS_PAY_SUCCESS")){
+					PayResData payResData = new PayResData(PayChannel.ALIPAY, result, payReqData.toMap());
+					return new Message(ResultCode.SUCCESS.name(),"","支付成功",payResData.toMap()); //支付宝交易流水号
+				}else{
+					String detail_error_code = result.get("detail_error_code");
+					String detail_error_des = result.get("detail_error_des");
+					return new Message(ResultCode.FAIL.name(),detail_error_code,detail_error_des,null);
+				}
 			}else{
 				String errorCode = result.get("error");
-				return new Message(PayStatus.FAILD,Constant.getAlipayErrMsg(errorCode));
+				return new Message(ResultCode.FAIL.name(),errorCode,Constant.getAlipayErrMsg(errorCode),null);
 			}
 		} catch (Exception e) {
 			log.error("支付宝支会异常:",e);
-			return new Message(PayStatus.FAILD,e.getMessage());
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(),"支付异常!",null);
+		}
+	}
+	
+	
+	/**
+	 * 支付宝支付查询
+	 * @param param
+	 * @return
+	 */
+	public Message query(AlipayQueryReqData alipayQueryReqData) {
+        //sParaTemp.put(PayConst.IT_B_PAY, AlipayConfig.pay_time_out);
+		log.info("查询请求参数:"+alipayQueryReqData.toMap());
+		try {//建立请求
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayQueryReqData.toMap());
+			Map<String,String> result = new HashMap<String, String>();
+			XMLUtil.parse(responseXml, result);
+			log.info("同步返回结果："+result.toString());
+			if("T".equalsIgnoreCase(result.get("is_success"))){//T代表成功
+				if(result.get("result_code").equals("SUCCESS")){
+					QueryResData queryResData = new QueryResData(PayChannel.ALIPAY, result, alipayQueryReqData.toMap());
+					return new Message(ResultCode.SUCCESS.name(),"","支付成功",queryResData.toMap()); //支付宝交易流水号
+				}else{
+					String detail_error_code = result.get("detail_error_code");
+					String detail_error_des = result.get("detail_error_des");
+					return new Message(ResultCode.FAIL.name(),detail_error_code,detail_error_des,null);
+				}
+			}else{
+				String error = result.get("error");
+				return new Message(ResultCode.FAIL.name(),error,Constant.getAlipayErrMsg(error),null);
+			}
+		} catch (Exception e) {
+			log.error("查询异常:",e);
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(),"查询异常!",null);
+		}
+	}
+	
+	
+	/**
+	 * 支付宝退款
+	 * @param param
+	 * @return
+	 */
+	public Message refund(AlipayRefundReqData alipayRefundReqData) {
+		//把请求参数打包成数组
+		
+        log.info("支付宝条码支付请求参数:"+alipayRefundReqData.toMap());
+		try {//建立请求
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap());
+			Map<String,String> result = new HashMap<String, String>();
+			XMLUtil.parse(responseXml, result);
+			log.info("同步返回结果："+result.toString());
+			if("T".equalsIgnoreCase(result.get("is_success"))){//T代表成功
+				if(result.get("result_code").equals("SUCCESS")){
+					RefundResData refundResData = new RefundResData(PayChannel.ALIPAY, result, alipayRefundReqData.toMap());
+					return new Message(ResultCode.SUCCESS.name(),"","退款成功",refundResData.toMap()); //支付宝交易流水号
+				}else{
+					String detail_error_code = result.get("detail_error_code");
+					String detail_error_des = result.get("detail_error_des");
+					return new Message(ResultCode.FAIL.name(),detail_error_code,detail_error_des,null);
+				}
+			}else{
+				String errorCode = result.get("error");
+				return new Message(ResultCode.FAIL.name(),errorCode,Constant.getAlipayErrMsg(errorCode),null);
+			}
+		} catch (Exception e) {
+			log.error("支付宝退款异常:",e);
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(),"查询异常!",null);
 		}
 	}
 	

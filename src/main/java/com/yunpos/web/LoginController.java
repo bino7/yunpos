@@ -10,13 +10,20 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.base.Strings;
+import com.yunpos.model.SysUser;
+import com.yunpos.payment.Message;
 import com.yunpos.security.exception.IncorrectCaptchaException;
+import com.yunpos.service.SysUserService;
+
 /**
  * 
  * 功能描述：云铺后台登陆控制器
@@ -32,11 +39,33 @@ import com.yunpos.security.exception.IncorrectCaptchaException;
 @Controller
 public class LoginController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    @Autowired
+    private SysUserService sysUserService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
+    
+    @RequestMapping(value = "/ajax/login", method = RequestMethod.POST)
+    @ResponseBody
+    public Object login(HttpServletRequest request,@RequestParam("username") String username, @RequestParam("password") String password,@RequestParam("captcha")String captcha ) {
+       if(Strings.isNullOrEmpty(username)||Strings.isNullOrEmpty(password)||Strings.isNullOrEmpty(captcha)){
+    	   return new Message(false,"param_is_null","参数为空");
+       }
+       
+       if(!captcha.equals(request.getSession().getAttribute("captcha"))){
+    	   return new Message(false,"valicode_erro","验证码不匹配");
+       }
+       
+       SysUser sysUser = sysUserService.findByUserName(username);
+       if(!sysUser.getPassword().equals(password)){
+    	   return new Message(false,"password_error","密码错误");
+       }
+       return new Message(true,"success","登录成功");
+       
+    }
+    
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String fail(@RequestParam(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM) String userName, Model model) {

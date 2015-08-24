@@ -160,10 +160,7 @@ public class PayParam {
 	}
 
 
-	public enum dynamicIdType{
-		wave_code,	//声波
-		bar_code;	//条码
-	}
+	
 	
 	public enum payChannel{
 		ALIPAY,		//支付宝
@@ -171,13 +168,7 @@ public class PayParam {
 		VPOS;		//快钱
 	}
 	
-	public enum productCod{
-		BARCODE_PAY_OFFLINE,	//条码支付
-		SOUNDWAVE_PAY_OFFLINE,	//声波支付
-		MEMBER_CARD_QR_OFFLINE,	//会员卡支付
-		FUND_TRADE_FAST_PAY,	//预授权产品
-		FINGERPRINT_FAST_PAY;	//指纹支付
-	}
+
 	
 	@Override
 	public String toString() {

@@ -38,6 +38,17 @@ public class SysMenuService extends EntityService<SysMenu>{
 		response.setTotalRowCount(sysMenus.size());
 		return response;
 	}
+	
+	//判断菜单是否有子菜单
+	public boolean hasChild(int id) {
+		List<SysMenu> sysMenus  = sysMenuMapper.findBymenuParentNo(id);
+		if(sysMenus!=null && sysMenus.size()>0){
+			return true;
+		}
+		return false;
+	}
+
+
 
   
 

@@ -44,10 +44,14 @@ public class AlipayConfig {
 	public static String sign_type = "MD5";
 
 	public static String service = "alipay.acquire.createandpay";
+	public static String query = "";
+	public static String refund = "";
 	
 	public static String notify_url = "";
 	
 	public static String pay_time_out="";
+	
+	
 
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("payconfig/alipay");
@@ -57,6 +61,8 @@ public class AlipayConfig {
 		AlipayConfig.sign_type = getDecryptString(rb.getString("sign_type").trim());
 		//获取明文配置信息
 		AlipayConfig.service = rb.getString("service").trim();
+		AlipayConfig.query = rb.getString("query").trim();
+		AlipayConfig.refund = rb.getString("refund").trim();
 		AlipayConfig.input_charset = rb.getString("input_charset").trim();
 		AlipayConfig.log_path = rb.getString("log_path").trim();
 		AlipayConfig.notify_url = rb.getString("notify_url").trim();

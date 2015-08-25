@@ -48,4 +48,8 @@ public class SysRoleService extends EntityService<SysRole> {
 		return false;
 	}
 
+	public List<SysRole> findByOrgId(int orgId) {
+		return sysRoleMapper.findByOrgId(orgId);
+	}
+
 }

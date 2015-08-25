@@ -72,5 +72,7 @@ public class SysUserService extends EntityService<SysUser> {
 	public List<SysUser> findListByIds(Object[] array) {
 		return sysUserMapper.findListByIds(array);
 	}
+
+
 	
 }

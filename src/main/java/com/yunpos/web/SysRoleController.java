@@ -87,15 +87,8 @@ public class SysRoleController extends BaseController {
 		return sysRoleService.existRoleName(value);
 	}
 
-	/**
-	 * 查看角色对应的用户
-	 * 
-	 * @param request
-	 * @param id
-	 *            角色id
-	 * @return
-	 * @throws Exception
-	 */
+
+	//查看角色对应的用户
 	@RequestMapping(value = "/ajax/role/listUser/{roleId}", method = RequestMethod.GET)
 	public Object listUser(HttpServletRequest request, @PathVariable("roleId") String roleId) throws Exception {
 		List<SysUserRole> list = sysUserRoleService.findUserRoleByRoleId(Integer.valueOf(roleId));
@@ -107,5 +100,13 @@ public class SysRoleController extends BaseController {
 		}
 		return sysUserService.findListByIds(ids.toArray());
 	}
+	
+	//通过组织机构id获取角色列表
+	@RequestMapping(value = "/ajax/role/listRole/{orgId}", method = RequestMethod.GET)
+	public Object listRole(HttpServletRequest request, @PathVariable("orgId") String orgId) throws Exception {
+		return sysRoleService.findByOrgId(Integer.valueOf(orgId));
+	}
+	
+	
 
 }

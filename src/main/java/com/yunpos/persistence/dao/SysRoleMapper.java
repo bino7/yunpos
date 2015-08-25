@@ -16,4 +16,7 @@ public interface SysRoleMapper extends EntityMapper<SysRole> {
 
 	@Select("select * from sys_role r where r.roleName=#{roleName}")
 	List<SysRole> findByRoleName(String roleName);
+
+	@Select("select * from sys_role r where r.orgId=#{orgId}")
+	List<SysRole> findByOrgId(int orgId);
 }

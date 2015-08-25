@@ -2,6 +2,7 @@ package com.yunpos.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysOrg;
+import com.yunpos.model.SysUserRole;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
@@ -98,6 +100,12 @@ public class SysOrgController extends BaseController{
 	public List<SysOrg> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysOrg> list = sysOrgService.findAll();
 		return list;
+	}
+	
+	
+	@RequestMapping(value = "/ajax/org/exist/{orgName}", method = RequestMethod.GET)
+	public Object exist(HttpServletRequest request, @PathVariable("orgName") String orgName) throws Exception {
+		return sysOrgService.existOrgName(orgName);
 	}
 
 }

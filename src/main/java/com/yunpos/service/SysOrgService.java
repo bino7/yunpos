@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yunpos.model.SysOrg;
+import com.yunpos.model.SysRole;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysOrgMapper;
+import com.yunpos.persistence.dao.SysRoleMapper;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 
@@ -27,6 +29,8 @@ import com.yunpos.utils.jqgrid.GridResponse;
 public class SysOrgService extends EntityService<SysOrg> {
 	@Autowired
 	private SysOrgMapper sysOrgMapper;
+	@Autowired
+	private SysRoleMapper sysRoleMapper;
 
 	@Override
 	public EntityMapper<SysOrg> getMapper() {
@@ -45,6 +49,14 @@ public class SysOrgService extends EntityService<SysOrg> {
 		response.setRows(orgs);
 		response.setTotalRowCount(orgs.size());
 		return response;
+	}
+
+	public boolean existOrgName(String orgName) {
+		List<SysOrg> list = sysOrgMapper.findByOrgName(orgName);
+		if(list!=null && list.size()>0){
+			return true;
+		}
+		return false;
 	}
 
 }

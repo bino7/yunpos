@@ -3,6 +3,8 @@ package com.yunpos.model;
 public class SysMenu {
 	private Integer id;
 
+	private Integer sequence;
+
 	private Integer menuNo;
 
 	private Integer applicationCode;
@@ -99,6 +101,14 @@ public class SysMenu {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Integer getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
+	}
 	
-	
+
 }

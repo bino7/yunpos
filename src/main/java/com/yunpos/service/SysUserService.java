@@ -21,7 +21,7 @@ public class SysUserService extends EntityService<SysUser> {
 		return sysUserMapper;
 	}
 
-	public SysUser findByUserName(String username) {
+	public List<SysUser> findByUserName(String username) {
 		return sysUserMapper.findByUserName(username);
 	}
 	
@@ -30,9 +30,9 @@ public class SysUserService extends EntityService<SysUser> {
 	}
 	
 	//通过邮箱查询
-	public SysUser findByEmail(String email) {
-		return sysUserMapper.findByEmail(email);
-	}
+//	public SysUser findByEmail(String email) {
+//		return sysUserMapper.findByEmail(email);
+//	}
 
 	public GridResponse<SysUser> findPageUsers(GridRequest gridRequest) {
 		GridResponse<SysUser> response = new GridResponse<SysUser>();
@@ -42,6 +42,35 @@ public class SysUserService extends EntityService<SysUser> {
 		response.setRows(sysUsers);
 		response.setTotalRowCount(sysUsers.size());
 		return response;
+	}
+
+	
+	public boolean userNameExist(String userName) {
+		List<SysUser> sysUsers = sysUserMapper.findByUserName(userName);
+		if(sysUsers!=null && sysUsers.size()>0){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean emailExist(String email) {
+		List<SysUser> sysUsers = sysUserMapper.findByEmail(email);
+		if(sysUsers!=null && sysUsers.size()>0){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean phoneExist(String phone) {
+		List<SysUser> sysUsers = sysUserMapper.findByPhone(phone);
+		if(sysUsers!=null && sysUsers.size()>0){
+			return true;
+		}
+		return false;
+	}
+
+	public List<SysUser> findListByIds(Object[] array) {
+		return sysUserMapper.findListByIds(array);
 	}
 	
 }

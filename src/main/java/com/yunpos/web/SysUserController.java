@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.base.Strings;
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysUser;
+import com.yunpos.model.SysUserRole;
 import com.yunpos.security.SecurityUtils;
+import com.yunpos.service.SysUserRoleService;
 import com.yunpos.service.SysUserService;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
@@ -27,6 +29,8 @@ import com.yunpos.utils.jqgrid.JqGridResponse;
 public class SysUserController extends BaseController {
 	@Autowired
 	private SysUserService sysUserService;
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
 	
 	@RequestMapping(value="/ajax/user",method = RequestMethod.GET)
 	
@@ -48,6 +52,17 @@ public class SysUserController extends BaseController {
 		user.setCreatedBy(sysUser.getId());
 		user.setStatus("1");
 		sysUserService.save(user);
+		
+		if(!Strings.isNullOrEmpty(user.getRole())){
+			String[] roleIds = user.getRole().split(",");
+			SysUserRole sysUserRole = null;
+			for(int i=0;i<roleIds.length;i++){
+				sysUserRole = new SysUserRole();
+				sysUserRole.setUserId(user.getId());
+				sysUserRole.setRoleId(Integer.valueOf(roleIds[i]));
+				sysUserRoleService.insert(sysUserRole);
+			}
+		}
 		return new  GridRowResponse(user.getId());
 	}
 
@@ -72,6 +87,26 @@ public class SysUserController extends BaseController {
 		List<SysUser> list = sysUserService.findAll();
 		return list;
 	}
-
+	
+	/**
+	 * 
+	 * @param request
+	 * @param type  name/email/phone
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/ajax/user/exist/{type}/{value}", method =RequestMethod.GET )
+	public Object exist(HttpServletRequest request, @PathVariable("type") String type,@PathVariable("value") String value) throws Exception {
+		boolean flag = false;
+		if(type.equals("name")){
+			flag = sysUserService.userNameExist(value);
+		}else if (type.equals("email")){
+			flag = sysUserService.emailExist(value);
+		}else if(type.equals("phone")){
+			flag = sysUserService.phoneExist(value);
+		}
+		return flag;
+	}
 
 }

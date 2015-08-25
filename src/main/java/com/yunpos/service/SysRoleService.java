@@ -40,4 +40,12 @@ public class SysRoleService extends EntityService<SysRole> {
 		return response;
 	}
 
+	public boolean existRoleName(String roleName) {
+		List<SysRole> roles = sysRoleMapper.findByRoleName(roleName);
+		if(roles!=null && roles.size()>0){
+			return true;
+		}
+		return false;
+	}
+
 }

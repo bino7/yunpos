@@ -23,9 +23,11 @@
 		<result column="updatedBy" property="updatedBy" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, orgId, orgName, userName, phone, email, password, nickname, fullname,
+		id, orgId, orgName, userName, phone, email, password,
+		nickname, fullname,
 		status,
-		salt, description, source, lastLoginDatetime, createdAt, createdBy,
+		salt, description, source,
+		lastLoginDatetime, createdAt, createdBy,
 		updatedAt, updatedBy
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -36,27 +38,36 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from sys_user
+		delete from
+		sys_user
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.yunpos.model.SysUser"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into sys_user (orgId, orgName,
+		insert into sys_user (orgId,
+		orgName,
 		userName, phone, email,
 		password, nickname, fullname,
-		status, salt, description,
+		status,
+		salt, description,
 		source, lastLoginDatetime, createdAt,
-		createdBy, updatedAt, updatedBy
+		createdBy,
+		updatedAt, updatedBy
 		)
-		values (#{orgId,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR},
-		#{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+		values (#{orgId,jdbcType=INTEGER},
+		#{orgName,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},
 		#{email,jdbcType=VARCHAR},
-		#{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR},
-		#{status,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+		#{fullname,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{salt,jdbcType=VARCHAR},
 		#{description,jdbcType=VARCHAR},
 		#{source,jdbcType=VARCHAR}, #{lastLoginDatetime,jdbcType=TIMESTAMP},
 		#{createdAt,jdbcType=TIMESTAMP},
-		#{createdBy,jdbcType=INTEGER}, #{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
+		#{createdBy,jdbcType=INTEGER},
+		#{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.SysUser">
@@ -214,7 +225,8 @@
 				source = #{source,jdbcType=VARCHAR},
 			</if>
 			<if test="lastLoginDatetime != null">
-				lastLoginDatetime = #{lastLoginDatetime,jdbcType=TIMESTAMP},
+				lastLoginDatetime =
+				#{lastLoginDatetime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="createdAt != null">
 				createdAt = #{createdAt,jdbcType=TIMESTAMP},
@@ -234,22 +246,30 @@
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysUser">
 		update sys_user
 		set orgId = #{orgId,jdbcType=INTEGER},
-		orgName = #{orgName,jdbcType=VARCHAR},
+		orgName =
+		#{orgName,jdbcType=VARCHAR},
 		userName = #{userName,jdbcType=VARCHAR},
 		phone = #{phone,jdbcType=VARCHAR},
 		email = #{email,jdbcType=VARCHAR},
 		password = #{password,jdbcType=VARCHAR},
-		nickname = #{nickname,jdbcType=VARCHAR},
+		nickname =
+		#{nickname,jdbcType=VARCHAR},
 		fullname = #{fullname,jdbcType=VARCHAR},
 		status = #{status,jdbcType=VARCHAR},
 		salt = #{salt,jdbcType=VARCHAR},
 		description = #{description,jdbcType=VARCHAR},
-		source = #{source,jdbcType=VARCHAR},
-		lastLoginDatetime = #{lastLoginDatetime,jdbcType=TIMESTAMP},
-		createdAt = #{createdAt,jdbcType=TIMESTAMP},
-		createdBy = #{createdBy,jdbcType=INTEGER},
-		updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
-		updatedBy = #{updatedBy,jdbcType=INTEGER}
+		source =
+		#{source,jdbcType=VARCHAR},
+		lastLoginDatetime =
+		#{lastLoginDatetime,jdbcType=TIMESTAMP},
+		createdAt =
+		#{createdAt,jdbcType=TIMESTAMP},
+		createdBy =
+		#{createdBy,jdbcType=INTEGER},
+		updatedAt =
+		#{updatedAt,jdbcType=TIMESTAMP},
+		updatedBy =
+		#{updatedBy,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 
@@ -263,12 +283,14 @@
 		</foreach>
 	</delete>
 
-	<select id="findByEmail" resultMap="BaseResultMap"
-		parameterType="String">
+	<select id="findListByIds" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from sys_user
-		where id = #{id,jdbcType=INTEGER}
+		from sys_user where id in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
 	</select>
 
 </mapper>

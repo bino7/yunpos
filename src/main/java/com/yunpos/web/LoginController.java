@@ -1,5 +1,7 @@
 package com.yunpos.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -54,11 +56,11 @@ public class LoginController extends BaseController{
     	   return new Message(false,"param_is_null","参数为空");
        }
        
-       SysUser sysUser = sysUserService.findByUserName(username);
-       if(!sysUser.getPassword().equals(password)){
+       List<SysUser> sysUser = sysUserService.findByUserName(username);
+       if(!sysUser.get(0).getPassword().equals(password)){
     	   return new Message(false,"password_error","密码错误");
        }
-       return new Message(true,"success","登录成功",String.valueOf(sysUser.getId()));
+       return new Message(true,"success","登录成功",String.valueOf(sysUser.get(0).getId()));
     }
     
 

@@ -39,5 +39,10 @@ public class SysUserRoleService extends EntityService<SysUserRole> {
 		response.setTotalRowCount(userRoles.size());
 		return response;
 	}
+	
+	
+	public List<SysUserRole> findUserRoleByRoleId(int roleId) {
+		return sysUserRoleMapper.findUserRoleByRoleId(roleId);
+	}
 
 }

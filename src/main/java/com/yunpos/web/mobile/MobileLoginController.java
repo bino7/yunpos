@@ -1,6 +1,7 @@
 package com.yunpos.web.mobile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,16 +49,16 @@ public class MobileLoginController extends BaseController{
              	jsonMap.put("error", Code.PARAM_NULL);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             SysUser sysUser = sysUserService.findByUserName(userName);
-             if(sysUser== null){
+             List<SysUser> sysUsers = sysUserService.findByUserName(userName);
+             if(sysUsers== null ||sysUsers.size()<1){
              	jsonMap.put("error", Code.USER_NOT_EXISTS);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             if(!sysUser.getPassword().equals(password)){
+             if(!sysUsers.get(0).getPassword().equals(password)){
              	jsonMap.put("error", Code.PASSWORD_ERROR);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             jsonMap.put("user", sysUser);
+             jsonMap.put("user", sysUsers.get(0));
 		} catch (Exception e) {
 			jsonMap.put("error", Code.EXCEPTION);
 			logger.error("error:"+e.getMessage());

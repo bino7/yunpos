@@ -124,7 +124,7 @@ public class WechatPayService {
 					log.error("业务返回失败,err_code" + errorCode + "|err_code_des:" + errorCodeDes);
 
 					// 对于扣款明确失败的情况直接走撤销逻辑
-					doReverseLoop(scanPayReqData.getOut_trade_no());
+					//doReverseLoop(scanPayReqData.getOut_trade_no());
 					return new Message(ResultCode.FAIL.name(),errorCode,errorCodeDes,null);
 				}
 			}

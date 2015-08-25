@@ -101,6 +101,7 @@ CREATE TABLE `sys_data_rule` (
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '系统菜单ID',
+  `sequence` int(10) DEFAULT NULL,
   `menuNo` int(10) DEFAULT NULL COMMENT '系统菜单编号',
   `applicationCode` int(10) DEFAULT NULL COMMENT '应用编号',
   `menuParentNo` int(10) DEFAULT NULL COMMENT '父级菜单编号',
@@ -115,16 +116,15 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '1', '1', null, '1', '组织机构', 'page/org', '1', null);
-INSERT INTO `sys_menu` VALUES ('2', '2', '2', null, '2', '用户管理', 'page/user', '1', null);
-INSERT INTO `sys_menu` VALUES ('3', '3', '3', null, '3', '角色管理', 'page/role', '1', null);
-INSERT INTO `sys_menu` VALUES ('4', '4', '4', null, '4', '用户角色管理', 'page/user_role', '1', null);
-INSERT INTO `sys_menu` VALUES ('5', '5', '5', null, '5', '权限管理', 'page/privilege', '1', null);
-INSERT INTO `sys_menu` VALUES ('6', '6', '6', null, '6', '资源', '', '1', null);
-INSERT INTO `sys_menu` VALUES ('7', '7', '7', '6', '7', '菜单资源管理', 'page/menu_res', '1', null);
-INSERT INTO `sys_menu` VALUES ('8', '8', '8', '6', '8', 'app资源管理', 'page/app_res', '1', null);
-INSERT INTO `sys_menu` VALUES ('9', '9', '9', '6', '9', '按钮资源', 'page/button_res', '1', null);
-
+INSERT INTO `sys_menu` VALUES ('1', null, '1', '1', null, '1', '组织机构', 'page/org', '1', null);
+INSERT INTO `sys_menu` VALUES ('2', null, '2', '2', null, '2', '用户管理', 'page/user', '1', null);
+INSERT INTO `sys_menu` VALUES ('3', null, '3', '3', null, '3', '角色管理', 'page/role', '1', null);
+INSERT INTO `sys_menu` VALUES ('4', null, '4', '4', null, '4', '用户角色管理', 'page/user_role', '1', null);
+INSERT INTO `sys_menu` VALUES ('5', null, '5', '5', null, '5', '权限管理', 'page/privilege', '1', null);
+INSERT INTO `sys_menu` VALUES ('6', null, '6', '6', null, '6', '资源', '', '1', null);
+INSERT INTO `sys_menu` VALUES ('7', null, '7', '7', '6', '7', '菜单资源管理', 'page/menu_res', '1', null);
+INSERT INTO `sys_menu` VALUES ('8', null, '8', '8', '6', '8', 'app资源管理', 'page/app_res', '1', null);
+INSERT INTO `sys_menu` VALUES ('9', null, '9', '9', '6', '9', '按钮资源', 'page/button_res', '1', null);
 -- ----------------------------
 -- Table structure for sys_org
 -- ----------------------------

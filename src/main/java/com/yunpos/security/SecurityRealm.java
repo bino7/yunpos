@@ -56,10 +56,10 @@ public class SecurityRealm extends AuthorizingRealm {
 	        SimpleAuthorizationInfo info = null;
 
 	        SecurityUser securityUser = (SecurityUser) principals.getPrimaryPrincipal();
-	        SysUser sysUser = sysUserService.findByUserName(securityUser.username);
+	        List<SysUser> sysUser = sysUserService.findByUserName(securityUser.username);
 	        
 	        if (sysUser != null) {
-	        	List<SysUserRole> listuserRole = sysUserRoleService.findRoleByUserId(sysUser.getId());
+	        	List<SysUserRole> listuserRole = sysUserRoleService.findRoleByUserId(sysUser.get(0).getId());
 				HashSet<Integer> roleIds = Sets.newHashSet();
 				HashSet<Integer> privilegeIds = Sets.newHashSet();
 				
@@ -110,8 +110,10 @@ public class SecurityRealm extends AuthorizingRealm {
 	        logger.debug("doGetAuthenticationInfo......");
 	        CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
 
-	        SysUser sysUser = sysUserService.findByUserName(token.getUsername());
-	        if (sysUser != null) {
+	        List<SysUser> sysUsers = sysUserService.findByUserName(token.getUsername());
+	       
+	        if (sysUsers != null) {
+	        	 SysUser sysUser  = sysUsers.get(0);
 	            // 检查用户是否禁用
 	            if (SysUser.STATUS_DISABLED.equalsIgnoreCase(sysUser.getStatus())) {
 	                throw new DisabledAccountException();

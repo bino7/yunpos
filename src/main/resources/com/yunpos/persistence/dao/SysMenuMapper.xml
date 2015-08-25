@@ -3,6 +3,7 @@
 <mapper namespace="com.yunpos.persistence.dao.SysMenuMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.SysMenu">
 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="sequence" property="sequence" jdbcType="INTEGER" />
 		<result column="menuNo" property="menuNo" jdbcType="INTEGER" />
 		<result column="applicationCode" property="applicationCode"
 			jdbcType="INTEGER" />
@@ -14,9 +15,9 @@
 		<result column="isLeaf" property="isLeaf" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, menuNo, applicationCode, menuParentNo, menuOrder, menuName, menuUrl,
-		isVisible,
-		isLeaf
+		id, sequence, menuNo, applicationCode, menuParentNo, menuOrder, menuName,
+		menuUrl,
+		isVisible, isLeaf
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -30,22 +31,25 @@
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.yunpos.model.SysMenu" useGeneratedKeys="true" keyProperty="id">
-		insert into sys_menu ( menuNo, applicationCode,
-		menuParentNo, menuOrder, menuName,
-		menuUrl, isVisible, isLeaf
-		)
-		values (#{menuNo,jdbcType=INTEGER},
-		#{applicationCode,jdbcType=INTEGER},
-		#{menuParentNo,jdbcType=INTEGER}, #{menuOrder,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR},
-		#{menuUrl,jdbcType=VARCHAR}, #{isVisible,jdbcType=INTEGER},
-		#{isLeaf,jdbcType=INTEGER}
-		)
+		insert into sys_menu (sequence, menuNo,
+		applicationCode, menuParentNo, menuOrder,
+		menuName, menuUrl, isVisible,
+		isLeaf)
+		values (#{sequence,jdbcType=INTEGER},
+		#{menuNo,jdbcType=INTEGER},
+		#{applicationCode,jdbcType=INTEGER}, #{menuParentNo,jdbcType=INTEGER}, #{menuOrder,jdbcType=INTEGER},
+		#{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR},
+		#{isVisible,jdbcType=INTEGER},
+		#{isLeaf,jdbcType=INTEGER})
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.SysMenu">
 		insert into sys_menu
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="sequence != null">
+				sequence,
 			</if>
 			<if test="menuNo != null">
 				menuNo,
@@ -76,6 +80,9 @@
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
 			</if>
+			<if test="sequence != null">
+				#{sequence,jdbcType=INTEGER},
+			</if>
 			<if test="menuNo != null">
 				#{menuNo,jdbcType=INTEGER},
 			</if>
@@ -105,6 +112,9 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysMenu">
 		update sys_menu
 		<set>
+			<if test="sequence != null">
+				sequence = #{sequence,jdbcType=INTEGER},
+			</if>
 			<if test="menuNo != null">
 				menuNo = #{menuNo,jdbcType=INTEGER},
 			</if>
@@ -134,7 +144,8 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysMenu">
 		update sys_menu
-		set menuNo = #{menuNo,jdbcType=INTEGER},
+		set sequence = #{sequence,jdbcType=INTEGER},
+		menuNo = #{menuNo,jdbcType=INTEGER},
 		applicationCode = #{applicationCode,jdbcType=INTEGER},
 		menuParentNo = #{menuParentNo,jdbcType=INTEGER},
 		menuOrder = #{menuOrder,jdbcType=INTEGER},
@@ -146,6 +157,7 @@
 	</update>
 
 
+
 	<!-- ##################################### -->
 	<delete id="batchDeleteByIds">
 		delete from sys_menu where id in
@@ -154,7 +166,7 @@
 			#{item}
 		</foreach>
 	</delete>
-	
+
 	<select id="findListByIds" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
@@ -164,6 +176,6 @@
 			#{item}
 		</foreach>
 	</select>
-	
-	
+
+
 </mapper>

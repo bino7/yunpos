@@ -44,9 +44,18 @@ public class SysUser {
 
 	private Integer updatedBy;
 
+	//下面表单接收数据使用，非实体数据库字段
 	private String loginId;
+	private String role;
 	
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	public Integer getId() {
 		return id;

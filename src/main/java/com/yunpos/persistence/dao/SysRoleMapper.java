@@ -11,6 +11,9 @@ public interface SysRoleMapper extends EntityMapper<SysRole> {
 	
 	void batchDeleteByIds(Object[] array);
 	
-	@Select("select * from sys_role")
+	@Select("select * from sys_role order by id asc")
 	List<SysRole> findAll();
+
+	@Select("select * from sys_role r where r.roleName=#{roleName}")
+	List<SysRole> findByRoleName(String roleName);
 }

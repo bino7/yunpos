@@ -13,7 +13,7 @@
 	<div class="table-responsive">
 		<table id="tree"></table>
 		<div id="pager"></div>
-		<script src="${ctx}/static/formjs/org.js"></script>
+		<script src="../static/formjs/org.js"></script>
 	</div>
 
 </body>

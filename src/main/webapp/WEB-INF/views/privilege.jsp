@@ -10,7 +10,7 @@
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>
-		<script src="${ctx}/static/formjs/privilege.js"></script>
+		<script src="../static/formjs/privilege.js"></script>
 	</div>
 
 </body>

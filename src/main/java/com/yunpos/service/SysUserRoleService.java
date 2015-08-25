@@ -45,4 +45,8 @@ public class SysUserRoleService extends EntityService<SysUserRole> {
 		return sysUserRoleMapper.findUserRoleByRoleId(roleId);
 	}
 
+	public int deleteByUserId(int userId) {
+		return sysUserRoleMapper.deleteByUserId(userId);
+	}
+
 }

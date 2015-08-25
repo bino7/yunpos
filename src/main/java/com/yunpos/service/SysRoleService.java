@@ -52,4 +52,14 @@ public class SysRoleService extends EntityService<SysRole> {
 		return sysRoleMapper.findByOrgId(orgId);
 	}
 
+	public GridResponse<SysRole> search(GridRequest gridRequest) {
+		GridResponse<SysRole> response = new GridResponse<SysRole>();
+		List<SysRole> roles =  sysRoleMapper.findByCondition(gridRequest);
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(roles);
+		response.setTotalRowCount(roles.size());
+		return response;
+	}
+
 }

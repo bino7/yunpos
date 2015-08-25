@@ -293,4 +293,23 @@
 		</foreach>
 	</select>
 
+
+	<select id="findByCondition" resultMap="BaseResultMap"
+		parameterType="com.yunpos.utils.jqgrid.GridRequest">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		<if test="searchValue != null">
+			where 
+			userName = #{searchValue,jdbcType=VARCHAR}
+			or
+			orgName = #{searchValue,jdbcType=VARCHAR}
+			or
+			phone = #{searchValue,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+
+
+
 </mapper>

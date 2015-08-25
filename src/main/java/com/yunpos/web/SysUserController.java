@@ -40,6 +40,13 @@ public class SysUserController extends BaseController {
 		return new JqGridResponse<SysUser>(dataResponse);
 	}
 	
+	@RequestMapping(value="/ajax/user/search",method = RequestMethod.GET)
+	public JqGridResponse<SysUser> search(JqGridRequest jqGridRequest) throws ServiceException{
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<SysUser> dataResponse = sysUserService.search(gridRequest);
+		return new JqGridResponse<SysUser>(dataResponse);
+	}
+	
 	@RequestMapping(value = "/ajax/user/{id}", method = RequestMethod.GET)
 	public SysUser read(@PathVariable("id") int id) throws ServiceException{
 		return sysUserService.findById(id);
@@ -76,9 +83,19 @@ public class SysUserController extends BaseController {
 		return new GridRowResponse(user.getId());
 	}
 
+	/**
+	 * 删除用户需要将对应关联的角色删除
+	 * @param id
+	 */
 	@RequestMapping(value = "/ajax/user/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") int id) {
 		sysUserService.delete(id);
+		sysUserRoleService.deleteByUserId(id);
+	}
+	
+	@RequestMapping(value = "/ajax/user/deleteUserRole/{id}", method = RequestMethod.DELETE)
+	public void delete1(@PathVariable("id") int id) {
+		sysUserRoleService.deleteByUserId(id);
 	}
 	
 	

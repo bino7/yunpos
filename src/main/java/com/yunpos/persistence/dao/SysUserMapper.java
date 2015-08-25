@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 
 import com.yunpos.model.SysMenu;
 import com.yunpos.model.SysUser;
+import com.yunpos.utils.jqgrid.GridRequest;
 
 public interface SysUserMapper extends EntityMapper<SysUser> {
 
@@ -15,6 +16,9 @@ public interface SysUserMapper extends EntityMapper<SysUser> {
 
 	@Select("select * from sys_user")
 	List<SysUser> findAll();
+	
+	
+	List<SysUser> findByCondition(GridRequest gridRequest);
 	
 	 //通过邮件查询
 	@Select("select * from sys_user u where u.email=#{email}")

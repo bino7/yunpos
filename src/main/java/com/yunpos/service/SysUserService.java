@@ -43,6 +43,17 @@ public class SysUserService extends EntityService<SysUser> {
 		response.setTotalRowCount(sysUsers.size());
 		return response;
 	}
+	
+	
+	public GridResponse<SysUser> search(GridRequest gridRequest) {
+		GridResponse<SysUser> response = new GridResponse<SysUser>();
+		List<SysUser> sysUsers =  sysUserMapper.findByCondition(gridRequest);
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(sysUsers);
+		response.setTotalRowCount(sysUsers.size());
+		return response;
+	}
 
 	
 	public boolean userNameExist(String userName) {

@@ -51,6 +51,13 @@ public class SysRoleController extends BaseController {
 		GridResponse<SysRole> dataResponse = sysRoleService.findPageUsers(gridRequest);
 		return new JqGridResponse<SysRole>(dataResponse);
 	}
+	
+	@RequestMapping(value = "/ajax/role/search", method = RequestMethod.GET)
+	public JqGridResponse<SysRole> search(JqGridRequest jqGridRequest) throws ServiceException {
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<SysRole> dataResponse = sysRoleService.search(gridRequest);
+		return new JqGridResponse<SysRole>(dataResponse);
+	}
 
 	@RequestMapping(value = "/ajax/role/{id}", method = GET)
 	public SysRole read(@PathVariable("id") int id) {

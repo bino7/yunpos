@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 
 import com.yunpos.model.SysRole;
+import com.yunpos.utils.jqgrid.GridRequest;
 
 public interface SysRoleMapper extends EntityMapper<SysRole> {
 	List<SysRole> findListByIds(Object[] array);
@@ -19,4 +20,6 @@ public interface SysRoleMapper extends EntityMapper<SysRole> {
 
 	@Select("select * from sys_role r where r.orgId=#{orgId}")
 	List<SysRole> findByOrgId(int orgId);
+
+	List<SysRole> findByCondition(GridRequest gridRequest);
 }

@@ -50,6 +50,13 @@ public class SysOrgController extends BaseController{
 		GridResponse<SysOrg> dataResponse = sysOrgService.findPageUsers(gridRequest);
 		return new JqGridResponse<SysOrg>(dataResponse);
 	}
+	
+	@RequestMapping(value="/ajax/org/search",method = GET)
+	public JqGridResponse<SysOrg> search(JqGridRequest jqGridRequest) throws ServiceException{
+		GridRequest gridRequest = jqGridRequest.createDataRequest();
+		GridResponse<SysOrg> dataResponse = sysOrgService.search(gridRequest);
+		return new JqGridResponse<SysOrg>(dataResponse);
+	}
 
 	
 	@RequestMapping(value = "/ajax/org/{id}", method = GET)

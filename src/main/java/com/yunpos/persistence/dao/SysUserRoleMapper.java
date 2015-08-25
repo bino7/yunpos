@@ -2,6 +2,7 @@ package com.yunpos.persistence.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,4 +18,7 @@ public interface SysUserRoleMapper extends EntityMapper<SysUserRole> {
 	
 	@Select("select * from sys_user_role t where t.roleId=#{roleId}")
 	List<SysUserRole> findUserRoleByRoleId(int roleId);
+	
+	@Delete("delete from sys_user_role where userId = #{userId}")
+	int deleteByUserId(int userId);
 }

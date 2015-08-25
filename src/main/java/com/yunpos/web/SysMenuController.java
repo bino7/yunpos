@@ -93,20 +93,11 @@ public class SysMenuController extends BaseController{
 		return sysMenuService.hasChild(id);
 	}
 	
-	/**
-	 * 是否有父节点
-	 * @param request
-	 * @param response
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-//	@RequestMapping(value="/ajax/menu/{id}/hasparent",method = RequestMethod.GET)
-//	@ResponseBody
-//	public Object hasparent(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") int id)throws Exception{
-//		return sysMenuService.hasParent();
-//	}
-	
+	//判断菜单名是否存在
+	@RequestMapping(value = "/ajax/menu/exist/{menuName}", method = RequestMethod.GET)
+	public Object exist(HttpServletRequest request, @PathVariable("menuName") String menuName) throws Exception {
+		return sysMenuService.existMenuName(menuName);
+	}
 	
 	
 }

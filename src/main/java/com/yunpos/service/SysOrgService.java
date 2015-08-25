@@ -59,4 +59,15 @@ public class SysOrgService extends EntityService<SysOrg> {
 		return false;
 	}
 
+	
+	public GridResponse<SysOrg> search(GridRequest gridRequest) {
+		GridResponse<SysOrg> response = new GridResponse<SysOrg>();
+		List<SysOrg> orgs =  sysOrgMapper.findByCondition(gridRequest);
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(orgs);
+		response.setTotalRowCount(orgs.size());
+		return response;
+	}
+
 }

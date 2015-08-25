@@ -48,6 +48,14 @@ public class SysMenuService extends EntityService<SysMenu>{
 		return false;
 	}
 
+	public boolean existMenuName(String menuName) {
+		List<SysMenu> list = sysMenuMapper.findByMenuName(menuName);
+		if(list!=null && list.size()>0){
+			return true;
+		}
+		return  false;
+	}
+
 
 
   

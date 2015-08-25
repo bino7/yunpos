@@ -42,14 +42,16 @@ public class AlipayConfig {
 
 	// 签名方式 不需修改
 	public static String sign_type = "MD5";
-
 	public static String service = "alipay.acquire.createandpay";
 	public static String query = "";
 	public static String refund = "";
-	
 	public static String notify_url = "";
-	
 	public static String pay_time_out="";
+	
+	//支付宝手机wap支付
+	public static String wap_return = "";
+	public static String wap_notify_url = "";
+	public static String wap_service="";
 	
 	
 
@@ -67,6 +69,11 @@ public class AlipayConfig {
 		AlipayConfig.log_path = rb.getString("log_path").trim();
 		AlipayConfig.notify_url = rb.getString("notify_url").trim();
 		AlipayConfig.pay_time_out = rb.getString("pay_time_out").trim();
+		
+		//支付宝手机wap支付
+		AlipayConfig.wap_return = rb.getString("wap_return").trim();
+		AlipayConfig.wap_notify_url = rb.getString("wap_notify_url").trim();
+		AlipayConfig.wap_service = rb.getString("wap_service").trim();
 	}
 
 	private static String getDecryptString(String value) {

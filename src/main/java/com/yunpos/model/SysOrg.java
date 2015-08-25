@@ -3,153 +3,164 @@ package com.yunpos.model;
 import java.util.Date;
 
 public class SysOrg {
-    private Integer id;
+	private Integer id;
 
-    private String orgNo;
+	private String orgNo;
 
-    private String orgName;
+	private String orgName;
 
-    private Integer orgParentId;
+	private Integer orgParentId;
 
-    private String orgParentName;
+	private String orgParentName;
 
-    private String orgParentNo;
+	private String orgParentNo;
 
-    private Integer createUserId;
+	private Integer level;
 
-    private Date createDate;
+	private Integer createUserId;
 
-    private Integer modifyUserId;
+	private Date createDate;
 
-    private Date modifyDate;
+	private Integer modifyUserId;
 
-    private Integer extLevel;
+	private Date modifyDate;
 
-    private Boolean extIsLeaf;
+	private Integer extLevel;
 
-    private Boolean extLoaded;
+	private Boolean extIsLeaf;
 
-    private Boolean extExpanded;
+	private Boolean extLoaded;
 
-    private Integer extParent;
+	private Boolean extExpanded;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer extParent;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getOrgNo() {
-        return orgNo;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setOrgNo(String orgNo) {
-        this.orgNo = orgNo == null ? null : orgNo.trim();
-    }
+	public String getOrgNo() {
+		return orgNo;
+	}
 
-    public String getOrgName() {
-        return orgName;
-    }
+	public void setOrgNo(String orgNo) {
+		this.orgNo = orgNo == null ? null : orgNo.trim();
+	}
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName == null ? null : orgName.trim();
-    }
+	public String getOrgName() {
+		return orgName;
+	}
 
-    public Integer getOrgParentId() {
-        return orgParentId;
-    }
+	public void setOrgName(String orgName) {
+		this.orgName = orgName == null ? null : orgName.trim();
+	}
 
-    public void setOrgParentId(Integer orgParentId) {
-        this.orgParentId = orgParentId;
-    }
+	public Integer getOrgParentId() {
+		return orgParentId;
+	}
 
-    public String getOrgParentName() {
-        return orgParentName;
-    }
+	public void setOrgParentId(Integer orgParentId) {
+		this.orgParentId = orgParentId;
+	}
 
-    public void setOrgParentName(String orgParentName) {
-        this.orgParentName = orgParentName == null ? null : orgParentName.trim();
-    }
+	public String getOrgParentName() {
+		return orgParentName;
+	}
 
-    public String getOrgParentNo() {
-        return orgParentNo;
-    }
+	public void setOrgParentName(String orgParentName) {
+		this.orgParentName = orgParentName == null ? null : orgParentName.trim();
+	}
 
-    public void setOrgParentNo(String orgParentNo) {
-        this.orgParentNo = orgParentNo == null ? null : orgParentNo.trim();
-    }
+	public String getOrgParentNo() {
+		return orgParentNo;
+	}
 
-    public Integer getCreateUserId() {
-        return createUserId;
-    }
+	public void setOrgParentNo(String orgParentNo) {
+		this.orgParentNo = orgParentNo == null ? null : orgParentNo.trim();
+	}
 
-    public void setCreateUserId(Integer createUserId) {
-        this.createUserId = createUserId;
-    }
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public Integer getModifyUserId() {
-        return modifyUserId;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public void setModifyUserId(Integer modifyUserId) {
-        this.modifyUserId = modifyUserId;
-    }
+	public Integer getModifyUserId() {
+		return modifyUserId;
+	}
 
-    public Date getModifyDate() {
-        return modifyDate;
-    }
+	public void setModifyUserId(Integer modifyUserId) {
+		this.modifyUserId = modifyUserId;
+	}
 
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-    }
+	public Date getModifyDate() {
+		return modifyDate;
+	}
 
-    public Integer getExtLevel() {
-        return extLevel;
-    }
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
 
-    public void setExtLevel(Integer extLevel) {
-        this.extLevel = extLevel;
-    }
+	public Integer getExtLevel() {
+		return extLevel;
+	}
 
-    public Boolean getExtIsLeaf() {
-        return extIsLeaf;
-    }
+	public void setExtLevel(Integer extLevel) {
+		this.extLevel = extLevel;
+	}
 
-    public void setExtIsLeaf(Boolean extIsLeaf) {
-        this.extIsLeaf = extIsLeaf;
-    }
+	public Boolean getExtIsLeaf() {
+		return extIsLeaf;
+	}
 
-    public Boolean getExtLoaded() {
-        return extLoaded;
-    }
+	public void setExtIsLeaf(Boolean extIsLeaf) {
+		this.extIsLeaf = extIsLeaf;
+	}
 
-    public void setExtLoaded(Boolean extLoaded) {
-        this.extLoaded = extLoaded;
-    }
+	public Boolean getExtLoaded() {
+		return extLoaded;
+	}
 
-    public Boolean getExtExpanded() {
-        return extExpanded;
-    }
+	public void setExtLoaded(Boolean extLoaded) {
+		this.extLoaded = extLoaded;
+	}
 
-    public void setExtExpanded(Boolean extExpanded) {
-        this.extExpanded = extExpanded;
-    }
+	public Boolean getExtExpanded() {
+		return extExpanded;
+	}
 
-    public Integer getExtParent() {
-        return extParent;
-    }
+	public void setExtExpanded(Boolean extExpanded) {
+		this.extExpanded = extExpanded;
+	}
 
-    public void setExtParent(Integer extParent) {
-        this.extParent = extParent;
-    }
+	public Integer getExtParent() {
+		return extParent;
+	}
+
+	public void setExtParent(Integer extParent) {
+		this.extParent = extParent;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
 }

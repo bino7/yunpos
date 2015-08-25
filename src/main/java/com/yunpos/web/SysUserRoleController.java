@@ -47,7 +47,7 @@ public class SysUserRoleController extends BaseController{
 	public GridRowResponse update(@Valid SysUserRole userRole, @PathVariable("id") int id) {
 		userRole.setUserId(id);
 		userRole.setModifyDate(new Date());
-		userRole.setModifyUserId(this.getUser().getId());
+		//userRole.setModifyUserId(this.getUser().getId());
 		sysUserRoleService.update(userRole);
 		return new GridRowResponse(userRole.getId());
 	}
@@ -55,7 +55,7 @@ public class SysUserRoleController extends BaseController{
 	@RequestMapping(value = "/ajax/userRole", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysUserRole userRole) {
 		userRole.setCreateDate(new Date());
-		userRole.setCreateUserId(this.getUser().getId());
+		//userRole.setCreateUserId(this.getUser().getId());
 		sysUserRoleService.save(userRole);
 		return new  GridRowResponse(userRole.getId());
 	}

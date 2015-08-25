@@ -7,7 +7,7 @@
 <generatorConfiguration>
 	<!--数据库驱动jar -->
 	<classPathEntry
-		location="C:\Program Files (x86)\MySQL\Connector J 5.1.30\mysql-connector-java-5.1.30-bin.jar" />
+		location="E:\yumpos\repo\mysql\mysql-connector-java\5.1.35\mysql-connector-java-5.1.35.jar" />
 
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!--去除注释 -->
@@ -44,6 +44,25 @@
 		</javaClientGenerator>
 
 		<!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等 -->
+		<table tableName="sys_user" domainObjectName="SysUser"
+			   enableCountByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+			<property name="useGeneratedKeys" value="true"/>
+		</table>
+		
+		<table tableName="sys_org" domainObjectName="SysOrg"
+			   enableCountByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+		
+		<table tableName="sys_role" domainObjectName="SysRole"
+			   enableCountByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+		
 	<!-- 	<table tableName="sys_user" domainObjectName="User"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" enableUpdateByExample="false">
@@ -101,7 +120,7 @@
 			   enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>-->
-		<table tableName="filter" domainObjectName="Filter"
+		<!-- <table tableName="filter" domainObjectName="Filter"
 			   enableCountByExample="false" enableDeleteByExample="false"
 			   enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
@@ -110,6 +129,6 @@
 			   enableCountByExample="false" enableDeleteByExample="false"
 			   enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
-		</table>
+		</table> -->
 	</context>
 </generatorConfiguration>

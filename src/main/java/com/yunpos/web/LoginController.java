@@ -49,21 +49,16 @@ public class LoginController extends BaseController{
     
     @RequestMapping(value = "/ajax/login", method = RequestMethod.POST)
     @ResponseBody
-    public Object login(HttpServletRequest request,@RequestParam("username") String username, @RequestParam("password") String password,@RequestParam("captcha")String captcha ) {
-       if(Strings.isNullOrEmpty(username)||Strings.isNullOrEmpty(password)||Strings.isNullOrEmpty(captcha)){
+    public Object login(HttpServletRequest request,@RequestParam("username") String username, @RequestParam("password") String password ) {
+       if(Strings.isNullOrEmpty(username)||Strings.isNullOrEmpty(password)){
     	   return new Message(false,"param_is_null","参数为空");
-       }
-       
-       if(!captcha.equals(request.getSession().getAttribute("captcha"))){
-    	   return new Message(false,"valicode_erro","验证码不匹配");
        }
        
        SysUser sysUser = sysUserService.findByUserName(username);
        if(!sysUser.getPassword().equals(password)){
     	   return new Message(false,"password_error","密码错误");
        }
-       return new Message(true,"success","登录成功");
-       
+       return new Message(true,"success","登录成功",String.valueOf(sysUser.getId()));
     }
     
 

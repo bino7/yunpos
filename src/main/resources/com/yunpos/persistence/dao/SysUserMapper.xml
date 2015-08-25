@@ -3,7 +3,8 @@
 <mapper namespace="com.yunpos.persistence.dao.SysUserMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.SysUser">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="usgId" property="usgId" jdbcType="INTEGER" />
+		<result column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
 		<result column="userName" property="userName" jdbcType="VARCHAR" />
 		<result column="phone" property="phone" jdbcType="VARCHAR" />
 		<result column="email" property="email" jdbcType="VARCHAR" />
@@ -22,9 +23,10 @@
 		<result column="updatedBy" property="updatedBy" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, usgId, userName, phone, email, password, nickname, fullname, status,
-		salt, description,
-		source, lastLoginDatetime, createdAt, createdBy, updatedAt, updatedBy
+		id, orgId, orgName, userName, phone, email, password, nickname, fullname,
+		status,
+		salt, description, source, lastLoginDatetime, createdAt, createdBy,
+		updatedAt, updatedBy
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -39,20 +41,23 @@
 	</delete>
 	<insert id="insert" parameterType="com.yunpos.model.SysUser"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into sys_user ( usgId, userName,
-		phone, email, password,
-		nickname, fullname, status,
-		salt, description, source,
-		lastLoginDatetime, createdAt, createdBy,
-		updatedAt, updatedBy)
-		values (#{usgId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
-		#{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-		#{password,jdbcType=VARCHAR},
-		#{nickname,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
-		#{salt,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
-		#{source,jdbcType=VARCHAR},
-		#{lastLoginDatetime,jdbcType=TIMESTAMP}, #{createdAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER},
-		#{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER})
+		insert into sys_user (orgId, orgName,
+		userName, phone, email,
+		password, nickname, fullname,
+		status, salt, description,
+		source, lastLoginDatetime, createdAt,
+		createdBy, updatedAt, updatedBy
+		)
+		values (#{orgId,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{source,jdbcType=VARCHAR}, #{lastLoginDatetime,jdbcType=TIMESTAMP},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{createdBy,jdbcType=INTEGER}, #{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}
+		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.SysUser">
 		insert into sys_user
@@ -60,8 +65,11 @@
 			<if test="id != null">
 				id,
 			</if>
-			<if test="usgId != null">
-				usgId,
+			<if test="orgId != null">
+				orgId,
+			</if>
+			<if test="orgName != null">
+				orgName,
 			</if>
 			<if test="userName != null">
 				userName,
@@ -113,8 +121,11 @@
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
 			</if>
-			<if test="usgId != null">
-				#{usgId,jdbcType=INTEGER},
+			<if test="orgId != null">
+				#{orgId,jdbcType=INTEGER},
+			</if>
+			<if test="orgName != null">
+				#{orgName,jdbcType=VARCHAR},
 			</if>
 			<if test="userName != null">
 				#{userName,jdbcType=VARCHAR},
@@ -166,8 +177,11 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysUser">
 		update sys_user
 		<set>
-			<if test="usgId != null">
-				usgId = #{usgId,jdbcType=INTEGER},
+			<if test="orgId != null">
+				orgId = #{orgId,jdbcType=INTEGER},
+			</if>
+			<if test="orgName != null">
+				orgName = #{orgName,jdbcType=VARCHAR},
 			</if>
 			<if test="userName != null">
 				userName = #{userName,jdbcType=VARCHAR},
@@ -219,7 +233,8 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysUser">
 		update sys_user
-		set usgId = #{usgId,jdbcType=INTEGER},
+		set orgId = #{orgId,jdbcType=INTEGER},
+		orgName = #{orgName,jdbcType=VARCHAR},
 		userName = #{userName,jdbcType=VARCHAR},
 		phone = #{phone,jdbcType=VARCHAR},
 		email = #{email,jdbcType=VARCHAR},
@@ -237,6 +252,7 @@
 		updatedBy = #{updatedBy,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+
 
 	<!-- ##################################### -->
 	<delete id="batchDeleteByIds">

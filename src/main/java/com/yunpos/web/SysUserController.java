@@ -43,8 +43,9 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping(value="/ajax/user",method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysUser user)throws ServiceException {
+		SysUser sysUser = sysUserService.findById(Integer.parseInt(user.getLoginId()));
 		user.setCreatedAt(new Date());
-		user.setCreatedBy(getUser().getId());
+		user.setCreatedBy(sysUser.getId());
 		user.setStatus("1");
 		sysUserService.save(user);
 		return new  GridRowResponse(user.getId());
@@ -54,7 +55,7 @@ public class SysUserController extends BaseController {
 	public GridRowResponse update(@Valid SysUser user, @PathVariable("id") int id) {
 		user.setId(id);
 		user.setUpdatedAt(new Date());
-		user.setUpdatedBy(getUser().getId());
+		//user.setUpdatedBy(getUser().getId());
 		user.setSalt(SecurityUtils.generateSalt());
 		sysUserService.update(user);
 		return new GridRowResponse(user.getId());

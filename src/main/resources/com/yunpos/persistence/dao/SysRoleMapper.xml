@@ -6,14 +6,16 @@
 		<result column="roleName" property="roleName" jdbcType="VARCHAR" />
 		<result column="roleDesc" property="roleDesc" jdbcType="VARCHAR" />
 		<result column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
 		<result column="createUserId" property="createUserId" jdbcType="INTEGER" />
 		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
 		<result column="modifyUserId" property="modifyUserId" jdbcType="INTEGER" />
 		<result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, roleName, roleDesc, orgId, createUserId, createDate, modifyUserId,
-		modifyDate
+		id, roleName, roleDesc, orgId, orgName, createUserId,
+		createDate,
+		modifyUserId, modifyDate
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -23,17 +25,30 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from sys_role
+		delete from
+		sys_role
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysRole" useGeneratedKeys="true" keyProperty="id">
-		insert into sys_role (roleName, roleDesc,
-		orgId, createUserId, createDate,
-		modifyUserId, modifyDate)
-		values (#{roleName,jdbcType=VARCHAR},
+	<insert id="insert" parameterType="com.yunpos.model.SysRole"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_role (
+		roleName,
+		roleDesc,
+		orgId, orgName, createUserId,
+		createDate,
+		modifyUserId,
+		modifyDate
+		)
+		values (
+		#{roleName,jdbcType=VARCHAR},
 		#{roleDesc,jdbcType=VARCHAR},
-		#{orgId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
-		#{modifyUserId,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP})
+		#{orgId,jdbcType=INTEGER},
+		#{orgName,jdbcType=VARCHAR},
+		#{createUserId,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{modifyUserId,jdbcType=INTEGER},
+		#{modifyDate,jdbcType=TIMESTAMP}
+		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.SysRole">
 		insert into sys_role
@@ -49,6 +64,9 @@
 			</if>
 			<if test="orgId != null">
 				orgId,
+			</if>
+			<if test="orgName != null">
+				orgName,
 			</if>
 			<if test="createUserId != null">
 				createUserId,
@@ -76,6 +94,9 @@
 			<if test="orgId != null">
 				#{orgId,jdbcType=INTEGER},
 			</if>
+			<if test="orgName != null">
+				#{orgName,jdbcType=VARCHAR},
+			</if>
 			<if test="createUserId != null">
 				#{createUserId,jdbcType=INTEGER},
 			</if>
@@ -102,6 +123,9 @@
 			<if test="orgId != null">
 				orgId = #{orgId,jdbcType=INTEGER},
 			</if>
+			<if test="orgName != null">
+				orgName = #{orgName,jdbcType=VARCHAR},
+			</if>
 			<if test="createUserId != null">
 				createUserId = #{createUserId,jdbcType=INTEGER},
 			</if>
@@ -120,12 +144,18 @@
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysRole">
 		update sys_role
 		set roleName = #{roleName,jdbcType=VARCHAR},
-		roleDesc = #{roleDesc,jdbcType=VARCHAR},
+		roleDesc =
+		#{roleDesc,jdbcType=VARCHAR},
 		orgId = #{orgId,jdbcType=INTEGER},
-		createUserId = #{createUserId,jdbcType=INTEGER},
-		createDate = #{createDate,jdbcType=TIMESTAMP},
-		modifyUserId = #{modifyUserId,jdbcType=INTEGER},
-		modifyDate = #{modifyDate,jdbcType=TIMESTAMP}
+		orgName = #{orgName,jdbcType=VARCHAR},
+		createUserId =
+		#{createUserId,jdbcType=INTEGER},
+		createDate =
+		#{createDate,jdbcType=TIMESTAMP},
+		modifyUserId =
+		#{modifyUserId,jdbcType=INTEGER},
+		modifyDate =
+		#{modifyDate,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 

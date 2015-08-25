@@ -48,6 +48,7 @@ public class Message implements Serializable {
 	
 	public enum ErrorCode{
 		PARAM_IS_NULL,		//传递参数为空
+		ORDER_NOT_EXIST,	//支付流水订单不存在
 		SYSTEM_EXCEPTION;	//系统异常
 		
 	}

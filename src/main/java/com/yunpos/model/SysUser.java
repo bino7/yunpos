@@ -6,175 +6,199 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.serializer.JsonDateSerializer;
 
 public class SysUser {
-    public static final String STATUS_DISABLED = "0";
+	public static final String STATUS_DISABLED = "0";
 
 	private Integer id;
 
-    private Integer usgId;
+	private Integer orgId;
 
-    private String userName;
+	private String orgName;
 
-    private String phone;
+	private String userName;
 
-    private String email;
+	private String phone;
 
-    private String password;
+	private String email;
 
-    private String nickname;
+	private String password;
 
-    private String fullname;
+	private String nickname;
 
-    private String status;
+	private String fullname;
 
-    private String salt;
+	private String status;
 
-    private String description;
+	private String salt;
 
-    private String source;
+	private String description;
 
-    private Date lastLoginDatetime;
+	private String source;
 
-    private Date createdAt;
+	private Date lastLoginDatetime;
 
-    private Integer createdBy;
+	private Date createdAt;
 
-    private Date updatedAt;
+	private Integer createdBy;
 
-    private Integer updatedBy;
+	private Date updatedAt;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer updatedBy;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String loginId;
+	
 
-    public Integer getUsgId() {
-        return usgId;
-    }
 
-    public void setUsgId(Integer usgId) {
-        this.usgId = usgId;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+	public Integer getOrgId() {
+		return orgId;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
+	public String getOrgName() {
+		return orgName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName == null ? null : userName.trim();
+	}
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public String getNickname() {
-        return nickname;
-    }
+	public void setPhone(String phone) {
+		this.phone = phone == null ? null : phone.trim();
+	}
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getFullname() {
-        return fullname;
-    }
+	public void setEmail(String email) {
+		this.email = email == null ? null : email.trim();
+	}
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname == null ? null : fullname.trim();
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
+	public String getNickname() {
+		return nickname;
+	}
 
-    public String getSalt() {
-        return salt;
-    }
+	public void setNickname(String nickname) {
+		this.nickname = nickname == null ? null : nickname.trim();
+	}
 
-    public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
-    }
+	public String getFullname() {
+		return fullname;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setFullname(String fullname) {
+		this.fullname = fullname == null ? null : fullname.trim();
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public String getSource() {
-        return source;
-    }
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
 
-    public void setSource(String source) {
-        this.source = source == null ? null : source.trim();
-    }
-    @JsonSerialize(using=JsonDateSerializer.class)
-    public Date getLastLoginDatetime() {
-        return lastLoginDatetime;
-    }
+	public String getSalt() {
+		return salt;
+	}
 
-    public void setLastLoginDatetime(Date lastLoginDatetime) {
-        this.lastLoginDatetime = lastLoginDatetime;
-    }
+	public void setSalt(String salt) {
+		this.salt = salt == null ? null : salt.trim();
+	}
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setDescription(String description) {
+		this.description = description == null ? null : description.trim();
+	}
 
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
+	public String getSource() {
+		return source;
+	}
 
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
+	public void setSource(String source) {
+		this.source = source == null ? null : source.trim();
+	}
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	@JsonSerialize(using = JsonDateSerializer.class)
+	public Date getLastLoginDatetime() {
+		return lastLoginDatetime;
+	}
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public void setLastLoginDatetime(Date lastLoginDatetime) {
+		this.lastLoginDatetime = lastLoginDatetime;
+	}
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
-    }
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Integer getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Integer updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
 }

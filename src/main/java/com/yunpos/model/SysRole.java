@@ -6,7 +6,7 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.serializer.JsonDateSerializer;
 
-public class SysRole implements Serializable{
+public class SysRole implements Serializable {
 	/**
 	 * 
 	 */
@@ -19,6 +19,8 @@ public class SysRole implements Serializable{
 	private String roleDesc;
 
 	private Integer orgId;
+
+	private String orgName;
 
 	private Integer createUserId;
 
@@ -67,7 +69,8 @@ public class SysRole implements Serializable{
 	public void setCreateUserId(Integer createUserId) {
 		this.createUserId = createUserId;
 	}
-	@JsonSerialize(using=JsonDateSerializer.class)
+
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -83,7 +86,8 @@ public class SysRole implements Serializable{
 	public void setModifyUserId(Integer modifyUserId) {
 		this.modifyUserId = modifyUserId;
 	}
-	@JsonSerialize(using=JsonDateSerializer.class)
+
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getModifyDate() {
 		return modifyDate;
 	}
@@ -91,4 +95,13 @@ public class SysRole implements Serializable{
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+
 }

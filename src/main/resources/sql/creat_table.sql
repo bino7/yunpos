@@ -14,6 +14,22 @@
 CREATE DATABASE IF NOT EXISTS `yunpos` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `yunpos`;
 
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : 127.0.0.1
+Source Server Version : 50525
+Source Host           : localhost:3306
+Source Database       : yunpos
+
+Target Server Type    : MYSQL
+Target Server Version : 50525
+File Encoding         : 65001
+
+Date: 2015-08-25 13:59:49
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for sys_app
@@ -120,6 +136,7 @@ CREATE TABLE `sys_org` (
   `orgParentId` int(10) unsigned DEFAULT NULL COMMENT '父级组织机构ID',
   `orgParentName` varchar(255) DEFAULT NULL COMMENT '父级组织机构名称',
   `orgParentNo` varchar(255) DEFAULT NULL COMMENT '父级组织机构代码',
+  `level` int(255) DEFAULT NULL COMMENT '层级',
   `createUserId` int(10) unsigned DEFAULT NULL COMMENT '创建用户ID',
   `createDate` datetime DEFAULT NULL COMMENT '创建时间',
   `modifyUserId` int(10) unsigned DEFAULT NULL COMMENT '修改用户ID',
@@ -135,10 +152,43 @@ CREATE TABLE `sys_org` (
 -- ----------------------------
 -- Records of sys_org
 -- ----------------------------
-INSERT INTO `sys_org` VALUES ('24', '1', 'cash', null, null, null, '1', '2015-08-03 17:54:06', null, null, '0', '0', '1', '1', null);
-INSERT INTO `sys_org` VALUES ('25', '2', 'cash_1', '24', 'cash', '1', '1', '2015-08-03 17:54:31', null, null, '1', '1', '1', '1', '24');
-INSERT INTO `sys_org` VALUES ('26', '4', 'moush', null, null, null, '1', '2015-08-03 17:57:24', null, null, '0', '1', '1', '1', null);
-INSERT INTO `sys_org` VALUES ('27', '3', 'cash_2', '24', 'cash', '1', '1', '2015-08-03 17:57:45', null, null, '1', '1', '1', '1', '24');
+INSERT INTO `sys_org` VALUES ('24', '1', 'cash', null, null, null, null, '1', '2015-08-03 17:54:06', null, null, '0', '0', '1', '1', null);
+INSERT INTO `sys_org` VALUES ('25', '2', 'cash_1', '24', 'cash', '1', null, '1', '2015-08-03 17:54:31', null, null, '1', '1', '1', '1', '24');
+INSERT INTO `sys_org` VALUES ('26', '4', 'moush', null, null, null, null, '1', '2015-08-03 17:57:24', null, null, '0', '1', '1', '1', null);
+INSERT INTO `sys_org` VALUES ('27', '3', 'cash_2', '24', 'cash', '1', null, '1', '2015-08-03 17:57:45', null, null, '1', '1', '1', '1', '24');
+
+-- ----------------------------
+-- Table structure for sys_pay_order
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_pay_order`;
+CREATE TABLE `sys_pay_order` (
+  `id` int(11) NOT NULL,
+  `payOrderNo` varchar(50) DEFAULT NULL COMMENT '支付流水号',
+  `status` tinyint(4) DEFAULT NULL COMMENT '支付状态',
+  `payCode` varchar(50) DEFAULT NULL,
+  `roleId` int(11) DEFAULT NULL COMMENT '角色ID',
+  `userId` int(11) DEFAULT NULL COMMENT '收银员ID',
+  `price` decimal(10,0) DEFAULT NULL COMMENT '支付金额',
+  `barCode` varchar(20) DEFAULT NULL COMMENT '条码',
+  `imei` varchar(20) DEFAULT NULL,
+  `deviceType` tinyint(4) DEFAULT NULL,
+  `notify_time` datetime DEFAULT NULL COMMENT '异步回调时间',
+  `trade_no` varchar(50) DEFAULT NULL COMMENT '支付宝交易号',
+  `seller_email` varchar(50) DEFAULT NULL COMMENT '卖家支付宝账号',
+  `buyer_email` varchar(50) DEFAULT NULL,
+  `seller_id` varchar(50) DEFAULT NULL,
+  `buyer_id` varchar(50) DEFAULT NULL COMMENT '买家支付宝用户号',
+  `body` varchar(200) DEFAULT NULL COMMENT '商品描述',
+  `createAt` datetime DEFAULT NULL COMMENT '创建时间',
+  `createBy` int(11) DEFAULT NULL,
+  `updateAt` datetime DEFAULT NULL COMMENT '更新时间',
+  `updateBy` int(11) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_pay_order
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_privilege
@@ -171,6 +221,7 @@ CREATE TABLE `sys_role` (
   `roleName` varchar(50) NOT NULL COMMENT '角色名称',
   `roleDesc` varchar(255) DEFAULT NULL COMMENT '描述',
   `orgId` int(10) unsigned DEFAULT NULL COMMENT '所属组织机构',
+  `orgName` varchar(255) DEFAULT NULL,
   `createUserId` int(10) unsigned DEFAULT NULL COMMENT '创建用户ID',
   `createDate` datetime DEFAULT NULL COMMENT '创建时间',
   `modifyUserId` int(10) unsigned DEFAULT NULL COMMENT '修改用户ID',
@@ -181,7 +232,7 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('8', 'admin', '系统管理员', '24', null, null, null, null);
+INSERT INTO `sys_role` VALUES ('8', 'admin', '系统管理员', '24', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -189,11 +240,12 @@ INSERT INTO `sys_role` VALUES ('8', 'admin', '系统管理员', '24', null, null
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `usgId` int(11) DEFAULT NULL COMMENT '分组ID',
+  `orgId` int(11) DEFAULT NULL COMMENT '组织结构id',
+  `orgName` varchar(255) DEFAULT NULL COMMENT '组织结构名',
   `userName` varchar(50) DEFAULT NULL COMMENT '用户名',
   `phone` varchar(20) DEFAULT NULL COMMENT '电话号码',
-  `email` varchar(255) NOT NULL COMMENT '电子邮箱',
-  `password` varchar(255) NOT NULL COMMENT '密码',
+  `email` varchar(255) DEFAULT NULL COMMENT '电子邮箱',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
   `nickname` varchar(255) DEFAULT NULL COMMENT '昵称',
   `fullname` varchar(255) DEFAULT NULL COMMENT '全名',
   `status` varchar(50) DEFAULT NULL COMMENT '用户状态',
@@ -213,9 +265,9 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', 'sysadmin', null, 'sysadmin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', null, '1', '046548c3b1e3ab57', null, 'SYSTEM', '2015-07-27 15:37:14', null, null, null, null);
-INSERT INTO `sys_user` VALUES ('2', '1', 'admin', '', 'admin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', '', '0', null, '', null, null, null, null, '2015-08-03 09:49:19', '1');
-INSERT INTO `sys_user` VALUES ('5', '1', 'yang', '18200982382', '375455761@qq.com', '123456', '1111', '1111', '0', null, '111', null, null, null, null, '2015-08-03 09:47:44', '1');
+INSERT INTO `sys_user` VALUES ('1', '1', null, 'sysadmin', null, 'sysadmin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', null, '1', '046548c3b1e3ab57', null, 'SYSTEM', '2015-07-27 15:37:14', null, null, null, null);
+INSERT INTO `sys_user` VALUES ('2', '1', null, 'admin', '', 'admin@elvea.cn', '54a42628b7507805dd1bae08f40ccaf6274cce1b', 'Administrator', '', '0', null, '', null, null, null, null, '2015-08-03 09:49:19', '1');
+INSERT INTO `sys_user` VALUES ('5', '1', null, 'yang', '18200982382', '375455761@qq.com', '123456', '1111', '1111', '0', null, '111', null, null, null, null, '2015-08-03 09:47:44', '1');
 
 -- ----------------------------
 -- Table structure for sys_users_session
@@ -255,33 +307,3 @@ CREATE TABLE `sys_user_role` (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('8', '1', '8', '1', '2015-08-04 11:19:30', null, null);
-
-
--- ----------------------------
--- Table structure for sys_pay_order
--- ----------------------------
-DROP TABLE IF EXISTS `sys_pay_order`;
-CREATE TABLE `sys_pay_order` (
-  `id` int(11) NOT NULL,
-  `payOrderNo` varchar(50) DEFAULT NULL COMMENT '支付流水号',
-  `status` tinyint(4) DEFAULT NULL COMMENT '支付状态',
-  `payCode` varchar(50) DEFAULT NULL,
-  `roleId` int(11) DEFAULT NULL COMMENT '角色ID',
-  `userId` int(11) DEFAULT NULL COMMENT '收银员ID',
-  `price` decimal(10,0) DEFAULT NULL COMMENT '支付金额',
-  `barCode` varchar(20) DEFAULT NULL COMMENT '条码',
-  `imei` varchar(20) DEFAULT NULL,
-  `deviceType` tinyint(4) DEFAULT NULL,
-  `notify_time` datetime DEFAULT NULL COMMENT '异步回调时间',
-  `trade_no` varchar(50) DEFAULT NULL COMMENT '支付宝交易号',
-  `seller_email` varchar(50) DEFAULT NULL COMMENT '卖家支付宝账号',
-  `buyer_email` varchar(50) DEFAULT NULL,
-  `seller_id` varchar(50) DEFAULT NULL,
-  `buyer_id` varchar(50) DEFAULT NULL COMMENT '买家支付宝用户号',
-  `body` varchar(200) DEFAULT NULL COMMENT '商品描述',
-  `createAt` datetime DEFAULT NULL COMMENT '创建时间',
-  `createBy` int(11) DEFAULT NULL,
-  `updateAt` datetime DEFAULT NULL COMMENT '更新时间',
-  `updateBy` int(11) DEFAULT NULL COMMENT '更新人',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;

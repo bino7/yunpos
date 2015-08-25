@@ -1,9 +1,6 @@
 package com.yunpos.payment;
 
 import java.io.Serializable;
-import java.util.Map;
-
-import com.yunpos.payment.PayResData;
 
 
 public class Message implements Serializable {
@@ -25,7 +22,8 @@ public class Message implements Serializable {
 	 * 提示信息
 	 */
 	public String msg = "";
-
+	
+	public String id = "";
 	
 	public Message(String code, String msg) {
 		super();
@@ -43,6 +41,15 @@ public class Message implements Serializable {
 		this.isSuccess = isSuccess;
 		this.code = code;
 		this.msg = msg;
+	}
+	
+	
+	public Message(boolean isSuccess, String code, String msg,String id) {
+		super();
+		this.isSuccess = isSuccess;
+		this.code = code;
+		this.msg = msg;
+		this.id = id;
 	}
 
 	public boolean isSuccess() {
@@ -68,5 +75,15 @@ public class Message implements Serializable {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
 	
 }

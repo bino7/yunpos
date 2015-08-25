@@ -59,7 +59,7 @@ public class SysOrgController extends BaseController{
 	@RequestMapping(value = "/ajax/org", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid  SysOrg  org) {
 		org.setCreateDate(new Date());
-		org.setCreateUserId(this.getUser().getId());
+		//org.setCreateUserId(this.getUser().getId());
 		org.setExtExpanded(true);
 		org.setExtLoaded(true);
 		org.setExtParent(org.getOrgParentId());
@@ -84,7 +84,7 @@ public class SysOrgController extends BaseController{
 	public GridRowResponse update(@Valid SysOrg org, @PathVariable("id") int id) {
 		org.setId(id);
 		org.setModifyDate(new Date());
-		org.setModifyUserId(this.getUser().getId());
+		//org.setModifyUserId(this.getUser().getId());
 		sysOrgService.update(org);
 		return new GridRowResponse(org.getId());
 	}

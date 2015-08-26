@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.base.Strings;
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysMenu;
 import com.yunpos.service.SysMenuService;
@@ -97,6 +98,12 @@ public class SysMenuController extends BaseController{
 	@RequestMapping(value = "/ajax/menu/exist/{menuName}", method = RequestMethod.GET)
 	public Object exist(HttpServletRequest request, @PathVariable("menuName") String menuName) throws Exception {
 		return sysMenuService.existMenuName(menuName);
+	}
+	
+	//获取指定菜单的直接下级菜单列表
+	@RequestMapping(value = "/ajax/menu/getchild/{menuNo}", method = RequestMethod.GET)
+	public Object getChild(HttpServletRequest request, @PathVariable("menuNo") String menuNo) throws Exception {
+		return sysMenuService.findChildByParentId(Integer.valueOf(menuNo));
 	}
 	
 	

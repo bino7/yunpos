@@ -56,6 +56,10 @@ public class SysMenuService extends EntityService<SysMenu>{
 		return  false;
 	}
 
+	public List<SysMenu> findChildByParentId(int menuNo) {
+		return sysMenuMapper.findChildByParentId(menuNo);
+	}
+
 
 
   

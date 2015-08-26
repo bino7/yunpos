@@ -19,5 +19,8 @@ public interface SysMenuMapper extends EntityMapper<SysMenu>{
 	
 	@Select("select * from sys_menu  where menuName=#{menuName}")
 	List<SysMenu> findByMenuName(String menuName);
+	
+	@Select("select * from sys_menu  where menuParentNo=#{menuNo}")
+	List<SysMenu> findChildByParentId(int menuNo);
 
 }

@@ -100,12 +100,16 @@ public class SysRoleController extends BaseController {
 	public Object listUser(HttpServletRequest request, @PathVariable("roleId") String roleId) throws Exception {
 		List<SysUserRole> list = sysUserRoleService.findUserRoleByRoleId(Integer.valueOf(roleId));
 		List<Integer> ids = new ArrayList<>();
+		List<SysUser> sysUsers = null;
 		if (list != null && list.size() > 0) {
 			for (SysUserRole sysUserRole : list) {
 				ids.add(sysUserRole.getUserId());
 			}
 		}
-		return sysUserService.findListByIds(ids.toArray());
+		if(ids!=null && ids.size()>0){
+			sysUsers= sysUserService.findListByIds(ids.toArray());
+		}
+		return sysUsers;
 	}
 	
 	//通过组织机构id获取角色列表

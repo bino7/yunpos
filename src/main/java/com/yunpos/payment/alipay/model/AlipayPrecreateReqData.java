@@ -8,7 +8,7 @@ import com.yunpos.payment.alipay.config.AlipayConfig;
 
 /**
  * 
- * 功能描述：支付宝预下单请求参数封装
+ * 功能描述：支付宝预下单请求数据封装
  * <p>
  * 版权所有：小牛信息科技有限公司
  * <p>
@@ -18,7 +18,7 @@ import com.yunpos.payment.alipay.config.AlipayConfig;
  * @author Devin_Yang 修改日期：2015年8月19日
  *
  */
-public class AlipayScanPayReqData {
+public class AlipayPrecreateReqData {
 	// 接口名称（必填）
 	private String service = "";
 	// 合作者身份ID（必填）
@@ -46,6 +46,7 @@ public class AlipayScanPayReqData {
 	private String seller_email = ""; // 卖家支付宝账号（非必填）
 	private String buyer_id = ""; // 买家支付宝用户号（非必填）
 	private String buyer_email = ""; // 买家支付宝账号（非必填）
+	private String operator_code = "";// 操作员类型
 	private String operator_type = ""; // 操作员类型（非必填）
 	private String operator_id = ""; // 操作员号（非必填）
 	private String body = ""; // 订单描述（非必填）
@@ -59,52 +60,26 @@ public class AlipayScanPayReqData {
 	private String royalty_type = ""; // 分账类型（非必填）
 	private String royalty_parameters = ""; // 分账信息（非必填）
 	private String channel_parameters = ""; // 渠道参数（非必填）
-	// 动态 ID 类型（必填）
-	private String dynamic_id_type = "";
-	// 动态 ID（必填）
-	private String dynamic_id = "";
-	private String ref_ids = ""; // 关联 ID 集合（非必填）
-	private String mcard_parameters = ""; // 预付卡相关参数（非必填）
-	private String auth_no = ""; // 授权号（非必填）
-	private String promo_params = ""; // 优惠参数（非必填）
-	private String passback_parameters = "";// 业务透传参数（非必填）
-	private String agreement_info = ""; // 协议信息（非必填）
+	private String passback_parameters = "";// 动态 ID 类型（非必填）
 
 	// 业务附加传递信息（非接口参数）
-	private String pay_channel = "";
-	private String terminal_unique_no = "";
-	private String merchant_num = "";
+	// private String pay_channel = "";
+	// private String terminal_unique_no = "";
+	// private String merchant_num = "";
 
-	public AlipayScanPayReqData(String out_trade_no, String partner, String subject, String product_code,
-			String total_fee, String dynamic_id) {
+	public AlipayPrecreateReqData(String out_trade_no, String partner, String subject,String total_fee) {
 		// 必填选项
-		setService(AlipayConfig.service);
+		setService(AlipayConfig.alipay_acquire_precreate);
 		setPartner(partner);
 		set_input_charset(AlipayConfig.input_charset);
 		setSign_type(AlipayConfig.sign_type);
 		setOut_trade_no(out_trade_no);
 		setSubject(subject);
-		setProduct_code(product_code);
+		setProduct_code("QR_CODE_OFFLINE");
 		setTotal_fee(total_fee);
-		setDynamic_id_type(DynamicIdType.bar_code.toString());
-		setDynamic_id(dynamic_id);
-
+		
 		// 非必填选项
-		setNotify_url(AlipayConfig.notify_url);
-	}
-
-	public enum DynamicIdType {
-		wave_code, // 声波
-		bar_code; // 条码
-	}
-
-	public enum ProductCode {
-		BARCODE_PAY_OFFLINE, // 条码支付
-		SOUNDWAVE_PAY_OFFLINE, // 声波支付
-		MEMBER_CARD_QR_OFFLINE, // 会员卡支付
-		FUND_TRADE_FAST_PAY, // 预授权产品
-		FINGERPRINT_FAST_PAY; // 指纹支付
-
+		setNotify_url(AlipayConfig.alipay_acquire_precreate_notify_url);
 	}
 
 	public String getService() {
@@ -227,6 +202,14 @@ public class AlipayScanPayReqData {
 		this.buyer_email = buyer_email;
 	}
 
+	public String getOperator_code() {
+		return operator_code;
+	}
+
+	public void setOperator_code(String operator_code) {
+		this.operator_code = operator_code;
+	}
+
 	public String getOperator_type() {
 		return operator_type;
 	}
@@ -331,92 +314,12 @@ public class AlipayScanPayReqData {
 		this.channel_parameters = channel_parameters;
 	}
 
-	public String getDynamic_id_type() {
-		return dynamic_id_type;
-	}
-
-	public void setDynamic_id_type(String dynamic_id_type) {
-		this.dynamic_id_type = dynamic_id_type;
-	}
-
-	public String getDynamic_id() {
-		return dynamic_id;
-	}
-
-	public void setDynamic_id(String dynamic_id) {
-		this.dynamic_id = dynamic_id;
-	}
-
-	public String getRef_ids() {
-		return ref_ids;
-	}
-
-	public void setRef_ids(String ref_ids) {
-		this.ref_ids = ref_ids;
-	}
-
-	public String getMcard_parameters() {
-		return mcard_parameters;
-	}
-
-	public void setMcard_parameters(String mcard_parameters) {
-		this.mcard_parameters = mcard_parameters;
-	}
-
-	public String getAuth_no() {
-		return auth_no;
-	}
-
-	public void setAuth_no(String auth_no) {
-		this.auth_no = auth_no;
-	}
-
-	public String getPromo_params() {
-		return promo_params;
-	}
-
-	public void setPromo_params(String promo_params) {
-		this.promo_params = promo_params;
-	}
-
 	public String getPassback_parameters() {
 		return passback_parameters;
 	}
 
 	public void setPassback_parameters(String passback_parameters) {
 		this.passback_parameters = passback_parameters;
-	}
-
-	public String getAgreement_info() {
-		return agreement_info;
-	}
-
-	public void setAgreement_info(String agreement_info) {
-		this.agreement_info = agreement_info;
-	}
-
-	public String getPay_channel() {
-		return pay_channel;
-	}
-
-	public void setPay_channel(String pay_channel) {
-		this.pay_channel = pay_channel;
-	}
-
-	public String getTerminal_unique_no() {
-		return terminal_unique_no;
-	}
-
-	public void setTerminal_unique_no(String terminal_unique_no) {
-		this.terminal_unique_no = terminal_unique_no;
-	}
-
-	public String getMerchant_num() {
-		return merchant_num;
-	}
-
-	public void setMerchant_num(String merchant_num) {
-		this.merchant_num = merchant_num;
 	}
 
 	public Map<String, String> toMap() {

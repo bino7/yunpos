@@ -63,17 +63,22 @@ public class AlipayWapPayReqData {
 		// 必填选项
 		setService(AlipayConfig.wap_service);
 		setPartner(partner);
+		setSeller_id(seller_id);
 		set_input_charset(AlipayConfig.input_charset);
+		setPayment_type("1");
 		setSign_type(AlipayConfig.sign_type);
 		setOut_trade_no(out_trade_no);
 		setSubject(subject);
 		setTotal_fee(total_fee);
-		setSeller_id(seller_id);
-		setPayment_type("1");
+		setShow_url(AlipayConfig.show_url);
+		
 		// 非必填选项
 		setBody(subject);
 		setNotify_url(AlipayConfig.wap_notify_url);
 		setReturn_url(AlipayConfig.wap_return);
+		
+//		sParaTemp.put("it_b_pay", it_b_pay);
+//		sParaTemp.put("extern_token", extern_token);
 	}
 
 

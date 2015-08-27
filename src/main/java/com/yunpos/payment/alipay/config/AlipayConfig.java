@@ -52,9 +52,14 @@ public class AlipayConfig {
 	public static String wap_return = "";
 	public static String wap_notify_url = "";
 	public static String wap_service="";
+	public static String show_url ="";
 	
 	
-
+	//支付宝预下单参数
+	public static String alipay_acquire_precreate = "";
+	public static String alipay_acquire_precreate_notify_url = "";
+	
+	
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("payconfig/alipay");
 		//获取加密配置信息
@@ -74,6 +79,11 @@ public class AlipayConfig {
 		AlipayConfig.wap_return = rb.getString("wap_return").trim();
 		AlipayConfig.wap_notify_url = rb.getString("wap_notify_url").trim();
 		AlipayConfig.wap_service = rb.getString("wap_service").trim();
+		AlipayConfig.show_url = rb.getString("show_url");
+		
+		//支付宝预下单请求接口
+		AlipayConfig.alipay_acquire_precreate = rb.getString("alipay_acquire_precreate");
+		AlipayConfig.alipay_acquire_precreate_notify_url = rb.getString("alipay_acquire_precreate_notify_url");
 	}
 
 	private static String getDecryptString(String value) {

@@ -74,6 +74,7 @@ public class AlipayWapController {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
 		Message payMsg = null;
+		String htmlStr = "";
 		try {
 
 			SysPayOrder payOrder = new SysPayOrder();
@@ -99,12 +100,12 @@ public class AlipayWapController {
 			payReqData.setTerminal_unique_no(terminal_unique_no);
 			payReqData.setMerchant_num(merchant_num);
 			
-			payMsg = alipayWapService.pay(payReqData);
+			htmlStr = alipayWapService.pay(payReqData);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
-			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
+			//return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
-		return payMsg;
+		return htmlStr;
 	}
 	
 	

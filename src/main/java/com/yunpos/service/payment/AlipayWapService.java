@@ -42,15 +42,16 @@ public class AlipayWapService {
 	 * @param isSuccess
 	 * @param resultMsg
 	 */
-	public Message pay(AlipayWapPayReqData alipayWapPayReqData) {
+	public String pay(AlipayWapPayReqData alipayWapPayReqData) {
 		log.info("支付宝条码支付请求参数:" + alipayWapPayReqData.toMap().toString());
+		String sHtmlText ="";
 		try {// 建立请求
-			AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认");
+			sHtmlText = AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认");
 		} catch (Exception e) {
 			log.error("支付宝支会异常:", e);
-			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付异常!", null);
+			//return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付异常!", null);
 		}
-		return null;
+		return sHtmlText;
 	}
 
 	/**

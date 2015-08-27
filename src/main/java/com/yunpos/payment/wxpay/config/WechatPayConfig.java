@@ -80,12 +80,12 @@ public class WechatPayConfig {
 		WechatPayConfig.appID = getDecryptString(rb.getString("appID").trim());
 		WechatPayConfig.mchID = getDecryptString(rb.getString("mchID").trim());
 		// 获取明文配置信息
-		WechatPayConfig.certLocalPath = getDecryptString(rb.getString("certLocalPath").trim());
+		
 		WechatPayConfig.certPassword = getDecryptString(rb.getString("certPassword").trim());
 		WechatPayConfig.ip = getDecryptString(rb.getString("ip").trim());
 		
 		WechatPayConfig.useThreadToDoReport = Boolean.valueOf(rb.getString("useThreadToDoReport").trim());
-		
+		WechatPayConfig.certLocalPath = rb.getString("certLocalPath").trim();
 		//API接口
 		WechatPayConfig.PAY_API = rb.getString("PAY_API").trim();
 		WechatPayConfig.PAY_QUERY_API = rb.getString("PAY_QUERY_API").trim();

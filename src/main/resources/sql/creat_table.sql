@@ -307,3 +307,52 @@ CREATE TABLE `sys_user_role` (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('8', '1', '8', '1', '2015-08-04 11:19:30', null, null);
+
+-- -------------------------------
+-- Tables for filter
+-- -------------------------------
+CREATE TABLE `filter` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `filter_difinition_id` int(11) DEFAULT NULL,
+  `op` int(11) DEFAULT NULL,
+  `filter_value` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `filter_difinition` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `value_type` int(11) DEFAULT NULL,
+  `data_type` int(11) DEFAULT NULL,
+  `table_name` varchar(45) DEFAULT NULL,
+  `col_name` varchar(45) DEFAULT NULL,
+  `key` varchar(45) DEFAULT NULL,
+  `support_op` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `filter_difinition_value` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `filter_difinition_id` int(11) DEFAULT NULL,
+  `value_type` int(11) DEFAULT NULL,
+  `value` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `filter_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+

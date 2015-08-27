@@ -19,7 +19,7 @@ public class Configure {
 							     
 
 	//微信分配的公众号ID（开通公众号之后可以获取到）
-	private static String appID = "wx9a930755fdc2698d";
+	private static String appID = "wx9a930755fdc2698d"; 
 
 	//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
 	private static String mchID = "1241267602";
@@ -28,7 +28,7 @@ public class Configure {
 	private static String subMchID = "";
 
 	//HTTPS证书的本地路径
-	private static String certLocalPath = "E:\\yumpos\\微信支付\\微信刷卡支付\\cert\\apiclient_cert.p12";
+	private static String certLocalPath = "E:\\cert\\apiclient_cert.p12";
 
 	//HTTPS证书密码，默认密码等于商户号MCHID
 	private static String certPassword = "1241267602";

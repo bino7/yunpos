@@ -13,8 +13,10 @@ public class AESTest {
 
 	@Test
 	public void decrypt() {
-		String str = "XTV9HruWdCrD780gfCOhLGGCFte0yNrvnWURS9sxLNBdNvIJ/UamYoDO33o4739zor+8QmuCbpYsOb3+z1kkDD5WgLTVpBveL3DoEScpqLg=";
-		System.out.println(AESUtils.decrypt(AESUtils.key, str));
+		String str = "R4EOAXfmd1pNy2dQOp8q6T07fX/kmOxpN3f+RON/kFvYIBjisOZXNRz0Sg58cUm+";
+		String str2 = "R4EOAXfmd1pNy2dQOp8q6SvtTw6BhIKKevQQoOhq4/E=";
+		
+		System.out.println(AESUtils.decrypt(AESUtils.key, str2));
 	}
 
 	@Test

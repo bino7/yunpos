@@ -72,6 +72,13 @@ public class WechatPayConfig {
 
 	// 7) 统计上报API
 	public static String REPORT_API = "";
+	
+	
+	//扫码支付相关配置
+	public static String scan_notify_url = "";
+	public static String scan_unifiedorder_api = "";
+	public static String CLOSE_ORDER_API = "";
+	
 
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("payconfig/wchatpay");
@@ -94,7 +101,12 @@ public class WechatPayConfig {
 		WechatPayConfig.REVERSE_API = rb.getString("REVERSE_API").trim();
 		WechatPayConfig.DOWNLOAD_BILL_API = rb.getString("DOWNLOAD_BILL_API").trim();
 		WechatPayConfig.REPORT_API = rb.getString("REPORT_API").trim();
-
+		
+		//扫码支付相关配置
+		WechatPayConfig.scan_notify_url = rb.getString("scan_notify_url").trim();
+		WechatPayConfig.scan_unifiedorder_api = rb.getString("scan_unifiedorder_api").trim();
+		WechatPayConfig.CLOSE_ORDER_API = rb.getString("CLOSE_ORDER_API").trim();
+		
 	}
 
 	private static String getDecryptString(String value) {

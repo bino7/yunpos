@@ -41,8 +41,8 @@
 		sys_org
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysOrg">
-		insert into sys_org (id,
+	<insert id="insert" parameterType="com.yunpos.model.SysOrg" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_org (
 		orgNo, orgName,
 		orgParentId, orgParentName, orgParentNo,
 		level,
@@ -51,7 +51,7 @@
 		extIsLeaf, extLoaded, extExpanded,
 		extParent)
 		values
-		(#{id,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR},
+		(#{orgNo,jdbcType=VARCHAR},
 		#{orgName,jdbcType=VARCHAR},
 		#{orgParentId,jdbcType=INTEGER},
 		#{orgParentName,jdbcType=VARCHAR}, #{orgParentNo,jdbcType=VARCHAR},

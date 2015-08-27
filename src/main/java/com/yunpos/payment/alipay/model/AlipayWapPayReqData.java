@@ -69,6 +69,7 @@ public class AlipayWapPayReqData {
 		setSubject(subject);
 		setTotal_fee(total_fee);
 		setSeller_id(seller_id);
+		setPayment_type("1");
 		// 非必填选项
 		setBody(subject);
 		setNotify_url(AlipayConfig.wap_notify_url);

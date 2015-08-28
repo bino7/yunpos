@@ -1,5 +1,8 @@
 package com.yunpos.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SysMenu {
 	private Integer id;
 
@@ -21,6 +24,20 @@ public class SysMenu {
 	private Integer isVisible;
 
 	private Integer isLeaf;
+	
+	private List nodes = new ArrayList();
+	
+	
+	
+	
+
+	public List getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(List nodes) {
+		this.nodes = nodes;
+	}
 
 	public Integer getId() {
 		return id;

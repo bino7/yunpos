@@ -10,13 +10,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Strings;
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysMenu;
 import com.yunpos.service.SysMenuService;
@@ -49,11 +47,24 @@ public class SysMenuController extends BaseController{
 		return sysMenuService.findById(id);
 	}
 	
+
+	
 	@RequestMapping(value="/ajax/menu",method = GET)
 	public JqGridResponse<SysMenu> list(JqGridRequest jqGridRequest)  throws ServiceException {
 		GridRequest gridRequest = jqGridRequest.createDataRequest();
 		GridResponse<SysMenu> dataResponse = sysMenuService.findPageUsers(gridRequest);
 		return new JqGridResponse<SysMenu>(dataResponse);
+	}
+	
+	/**
+	 * 获取菜单嵌套json结构
+	 * @param jqGridRequest
+	 * @return
+	 * @throws ServiceException
+	 */
+	@RequestMapping(value = "/ajax/menu/json", method = GET)
+	public Object json()   throws ServiceException {
+		return sysMenuService.getJsonMenu();
 	}
 
 	

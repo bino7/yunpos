@@ -20,6 +20,15 @@ public class JqGridRequest {
 	protected String searchField;	//查询字段
 	protected String searchString;	//查询参数
 	protected String searchOper;	//查询操作or/and
+	
+	//交易流水查询条件
+	protected String startTransTime;	//查询开始时间
+	protected String endTransTime;		//查询结束时间
+	protected String channel;			//支付渠道
+	protected String status;			//交易状态
+	
+	
+
 
 	public int getPage() {
 		return page;

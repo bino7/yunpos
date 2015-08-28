@@ -62,24 +62,7 @@ public class SysMenuService extends EntityService<SysMenu> {
 		return sysMenuMapper.findChildByParentId(menuNo);
 	}
 
-	// public List<MenuDTO> jsonMenu() {
-	// List<MenuDTO> returnList = new ArrayList<>();
-	// try {
-	// List<SysMenu> list = sysMenuMapper.findAll();
-	// for(SysMenu menu:list){
-	// MenuDTO menuDto = new MenuDTO(menu);
-	// List<SysMenu> childs = sysMenuMapper.findBymenuParentNo(menu.getId());
-	// if(childs!=null && childs.size()>0){
-	// menuDto.setChilds(childs);
-	// list.re
-	// }
-	// returnList.add(menuDto);
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return returnList;
-	// }
+
 	
 	/**
 	 * 获取菜单json

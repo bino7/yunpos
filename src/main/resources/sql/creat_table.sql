@@ -356,3 +356,27 @@ CREATE TABLE `resource` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+--交易流水
+CREATE TABLE `sys_transaction` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel` tinyint(2) NOT NULL COMMENT '支付渠道,，1支付宝，2微信，3银联，4：预存款',
+  `subChannel` tinyint(2) DEFAULT NULL COMMENT '细分渠道，0：支付宝Wap，1:支付宝手机',
+  `title` varchar(200) DEFAULT NULL COMMENT '商品名称',
+  `merchantName` varchar(100) DEFAULT NULL COMMENT '商户名',
+  `serialNo` varchar(100) NOT NULL COMMENT '商户编号',
+  `agentSerialNo` varchar(100) DEFAULT NULL COMMENT '代理商编号',
+  `terminalNum` varchar(100) NOT NULL COMMENT '终端号',
+  `transCardNum` varchar(100) NOT NULL COMMENT '支付帐号（支付宝账户、银联卡号、微信财付通帐号）',
+  `transNum` varchar(100) NOT NULL COMMENT '交易流水号',
+  `transTime` datetime NOT NULL COMMENT '交易时间',
+  `transPrice` float(10,2) NOT NULL COMMENT '实际交易金额（小数点后两位）',
+  `totalPrice` float(10,2) DEFAULT NULL COMMENT '订单金额（小数点后两位）',
+  `scanType` tinyint(2) DEFAULT NULL COMMENT '扫描类型，正扫：QR_CODE_OFFLIN，反扫：BARCODE_PAY_OFFLINE',
+  `couponCode` varchar(100) DEFAULT NULL COMMENT '卡券核销码',
+  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败',
+  `transType` tinyint(2) NOT NULL COMMENT '交易类型，0:支付，1:退款',
+  `orderId` varchar(100) NOT NULL COMMENT '原支付订单号',
+  `info` varchar(500) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='交易流水表';
+

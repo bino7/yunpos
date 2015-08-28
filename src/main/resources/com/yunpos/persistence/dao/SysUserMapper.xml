@@ -282,6 +282,8 @@
 			#{item}
 		</foreach>
 	</delete>
+	
+
 
 	<select id="findListByIds" resultMap="BaseResultMap">
 		select

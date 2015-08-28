@@ -21,4 +21,7 @@ public interface SysUserRoleMapper extends EntityMapper<SysUserRole> {
 	
 	@Delete("delete from sys_user_role where userId = #{userId}")
 	int deleteByUserId(int userId);
+	
+	@Delete("delete from sys_user_role where userId = #{userId} and roleId=#{roleId}")
+	int deleteByUserIdAandRoleId(int userId, int roleId);
 }

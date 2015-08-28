@@ -75,6 +75,19 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping(value = "/ajax/user/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysUser user, @PathVariable("id") int id) {
+
+		if(!Strings.isNullOrEmpty(user.getRole())){
+			String[] roleIds = user.getRole().split(",");
+			SysUserRole sysUserRole = null;
+			sysUserRoleService.deleteByUserId(id);
+			for(int i=0;i<roleIds.length;i++){
+				sysUserRole = new SysUserRole();
+				sysUserRole.setUserId(user.getId());
+				sysUserRole.setRoleId(Integer.valueOf(roleIds[i]));
+				sysUserRoleService.insert(sysUserRole);
+			}
+		}
+
 		user.setId(id);
 		user.setUpdatedAt(new Date());
 		//user.setUpdatedBy(getUser().getId());

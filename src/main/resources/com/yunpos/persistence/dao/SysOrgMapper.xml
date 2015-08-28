@@ -256,4 +256,20 @@
 			#{item}
 		</foreach>
 	</delete>
+	
+	<select id="findByCondition" resultMap="BaseResultMap"
+		parameterType="com.yunpos.utils.jqgrid.GridRequest">
+		select
+		<include refid="Base_Column_List" />
+		from sys_org
+		<if test="searchValue != null">
+			where 
+			orgNo = #{searchValue,jdbcType=VARCHAR}
+			or
+			orgName = #{searchValue,jdbcType=VARCHAR}
+		</if>
+
+	</select>
+	
+	
 </mapper>

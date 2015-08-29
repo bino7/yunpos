@@ -44,97 +44,82 @@
 		</javaClientGenerator>
 
 		<!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等 -->
-		<table tableName="sys_transaction" domainObjectName="SysTransaction"
+		<table tableName="sys_member" domainObjectName="SysMember"
 			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
+			enableSelectByExample="true" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
-		
-<!-- 		<table tableName="sys_user" domainObjectName="SysUser"
-			   enableCountByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-			<property name="useGeneratedKeys" value="true"/>
-		</table>
-		
-		<table tableName="sys_org" domainObjectName="SysOrg"
-			   enableCountByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		
-		<table tableName="sys_role" domainObjectName="SysRole"
-			   enableCountByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table> -->
-		
-	<!-- 	<table tableName="sys_user" domainObjectName="User"
+		<table tableName="sys_agentmerchant" domainObjectName="SysAgentMerchant"
 			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
+			enableSelectByExample="true" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
-		<table tableName="ROLE" domainObjectName="Role"
+		<table tableName="sys_order" domainObjectName="SysOrder"
 			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
+			enableSelectByExample="true" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
-		<table tableName="USER_ROLE" domainObjectName="UserRole"
+		<table tableName="sys_token" domainObjectName="SysToken"
 			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
+			enableSelectByExample="true" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
-		<table tableName="SYS_MENU" domainObjectName="SysMenu"
+		<table tableName="sys_merchant" domainObjectName="SysMerchant"
 			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		<table tableName="SYS_BUTTON" domainObjectName="SysButton"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		<table tableName="SYS_APP" domainObjectName="SysApp"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		<table tableName="DATA_RULE" domainObjectName="DataRule"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		<table tableName="ORG" domainObjectName="Org"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		<table tableName="PRIVILEGE" domainObjectName="Privilege"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
+			enableSelectByExample="true" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
 
-		<table tableName="sys_users_session" domainObjectName="UserSession"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table> -->
 
-		<!--<table tableName="filter_group" domainObjectName="FilterGroup"
-			   enableCountByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>-->
-		<!-- <table tableName="filter" domainObjectName="Filter"
-			   enableCountByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-		<table tableName="filter_group" domainObjectName="FilterGroup"
-			   enableCountByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table> -->
+
+
+		<!-- <table tableName="sys_user" domainObjectName="SysUser" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> <property name="useGeneratedKeys" 
+			value="true"/> </table> <table tableName="sys_org" domainObjectName="SysOrg" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> <table tableName="sys_role" domainObjectName="SysRole" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> </table> -->
+
+		<!-- <table tableName="sys_user" domainObjectName="User" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> </table> <table tableName="ROLE" 
+			domainObjectName="Role" enableCountByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" enableUpdateByExample="false"> <property name="useActualColumnNames" 
+			value="true" /> </table> <table tableName="USER_ROLE" domainObjectName="UserRole" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> <table tableName="SYS_MENU" domainObjectName="SysMenu" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> </table> <table tableName="SYS_BUTTON" 
+			domainObjectName="SysButton" enableCountByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" enableUpdateByExample="false"> <property name="useActualColumnNames" 
+			value="true" /> </table> <table tableName="SYS_APP" domainObjectName="SysApp" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> <table tableName="DATA_RULE" domainObjectName="DataRule" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> </table> <table tableName="ORG" 
+			domainObjectName="Org" enableCountByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" enableUpdateByExample="false"> <property name="useActualColumnNames" 
+			value="true" /> </table> <table tableName="PRIVILEGE" domainObjectName="Privilege" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> <table tableName="sys_users_session" domainObjectName="UserSession" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> -->
+
+		<!--<table tableName="filter_group" domainObjectName="FilterGroup" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> </table> -->
+		<!-- <table tableName="filter" domainObjectName="Filter" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> </table> <table tableName="filter_group" 
+			domainObjectName="FilterGroup" enableCountByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" enableUpdateByExample="false"> <property name="useActualColumnNames" 
+			value="true" /> </table> -->
 	</context>
 </generatorConfiguration>

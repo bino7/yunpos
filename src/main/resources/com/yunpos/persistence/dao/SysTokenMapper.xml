@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysTokenMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysToken" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="appid" property="appid" jdbcType="VARCHAR" />
+    <result column="appSecret" property="appSecret" jdbcType="VARCHAR" />
+    <result column="access_token" property="access_token" jdbcType="VARCHAR" />
+    <result column="expires_time" property="expires_time" jdbcType="INTEGER" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, appid, appSecret, access_token, expires_time, createdAt, updatedAt
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_token
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_token
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysToken" >
+    insert into sys_token (id, appid, appSecret, 
+      access_token, expires_time, createdAt, 
+      updatedAt)
+    values (#{id,jdbcType=INTEGER}, #{appid,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
+      #{access_token,jdbcType=VARCHAR}, #{expires_time,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysToken" >
+    insert into sys_token
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appid != null" >
+        appid,
+      </if>
+      <if test="appSecret != null" >
+        appSecret,
+      </if>
+      <if test="access_token != null" >
+        access_token,
+      </if>
+      <if test="expires_time != null" >
+        expires_time,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null" >
+        #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="access_token != null" >
+        #{access_token,jdbcType=VARCHAR},
+      </if>
+      <if test="expires_time != null" >
+        #{expires_time,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysToken" >
+    update sys_token
+    <set >
+      <if test="appid != null" >
+        appid = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null" >
+        appSecret = #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="access_token != null" >
+        access_token = #{access_token,jdbcType=VARCHAR},
+      </if>
+      <if test="expires_time != null" >
+        expires_time = #{expires_time,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysToken" >
+    update sys_token
+    set appid = #{appid,jdbcType=VARCHAR},
+      appSecret = #{appSecret,jdbcType=VARCHAR},
+      access_token = #{access_token,jdbcType=VARCHAR},
+      expires_time = #{expires_time,jdbcType=INTEGER},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

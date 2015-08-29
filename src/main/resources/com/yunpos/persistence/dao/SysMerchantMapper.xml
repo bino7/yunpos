@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysMerchantMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysMerchant" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
+    <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
+    <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="industryTypeId" property="industryTypeId" jdbcType="INTEGER" />
+    <result column="industryType" property="industryType" jdbcType="VARCHAR" />
+    <result column="contactMan" property="contactMan" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="VARCHAR" />
+    <result column="prov" property="prov" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="auditStatus" property="auditStatus" jdbcType="TINYINT" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="businessLicense" property="businessLicense" jdbcType="VARCHAR" />
+    <result column="registerNumber" property="registerNumber" jdbcType="VARCHAR" />
+    <result column="identityType" property="identityType" jdbcType="TINYINT" />
+    <result column="identityCardOn" property="identityCardOn" jdbcType="VARCHAR" />
+    <result column="identityCardOff" property="identityCardOff" jdbcType="VARCHAR" />
+    <result column="terminals" property="terminals" jdbcType="VARCHAR" />
+    <result column="serviceType" property="serviceType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, baseUserId, serialNo, agentSerialNo, companyName, industryTypeId, industryType, 
+    contactMan, phone, tel, postcode, prov, city, area, address, auditStatus, endTime, 
+    businessLicense, registerNumber, identityType, identityCardOn, identityCardOff, terminals, 
+    serviceType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_merchant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_merchant
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysMerchant" >
+    insert into sys_merchant (id, baseUserId, serialNo, 
+      agentSerialNo, companyName, industryTypeId, 
+      industryType, contactMan, phone, 
+      tel, postcode, prov, 
+      city, area, address, 
+      auditStatus, endTime, businessLicense, 
+      registerNumber, identityType, identityCardOn, 
+      identityCardOff, terminals, serviceType
+      )
+    values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
+      #{agentSerialNo,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{industryTypeId,jdbcType=INTEGER}, 
+      #{industryType,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{auditStatus,jdbcType=TINYINT}, #{endTime,jdbcType=TIMESTAMP}, #{businessLicense,jdbcType=VARCHAR}, 
+      #{registerNumber,jdbcType=VARCHAR}, #{identityType,jdbcType=TINYINT}, #{identityCardOn,jdbcType=VARCHAR}, 
+      #{identityCardOff,jdbcType=VARCHAR}, #{terminals,jdbcType=VARCHAR}, #{serviceType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysMerchant" >
+    insert into sys_merchant
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="baseUserId != null" >
+        baseUserId,
+      </if>
+      <if test="serialNo != null" >
+        serialNo,
+      </if>
+      <if test="agentSerialNo != null" >
+        agentSerialNo,
+      </if>
+      <if test="companyName != null" >
+        companyName,
+      </if>
+      <if test="industryTypeId != null" >
+        industryTypeId,
+      </if>
+      <if test="industryType != null" >
+        industryType,
+      </if>
+      <if test="contactMan != null" >
+        contactMan,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="postcode != null" >
+        postcode,
+      </if>
+      <if test="prov != null" >
+        prov,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="auditStatus != null" >
+        auditStatus,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="businessLicense != null" >
+        businessLicense,
+      </if>
+      <if test="registerNumber != null" >
+        registerNumber,
+      </if>
+      <if test="identityType != null" >
+        identityType,
+      </if>
+      <if test="identityCardOn != null" >
+        identityCardOn,
+      </if>
+      <if test="identityCardOff != null" >
+        identityCardOff,
+      </if>
+      <if test="terminals != null" >
+        terminals,
+      </if>
+      <if test="serviceType != null" >
+        serviceType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="baseUserId != null" >
+        #{baseUserId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSerialNo != null" >
+        #{agentSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="industryTypeId != null" >
+        #{industryTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="industryType != null" >
+        #{industryType,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMan != null" >
+        #{contactMan,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="prov != null" >
+        #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessLicense != null" >
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="registerNumber != null" >
+        #{registerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null" >
+        #{identityType,jdbcType=TINYINT},
+      </if>
+      <if test="identityCardOn != null" >
+        #{identityCardOn,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardOff != null" >
+        #{identityCardOff,jdbcType=VARCHAR},
+      </if>
+      <if test="terminals != null" >
+        #{terminals,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null" >
+        #{serviceType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysMerchant" >
+    update sys_merchant
+    <set >
+      <if test="baseUserId != null" >
+        baseUserId = #{baseUserId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNo != null" >
+        serialNo = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSerialNo != null" >
+        agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="industryTypeId != null" >
+        industryTypeId = #{industryTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="industryType != null" >
+        industryType = #{industryType,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMan != null" >
+        contactMan = #{contactMan,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        postcode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="prov != null" >
+        prov = #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        auditStatus = #{auditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessLicense != null" >
+        businessLicense = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="registerNumber != null" >
+        registerNumber = #{registerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null" >
+        identityType = #{identityType,jdbcType=TINYINT},
+      </if>
+      <if test="identityCardOn != null" >
+        identityCardOn = #{identityCardOn,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCardOff != null" >
+        identityCardOff = #{identityCardOff,jdbcType=VARCHAR},
+      </if>
+      <if test="terminals != null" >
+        terminals = #{terminals,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null" >
+        serviceType = #{serviceType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysMerchant" >
+    update sys_merchant
+    set baseUserId = #{baseUserId,jdbcType=INTEGER},
+      serialNo = #{serialNo,jdbcType=VARCHAR},
+      agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
+      companyName = #{companyName,jdbcType=VARCHAR},
+      industryTypeId = #{industryTypeId,jdbcType=INTEGER},
+      industryType = #{industryType,jdbcType=VARCHAR},
+      contactMan = #{contactMan,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=VARCHAR},
+      prov = #{prov,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      auditStatus = #{auditStatus,jdbcType=TINYINT},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      businessLicense = #{businessLicense,jdbcType=VARCHAR},
+      registerNumber = #{registerNumber,jdbcType=VARCHAR},
+      identityType = #{identityType,jdbcType=TINYINT},
+      identityCardOn = #{identityCardOn,jdbcType=VARCHAR},
+      identityCardOff = #{identityCardOff,jdbcType=VARCHAR},
+      terminals = #{terminals,jdbcType=VARCHAR},
+      serviceType = #{serviceType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

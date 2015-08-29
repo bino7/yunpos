@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysMember" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="trueName" property="trueName" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickName" jdbcType="VARCHAR" />
+    <result column="portrait" property="portrait" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="bornYear" property="bornYear" jdbcType="CHAR" />
+    <result column="bornMonth" property="bornMonth" jdbcType="CHAR" />
+    <result column="bornDay" property="bornDay" jdbcType="CHAR" />
+    <result column="prov" property="prov" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="CHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="createdBy" property="createdBy" jdbcType="TIMESTAMP" />
+    <result column="updatedBy" property="updatedBy" jdbcType="TIMESTAMP" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="openId" property="openId" jdbcType="VARCHAR" />
+    <result column="sourceType" property="sourceType" jdbcType="TINYINT" />
+    <result column="sourceId" property="sourceId" jdbcType="VARCHAR" />
+    <result column="appid_userId" property="appid_userId" jdbcType="VARCHAR" />
+    <result column="connect_userId" property="connect_userId" jdbcType="VARCHAR" />
+    <result column="merchantId" property="merchantId" jdbcType="INTEGER" />
+    <result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, trueName, nickName, portrait, tel, sex, bornYear, bornMonth, bornDay, prov, city, 
+    area, address, postcode, qq, createdBy, updatedBy, info, openId, sourceType, sourceId, 
+    appid_userId, connect_userId, merchantId, merchantName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysMember" >
+    insert into sys_member (id, trueName, nickName, 
+      portrait, tel, sex, 
+      bornYear, bornMonth, bornDay, 
+      prov, city, area, address, 
+      postcode, qq, createdBy, 
+      updatedBy, info, openId, 
+      sourceType, sourceId, appid_userId, 
+      connect_userId, merchantId, merchantName
+      )
+    values (#{id,jdbcType=INTEGER}, #{trueName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{portrait,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+      #{bornYear,jdbcType=CHAR}, #{bornMonth,jdbcType=CHAR}, #{bornDay,jdbcType=CHAR}, 
+      #{prov,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=CHAR}, #{qq,jdbcType=VARCHAR}, #{createdBy,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=TIMESTAMP}, #{info,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, 
+      #{sourceType,jdbcType=TINYINT}, #{sourceId,jdbcType=VARCHAR}, #{appid_userId,jdbcType=VARCHAR}, 
+      #{connect_userId,jdbcType=VARCHAR}, #{merchantId,jdbcType=INTEGER}, #{merchantName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysMember" >
+    insert into sys_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="trueName != null" >
+        trueName,
+      </if>
+      <if test="nickName != null" >
+        nickName,
+      </if>
+      <if test="portrait != null" >
+        portrait,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="bornYear != null" >
+        bornYear,
+      </if>
+      <if test="bornMonth != null" >
+        bornMonth,
+      </if>
+      <if test="bornDay != null" >
+        bornDay,
+      </if>
+      <if test="prov != null" >
+        prov,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="postcode != null" >
+        postcode,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="createdBy != null" >
+        createdBy,
+      </if>
+      <if test="updatedBy != null" >
+        updatedBy,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+      <if test="openId != null" >
+        openId,
+      </if>
+      <if test="sourceType != null" >
+        sourceType,
+      </if>
+      <if test="sourceId != null" >
+        sourceId,
+      </if>
+      <if test="appid_userId != null" >
+        appid_userId,
+      </if>
+      <if test="connect_userId != null" >
+        connect_userId,
+      </if>
+      <if test="merchantId != null" >
+        merchantId,
+      </if>
+      <if test="merchantName != null" >
+        merchantName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="portrait != null" >
+        #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="bornYear != null" >
+        #{bornYear,jdbcType=CHAR},
+      </if>
+      <if test="bornMonth != null" >
+        #{bornMonth,jdbcType=CHAR},
+      </if>
+      <if test="bornDay != null" >
+        #{bornDay,jdbcType=CHAR},
+      </if>
+      <if test="prov != null" >
+        #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=CHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="appid_userId != null" >
+        #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="connect_userId != null" >
+        #{connect_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantName != null" >
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysMember" >
+    update sys_member
+    <set >
+      <if test="trueName != null" >
+        trueName = #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nickName = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="portrait != null" >
+        portrait = #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="bornYear != null" >
+        bornYear = #{bornYear,jdbcType=CHAR},
+      </if>
+      <if test="bornMonth != null" >
+        bornMonth = #{bornMonth,jdbcType=CHAR},
+      </if>
+      <if test="bornDay != null" >
+        bornDay = #{bornDay,jdbcType=CHAR},
+      </if>
+      <if test="prov != null" >
+        prov = #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        postcode = #{postcode,jdbcType=CHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null" >
+        createdBy = #{createdBy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        updatedBy = #{updatedBy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        openId = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null" >
+        sourceType = #{sourceType,jdbcType=TINYINT},
+      </if>
+      <if test="sourceId != null" >
+        sourceId = #{sourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="appid_userId != null" >
+        appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="connect_userId != null" >
+        connect_userId = #{connect_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null" >
+        merchantId = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantName != null" >
+        merchantName = #{merchantName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysMember" >
+    update sys_member
+    set trueName = #{trueName,jdbcType=VARCHAR},
+      nickName = #{nickName,jdbcType=VARCHAR},
+      portrait = #{portrait,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      bornYear = #{bornYear,jdbcType=CHAR},
+      bornMonth = #{bornMonth,jdbcType=CHAR},
+      bornDay = #{bornDay,jdbcType=CHAR},
+      prov = #{prov,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=CHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      createdBy = #{createdBy,jdbcType=TIMESTAMP},
+      updatedBy = #{updatedBy,jdbcType=TIMESTAMP},
+      info = #{info,jdbcType=VARCHAR},
+      openId = #{openId,jdbcType=VARCHAR},
+      sourceType = #{sourceType,jdbcType=TINYINT},
+      sourceId = #{sourceId,jdbcType=VARCHAR},
+      appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      connect_userId = #{connect_userId,jdbcType=VARCHAR},
+      merchantId = #{merchantId,jdbcType=INTEGER},
+      merchantName = #{merchantName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+   <!-- ############################################## -->
+  <select id="search" resultMap="BaseResultMap"
+		parameterType="com.yunpos.utils.jqgrid.GridRequest">
+		select
+		<include refid="Base_Column_List" />
+		from sys_member
+		<if test="searchValue != null">
+			where 
+			trueName = #{searchValue,jdbcType=VARCHAR}
+			or
+			nickName = #{searchValue,jdbcType=VARCHAR}
+			or
+			tel = #{searchValue,jdbcType=VARCHAR}
+		</if>
+	</select>
+  
+  
+</mapper>

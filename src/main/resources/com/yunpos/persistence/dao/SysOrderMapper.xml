@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="openId" property="openId" jdbcType="VARCHAR" />
+    <result column="memberId" property="memberId" jdbcType="VARCHAR" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="trueName" property="trueName" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="productList" property="productList" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productPrice" jdbcType="REAL" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="mailPrice" property="mailPrice" jdbcType="REAL" />
+    <result column="couponPrice" property="couponPrice" jdbcType="REAL" />
+    <result column="totalPrice" property="totalPrice" jdbcType="REAL" />
+    <result column="groupon" property="groupon" jdbcType="BIT" />
+    <result column="groupcode" property="groupcode" jdbcType="VARCHAR" />
+    <result column="houseAddress" property="houseAddress" jdbcType="VARCHAR" />
+    <result column="payMode" property="payMode" jdbcType="TINYINT" />
+    <result column="payType" property="payType" jdbcType="TINYINT" />
+    <result column="payStatus" property="payStatus" jdbcType="TINYINT" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="printed" property="printed" jdbcType="TINYINT" />
+    <result column="handleStatus" property="handleStatus" jdbcType="TINYINT" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, orderId, openId, memberId, createdAt, updatedAt, trueName, tel, productList, 
+    productPrice, total, mailPrice, couponPrice, totalPrice, groupon, groupcode, houseAddress, 
+    payMode, payType, payStatus, score, printed, handleStatus, info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysOrder" >
+    insert into sys_order (id, orderId, openId, 
+      memberId, createdAt, updatedAt, 
+      trueName, tel, productList, 
+      productPrice, total, mailPrice, 
+      couponPrice, totalPrice, groupon, 
+      groupcode, houseAddress, payMode, 
+      payType, payStatus, score, 
+      printed, handleStatus, info
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, 
+      #{memberId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{trueName,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{productList,jdbcType=VARCHAR}, 
+      #{productPrice,jdbcType=REAL}, #{total,jdbcType=INTEGER}, #{mailPrice,jdbcType=REAL}, 
+      #{couponPrice,jdbcType=REAL}, #{totalPrice,jdbcType=REAL}, #{groupon,jdbcType=BIT}, 
+      #{groupcode,jdbcType=VARCHAR}, #{houseAddress,jdbcType=VARCHAR}, #{payMode,jdbcType=TINYINT}, 
+      #{payType,jdbcType=TINYINT}, #{payStatus,jdbcType=TINYINT}, #{score,jdbcType=INTEGER}, 
+      #{printed,jdbcType=TINYINT}, #{handleStatus,jdbcType=TINYINT}, #{info,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysOrder" >
+    insert into sys_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="openId != null" >
+        openId,
+      </if>
+      <if test="memberId != null" >
+        memberId,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt,
+      </if>
+      <if test="trueName != null" >
+        trueName,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="productList != null" >
+        productList,
+      </if>
+      <if test="productPrice != null" >
+        productPrice,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="mailPrice != null" >
+        mailPrice,
+      </if>
+      <if test="couponPrice != null" >
+        couponPrice,
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice,
+      </if>
+      <if test="groupon != null" >
+        groupon,
+      </if>
+      <if test="groupcode != null" >
+        groupcode,
+      </if>
+      <if test="houseAddress != null" >
+        houseAddress,
+      </if>
+      <if test="payMode != null" >
+        payMode,
+      </if>
+      <if test="payType != null" >
+        payType,
+      </if>
+      <if test="payStatus != null" >
+        payStatus,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="printed != null" >
+        printed,
+      </if>
+      <if test="handleStatus != null" >
+        handleStatus,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="productList != null" >
+        #{productList,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=REAL},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="mailPrice != null" >
+        #{mailPrice,jdbcType=REAL},
+      </if>
+      <if test="couponPrice != null" >
+        #{couponPrice,jdbcType=REAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=REAL},
+      </if>
+      <if test="groupon != null" >
+        #{groupon,jdbcType=BIT},
+      </if>
+      <if test="groupcode != null" >
+        #{groupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAddress != null" >
+        #{houseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="payMode != null" >
+        #{payMode,jdbcType=TINYINT},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="printed != null" >
+        #{printed,jdbcType=TINYINT},
+      </if>
+      <if test="handleStatus != null" >
+        #{handleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysOrder" >
+    update sys_order
+    <set >
+      <if test="orderId != null" >
+        orderId = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        openId = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        memberId = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trueName != null" >
+        trueName = #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="productList != null" >
+        productList = #{productList,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        productPrice = #{productPrice,jdbcType=REAL},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="mailPrice != null" >
+        mailPrice = #{mailPrice,jdbcType=REAL},
+      </if>
+      <if test="couponPrice != null" >
+        couponPrice = #{couponPrice,jdbcType=REAL},
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice = #{totalPrice,jdbcType=REAL},
+      </if>
+      <if test="groupon != null" >
+        groupon = #{groupon,jdbcType=BIT},
+      </if>
+      <if test="groupcode != null" >
+        groupcode = #{groupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAddress != null" >
+        houseAddress = #{houseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="payMode != null" >
+        payMode = #{payMode,jdbcType=TINYINT},
+      </if>
+      <if test="payType != null" >
+        payType = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="payStatus != null" >
+        payStatus = #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="printed != null" >
+        printed = #{printed,jdbcType=TINYINT},
+      </if>
+      <if test="handleStatus != null" >
+        handleStatus = #{handleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysOrder" >
+    update sys_order
+    set orderId = #{orderId,jdbcType=VARCHAR},
+      openId = #{openId,jdbcType=VARCHAR},
+      memberId = #{memberId,jdbcType=VARCHAR},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      trueName = #{trueName,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      productList = #{productList,jdbcType=VARCHAR},
+      productPrice = #{productPrice,jdbcType=REAL},
+      total = #{total,jdbcType=INTEGER},
+      mailPrice = #{mailPrice,jdbcType=REAL},
+      couponPrice = #{couponPrice,jdbcType=REAL},
+      totalPrice = #{totalPrice,jdbcType=REAL},
+      groupon = #{groupon,jdbcType=BIT},
+      groupcode = #{groupcode,jdbcType=VARCHAR},
+      houseAddress = #{houseAddress,jdbcType=VARCHAR},
+      payMode = #{payMode,jdbcType=TINYINT},
+      payType = #{payType,jdbcType=TINYINT},
+      payStatus = #{payStatus,jdbcType=TINYINT},
+      score = #{score,jdbcType=INTEGER},
+      printed = #{printed,jdbcType=TINYINT},
+      handleStatus = #{handleStatus,jdbcType=TINYINT},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="search" resultMap="BaseResultMap"
+		parameterType="com.yunpos.utils.jqgrid.GridRequest">
+		select
+		<include refid="Base_Column_List" />
+		from sys_order
+		<if test="searchValue != null">
+			where 
+			orderId = #{searchValue,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

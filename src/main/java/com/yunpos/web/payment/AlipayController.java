@@ -56,7 +56,7 @@ public class AlipayController {
 	private AlipayService alipayService;
 
 	/**
-	 * 支付宝订单生成接口
+	 * 支付宝条码支付-预下单
 	 * 
 	 * @param request
 	 * @param response
@@ -191,6 +191,7 @@ public class AlipayController {
 	@RequestMapping("/notify")
 	public void asynNotify(HttpServletRequest request, HttpServletResponse response) {
 		log.info("收到支付宝支付异步通知");
+		log.info("receive alipay notify:#############################################");
 		try {
 			PrintWriter writer = response.getWriter();
 			// 获取支付宝POST过来反馈信息

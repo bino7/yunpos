@@ -164,7 +164,7 @@ public class AlipayWapController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/asynNotify")
 	public void asynNotify(HttpServletRequest request, HttpServletResponse response) {
-		log.info("收到支付宝wap支付异步通知");
+		log.info("收到支付宝wap支付异步通知########");
 		try {
 			PrintWriter writer = response.getWriter();
 			// 获取支付宝POST过来反馈信息

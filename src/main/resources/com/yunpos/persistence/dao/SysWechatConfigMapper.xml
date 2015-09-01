@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysWechatConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysWechatConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="mchId" property="mchId" jdbcType="VARCHAR" />
+    <result column="certLocalPath" property="certLocalPath" jdbcType="VARCHAR" />
+    <result column="certPassword" property="certPassword" jdbcType="VARCHAR" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.SysWechatConfigWithBLOBs" extends="BaseResultMap" >
+    <result column="appSecret" property="appSecret" jdbcType="LONGVARCHAR" />
+    <result column="appKey" property="appKey" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, appId, mchId, certLocalPath, certPassword, info, mark, status
+  </sql>
+  <sql id="Blob_Column_List" >
+    appSecret, appKey
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_wechat_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_wechat_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" >
+    insert into sys_wechat_config (id, appId, mchId, 
+      certLocalPath, certPassword, info, 
+      mark, status, appSecret, 
+      appKey)
+    values (#{id,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
+      #{certLocalPath,jdbcType=VARCHAR}, #{certPassword,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, 
+      #{mark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{appSecret,jdbcType=LONGVARCHAR}, 
+      #{appKey,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" >
+    insert into sys_wechat_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appId != null" >
+        appId,
+      </if>
+      <if test="mchId != null" >
+        mchId,
+      </if>
+      <if test="certLocalPath != null" >
+        certLocalPath,
+      </if>
+      <if test="certPassword != null" >
+        certPassword,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="appSecret != null" >
+        appSecret,
+      </if>
+      <if test="appKey != null" >
+        appKey,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null" >
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="certLocalPath != null" >
+        #{certLocalPath,jdbcType=VARCHAR},
+      </if>
+      <if test="certPassword != null" >
+        #{certPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="appSecret != null" >
+        #{appSecret,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="appKey != null" >
+        #{appKey,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" >
+    update sys_wechat_config
+    <set >
+      <if test="appId != null" >
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null" >
+        mchId = #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="certLocalPath != null" >
+        certLocalPath = #{certLocalPath,jdbcType=VARCHAR},
+      </if>
+      <if test="certPassword != null" >
+        certPassword = #{certPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="appSecret != null" >
+        appSecret = #{appSecret,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="appKey != null" >
+        appKey = #{appKey,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" >
+    update sys_wechat_config
+    set appId = #{appId,jdbcType=VARCHAR},
+      mchId = #{mchId,jdbcType=VARCHAR},
+      certLocalPath = #{certLocalPath,jdbcType=VARCHAR},
+      certPassword = #{certPassword,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      mark = #{mark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      appSecret = #{appSecret,jdbcType=LONGVARCHAR},
+      appKey = #{appKey,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysWechatConfig" >
+    update sys_wechat_config
+    set appId = #{appId,jdbcType=VARCHAR},
+      mchId = #{mchId,jdbcType=VARCHAR},
+      certLocalPath = #{certLocalPath,jdbcType=VARCHAR},
+      certPassword = #{certPassword,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      mark = #{mark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -12,6 +12,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.sign.MD5;
@@ -19,6 +21,7 @@ import com.yunpos.payment.alipay.util.httpClient.HttpProtocolHandler;
 import com.yunpos.payment.alipay.util.httpClient.HttpRequest;
 import com.yunpos.payment.alipay.util.httpClient.HttpResponse;
 import com.yunpos.payment.alipay.util.httpClient.HttpResultType;
+import com.yunpos.service.payment.AlipayService;
 
 /* *
  *类名：AlipaySubmit
@@ -32,6 +35,7 @@ import com.yunpos.payment.alipay.util.httpClient.HttpResultType;
  */
 
 public class AlipaySubmit {
+	private final static Logger log = LoggerFactory.getLogger(AlipaySubmit.class);
     
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
@@ -149,7 +153,8 @@ public class AlipaySubmit {
     public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp) throws Exception {
         //待请求参数数组
         Map<String, String> sPara = buildRequestPara(sParaTemp);
-
+        
+        log.info("buildRequestPara:"+sPara.toString());
         HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
 
         HttpRequest request = new HttpRequest(HttpResultType.BYTES);

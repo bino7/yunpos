@@ -1,6 +1,8 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -14,9 +16,10 @@ public class AESTest {
 	@Test
 	public void decrypt() {
 		String str = "R4EOAXfmd1pNy2dQOp8q6T07fX/kmOxpN3f+RON/kFvYIBjisOZXNRz0Sg58cUm+";
-		String str2 = "R4EOAXfmd1pNy2dQOp8q6SvtTw6BhIKKevQQoOhq4/E=";
+		String str2 = "R4EOAXfmd1pNy2dQOp8q6T07fX/kmOxpN3f+RON/kFvYIBjisOZXNRz0Sg58cUm+";
+	
 		
-		System.out.println(AESUtils.decrypt(AESUtils.key, str2));
+		System.out.println(AESUtils.decrypt(str2));
 	}
 
 	@Test
@@ -44,7 +47,7 @@ public class AESTest {
 //				+ "<cash_fee>1</cash_fee></xml>";
 //		// System.out.println(AESUtils.encrypt(AESUtils.key, str));
 //		ScanPayResData scanPayResData = (ScanPayResData) Util.getObjectFromXML(str, ScanPayResData.class);
-		System.out.println(ResultCode.FAIL.name());
+		System.out.println(Float.valueOf("0.02"));
 		// System.out.println(Byte.valueOf("2") ==Byte.valueOf("1"));
 	}
 	

@@ -1,6 +1,5 @@
 package com.yunpos.service.payment;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -9,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.yunpos.model.SysPayOrder;
+import com.yunpos.model.SysTransaction;
 import com.yunpos.payment.alipay.model.AlipayWapPayReqData;
 import com.yunpos.payment.alipay.util.AlipaySubmit;
-import com.yunpos.service.SysPayOrderService;
+import com.yunpos.service.SysTransactionService;
 import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
@@ -33,7 +32,7 @@ import com.yunpos.utils.Message.ResultCode;
 public class AlipayWapService {
 	private final static Logger log = LoggerFactory.getLogger(AlipayWapService.class);
 	@Autowired
-	private SysPayOrderService sysPayOrderService;
+	private SysTransactionService sysTransactionService;
 
 	/**
 	 * 支付宝手机wap支付
@@ -42,16 +41,13 @@ public class AlipayWapService {
 	 * @param isSuccess
 	 * @param resultMsg
 	 */
-	public String pay(AlipayWapPayReqData alipayWapPayReqData) {
+	public void pay(AlipayWapPayReqData alipayWapPayReqData) {
 		log.info("支付宝条码支付请求参数:" + alipayWapPayReqData.toMap().toString());
-		String sHtmlText ="";
 		try {// 建立请求
-			sHtmlText = AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认");
+			AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认");
 		} catch (Exception e) {
 			log.error("支付宝支会异常:", e);
-			//return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付异常!", null);
 		}
-		return sHtmlText;
 	}
 
 	/**
@@ -67,28 +63,28 @@ public class AlipayWapService {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(), "返回信息错误", null);
 		}
 		
-		SysPayOrder sysPayOrder = sysPayOrderService.findByPayOrderNo(orderNo);
-		if(sysPayOrder == null){
+		SysTransaction  sysTransaction = sysTransactionService.findByTransNum(orderNo);
+		if(sysTransaction == null){
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),"无法完成支付，支付接口返回的订单号["+orderNo+"]无效！" , null);
 		}
 		
-		if(sysPayOrder.getStatus() ==Byte.valueOf("1")){
-			String msg = "支付接口返回的订单流水["+sysPayOrder+"]已经完成支付，无需再次处理！"; 
+		if(sysTransaction.getStatus() ==Byte.valueOf("2")){
+			String msg = "支付接口返回的订单流水["+orderNo+"]已经完成支付，无需再次处理！"; 
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),msg , null);
 		}
 		
 		if(isSuccess){
-			sysPayOrder.setStatus(Byte.valueOf("1"));//支付成功
-			sysPayOrder.setNotify_time(new Date());
-			sysPayOrderService.update(sysPayOrder);
-			String msg = "订单["+sysPayOrder.getPayOrderNo()+"]支付交易成功！";
+			sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+			sysTransaction.setTransCardNum(params.get("buyer_logon_id")); //买家支付宝账号
+			sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
+			sysTransactionService.update(sysTransaction);
+			String msg = "订单["+orderNo+"]支付交易成功！";
 			return new Message(ResultCode.SUCCESS.name(), "SUCCESS",msg , null);
 		}else{
-			sysPayOrder.setStatus(Byte.valueOf("0"));//支付失败
-			sysPayOrder.setNotify_time(new Date());
-			sysPayOrderService.update(sysPayOrder);
+			sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+			sysTransactionService.update(sysTransaction);
+			String msg = "支付接口返回的订单[" + orderNo+ "]支付失败！";
 			
-			String msg = "支付接口返回的订单["+sysPayOrder.getPayOrderNo()+"]支付失败！"; 
 			return new Message(ResultCode.FAIL.name(), "支付失败",msg , null);
 		}
 	}
@@ -106,30 +102,29 @@ public class AlipayWapService {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(), "返回信息错误", null);
 		}
 		
-		SysPayOrder sysPayOrder = sysPayOrderService.findByPayOrderNo(orderNo);
-		if(sysPayOrder == null){
+		SysTransaction  sysTransaction = sysTransactionService.findByTransNum(orderNo);
+		if(sysTransaction == null){
 			log.error("无法完成支付，支付接口返回的订单号["+orderNo+"]无效！");
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),"无法完成支付，支付接口返回的订单号["+orderNo+"]无效！" , null);
 		}
 		
-		if(sysPayOrder.getStatus() ==Byte.valueOf("1")){
-			String msg = "支付接口返回的订单流水["+sysPayOrder+"]已经完成支付，无需再次处理！"; 
+		if(sysTransaction.getStatus() ==Byte.valueOf("2")){
+			String msg = "支付接口返回的订单流水["+orderNo+"]已经完成支付，无需再次处理！"; 
 			log.error(msg);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),msg , null);
 		}
 		
 		if(isSuccess){
-			sysPayOrder.setStatus(Byte.valueOf("1"));//支付成功
-			sysPayOrder.setNotify_time(new Date());
-			sysPayOrderService.update(sysPayOrder);
-			String msg = "订单["+sysPayOrder.getPayOrderNo()+"]支付交易成功！";
+			sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+			sysTransaction.setTransCardNum(params.get("buyer_logon_id")); //买家支付宝账号
+			sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
+			sysTransactionService.update(sysTransaction);
+			String msg = "订单["+orderNo+"]支付交易成功！";
 			return new Message(ResultCode.SUCCESS.name(), "SUCCESS",msg , null);
 		}else{
-			sysPayOrder.setStatus(Byte.valueOf("0"));//支付失败
-			sysPayOrder.setNotify_time(new Date());
-			sysPayOrderService.update(sysPayOrder);
-			
-			String msg = "支付接口返回的订单["+sysPayOrder.getPayOrderNo()+"]支付失败！"; 
+			sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+			sysTransactionService.update(sysTransaction);
+			String msg = "支付接口返回的订单[" + orderNo+ "]支付失败！";
 			return new Message(ResultCode.FAIL.name(), "支付失败",msg , null);
 		}
 	}

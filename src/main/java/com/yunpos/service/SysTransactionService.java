@@ -25,5 +25,10 @@ public class SysTransactionService extends EntityService<SysTransaction> {
 		List<SysTransaction> list = sysTransactionMapper.findByCondition(searchRequest);
 		return new SearchRespose<>(searchRequest.getPage(), searchRequest.getRows(), list.size(), list);
 	}
+	
+	
+	public SysTransaction findByTransNum(String orderNo) {
+		return sysTransactionMapper.findByTransNum(orderNo);
+	}
 
 }

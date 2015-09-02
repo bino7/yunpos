@@ -67,7 +67,7 @@ public class AlipayPrecreateReqData {
 	// private String terminal_unique_no = "";
 	// private String merchant_num = "";
 
-	public AlipayPrecreateReqData(String out_trade_no, String partner, String subject,String total_fee) {
+	public AlipayPrecreateReqData(String out_trade_no, String partner, String subject,String total_fee,String extend_params) {
 		// 必填选项
 		setService(AlipayConfig.alipay_acquire_precreate);
 		setPartner(partner);
@@ -77,9 +77,9 @@ public class AlipayPrecreateReqData {
 		setSubject(subject);
 		setProduct_code("QR_CODE_OFFLINE");
 		setTotal_fee(total_fee);
-		
 		// 非必填选项
 		setNotify_url(AlipayConfig.alipay_acquire_precreate_notify_url);
+		setExtend_params(extend_params);
 	}
 
 	public String getService() {

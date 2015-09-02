@@ -3,6 +3,7 @@ package com.yunpos.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yunpos.model.SysAlipayConfig;
 import com.yunpos.model.SysAlipayConfigWithBLOBs;
 import com.yunpos.persistence.dao.SysAlipayConfigMapper;
 
@@ -27,6 +28,14 @@ public class SysAlipayConfigService{
 
 	public void delete(int id) {
 		sysAlipayConfigMapper.deleteByPrimaryKey(id);
+	}
+
+	public SysAlipayConfigWithBLOBs findByPid(String pid) {
+		return sysAlipayConfigMapper.findByPid(pid);
+	}
+
+	public SysAlipayConfigWithBLOBs findByMerchantNo(String merchantNo) {
+		return sysAlipayConfigMapper.findByMerchantNo(merchantNo);
 	}
 
 

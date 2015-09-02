@@ -90,7 +90,7 @@ public class AlipayF2FV2Controller {
 			String orderNo = iw.getId() + "";
 			
 			AlipayScanPayReqData payReqData = new AlipayScanPayReqData(orderNo, AlipayConfig.partner, "支付宝条码支付",
-					"BARCODE_PAY_OFFLINE", total_fee, dynamic_id);
+					"BARCODE_PAY_OFFLINE", total_fee, dynamic_id,"");
 			payReqData.setPay_channel(pay_channel);
 			payReqData.setTerminal_unique_no(terminal_unique_no);
 			payReqData.setMerchant_num(merchant_num);

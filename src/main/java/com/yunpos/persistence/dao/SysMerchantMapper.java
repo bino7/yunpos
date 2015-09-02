@@ -12,5 +12,8 @@ public interface SysMerchantMapper extends EntityMapper<SysMerchant>{
 	List<SysMerchant> findAll();
 
 	List<SysMerchant> search(GridRequest gridRequest);
+	
+	@Select("select * from sys_merchant where serialNo=#{serialNo}")
+	SysMerchant findBySerialNo(String serialNo);
     
 }

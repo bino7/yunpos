@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.yunpos.payment.wxpay.common.Configure;
+import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
 import com.yunpos.payment.wxpay.config.WechatPayConfig;
@@ -47,12 +47,12 @@ public class ScanCodePayReqData {
 	private String openid = "";
 
 	public ScanCodePayReqData(String body, String outTradeNo, int totalFee,
-			String deviceInfo, String spBillCreateIP, String goodsTag,String attach) {
+			String deviceInfo, String spBillCreateIP, String goodsTag,String attach,SysWechatConfigWithBLOBs sysWechatConfig) {
 		//****************必填选项***************************
 		//微信分配的公众号ID（开通公众号之后可以获取到）
-		setAppid(Configure.getAppid());
+		setAppid(sysWechatConfig.getAppId());
 		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-		setMch_id(Configure.getMchid());
+		setMch_id(sysWechatConfig.getMchId());
 		//随机字符串，不长于32 位
 		setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
 		
@@ -72,9 +72,6 @@ public class ScanCodePayReqData {
 		setProduct_id(outTradeNo);
 		
 		
-		
-		
-		
 		//****************非必填选项***************************
 		//商户自己定义的扫码支付终端设备号，方便追溯这笔交易发生在哪台终端设备上
 		setDevice_info(deviceInfo);
@@ -88,11 +85,9 @@ public class ScanCodePayReqData {
 		// 商品标记，微信平台配置的商品标记，用于优惠券或者满减使用
 		setGoods_tag(goodsTag);
 		//根据API给的签名规则进行签名
-		String sign = Signature.getSign(toMap());
+		String sign = Signature.getSign(toMap(),sysWechatConfig.getAppKey());
 		
 		setSign(sign);//把签名数据设置到Sign这个属性中
-		
-
 	}
 
 	public String getAppid() {

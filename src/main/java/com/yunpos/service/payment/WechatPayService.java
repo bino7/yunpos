@@ -46,6 +46,9 @@ import com.yunpos.utils.XMLUtil;
  * 
  * @author Devin_Yang 新增日期：2015年8月12日
  * @author Devin_Yang 修改日期：2015年8月12日
+ * 微信刷卡支付地址:https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=5_1
+ * 微信支付扫码支付：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1
+ * 微信支付公众号支付：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_1
  *
  */
 @Service
@@ -56,9 +59,7 @@ public class WechatPayService {
 	// 是否需要再调一次撤销，这个值由撤销API回包的recall字段决定
 	private boolean needRecallReverse = false;
 	private int waitingTimeBeforeReverseServiceInvoked = 5000;
-	//
-	// @Autowired
-	// private SysPayOrderService sysPayOrderService;
+
 
 	/**
 	 * 微信支付同步方法业务逻辑处理

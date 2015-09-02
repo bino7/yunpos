@@ -1,5 +1,9 @@
 package com.yunpos.model;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SysAlipayConfig {
     private Integer id;
 
@@ -18,6 +22,8 @@ public class SysAlipayConfig {
     private String info;
 
     private Byte status;
+
+    private String merchantNo;
 
     public Integer getId() {
         return id;
@@ -90,4 +96,31 @@ public class SysAlipayConfig {
     public void setStatus(Byte status) {
         this.status = status;
     }
+
+    public String getMerchantNo() {
+        return merchantNo;
+    }
+
+    public void setMerchantNo(String merchantNo) {
+        this.merchantNo = merchantNo == null ? null : merchantNo.trim();
+    }
+    
+    public Map<String, Object> toMap() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Field[] fields = this.getClass().getDeclaredFields();
+		for (Field field : fields) {
+			Object obj;
+			try {
+				obj = field.get(this);
+				if (obj != null) {
+					map.put(field.getName(),  obj);
+				}
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		return map;
+	}
 }

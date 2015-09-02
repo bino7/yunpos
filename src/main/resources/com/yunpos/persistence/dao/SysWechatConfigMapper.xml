@@ -10,13 +10,14 @@
     <result column="info" property="info" jdbcType="VARCHAR" />
     <result column="mark" property="mark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="merchantNo" property="merchantNo" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.SysWechatConfigWithBLOBs" extends="BaseResultMap" >
     <result column="appSecret" property="appSecret" jdbcType="LONGVARCHAR" />
     <result column="appKey" property="appKey" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, appId, mchId, certLocalPath, certPassword, info, mark, status
+    id, appId, mchId, certLocalPath, certPassword, info, mark, status, merchantNo
   </sql>
   <sql id="Blob_Column_List" >
     appSecret, appKey
@@ -33,15 +34,15 @@
     delete from sys_wechat_config
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" >
-    insert into sys_wechat_config (id, appId, mchId, 
+  <insert id="insert" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_wechat_config (appId, mchId, 
       certLocalPath, certPassword, info, 
-      mark, status, appSecret, 
-      appKey)
-    values (#{id,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
+      mark, status, merchantNo, 
+      appSecret, appKey)
+    values (#{appId,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
       #{certLocalPath,jdbcType=VARCHAR}, #{certPassword,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, 
-      #{mark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{appSecret,jdbcType=LONGVARCHAR}, 
-      #{appKey,jdbcType=LONGVARCHAR})
+      #{mark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{merchantNo,jdbcType=VARCHAR}, 
+      #{appSecret,jdbcType=LONGVARCHAR}, #{appKey,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" >
     insert into sys_wechat_config
@@ -69,6 +70,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="merchantNo != null" >
+        merchantNo,
       </if>
       <if test="appSecret != null" >
         appSecret,
@@ -102,6 +106,9 @@
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
       </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
       <if test="appSecret != null" >
         #{appSecret,jdbcType=LONGVARCHAR},
       </if>
@@ -134,6 +141,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="merchantNo != null" >
+        merchantNo = #{merchantNo,jdbcType=VARCHAR},
+      </if>
       <if test="appSecret != null" >
         appSecret = #{appSecret,jdbcType=LONGVARCHAR},
       </if>
@@ -152,6 +162,7 @@
       info = #{info,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
+      merchantNo = #{merchantNo,jdbcType=VARCHAR},
       appSecret = #{appSecret,jdbcType=LONGVARCHAR},
       appKey = #{appKey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -164,7 +175,8 @@
       certPassword = #{certPassword,jdbcType=VARCHAR},
       info = #{info,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT}
+      status = #{status,jdbcType=TINYINT},
+      merchantNo = #{merchantNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

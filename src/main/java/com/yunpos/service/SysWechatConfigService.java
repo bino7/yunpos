@@ -30,6 +30,10 @@ public class SysWechatConfigService{
 		
 	}
 
+	public SysWechatConfigWithBLOBs findByMchId(String mchId) {
+		return sysWechatConfigMapper.findByMchId(mchId);
+	}
+
 	
 
 }

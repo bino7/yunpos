@@ -1,6 +1,5 @@
 package com.yunpos.service.payment;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.yunpos.model.SysPayOrder;
+import com.yunpos.model.SysAlipayConfig;
+import com.yunpos.model.SysAlipayConfigWithBLOBs;
+import com.yunpos.model.SysTransaction;
 import com.yunpos.payment.PayResData;
 import com.yunpos.payment.PreCreateResData;
 import com.yunpos.payment.QueryResData;
@@ -23,7 +24,8 @@ import com.yunpos.payment.alipay.model.AlipayRefundReqData;
 import com.yunpos.payment.alipay.model.AlipayScanPayReqData;
 import com.yunpos.payment.alipay.util.AlipaySubmit;
 import com.yunpos.payment.alipay.util.Constant;
-import com.yunpos.service.SysPayOrderService;
+import com.yunpos.service.SysAlipayConfigService;
+import com.yunpos.service.SysTransactionService;
 import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
@@ -48,7 +50,9 @@ public class AlipayService {
 	public static final String MSG_NAME = "msg";
 
 	@Autowired
-	private SysPayOrderService sysPayOrderService;
+	private SysTransactionService sysTransactionService;
+	@Autowired
+	private SysAlipayConfigService sysAlipayConfigService;
 
 	/**
 	 * 支付宝支付同步方法业务逻辑处理
@@ -56,10 +60,12 @@ public class AlipayService {
 	 * @param param
 	 * @return
 	 */
-	public Message pay(AlipayScanPayReqData payReqData) {
+	public Message pay(AlipayScanPayReqData payReqData,SysAlipayConfig sysAlipayConfig) {
 		log.info("支付宝条码支付请求参数:" + payReqData.toMap().toString());
 		try {// 建立请求
-			String responseXml = AlipaySubmit.buildRequest("", "", payReqData.toMap());
+			Map<String,String> payMap = new HashMap<>();
+			payMap.put("key", sysAlipayConfig.getKey());
+			String responseXml = AlipaySubmit.buildRequest("", "", payReqData.toMap(),payMap);
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());
@@ -88,11 +94,13 @@ public class AlipayService {
 	 * @param param
 	 * @return
 	 */
-	public Message query(AlipayQueryReqData alipayQueryReqData) {
+	public Message query(AlipayQueryReqData alipayQueryReqData,SysAlipayConfig sysAlipayConfig) {
 		// sParaTemp.put(PayConst.IT_B_PAY, AlipayConfig.pay_time_out);
 		log.info("查询请求参数:" + alipayQueryReqData.toMap());
 		try {// 建立请求
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayQueryReqData.toMap());
+			Map<String,String> payMap = new HashMap<>();
+			payMap.put("key", sysAlipayConfig.getKey());
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayQueryReqData.toMap(),payMap);
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());
@@ -121,21 +129,27 @@ public class AlipayService {
 	 * @param param
 	 * @return
 	 */
-	public Message refund(AlipayRefundReqData alipayRefundReqData) {
+	public Message refund(AlipayRefundReqData alipayRefundReqData,SysTransaction sysTransaction) {
 		// 把请求参数打包成数组
 
 		log.info("支付宝条码支付请求参数:" + alipayRefundReqData.toMap());
 		try {// 建立请求
+			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByPid(sysTransaction.getSerialNo());
+			Map<String,String> payMap = new HashMap<>();
+			payMap.put("key", sysAlipayConfig.getKey());
 			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap());
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());
 			if ("T".equalsIgnoreCase(result.get("is_success"))) {// T代表成功
 				if (result.get("result_code").equals("SUCCESS")) {
-					RefundResData refundResData = new RefundResData(PayChannel.ALIPAY, result,
-							alipayRefundReqData.toMap());
+					sysTransaction.setStatus(Byte.valueOf("3"));//已退款
+					sysTransactionService.update(sysTransaction);
+					RefundResData refundResData = new RefundResData(PayChannel.ALIPAY, result,alipayRefundReqData.toMap());
 					return new Message(ResultCode.SUCCESS.name(), "", "退款成功", refundResData.toMap()); // 支付宝交易流水号
 				} else {
+					sysTransaction.setStatus(Byte.valueOf("5"));//退款失败
+					sysTransactionService.update(sysTransaction);
 					String detail_error_code = result.get("detail_error_code");
 					String detail_error_des = result.get("detail_error_des");
 					return new Message(ResultCode.FAIL.name(), detail_error_code, detail_error_des, null);
@@ -156,10 +170,12 @@ public class AlipayService {
 	 * @param alipayPrecreateReqData
 	 * @return
 	 */
-	public Message preCreate(AlipayPrecreateReqData alipayPrecreateReqData) {
+	public Message preCreate(AlipayPrecreateReqData alipayPrecreateReqData,SysAlipayConfig sysAlipayConfig) {
 		log.info("支付宝统一预下单请求参数:" + alipayPrecreateReqData.toMap());
 		try {// 建立请求
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayPrecreateReqData.toMap());
+			Map<String,String> payMap = new HashMap<>();
+			payMap.put("key", sysAlipayConfig.getKey());
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayPrecreateReqData.toMap(),payMap);
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());
@@ -184,7 +200,7 @@ public class AlipayService {
 	}
 
 	/**
-	 * 支付宝异步回调处理函数
+	 * 支付宝异条码、扫码支付步回调处理函数
 	 * 
 	 * @param orderNo
 	 * @param isSuccess
@@ -193,7 +209,7 @@ public class AlipayService {
 	 * @return
 	 */
 
-	public Map<String, Object> notifyPayment(Map<String, String> params, boolean isSuccess, String resultMsg) {
+	public Map<String, Object> notify(Map<String, String> params, boolean isSuccess, String resultMsg,String flag) {
 		Map<String, Object> returnMap = Maps.newHashMap();
 		String orderNo = params.get("out_trade_no");
 
@@ -205,8 +221,9 @@ public class AlipayService {
 			return returnMap;
 		}
 
-		SysPayOrder sysPayOrder = sysPayOrderService.findByPayOrderNo(orderNo);
-		if (sysPayOrder == null) {
+		
+		SysTransaction  sysTransaction = sysTransactionService.findByTransNum(orderNo);
+		if (sysTransaction == null) {
 			String msg = "无法完成支付，支付接口返回的订单号[" + orderNo + "]无效！";
 			log.error(msg);
 			returnMap.put(FLAG_NAME, false);
@@ -214,8 +231,8 @@ public class AlipayService {
 			return returnMap;
 		}
 
-		if (sysPayOrder.getStatus() == Byte.valueOf("1")) {
-			String msg = "支付接口返回的订单流水[" + sysPayOrder + "]已经完成支付，无需再次处理！";
+		if (sysTransaction.getStatus() == Byte.valueOf("2")) {
+			String msg = "支付接口返回的订单流水[" + orderNo + "]已经完成支付，无需再次处理！";
 			log.warn(msg);
 			returnMap.put(FLAG_NAME, true);
 			returnMap.put(MSG_NAME, msg);
@@ -223,22 +240,25 @@ public class AlipayService {
 		}
 
 		if (isSuccess) {
-			sysPayOrder.setStatus(Byte.valueOf("1"));// 支付成功
-			sysPayOrder.setNotify_time(new Date());
-
-			sysPayOrderService.update(sysPayOrder);
-
-			String msg = "订单[" + sysPayOrder.getPayOrderNo() + "]支付交易成功！";
+			sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+			if(flag.equals("bar")){//条码支付
+				sysTransaction.setTransCardNum(params.get("buyer_logon_id")); //买家支付宝账号
+			}else if(flag.equals("scan")){//扫码支付
+				sysTransaction.setTransCardNum(params.get("buyer_id")); //买家支付宝账号
+			}
+			sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
+			sysTransactionService.update(sysTransaction);
+			
+		
+			String msg = "订单[" + orderNo+ "]支付交易成功！";
 			log.info(msg);
 			returnMap.put(FLAG_NAME, true);
 			returnMap.put(MSG_NAME, msg);
 			return returnMap;
 		} else {
-			sysPayOrder.setStatus(Byte.valueOf("0"));// 支付失败
-			sysPayOrder.setNotify_time(new Date());
-			sysPayOrderService.update(sysPayOrder);
-
-			String msg = "支付接口返回的订单[" + sysPayOrder.getPayOrderNo() + "]支付失败！";
+			sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+			sysTransactionService.update(sysTransaction);
+			String msg = "支付接口返回的订单[" + orderNo+ "]支付失败！";
 			log.info(msg);
 			returnMap.put(FLAG_NAME, false);
 			returnMap.put(MSG_NAME, msg);

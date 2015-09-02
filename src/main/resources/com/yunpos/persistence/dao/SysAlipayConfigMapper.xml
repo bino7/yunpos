@@ -11,13 +11,14 @@
     <result column="mark" property="mark" jdbcType="VARCHAR" />
     <result column="info" property="info" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="merchantNo" property="merchantNo" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.SysAlipayConfigWithBLOBs" extends="BaseResultMap" >
     <result column="appPrivateKey" property="appPrivateKey" jdbcType="LONGVARCHAR" />
     <result column="appPublicKey" property="appPublicKey" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, sellerEmail, pid, key, token, pagentId, mark, info, status
+    id, sellerEmail, pid, key, token, pagentId, mark, info, status, merchantNo
   </sql>
   <sql id="Blob_Column_List" >
     appPrivateKey, appPublicKey
@@ -34,15 +35,17 @@
     delete from sys_alipay_config
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" >
-    insert into sys_alipay_config (id, sellerEmail, pid, 
+  <insert id="insert" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_alipay_config (sellerEmail, pid, 
       key, token, pagentId, 
       mark, info, status, 
-      appPrivateKey, appPublicKey)
-    values (#{id,jdbcType=INTEGER}, #{sellerEmail,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, 
+      merchantNo, appPrivateKey, appPublicKey
+      )
+    values (#{sellerEmail,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, 
       #{key,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{pagentId,jdbcType=VARCHAR}, 
       #{mark,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{appPrivateKey,jdbcType=LONGVARCHAR}, #{appPublicKey,jdbcType=LONGVARCHAR})
+      #{merchantNo,jdbcType=VARCHAR}, #{appPrivateKey,jdbcType=LONGVARCHAR}, #{appPublicKey,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" >
     insert into sys_alipay_config
@@ -73,6 +76,9 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="merchantNo != null" >
+        merchantNo,
       </if>
       <if test="appPrivateKey != null" >
         appPrivateKey,
@@ -109,6 +115,9 @@
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
       </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
       <if test="appPrivateKey != null" >
         #{appPrivateKey,jdbcType=LONGVARCHAR},
       </if>
@@ -144,6 +153,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="merchantNo != null" >
+        merchantNo = #{merchantNo,jdbcType=VARCHAR},
+      </if>
       <if test="appPrivateKey != null" >
         appPrivateKey = #{appPrivateKey,jdbcType=LONGVARCHAR},
       </if>
@@ -163,6 +175,7 @@
       mark = #{mark,jdbcType=VARCHAR},
       info = #{info,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
+      merchantNo = #{merchantNo,jdbcType=VARCHAR},
       appPrivateKey = #{appPrivateKey,jdbcType=LONGVARCHAR},
       appPublicKey = #{appPublicKey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -176,7 +189,8 @@
       pagentId = #{pagentId,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
       info = #{info,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT}
+      status = #{status,jdbcType=TINYINT},
+      merchantNo = #{merchantNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -309,7 +309,7 @@ public class AlipayController extends BaseController{
 			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "支付宝手机wap支付", total_fee, sysAlipayConfig.getPid());
 			payReqData.setPay_channel(pay_channel);
 			payReqData.setTerminal_unique_no(terminal_unique_no);
-			payReqData.setMerchant_num(merchant_num);
+			payReqData.setMerchant_num(sysAlipayConfig.getPid());
 			
 			alipayWapService.pay(payReqData);
 		} catch (Exception e) {
@@ -354,7 +354,7 @@ public class AlipayController extends BaseController{
 			AlipayQueryReqData alipayQueryReqData = new AlipayQueryReqData(trace_num, sysAlipayConfig.getPid());
 			alipayQueryReqData.setPay_channel(pay_channel);
 			alipayQueryReqData.setTerminal_unique_no(terminal_unique_no);
-			alipayQueryReqData.setMerchant_num(merchant_num);
+			alipayQueryReqData.setMerchant_num(sysAlipayConfig.getPid());
 			
 			payMsg = alipayService.query(alipayQueryReqData,sysAlipayConfig);
 		} catch (Exception e) {
@@ -421,7 +421,7 @@ public class AlipayController extends BaseController{
 					refund_amount);
 			alipayRefundReqData.setPay_channel(pay_channel);
 			alipayRefundReqData.setTerminal_unique_no(terminal_unique_no);
-			alipayRefundReqData.setMerchant_num(merchant_num);
+			alipayRefundReqData.setMerchant_num(sysAlipayConfig.getPid());
 			
 			payMsg = alipayService.refund(alipayRefundReqData,sysTransaction);
 		} catch (Exception e) {

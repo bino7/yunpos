@@ -34,10 +34,9 @@ public class SysWechatConfigService{
 		return sysWechatConfigMapper.findByMchId(mchId);
 	}
 
+
 	public SysWechatConfigWithBLOBs findByMerchantNo(String merchantNo) {
 		return sysWechatConfigMapper.findByMerchantNo(merchantNo);
 	}
-
-	
 
 }

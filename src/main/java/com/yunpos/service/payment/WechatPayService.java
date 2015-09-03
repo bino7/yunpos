@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.yunpos.model.SysTransaction;
+import com.yunpos.model.SysWechatConfig;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.PayResData;
 import com.yunpos.payment.QueryResData;
@@ -78,7 +79,7 @@ public class WechatPayService {
 	 * @param param
 	 * @return
 	 */
-	public Message scanPay(ScanPayReqData scanPayReqData) throws Exception {
+	public Message scanPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -122,7 +123,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -451,7 +452,7 @@ public class WechatPayService {
 	 * @param scanCodePayReqData
 	 * @return
 	 */
-	public Message unifiedOrder(ScanCodePayReqData scanCodePayReqData) {
+	public Message unifiedOrder(ScanCodePayReqData scanCodePayReqData,SysWechatConfigWithBLOBs sysWechatConfig) {
 		log.info("支付宝扫码统一下单请求参数:" + scanCodePayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -496,7 +497,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",

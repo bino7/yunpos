@@ -149,7 +149,7 @@ public class AlipayController extends BaseController{
 					"BARCODE_PAY_OFFLINE", total_fee, dynamic_id,extend_params);
 			payReqData.setPay_channel(pay_channel);
 			payReqData.setTerminal_unique_no(terminal_unique_no);
-			payReqData.setMerchant_num(merchant_num);
+			payReqData.setMerchant_num(sysAlipayConfig.getPid());
 			
 			payMsg = alipayService.pay(payReqData,sysAlipayConfig);
 		} catch (Exception e) {

@@ -140,7 +140,7 @@ public class WchatpayController {
 			// 支付请求
 			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "微信条码支付测试", "测试附件", orderNo, totalFee,
 					terminal_unique_no, "192.168.0.116", "条码支付", sysWechatConfig);
-			payMsg = wechatPayService.scanPay(scanPayReqData);
+			payMsg = wechatPayService.scanPay(scanPayReqData,sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -220,7 +220,7 @@ public class WchatpayController {
 			// 支付请求
 			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData(body, orderNo, totalFee, terminal_unique_no,
 					"192.168.0.116", goodsTag, attach, sysWechatConfig);
-			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData);
+			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData,sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);

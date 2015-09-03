@@ -65,7 +65,7 @@ public class AlipayNotify {
      * @param params 通知返回来的参数数组
      * @return 验证结果
      */
-    public static boolean verify(Map<String, String> params,Map<String,Object> payConfig) {
+    public static boolean verify(Map<String, String> params,String key) {
 
         //判断responsetTxt是否为true，isSign是否为true
         //responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
@@ -77,7 +77,7 @@ public class AlipayNotify {
 		}
 	    String sign = "";
 	    if(params.get("sign") != null) {sign = params.get("sign");}
-	    boolean isSign = getSignVeryfy(params, sign,payConfig);
+	    boolean isSign = getSignVeryfy(params, sign,key);
 
         //写日志记录（若要调试，请取消下面两行注释）
         //String sWord = "responseTxt=" + responseTxt + "\n isSign=" + isSign + "\n 返回回来的参数：" + AlipayCore.createLinkString(params);
@@ -115,7 +115,7 @@ public class AlipayNotify {
      * @param sign 比对的签名结果
      * @return 生成的签名结果
      */
-	private static boolean getSignVeryfy(Map<String, String> Params, String sign,Map<String,Object> payConfig) {
+	private static boolean getSignVeryfy(Map<String, String> Params, String sign,String key) {
     	//过滤空值、sign与sign_type参数
     	Map<String, String> sParaNew = AlipayCore.paraFilter(Params);
         //获取待签名字符串
@@ -123,7 +123,7 @@ public class AlipayNotify {
         //获得签名验证结果
         boolean isSign = false;
         if(AlipayConfig.sign_type.equals("MD5") ) {
-        	isSign = MD5.verify(preSignStr, sign, (String)payConfig.get("key"), AlipayConfig.input_charset);
+        	isSign = MD5.verify(preSignStr, sign, key, AlipayConfig.input_charset);
         }
         return isSign;
     }

@@ -425,15 +425,15 @@ public class WchatpayController {
 				params.put(name, valueStr);
 			}
 
-			log.info("支付宝异步通知参数：", params);
+			log.info("支付宝异步通知参数：", params.toString());
 			// 商户网站唯一订单号
 			String out_trade_no = request.getParameter("out_trade_no");
 			SysTransaction sysTransaction = sysTransactionService.findByTransNum(out_trade_no);
-			SysWechatConfigWithBLOBs sysAlipayConfig = sysWechatConfigService
+			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService
 					.findByMerchantNo(sysTransaction.getSerialNo());
 			// 交易状态
 			String trade_status = request.getParameter("trade_status");
-			if (AlipayNotify.verify(params, sysAlipayConfig.toMap())) {// 验证成功
+			if (AlipayNotify.verify(params, sysWechatConfig.getAppKey())) {// 验证成功
 				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
 					wechatPayService.scanNotify(params, true, "");
 				} else {

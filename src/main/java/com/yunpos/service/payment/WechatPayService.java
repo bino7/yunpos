@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.yunpos.model.SysTransaction;
-import com.yunpos.model.SysWechatConfig;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.PayResData;
 import com.yunpos.payment.QueryResData;
@@ -83,7 +82,7 @@ public class WechatPayService {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_API, scanPayReqData);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
@@ -164,7 +163,7 @@ public class WechatPayService {
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchantNo);
 			
 			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", outTradeNo);
-			HttpsRequest serviceRequest = new HttpsRequest();
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_QUERY_API,
 					scanPayQueryReqData);
 			log.info("支付订单查询API返回的数据如下：" + payQueryServiceResponseString);
@@ -221,7 +220,7 @@ public class WechatPayService {
 		try {
 			// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest refundService = new HttpsRequest();
+			HttpsRequest refundService = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String refundServiceResponseString = refundService.sendPost(WechatPayConfig.REFUND_API, refundReqData);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
@@ -301,7 +300,7 @@ public class WechatPayService {
 		try {
 			// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String refundQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.REFUND_QUERY_API,
 					refundQueryReqData);
 			long costTimeEnd = System.currentTimeMillis();
@@ -456,7 +455,7 @@ public class WechatPayService {
 		log.info("支付宝扫码统一下单请求参数:" + scanCodePayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.scan_unifiedorder_api,
 					scanCodePayReqData);
 			long costTimeEnd = System.currentTimeMillis();
@@ -530,11 +529,13 @@ public class WechatPayService {
 	 * @param closeOrderReqData
 	 * @return
 	 */
-	public Message closeOrder(CloseOrderReqData closeOrderReqData) {
+	public Message closeOrder(CloseOrderReqData closeOrderReqData,SysWechatConfigWithBLOBs sysWechatConfig) {
 		log.info("支付宝扫码统一下单请求参数:" + closeOrderReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			
+			
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.CLOSE_ORDER_API,
 					closeOrderReqData);
 			long costTimeEnd = System.currentTimeMillis();

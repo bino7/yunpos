@@ -16,7 +16,7 @@ public class AESTest {
 	@Test
 	public void decrypt() {
 		String str = "R4EOAXfmd1pNy2dQOp8q6T07fX/kmOxpN3f+RON/kFvYIBjisOZXNRz0Sg58cUm+";
-		String str2 = "R4EOAXfmd1pNy2dQOp8q6T07fX/kmOxpN3f+RON/kFvYIBjisOZXNRz0Sg58cUm+";
+		String str2 = "YUvmw8H1ud3WPbPkFKXltw==";
 	
 		
 		System.out.println(AESUtils.decrypt(str2));

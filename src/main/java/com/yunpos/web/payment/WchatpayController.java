@@ -249,10 +249,13 @@ public class WchatpayController {
 		}
 		Message payMsg = null;
 		try {
-
+			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
+			if (sysWechatConfig == null) {
+				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+			}
 			// 支付请求
-			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, out_trade_no);
-			payMsg = wechatPayService.closeOrder(closeOrderReqData);
+			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, out_trade_no,sysWechatConfig);
+			payMsg = wechatPayService.closeOrder(closeOrderReqData,sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);

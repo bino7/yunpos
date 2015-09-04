@@ -2,6 +2,7 @@ package com.yunpos.service.payment;
 
 import static java.lang.Thread.sleep;
 
+import java.io.File;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -78,10 +79,12 @@ public class WechatPayService {
 	 * @param param
 	 * @return
 	 */
-	public Message scanPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
+	public Message barPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
+			File file = new File(sysWechatConfig.getCertLocalPath());
+			log.info("###############file exits="+file.exists()+"  password="+sysWechatConfig.getCertPassword());
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_API, scanPayReqData);
 			long costTimeEnd = System.currentTimeMillis();

@@ -138,9 +138,9 @@ public class WchatpayController {
 			// 调用支付接口发起支付请求
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
 			// 支付请求
-			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "微信条码支付测试", "测试附件", orderNo, totalFee,
-					terminal_unique_no, "192.168.0.116", "条码支付", sysWechatConfig);
-			payMsg = wechatPayService.scanPay(scanPayReqData,sysWechatConfig);
+			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data", orderNo, totalFee,
+					terminal_unique_no, "192.168.0.116", "bar pay", sysWechatConfig);
+			payMsg = wechatPayService.barPay(scanPayReqData,sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);

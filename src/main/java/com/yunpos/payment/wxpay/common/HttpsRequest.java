@@ -72,9 +72,11 @@ public class HttpsRequest{
     
 
     private void init(String certLocalPath,String password) throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
-
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        FileInputStream instream = new FileInputStream(new File(certLocalPath));//加载本地的证书进行https加密传输
+        File file = new File(certLocalPath);
+        log.i("####################File EXISTS="+file.exists());
+        FileInputStream instream  = new FileInputStream(file);//加载本地的证书进行https加密传输
+       
         try {
             keyStore.load(instream, password.toCharArray());//设置证书密码
         } catch (CertificateException e) {

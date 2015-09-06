@@ -413,9 +413,7 @@ public class WchatpayController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/pay/wechatpay/scan/notify")
 	public void scanNotify(HttpServletRequest request, HttpServletResponse response) {
-		log.info("收到支付宝支付异步通知");
-		PageDate pageDate  = new PageDate(request);
-		
+		log.info("receive wechatpay notify");
 		try {
 			PrintWriter writer = response.getWriter();
 			// 获取支付宝POST过来反馈信息
@@ -428,8 +426,14 @@ public class WchatpayController {
 				for (int i = 0; i < values.length; i++) {
 					valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
 				}
+				System.out.println("#####"+name+":"+valueStr);
 				params.put(name, valueStr);
 			}
+			
+			log.info("return_code:"+request.getParameter("return_code")+"|return_msg:"+request.getParameter("return_msg"));
+			log.info("result_code:"+request.getParameter("result_code")+"|err_code:"+request.getParameter("err_code")+"|err_code_des:"+request.getParameter("err_code_des"));
+			
+			
 			if(params.isEmpty()){
 				log.error("scan notify receive data is empty");
 			}

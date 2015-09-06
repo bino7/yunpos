@@ -1,7 +1,11 @@
 package com.yunpos.web.payment;
 
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysTransaction;
@@ -406,51 +411,50 @@ public class WchatpayController {
 	public void scanNotify(HttpServletRequest request, HttpServletResponse response) {
 		log.info("receive wechatpay notify");
 		try {
-			//PrintWriter writer = response.getWriter();
+			PrintWriter writer = response.getWriter();
 			log.info("######"+request.getParameterMap().toString());
-			
 			// 获取支付宝POST过来反馈信息
-//			Map<String, String> params = new HashMap<String, String>();
-//			log.info("getRequestURL:" + request.getRequestURL().toString());
-//			Map requestParams = request.getParameterMap();
-//			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-//				String name = (String) iter.next();
-//				String[] values = (String[]) requestParams.get(name);
-//				String valueStr = "";
-//				for (int i = 0; i < values.length; i++) {
-//					valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
-//				}
-//				System.out.println("#####"+name+":"+valueStr);
-//				params.put(name, valueStr);
-//			}
-//			
-//			log.info("return_code:"+request.getParameter("return_code")+"|return_msg:"+request.getParameter("return_msg"));
-//			log.info("result_code:"+request.getParameter("result_code")+"|err_code:"+request.getParameter("err_code")+"|err_code_des:"+request.getParameter("err_code_des"));
-//			
+			Map<String, String> params = new HashMap<String, String>();
+			log.info("getRequestURL:" + request.getRequestURL().toString());
+			Map requestParams = request.getParameterMap();
+			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+				String name = (String) iter.next();
+				String[] values = (String[]) requestParams.get(name);
+				String valueStr = "";
+				for (int i = 0; i < values.length; i++) {
+					valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
+				}
+				System.out.println("#####"+name+":"+valueStr);
+				params.put(name, valueStr);
+			}
 			
-//			if(params.isEmpty()){
-//				log.error("scan notify receive data is empty");
-//			}
-//			
-//			log.info("支付宝异步通知参数：", params.toString());
-//			// 商户网站唯一订单号
-//			SysTransaction sysTransaction = sysTransactionService.findByTransNum(params.get("out_trade_no"));
-//			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysTransaction.getSerialNo());
-//			// 交易状态
-//			String trade_status = request.getParameter("trade_status");
-//			if (AlipayNotify.verify(params, sysWechatConfig.getAppKey())) {// 验证成功
-//				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
-//					wechatPayService.scanNotify(params, true, "");
-//				} else {
-//					wechatPayService.scanNotify(params, false, "TRADE_CLOSED");
-//				}
-//				writer.write("success");
-//				writer.flush();
-//			} else {// 验证失败
-//				log.info("支付宝异步通知请求验证失败...");
-//				writer.write("fail");
-//				writer.flush();
-//			}
+			log.info("return_code:"+request.getParameter("return_code")+"|return_msg:"+request.getParameter("return_msg"));
+			log.info("result_code:"+request.getParameter("result_code")+"|err_code:"+request.getParameter("err_code")+"|err_code_des:"+request.getParameter("err_code_des"));
+			
+			
+			if(params.isEmpty()){
+				log.error("scan notify receive data is empty");
+			}
+			
+			log.info("支付宝异步通知参数：", params.toString());
+			// 商户网站唯一订单号
+/*			SysTransaction sysTransaction = sysTransactionService.findByTransNum(params.get("out_trade_no"));
+			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysTransaction.getSerialNo());*/
+			// 交易状态
+			String trade_status = request.getParameter("trade_status");
+	
+				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
+					wechatPayService.scanNotify(params, true, "");
+				} else {
+					wechatPayService.scanNotify(params, false, "TRADE_CLOSED");
+				}
+				writer.write("success");
+				writer.flush();
+			/*} else {// 验证失败
+				log.info("支付宝异步通知请求验证失败...");
+				writer.write("fail");
+				writer.flush();
+			}*/
 		} catch (Exception e) {
 			log.error("处理支付宝异步通知异常", e);
 		}

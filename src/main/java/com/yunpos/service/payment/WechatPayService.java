@@ -464,21 +464,21 @@ public class WechatPayService {
 
 			Map<String, String> responseXml = XMLUtil.parse(payServiceResponseString);
 			// 异步发送统计请求
-			ReportReqData reportReqData = new ReportReqData(responseXml.get("device_info"),
-					WechatPayConfig.scan_unifiedorder_api, (int) (totalTimeCost), // 本次请求耗时
-					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
-					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
-					responseXml.get("spbill_create_ip"),sysWechatConfig);
-			long timeAfterReport;
-			if (WechatPayConfig.useThreadToDoReport) {
-				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
-				timeAfterReport = System.currentTimeMillis();
-				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
-			} else {
-				ReportService.request(reportReqData,sysWechatConfig);
-				timeAfterReport = System.currentTimeMillis();
-				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
-			}
+//			ReportReqData reportReqData = new ReportReqData(responseXml.get("device_info"),
+//					WechatPayConfig.scan_unifiedorder_api, (int) (totalTimeCost), // 本次请求耗时
+//					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
+//					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
+//					responseXml.get("spbill_create_ip"),sysWechatConfig);
+//			long timeAfterReport;
+//			if (WechatPayConfig.useThreadToDoReport) {
+//				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
+//				timeAfterReport = System.currentTimeMillis();
+//				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
+//			} else {
+//				ReportService.request(reportReqData,sysWechatConfig);
+//				timeAfterReport = System.currentTimeMillis();
+//				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
+//			}
 
 			// 返回业务处理
 			if (responseXml == null || Strings.isNullOrEmpty(responseXml.get("return_code"))) {

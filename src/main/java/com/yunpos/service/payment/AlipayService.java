@@ -66,6 +66,9 @@ public class AlipayService {
 			Map<String,String> payMap = new HashMap<>();
 			payMap.put("key", sysAlipayConfig.getKey());
 			String responseXml = AlipaySubmit.buildRequest("", "", payReqData.toMap(),payMap);
+			if(Strings.isNullOrEmpty(responseXml)){
+				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
+			}
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());
@@ -101,6 +104,9 @@ public class AlipayService {
 			Map<String,String> payMap = new HashMap<>();
 			payMap.put("key", sysAlipayConfig.getKey());
 			String responseXml = AlipaySubmit.buildRequest("", "", alipayQueryReqData.toMap(),payMap);
+			if(Strings.isNullOrEmpty(responseXml)){
+				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
+			}
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());
@@ -138,6 +144,9 @@ public class AlipayService {
 			Map<String,String> payMap = new HashMap<>();
 			payMap.put("key", sysAlipayConfig.getKey());
 			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap());
+			if(Strings.isNullOrEmpty(responseXml)){
+				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
+			}
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());
@@ -176,6 +185,9 @@ public class AlipayService {
 			Map<String,String> payMap = new HashMap<>();
 			payMap.put("key", sysAlipayConfig.getKey());
 			String responseXml = AlipaySubmit.buildRequest("", "", alipayPrecreateReqData.toMap(),payMap);
+			if(Strings.isNullOrEmpty(responseXml)){
+				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
+			}
 			Map<String, String> result = new HashMap<String, String>();
 			XMLUtil.parse(responseXml, result);
 			log.info("同步返回结果：" + result.toString());

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.yunpos.model.SysWechatConfigWithBLOBs;
-import com.yunpos.payment.wxpay.common.Configure;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
+import com.yunpos.payment.wxpay.config.WechatPayConfig;
 import com.yunpos.utils.DateUtil;
 
 /**
@@ -46,7 +46,7 @@ public class ScanPayReqData {
      */
     public ScanPayReqData(String authCode,String body,String attach,String outTradeNo,int totalFee,String deviceInfo,String spBillCreateIP,String goodsTag,SysWechatConfigWithBLOBs sysWechatConfig){
 
-        setSdk_version(Configure.getSdkVersion());
+        setSdk_version(WechatPayConfig.sdkVersion);
 
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(sysWechatConfig.getAppId());

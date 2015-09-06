@@ -1,6 +1,6 @@
 package com.yunpos.payment.wxpay.service;
 
-import com.yunpos.payment.wxpay.common.Configure;
+import com.yunpos.payment.wxpay.config.WechatPayConfig;
 import com.yunpos.payment.wxpay.protocol.downloadbill_protocol.DownloadBillReqData;
 
 /**
@@ -11,7 +11,7 @@ import com.yunpos.payment.wxpay.protocol.downloadbill_protocol.DownloadBillReqDa
 public class DownloadBillService extends BaseService{
 
     public DownloadBillService() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        super(Configure.DOWNLOAD_BILL_API);
+        super(WechatPayConfig.DOWNLOAD_BILL_API);
     }
 
     //ALL，返回当日所有订单信息，默认值

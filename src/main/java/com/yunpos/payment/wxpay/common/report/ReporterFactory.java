@@ -1,5 +1,6 @@
 package com.yunpos.payment.wxpay.common.report;
 
+import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.report.protocol.ReportReqData;
 
 /**
@@ -14,8 +15,8 @@ public class ReporterFactory {
      * @param reportReqData 这个数据对象里面包含了API要求提交的各种数据字段
      * @return 返回一个Reporter
      */
-    public static Reporter getReporter(ReportReqData reportReqData){
-        return new Reporter(reportReqData);
+    public static Reporter getReporter(ReportReqData reportReqData,SysWechatConfigWithBLOBs sysWechatConfig){
+        return new Reporter(reportReqData,sysWechatConfig);
     }
 
 }

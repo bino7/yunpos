@@ -1,5 +1,6 @@
 package com.yunpos.payment.wxpay.common.report;
 
+import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.report.protocol.ReportReqData;
 import com.yunpos.payment.wxpay.common.report.service.ReportService;
 
@@ -18,6 +19,10 @@ public class Reporter {
      * 请求统计上报API
      * @param reportReqData 这个数据对象里面包含了API要求提交的各种数据字段
      */
+    public Reporter(ReportReqData reportReqData,SysWechatConfigWithBLOBs sysWechatConfig){
+        rs = new ReportService(reportReqData,sysWechatConfig);
+    }
+    
     public Reporter(ReportReqData reportReqData){
         rs = new ReportService(reportReqData);
     }

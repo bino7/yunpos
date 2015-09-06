@@ -2,6 +2,7 @@ package com.yunpos.web.payment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -137,9 +138,10 @@ public class WchatpayController {
 
 			// 调用支付接口发起支付请求
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
+			String ip = InetAddress.getLocalHost().getHostAddress();
 			// 支付请求
 			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data", orderNo, totalFee,
-					terminal_unique_no, "192.168.0.116", "bar pay", sysWechatConfig);
+					terminal_unique_no, ip, "bar pay", sysWechatConfig);
 			payMsg = wechatPayService.barPay(scanPayReqData,sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
@@ -214,12 +216,10 @@ public class WchatpayController {
 
 			// 调用支付接口发起支付请求
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
-			String goodsTag = "微信扫码支付";
-			String body = "微信扫码支付测试";
-			String attach = "附加数据";
+			String ip = InetAddress.getLocalHost().getHostAddress();
 			// 支付请求
-			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData(body, orderNo, totalFee, terminal_unique_no,
-					"192.168.0.116", goodsTag, attach, sysWechatConfig);
+			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData("wechat pay", orderNo, totalFee, terminal_unique_no,
+					ip, "wechat pay", "wechat pay test", sysWechatConfig);
 			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData,sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);

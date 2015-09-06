@@ -1,6 +1,6 @@
 package com.yunpos.payment.wxpay.service;
 
-import com.yunpos.payment.wxpay.common.Configure;
+import com.yunpos.payment.wxpay.config.WechatPayConfig;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
 
 /**
@@ -11,7 +11,7 @@ import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
 public class ScanPayService extends BaseService{
 
     public ScanPayService() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        super(Configure.PAY_API);
+        super(WechatPayConfig.PAY_API);
     }
 
     /**

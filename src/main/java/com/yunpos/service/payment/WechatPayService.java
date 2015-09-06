@@ -1,8 +1,5 @@
 package com.yunpos.service.payment;
 
-import static java.lang.Thread.sleep;
-
-import java.io.File;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,10 +16,8 @@ import com.yunpos.payment.QueryResData;
 import com.yunpos.payment.RefundQueryResData;
 import com.yunpos.payment.RefundResData;
 import com.yunpos.payment.RefundResData.PayChannel;
-import com.yunpos.payment.wxpay.common.Configure;
 import com.yunpos.payment.wxpay.common.HttpsRequest;
 import com.yunpos.payment.wxpay.common.Signature;
-import com.yunpos.payment.wxpay.common.Util;
 import com.yunpos.payment.wxpay.common.report.ReporterFactory;
 import com.yunpos.payment.wxpay.common.report.protocol.ReportReqData;
 import com.yunpos.payment.wxpay.common.report.service.ReportService;
@@ -34,8 +29,6 @@ import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
 import com.yunpos.payment.wxpay.protocol.pay_query_protocol.ScanPayQueryReqData;
 import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
 import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
-import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
-import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseResData;
 import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.SysWechatConfigService;
 import com.yunpos.utils.Message;
@@ -83,10 +76,8 @@ public class WechatPayService {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			File file = new File(sysWechatConfig.getCertLocalPath());
-			log.info("###############file exits="+file.exists()+"  password="+sysWechatConfig.getCertPassword());
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
-			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_API, scanPayReqData);
+			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_API, scanPayReqData,sysWechatConfig);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
 			log.info("api请求总耗时：" + totalTimeCost + "ms");
@@ -94,18 +85,18 @@ public class WechatPayService {
 
 			Map<String, String> responseXml = XMLUtil.parse(payServiceResponseString);
 			// 异步发送统计请求
-			ReportReqData reportReqData = new ReportReqData(scanPayReqData.getDevice_info(), Configure.PAY_API,
+			ReportReqData reportReqData = new ReportReqData(scanPayReqData.getDevice_info(), WechatPayConfig.PAY_API,
 					(int) (totalTimeCost), // 本次请求耗时
 					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
 					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
-					responseXml.get("spbill_create_ip"));
+					responseXml.get("spbill_create_ip"),sysWechatConfig);
 			long timeAfterReport;
-			if (Configure.isUseThreadToDoReport()) {
-				ReporterFactory.getReporter(reportReqData).run();
+			if (WechatPayConfig.useThreadToDoReport) {
+				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			} else {
-				ReportService.request(reportReqData);
+				ReportService.request(reportReqData,sysWechatConfig);
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			}
@@ -165,10 +156,10 @@ public class WechatPayService {
 		try {
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchantNo);
 			
-			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", outTradeNo);
+			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", outTradeNo,sysWechatConfig);
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_QUERY_API,
-					scanPayQueryReqData);
+					scanPayQueryReqData,sysWechatConfig);
 			log.info("支付订单查询API返回的数据如下：" + payQueryServiceResponseString);
 			Map<String, String> responseXml = XMLUtil.parse(payQueryServiceResponseString);
 
@@ -224,7 +215,7 @@ public class WechatPayService {
 			// 建立请求
 			long costTimeStart = System.currentTimeMillis();
 			HttpsRequest refundService = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
-			String refundServiceResponseString = refundService.sendPost(WechatPayConfig.REFUND_API, refundReqData);
+			String refundServiceResponseString = refundService.sendPost(WechatPayConfig.REFUND_API, refundReqData,sysWechatConfig);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
 			log.info("api请求总耗时：" + totalTimeCost + "ms");
@@ -236,14 +227,14 @@ public class WechatPayService {
 					(int) (totalTimeCost), // 本次请求耗时
 					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
 					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
-					responseXml.get("spbill_create_ip"));
+					responseXml.get("spbill_create_ip"),sysWechatConfig);
 			long timeAfterReport;
-			if (Configure.isUseThreadToDoReport()) {
-				ReporterFactory.getReporter(reportReqData).run();
+			if (WechatPayConfig.useThreadToDoReport) {
+				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			} else {
-				ReportService.request(reportReqData);
+				ReportService.request(reportReqData,sysWechatConfig);
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			}
@@ -305,7 +296,7 @@ public class WechatPayService {
 			long costTimeStart = System.currentTimeMillis();
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String refundQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.REFUND_QUERY_API,
-					refundQueryReqData);
+					refundQueryReqData,sysWechatConfig);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
 			log.info("api请求总耗时：" + totalTimeCost + "ms" + "|退款查询API返回的数据如下:" + refundQueryServiceResponseString);
@@ -316,14 +307,14 @@ public class WechatPayService {
 					WechatPayConfig.REFUND_QUERY_API, (int) (totalTimeCost), // 本次请求耗时
 					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
 					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
-					responseXml.get("spbill_create_ip"));
+					responseXml.get("spbill_create_ip"),sysWechatConfig);
 			long timeAfterReport;
-			if (Configure.isUseThreadToDoReport()) {
-				ReporterFactory.getReporter(reportReqData).run();
+			if (WechatPayConfig.useThreadToDoReport) {
+				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			} else {
-				ReportService.request(reportReqData);
+				ReportService.request(reportReqData,sysWechatConfig);
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			}
@@ -376,56 +367,56 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean doOneReverse(String outTradeNo) throws Exception {
-
-		sleep(waitingTimeBeforeReverseServiceInvoked);// 等待一定时间再进行查询，避免状态还没来得及被更新
-
-		String reverseResponseString;
-
-		ReverseReqData reverseReqData = new ReverseReqData("", outTradeNo);
-		HttpsRequest serviceRequest = new HttpsRequest();
-		reverseResponseString = serviceRequest.sendPost(WechatPayConfig.REVERSE_API, reverseReqData);
-
-		log.info("撤销API返回的数据如下：");
-		log.info(reverseResponseString);
-		// 将从API返回的XML数据映射到Java对象
-		ReverseResData reverseResData = (ReverseResData) Util.getObjectFromXML(reverseResponseString,
-				ReverseResData.class);
-		if (reverseResData == null) {
-			log.info("支付订单撤销请求逻辑错误，请仔细检测传过去的每一个参数是否合法");
-			return false;
-		}
-		if (reverseResData.getReturn_code().equals("FAIL")) {
-			// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
-			log.info("支付订单撤销API系统返回失败，失败信息为：" + reverseResData.getReturn_msg());
-			return false;
-		} else {
-
-			if (!Signature.checkIsSignValidFromResponseString(reverseResponseString)) {
-				log.info("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
-				// resultListener.onFailByReverseSignInvalid(reverseResData);
-				needRecallReverse = false;// 数据被窜改了，不需要再重试
-				return false;
-			}
-
-			if (reverseResData.getResult_code().equals("FAIL")) {
-				log.info("撤销出错，错误码：" + reverseResData.getErr_code() + "     错误信息：" + reverseResData.getErr_code_des());
-				if (reverseResData.getRecall().equals("Y")) {
-					// 表示需要重试
-					needRecallReverse = true;
-					return false;
-				} else {
-					// 表示不需要重试，也可以当作是撤销成功
-					needRecallReverse = false;
-					return true;
-				}
-			} else {
-				// 查询成功，打印交易状态
-				log.info("支付订单撤销成功");
-				return true;
-			}
-		}
-	}
+//	private boolean doOneReverse(String outTradeNo) throws Exception {
+//
+//		sleep(waitingTimeBeforeReverseServiceInvoked);// 等待一定时间再进行查询，避免状态还没来得及被更新
+//
+//		String reverseResponseString;
+//
+//		ReverseReqData reverseReqData = new ReverseReqData("", outTradeNo);
+//		HttpsRequest serviceRequest = new HttpsRequest();
+//		reverseResponseString = serviceRequest.sendPost(WechatPayConfig.REVERSE_API, reverseReqData);
+//
+//		log.info("撤销API返回的数据如下：");
+//		log.info(reverseResponseString);
+//		// 将从API返回的XML数据映射到Java对象
+//		ReverseResData reverseResData = (ReverseResData) Util.getObjectFromXML(reverseResponseString,
+//				ReverseResData.class);
+//		if (reverseResData == null) {
+//			log.info("支付订单撤销请求逻辑错误，请仔细检测传过去的每一个参数是否合法");
+//			return false;
+//		}
+//		if (reverseResData.getReturn_code().equals("FAIL")) {
+//			// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
+//			log.info("支付订单撤销API系统返回失败，失败信息为：" + reverseResData.getReturn_msg());
+//			return false;
+//		} else {
+//
+//			if (!Signature.checkIsSignValidFromResponseString(reverseResponseString)) {
+//				log.info("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
+//				// resultListener.onFailByReverseSignInvalid(reverseResData);
+//				needRecallReverse = false;// 数据被窜改了，不需要再重试
+//				return false;
+//			}
+//
+//			if (reverseResData.getResult_code().equals("FAIL")) {
+//				log.info("撤销出错，错误码：" + reverseResData.getErr_code() + "     错误信息：" + reverseResData.getErr_code_des());
+//				if (reverseResData.getRecall().equals("Y")) {
+//					// 表示需要重试
+//					needRecallReverse = true;
+//					return false;
+//				} else {
+//					// 表示不需要重试，也可以当作是撤销成功
+//					needRecallReverse = false;
+//					return true;
+//				}
+//			} else {
+//				// 查询成功，打印交易状态
+//				log.info("支付订单撤销成功");
+//				return true;
+//			}
+//		}
+//	}
 
 	/**
 	 * 由于有的时候是因为服务延时，所以需要商户每隔一段时间（建议5秒）后再进行查询操作，
@@ -437,16 +428,16 @@ public class WechatPayService {
 	 *            商户需要自己监听被扫支付业务逻辑可能触发的各种分支事件，并做好合理的响应处理
 	 * @throws InterruptedException
 	 */
-	private void doReverseLoop(String outTradeNo) throws Exception {
-		// 初始化这个标记
-		needRecallReverse = true;
-		// 进行循环撤销，直到撤销成功，或是API返回recall字段为"Y"
-		while (needRecallReverse) {
-			if (doOneReverse(outTradeNo)) {
-				return;
-			}
-		}
-	}
+//	private void doReverseLoop(String outTradeNo) throws Exception {
+//		// 初始化这个标记
+//		needRecallReverse = true;
+//		// 进行循环撤销，直到撤销成功，或是API返回recall字段为"Y"
+//		while (needRecallReverse) {
+//			if (doOneReverse(outTradeNo)) {
+//				return;
+//			}
+//		}
+//	}
 
 	/**
 	 * 微信扫码支付统一下单
@@ -460,7 +451,7 @@ public class WechatPayService {
 			long costTimeStart = System.currentTimeMillis();
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.scan_unifiedorder_api,
-					scanCodePayReqData);
+					scanCodePayReqData,sysWechatConfig);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
 			log.info("api请求总耗时：" + totalTimeCost + "ms");
@@ -472,14 +463,14 @@ public class WechatPayService {
 					WechatPayConfig.scan_unifiedorder_api, (int) (totalTimeCost), // 本次请求耗时
 					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
 					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
-					responseXml.get("spbill_create_ip"));
+					responseXml.get("spbill_create_ip"),sysWechatConfig);
 			long timeAfterReport;
-			if (Configure.isUseThreadToDoReport()) {
-				ReporterFactory.getReporter(reportReqData).run();
+			if (WechatPayConfig.useThreadToDoReport) {
+				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			} else {
-				ReportService.request(reportReqData);
+				ReportService.request(reportReqData,sysWechatConfig);
 				timeAfterReport = System.currentTimeMillis();
 				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
 			}
@@ -540,7 +531,7 @@ public class WechatPayService {
 			
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.CLOSE_ORDER_API,
-					closeOrderReqData);
+					closeOrderReqData,sysWechatConfig);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
 			log.info("api请求总耗时：" + totalTimeCost + "ms");
@@ -563,7 +554,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",

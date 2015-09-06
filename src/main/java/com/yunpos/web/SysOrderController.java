@@ -74,4 +74,5 @@ public class SysOrderController {
 	public void delete(@PathVariable("id") int id) {
 		sysOrderService.delete(id);
 	}
+
 }

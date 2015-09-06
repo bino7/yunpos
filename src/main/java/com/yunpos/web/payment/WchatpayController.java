@@ -38,6 +38,7 @@ import com.yunpos.utils.IdWorker;
 import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
+import com.yunpos.utils.PageDate;
 
 /**
  * 
@@ -413,6 +414,8 @@ public class WchatpayController {
 	@RequestMapping("/pay/wechatpay/scan/notify")
 	public void scanNotify(HttpServletRequest request, HttpServletResponse response) {
 		log.info("收到支付宝支付异步通知");
+		PageDate pageDate  = new PageDate(request);
+		
 		try {
 			PrintWriter writer = response.getWriter();
 			// 获取支付宝POST过来反馈信息
@@ -427,13 +430,14 @@ public class WchatpayController {
 				}
 				params.put(name, valueStr);
 			}
-
+			if(params.isEmpty()){
+				log.error("scan notify receive data is empty");
+			}
+			
 			log.info("支付宝异步通知参数：", params.toString());
 			// 商户网站唯一订单号
-			String out_trade_no = request.getParameter("out_trade_no");
-			SysTransaction sysTransaction = sysTransactionService.findByTransNum(out_trade_no);
-			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService
-					.findByMerchantNo(sysTransaction.getSerialNo());
+			SysTransaction sysTransaction = sysTransactionService.findByTransNum(params.get("out_trade_no"));
+			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			// 交易状态
 			String trade_status = request.getParameter("trade_status");
 			if (AlipayNotify.verify(params, sysWechatConfig.getAppKey())) {// 验证成功

@@ -74,7 +74,6 @@ public class HttpsRequest{
     private void init(String certLocalPath,String password) throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         File file = new File(certLocalPath);
-        log.i("####################File EXISTS="+file.exists());
         FileInputStream instream  = new FileInputStream(file);//加载本地的证书进行https加密传输
        
         try {
@@ -89,7 +88,7 @@ public class HttpsRequest{
 
         // Trust own CA and all self-signed certs
         SSLContext sslcontext = SSLContexts.custom()
-                .loadKeyMaterial(keyStore, Configure.getCertPassword().toCharArray())
+                .loadKeyMaterial(keyStore, password.toCharArray())
                 .build();
         // Allow TLSv1 protocol only
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(

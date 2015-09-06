@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class SysOrg {
 	private Integer id;
+	
+	private Integer sequence;
 
 	private String orgNo;
 
@@ -162,5 +164,15 @@ public class SysOrg {
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
+
+	public Integer getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
+	}
+	
+	
 
 }

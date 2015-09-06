@@ -503,6 +503,7 @@ public class AlipayController extends BaseController{
 			}
 			log.info("alipay scn notify param：", params.toString());
 			
+		
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			// 交易状态

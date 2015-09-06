@@ -418,7 +418,7 @@ public class WchatpayController {
 			PrintWriter writer = response.getWriter();
 			// 获取支付宝POST过来反馈信息
 			Map<String, String> params = new HashMap<String, String>();
-			log.info("return_code:" + request.getRequestURL().toString());
+			log.info("getRequestURL:" + request.getRequestURL().toString());
 			Map requestParams = request.getParameterMap();
 			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
 				String name = (String) iter.next();

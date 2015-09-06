@@ -50,9 +50,52 @@ var jqGridNavBarOptions = {
 
 $(document).ready(function() {
 	setupGrid();
+	$("#kdtBtn").click(function(){
+		//client_id:7718b70dad904f6f3bclient_secret:05703a2a336f893f53f72d6406bce731client_name:云铺redirect_uri:http://y.o2o520.com
+       var client_id = "7718b70dad904f6f3b";
+       var response_type = "code";
+       var state = "gdylstate";     
+       var redirect_uri= "http://y.o2o520.com/index.php?g=User";
+       var serialNo = "08600719332";//商户编号
+       
+       
+       
+       var url = "https://open.koudaitong.com/oauth/authorize?client_id=" + client_id;
+       url += "&response_type=" + response_type;
+       url += "&state=" + state;
+       //url += "&redirect_uri=" + window.location;
+       url += "&redirect_uri=" + redirect_uri; 
+       //location.href = url;
+           
+       //var code = getParam("code");
+       var code= "64b72d81dba9cd27aaad6c6be1cb03c3142099ff";
+
+
+   	$.ajax({
+   		type:"GET",
+		url : $ctx+"/ajax/kdtToken",
+		async : false,
+		data: { "grant_type": "authorization_code","code":code,"redirect_uri":redirect_uri,"serialNo":serialNo},
+		success : function (data) {
+			alert(data);
+		}
+	});
+
+		
+		
+		
+		
+		
+	});
+	
 });
 
-
+function getParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}
 
 function setupGrid() {
 	var statuss = {0:"停用",1:"正常"};
@@ -213,6 +256,8 @@ function loadCompleteCallback(data) {
 	//clean the error message (#error-message is a <span> tag in the HTML page)
 	$("#error-message").html("");
 }
+
+
 
 
 

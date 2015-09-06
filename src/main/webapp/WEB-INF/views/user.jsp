@@ -10,6 +10,7 @@
 
 <body>
 	<h2 class="sub-header">用户管理</h2>
+	<button id="kdtBtn">有赞订单</button>
 	<div class="table-responsive">
 		<table id="grid"></table>
 		<div id="pager"></div>

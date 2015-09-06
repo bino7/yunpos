@@ -7,7 +7,7 @@
 <generatorConfiguration>
 	<!--数据库驱动jar -->
 	<classPathEntry
-		location="E:\yumpos\repo\mysql\mysql-connector-java\5.1.35\mysql-connector-java-5.1.35.jar" />
+		location="C:\Users\janice\.m2\repository\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar" />
 
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!--去除注释 -->
@@ -45,13 +45,27 @@
 
 		<!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等 -->
 
+		<!-- 
+		<table tableName="sys_member" domainObjectName="SysMember"
+		   enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+
+
 		<table tableName="sys_org" domainObjectName="SysOrg"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
+-->
+ <table tableName="sys_shop" domainObjectName="SysShop"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="flase" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
 
-		<!-- <table tableName="sys_member" domainObjectName="SysMember" enableCountByExample="false" 
+<!-- 
+		<table tableName="sys_member" domainObjectName="SysMember" enableCountByExample="false" 
 			enableDeleteByExample="false" enableSelectByExample="true" enableUpdateByExample="false"> 
 			<property name="useActualColumnNames" value="true" /> </table> <table tableName="sys_agentmerchant" 
 			domainObjectName="SysAgentMerchant" enableCountByExample="false" enableDeleteByExample="false" 
@@ -65,6 +79,7 @@
 			domainObjectName="SysMerchant" enableCountByExample="false" enableDeleteByExample="false" 
 			enableSelectByExample="true" enableUpdateByExample="false"> <property name="useActualColumnNames" 
 			value="true" /> </table> -->
+
 
 
 

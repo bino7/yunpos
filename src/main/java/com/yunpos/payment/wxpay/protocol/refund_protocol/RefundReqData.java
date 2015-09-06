@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.yunpos.model.SysWechatConfig;
+import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.Configure;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
@@ -56,15 +58,15 @@ public class RefundReqData {
 	 *            货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
 	 */
 	public RefundReqData(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee,
-			int refundFee, String opUserID, String refundFeeType) {
+			int refundFee, String opUserID, String refundFeeType,SysWechatConfigWithBLOBs sysWechatConfig) {
 
 		// setSdk_version(Configure.getSdkVersion());
 
 		// 微信分配的公众号ID（开通公众号之后可以获取到）
-		setAppid(Configure.getAppid());
+		setAppid(sysWechatConfig.getAppId());
 
 		// 微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-		setMch_id(Configure.getMchid());
+		setMch_id(sysWechatConfig.getMchId());
 
 		// transaction_id是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
 		// setTransaction_id(transactionID);
@@ -87,7 +89,7 @@ public class RefundReqData {
 		setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
 
 		// 根据API给的签名规则进行签名
-		String sign = Signature.getSign(toMap());
+		String sign = Signature.getSign(toMap(),sysWechatConfig.getAppKey());
 		setSign(sign);// 把签名数据设置到Sign这个属性中
 
 	}

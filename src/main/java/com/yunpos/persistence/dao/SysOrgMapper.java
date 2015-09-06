@@ -8,7 +8,7 @@ import com.yunpos.model.SysOrg;
 import com.yunpos.utils.jqgrid.GridRequest;
 
 public interface SysOrgMapper extends EntityMapper<SysOrg>{
-	@Select("select * from sys_org")
+	@Select("select * from sys_org order by sequence")
 	public List<SysOrg> findAll();
 	
 	@Select("select * from sys_org g where g.orgName=#{orgName}")

@@ -3,8 +3,6 @@ package com.yunpos.utils;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.yunpos.payment.PayResData;
-
 /**
  * 
  * 功能描述：返回消息封装类

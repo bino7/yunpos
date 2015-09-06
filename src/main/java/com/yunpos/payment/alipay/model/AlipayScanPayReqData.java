@@ -76,7 +76,7 @@ public class AlipayScanPayReqData {
 	private String merchant_num = "";
 
 	public AlipayScanPayReqData(String out_trade_no, String partner, String subject, String product_code,
-			String total_fee, String dynamic_id) {
+			String total_fee, String dynamic_id,String extend_params) {
 		// 必填选项
 		setService(AlipayConfig.service);
 		setPartner(partner);
@@ -91,6 +91,7 @@ public class AlipayScanPayReqData {
 
 		// 非必填选项
 		setNotify_url(AlipayConfig.notify_url);
+		setExtend_params(extend_params);//分润
 	}
 
 	public enum DynamicIdType {

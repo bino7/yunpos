@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yunpos.model.SysAgentMerchant;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysMerchantMapper;
@@ -35,6 +34,10 @@ public class SysMerchantService extends EntityService<SysMerchant>{
 
 	public List<SysMerchant> findAll() {
 		return sysMerchantMapper.findAll();
+	}
+
+	public SysMerchant findBySerialNo(String serialNo) {
+		return sysMerchantMapper.findBySerialNo(serialNo);
 	}
 
 }

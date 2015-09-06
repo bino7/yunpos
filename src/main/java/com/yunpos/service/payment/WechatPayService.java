@@ -2,13 +2,18 @@ package com.yunpos.service.payment;
 
 import static java.lang.Thread.sleep;
 
+import java.io.File;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import com.yunpos.model.SysTransaction;
+import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.PayResData;
 import com.yunpos.payment.QueryResData;
 import com.yunpos.payment.RefundQueryResData;
@@ -31,6 +36,8 @@ import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
 import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
 import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseResData;
+import com.yunpos.service.SysTransactionService;
+import com.yunpos.service.SysWechatConfigService;
 import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
@@ -46,6 +53,9 @@ import com.yunpos.utils.XMLUtil;
  * 
  * @author Devin_Yang 新增日期：2015年8月12日
  * @author Devin_Yang 修改日期：2015年8月12日
+ * 微信刷卡支付地址:https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=5_1
+ * 微信支付扫码支付：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1
+ * 微信支付公众号支付：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_1
  *
  */
 @Service
@@ -56,9 +66,12 @@ public class WechatPayService {
 	// 是否需要再调一次撤销，这个值由撤销API回包的recall字段决定
 	private boolean needRecallReverse = false;
 	private int waitingTimeBeforeReverseServiceInvoked = 5000;
-	//
-	// @Autowired
-	// private SysPayOrderService sysPayOrderService;
+	@Autowired
+	private SysWechatConfigService sysWechatConfigService;
+	@Autowired
+	private SysTransactionService sysTransactionService;
+
+
 
 	/**
 	 * 微信支付同步方法业务逻辑处理
@@ -66,11 +79,13 @@ public class WechatPayService {
 	 * @param param
 	 * @return
 	 */
-	public Message scanPay(ScanPayReqData scanPayReqData) throws Exception {
+	public Message barPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			File file = new File(sysWechatConfig.getCertLocalPath());
+			log.info("###############file exits="+file.exists()+"  password="+sysWechatConfig.getCertPassword());
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_API, scanPayReqData);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
@@ -110,7 +125,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -146,10 +161,12 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message query(String outTradeNo) throws Exception {
+	public Message query(String outTradeNo,String merchantNo) throws Exception {
 		try {
+			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchantNo);
+			
 			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", outTradeNo);
-			HttpsRequest serviceRequest = new HttpsRequest();
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_QUERY_API,
 					scanPayQueryReqData);
 			log.info("支付订单查询API返回的数据如下：" + payQueryServiceResponseString);
@@ -168,7 +185,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payQueryServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(payQueryServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -200,13 +217,13 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message refund(RefundReqData refundReqData) throws Exception {
+	public Message refund(RefundReqData refundReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
 		// 把请求参数打包成数组
 		log.info("支付宝条码支付请求参数:" + refundReqData.toMap().toString());
 		try {
 			// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest refundService = new HttpsRequest();
+			HttpsRequest refundService = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String refundServiceResponseString = refundService.sendPost(WechatPayConfig.REFUND_API, refundReqData);
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
@@ -247,7 +264,7 @@ public class WechatPayService {
 			} else {
 				log.info("退款API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(refundServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(refundServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("退款请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "退款请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -280,13 +297,13 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message refundQuery(RefundQueryReqData refundQueryReqData) throws Exception {
+	public Message refundQuery(RefundQueryReqData refundQueryReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
 		// 把请求参数打包成数组
 		log.info("退款查询请求参数:" + refundQueryReqData.toMap().toString());
 		try {
 			// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String refundQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.REFUND_QUERY_API,
 					refundQueryReqData);
 			long costTimeEnd = System.currentTimeMillis();
@@ -327,7 +344,7 @@ public class WechatPayService {
 			} else {
 				log.info("退款查询API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(refundQueryServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(refundQueryServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("退款查询API返回的数据签名验证失败，有可能数据被篡改了");
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "退款查询API返回的数据签名验证失败，有可能数据被篡改了",
 							null);
@@ -437,11 +454,11 @@ public class WechatPayService {
 	 * @param scanCodePayReqData
 	 * @return
 	 */
-	public Message unifiedOrder(ScanCodePayReqData scanCodePayReqData) {
+	public Message unifiedOrder(ScanCodePayReqData scanCodePayReqData,SysWechatConfigWithBLOBs sysWechatConfig) {
 		log.info("支付宝扫码统一下单请求参数:" + scanCodePayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.scan_unifiedorder_api,
 					scanCodePayReqData);
 			long costTimeEnd = System.currentTimeMillis();
@@ -482,7 +499,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString)) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -515,11 +532,13 @@ public class WechatPayService {
 	 * @param closeOrderReqData
 	 * @return
 	 */
-	public Message closeOrder(CloseOrderReqData closeOrderReqData) {
+	public Message closeOrder(CloseOrderReqData closeOrderReqData,SysWechatConfigWithBLOBs sysWechatConfig) {
 		log.info("支付宝扫码统一下单请求参数:" + closeOrderReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
-			HttpsRequest serviceRequest = new HttpsRequest();
+			
+			
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.CLOSE_ORDER_API,
 					closeOrderReqData);
 			long costTimeEnd = System.currentTimeMillis();
@@ -570,58 +589,54 @@ public class WechatPayService {
 	 * @return
 	 */
 
-	// public Map<String, Object> notifyPayment(Map<String, String> params,
-	// boolean isSuccess, String resultMsg) {
-	// Map<String, Object> returnMap = Maps.newHashMap();
-	// String orderNo = params.get("out_trade_no");
-	//
-	// if (Strings.isNullOrEmpty(orderNo)) {
-	// String msg = "无法完成支付，支付接口的回调没有订单号信息！";
-	// log.error(msg);
-	// returnMap.put(FLAG_NAME, false);
-	// returnMap.put(MSG_NAME, msg);
-	// return returnMap;
-	// }
-	//
-	// SysPayOrder sysPayOrder = sysPayOrderService.findByPayOrderNo(orderNo);
-	// if (sysPayOrder == null) {
-	// String msg = "无法完成支付，支付接口返回的订单号[" + orderNo + "]无效！";
-	// log.error(msg);
-	// returnMap.put(FLAG_NAME, false);
-	// returnMap.put(MSG_NAME, msg);
-	// return returnMap;
-	// }
-	//
-	// if (sysPayOrder.getStatus() == Byte.valueOf("1")) {
-	// String msg = "支付接口返回的订单流水[" + sysPayOrder + "]已经完成支付，无需再次处理！";
-	// log.warn(msg);
-	// returnMap.put(FLAG_NAME, true);
-	// returnMap.put(MSG_NAME, msg);
-	// return returnMap;
-	// }
-	//
-	// if (isSuccess) {
-	// sysPayOrder.setStatus(Byte.valueOf("1"));// 支付成功
-	// sysPayOrder.setNotify_time(new Date());
-	//
-	// sysPayOrderService.update(sysPayOrder);
-	//
-	// String msg = "订单[" + sysPayOrder.getPayOrderNo() + "]支付交易成功！";
-	// log.info(msg);
-	// returnMap.put(FLAG_NAME, true);
-	// returnMap.put(MSG_NAME, msg);
-	// return returnMap;
-	// } else {
-	// sysPayOrder.setStatus(Byte.valueOf("0"));// 支付失败
-	// sysPayOrder.setNotify_time(new Date());
-	// sysPayOrderService.update(sysPayOrder);
-	//
-	// String msg = "支付接口返回的订单[" + sysPayOrder.getPayOrderNo() + "]支付失败！";
-	// log.info(msg);
-	// returnMap.put(FLAG_NAME, false);
-	// returnMap.put(MSG_NAME, msg);
-	// return returnMap;
-	// }
-	// }
+	 public Map<String, Object> scanNotify(Map<String, String> params,
+	 boolean isSuccess, String resultMsg) {
+		 Map<String, Object> returnMap = Maps.newHashMap();
+			String orderNo = params.get("out_trade_no");
 
+			if (Strings.isNullOrEmpty(orderNo)) {
+				String msg = "无法完成支付，支付接口的回调没有订单号信息！";
+				log.error(msg);
+				returnMap.put(FLAG_NAME, false);
+				returnMap.put(MSG_NAME, msg);
+				return returnMap;
+			}
+
+			
+			SysTransaction  sysTransaction = sysTransactionService.findByTransNum(orderNo);
+			if (sysTransaction == null) {
+				String msg = "无法完成支付，支付接口返回的订单号[" + orderNo + "]无效！";
+				log.error(msg);
+				returnMap.put(FLAG_NAME, false);
+				returnMap.put(MSG_NAME, msg);
+				return returnMap;
+			}
+
+			if (sysTransaction.getStatus() == Byte.valueOf("2")) {
+				String msg = "支付接口返回的订单流水[" + orderNo + "]已经完成支付，无需再次处理！";
+				log.warn(msg);
+				returnMap.put(FLAG_NAME, true);
+				returnMap.put(MSG_NAME, msg);
+				return returnMap;
+			}
+
+			if (isSuccess) {
+				sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+				sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
+				sysTransactionService.update(sysTransaction);
+				String msg = "订单[" + orderNo+ "]支付交易成功！";
+				log.info(msg);
+				returnMap.put(FLAG_NAME, true);
+				returnMap.put(MSG_NAME, msg);
+				return returnMap;
+			} else {
+				sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+				sysTransactionService.update(sysTransaction);
+				String msg = "支付接口返回的订单[" + orderNo+ "]支付失败！";
+				log.info(msg);
+				returnMap.put(FLAG_NAME, false);
+				returnMap.put(MSG_NAME, msg);
+				return returnMap;
+			}
+	 }
 }

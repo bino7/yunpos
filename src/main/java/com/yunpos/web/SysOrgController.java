@@ -78,6 +78,7 @@ public class SysOrgController extends BaseController{
 			org.setExtIsLeaf(true);
 			org.setOrgParentName(parantOrg.getOrgName());
 			org.setOrgParentNo(parantOrg.getOrgNo());
+			org.setOrgParentId(parantOrg.getId());
 			
 			parantOrg.setExtIsLeaf(false);
 			sysOrgService.update(parantOrg);

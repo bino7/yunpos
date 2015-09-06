@@ -1,252 +1,239 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yunpos.persistence.dao.SysOrgMapper">
-	<resultMap id="BaseResultMap" type="com.yunpos.model.SysOrg">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="orgNo" property="orgNo" jdbcType="VARCHAR" />
-		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
-		<result column="orgParentId" property="orgParentId" jdbcType="INTEGER" />
-		<result column="orgParentName" property="orgParentName"
-			jdbcType="VARCHAR" />
-		<result column="orgParentNo" property="orgParentNo" jdbcType="VARCHAR" />
-		<result column="level" property="level" jdbcType="INTEGER" />
-		<result column="createUserId" property="createUserId" jdbcType="INTEGER" />
-		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
-		<result column="modifyUserId" property="modifyUserId" jdbcType="INTEGER" />
-		<result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
-		<result column="extLevel" property="extLevel" jdbcType="INTEGER" />
-		<result column="extIsLeaf" property="extIsLeaf" jdbcType="BIT" />
-		<result column="extLoaded" property="extLoaded" jdbcType="BIT" />
-		<result column="extExpanded" property="extExpanded" jdbcType="BIT" />
-		<result column="extParent" property="extParent" jdbcType="INTEGER" />
-	</resultMap>
-	<sql id="Base_Column_List">
-		id, orgNo, orgName, orgParentId, orgParentName,
-		orgParentNo, level,
-		createUserId,
-		createDate, modifyUserId, modifyDate,
-		extLevel, extIsLeaf, extLoaded,
-		extExpanded,
-		extParent
-	</sql>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Integer">
-		select
-		<include refid="Base_Column_List" />
-		from sys_org
-		where id = #{id,jdbcType=INTEGER}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from
-		sys_org
-		where id = #{id,jdbcType=INTEGER}
-	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysOrg" useGeneratedKeys="true" keyProperty="id">
-		insert into sys_org (
-		orgNo, orgName,
-		orgParentId, orgParentName, orgParentNo,
-		level,
-		createUserId, createDate,
-		modifyUserId, modifyDate, extLevel,
-		extIsLeaf, extLoaded, extExpanded,
-		extParent)
-		values
-		(#{orgNo,jdbcType=VARCHAR},
-		#{orgName,jdbcType=VARCHAR},
-		#{orgParentId,jdbcType=INTEGER},
-		#{orgParentName,jdbcType=VARCHAR}, #{orgParentNo,jdbcType=VARCHAR},
-		#{level,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER},
-		#{createDate,jdbcType=TIMESTAMP},
-		#{modifyUserId,jdbcType=INTEGER},
-		#{modifyDate,jdbcType=TIMESTAMP}, #{extLevel,jdbcType=INTEGER},
-		#{extIsLeaf,jdbcType=BIT}, #{extLoaded,jdbcType=BIT},
-		#{extExpanded,jdbcType=BIT},
-		#{extParent,jdbcType=INTEGER})
-	</insert>
-	<insert id="insertSelective" parameterType="com.yunpos.model.SysOrg">
-		insert into sys_org
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="orgNo != null">
-				orgNo,
-			</if>
-			<if test="orgName != null">
-				orgName,
-			</if>
-			<if test="orgParentId != null">
-				orgParentId,
-			</if>
-			<if test="orgParentName != null">
-				orgParentName,
-			</if>
-			<if test="orgParentNo != null">
-				orgParentNo,
-			</if>
-			<if test="level != null">
-				level,
-			</if>
-			<if test="createUserId != null">
-				createUserId,
-			</if>
-			<if test="createDate != null">
-				createDate,
-			</if>
-			<if test="modifyUserId != null">
-				modifyUserId,
-			</if>
-			<if test="modifyDate != null">
-				modifyDate,
-			</if>
-			<if test="extLevel != null">
-				extLevel,
-			</if>
-			<if test="extIsLeaf != null">
-				extIsLeaf,
-			</if>
-			<if test="extLoaded != null">
-				extLoaded,
-			</if>
-			<if test="extExpanded != null">
-				extExpanded,
-			</if>
-			<if test="extParent != null">
-				extParent,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=INTEGER},
-			</if>
-			<if test="orgNo != null">
-				#{orgNo,jdbcType=VARCHAR},
-			</if>
-			<if test="orgName != null">
-				#{orgName,jdbcType=VARCHAR},
-			</if>
-			<if test="orgParentId != null">
-				#{orgParentId,jdbcType=INTEGER},
-			</if>
-			<if test="orgParentName != null">
-				#{orgParentName,jdbcType=VARCHAR},
-			</if>
-			<if test="orgParentNo != null">
-				#{orgParentNo,jdbcType=VARCHAR},
-			</if>
-			<if test="level != null">
-				#{level,jdbcType=INTEGER},
-			</if>
-			<if test="createUserId != null">
-				#{createUserId,jdbcType=INTEGER},
-			</if>
-			<if test="createDate != null">
-				#{createDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="modifyUserId != null">
-				#{modifyUserId,jdbcType=INTEGER},
-			</if>
-			<if test="modifyDate != null">
-				#{modifyDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="extLevel != null">
-				#{extLevel,jdbcType=INTEGER},
-			</if>
-			<if test="extIsLeaf != null">
-				#{extIsLeaf,jdbcType=BIT},
-			</if>
-			<if test="extLoaded != null">
-				#{extLoaded,jdbcType=BIT},
-			</if>
-			<if test="extExpanded != null">
-				#{extExpanded,jdbcType=BIT},
-			</if>
-			<if test="extParent != null">
-				#{extParent,jdbcType=INTEGER},
-			</if>
-		</trim>
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysOrg">
-		update sys_org
-		<set>
-			<if test="orgNo != null">
-				orgNo = #{orgNo,jdbcType=VARCHAR},
-			</if>
-			<if test="orgName != null">
-				orgName = #{orgName,jdbcType=VARCHAR},
-			</if>
-			<if test="orgParentId != null">
-				orgParentId = #{orgParentId,jdbcType=INTEGER},
-			</if>
-			<if test="orgParentName != null">
-				orgParentName = #{orgParentName,jdbcType=VARCHAR},
-			</if>
-			<if test="orgParentNo != null">
-				orgParentNo = #{orgParentNo,jdbcType=VARCHAR},
-			</if>
-			<if test="level != null">
-				level = #{level,jdbcType=INTEGER},
-			</if>
-			<if test="createUserId != null">
-				createUserId = #{createUserId,jdbcType=INTEGER},
-			</if>
-			<if test="createDate != null">
-				createDate = #{createDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="modifyUserId != null">
-				modifyUserId = #{modifyUserId,jdbcType=INTEGER},
-			</if>
-			<if test="modifyDate != null">
-				modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="extLevel != null">
-				extLevel = #{extLevel,jdbcType=INTEGER},
-			</if>
-			<if test="extIsLeaf != null">
-				extIsLeaf = #{extIsLeaf,jdbcType=BIT},
-			</if>
-			<if test="extLoaded != null">
-				extLoaded = #{extLoaded,jdbcType=BIT},
-			</if>
-			<if test="extExpanded != null">
-				extExpanded = #{extExpanded,jdbcType=BIT},
-			</if>
-			<if test="extParent != null">
-				extParent = #{extParent,jdbcType=INTEGER},
-			</if>
-		</set>
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysOrg"
-		useGeneratedKeys="true" keyProperty="id">
-		update sys_org
-		set orgNo =
-		#{orgNo,jdbcType=VARCHAR},
-		orgName = #{orgName,jdbcType=VARCHAR},
-		orgParentId = #{orgParentId,jdbcType=INTEGER},
-		orgParentName =
-		#{orgParentName,jdbcType=VARCHAR},
-		orgParentNo =
-		#{orgParentNo,jdbcType=VARCHAR},
-		level = #{level,jdbcType=INTEGER},
-		createUserId = #{createUserId,jdbcType=INTEGER},
-		createDate =
-		#{createDate,jdbcType=TIMESTAMP},
-		modifyUserId =
-		#{modifyUserId,jdbcType=INTEGER},
-		modifyDate =
-		#{modifyDate,jdbcType=TIMESTAMP},
-		extLevel =
-		#{extLevel,jdbcType=INTEGER},
-		extIsLeaf = #{extIsLeaf,jdbcType=BIT},
-		extLoaded = #{extLoaded,jdbcType=BIT},
-		extExpanded =
-		#{extExpanded,jdbcType=BIT},
-		extParent = #{extParent,jdbcType=INTEGER}
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-
-
+<mapper namespace="com.yunpos.persistence.dao.SysOrgMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysOrg" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="orgNo" property="orgNo" jdbcType="VARCHAR" />
+    <result column="orgName" property="orgName" jdbcType="VARCHAR" />
+    <result column="orgParentId" property="orgParentId" jdbcType="INTEGER" />
+    <result column="orgParentName" property="orgParentName" jdbcType="VARCHAR" />
+    <result column="orgParentNo" property="orgParentNo" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="createUserId" property="createUserId" jdbcType="INTEGER" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modifyUserId" property="modifyUserId" jdbcType="INTEGER" />
+    <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="extLevel" property="extLevel" jdbcType="INTEGER" />
+    <result column="extIsLeaf" property="extIsLeaf" jdbcType="BIT" />
+    <result column="extLoaded" property="extLoaded" jdbcType="BIT" />
+    <result column="extExpanded" property="extExpanded" jdbcType="BIT" />
+    <result column="extParent" property="extParent" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sequence, orgNo, orgName, orgParentId, orgParentName, orgParentNo, level, createUserId, 
+    createDate, modifyUserId, modifyDate, extLevel, extIsLeaf, extLoaded, extExpanded, 
+    extParent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_org
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_org
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysOrg"  useGeneratedKeys="true" keyProperty="id">
+    insert into sys_org (sequence, orgNo, 
+      orgName, orgParentId, orgParentName, 
+      orgParentNo, level, createUserId, 
+      createDate, modifyUserId, modifyDate, 
+      extLevel, extIsLeaf, extLoaded, 
+      extExpanded, extParent)
+    values (#{sequence,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR}, 
+      #{orgName,jdbcType=VARCHAR}, #{orgParentId,jdbcType=INTEGER}, #{orgParentName,jdbcType=VARCHAR}, 
+      #{orgParentNo,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{extLevel,jdbcType=INTEGER}, #{extIsLeaf,jdbcType=BIT}, #{extLoaded,jdbcType=BIT}, 
+      #{extExpanded,jdbcType=BIT}, #{extParent,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysOrg" >
+    insert into sys_org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="orgNo != null" >
+        orgNo,
+      </if>
+      <if test="orgName != null" >
+        orgName,
+      </if>
+      <if test="orgParentId != null" >
+        orgParentId,
+      </if>
+      <if test="orgParentName != null" >
+        orgParentName,
+      </if>
+      <if test="orgParentNo != null" >
+        orgParentNo,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="createUserId != null" >
+        createUserId,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="modifyUserId != null" >
+        modifyUserId,
+      </if>
+      <if test="modifyDate != null" >
+        modifyDate,
+      </if>
+      <if test="extLevel != null" >
+        extLevel,
+      </if>
+      <if test="extIsLeaf != null" >
+        extIsLeaf,
+      </if>
+      <if test="extLoaded != null" >
+        extLoaded,
+      </if>
+      <if test="extExpanded != null" >
+        extExpanded,
+      </if>
+      <if test="extParent != null" >
+        extParent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="orgNo != null" >
+        #{orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParentId != null" >
+        #{orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgParentName != null" >
+        #{orgParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParentNo != null" >
+        #{orgParentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserId != null" >
+        #{modifyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extLevel != null" >
+        #{extLevel,jdbcType=INTEGER},
+      </if>
+      <if test="extIsLeaf != null" >
+        #{extIsLeaf,jdbcType=BIT},
+      </if>
+      <if test="extLoaded != null" >
+        #{extLoaded,jdbcType=BIT},
+      </if>
+      <if test="extExpanded != null" >
+        #{extExpanded,jdbcType=BIT},
+      </if>
+      <if test="extParent != null" >
+        #{extParent,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysOrg" >
+    update sys_org
+    <set >
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="orgNo != null" >
+        orgNo = #{orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        orgName = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParentId != null" >
+        orgParentId = #{orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgParentName != null" >
+        orgParentName = #{orgParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParentNo != null" >
+        orgParentNo = #{orgParentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        createUserId = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserId != null" >
+        modifyUserId = #{modifyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="modifyDate != null" >
+        modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extLevel != null" >
+        extLevel = #{extLevel,jdbcType=INTEGER},
+      </if>
+      <if test="extIsLeaf != null" >
+        extIsLeaf = #{extIsLeaf,jdbcType=BIT},
+      </if>
+      <if test="extLoaded != null" >
+        extLoaded = #{extLoaded,jdbcType=BIT},
+      </if>
+      <if test="extExpanded != null" >
+        extExpanded = #{extExpanded,jdbcType=BIT},
+      </if>
+      <if test="extParent != null" >
+        extParent = #{extParent,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysOrg" >
+    update sys_org
+    set sequence = #{sequence,jdbcType=INTEGER},
+      orgNo = #{orgNo,jdbcType=VARCHAR},
+      orgName = #{orgName,jdbcType=VARCHAR},
+      orgParentId = #{orgParentId,jdbcType=INTEGER},
+      orgParentName = #{orgParentName,jdbcType=VARCHAR},
+      orgParentNo = #{orgParentNo,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      createUserId = #{createUserId,jdbcType=INTEGER},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      modifyUserId = #{modifyUserId,jdbcType=INTEGER},
+      modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
+      extLevel = #{extLevel,jdbcType=INTEGER},
+      extIsLeaf = #{extIsLeaf,jdbcType=BIT},
+      extLoaded = #{extLoaded,jdbcType=BIT},
+      extExpanded = #{extExpanded,jdbcType=BIT},
+      extParent = #{extParent,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
 	<!-- ##################################### -->
 	<!-- useGeneratedKeys="true" keyProperty="id" -->
 	<delete id="batchDeleteByIds">

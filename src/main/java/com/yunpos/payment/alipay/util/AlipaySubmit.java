@@ -12,6 +12,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.sign.MD5;
@@ -32,6 +34,7 @@ import com.yunpos.payment.alipay.util.httpClient.HttpResultType;
  */
 
 public class AlipaySubmit {
+	private final static Logger log = LoggerFactory.getLogger(AlipaySubmit.class);
     
     /**
      * 支付宝提供给商户的服务接入网关URL(新)
@@ -53,6 +56,20 @@ public class AlipaySubmit {
     }
 	
     /**
+     * 生成签名结果
+     * @param sPara 要签名的数组
+     * @return 签名结果字符串
+     */
+	public static String buildRequestMysign(Map<String, String> sPara,Map<String,String> payConfig) {
+    	String prestr = AlipayCore.createLinkString(sPara); //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+        String mysign = "";
+        if(AlipayConfig.sign_type.equals("MD5") ) {
+        	mysign = MD5.sign(prestr, payConfig.get("key"), AlipayConfig.input_charset);
+        }
+        return mysign;
+    }
+	
+    /**
      * 生成要请求给支付宝的参数数组
      * @param sParaTemp 请求前的参数数组
      * @return 要请求的参数数组
@@ -62,6 +79,24 @@ public class AlipaySubmit {
         Map<String, String> sPara = AlipayCore.paraFilter(sParaTemp);
         //生成签名结果
         String mysign = buildRequestMysign(sPara);
+
+        //签名结果与签名方式加入请求提交参数组中
+        sPara.put("sign", mysign);
+        sPara.put("sign_type", AlipayConfig.sign_type);
+
+        return sPara;
+    }
+    
+    /**
+     * 生成要请求给支付宝的参数数组
+     * @param sParaTemp 请求前的参数数组
+     * @return 要请求的参数数组
+     */
+    private static Map<String, String> buildRequestPara(Map<String, String> sParaTemp,Map<String,String> payConfig) {
+        //除去数组中的空值和签名参数
+        Map<String, String> sPara = AlipayCore.paraFilter(sParaTemp);
+        //生成签名结果
+        String mysign = buildRequestMysign(sPara,payConfig);
 
         //签名结果与签名方式加入请求提交参数组中
         sPara.put("sign", mysign);
@@ -149,7 +184,44 @@ public class AlipaySubmit {
     public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp) throws Exception {
         //待请求参数数组
         Map<String, String> sPara = buildRequestPara(sParaTemp);
+        
+        log.info("buildRequestPara:"+sPara.toString());
+        HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
 
+        HttpRequest request = new HttpRequest(HttpResultType.BYTES);
+        //设置编码集
+        request.setCharset(AlipayConfig.input_charset);
+
+        request.setParameters(generatNameValuePair(sPara));
+        request.setUrl(ALIPAY_GATEWAY_NEW+"_input_charset="+AlipayConfig.input_charset);
+
+        HttpResponse response = httpProtocolHandler.execute(request,strParaFileName,strFilePath);
+        if (response == null) {
+            return null;
+        }
+        
+        String strResult = response.getStringResult();
+
+        return strResult;
+    }
+    
+    
+    /**
+     * 建立请求，以模拟远程HTTP的POST请求方式构造并获取支付宝的处理结果
+     * 如果接口中没有上传文件参数，那么strParaFileName与strFilePath设置为空值
+     * 如：buildRequest("", "",sParaTemp)
+     * @param strParaFileName 文件类型的参数名
+     * @param strFilePath 文件路径
+     * @param sParaTemp 请求参数数组
+     * @param payConfig 支付配置
+     * @return 支付宝处理结果
+     * @throws Exception
+     */
+    public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp,Map<String, String> payConfig) throws Exception {
+        //待请求参数数组
+        Map<String, String> sPara = buildRequestPara(sParaTemp,payConfig);
+        
+        log.info("buildRequestPara:"+sPara.toString());
         HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
 
         HttpRequest request = new HttpRequest(HttpResultType.BYTES);

@@ -3,8 +3,6 @@ package com.yunpos.web.payment;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +33,9 @@ import com.yunpos.service.payment.WechatPayService;
 import com.yunpos.utils.AmountUtils;
 import com.yunpos.utils.IdWorker;
 import com.yunpos.utils.Message;
-import com.yunpos.utils.XMLUtil;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
+import com.yunpos.utils.XMLUtil;
 
 /**
  * 
@@ -412,13 +410,13 @@ public class WchatpayController {
 	@RequestMapping("/pay/wechatpay/scan/notify")
 	public void scanNotify(HttpServletRequest request, HttpServletResponse response) {
 		log.info("receive wechatpay notify");
+		PrintWriter writer=null;
 		try {
-			PrintWriter writer = response.getWriter();
+			writer = response.getWriter();
 			String xml = Util.inputStreamToString(request.getInputStream());
 			Map<String, String> responseXml = XMLUtil.parse(xml);
-			log.info("支付宝异步通知参数：", responseXml);
+			log.info("支付宝异步通知参数：", xml);
 			// 商户网站唯一订单号
-
 			String trade_status = responseXml.get("trade_status");
 			if (!Objects.equal("TRADE_CLOSED", trade_status)) {
 				wechatPayService.scanNotify(responseXml, true, "");
@@ -427,12 +425,10 @@ public class WchatpayController {
 			}
 			writer.write("success");
 			writer.flush();
-			/*
-			 * } else {// 验证失败 log.info("支付宝异步通知请求验证失败...");
-			 * writer.write("fail"); writer.flush(); }
-			 */
 		} catch (Exception e) {
 			log.error("处理支付宝异步通知异常", e);
+			writer.write("fail");
+			writer.flush();
 		}
 	}
 

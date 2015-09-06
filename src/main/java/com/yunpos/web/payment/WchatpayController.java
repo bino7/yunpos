@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
+import com.yunpos.payment.wxpay.common.Util;
 import com.yunpos.payment.wxpay.protocol.close_protocol.CloseOrderReqData;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanCodePayReqData;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
@@ -34,6 +35,7 @@ import com.yunpos.service.payment.WechatPayService;
 import com.yunpos.utils.AmountUtils;
 import com.yunpos.utils.IdWorker;
 import com.yunpos.utils.Message;
+import com.yunpos.utils.XMLUtil;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
 
@@ -138,9 +140,9 @@ public class WchatpayController {
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
 			String ip = InetAddress.getLocalHost().getHostAddress();
 			// 支付请求
-			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data", orderNo, totalFee,
-					terminal_unique_no, ip, "bar pay", sysWechatConfig);
-			payMsg = wechatPayService.barPay(scanPayReqData,sysWechatConfig);
+			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data",
+					orderNo, totalFee, terminal_unique_no, ip, "bar pay", sysWechatConfig);
+			payMsg = wechatPayService.barPay(scanPayReqData, sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -216,9 +218,9 @@ public class WchatpayController {
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
 			String ip = InetAddress.getLocalHost().getHostAddress();
 			// 支付请求
-			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData("wechat pay", orderNo, totalFee, terminal_unique_no,
-					ip, "wechat pay", "wechat pay test", sysWechatConfig);
-			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData,sysWechatConfig);
+			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData("wechat pay", orderNo, totalFee,
+					terminal_unique_no, ip, "wechat pay", "wechat pay test", sysWechatConfig);
+			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData, sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -252,8 +254,8 @@ public class WchatpayController {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			// 支付请求
-			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, out_trade_no,sysWechatConfig);
-			payMsg = wechatPayService.closeOrder(closeOrderReqData,sysWechatConfig);
+			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, out_trade_no, sysWechatConfig);
+			payMsg = wechatPayService.closeOrder(closeOrderReqData, sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -412,49 +414,23 @@ public class WchatpayController {
 		log.info("receive wechatpay notify");
 		try {
 			PrintWriter writer = response.getWriter();
-			log.info("######"+request.getParameterMap().toString());
-			// 获取支付宝POST过来反馈信息
-			Map<String, String> params = new HashMap<String, String>();
-			log.info("getRequestURL:" + request.getRequestURL().toString());
-			Map requestParams = request.getParameterMap();
-			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-				String name = (String) iter.next();
-				String[] values = (String[]) requestParams.get(name);
-				String valueStr = "";
-				for (int i = 0; i < values.length; i++) {
-					valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
-				}
-				System.out.println("#####"+name+":"+valueStr);
-				params.put(name, valueStr);
-			}
-			
-			log.info("return_code:"+request.getParameter("return_code")+"|return_msg:"+request.getParameter("return_msg"));
-			log.info("result_code:"+request.getParameter("result_code")+"|err_code:"+request.getParameter("err_code")+"|err_code_des:"+request.getParameter("err_code_des"));
-			
-			
-			if(params.isEmpty()){
-				log.error("scan notify receive data is empty");
-			}
-			
-			log.info("支付宝异步通知参数：", params.toString());
+			String xml = Util.inputStreamToString(request.getInputStream());
+			Map<String, String> responseXml = XMLUtil.parse(xml);
+			log.info("支付宝异步通知参数：", responseXml);
 			// 商户网站唯一订单号
-/*			SysTransaction sysTransaction = sysTransactionService.findByTransNum(params.get("out_trade_no"));
-			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysTransaction.getSerialNo());*/
-			// 交易状态
-			String trade_status = request.getParameter("trade_status");
-	
-				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
-					wechatPayService.scanNotify(params, true, "");
-				} else {
-					wechatPayService.scanNotify(params, false, "TRADE_CLOSED");
-				}
-				writer.write("success");
-				writer.flush();
-			/*} else {// 验证失败
-				log.info("支付宝异步通知请求验证失败...");
-				writer.write("fail");
-				writer.flush();
-			}*/
+
+			String trade_status = responseXml.get("trade_status");
+			if (!Objects.equal("TRADE_CLOSED", trade_status)) {
+				wechatPayService.scanNotify(responseXml, true, "");
+			} else {
+				wechatPayService.scanNotify(responseXml, false, "TRADE_CLOSED");
+			}
+			writer.write("success");
+			writer.flush();
+			/*
+			 * } else {// 验证失败 log.info("支付宝异步通知请求验证失败...");
+			 * writer.write("fail"); writer.flush(); }
+			 */
 		} catch (Exception e) {
 			log.error("处理支付宝异步通知异常", e);
 		}

@@ -127,6 +127,11 @@ public class WechatPayService {
 					log.info("【一次性支付成功】");
 					PayResData payResData = new PayResData(PayChannel.WECHAT, responseXml,
 							scanPayReqData.toStringMap());
+					//更新流水支付状态
+					SysTransaction sysTransaction = sysTransactionService.findByTransNum(payResData.getTrace_num());
+					sysTransaction.setTransPrice(Float.valueOf(payResData.getTrans_amount()));
+					sysTransaction.setStatus(Byte.valueOf("2"));
+					sysTransactionService.update(sysTransaction);
 					return new Message(ResultCode.SUCCESS.name(), "", "支付成功", payResData.toMap()); // 支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
@@ -440,7 +445,7 @@ public class WechatPayService {
 //	}
 
 	/**
-	 * 微信扫码支付统一下单
+	 * 微信扫码支付统一下单（扫码支付）
 	 * 
 	 * @param scanCodePayReqData
 	 * @return

@@ -56,7 +56,7 @@ public class PayResData {
 			this.total_fee = resMap.get("total_fee");
 			//平台返回信息
 			this.dynamic_type ="2";
-			this.merchant_name = map.get("companyName");
+			this.merchant_name = map.get("merchant_name");
 			this.merchant_num = map.get("merchant_num");
 			this.terminal_num = map.get("terminal_unique_no");
 		}

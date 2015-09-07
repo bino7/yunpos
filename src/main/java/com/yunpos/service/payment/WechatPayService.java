@@ -29,6 +29,7 @@ import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
 import com.yunpos.payment.wxpay.protocol.pay_query_protocol.ScanPayQueryReqData;
 import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
 import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
+import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.SysWechatConfigService;
 import com.yunpos.utils.Message;
@@ -566,8 +567,59 @@ public class WechatPayService {
 							null);
 				}
 				log.info("【关闭订单成功】");
-				ScanCodePayResData scanCodePayResData = new ScanCodePayResData(responseXml);
-				return new Message(ResultCode.SUCCESS.name(), "", "关闭订单成功", scanCodePayResData.toMap()); // 支付宝交易流水号
+				
+				return new Message(ResultCode.SUCCESS.name(), "", "关闭订单成功", responseXml); // 支付宝交易流水号
+			}
+		} catch (Exception e) {
+			log.error("微信支付异常:", e);
+			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
+		}
+	}
+	
+	/**
+	 * 条码撤销订单
+	 * @param reverseReqData
+	 * @param sysWechatConfig
+	 * @return
+	 */
+	public Message reverse(ReverseReqData reverseReqData, SysWechatConfigWithBLOBs sysWechatConfig) {
+		log.info("支付宝扫码统一下单请求参数:" + reverseReqData.toMap().toString());
+		try {// 建立请求
+			long costTimeStart = System.currentTimeMillis();
+			
+			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
+			String reserveResponseString = serviceRequest.sendPost(WechatPayConfig.REVERSE_API,reverseReqData,sysWechatConfig);
+			long costTimeEnd = System.currentTimeMillis();
+			long totalTimeCost = costTimeEnd - costTimeStart;
+			log.info("api请求总耗时：" + totalTimeCost + "ms");
+			log.info("同步返回结果：" + reserveResponseString);
+
+			Map<String, String> responseXml = XMLUtil.parse(reserveResponseString);
+
+			// 返回业务处理
+			if (responseXml == null || Strings.isNullOrEmpty(responseXml.get("return_code"))) {
+				log.error("【支付失败】支付请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问");
+				// resultListener.onFailByReturnCodeError(scanPayResData);
+				return new Message(ResultCode.FAIL.name(), "RETURN_CODE_NULL",
+						"支付请求逻辑错误，请仔细检测传过去的每一个参数是否合法，或是看API能否被正常访问", null);
+			}
+
+			if (responseXml.get("return_code").equals("FAIL")) {
+				// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
+				log.error("【支付失败】支付API系统返回失败，请检测Post给API的数据是否规范合法");
+				return new Message(ResultCode.FAIL.name(), "FAIL", responseXml.get("return_msg"), null);
+			} else {
+				log.info("支付API系统成功返回数据");
+				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
+				if (!Signature.checkIsSignValidFromResponseString(reserveResponseString,sysWechatConfig.getAppKey())) {
+					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
+					// resultListener.onFailBySignInvalid(scanPayResData);
+					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
+							null);
+				}
+				log.info("【撤销订单成功】");
+				
+				return new Message(ResultCode.SUCCESS.name(), "", "撤销订单成功", responseXml); // 支付宝交易流水号
 			}
 		} catch (Exception e) {
 			log.error("微信支付异常:", e);
@@ -635,4 +687,5 @@ public class WechatPayService {
 				return returnMap;
 			}
 	 }
+
 }

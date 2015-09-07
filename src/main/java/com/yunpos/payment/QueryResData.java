@@ -47,7 +47,7 @@ public class QueryResData {
 		if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
 			this.dynamic_type = "2";
 			this.trans_type = "";
-			this.merchant_name = "测试商户名";
+			this.merchant_name =map.get("");
 			this.merchant_num = map.get("merchant_num");
 			this.terminal_num = map.get("terminal_unique_no");
 			this.trans_card_num = "";

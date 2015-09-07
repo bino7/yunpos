@@ -47,7 +47,7 @@ public class ReverseReqData {
         setMch_id(sysWechatConfig.getMchId());
 
         //transaction_id是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
-        setTransaction_id(transactionID);
+        //setTransaction_id(transactionID);
 
         //商户系统自己生成的唯一的订单号
         setOut_trade_no(outTradeNo);

@@ -309,9 +309,6 @@ public class AlipayController extends BaseController{
 			sysTransactionService.save(sysTransaction);
 			
 			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "支付宝手机wap支付", total_fee, sysAlipayConfig.getPid());
-			payReqData.setPay_channel(pay_channel);
-			payReqData.setTerminal_unique_no(terminal_unique_no);
-			payReqData.setMerchant_num(sysAlipayConfig.getPid());
 			
 			alipayWapService.pay(payReqData);
 		} catch (Exception e) {

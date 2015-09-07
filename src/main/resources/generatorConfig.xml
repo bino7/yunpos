@@ -58,7 +58,7 @@
 			<property name="useActualColumnNames" value="true" />
 		</table>
 -->
- <table tableName="sys_shop" domainObjectName="SysShop"
+ <table tableName="sys_fans" domainObjectName="SysFans"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="flase" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />

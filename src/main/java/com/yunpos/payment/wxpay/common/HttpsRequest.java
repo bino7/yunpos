@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
+import com.yunpos.model.SysWechatConfigWithBLOBs;
 
 /**
  * User: rizenguo
@@ -62,9 +63,9 @@ public class HttpsRequest{
     //HTTP请求器
     private CloseableHttpClient httpClient;
 
-    public HttpsRequest() throws UnrecoverableKeyException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException {
-        init();
-    }
+//    public HttpsRequest() throws UnrecoverableKeyException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException {
+//        init();
+//    }
     
     public HttpsRequest(String certLocalPath,String password) throws UnrecoverableKeyException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException {
         init(certLocalPath,password);
@@ -108,40 +109,40 @@ public class HttpsRequest{
     }
     
     
-    private void init() throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
-
-        KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        FileInputStream instream = new FileInputStream(new File(Configure.getCertLocalPath()));//加载本地的证书进行https加密传输
-        try {
-            keyStore.load(instream, Configure.getCertPassword().toCharArray());//设置证书密码
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } finally {
-            instream.close();
-        }
-
-        // Trust own CA and all self-signed certs
-        SSLContext sslcontext = SSLContexts.custom()
-                .loadKeyMaterial(keyStore, Configure.getCertPassword().toCharArray())
-                .build();
-        // Allow TLSv1 protocol only
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-                sslcontext,
-                new String[]{"TLSv1"},
-                null,
-                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-
-        httpClient = HttpClients.custom()
-                .setSSLSocketFactory(sslsf)
-                .build();
-
-        //根据默认超时限制初始化requestConfig
-        requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();
-
-        hasInit = true;
-    }
+//    private void init() throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
+//
+//        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+//        FileInputStream instream = new FileInputStream(new File(Configure.getCertLocalPath()));//加载本地的证书进行https加密传输
+//        try {
+//            keyStore.load(instream, Configure.getCertPassword().toCharArray());//设置证书密码
+//        } catch (CertificateException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } finally {
+//            instream.close();
+//        }
+//
+//        // Trust own CA and all self-signed certs
+//        SSLContext sslcontext = SSLContexts.custom()
+//                .loadKeyMaterial(keyStore, Configure.getCertPassword().toCharArray())
+//                .build();
+//        // Allow TLSv1 protocol only
+//        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+//                sslcontext,
+//                new String[]{"TLSv1"},
+//                null,
+//                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+//
+//        httpClient = HttpClients.custom()
+//                .setSSLSocketFactory(sslsf)
+//                .build();
+//
+//        //根据默认超时限制初始化requestConfig
+//        requestConfig = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build();
+//
+//        hasInit = true;
+//    }
 
     /**
      * 通过Https往API post xml数据
@@ -156,10 +157,10 @@ public class HttpsRequest{
      * @throws KeyManagementException
      */
 
-    public String sendPost(String url, Object xmlObj) throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
+    public String sendPost(String url, Object xmlObj,SysWechatConfigWithBLOBs sysWechatConfig) throws IOException, KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException {
 
         if (!hasInit) {
-            init();
+            init(sysWechatConfig.getCertLocalPath(), sysWechatConfig.getCertPassword());
         }
 
         String result = null;

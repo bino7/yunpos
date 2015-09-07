@@ -4,9 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.yunpos.model.SysWechatConfig;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
-import com.yunpos.payment.wxpay.common.Configure;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
 

@@ -1,10 +1,8 @@
 package com.yunpos.web.payment;
 
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +20,13 @@ import com.google.common.base.Strings;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
-import com.yunpos.payment.alipay.util.AlipayNotify;
+import com.yunpos.payment.wxpay.common.Util;
 import com.yunpos.payment.wxpay.protocol.close_protocol.CloseOrderReqData;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanCodePayReqData;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanPayReqData;
 import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
 import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqData;
+import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.SysWechatConfigService;
@@ -37,6 +36,7 @@ import com.yunpos.utils.IdWorker;
 import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
+import com.yunpos.utils.XMLUtil;
 
 /**
  * 
@@ -105,13 +105,13 @@ public class WchatpayController {
 			SysTransaction sysTransaction = new SysTransaction();
 			sysTransaction.setMerchantName(sysMerchant.getCompanyName());
 			// 1支付宝，2微信，3银联，4：预存款
-			if (pay_channel.trim().equals("alipay")) {
+			if (pay_channel.trim().equalsIgnoreCase("alipay")) {
 				sysTransaction.setChannel(Byte.valueOf("1"));
-			} else if (pay_channel.trim().equals("wechat")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("wechat")) {
 				sysTransaction.setChannel(Byte.valueOf("2"));
-			} else if (pay_channel.trim().equals("bill")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("bill")) {
 				sysTransaction.setChannel(Byte.valueOf("3"));
-			} else if (pay_channel.trim().equals("prepay")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
 				sysTransaction.setChannel(Byte.valueOf("4"));
 			} else {
 				return new Message("error", "pay_channel_unkonw", "未知支付方式！", null);
@@ -137,10 +137,11 @@ public class WchatpayController {
 
 			// 调用支付接口发起支付请求
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
+			String ip = InetAddress.getLocalHost().getHostAddress();
 			// 支付请求
-			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data", orderNo, totalFee,
-					terminal_unique_no, "192.168.0.116", "bar pay", sysWechatConfig);
-			payMsg = wechatPayService.barPay(scanPayReqData,sysWechatConfig);
+			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data",
+					orderNo, totalFee, terminal_unique_no, ip, "bar pay", sysWechatConfig);
+			payMsg = wechatPayService.barPay(scanPayReqData, sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -182,13 +183,13 @@ public class WchatpayController {
 			sysTransaction.setMerchantName(sysMerchant.getCompanyName());
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());
 			// 1支付宝，2微信，3银联，4：预存款
-			if (pay_channel.trim().equals("alipay")) {
+			if (pay_channel.trim().equalsIgnoreCase("alipay")) {
 				sysTransaction.setChannel(Byte.valueOf("1"));
-			} else if (pay_channel.trim().equals("wechat")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("wechat")) {
 				sysTransaction.setChannel(Byte.valueOf("2"));
-			} else if (pay_channel.trim().equals("bill")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("bill")) {
 				sysTransaction.setChannel(Byte.valueOf("3"));
-			} else if (pay_channel.trim().equals("prepay")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
 				sysTransaction.setChannel(Byte.valueOf("4"));
 			} else {
 				return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
@@ -214,13 +215,11 @@ public class WchatpayController {
 
 			// 调用支付接口发起支付请求
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
-			String goodsTag = "微信扫码支付";
-			String body = "微信扫码支付测试";
-			String attach = "附加数据";
+			String ip = InetAddress.getLocalHost().getHostAddress();
 			// 支付请求
-			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData(body, orderNo, totalFee, terminal_unique_no,
-					"192.168.0.116", goodsTag, attach, sysWechatConfig);
-			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData,sysWechatConfig);
+			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData("wechat pay", orderNo, totalFee,
+					terminal_unique_no, ip, "wechat pay", "wechat pay test", sysWechatConfig);
+			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData, sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -236,14 +235,15 @@ public class WchatpayController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/closeOrder")
+	@RequestMapping(value = "/pay/wechatpay/scan/close")
 	@ResponseBody
 	public Object closeOrder(HttpServletRequest request, HttpServletResponse response) {
+		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
-		String out_trade_no = request.getParameter("out_trade_no");
+		String trace_num = request.getParameter("trace_num");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
 
-		if (Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(out_trade_no)
+		if (Strings.isNullOrEmpty(pay_channel) ||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(trace_num)
 				|| Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
@@ -254,8 +254,8 @@ public class WchatpayController {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			// 支付请求
-			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, out_trade_no,sysWechatConfig);
-			payMsg = wechatPayService.closeOrder(closeOrderReqData,sysWechatConfig);
+			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, trace_num, sysWechatConfig);
+			payMsg = wechatPayService.closeOrder(closeOrderReqData, sysWechatConfig);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -263,6 +263,42 @@ public class WchatpayController {
 		return payMsg;
 	}
 
+	
+	/**
+	 * 微信条码支付撤销订单
+	 * @param request
+	 * @param response
+	 * @return
+	 * https://api.mch.weixin.qq.com/secapi/pay/reverse
+	 */
+	@RequestMapping(value = "/pay/wechatpay/reverse")
+	@ResponseBody
+	public Object reverse(HttpServletRequest request, HttpServletResponse response) {
+		String pay_channel = request.getParameter("pay_channel");
+		String merchant_num = request.getParameter("merchant_num");
+		String trace_num = request.getParameter("trace_num");
+		String terminal_unique_no = request.getParameter("terminal_unique_no");
+
+		if (Strings.isNullOrEmpty(pay_channel) ||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(trace_num)
+				|| Strings.isNullOrEmpty(terminal_unique_no)) {
+			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		Message payMsg = null;
+		try {
+			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
+			if (sysWechatConfig == null) {
+				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+			}
+			// 支付请求
+			ReverseReqData reverseReqData = new ReverseReqData(merchant_num, trace_num, sysWechatConfig);
+			payMsg = wechatPayService.reverse(reverseReqData, sysWechatConfig);
+		} catch (Exception e) {
+			log.error("微信支付出现异常：", e);
+			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
+		}
+		return payMsg;
+	}
+	
 	/**
 	 * 查询订单
 	 * 
@@ -330,13 +366,13 @@ public class WchatpayController {
 			String refundNo = "R" + iw.getId();
 			sysTransaction.setId(null);
 			// 1支付宝，2微信，3银联，4：预存款
-			if (pay_channel.trim().equals("alipay")) {
+			if (pay_channel.trim().equalsIgnoreCase("alipay")) {
 				sysTransaction.setChannel(Byte.valueOf("1"));
-			} else if (pay_channel.trim().equals("wechat")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("wechat")) {
 				sysTransaction.setChannel(Byte.valueOf("2"));
-			} else if (pay_channel.trim().equals("bill")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("bill")) {
 				sysTransaction.setChannel(Byte.valueOf("3"));
-			} else if (pay_channel.trim().equals("prepay")) {
+			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
 				sysTransaction.setChannel(Byte.valueOf("4"));
 			} else {
 				return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
@@ -363,6 +399,9 @@ public class WchatpayController {
 		}
 		return payMsg;
 	}
+	
+	
+	
 
 	/**
 	 * 退款查询
@@ -409,48 +448,28 @@ public class WchatpayController {
 	 * @param request
 	 * @param response
 	 */
-	@SuppressWarnings("rawtypes")
 	@RequestMapping("/pay/wechatpay/scan/notify")
 	public void scanNotify(HttpServletRequest request, HttpServletResponse response) {
-		log.info("收到支付宝支付异步通知");
+		log.info("receive wechatpay notify");
+		PrintWriter writer=null;
 		try {
-			PrintWriter writer = response.getWriter();
-			// 获取支付宝POST过来反馈信息
-			Map<String, String> params = new HashMap<String, String>();
-			Map requestParams = request.getParameterMap();
-			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-				String name = (String) iter.next();
-				String[] values = (String[]) requestParams.get(name);
-				String valueStr = "";
-				for (int i = 0; i < values.length; i++) {
-					valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
-				}
-				params.put(name, valueStr);
-			}
-
-			log.info("支付宝异步通知参数：", params.toString());
+			writer = response.getWriter();
+			String xml = Util.inputStreamToString(request.getInputStream());
+			Map<String, String> responseXml = XMLUtil.parse(xml);
+			log.info("支付宝异步通知参数：", xml);
 			// 商户网站唯一订单号
-			String out_trade_no = request.getParameter("out_trade_no");
-			SysTransaction sysTransaction = sysTransactionService.findByTransNum(out_trade_no);
-			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService
-					.findByMerchantNo(sysTransaction.getSerialNo());
-			// 交易状态
-			String trade_status = request.getParameter("trade_status");
-			if (AlipayNotify.verify(params, sysWechatConfig.getAppKey())) {// 验证成功
-				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
-					wechatPayService.scanNotify(params, true, "");
-				} else {
-					wechatPayService.scanNotify(params, false, "TRADE_CLOSED");
-				}
-				writer.write("success");
-				writer.flush();
-			} else {// 验证失败
-				log.info("支付宝异步通知请求验证失败...");
-				writer.write("fail");
-				writer.flush();
+			String trade_status = responseXml.get("trade_status");
+			if (!Objects.equal("TRADE_CLOSED", trade_status)) {
+				wechatPayService.scanNotify(responseXml, true, "");
+			} else {
+				wechatPayService.scanNotify(responseXml, false, "TRADE_CLOSED");
 			}
-		} catch (IOException e) {
+			writer.write("success");
+			writer.flush();
+		} catch (Exception e) {
 			log.error("处理支付宝异步通知异常", e);
+			writer.write("fail");
+			writer.flush();
 		}
 	}
 

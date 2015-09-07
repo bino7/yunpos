@@ -1,6 +1,6 @@
 package com.yunpos.payment.wxpay.service;
 
-import com.yunpos.payment.wxpay.common.Configure;
+import com.yunpos.payment.wxpay.config.WechatPayConfig;
 import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
 
 /**
@@ -11,7 +11,7 @@ import com.yunpos.payment.wxpay.protocol.refund_protocol.RefundReqData;
 public class RefundService extends BaseService{
 
     public RefundService() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        super(Configure.REFUND_API);
+        super(WechatPayConfig.REFUND_API);
     }
 
     /**

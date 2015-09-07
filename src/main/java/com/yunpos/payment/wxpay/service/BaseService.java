@@ -6,7 +6,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 
-import com.yunpos.payment.wxpay.common.Configure;
+import com.yunpos.payment.wxpay.config.WechatPayConfig;
 
 /**
  * User: rizenguo
@@ -24,7 +24,7 @@ public class BaseService{
 
     public BaseService(String api) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         apiURL = api;
-        Class c = Class.forName(Configure.HttpsRequestClassName);
+        Class c = Class.forName(WechatPayConfig.HttpsRequestClassName);
         serviceRequest = (IServiceRequest) c.newInstance();
     }
 

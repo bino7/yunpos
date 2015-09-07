@@ -1,3 +1,5 @@
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,12 +16,12 @@ import com.yunpos.utils.Message.ResultCode;
 public class AESTest {
 
 	@Test
-	public void decrypt() {
+	public void decrypt() throws UnknownHostException {
 		String str = "R4EOAXfmd1pNy2dQOp8q6T07fX/kmOxpN3f+RON/kFvYIBjisOZXNRz0Sg58cUm+";
 		String str2 = "YUvmw8H1ud3WPbPkFKXltw==";
 	
 		
-		System.out.println(AESUtils.decrypt(str2));
+		System.out.println(InetAddress.getLocalHost().getHostAddress());
 	}
 
 	@Test

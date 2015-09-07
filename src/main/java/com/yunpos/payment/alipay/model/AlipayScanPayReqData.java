@@ -74,6 +74,7 @@ public class AlipayScanPayReqData {
 	private String pay_channel = "";
 	private String terminal_unique_no = "";
 	private String merchant_num = "";
+	private String merchant_name = "";
 
 	public AlipayScanPayReqData(String out_trade_no, String partner, String subject, String product_code,
 			String total_fee, String dynamic_id,String extend_params) {
@@ -418,6 +419,14 @@ public class AlipayScanPayReqData {
 
 	public void setMerchant_num(String merchant_num) {
 		this.merchant_num = merchant_num;
+	}
+	
+	public String getMerchant_name() {
+		return merchant_name;
+	}
+
+	public void setMerchant_name(String merchant_name) {
+		this.merchant_name = merchant_name;
 	}
 
 	public Map<String, String> toMap() {

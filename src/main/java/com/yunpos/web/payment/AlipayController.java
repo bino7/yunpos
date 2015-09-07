@@ -25,6 +25,7 @@ import com.yunpos.model.SysAlipayConfig;
 import com.yunpos.model.SysAlipayConfigWithBLOBs;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysTransaction;
+import com.yunpos.payment.alipay.model.AlipayCancelReqData;
 import com.yunpos.payment.alipay.model.AlipayPrecreateReqData;
 import com.yunpos.payment.alipay.model.AlipayQueryReqData;
 import com.yunpos.payment.alipay.model.AlipayRefundReqData;
@@ -149,7 +150,8 @@ public class AlipayController extends BaseController{
 					"BARCODE_PAY_OFFLINE", total_fee, dynamic_id,extend_params);
 			payReqData.setPay_channel(pay_channel);
 			payReqData.setTerminal_unique_no(terminal_unique_no);
-			payReqData.setMerchant_num(sysAlipayConfig.getPid());
+			payReqData.setMerchant_num(sysMerchant.getSerialNo());
+			payReqData.setMerchant_name(sysMerchant.getCompanyName());
 			
 			payMsg = alipayService.pay(payReqData,sysAlipayConfig);
 		} catch (Exception e) {
@@ -363,6 +365,57 @@ public class AlipayController extends BaseController{
 		}
 		return payMsg;
 	}
+	
+	
+	/**
+	 * 支付宝线下收单撤销接口
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/pay/alipay/cancel")
+	@ResponseBody
+	public Object cancel(HttpServletRequest request, HttpServletResponse response) {
+		String pay_channel = request.getParameter("pay_channel");
+		String merchant_num = request.getParameter("merchant_num");
+		String trace_num = request.getParameter("trace_num");
+		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		if (Strings.isNullOrEmpty("pay_channel")||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(trace_num)
+				|| Strings.isNullOrEmpty("terminal_unique_no")) {
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		Message payMsg = null;
+		try {
+			// 商户信息从数据库配置中获取
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
+			if(sysMerchant ==null){
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+			}
+			//获取配置信息
+			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(sysMerchant.getSerialNo());
+			if(sysAlipayConfig == null){
+				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+			}
+			SysTransaction sysTransaction = sysTransactionService.findByTransNum("trace_num");
+			if(sysTransaction == null){
+				return new Message(ResultCode.FAIL.name(), "transNo_not_find", "对应的交易流水不存在", null);
+			}
+			AlipayCancelReqData alipayCancelReqData = new AlipayCancelReqData(trace_num, sysAlipayConfig.getPid());
+			alipayCancelReqData.setPay_channel(pay_channel);
+			alipayCancelReqData.setTerminal_unique_no(terminal_unique_no);
+			alipayCancelReqData.setMerchant_num(sysMerchant.getSerialNo());
+			alipayCancelReqData.setMerchant_name(sysMerchant.getCompanyName());
+			alipayCancelReqData.setTrans_amount(String.valueOf(sysTransaction.getTransPrice()));
+			alipayCancelReqData.setTotal_fee(String.valueOf(sysTransaction.getTotalPrice()));
+			
+			payMsg = alipayService.cancel(alipayCancelReqData,sysAlipayConfig);
+		} catch (Exception e) {
+			log.error("支付出现异常：", e);
+			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
+		}
+		return payMsg;
+	}
 
 	@RequestMapping(value = "/pay/alipay/refund")
 	@ResponseBody
@@ -396,13 +449,13 @@ public class AlipayController extends BaseController{
 			sysTransaction.setId(null);
 		
 			//1支付宝，2微信，3银联，4：预存款
-			if(pay_channel.trim().equals("alipay")){
+			if(pay_channel.trim().equalsIgnoreCase("alipay")){
 				sysTransaction.setChannel(Byte.valueOf("1"));
-			}else if(pay_channel.trim().equals("wechat")){
+			}else if(pay_channel.trim().equalsIgnoreCase("wechat")){
 				sysTransaction.setChannel(Byte.valueOf("2"));
-			}else if(pay_channel.trim().equals("bill")){
+			}else if(pay_channel.trim().equalsIgnoreCase("bill")){
 				sysTransaction.setChannel(Byte.valueOf("3"));
-			}else if(pay_channel.trim().equals("prepay")){
+			}else if(pay_channel.trim().equalsIgnoreCase("prepay")){
 				sysTransaction.setChannel(Byte.valueOf("4"));
 			}else{
 				return new Message("error","pay_channel_unknow", "未知支付方式！", null);
@@ -503,6 +556,7 @@ public class AlipayController extends BaseController{
 			}
 			log.info("alipay scn notify param：", params.toString());
 			
+		
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			// 交易状态

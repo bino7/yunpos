@@ -1,6 +1,6 @@
 package com.yunpos.payment.wxpay.service;
 
-import com.yunpos.payment.wxpay.common.Configure;
+import com.yunpos.payment.wxpay.config.WechatPayConfig;
 import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 
 /**
@@ -11,7 +11,7 @@ import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 public class ReverseService extends BaseService{
 
     public ReverseService() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        super(Configure.REVERSE_API);
+        super(WechatPayConfig.REVERSE_API);
     }
 
     /**

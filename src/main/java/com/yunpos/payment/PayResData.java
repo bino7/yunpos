@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.yunpos.payment.RefundResData.PayChannel;
+import com.yunpos.utils.AmountUtils;
 
 /**
  * 
@@ -32,34 +33,39 @@ public class PayResData {
 
 	// 支付返回类型数据转换
 	public PayResData(PayChannel channel, Map<String, String> resMap, Map<String, String> map) {
-		if (channel.equals(PayChannel.WECHAT)) {// 微信
-			//支付渠道返回信息
-			this.trans_type = resMap.get("trade_type");
-			this.terminal_num = resMap.get("device_info");
-			this.trans_card_num = "";
-			this.trace_num = resMap.get("out_trade_no");
-			this.trans_time = resMap.get("time_end");
-			this.trans_amount = resMap.get("cash_fee");
-			this.total_fee = resMap.get("total_fee");
-			//平台返回信息
-			this.dynamic_type = "1";
-			this.merchant_name = map.get("companyName");
-			this.merchant_num = map.get("merchant_num");	
+		try {
+			if (channel.equals(PayChannel.WECHAT)) {// 微信
+				//支付渠道返回信息
+				this.trans_type = resMap.get("trade_type");
+				this.terminal_num = resMap.get("device_info");
+				this.trans_card_num = "";
+				this.trace_num = resMap.get("out_trade_no");
+				this.trans_time = resMap.get("time_end");
+				this.trans_amount = AmountUtils.changeF2Y(resMap.get("cash_fee"));
+				this.total_fee = AmountUtils.changeF2Y(resMap.get("total_fee"));
+				//平台返回信息
+				this.dynamic_type = "1";
+				this.merchant_name = map.get("companyName");
+				this.merchant_num = map.get("merchant_num");	
+			}
+			if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
+				//支付渠道返回信息
+				this.trans_type = "";
+				this.trans_card_num = "";
+				this.trace_num = resMap.get("out_trade_no");
+				this.trans_time = resMap.get("gmt_payment");
+				this.trans_amount = resMap.get("total_fee");
+				this.total_fee = resMap.get("total_fee");
+				//平台返回信息
+				this.dynamic_type ="2";
+				this.merchant_name = map.get("merchant_name");
+				this.merchant_num = map.get("merchant_num");
+				this.terminal_num = map.get("terminal_unique_no");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
-			//支付渠道返回信息
-			this.trans_type = "";
-			this.trans_card_num = "";
-			this.trace_num = resMap.get("out_trade_no");
-			this.trans_time = resMap.get("gmt_payment");
-			this.trans_amount = resMap.get("total_fee");
-			this.total_fee = resMap.get("total_fee");
-			//平台返回信息
-			this.dynamic_type ="2";
-			this.merchant_name = map.get("merchant_name");
-			this.merchant_num = map.get("merchant_num");
-			this.terminal_num = map.get("terminal_unique_no");
-		}
+		
 
 	}
 

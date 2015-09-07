@@ -31,6 +31,13 @@ public class ScanPayReqData {
     private String goods_tag = "";
     private String auth_code = "";
     private String sdk_version;
+    
+    
+	// 业务附加传递信息（非接口参数）
+	private String pay_channel = "";
+	private String terminal_unique_no = "";
+	private String merchant_num = "";
+	private String merchant_name = "";
 
     /**
      * @param authCode 这个是扫码终端设备从用户手机上扫取到的支付授权号，这个号是跟用户用来支付的银行卡绑定的，有效期是1分钟
@@ -215,8 +222,58 @@ public class ScanPayReqData {
     public void setSdk_version(String sdk_version) {
         this.sdk_version = sdk_version;
     }
+    
+    
 
-    public Map<String,Object> toMap(){
+    public String getPay_channel() {
+		return pay_channel;
+	}
+
+
+
+	public void setPay_channel(String pay_channel) {
+		this.pay_channel = pay_channel;
+	}
+
+
+
+	public String getTerminal_unique_no() {
+		return terminal_unique_no;
+	}
+
+
+
+	public void setTerminal_unique_no(String terminal_unique_no) {
+		this.terminal_unique_no = terminal_unique_no;
+	}
+
+
+
+	public String getMerchant_num() {
+		return merchant_num;
+	}
+
+
+
+	public void setMerchant_num(String merchant_num) {
+		this.merchant_num = merchant_num;
+	}
+
+
+
+	public String getMerchant_name() {
+		return merchant_name;
+	}
+
+
+
+	public void setMerchant_name(String merchant_name) {
+		this.merchant_name = merchant_name;
+	}
+
+
+
+	public Map<String,Object> toMap(){
         Map<String,Object> map = new HashMap<String, Object>();
         Field[] fields = this.getClass().getDeclaredFields();
         for (Field field : fields) {

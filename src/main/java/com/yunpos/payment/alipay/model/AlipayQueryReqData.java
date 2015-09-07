@@ -21,39 +21,37 @@ import com.yunpos.payment.alipay.config.AlipayConfig;
 public class AlipayQueryReqData {
 
 	// 必填项
-	private String service = "";			//接口名称（必填）
-	private String partner = "";			// 合作者身份ID（必填）
-	private String _input_charset = "";		// 参数编码字符集（必填）
-	private String sign_type = "";			// 签名方式（必填）
-	private String sign = "";				// 签名（必填）
-	private String out_trade_no = "";		//商户网站唯一订单号（必填）
-	
-	//非必填
-	private String alipay_ca_request = "";	// 签名类型 （非必填）
-	private String trade_no = "";			//支付宝交易号（非必填）
-	
-	
-	//业务附加传递信息（非接口参数）
+	private String service = ""; // 接口名称（必填）
+	private String partner = ""; // 合作者身份ID（必填）
+	private String _input_charset = ""; // 参数编码字符集（必填）
+	private String sign_type = ""; // 签名方式（必填）
+	private String sign = ""; // 签名（必填）
+	private String out_trade_no = ""; // 商户网站唯一订单号（必填）
+
+	// 非必填
+	private String alipay_ca_request = ""; // 签名类型 （非必填）
+	private String trade_no = ""; // 支付宝交易号（非必填）
+
+	// 业务附加传递信息（非接口参数）
 	private String pay_channel = "";
 	private String terminal_unique_no = "";
+	private String merchant_name = "";
 	private String merchant_num = "";
-	
 
-	public AlipayQueryReqData(String out_trade_no,String partner){
-		//接口名称
+	public AlipayQueryReqData(String out_trade_no, String partner) {
+		// 接口名称
 		setService(AlipayConfig.query);
-		//合作者身份ID
+		// 合作者身份ID
 		setPartner(partner);
-		//参数编码字符集
+		// 参数编码字符集
 		set_input_charset(AlipayConfig.input_charset);
-		//签名方式
+		// 签名方式
 		setSign_type(AlipayConfig.sign_type);
-		//商户网站唯一订单号
+		// 商户网站唯一订单号
 		setOut_trade_no(out_trade_no);
-		//支付宝交易号
-		//setTrade_no(trade_no);
+		// 支付宝交易号
+		// setTrade_no(trade_no);
 	}
-	
 
 	public String getService() {
 		return service;
@@ -110,48 +108,46 @@ public class AlipayQueryReqData {
 	public void setTrade_no(String trade_no) {
 		this.trade_no = trade_no;
 	}
-	
+
 	public String getAlipay_ca_request() {
 		return alipay_ca_request;
 	}
 
-
 	public void setAlipay_ca_request(String alipay_ca_request) {
 		this.alipay_ca_request = alipay_ca_request;
 	}
-	
 
 	public String getMerchant_num() {
 		return merchant_num;
 	}
 
-
 	public void setMerchant_num(String merchant_num) {
 		this.merchant_num = merchant_num;
 	}
-
 
 	public String getPay_channel() {
 		return pay_channel;
 	}
 
-
 	public void setPay_channel(String pay_channel) {
 		this.pay_channel = pay_channel;
 	}
-
 
 	public String getTerminal_unique_no() {
 		return terminal_unique_no;
 	}
 
-
 	public void setTerminal_unique_no(String terminal_unique_no) {
 		this.terminal_unique_no = terminal_unique_no;
 	}
-	
-	
 
+	public String getMerchant_name() {
+		return merchant_name;
+	}
+
+	public void setMerchant_name(String merchant_name) {
+		this.merchant_name = merchant_name;
+	}
 
 	public Map<String, String> toMap() {
 		Map<String, String> map = new HashMap<String, String>();

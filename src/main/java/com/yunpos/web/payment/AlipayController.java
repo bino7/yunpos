@@ -353,9 +353,11 @@ public class AlipayController extends BaseController{
 			AlipayQueryReqData alipayQueryReqData = new AlipayQueryReqData(trace_num, sysAlipayConfig.getPid());
 			alipayQueryReqData.setPay_channel(pay_channel);
 			alipayQueryReqData.setTerminal_unique_no(terminal_unique_no);
-			alipayQueryReqData.setMerchant_num(sysAlipayConfig.getPid());
+			alipayQueryReqData.setMerchant_num(sysMerchant.getSerialNo());
+			alipayQueryReqData.setMerchant_name(sysMerchant.getCompanyName());
 			
 			payMsg = alipayService.query(alipayQueryReqData,sysAlipayConfig);
+			
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -438,6 +440,7 @@ public class AlipayController extends BaseController{
 			if(sysAlipayConfig == null){
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num.trim());
 			
 			// 生成流水表信息
 			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -467,11 +470,11 @@ public class AlipayController extends BaseController{
 			sysTransaction.setInfo("退款");
 			sysTransactionService.save(sysTransaction);
 			
-			AlipayRefundReqData alipayRefundReqData = new AlipayRefundReqData(sysAlipayConfig.getPid(), trace_num,
-					refund_amount);
+			AlipayRefundReqData alipayRefundReqData = new AlipayRefundReqData(sysAlipayConfig.getPid(), trace_num,refund_amount);
 			alipayRefundReqData.setPay_channel(pay_channel);
 			alipayRefundReqData.setTerminal_unique_no(terminal_unique_no);
-			alipayRefundReqData.setMerchant_num(sysAlipayConfig.getPid());
+			alipayRefundReqData.setMerchant_num(sysMerchant.getSerialNo());
+			alipayRefundReqData.setMerchant_name(sysMerchant.getCompanyName());
 			
 			payMsg = alipayService.refund(alipayRefundReqData,sysTransaction);
 		} catch (Exception e) {

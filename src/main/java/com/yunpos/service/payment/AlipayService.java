@@ -176,7 +176,6 @@ public class AlipayService {
 	 */
 	public Message refund(AlipayRefundReqData alipayRefundReqData, SysTransaction sysTransaction) {
 		// 把请求参数打包成数组
-
 		log.info("支付宝条码支付请求参数:" + alipayRefundReqData.toMap());
 		try {// 建立请求
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService

@@ -40,6 +40,7 @@ public class AlipayRefundReqData {
 	// 业务附加传递信息（非接口参数）
 	private String pay_channel = "";
 	private String terminal_unique_no = "";
+	private String merchant_name = "";
 	private String merchant_num = "";
 
 	public AlipayRefundReqData(String partner, String out_trade_no, String refund_amount) {
@@ -195,6 +196,14 @@ public class AlipayRefundReqData {
 
 	public void setMerchant_num(String merchant_num) {
 		this.merchant_num = merchant_num;
+	}
+
+	public String getMerchant_name() {
+		return merchant_name;
+	}
+
+	public void setMerchant_name(String merchant_name) {
+		this.merchant_name = merchant_name;
 	}
 
 	public Map<String, String> toMap() {

@@ -32,7 +32,7 @@ public class PayResData {
 	private String total_fee = ""; // 交易金额
 
 	// 支付返回类型数据转换
-	public PayResData(PayChannel channel, Map<String, String> resMap, Map<String, String> map) {
+	public PayResData(PayChannel channel, Map<String, String> resMap, Map<String, String> map,Map<String, String> dtoMap) {
 		try {
 			if (channel.equals(PayChannel.WECHAT)) {// 微信
 				//支付渠道返回信息
@@ -45,8 +45,8 @@ public class PayResData {
 				this.total_fee = AmountUtils.changeF2Y(resMap.get("total_fee"));
 				//平台返回信息
 				this.dynamic_type = "1";
-				this.merchant_name = map.get("companyName");
-				this.merchant_num = map.get("merchant_num");	
+				this.merchant_name = dtoMap.get("companyName");
+				this.merchant_num = dtoMap.get("merchant_num");
 			}
 			if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
 				//支付渠道返回信息

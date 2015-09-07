@@ -142,11 +142,13 @@ public class WchatpayController {
 			// 支付请求
 			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data",
 					orderNo, totalFee, terminal_unique_no, ip, "bar pay", sysWechatConfig);
-			scanPayReqData.setMerchant_name(sysMerchant.getCompanyName());
-			scanPayReqData.setMerchant_num(sysMerchant.getSerialNo());
-			scanPayReqData.setTerminal_unique_no(terminal_unique_no);
 			
-			payMsg = wechatPayService.barPay(scanPayReqData, sysWechatConfig);
+			Map<String ,String> dtoMap = new HashMap<>();
+			dtoMap.put("merchant_name", sysMerchant.getCompanyName());
+			dtoMap.put("merchant_num", sysMerchant.getSerialNo());
+			dtoMap.put("terminal_unique_no", terminal_unique_no);
+			
+			payMsg = wechatPayService.barPay(scanPayReqData, sysWechatConfig,dtoMap);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);

@@ -76,7 +76,7 @@ public class AlipayService {
 			log.info("同步返回结果：" + result.toString());
 			if ("T".equalsIgnoreCase(result.get("is_success"))) {// T代表成功
 				if (result.get("result_code").equals("ORDER_SUCCESS_PAY_SUCCESS")) {
-					PayResData payResData = new PayResData(PayChannel.ALIPAY, result, payReqData.toMap());
+					PayResData payResData = new PayResData(PayChannel.ALIPAY, result, payReqData.toMap(),null);
 					return new Message(ResultCode.SUCCESS.name(), "", "支付成功", payResData.toMap()); // 支付宝交易流水号
 				} else {
 					String detail_error_code = result.get("detail_error_code");

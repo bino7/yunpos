@@ -73,7 +73,7 @@ public class WechatPayService {
 	 * @param param
 	 * @return
 	 */
-	public Message barPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
+	public Message barPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig,Map<String ,String> dtoMap) throws Exception {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -127,7 +127,7 @@ public class WechatPayService {
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("【一次性支付成功】");
 					PayResData payResData = new PayResData(PayChannel.WECHAT, responseXml,
-							scanPayReqData.toStringMap());
+							scanPayReqData.toStringMap(),dtoMap);
 					//更新流水支付状态
 					SysTransaction sysTransaction = sysTransactionService.findByTransNum(payResData.getTrace_num());
 					sysTransaction.setTransPrice(Float.valueOf(payResData.getTrans_amount()));

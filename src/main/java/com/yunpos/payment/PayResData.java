@@ -45,7 +45,7 @@ public class PayResData {
 				this.total_fee = AmountUtils.changeF2Y(resMap.get("total_fee"));
 				//平台返回信息
 				this.dynamic_type = "1";
-				this.merchant_name = dtoMap.get("companyName");
+				this.merchant_name = dtoMap.get("merchant_name");
 				this.merchant_num = dtoMap.get("merchant_num");
 			}
 			if (channel.equals(PayChannel.ALIPAY)) {// 支付宝

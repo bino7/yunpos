@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yunpos.service.KDT.KDTTokenService;
+import com.yunpos.service.KDT.KdtTokenService;
 
 @RestController
 public class TokenController {
 	@Autowired
-	private KDTTokenService kdtTokenService;
+	private KdtTokenService kdtTokenService;
 		
 	/**
 	 * 通过Code获取Token

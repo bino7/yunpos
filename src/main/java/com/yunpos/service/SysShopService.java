@@ -35,5 +35,13 @@ public class SysShopService extends EntityService<SysShop> {
 	public List<SysShop> findAll(){
 		return sysShopMapper.findAll();
 	}
+	
+	public List<SysShop> findAllByToken(){
+		return sysShopMapper.findAll();
+	}
+	
+	public SysShop findByRefreshtoken(String refresh_token) {
+		return sysShopMapper.findByRefreshtoken(refresh_token);	
+	}
 
 }

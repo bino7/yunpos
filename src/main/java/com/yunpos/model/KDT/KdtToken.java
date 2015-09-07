@@ -1,6 +1,6 @@
 package com.yunpos.model.KDT;
 
-public class KDTToken {
+public class KdtToken {
 	private String access_token;
 	private int expires_in;
 	private String token_type;

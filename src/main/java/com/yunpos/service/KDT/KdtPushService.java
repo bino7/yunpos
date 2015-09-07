@@ -23,8 +23,8 @@ import com.yunpos.KDT.client.TradeAndProductClient;
  * @author janice
  *
  */
-public class KDTPushService {
-	private static final Logger log = LoggerFactory.getLogger(KDTPushService.class);
+public class KdtPushService {
+	private static final Logger log = LoggerFactory.getLogger(KdtPushService.class);
 	private static final String VERSION = "v2";
 	private static final String client_id = "7718b70dad904f6f3b";
 	private static final String client_secret = "05703a2a336f893f53f72d6406bce731";
@@ -35,7 +35,7 @@ public class KDTPushService {
 	 * 获取Trade数据，并进行相应处理
 	 * @throws Exception
 	 */
-	public void pullAndUpdate() throws Exception {
+	public void pushAndUpdate() throws Exception {
 		Map<String, String> apps = new HashMap<String, String>();
 		apps.put(client_id, client_secret);
 		

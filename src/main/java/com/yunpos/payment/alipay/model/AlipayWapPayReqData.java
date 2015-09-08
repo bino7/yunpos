@@ -74,7 +74,7 @@ public class AlipayWapPayReqData {
 		setShow_url(AlipayConfig.wap_show_url);
 		
 		// 非必填选项
-		setBody(subject);
+		//setBody(subject);
 		setNotify_url(AlipayConfig.wap_notify_url);
 		setReturn_url(AlipayConfig.wap_return);
 		

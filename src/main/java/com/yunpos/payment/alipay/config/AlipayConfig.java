@@ -54,12 +54,17 @@ public class AlipayConfig {
 	public static String wap_notify_url = "";
 	public static String wap_service="";
 	public static String wap_show_url ="";
+	
+	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+	public static String wap_sign_type ="RSA";
+	
+	public static String seller_id = "2088811505144045";
 	// 商户的私钥
+	//public static String private_key = "slqdu3mcpt194w77j9z1k5d2w6gerzo7";
 	public static String wap_private_key = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBANfZ77vXGVfN0+DgfQmfio9aEQVnft8LzW+/+tyjiU3XL18ZMUPeOZs0anD8Iuqs+2952CbDLBm0OoMKa7ZKFU6ZB4XXrtdIhVpxZClICUOaDBfN8S/A9N+RUwW/mtoqxK6tmGgWyz8A+8cY5oVjH3gHYrvfEnG04K887lX3X2ltAgMBAAECgYEAskc1g26wZt4Ant6rR3R3K9lW76DAoBaOcjsdRnjn4dvWK3SSRRzZdYBAXdtSN4PyE+uOBM30sbIzFaJYvnHHz+LaLPfFgtxC7mHEoNj9brBQnz2oL89TPjtSSI5pcN/Y+tATx8bhlzrWbhWo9z+4CihaBBXCBspTenOogex2a50CQQD7JYr4Gwa65/C9qHn9rC9h6TuNwzioXglJQ/JKS0XmXv62TT3KUVPw8az2VnojtNlAWpDxEsPTEzx771bwakRfAkEA3AXIX2NpGjjis5nFjvod7hX4UZFUHyweh88w93hIvJKy9tUBag/YgwJTxuuGplst3qBTc96ssXsFFQsO6dxFswJBAOrJikWwXnZVZ4am/oTcd998/6PkIg+k+eF4mAZEoLBhlpYvV9jQdz0FcsFIzx6ab4/uGxqEhHXLwfvLIOfZMNkCQDMRGIejQCK47002NJdR0B6RdNghvf+aMt/cpAXcIi26ctU9bR2b3enSYXV69v6njQbt+VCcb0KmRfCzZ1u6J2cCQQD3MMQce4+Y3Bj+IbZD7Zy9iBI6nbN1I5DEuqyF5ActUwAuwwrL3Zdqc9l5e6oDGudbXr17RKcly5jV8y58bYTL";
 	// 支付宝的公钥，无需修改该值
 	public static String wap_ali_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnvy68wcpDiNUZYhvwxWVQa2pQYkoXvJRcpp+T Fn9j6uQ6Je9U0bNlnfJ5EUPCL2BBnvge3RP5PPucs66IWpu9lz3ibCxuNqV/+cwp93STMMv/lRbZ j3ipFblIeBVHQ9DIuWN14zBM8MfC49wS1SvlF8Go3OYPbNLSZBlGll3a3wIDAQAB";
 	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-	public static String wap_sign_type ="RSA";
 	
 	
 	//支付宝预下单参数

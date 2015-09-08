@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.sign.MD5;
+import com.yunpos.payment.alipay.sign.RSA;
 import com.yunpos.payment.alipay.util.httpClient.HttpProtocolHandler;
 import com.yunpos.payment.alipay.util.httpClient.HttpRequest;
 import com.yunpos.payment.alipay.util.httpClient.HttpResponse;
@@ -49,8 +50,10 @@ public class AlipaySubmit {
 	public static String buildRequestMysign(Map<String, String> sPara) {
     	String prestr = AlipayCore.createLinkString(sPara); //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         String mysign = "";
-        if(AlipayConfig.sign_type.equals("MD5") ) {
+        if(AlipayConfig.sign_type.equals("MD5") ) {//MD5
         	mysign = MD5.sign(prestr, AlipayConfig.key, AlipayConfig.input_charset);
+        }else if(AlipayConfig.sign_type.equals("RSA") ){//RSA
+        	mysign = RSA.sign(prestr, AlipayConfig.wap_private_key, AlipayConfig.input_charset);
         }
         return mysign;
     }

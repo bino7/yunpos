@@ -67,11 +67,11 @@ public class AlipayWapPayReqData {
 		setSeller_id(seller_id);
 		set_input_charset(AlipayConfig.input_charset);
 		setPayment_type("1");
-		setSign_type(AlipayConfig.sign_type);
+		setSign_type(AlipayConfig.wap_sign_type);
 		setOut_trade_no(out_trade_no);
 		setSubject(subject);
 		setTotal_fee(total_fee);
-		setShow_url(AlipayConfig.show_url);
+		setShow_url(AlipayConfig.wap_show_url);
 		
 		// 非必填选项
 		setBody(subject);

@@ -505,7 +505,7 @@ public class WechatPayService {
 
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("【统一下单成功】");
-					ScanCodePayResData scanCodePayResData = new ScanCodePayResData(responseXml);
+					ScanCodePayResData scanCodePayResData = new ScanCodePayResData(responseXml,scanCodePayReqData.toStringMap());
 					return new Message(ResultCode.SUCCESS.name(), "", "下单成功", scanCodePayResData.toMap()); // 支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");

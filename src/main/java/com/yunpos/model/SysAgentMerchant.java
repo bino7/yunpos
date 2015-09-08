@@ -2,38 +2,52 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+/**
+ * 代理商
+ * 功能描述：
+ * <p>
+ * 版权所有：小牛信息科技有限公司
+ * <p>
+ * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
+ * 
+ * @author tiger_lin 新增日期：2015年9月1日
+ * @author tiger_lin 修改日期：2015年9月1日
+ *
+ */
 public class SysAgentMerchant {
-    private Integer id;
+    private Integer id;					//主键ID
 
-    private Integer baseUserId;
+    private Integer baseUserId;			//关联的基础用户信息ID（关联sys_user表）
 
-    private String agentSerialNo;
+    private String agentSerialNo;		//代理商编号
 
-    private String companyName;
+    private String companyName;			//公司名称
 
-    private String businessLicense;
+    private String businessLicense;		//营业执照图片路径
 
-    private String registerNumber;
+    private String registerNumber;		//营业执照注册号
 
-    private String identityCard;
+    private String identityCard;		//法人/经营者身份证图片路径
 
-    private String contactMan;
+    private String contactMan;			//联系人
 
-    private String phone;
+    private String phone;				//联系人电话
 
-    private String tel;
+    private String tel;					//联系人手机
 
-    private String prov;
+    private String prov;				//省
 
-    private String city;
+    private String city;				//市
 
-    private String area;
+    private String area;				//地区
 
-    private String address;
+    private String address;				//详细地址
 
-    private Byte auditStatus;
+    private int auditStatus;			//审核状态 0：审核中，1：未审核 ，2：审核通过、3：回退、4：驳回
+    
+    private int status;					//代理商状态 0停用 1启用
 
-    private Date endTime;
+    private Date endTime;				//合同到期时间
 
     public Integer getId() {
         return id;
@@ -147,11 +161,11 @@ public class SysAgentMerchant {
         this.address = address == null ? null : address.trim();
     }
 
-    public Byte getAuditStatus() {
+    public int getAuditStatus() {
         return auditStatus;
     }
 
-    public void setAuditStatus(Byte auditStatus) {
+    public void setAuditStatus(int auditStatus) {
         this.auditStatus = auditStatus;
     }
 
@@ -162,4 +176,13 @@ public class SysAgentMerchant {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+    
 }

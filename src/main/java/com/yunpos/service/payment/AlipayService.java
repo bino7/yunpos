@@ -18,6 +18,7 @@ import com.yunpos.payment.PreCreateResData;
 import com.yunpos.payment.QueryResData;
 import com.yunpos.payment.RefundResData;
 import com.yunpos.payment.RefundResData.PayChannel;
+import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.model.AlipayCancelReqData;
 import com.yunpos.payment.alipay.model.AlipayCancelResData;
 import com.yunpos.payment.alipay.model.AlipayPrecreateReqData;
@@ -182,7 +183,7 @@ public class AlipayService {
 					.findByMerchantNo(sysTransaction.getSerialNo());
 			Map<String, String> payMap = new HashMap<>();
 			payMap.put("key", sysAlipayConfig.getKey());
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap());
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap(),AlipayConfig.sign_type);
 			if (Strings.isNullOrEmpty(responseXml)) {
 				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
 			}

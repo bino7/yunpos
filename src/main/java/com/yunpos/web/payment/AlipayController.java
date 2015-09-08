@@ -309,8 +309,8 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTransType((byte)0);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("手机网站（手机wap）在线支付");
 			sysTransactionService.save(sysTransaction);
-			
-			 AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "支付宝手机wap支付", total_fee, sysAlipayConfig.getPid());
+			 
+			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "支付宝手机wap支付", total_fee, sysAlipayConfig.getPid());
 			 sHtmlText = alipayWapService.pay(payReqData);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);

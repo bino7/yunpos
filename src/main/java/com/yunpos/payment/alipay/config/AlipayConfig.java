@@ -87,7 +87,7 @@ public class AlipayConfig {
 		AlipayConfig.wap_return = rb.getString("wap_return").trim();
 		AlipayConfig.wap_notify_url = rb.getString("wap_notify_url").trim();
 		AlipayConfig.wap_service = rb.getString("wap_service").trim();
-		AlipayConfig.wap_show_url = rb.getString("show_url");
+		AlipayConfig.wap_show_url = rb.getString("wap_show_url");
 		
 		//支付宝预下单请求接口
 		AlipayConfig.alipay_acquire_precreate = rb.getString("alipay_acquire_precreate");

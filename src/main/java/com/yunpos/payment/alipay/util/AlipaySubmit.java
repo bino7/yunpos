@@ -58,6 +58,7 @@ public class AlipaySubmit {
         	log.info("###RSA");
         	mysign = RSA.sign(prestr, AlipayConfig.wap_private_key, AlipayConfig.input_charset);
         }
+        log.info("####mysign"+mysign);
         return mysign;
     }
 	

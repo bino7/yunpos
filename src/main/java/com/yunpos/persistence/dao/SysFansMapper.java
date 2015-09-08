@@ -16,5 +16,5 @@ public interface SysFansMapper extends EntityMapper<SysFans>{
 	SysFans findByOpenIdorUserId(@Param(value = "openId") String openId, @Param(value = "userId") String userId);
 	
 	@Select("select * from sys_fans r WHERE r.appid_userId=#{oid}")
-	SysFans findByOid(@Param(value = "oid") int oid);
+	SysFans findByOid(@Param(value = "oid") String oid);
 }

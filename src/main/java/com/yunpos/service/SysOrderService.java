@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysOrder;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysOrderMapper;
@@ -25,7 +24,7 @@ public class SysOrderService extends EntityService<SysOrder> {
 		// TODO Auto-generated method stub
 		return sysOrderMapper.findAll();
 	}
-
+	
 	public GridResponse<SysOrder> search(GridRequest gridRequest) {
 		GridResponse<SysOrder> response = new GridResponse<SysOrder>();
 		List<SysOrder> sysOrder =  sysOrderMapper.search();
@@ -36,6 +35,4 @@ public class SysOrderService extends EntityService<SysOrder> {
 		return response;
 	}
 	
-	
-
 }

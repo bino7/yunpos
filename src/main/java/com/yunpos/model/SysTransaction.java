@@ -1,15 +1,9 @@
 package com.yunpos.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class SysTransaction implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private Integer id;
+public class SysTransaction {
+    private Integer id;
 
     private Byte channel;
 
@@ -44,6 +38,8 @@ public class SysTransaction implements Serializable {
     private Byte transType;
 
     private String orderId;
+
+    private String oid;
 
     private String info;
 
@@ -189,6 +185,14 @@ public class SysTransaction implements Serializable {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId == null ? null : orderId.trim();
+    }
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid == null ? null : oid.trim();
     }
 
     public String getInfo() {

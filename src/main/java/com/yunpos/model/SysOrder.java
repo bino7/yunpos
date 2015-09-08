@@ -11,6 +11,8 @@ public class SysOrder {
 
     private String memberId;
 
+    private String nickName;
+
     private Date createdAt;
 
     private Date updatedAt;
@@ -37,6 +39,8 @@ public class SysOrder {
 
     private String houseAddress;
 
+    private Date payTime;
+
     private Byte payMode;
 
     private Byte payType;
@@ -45,11 +49,13 @@ public class SysOrder {
 
     private Integer score;
 
-    private Byte printed;
+    private Byte printStatus;
 
     private Byte handleStatus;
 
     private String info;
+
+    private String shopId;
 
     public Integer getId() {
         return id;
@@ -81,6 +87,14 @@ public class SysOrder {
 
     public void setMemberId(String memberId) {
         this.memberId = memberId == null ? null : memberId.trim();
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     public Date getCreatedAt() {
@@ -187,6 +201,14 @@ public class SysOrder {
         this.houseAddress = houseAddress == null ? null : houseAddress.trim();
     }
 
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
     public Byte getPayMode() {
         return payMode;
     }
@@ -219,12 +241,12 @@ public class SysOrder {
         this.score = score;
     }
 
-    public Byte getPrinted() {
-        return printed;
+    public Byte getPrintStatus() {
+        return printStatus;
     }
 
-    public void setPrinted(Byte printed) {
-        this.printed = printed;
+    public void setPrintStatus(Byte printStatus) {
+        this.printStatus = printStatus;
     }
 
     public Byte getHandleStatus() {
@@ -241,5 +263,13 @@ public class SysOrder {
 
     public void setInfo(String info) {
         this.info = info == null ? null : info.trim();
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId == null ? null : shopId.trim();
     }
 }

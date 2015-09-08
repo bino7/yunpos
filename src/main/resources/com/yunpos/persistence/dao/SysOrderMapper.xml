@@ -6,6 +6,7 @@
     <result column="orderId" property="orderId" jdbcType="VARCHAR" />
     <result column="openId" property="openId" jdbcType="VARCHAR" />
     <result column="memberId" property="memberId" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickName" jdbcType="VARCHAR" />
     <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="trueName" property="trueName" jdbcType="VARCHAR" />
@@ -19,18 +20,20 @@
     <result column="groupon" property="groupon" jdbcType="BIT" />
     <result column="groupcode" property="groupcode" jdbcType="VARCHAR" />
     <result column="houseAddress" property="houseAddress" jdbcType="VARCHAR" />
+    <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
     <result column="payMode" property="payMode" jdbcType="TINYINT" />
     <result column="payType" property="payType" jdbcType="TINYINT" />
     <result column="payStatus" property="payStatus" jdbcType="TINYINT" />
     <result column="score" property="score" jdbcType="INTEGER" />
-    <result column="printed" property="printed" jdbcType="TINYINT" />
+    <result column="printStatus" property="printStatus" jdbcType="TINYINT" />
     <result column="handleStatus" property="handleStatus" jdbcType="TINYINT" />
     <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="shopId" property="shopId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, orderId, openId, memberId, createdAt, updatedAt, trueName, tel, productList, 
+    id, orderId, openId, memberId, nickName, createdAt, updatedAt, trueName, tel, productList, 
     productPrice, total, mailPrice, couponPrice, totalPrice, groupon, groupcode, houseAddress, 
-    payMode, payType, payStatus, score, printed, handleStatus, info
+    payTime, payMode, payType, payStatus, score, printStatus, handleStatus, info, shopId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -42,25 +45,32 @@
     delete from sys_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysOrder" >
-    insert into sys_order (id, orderId, openId, 
-      memberId, createdAt, updatedAt, 
-      trueName, tel, productList, 
-      productPrice, total, mailPrice, 
-      couponPrice, totalPrice, groupon, 
-      groupcode, houseAddress, payMode, 
-      payType, payStatus, score, 
-      printed, handleStatus, info
-      )
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, 
-      #{memberId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{trueName,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{productList,jdbcType=VARCHAR}, 
-      #{productPrice,jdbcType=REAL}, #{total,jdbcType=INTEGER}, #{mailPrice,jdbcType=REAL}, 
-      #{couponPrice,jdbcType=REAL}, #{totalPrice,jdbcType=REAL}, #{groupon,jdbcType=BIT}, 
-      #{groupcode,jdbcType=VARCHAR}, #{houseAddress,jdbcType=VARCHAR}, #{payMode,jdbcType=TINYINT}, 
-      #{payType,jdbcType=TINYINT}, #{payStatus,jdbcType=TINYINT}, #{score,jdbcType=INTEGER}, 
-      #{printed,jdbcType=TINYINT}, #{handleStatus,jdbcType=TINYINT}, #{info,jdbcType=VARCHAR}
-      )
+	<insert id="insert" parameterType="com.yunpos.model.SysOrder"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_order (orderId, openId,
+		memberId, nickName, createdAt,
+		updatedAt, trueName, tel,
+		productList, productPrice, total,
+		mailPrice, couponPrice, totalPrice,
+		groupon, groupcode, houseAddress,
+		payTime, payMode, payType,
+		payStatus, score, printStatus,
+		handleStatus, info, shopId
+		)
+		values (#{orderId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR},
+		#{memberId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP}, #{trueName,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
+		#{productList,jdbcType=VARCHAR}, #{productPrice,jdbcType=REAL},
+		#{total,jdbcType=INTEGER},
+		#{mailPrice,jdbcType=REAL}, #{couponPrice,jdbcType=REAL}, #{totalPrice,jdbcType=REAL},
+		#{groupon,jdbcType=BIT}, #{groupcode,jdbcType=VARCHAR},
+		#{houseAddress,jdbcType=VARCHAR},
+		#{payTime,jdbcType=TIMESTAMP}, #{payMode,jdbcType=TINYINT}, #{payType,jdbcType=TINYINT},
+		#{payStatus,jdbcType=TINYINT}, #{score,jdbcType=INTEGER},
+		#{printStatus,jdbcType=TINYINT},
+		#{handleStatus,jdbcType=TINYINT}, #{info,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}
+		)
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysOrder" >
     insert into sys_order
@@ -76,6 +86,9 @@
       </if>
       <if test="memberId != null" >
         memberId,
+      </if>
+      <if test="nickName != null" >
+        nickName,
       </if>
       <if test="createdAt != null" >
         createdAt,
@@ -116,6 +129,9 @@
       <if test="houseAddress != null" >
         houseAddress,
       </if>
+      <if test="payTime != null" >
+        payTime,
+      </if>
       <if test="payMode != null" >
         payMode,
       </if>
@@ -128,14 +144,17 @@
       <if test="score != null" >
         score,
       </if>
-      <if test="printed != null" >
-        printed,
+      <if test="printStatus != null" >
+        printStatus,
       </if>
       <if test="handleStatus != null" >
         handleStatus,
       </if>
       <if test="info != null" >
         info,
+      </if>
+      <if test="shopId != null" >
+        shopId,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -150,6 +169,9 @@
       </if>
       <if test="memberId != null" >
         #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null" >
         #{createdAt,jdbcType=TIMESTAMP},
@@ -190,6 +212,9 @@
       <if test="houseAddress != null" >
         #{houseAddress,jdbcType=VARCHAR},
       </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="payMode != null" >
         #{payMode,jdbcType=TINYINT},
       </if>
@@ -202,14 +227,17 @@
       <if test="score != null" >
         #{score,jdbcType=INTEGER},
       </if>
-      <if test="printed != null" >
-        #{printed,jdbcType=TINYINT},
+      <if test="printStatus != null" >
+        #{printStatus,jdbcType=TINYINT},
       </if>
       <if test="handleStatus != null" >
         #{handleStatus,jdbcType=TINYINT},
       </if>
       <if test="info != null" >
         #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -224,6 +252,9 @@
       </if>
       <if test="memberId != null" >
         memberId = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nickName = #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null" >
         createdAt = #{createdAt,jdbcType=TIMESTAMP},
@@ -264,6 +295,9 @@
       <if test="houseAddress != null" >
         houseAddress = #{houseAddress,jdbcType=VARCHAR},
       </if>
+      <if test="payTime != null" >
+        payTime = #{payTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="payMode != null" >
         payMode = #{payMode,jdbcType=TINYINT},
       </if>
@@ -276,14 +310,17 @@
       <if test="score != null" >
         score = #{score,jdbcType=INTEGER},
       </if>
-      <if test="printed != null" >
-        printed = #{printed,jdbcType=TINYINT},
+      <if test="printStatus != null" >
+        printStatus = #{printStatus,jdbcType=TINYINT},
       </if>
       <if test="handleStatus != null" >
         handleStatus = #{handleStatus,jdbcType=TINYINT},
       </if>
       <if test="info != null" >
         info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shopId = #{shopId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -293,6 +330,7 @@
     set orderId = #{orderId,jdbcType=VARCHAR},
       openId = #{openId,jdbcType=VARCHAR},
       memberId = #{memberId,jdbcType=VARCHAR},
+      nickName = #{nickName,jdbcType=VARCHAR},
       createdAt = #{createdAt,jdbcType=TIMESTAMP},
       updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
       trueName = #{trueName,jdbcType=VARCHAR},
@@ -306,24 +344,15 @@
       groupon = #{groupon,jdbcType=BIT},
       groupcode = #{groupcode,jdbcType=VARCHAR},
       houseAddress = #{houseAddress,jdbcType=VARCHAR},
+      payTime = #{payTime,jdbcType=TIMESTAMP},
       payMode = #{payMode,jdbcType=TINYINT},
       payType = #{payType,jdbcType=TINYINT},
       payStatus = #{payStatus,jdbcType=TINYINT},
       score = #{score,jdbcType=INTEGER},
-      printed = #{printed,jdbcType=TINYINT},
+      printStatus = #{printStatus,jdbcType=TINYINT},
       handleStatus = #{handleStatus,jdbcType=TINYINT},
-      info = #{info,jdbcType=VARCHAR}
+      info = #{info,jdbcType=VARCHAR},
+      shopId = #{shopId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-    <select id="search" resultMap="BaseResultMap"
-		parameterType="com.yunpos.utils.jqgrid.GridRequest">
-		select
-		<include refid="Base_Column_List" />
-		from sys_order
-		<if test="searchValue != null">
-			where 
-			orderId = #{searchValue,jdbcType=VARCHAR}
-		</if>
-	</select>
 </mapper>

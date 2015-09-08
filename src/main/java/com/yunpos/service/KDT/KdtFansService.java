@@ -23,7 +23,7 @@ import com.yunpos.service.SysFansService;
 import com.yunpos.service.SysShopService;
 
 /**
- * 有赞粉丝服务类，由于外部定时器定时调用
+ * 有赞粉丝服务类，由外部定时器定时调用
  * @author janice
  *
  */

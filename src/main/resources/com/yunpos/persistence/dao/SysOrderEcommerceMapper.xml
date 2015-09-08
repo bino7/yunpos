@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysOrderEcommerceMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysOrderEcommerce" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="baseOrderId" property="baseOrderId" jdbcType="INTEGER" />
+    <result column="orderType" property="orderType" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="CHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="msg" property="msg" jdbcType="VARCHAR" />
+    <result column="sendStatus" property="sendStatus" jdbcType="TINYINT" />
+    <result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="logisticsid" property="logisticsid" jdbcType="VARCHAR" />
+    <result column="logistics" property="logistics" jdbcType="VARCHAR" />
+    <result column="logisticsOrder" property="logisticsOrder" jdbcType="VARCHAR" />
+    <result column="handleTime" property="handleTime" jdbcType="TIMESTAMP" />
+    <result column="handleUid" property="handleUid" jdbcType="VARCHAR" />
+    <result column="checkFlag" property="checkFlag" jdbcType="TINYINT" />
+    <result column="checkTime" property="checkTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, baseOrderId, orderType, postcode, address, msg, sendStatus, sendTime, logisticsid, 
+    logistics, logisticsOrder, handleTime, handleUid, checkFlag, checkTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_order_ecommerce
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_order_ecommerce
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysOrderEcommerce" >
+    insert into sys_order_ecommerce (id, baseOrderId, orderType, 
+      postcode, address, msg, 
+      sendStatus, sendTime, logisticsid, 
+      logistics, logisticsOrder, handleTime, 
+      handleUid, checkFlag, checkTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{baseOrderId,jdbcType=INTEGER}, #{orderType,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, 
+      #{sendStatus,jdbcType=TINYINT}, #{sendTime,jdbcType=TIMESTAMP}, #{logisticsid,jdbcType=VARCHAR}, 
+      #{logistics,jdbcType=VARCHAR}, #{logisticsOrder,jdbcType=VARCHAR}, #{handleTime,jdbcType=TIMESTAMP}, 
+      #{handleUid,jdbcType=VARCHAR}, #{checkFlag,jdbcType=TINYINT}, #{checkTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysOrderEcommerce" >
+    insert into sys_order_ecommerce
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="baseOrderId != null" >
+        baseOrderId,
+      </if>
+      <if test="orderType != null" >
+        orderType,
+      </if>
+      <if test="postcode != null" >
+        postcode,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="msg != null" >
+        msg,
+      </if>
+      <if test="sendStatus != null" >
+        sendStatus,
+      </if>
+      <if test="sendTime != null" >
+        sendTime,
+      </if>
+      <if test="logisticsid != null" >
+        logisticsid,
+      </if>
+      <if test="logistics != null" >
+        logistics,
+      </if>
+      <if test="logisticsOrder != null" >
+        logisticsOrder,
+      </if>
+      <if test="handleTime != null" >
+        handleTime,
+      </if>
+      <if test="handleUid != null" >
+        handleUid,
+      </if>
+      <if test="checkFlag != null" >
+        checkFlag,
+      </if>
+      <if test="checkTime != null" >
+        checkTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderId != null" >
+        #{baseOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=CHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null" >
+        #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsid != null" >
+        #{logisticsid,jdbcType=VARCHAR},
+      </if>
+      <if test="logistics != null" >
+        #{logistics,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsOrder != null" >
+        #{logisticsOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null" >
+        #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleUid != null" >
+        #{handleUid,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null" >
+        #{checkFlag,jdbcType=TINYINT},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysOrderEcommerce" >
+    update sys_order_ecommerce
+    <set >
+      <if test="baseOrderId != null" >
+        baseOrderId = #{baseOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null" >
+        orderType = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        postcode = #{postcode,jdbcType=CHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null" >
+        sendStatus = #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sendTime != null" >
+        sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsid != null" >
+        logisticsid = #{logisticsid,jdbcType=VARCHAR},
+      </if>
+      <if test="logistics != null" >
+        logistics = #{logistics,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsOrder != null" >
+        logisticsOrder = #{logisticsOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null" >
+        handleTime = #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleUid != null" >
+        handleUid = #{handleUid,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFlag != null" >
+        checkFlag = #{checkFlag,jdbcType=TINYINT},
+      </if>
+      <if test="checkTime != null" >
+        checkTime = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysOrderEcommerce" >
+    update sys_order_ecommerce
+    set baseOrderId = #{baseOrderId,jdbcType=INTEGER},
+      orderType = #{orderType,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=CHAR},
+      address = #{address,jdbcType=VARCHAR},
+      msg = #{msg,jdbcType=VARCHAR},
+      sendStatus = #{sendStatus,jdbcType=TINYINT},
+      sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      logisticsid = #{logisticsid,jdbcType=VARCHAR},
+      logistics = #{logistics,jdbcType=VARCHAR},
+      logisticsOrder = #{logisticsOrder,jdbcType=VARCHAR},
+      handleTime = #{handleTime,jdbcType=TIMESTAMP},
+      handleUid = #{handleUid,jdbcType=VARCHAR},
+      checkFlag = #{checkFlag,jdbcType=TINYINT},
+      checkTime = #{checkTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

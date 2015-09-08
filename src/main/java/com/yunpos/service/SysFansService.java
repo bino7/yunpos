@@ -33,7 +33,7 @@ public class SysFansService extends EntityService<SysFans> {
 	 * @param oid
 	 * @return
 	 */
-	public SysFans findByOid(int oid) {
+	public SysFans findByOid(String oid) {
 		return sysFansMapper.findByOid(oid);		
 	}
 

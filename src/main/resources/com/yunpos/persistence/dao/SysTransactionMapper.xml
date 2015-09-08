@@ -1,313 +1,270 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yunpos.persistence.dao.SysTransactionMapper">
-	<resultMap id="BaseResultMap" type="com.yunpos.model.SysTransaction">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="channel" property="channel" jdbcType="TINYINT" />
-		<result column="subChannel" property="subChannel" jdbcType="TINYINT" />
-		<result column="title" property="title" jdbcType="VARCHAR" />
-		<result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
-		<result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
-		<result column="agentSerialNo" property="agentSerialNo"
-			jdbcType="VARCHAR" />
-		<result column="terminalNum" property="terminalNum" jdbcType="VARCHAR" />
-		<result column="transCardNum" property="transCardNum" jdbcType="VARCHAR" />
-		<result column="transNum" property="transNum" jdbcType="VARCHAR" />
-		<result column="transTime" property="transTime" jdbcType="TIMESTAMP" />
-		<result column="transPrice" property="transPrice" jdbcType="REAL" />
-		<result column="totalPrice" property="totalPrice" jdbcType="REAL" />
-		<result column="scanType" property="scanType" jdbcType="TINYINT" />
-		<result column="couponCode" property="couponCode" jdbcType="VARCHAR" />
-		<result column="status" property="status" jdbcType="TINYINT" />
-		<result column="transType" property="transType" jdbcType="TINYINT" />
-		<result column="orderId" property="orderId" jdbcType="VARCHAR" />
-		<result column="info" property="info" jdbcType="VARCHAR" />
-	</resultMap>
-	<sql id="Base_Column_List">
-		id, channel, subChannel, title, merchantName, serialNo,
-		agentSerialNo,
-		terminalNum,
-		transCardNum, transNum, transTime,
-		transPrice, totalPrice, scanType, couponCode,
-		status, transType,
-		orderId, info
-	</sql>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Integer">
-		select
-		<include refid="Base_Column_List" />
-		from sys_transaction
-		where id = #{id,jdbcType=INTEGER}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from
-		sys_transaction
-		where id = #{id,jdbcType=INTEGER}
-	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysTransaction"
-		useGeneratedKeys="true" keyProperty="id">
-		insert into sys_transaction (
-		channel, subChannel,
-		title, merchantName, serialNo,
-		agentSerialNo,
-		terminalNum, transCardNum,
-		transNum, transTime, transPrice,
-		totalPrice,
-		scanType, couponCode,
-		status, transType, orderId,
-		info)
-		values
-		(#{channel,jdbcType=TINYINT}, #{subChannel,jdbcType=TINYINT},
-		#{title,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR},
-		#{serialNo,jdbcType=VARCHAR},
-		#{agentSerialNo,jdbcType=VARCHAR},
-		#{terminalNum,jdbcType=VARCHAR}, #{transCardNum,jdbcType=VARCHAR},
-		#{transNum,jdbcType=VARCHAR}, #{transTime,jdbcType=TIMESTAMP},
-		#{transPrice,jdbcType=REAL},
-		#{totalPrice,jdbcType=REAL},
-		#{scanType,jdbcType=TINYINT}, #{couponCode,jdbcType=VARCHAR},
-		#{status,jdbcType=TINYINT}, #{transType,jdbcType=TINYINT},
-		#{orderId,jdbcType=VARCHAR},
-		#{info,jdbcType=VARCHAR})
-	</insert>
-	<insert id="insertSelective" parameterType="com.yunpos.model.SysTransaction">
-		insert into sys_transaction
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="channel != null">
-				channel,
-			</if>
-			<if test="subChannel != null">
-				subChannel,
-			</if>
-			<if test="title != null">
-				title,
-			</if>
-			<if test="merchantName != null">
-				merchantName,
-			</if>
-			<if test="serialNo != null">
-				serialNo,
-			</if>
-			<if test="agentSerialNo != null">
-				agentSerialNo,
-			</if>
-			<if test="terminalNum != null">
-				terminalNum,
-			</if>
-			<if test="transCardNum != null">
-				transCardNum,
-			</if>
-			<if test="transNum != null">
-				transNum,
-			</if>
-			<if test="transTime != null">
-				transTime,
-			</if>
-			<if test="transPrice != null">
-				transPrice,
-			</if>
-			<if test="totalPrice != null">
-				totalPrice,
-			</if>
-			<if test="scanType != null">
-				scanType,
-			</if>
-			<if test="couponCode != null">
-				couponCode,
-			</if>
-			<if test="status != null">
-				status,
-			</if>
-			<if test="transType != null">
-				transType,
-			</if>
-			<if test="orderId != null">
-				orderId,
-			</if>
-			<if test="info != null">
-				info,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=INTEGER},
-			</if>
-			<if test="channel != null">
-				#{channel,jdbcType=TINYINT},
-			</if>
-			<if test="subChannel != null">
-				#{subChannel,jdbcType=TINYINT},
-			</if>
-			<if test="title != null">
-				#{title,jdbcType=VARCHAR},
-			</if>
-			<if test="merchantName != null">
-				#{merchantName,jdbcType=VARCHAR},
-			</if>
-			<if test="serialNo != null">
-				#{serialNo,jdbcType=VARCHAR},
-			</if>
-			<if test="agentSerialNo != null">
-				#{agentSerialNo,jdbcType=VARCHAR},
-			</if>
-			<if test="terminalNum != null">
-				#{terminalNum,jdbcType=VARCHAR},
-			</if>
-			<if test="transCardNum != null">
-				#{transCardNum,jdbcType=VARCHAR},
-			</if>
-			<if test="transNum != null">
-				#{transNum,jdbcType=VARCHAR},
-			</if>
-			<if test="transTime != null">
-				#{transTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="transPrice != null">
-				#{transPrice,jdbcType=REAL},
-			</if>
-			<if test="totalPrice != null">
-				#{totalPrice,jdbcType=REAL},
-			</if>
-			<if test="scanType != null">
-				#{scanType,jdbcType=TINYINT},
-			</if>
-			<if test="couponCode != null">
-				#{couponCode,jdbcType=VARCHAR},
-			</if>
-			<if test="status != null">
-				#{status,jdbcType=TINYINT},
-			</if>
-			<if test="transType != null">
-				#{transType,jdbcType=TINYINT},
-			</if>
-			<if test="orderId != null">
-				#{orderId,jdbcType=VARCHAR},
-			</if>
-			<if test="info != null">
-				#{info,jdbcType=VARCHAR},
-			</if>
-		</trim>
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysTransaction">
-		update sys_transaction
-		<set>
-			<if test="channel != null">
-				channel = #{channel,jdbcType=TINYINT},
-			</if>
-			<if test="subChannel != null">
-				subChannel = #{subChannel,jdbcType=TINYINT},
-			</if>
-			<if test="title != null">
-				title = #{title,jdbcType=VARCHAR},
-			</if>
-			<if test="merchantName != null">
-				merchantName = #{merchantName,jdbcType=VARCHAR},
-			</if>
-			<if test="serialNo != null">
-				serialNo = #{serialNo,jdbcType=VARCHAR},
-			</if>
-			<if test="agentSerialNo != null">
-				agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
-			</if>
-			<if test="terminalNum != null">
-				terminalNum = #{terminalNum,jdbcType=VARCHAR},
-			</if>
-			<if test="transCardNum != null">
-				transCardNum = #{transCardNum,jdbcType=VARCHAR},
-			</if>
-			<if test="transNum != null">
-				transNum = #{transNum,jdbcType=VARCHAR},
-			</if>
-			<if test="transTime != null">
-				transTime = #{transTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="transPrice != null">
-				transPrice = #{transPrice,jdbcType=REAL},
-			</if>
-			<if test="totalPrice != null">
-				totalPrice = #{totalPrice,jdbcType=REAL},
-			</if>
-			<if test="scanType != null">
-				scanType = #{scanType,jdbcType=TINYINT},
-			</if>
-			<if test="couponCode != null">
-				couponCode = #{couponCode,jdbcType=VARCHAR},
-			</if>
-			<if test="status != null">
-				status = #{status,jdbcType=TINYINT},
-			</if>
-			<if test="transType != null">
-				transType = #{transType,jdbcType=TINYINT},
-			</if>
-			<if test="orderId != null">
-				orderId = #{orderId,jdbcType=VARCHAR},
-			</if>
-			<if test="info != null">
-				info = #{info,jdbcType=VARCHAR},
-			</if>
-		</set>
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysTransaction">
-		update
-		sys_transaction
-		set channel = #{channel,jdbcType=TINYINT},
-		subChannel =
-		#{subChannel,jdbcType=TINYINT},
-		title = #{title,jdbcType=VARCHAR},
-		merchantName = #{merchantName,jdbcType=VARCHAR},
-		serialNo =
-		#{serialNo,jdbcType=VARCHAR},
-		agentSerialNo =
-		#{agentSerialNo,jdbcType=VARCHAR},
-		terminalNum =
-		#{terminalNum,jdbcType=VARCHAR},
-		transCardNum =
-		#{transCardNum,jdbcType=VARCHAR},
-		transNum =
-		#{transNum,jdbcType=VARCHAR},
-		transTime =
-		#{transTime,jdbcType=TIMESTAMP},
-		transPrice =
-		#{transPrice,jdbcType=REAL},
-		totalPrice = #{totalPrice,jdbcType=REAL},
-		scanType = #{scanType,jdbcType=TINYINT},
-		couponCode =
-		#{couponCode,jdbcType=VARCHAR},
-		status = #{status,jdbcType=TINYINT},
-		transType = #{transType,jdbcType=TINYINT},
-		orderId =
-		#{orderId,jdbcType=VARCHAR},
-		info = #{info,jdbcType=VARCHAR}
-		where id =
-		#{id,jdbcType=INTEGER}
-	</update>
-
-	<!-- ################################################### -->
-	<select id="findByCondition" resultMap="BaseResultMap"
-		parameterType="com.yunpos.model.SearchRequest">
-		select
-		<include refid="Base_Column_List" />
-		from sys_transaction
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="status!=null">
-				status = #{status,jdbcType=TINYINT}
-			</if>
-			<if test="startTransTime!=null and startTransTime!=''">
-				<![CDATA[and DATE_FORMAT(transTime, '%Y-%m-%d') >=  #{startTransTime}]]>
-			</if>
-			<if test="endTransTime!=null and endTransTime!=''">
-				<![CDATA[and DATE_FORMAT(transTime, '%Y-%m-%d') <=  #{endTransTime}]]>
-			</if>
-			<if test="channel!=null">
-				and channel = #{channel,jdbcType=TINYINT}
-			</if>
-
-		</trim>
-
-
-	</select>
+<mapper namespace="com.yunpos.persistence.dao.SysTransactionMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysTransaction" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="TINYINT" />
+    <result column="subChannel" property="subChannel" jdbcType="TINYINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
+    <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
+    <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
+    <result column="terminalNum" property="terminalNum" jdbcType="VARCHAR" />
+    <result column="transCardNum" property="transCardNum" jdbcType="VARCHAR" />
+    <result column="transNum" property="transNum" jdbcType="VARCHAR" />
+    <result column="transTime" property="transTime" jdbcType="TIMESTAMP" />
+    <result column="transPrice" property="transPrice" jdbcType="REAL" />
+    <result column="totalPrice" property="totalPrice" jdbcType="REAL" />
+    <result column="scanType" property="scanType" jdbcType="TINYINT" />
+    <result column="couponCode" property="couponCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="transType" property="transType" jdbcType="TINYINT" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="oid" property="oid" jdbcType="VARCHAR" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, channel, subChannel, title, merchantName, serialNo, agentSerialNo, terminalNum, 
+    transCardNum, transNum, transTime, transPrice, totalPrice, scanType, couponCode, 
+    status, transType, orderId, oid, info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_transaction
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_transaction
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysTransaction" >
+    insert into sys_transaction (id, channel, subChannel, 
+      title, merchantName, serialNo, 
+      agentSerialNo, terminalNum, transCardNum, 
+      transNum, transTime, transPrice, 
+      totalPrice, scanType, couponCode, 
+      status, transType, orderId, 
+      oid, info)
+    values (#{id,jdbcType=INTEGER}, #{channel,jdbcType=TINYINT}, #{subChannel,jdbcType=TINYINT}, 
+      #{title,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, 
+      #{agentSerialNo,jdbcType=VARCHAR}, #{terminalNum,jdbcType=VARCHAR}, #{transCardNum,jdbcType=VARCHAR}, 
+      #{transNum,jdbcType=VARCHAR}, #{transTime,jdbcType=TIMESTAMP}, #{transPrice,jdbcType=REAL}, 
+      #{totalPrice,jdbcType=REAL}, #{scanType,jdbcType=TINYINT}, #{couponCode,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{transType,jdbcType=TINYINT}, #{orderId,jdbcType=VARCHAR}, 
+      #{oid,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysTransaction" >
+    insert into sys_transaction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="subChannel != null" >
+        subChannel,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="merchantName != null" >
+        merchantName,
+      </if>
+      <if test="serialNo != null" >
+        serialNo,
+      </if>
+      <if test="agentSerialNo != null" >
+        agentSerialNo,
+      </if>
+      <if test="terminalNum != null" >
+        terminalNum,
+      </if>
+      <if test="transCardNum != null" >
+        transCardNum,
+      </if>
+      <if test="transNum != null" >
+        transNum,
+      </if>
+      <if test="transTime != null" >
+        transTime,
+      </if>
+      <if test="transPrice != null" >
+        transPrice,
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice,
+      </if>
+      <if test="scanType != null" >
+        scanType,
+      </if>
+      <if test="couponCode != null" >
+        couponCode,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="transType != null" >
+        transType,
+      </if>
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=TINYINT},
+      </if>
+      <if test="subChannel != null" >
+        #{subChannel,jdbcType=TINYINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantName != null" >
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSerialNo != null" >
+        #{agentSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalNum != null" >
+        #{terminalNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transCardNum != null" >
+        #{transCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transNum != null" >
+        #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transTime != null" >
+        #{transTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transPrice != null" >
+        #{transPrice,jdbcType=REAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=REAL},
+      </if>
+      <if test="scanType != null" >
+        #{scanType,jdbcType=TINYINT},
+      </if>
+      <if test="couponCode != null" >
+        #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="transType != null" >
+        #{transType,jdbcType=TINYINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysTransaction" >
+    update sys_transaction
+    <set >
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=TINYINT},
+      </if>
+      <if test="subChannel != null" >
+        subChannel = #{subChannel,jdbcType=TINYINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantName != null" >
+        merchantName = #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        serialNo = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentSerialNo != null" >
+        agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalNum != null" >
+        terminalNum = #{terminalNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transCardNum != null" >
+        transCardNum = #{transCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transNum != null" >
+        transNum = #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="transTime != null" >
+        transTime = #{transTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transPrice != null" >
+        transPrice = #{transPrice,jdbcType=REAL},
+      </if>
+      <if test="totalPrice != null" >
+        totalPrice = #{totalPrice,jdbcType=REAL},
+      </if>
+      <if test="scanType != null" >
+        scanType = #{scanType,jdbcType=TINYINT},
+      </if>
+      <if test="couponCode != null" >
+        couponCode = #{couponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="transType != null" >
+        transType = #{transType,jdbcType=TINYINT},
+      </if>
+      <if test="orderId != null" >
+        orderId = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null" >
+        oid = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysTransaction" >
+    update sys_transaction
+    set channel = #{channel,jdbcType=TINYINT},
+      subChannel = #{subChannel,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
+      merchantName = #{merchantName,jdbcType=VARCHAR},
+      serialNo = #{serialNo,jdbcType=VARCHAR},
+      agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
+      terminalNum = #{terminalNum,jdbcType=VARCHAR},
+      transCardNum = #{transCardNum,jdbcType=VARCHAR},
+      transNum = #{transNum,jdbcType=VARCHAR},
+      transTime = #{transTime,jdbcType=TIMESTAMP},
+      transPrice = #{transPrice,jdbcType=REAL},
+      totalPrice = #{totalPrice,jdbcType=REAL},
+      scanType = #{scanType,jdbcType=TINYINT},
+      couponCode = #{couponCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      transType = #{transType,jdbcType=TINYINT},
+      orderId = #{orderId,jdbcType=VARCHAR},
+      oid = #{oid,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

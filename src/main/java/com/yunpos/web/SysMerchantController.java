@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.Industry;
+import com.yunpos.model.SysAgentMerchant;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.service.IndustryService;
 import com.yunpos.service.SysMerchantService;
+import com.yunpos.service.SysUserService;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
@@ -42,6 +45,10 @@ public class SysMerchantController extends BaseController{
 	
 	@Autowired
 	private  IndustryService industryService;
+	
+	
+	@Autowired
+	private SysUserService sysUserService;
 	
 	/**所以商户信息
 	 * 商户
@@ -108,6 +115,23 @@ public class SysMerchantController extends BaseController{
 	@RequestMapping(value = "/ajax/merchant/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") int id) {
 		sysMerchantService.delete(id);
+	}
+	
+	/**
+	 * 用户名是否重复
+	 * @param request
+	 * @param type  userName
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/ajax/user/agentmerchant/{type}/{value}", method =RequestMethod.GET )
+	public Object exist(HttpServletRequest request, @PathVariable("type") String type,@PathVariable("value") String value) throws Exception {
+		boolean flag = false;
+		if (type.equals("userName")){
+			flag = sysUserService.userNameExist(value);
+		}
+		return flag;
 	}
 	
 	

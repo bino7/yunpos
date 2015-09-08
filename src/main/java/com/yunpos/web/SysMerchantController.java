@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
+import com.yunpos.model.Industry;
 import com.yunpos.model.SysMerchant;
+import com.yunpos.service.IndustryService;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
@@ -37,6 +39,9 @@ import com.yunpos.utils.jqgrid.JqGridResponse;
 public class SysMerchantController extends BaseController{
 	@Autowired
 	private  SysMerchantService sysMerchantService;
+	
+	@Autowired
+	private  IndustryService industryService;
 	
 	/**所以商户信息
 	 * 商户
@@ -103,5 +108,17 @@ public class SysMerchantController extends BaseController{
 	@RequestMapping(value = "/ajax/merchant/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") int id) {
 		sysMerchantService.delete(id);
+	}
+	
+	
+	/**行业数据
+	 * 
+	 * @return
+	 * @throws ServiceException
+	 */
+	@RequestMapping(value="/ajax/industry",method = GET)
+	public List<Industry> industrList() throws ServiceException{
+		return industryService.findAll();
+		
 	}
 }

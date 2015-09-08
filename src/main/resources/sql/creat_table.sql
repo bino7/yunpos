@@ -380,3 +380,21 @@ CREATE TABLE `sys_transaction` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='交易流水表';
 
+
+---- 地区
+CREATE TABLE `sys_area` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `addTime` datetime DEFAULT NULL COMMENT '添加时间',
+  `deleteStatus` bit(1) NOT NULL COMMENT '删除状态',
+  `areaName` varchar(255) DEFAULT NULL COMMENT '区域名称',
+  `common` bit(1) DEFAULT b'0' COMMENT '常用地区，设置常用地区后该地区出现在在店铺搜索页常用地区位置',
+  `level` int(11) NOT NULL COMMENT '层级',
+  `sequence` int(11) NOT NULL COMMENT '序号',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '上级区域',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `FK7D6B3B1EB508A61F` (`parent_id`),
+  CONSTRAINT `FK7D6B3B1EB508A61F` FOREIGN KEY (`parent_id`) REFERENCES `sys_area` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4525506 DEFAULT CHARSET=utf8 COMMENT='地区';
+
+

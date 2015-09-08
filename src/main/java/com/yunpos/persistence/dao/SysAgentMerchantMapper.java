@@ -13,5 +13,10 @@ public interface SysAgentMerchantMapper extends EntityMapper<SysAgentMerchant>{
 	
 	List<SysAgentMerchant> search();
 
-  
+	/**
+	 * 根据代理商参数查询
+	 * @param sysAgentMerchant
+	 * @return
+	 */
+	List<SysAgentMerchant> selectByParm(SysAgentMerchant sysAgentMerchant);
 }

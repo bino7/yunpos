@@ -73,7 +73,7 @@ public class WechatPayService {
 	 * @param param
 	 * @return
 	 */
-	public Message barPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
+	public Message barPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig,Map<String ,String> dtoMap) throws Exception {
 		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -127,7 +127,7 @@ public class WechatPayService {
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("【一次性支付成功】");
 					PayResData payResData = new PayResData(PayChannel.WECHAT, responseXml,
-							scanPayReqData.toStringMap());
+							scanPayReqData.toStringMap(),dtoMap);
 					//更新流水支付状态
 					SysTransaction sysTransaction = sysTransactionService.findByTransNum(payResData.getTrace_num());
 					sysTransaction.setTransPrice(Float.valueOf(payResData.getTrans_amount()));
@@ -158,11 +158,11 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message query(String outTradeNo,String merchantNo) throws Exception {
+	public Message query(Map<String,String> map) throws Exception {
 		try {
-			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchantNo);
+			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(map.get("merchant_num"));
 			
-			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", outTradeNo,sysWechatConfig);
+			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", map.get("trace_num"),sysWechatConfig);
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_QUERY_API,
 					scanPayQueryReqData,sysWechatConfig);
@@ -191,7 +191,7 @@ public class WechatPayService {
 				if (responseXml.get("result_code").equals("SUCCESS")
 						&& responseXml.get("trade_state").equals("SUCCESS")) {
 					log.info("查询到订单支付成功");
-					QueryResData queryResData = new QueryResData(PayChannel.WECHAT, responseXml, null);
+					QueryResData queryResData = new QueryResData(PayChannel.WECHAT, responseXml, map);
 					return new Message(ResultCode.SUCCESS.name(), "", "支付成功", queryResData.toMap()); // 支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
@@ -465,21 +465,21 @@ public class WechatPayService {
 
 			Map<String, String> responseXml = XMLUtil.parse(payServiceResponseString);
 			// 异步发送统计请求
-//			ReportReqData reportReqData = new ReportReqData(responseXml.get("device_info"),
-//					WechatPayConfig.scan_unifiedorder_api, (int) (totalTimeCost), // 本次请求耗时
-//					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
-//					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
-//					responseXml.get("spbill_create_ip"),sysWechatConfig);
-//			long timeAfterReport;
-//			if (WechatPayConfig.useThreadToDoReport) {
-//				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
-//				timeAfterReport = System.currentTimeMillis();
-//				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
-//			} else {
-//				ReportService.request(reportReqData,sysWechatConfig);
-//				timeAfterReport = System.currentTimeMillis();
-//				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
-//			}
+			ReportReqData reportReqData = new ReportReqData(responseXml.get("device_info"),
+					WechatPayConfig.scan_unifiedorder_api, (int) (totalTimeCost), // 本次请求耗时
+					responseXml.get("return_code"), responseXml.get("return_msg"), responseXml.get("result_code"),
+					responseXml.get("err_code"), responseXml.get("err_code_des"), responseXml.get("out_trade_no"),
+					responseXml.get("spbill_create_ip"),sysWechatConfig);
+			long timeAfterReport;
+			if (WechatPayConfig.useThreadToDoReport) {
+				ReporterFactory.getReporter(reportReqData,sysWechatConfig).run();
+				timeAfterReport = System.currentTimeMillis();
+				log.info("pay+report总耗时（异步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
+			} else {
+				ReportService.request(reportReqData,sysWechatConfig);
+				timeAfterReport = System.currentTimeMillis();
+				log.info("pay+report总耗时（同步方式上报）：" + (timeAfterReport - costTimeStart) + "ms");
+			}
 
 			// 返回业务处理
 			if (responseXml == null || Strings.isNullOrEmpty(responseXml.get("return_code"))) {
@@ -505,7 +505,7 @@ public class WechatPayService {
 
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("【统一下单成功】");
-					ScanCodePayResData scanCodePayResData = new ScanCodePayResData(responseXml);
+					ScanCodePayResData scanCodePayResData = new ScanCodePayResData(responseXml,scanCodePayReqData.toStringMap());
 					return new Message(ResultCode.SUCCESS.name(), "", "下单成功", scanCodePayResData.toMap()); // 支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");

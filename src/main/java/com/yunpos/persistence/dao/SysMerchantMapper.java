@@ -15,5 +15,12 @@ public interface SysMerchantMapper extends EntityMapper<SysMerchant>{
 	
 	@Select("select * from sys_merchant where serialNo=#{serialNo}")
 	SysMerchant findBySerialNo(String serialNo);
+	
+	/**
+	 * 根据商户参数查询
+	 * @param sysAgentMerchant
+	 * @return
+	 */
+	List<SysMerchant> selectByParm(SysMerchant sysMerchant);
     
 }

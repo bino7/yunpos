@@ -5,49 +5,60 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.serializer.JsonDateSerializer;
 
+/**
+ * 
+ * 功能描述：用户
+ * <p>
+ * 版权所有：小牛信息科技有限公司
+ * <p>
+ * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
+ * 
+ * @author tiger_lin 新增日期：2015年9月7日
+ * @author tiger_lin 修改日期：2015年9月7日
+ *
+ */
 public class SysUser {
 	public static final String STATUS_DISABLED = "0";
 
-	private Integer id;
+	private Integer id; 					// id
 
-	private Integer orgId;
+	private Integer orgId;					// 组织结构id
 
-	private String orgName;
+	private String orgName;					// 组织结构名
 
-	private String userName;
+	private String userName;				// 用户名
 
-	private String phone;
+	private String phone;					// 电话号码
 
-	private String email;
+	private String email;					// 电子邮箱
 
-	private String password;
+	private String password;				// 密码
 
-	private String nickname;
+	private String nickname;				// 昵称
 
-	private String fullname;
+	private String fullname;				// 全名
 
-	private String status;
+	private String status;					// 用户状态
 
-	private String salt;
+	private String salt;					// 盐值
 
-	private String description;
+	private String description;				// 描述
 
-	private String source;
+	private String source;					// 源
 
-	private Date lastLoginDatetime;
+	private Date lastLoginDatetime;			// 最后登录时间
 
-	private Date createdAt;
+	private Date createdAt;					// 创建时间
 
-	private Integer createdBy;
+	private Integer createdBy;				// 创建人
 
-	private Date updatedAt;
+	private Date updatedAt;					// 更新时间
 
-	private Integer updatedBy;
+	private Integer updatedBy;				// 更新人
 
-	//下面表单接收数据使用，非实体数据库字段
-	private String loginId;
-	private String role;
-	
+	// 下面表单接收数据使用，非实体数据库字段
+	private String loginId;					//
+	private String role;					//
 
 	public String getRole() {
 		return role;

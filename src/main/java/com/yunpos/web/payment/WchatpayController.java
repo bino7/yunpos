@@ -3,6 +3,7 @@ package com.yunpos.web.payment;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -141,7 +142,13 @@ public class WchatpayController {
 			// 支付请求
 			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data",
 					orderNo, totalFee, terminal_unique_no, ip, "bar pay", sysWechatConfig);
-			payMsg = wechatPayService.barPay(scanPayReqData, sysWechatConfig);
+			
+			Map<String ,String> dtoMap = new HashMap<>();
+			dtoMap.put("merchant_name", sysMerchant.getCompanyName());
+			dtoMap.put("merchant_num", sysMerchant.getSerialNo());
+			dtoMap.put("terminal_unique_no", terminal_unique_no);
+			
+			payMsg = wechatPayService.barPay(scanPayReqData, sysWechatConfig,dtoMap);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -319,7 +326,16 @@ public class WchatpayController {
 		}
 		Message payMsg = null;
 		try {
-			payMsg = wechatPayService.query(trace_num, merchant_num);
+			SysMerchant	sysMerchant =sysMerchantService.findBySerialNo(merchant_num);
+			if (sysMerchant == null) {
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户不存在", null);
+			}
+			Map<String,String> dtoMap = new HashMap<>();
+			dtoMap.put("trace_num", trace_num);
+			dtoMap.put("merchant_num", merchant_num);
+			dtoMap.put("merchant_name", sysMerchant.getCompanyName());
+			dtoMap.put("terminal_unique_no", terminal_unique_no);
+			payMsg = wechatPayService.query(dtoMap);
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);

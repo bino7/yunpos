@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
 import com.yunpos.model.SysTransaction;
+import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.model.AlipayWapPayReqData;
 import com.yunpos.payment.alipay.util.AlipaySubmit;
 import com.yunpos.service.SysTransactionService;
@@ -41,13 +42,15 @@ public class AlipayWapService {
 	 * @param isSuccess
 	 * @param resultMsg
 	 */
-	public void pay(AlipayWapPayReqData alipayWapPayReqData) {
+	public String pay(AlipayWapPayReqData alipayWapPayReqData) {
 		log.info("支付宝条码支付请求参数:" + alipayWapPayReqData.toMap().toString());
+		String sHtmlText = "";
 		try {// 建立请求
-			AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认");
+			sHtmlText = AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认",AlipayConfig.wap_sign_type);
 		} catch (Exception e) {
 			log.error("支付宝支会异常:", e);
 		}
+		return sHtmlText;
 	}
 
 	/**

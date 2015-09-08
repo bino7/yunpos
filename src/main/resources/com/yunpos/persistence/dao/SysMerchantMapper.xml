@@ -316,4 +316,95 @@
       serviceType = #{serviceType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+    <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysMerchant" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_merchant
+    where 1 = 1
+
+      <if test="baseUserId != null" >
+        and baseUserId = #{baseUserId,jdbcType=INTEGER}
+      </if>
+      <if test="serialNo != null" >
+        and serialNo = #{serialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="agentSerialNo != null" >
+        and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="companyName != null" >
+        and companyName = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="industryTypeId != null" >
+        and industryTypeId = #{industryTypeId,jdbcType=INTEGER}
+      </if>
+      <if test="industryType != null" >
+        and industryType = #{industryType,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMan != null" >
+        and contactMan = #{contactMan,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null" >
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="tel != null" >
+        and tel = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="postcode != null" >
+        and postcode = #{postcode,jdbcType=VARCHAR}
+      </if>
+      <if test="prov != null" >
+        and prov = #{prov,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null" >
+        and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="area != null" >
+        and area = #{area,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null" >
+        and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="auditStatus != null" >
+        and auditStatus = #{auditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="endTime != null" >
+        and endTime = #{endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="businessLicense != null" >
+        and businessLicense = #{businessLicense,jdbcType=VARCHAR}
+      </if>
+      <if test="registerNumber != null" >
+        and registerNumber = #{registerNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="identityType != null" >
+        and identityType = #{identityType,jdbcType=TINYINT}
+      </if>
+      <if test="identityCardOn != null" >
+        and identityCardOn = #{identityCardOn,jdbcType=VARCHAR}
+      </if>
+      <if test="identityCardOff != null" >
+        and identityCardOff = #{identityCardOff,jdbcType=VARCHAR}
+      </if>
+      <if test="terminals != null" >
+        and terminals = #{terminals,jdbcType=VARCHAR}
+      </if>
+      <if test="serviceType != null" >
+        and serviceType = #{serviceType,jdbcType=VARCHAR}
+      </if>
+      <if test="searchValue != null">
+			and (agentSerialNo = #{searchValue,jdbcType=VARCHAR}
+				or
+				companyName = #{searchValue,jdbcType=VARCHAR}
+				or
+				contactMan = #{searchValue,jdbcType=VARCHAR}
+				or
+				phone = #{searchValue,jdbcType=VARCHAR}
+				or
+				tel = #{searchValue,jdbcType=VARCHAR}
+			)
+		</if>
+  </select>
+  
 </mapper>

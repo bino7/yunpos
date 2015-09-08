@@ -58,7 +58,17 @@
 			<property name="useActualColumnNames" value="true" />
 		</table>
 -->
- <table tableName="sys_fans" domainObjectName="SysFans"
+        <table tableName="sys_order" domainObjectName="SysOrder"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="flase" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+		<table tableName="sys_order_ecommerce" domainObjectName="SysOrderEcommerce"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="flase" enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+		<table tableName="sys_transaction" domainObjectName="SysTransaction"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="flase" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />

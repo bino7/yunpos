@@ -57,6 +57,7 @@ public class AlipayWapPayReqData {
 	private String pay_channel = "";
 	private String terminal_unique_no = "";
 	private String merchant_num = "";
+	private String merchant_name = "";
 
 	public AlipayWapPayReqData(String out_trade_no, String partner, String subject,
 			String total_fee, String seller_id) {
@@ -66,11 +67,11 @@ public class AlipayWapPayReqData {
 		setSeller_id(seller_id);
 		set_input_charset(AlipayConfig.input_charset);
 		setPayment_type("1");
-		setSign_type(AlipayConfig.sign_type);
+		setSign_type(AlipayConfig.wap_sign_type);
 		setOut_trade_no(out_trade_no);
 		setSubject(subject);
 		setTotal_fee(total_fee);
-		setShow_url(AlipayConfig.show_url);
+		setShow_url(AlipayConfig.wap_show_url);
 		
 		// 非必填选项
 		setBody(subject);
@@ -249,6 +250,18 @@ public class AlipayWapPayReqData {
 	public void setMerchant_num(String merchant_num) {
 		this.merchant_num = merchant_num;
 	}
+	
+	
+
+	public String getMerchant_name() {
+		return merchant_name;
+	}
+
+
+	public void setMerchant_name(String merchant_name) {
+		this.merchant_name = merchant_name;
+	}
+
 
 	public Map<String, String> toMap() {
 		Map<String, String> map = new HashMap<String, String>();

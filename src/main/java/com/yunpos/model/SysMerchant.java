@@ -2,54 +2,69 @@ package com.yunpos.model;
 
 import java.util.Date;
 
-public class SysMerchant {
-    private Integer id;
+import com.yunpos.utils.jqgrid.GridRequest;
 
-    private Integer baseUserId;
+/**
+ * 
+ * 功能描述：商户
+ * <p>
+ * 版权所有：小牛信息科技有限公司
+ * <p>
+ * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
+ * 
+ * @author tiger_lin 新增日期：2015年9月7日
+ * @author tiger_lin 修改日期：2015年9月7日
+ *
+ */
 
-    private String serialNo;
+public class SysMerchant extends GridRequest{
+    private Integer id;							//商户ID
 
-    private String agentSerialNo;
+    private Integer baseUserId;					//关联的基础用户Id（关联sys_user表）
 
-    private String companyName;
+    private String serialNo;					//商户编号
 
-    private Integer industryTypeId;
+    private String agentSerialNo;				//代理商编号
 
-    private String industryType;
+    private String companyName;					//公司名称
 
-    private String contactMan;
+    private Integer industryTypeId;				//行业类型Id
 
-    private String phone;
+    private String industryType;				//行业类型名称
 
-    private String tel;
+    private String contactMan;					//联系人
 
-    private String postcode;
+    private String phone;						//联系人电话
 
-    private String prov;
+    private String tel;							//联系人手机
 
-    private String city;
+    private String postcode;					//邮编
 
-    private String area;
+    private String prov;						//省
 
-    private String address;
+    private String city;						//市
 
-    private Byte auditStatus;
+    private String area;						//区
 
-    private Date endTime;
+    private String address;						//地址
 
-    private String businessLicense;
+    private Byte auditStatus;					//审核状态，0：审核中，1：审核通过、2：回退、3：驳回
 
-    private String registerNumber;
+    private Date endTime;						//合同到期时间
 
-    private Byte identityType;
+    private String businessLicense;				//营业执照图片路径
 
-    private String identityCardOn;
+    private String registerNumber;				//营业执照注册号
 
-    private String identityCardOff;
+    private Byte identityType;					//证件类型，0：身份证，1：护照
 
-    private String terminals;
+    private String identityCardOn;				//证件正面照图片路径
 
-    private String serviceType;
+    private String identityCardOff;				//证件反面照图片路径
+
+    private String terminals;					//申请的终端，格式：银联,支付宝,微信支付（多个用,分割）
+
+    private String serviceType;					//服务类型，格式：服务窗,公众号,收银台（多个用,分割）
 
     public Integer getId() {
         return id;

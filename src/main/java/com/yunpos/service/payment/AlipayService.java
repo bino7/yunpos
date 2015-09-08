@@ -18,6 +18,7 @@ import com.yunpos.payment.PreCreateResData;
 import com.yunpos.payment.QueryResData;
 import com.yunpos.payment.RefundResData;
 import com.yunpos.payment.RefundResData.PayChannel;
+import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.model.AlipayCancelReqData;
 import com.yunpos.payment.alipay.model.AlipayCancelResData;
 import com.yunpos.payment.alipay.model.AlipayPrecreateReqData;
@@ -76,7 +77,7 @@ public class AlipayService {
 			log.info("同步返回结果：" + result.toString());
 			if ("T".equalsIgnoreCase(result.get("is_success"))) {// T代表成功
 				if (result.get("result_code").equals("ORDER_SUCCESS_PAY_SUCCESS")) {
-					PayResData payResData = new PayResData(PayChannel.ALIPAY, result, payReqData.toMap());
+					PayResData payResData = new PayResData(PayChannel.ALIPAY, result, payReqData.toMap(),null);
 					return new Message(ResultCode.SUCCESS.name(), "", "支付成功", payResData.toMap()); // 支付宝交易流水号
 				} else {
 					String detail_error_code = result.get("detail_error_code");
@@ -176,14 +177,13 @@ public class AlipayService {
 	 */
 	public Message refund(AlipayRefundReqData alipayRefundReqData, SysTransaction sysTransaction) {
 		// 把请求参数打包成数组
-
 		log.info("支付宝条码支付请求参数:" + alipayRefundReqData.toMap());
 		try {// 建立请求
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService
 					.findByMerchantNo(sysTransaction.getSerialNo());
 			Map<String, String> payMap = new HashMap<>();
 			payMap.put("key", sysAlipayConfig.getKey());
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap());
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap(),AlipayConfig.sign_type);
 			if (Strings.isNullOrEmpty(responseXml)) {
 				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
 			}

@@ -22,14 +22,23 @@ public class ScanCodePayResData {
 	private String trade_type = "";
 	private String prepay_id = "";
 	private String code_url = "";
-	
-	public ScanCodePayResData(Map<String,String>map){
+	private String trace_num = "";
+
+	public ScanCodePayResData(Map<String, String> map, Map<String, String> resMap) {
 		this.trade_type = map.get("trade_type");
 		this.prepay_id = map.get("prepay_id");
 		this.code_url = map.get("code_url");
+		this.trace_num = resMap.get("out_trade_no");
 	}
 
-	
+	public String getTrace_num() {
+		return trace_num;
+	}
+
+	public void setTrace_num(String trace_num) {
+		this.trace_num = trace_num;
+	}
+
 	public String getTrade_type() {
 		return trade_type;
 	}
@@ -53,24 +62,24 @@ public class ScanCodePayResData {
 	public void setCode_url(String code_url) {
 		this.code_url = code_url;
 	}
-	
-	 public Map<String,String> toMap(){
-	        Map<String,String> map = new HashMap<String, String>();
-	        Field[] fields = this.getClass().getDeclaredFields();
-	        for (Field field : fields) {
-	            Object obj;
-	            try {
-	                obj = field.get(this);
-	                if(obj!=null){
-	                    map.put(field.getName(), (String) obj);
-	                }
-	            } catch (IllegalArgumentException e) {
-	                e.printStackTrace();
-	            } catch (IllegalAccessException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	        return map;
-	    }
+
+	public Map<String, String> toMap() {
+		Map<String, String> map = new HashMap<String, String>();
+		Field[] fields = this.getClass().getDeclaredFields();
+		for (Field field : fields) {
+			Object obj;
+			try {
+				obj = field.get(this);
+				if (obj != null) {
+					map.put(field.getName(),(String) obj);
+				}
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		return map;
+	}
 
 }

@@ -2,8 +2,13 @@ package com.yunpos.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysOrder;
-import com.yunpos.model.SysOrder;
 import com.yunpos.service.SysOrderService;
+import com.yunpos.utils.ExcelUtils;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
@@ -75,4 +80,32 @@ public class SysOrderController {
 		sysOrderService.delete(id);
 	}
 
+	
+	@RequestMapping(value = "/ajax/order/exportExcel")
+	public void exportExcel(HttpServletRequest request , HttpServletResponse response) {
+		String filename = "1111";
+		String sheetName = "2222";
+		List<String> columns = new ArrayList();
+		columns.add("订单号");
+		columns.add("下单时间");
+		columns.add("订单金额");
+		columns.add("交易状态");
+		columns.add("商户");
+		columns.add("所属行业");
+		columns.add("来源类型");
+		columns.add("支付流水号");
+		List<SysOrder> list = sysOrderService.findAll();
+		List<Map<String, Object>> listData = new ArrayList<Map<String, Object>>();
+		for(SysOrder sysOrder : list){
+			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put("orderId", sysOrder.getOrderId());
+			map.put("createdAt", sysOrder.getCreatedAt().toString());
+			map.put("totalPrice", sysOrder.getTotalPrice());
+			map.put("payStatus", sysOrder.getPayStatus());
+			map.put("MerchantSerialNo", sysOrder.getSysMerchantSerialNo());
+			listData.add(map);
+		}
+		ExcelUtils.exportexcle(response, filename, listData, sheetName, columns);  
+
+	}
 }

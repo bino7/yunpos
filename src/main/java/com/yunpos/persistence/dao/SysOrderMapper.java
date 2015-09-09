@@ -12,4 +12,10 @@ public interface SysOrderMapper extends EntityMapper<SysOrder>{
 
 	List<SysOrder> search();
    
+	/**
+	 * 根据订单参数查询
+	 * @param SysOrder
+	 * @return
+	 */
+	List<SysOrder> selectByParm(SysOrder sysOrder);
 }

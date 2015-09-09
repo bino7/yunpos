@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yunpos.model.SysAgentMerchant;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysOrder;
 import com.yunpos.persistence.dao.EntityMapper;
@@ -36,6 +37,14 @@ public class SysOrderService extends EntityService<SysOrder> {
 		return response;
 	}
 	
-	
+	/**
+	 * 根据代理商参数查询
+	 * @param sysAgentMerchant
+	 * @return
+	 */
+	public List<SysOrder> findByParms(SysOrder sysOrder) {
+		List<SysOrder> list = sysOrderMapper.selectByParm(sysOrder);
+		return list;
+	}
 
 }

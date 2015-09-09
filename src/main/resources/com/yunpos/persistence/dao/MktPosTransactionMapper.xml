@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.MktPosTransactionMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.MktPosTransaction" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="systrace" property="systrace" jdbcType="VARCHAR" />
+    <id column="batch_no" property="batch_no" jdbcType="VARCHAR" />
+    <result column="tid" property="tid" jdbcType="VARCHAR" />
+    <result column="mid" property="mid" jdbcType="VARCHAR" />
+    <result column="txn_id" property="txn_id" jdbcType="VARCHAR" />
+    <result column="txn_name" property="txn_name" jdbcType="VARCHAR" />
+    <result column="pan" property="pan" jdbcType="VARCHAR" />
+    <result column="txn_amt" property="txn_amt" jdbcType="DOUBLE" />
+    <result column="txn_time" property="txn_time" jdbcType="TIMESTAMP" />
+    <result column="rrn" property="rrn" jdbcType="VARCHAR" />
+    <result column="auth_code" property="auth_code" jdbcType="VARCHAR" />
+    <result column="order_no" property="order_no" jdbcType="VARCHAR" />
+    <result column="acc_type" property="acc_type" jdbcType="VARCHAR" />
+    <result column="txn_type" property="txn_type" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="create_by" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, systrace, batch_no, tid, mid, txn_id, txn_name, pan, txn_amt, txn_time, rrn, 
+    auth_code, order_no, acc_type, txn_type, create_time, create_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yunpos.model.MktPosTransaction" >
+    select 
+    <include refid="Base_Column_List" />
+    from mkt_pos_transaction
+    where id = #{id,jdbcType=INTEGER}
+      and systrace = #{systrace,jdbcType=VARCHAR}
+      and batch_no = #{batch_no,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yunpos.model.MktPosTransaction" >
+    delete from mkt_pos_transaction
+    where id = #{id,jdbcType=INTEGER}
+      and systrace = #{systrace,jdbcType=VARCHAR}
+      and batch_no = #{batch_no,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.MktPosTransaction" >
+    insert into mkt_pos_transaction (id, systrace, batch_no, 
+      tid, mid, txn_id, txn_name, 
+      pan, txn_amt, txn_time, 
+      rrn, auth_code, order_no, 
+      acc_type, txn_type, create_time, 
+      create_by)
+    values (#{id,jdbcType=INTEGER}, #{systrace,jdbcType=VARCHAR}, #{batch_no,jdbcType=VARCHAR}, 
+      #{tid,jdbcType=VARCHAR}, #{mid,jdbcType=VARCHAR}, #{txn_id,jdbcType=VARCHAR}, #{txn_name,jdbcType=VARCHAR}, 
+      #{pan,jdbcType=VARCHAR}, #{txn_amt,jdbcType=DOUBLE}, #{txn_time,jdbcType=TIMESTAMP}, 
+      #{rrn,jdbcType=VARCHAR}, #{auth_code,jdbcType=VARCHAR}, #{order_no,jdbcType=VARCHAR}, 
+      #{acc_type,jdbcType=VARCHAR}, #{txn_type,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
+      #{create_by,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.MktPosTransaction" >
+    insert into mkt_pos_transaction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="systrace != null" >
+        systrace,
+      </if>
+      <if test="batch_no != null" >
+        batch_no,
+      </if>
+      <if test="tid != null" >
+        tid,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="txn_id != null" >
+        txn_id,
+      </if>
+      <if test="txn_name != null" >
+        txn_name,
+      </if>
+      <if test="pan != null" >
+        pan,
+      </if>
+      <if test="txn_amt != null" >
+        txn_amt,
+      </if>
+      <if test="txn_time != null" >
+        txn_time,
+      </if>
+      <if test="rrn != null" >
+        rrn,
+      </if>
+      <if test="auth_code != null" >
+        auth_code,
+      </if>
+      <if test="order_no != null" >
+        order_no,
+      </if>
+      <if test="acc_type != null" >
+        acc_type,
+      </if>
+      <if test="txn_type != null" >
+        txn_type,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="create_by != null" >
+        create_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="systrace != null" >
+        #{systrace,jdbcType=VARCHAR},
+      </if>
+      <if test="batch_no != null" >
+        #{batch_no,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null" >
+        #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_id != null" >
+        #{txn_id,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_name != null" >
+        #{txn_name,jdbcType=VARCHAR},
+      </if>
+      <if test="pan != null" >
+        #{pan,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_amt != null" >
+        #{txn_amt,jdbcType=DOUBLE},
+      </if>
+      <if test="txn_time != null" >
+        #{txn_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rrn != null" >
+        #{rrn,jdbcType=VARCHAR},
+      </if>
+      <if test="auth_code != null" >
+        #{auth_code,jdbcType=VARCHAR},
+      </if>
+      <if test="order_no != null" >
+        #{order_no,jdbcType=VARCHAR},
+      </if>
+      <if test="acc_type != null" >
+        #{acc_type,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_type != null" >
+        #{txn_type,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="create_by != null" >
+        #{create_by,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.MktPosTransaction" >
+    update mkt_pos_transaction
+    <set >
+      <if test="tid != null" >
+        tid = #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_id != null" >
+        txn_id = #{txn_id,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_name != null" >
+        txn_name = #{txn_name,jdbcType=VARCHAR},
+      </if>
+      <if test="pan != null" >
+        pan = #{pan,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_amt != null" >
+        txn_amt = #{txn_amt,jdbcType=DOUBLE},
+      </if>
+      <if test="txn_time != null" >
+        txn_time = #{txn_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rrn != null" >
+        rrn = #{rrn,jdbcType=VARCHAR},
+      </if>
+      <if test="auth_code != null" >
+        auth_code = #{auth_code,jdbcType=VARCHAR},
+      </if>
+      <if test="order_no != null" >
+        order_no = #{order_no,jdbcType=VARCHAR},
+      </if>
+      <if test="acc_type != null" >
+        acc_type = #{acc_type,jdbcType=VARCHAR},
+      </if>
+      <if test="txn_type != null" >
+        txn_type = #{txn_type,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="create_by != null" >
+        create_by = #{create_by,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and systrace = #{systrace,jdbcType=VARCHAR}
+      and batch_no = #{batch_no,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.MktPosTransaction" >
+    update mkt_pos_transaction
+    set tid = #{tid,jdbcType=VARCHAR},
+      mid = #{mid,jdbcType=VARCHAR},
+      txn_id = #{txn_id,jdbcType=VARCHAR},
+      txn_name = #{txn_name,jdbcType=VARCHAR},
+      pan = #{pan,jdbcType=VARCHAR},
+      txn_amt = #{txn_amt,jdbcType=DOUBLE},
+      txn_time = #{txn_time,jdbcType=TIMESTAMP},
+      rrn = #{rrn,jdbcType=VARCHAR},
+      auth_code = #{auth_code,jdbcType=VARCHAR},
+      order_no = #{order_no,jdbcType=VARCHAR},
+      acc_type = #{acc_type,jdbcType=VARCHAR},
+      txn_type = #{txn_type,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      create_by = #{create_by,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+      and systrace = #{systrace,jdbcType=VARCHAR}
+      and batch_no = #{batch_no,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.MktPosTransaction" >
+    select 
+    <include refid="Base_Column_List" />
+    from mkt_pos_transaction
+    where 1 = 1
+
+	    <if test="tid != null" >
+        and tid = #{tid,jdbcType=VARCHAR}
+      </if>
+      <if test="mid != null" >
+       and  mid = #{mid,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_id != null" >
+       and  txn_id = #{txn_id,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_name != null" >
+       and  txn_name = #{txn_name,jdbcType=VARCHAR}
+      </if>
+      <if test="pan != null" >
+       and  pan = #{pan,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_amt != null" >
+       and  txn_amt = #{txn_amt,jdbcType=DOUBLE}
+      </if>
+      <if test="txn_time != null" >
+       and  txn_time = #{txn_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="rrn != null" >
+       and  rrn = #{rrn,jdbcType=VARCHAR}
+      </if>
+      <if test="auth_code != null" >
+       and  auth_code = #{auth_code,jdbcType=VARCHAR}
+      </if>
+      <if test="order_no != null" >
+       and  order_no = #{order_no,jdbcType=VARCHAR}
+      </if>
+      <if test="acc_type != null" >
+       and  acc_type = #{acc_type,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_type != null" >
+       and  txn_type = #{txn_type,jdbcType=VARCHAR}
+      </if>
+      <if test="create_time != null" >
+       and  create_time = #{create_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="create_by != null" >
+       and  create_by = #{create_by,jdbcType=VARCHAR}
+      </if>
+      <if test="searchValue != null">
+		and (mid like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		)
+	  </if>
+	   <if test="pageNumber != null">
+		 limit #{pageNumber},  #{pageSize}
+	  </if>
+	  
+	  
+  </select>
+</mapper>

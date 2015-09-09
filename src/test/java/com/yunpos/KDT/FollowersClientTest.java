@@ -7,7 +7,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yunpos.Application;
-import com.yunpos.KDT.client.FollowersClient;
+import com.yunpos.KDT.client.FansClient;
 import com.yunpos.service.KDT.KdtFansService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -19,17 +19,17 @@ public class FollowersClientTest {
 	
 	
 	@Autowired
-	FollowersClient followersClient;
+	FansClient fansClient;
 
 	//@Test
 	public void pullAndUpdate()  {	
-		followersClient.setStartDate("2015-05-20 11:11:11");
-		followersClient.setEndDate("2015-09-01 11:11:11");
+		fansClient.setStartDate("2015-05-20 11:11:11");
+		fansClient.setEndDate("2015-09-01 11:11:11");
 		
-		followersClient.setAppid(appid);
-		followersClient.setAppSecret(appSecret);
+		fansClient.setAppid(appid);
+		fansClient.setAppSecret(appSecret);
 		try {
-			followersClient.pullData();
+			fansClient.pullData();
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -43,7 +43,7 @@ public class FollowersClientTest {
 	
 	@Test
 	public void getFans() {
-		kdtFansService.getFans();
+		kdtFansService.getFans(5,-200);
 	}
 	
 }

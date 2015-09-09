@@ -41,11 +41,17 @@ public class KdtFansService {
 	@Autowired
 	SysFansService sysFansService;
 	
-	public void getFans() {
+	/**
+	 * 
+	 * @param field  维度，比如天(Calendar.DAY_OF_MONTH)，小时(Calendar.HOUR)
+	 * @param amount 值
+	 */
+	public void getFans(int field,int amount) {
 		Date endDate = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(endDate);
-		cal.add(Calendar.DAY_OF_MONTH, -200);
+		cal.add(field, amount);
+		//cal.add(Calendar.DAY_OF_MONTH, -200);
 		//cal.add(Calendar.HOUR, 12);
 			
 		Date startDate = cal.getTime();

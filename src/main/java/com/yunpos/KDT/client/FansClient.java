@@ -16,7 +16,7 @@ import com.yunpos.KDT.KdtApiClient;
  *
  */
 @Component
-public class FollowersClient {
+public class FansClient {
 	private static final String METHOD = "kdt.users.weixin.followers.get";
 
 	private String appid;
@@ -24,7 +24,7 @@ public class FollowersClient {
 	private String startDate;
 	private String endDate;
 
-	public FollowersClient() {
+	public FansClient() {
 	}
 
 	public String getAppid() {

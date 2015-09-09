@@ -135,12 +135,12 @@ public class SysAgentMerchantController {
 	/**
 	 * 
 	 * @param request
-	 * @param type  name/email/phone
+	 * @param type  companyName/userName
 	 * @param value
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/ajax/user/agentmerchant/{type}/{value}", method =RequestMethod.GET )
+	@RequestMapping(value = "/ajax/agentmerchant/{type}/{value}", method =RequestMethod.GET )
 	public Object exist(HttpServletRequest request, @PathVariable("type") String type,@PathVariable("value") String value) throws Exception {
 		boolean flag = false;
 		SysAgentMerchant sysAgentMerchant = new SysAgentMerchant();

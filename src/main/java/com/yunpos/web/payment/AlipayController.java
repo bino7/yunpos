@@ -32,6 +32,7 @@ import com.yunpos.payment.alipay.model.AlipayQueryReqData;
 import com.yunpos.payment.alipay.model.AlipayRefundReqData;
 import com.yunpos.payment.alipay.model.AlipayScanPayReqData;
 import com.yunpos.payment.alipay.model.AlipayWapPayReqData;
+import com.yunpos.payment.alipay.model.AlipayWapPayResData;
 import com.yunpos.payment.alipay.util.AlipayNotify;
 import com.yunpos.service.SysAlipayConfigService;
 import com.yunpos.service.SysMerchantService;
@@ -310,7 +311,7 @@ public class AlipayController extends BaseController{
 			sysTransaction.setInfo("手机网站（手机wap）在线支付");
 			sysTransactionService.save(sysTransaction);
 			 
-			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "支付宝手机wap支付", total_fee, sysAlipayConfig.getPid());
+			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "wappay", total_fee, sysAlipayConfig.getPid());
 			 sHtmlText = alipayWapService.pay(payReqData);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
@@ -591,7 +592,6 @@ public class AlipayController extends BaseController{
 	@RequestMapping("/pay/alipay/wap/synNotify")
 	@ResponseBody
 	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView model = new ModelAndView("notify");
 		log.info("######receive alipay wap synnotify message!");
 		try {
 			// 获取支付宝POST过来反馈信息
@@ -606,13 +606,18 @@ public class AlipayController extends BaseController{
 				}
 				params.put(name, valueStr);
 			}
-			
-			//SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
-			//SysAlipayConfig sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
-			
-			log.info("alipay wap synnotify param：", params.toString());
-			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,AlipayConfig.wap_private_key)) {// 验证成功
-				model.addObject(params);
+			String trade_status = params.get("trade_status");
+			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,AlipayConfig.wap_ali_public_key)) {// 验证成功
+				if (trade_status.equals("TRADE_SUCCESS")||trade_status.equals("TRADE_FINISHED")) {
+					SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
+					SysMerchant sysMerchant = sysMerchantService.findBySerialNo(sysTransaction.getSerialNo());
+					AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(params);
+					alipayWapPayResData.setMerchant_name(sysMerchant.getCompanyName());
+					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
+					return new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
+				}else{
+					return new Message(ResultCode.FAIL.name(), "", "支付失败", null);
+				}
 			} else {// 验证失败
 				log.info("支付宝手机wap同步通知请求验证失败...");
 				return new Message(ResultCode.FAIL.name(), "", "支付宝手机wap同步通知请求验证失败", null);
@@ -621,7 +626,6 @@ public class AlipayController extends BaseController{
 			log.error("支付宝手机wap同步通知异常", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "系统异常", null);
 		}
-		return model;
 	}
 
 
@@ -648,12 +652,10 @@ public class AlipayController extends BaseController{
 				}
 				params.put(name, valueStr);
 			}
-			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
-			SysAlipayConfig sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			
 			log.info("wap notify param：", params);
 			String trade_status = request.getParameter("trade_status");
-			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,AlipayConfig.wap_private_key)) {// 验证成功
+			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,AlipayConfig.wap_ali_public_key)) {// 验证成功
 				if (trade_status.equals("TRADE_SUCCESS")) {
 					alipayWapService.asyWapPayment(params, true, "");
 				} else {

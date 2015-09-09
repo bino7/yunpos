@@ -50,11 +50,15 @@ public class AlipaySubmit {
 	public static String buildRequestMysign(Map<String, String> sPara,String sign_type) {
     	String prestr = AlipayCore.createLinkString(sPara); //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         String mysign = "";
-        if(sign_type.equals("MD5") ) {//MD5
+        if(sign_type.equalsIgnoreCase("MD5")) {//MD5
+        	log.info("###MD5");
         	mysign = MD5.sign(prestr, AlipayConfig.key, AlipayConfig.input_charset);
-        }else if(sign_type.equals("RSA") ){//RSA
+        }
+        if(sign_type.equalsIgnoreCase("RSA") ){//RSA
+        	log.info("###RSA");
         	mysign = RSA.sign(prestr, AlipayConfig.wap_private_key, AlipayConfig.input_charset);
         }
+        log.info("####mysign"+mysign);
         return mysign;
     }
 	

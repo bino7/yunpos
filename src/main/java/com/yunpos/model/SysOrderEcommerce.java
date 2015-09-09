@@ -25,8 +25,6 @@ public class SysOrderEcommerce {
 
     private String logisticsOrder;
 
-    private Date handleTime;
-
     private String handleUid;
 
     private Byte checkFlag;
@@ -119,14 +117,6 @@ public class SysOrderEcommerce {
 
     public void setLogisticsOrder(String logisticsOrder) {
         this.logisticsOrder = logisticsOrder == null ? null : logisticsOrder.trim();
-    }
-
-    public Date getHandleTime() {
-        return handleTime;
-    }
-
-    public void setHandleTime(Date handleTime) {
-        this.handleTime = handleTime;
     }
 
     public String getHandleUid() {

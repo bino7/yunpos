@@ -27,5 +27,14 @@ public class SysOrderEcommerceService extends EntityService<SysOrderEcommerce> {
 		orderEcommerce.setBaseOrderId(baseOrder.getId());//关联的主订单的Id
 		SysOrderEcommerceMapper.insert(orderEcommerce);
 	}
+	
+	public void updateOrderEcommerce(SysOrder baseOrder,SysOrderEcommerce orderEcommerce){
+		sysOrderMapper.updateByPrimaryKeySelective(baseOrder);
+		SysOrderEcommerceMapper.updateByPrimaryKeySelective(orderEcommerce);
+	}
+	
+	public SysOrderEcommerce findByBaseOrderId(int baseOrderId) {
+		return SysOrderEcommerceMapper.findByBaseOrderId(baseOrderId);	
+	}
 
 }

@@ -35,4 +35,8 @@ public class SysOrderService extends EntityService<SysOrder> {
 		return response;
 	}
 	
+	public SysOrder findByshopIdAndOrderid(String shopId, String orderId) {
+		return sysOrderMapper.findByshopIdAndOrderid(shopId, orderId);
+	}
+	
 }

@@ -13,14 +13,13 @@
     <result column="logisticsid" property="logisticsid" jdbcType="VARCHAR" />
     <result column="logistics" property="logistics" jdbcType="VARCHAR" />
     <result column="logisticsOrder" property="logisticsOrder" jdbcType="VARCHAR" />
-    <result column="handleTime" property="handleTime" jdbcType="TIMESTAMP" />
     <result column="handleUid" property="handleUid" jdbcType="VARCHAR" />
     <result column="checkFlag" property="checkFlag" jdbcType="TINYINT" />
     <result column="checkTime" property="checkTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, baseOrderId, orderType, postcode, address, msg, sendStatus, sendTime, logisticsid, 
-    logistics, logisticsOrder, handleTime, handleUid, checkFlag, checkTime
+    logistics, logisticsOrder, handleUid, checkFlag, checkTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -36,15 +35,13 @@
     insert into sys_order_ecommerce (id, baseOrderId, orderType, 
       postcode, address, msg, 
       sendStatus, sendTime, logisticsid, 
-      logistics, logisticsOrder, handleTime, 
-      handleUid, checkFlag, checkTime
-      )
+      logistics, logisticsOrder, handleUid, 
+      checkFlag, checkTime)
     values (#{id,jdbcType=INTEGER}, #{baseOrderId,jdbcType=INTEGER}, #{orderType,jdbcType=VARCHAR}, 
       #{postcode,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, 
       #{sendStatus,jdbcType=TINYINT}, #{sendTime,jdbcType=TIMESTAMP}, #{logisticsid,jdbcType=VARCHAR}, 
-      #{logistics,jdbcType=VARCHAR}, #{logisticsOrder,jdbcType=VARCHAR}, #{handleTime,jdbcType=TIMESTAMP}, 
-      #{handleUid,jdbcType=VARCHAR}, #{checkFlag,jdbcType=TINYINT}, #{checkTime,jdbcType=TIMESTAMP}
-      )
+      #{logistics,jdbcType=VARCHAR}, #{logisticsOrder,jdbcType=VARCHAR}, #{handleUid,jdbcType=VARCHAR}, 
+      #{checkFlag,jdbcType=TINYINT}, #{checkTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysOrderEcommerce" >
     insert into sys_order_ecommerce
@@ -81,9 +78,6 @@
       </if>
       <if test="logisticsOrder != null" >
         logisticsOrder,
-      </if>
-      <if test="handleTime != null" >
-        handleTime,
       </if>
       <if test="handleUid != null" >
         handleUid,
@@ -129,9 +123,6 @@
       <if test="logisticsOrder != null" >
         #{logisticsOrder,jdbcType=VARCHAR},
       </if>
-      <if test="handleTime != null" >
-        #{handleTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="handleUid != null" >
         #{handleUid,jdbcType=VARCHAR},
       </if>
@@ -176,9 +167,6 @@
       <if test="logisticsOrder != null" >
         logisticsOrder = #{logisticsOrder,jdbcType=VARCHAR},
       </if>
-      <if test="handleTime != null" >
-        handleTime = #{handleTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="handleUid != null" >
         handleUid = #{handleUid,jdbcType=VARCHAR},
       </if>
@@ -203,7 +191,6 @@
       logisticsid = #{logisticsid,jdbcType=VARCHAR},
       logistics = #{logistics,jdbcType=VARCHAR},
       logisticsOrder = #{logisticsOrder,jdbcType=VARCHAR},
-      handleTime = #{handleTime,jdbcType=TIMESTAMP},
       handleUid = #{handleUid,jdbcType=VARCHAR},
       checkFlag = #{checkFlag,jdbcType=TINYINT},
       checkTime = #{checkTime,jdbcType=TIMESTAMP}

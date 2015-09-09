@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
+import com.yunpos.model.SysAlipayConfigWithBLOBs;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.payment.alipay.config.AlipayConfig;
 import com.yunpos.payment.alipay.model.AlipayWapPayReqData;
@@ -34,7 +35,6 @@ public class AlipayWapService {
 	private final static Logger log = LoggerFactory.getLogger(AlipayWapService.class);
 	@Autowired
 	private SysTransactionService sysTransactionService;
-
 	/**
 	 * 支付宝手机wap支付
 	 * 
@@ -42,11 +42,11 @@ public class AlipayWapService {
 	 * @param isSuccess
 	 * @param resultMsg
 	 */
-	public String pay(AlipayWapPayReqData alipayWapPayReqData) {
+	public String pay(AlipayWapPayReqData alipayWapPayReqData,SysAlipayConfigWithBLOBs sysAlipayConfig) {
 		log.info("支付宝条码支付请求参数:" + alipayWapPayReqData.toMap().toString());
 		String sHtmlText = "";
 		try {// 建立请求
-			sHtmlText = AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认",AlipayConfig.wap_sign_type);
+			sHtmlText = AlipaySubmit.buildRequest(alipayWapPayReqData.toMap(),"get", "确认",AlipayConfig.wap_sign_type,sysAlipayConfig.getMerchantPrivateKey());
 		} catch (Exception e) {
 			log.error("支付宝支会异常:", e);
 		}

@@ -14,6 +14,8 @@
     <result column="merchantNo" property="merchantNo" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.SysAlipayConfigWithBLOBs" extends="BaseResultMap" >
+    <result column="merchantPrivateKey" property="merchantPrivateKey" jdbcType="LONGVARCHAR" />
+    <result column="alipayPublicKey" property="alipayPublicKey" jdbcType="LONGVARCHAR" />
     <result column="appPrivateKey" property="appPrivateKey" jdbcType="LONGVARCHAR" />
     <result column="appPublicKey" property="appPublicKey" jdbcType="LONGVARCHAR" />
   </resultMap>
@@ -21,7 +23,7 @@
     id, sellerEmail, pid, key, token, pagentId, mark, info, status, merchantNo
   </sql>
   <sql id="Blob_Column_List" >
-    appPrivateKey, appPublicKey
+    merchantPrivateKey, alipayPublicKey, appPrivateKey, appPublicKey
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
@@ -39,13 +41,13 @@
     insert into sys_alipay_config (sellerEmail, pid, 
       key, token, pagentId, 
       mark, info, status, 
-      merchantNo, appPrivateKey, appPublicKey
-      )
+      merchantNo, merchantPrivateKey, alipayPublicKey, 
+      appPrivateKey, appPublicKey)
     values (#{sellerEmail,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, 
       #{key,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{pagentId,jdbcType=VARCHAR}, 
       #{mark,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{merchantNo,jdbcType=VARCHAR}, #{appPrivateKey,jdbcType=LONGVARCHAR}, #{appPublicKey,jdbcType=LONGVARCHAR}
-      )
+      #{merchantNo,jdbcType=VARCHAR}, #{merchantPrivateKey,jdbcType=LONGVARCHAR}, #{alipayPublicKey,jdbcType=LONGVARCHAR}, 
+      #{appPrivateKey,jdbcType=LONGVARCHAR}, #{appPublicKey,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" >
     insert into sys_alipay_config
@@ -79,6 +81,12 @@
       </if>
       <if test="merchantNo != null" >
         merchantNo,
+      </if>
+      <if test="merchantPrivateKey != null" >
+        merchantPrivateKey,
+      </if>
+      <if test="alipayPublicKey != null" >
+        alipayPublicKey,
       </if>
       <if test="appPrivateKey != null" >
         appPrivateKey,
@@ -118,6 +126,12 @@
       <if test="merchantNo != null" >
         #{merchantNo,jdbcType=VARCHAR},
       </if>
+      <if test="merchantPrivateKey != null" >
+        #{merchantPrivateKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="alipayPublicKey != null" >
+        #{alipayPublicKey,jdbcType=LONGVARCHAR},
+      </if>
       <if test="appPrivateKey != null" >
         #{appPrivateKey,jdbcType=LONGVARCHAR},
       </if>
@@ -156,6 +170,12 @@
       <if test="merchantNo != null" >
         merchantNo = #{merchantNo,jdbcType=VARCHAR},
       </if>
+      <if test="merchantPrivateKey != null" >
+        merchantPrivateKey = #{merchantPrivateKey,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="alipayPublicKey != null" >
+        alipayPublicKey = #{alipayPublicKey,jdbcType=LONGVARCHAR},
+      </if>
       <if test="appPrivateKey != null" >
         appPrivateKey = #{appPrivateKey,jdbcType=LONGVARCHAR},
       </if>
@@ -176,6 +196,8 @@
       info = #{info,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       merchantNo = #{merchantNo,jdbcType=VARCHAR},
+      merchantPrivateKey = #{merchantPrivateKey,jdbcType=LONGVARCHAR},
+      alipayPublicKey = #{alipayPublicKey,jdbcType=LONGVARCHAR},
       appPrivateKey = #{appPrivateKey,jdbcType=LONGVARCHAR},
       appPublicKey = #{appPublicKey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}

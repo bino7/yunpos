@@ -47,31 +47,31 @@ public class AlipaySubmit {
      * @param sPara 要签名的数组
      * @return 签名结果字符串
      */
-	public static String buildRequestMysign(Map<String, String> sPara,String sign_type) {
-    	String prestr = AlipayCore.createLinkString(sPara); //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
-        String mysign = "";
-        if(sign_type.equalsIgnoreCase("MD5")) {//MD5
-        	log.info("###MD5");
-        	mysign = MD5.sign(prestr, AlipayConfig.key, AlipayConfig.input_charset);
-        }
-        if(sign_type.equalsIgnoreCase("RSA") ){//RSA
-        	log.info("###RSA");
-        	mysign = RSA.sign(prestr, AlipayConfig.wap_private_key, AlipayConfig.input_charset);
-        }
-        log.info("####mysign"+mysign);
-        return mysign;
-    }
+//	public static String buildRequestMysign(Map<String, String> sPara,String sign_type) {
+//    	String prestr = AlipayCore.createLinkString(sPara); //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+//        String mysign = "";
+//        if(sign_type.equalsIgnoreCase("MD5")) {//MD5
+//        	mysign = MD5.sign(prestr, AlipayConfig.key, AlipayConfig.input_charset);
+//        }
+//        if(sign_type.equalsIgnoreCase("RSA") ){//RSA
+//        	mysign = RSA.sign(prestr, AlipayConfig.wap_private_key, AlipayConfig.input_charset);
+//        }
+//        return mysign;
+//    }
 	
     /**
      * 生成签名结果
      * @param sPara 要签名的数组
      * @return 签名结果字符串
      */
-	public static String buildRequestMysign(Map<String, String> sPara,Map<String,String> payConfig) {
+	public static String buildRequestMysign(Map<String, String> sPara,String sign_type,String key) {
     	String prestr = AlipayCore.createLinkString(sPara); //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         String mysign = "";
         if(AlipayConfig.sign_type.equals("MD5") ) {
-        	mysign = MD5.sign(prestr, payConfig.get("key"), AlipayConfig.input_charset);
+        	mysign = MD5.sign(prestr, key, AlipayConfig.input_charset);
+        }
+        if(sign_type.equalsIgnoreCase("RSA") ){
+        	mysign = RSA.sign(prestr, key, AlipayConfig.input_charset);
         }
         return mysign;
     }
@@ -81,12 +81,12 @@ public class AlipaySubmit {
      * @param sParaTemp 请求前的参数数组
      * @return 要请求的参数数组
      */
-    private static Map<String, String> buildRequestPara(Map<String, String> sParaTemp,String sign_type) {
+    private static Map<String, String> buildRequestPara(Map<String, String> sParaTemp,String sign_type,String key) {
         //除去数组中的空值和签名参数
         Map<String, String> sPara = AlipayCore.paraFilter(sParaTemp);
         log.info("签名前数据："+sPara);
         //生成签名结果
-        String mysign = buildRequestMysign(sPara,sign_type);
+        String mysign = buildRequestMysign(sPara,sign_type,key);
 
         //签名结果与签名方式加入请求提交参数组中
         sPara.put("sign", mysign);
@@ -100,18 +100,18 @@ public class AlipaySubmit {
      * @param sParaTemp 请求前的参数数组
      * @return 要请求的参数数组
      */
-    private static Map<String, String> buildRequestPara(Map<String, String> sParaTemp,Map<String,String> payConfig) {
-        //除去数组中的空值和签名参数
-        Map<String, String> sPara = AlipayCore.paraFilter(sParaTemp);
-        //生成签名结果
-        String mysign = buildRequestMysign(sPara,payConfig);
-
-        //签名结果与签名方式加入请求提交参数组中
-        sPara.put("sign", mysign);
-        sPara.put("sign_type", AlipayConfig.sign_type);
-
-        return sPara;
-    }
+//    private static Map<String, String> buildRequestPara(Map<String, String> sParaTemp,Map<String,String> payConfig) {
+//        //除去数组中的空值和签名参数
+//        Map<String, String> sPara = AlipayCore.paraFilter(sParaTemp);
+//        //生成签名结果
+//        String mysign = buildRequestMysign(sPara,payConfig);
+//
+//        //签名结果与签名方式加入请求提交参数组中
+//        sPara.put("sign", mysign);
+//        sPara.put("sign_type", AlipayConfig.sign_type);
+//
+//        return sPara;
+//    }
 
     /**
      * 建立请求，以表单HTML形式构造（默认）
@@ -120,9 +120,9 @@ public class AlipaySubmit {
      * @param strButtonName 确认按钮显示文字
      * @return 提交表单HTML文本
      */
-    public static String buildRequest(Map<String, String> sParaTemp, String strMethod, String strButtonName,String sign_type) {
+    public static String buildRequest(Map<String, String> sParaTemp, String strMethod, String strButtonName,String sign_type,String key) {
         //待请求参数数组
-        Map<String, String> sPara = buildRequestPara(sParaTemp,sign_type);
+        Map<String, String> sPara = buildRequestPara(sParaTemp,sign_type,key);
         List<String> keys = new ArrayList<String>(sPara.keySet());
 
         StringBuffer sbHtml = new StringBuffer();
@@ -153,9 +153,9 @@ public class AlipaySubmit {
      * @param strParaFileName 文件上传的参数名
      * @return 提交表单HTML文本
      */
-    public static String buildRequest(Map<String, String> sParaTemp, String strMethod, String strButtonName, String strParaFileName,String sign_type) {
+    public static String buildRequest(Map<String, String> sParaTemp, String strMethod, String strButtonName, String strParaFileName,String sign_type,String key) {
         //待请求参数数组
-        Map<String, String> sPara = buildRequestPara(sParaTemp,sign_type);
+        Map<String, String> sPara = buildRequestPara(sParaTemp,sign_type,key);
         List<String> keys = new ArrayList<String>(sPara.keySet());
 
         StringBuffer sbHtml = new StringBuffer();
@@ -189,29 +189,29 @@ public class AlipaySubmit {
      * @return 支付宝处理结果
      * @throws Exception
      */
-    public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp,String sign_type) throws Exception {
-        //待请求参数数组
-        Map<String, String> sPara = buildRequestPara(sParaTemp,sign_type);
-        
-        log.info("buildRequestPara:"+sPara.toString());
-        HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
-
-        HttpRequest request = new HttpRequest(HttpResultType.BYTES);
-        //设置编码集
-        request.setCharset(AlipayConfig.input_charset);
-
-        request.setParameters(generatNameValuePair(sPara));
-        request.setUrl(ALIPAY_GATEWAY_NEW+"_input_charset="+AlipayConfig.input_charset);
-
-        HttpResponse response = httpProtocolHandler.execute(request,strParaFileName,strFilePath);
-        if (response == null) {
-            return null;
-        }
-        
-        String strResult = response.getStringResult();
-
-        return strResult;
-    }
+//    public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp,String sign_type) throws Exception {
+//        //待请求参数数组
+//        Map<String, String> sPara = buildRequestPara(sParaTemp,sign_type);
+//        
+//        log.info("buildRequestPara:"+sPara.toString());
+//        HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();
+//
+//        HttpRequest request = new HttpRequest(HttpResultType.BYTES);
+//        //设置编码集
+//        request.setCharset(AlipayConfig.input_charset);
+//
+//        request.setParameters(generatNameValuePair(sPara));
+//        request.setUrl(ALIPAY_GATEWAY_NEW+"_input_charset="+AlipayConfig.input_charset);
+//
+//        HttpResponse response = httpProtocolHandler.execute(request,strParaFileName,strFilePath);
+//        if (response == null) {
+//            return null;
+//        }
+//        
+//        String strResult = response.getStringResult();
+//
+//        return strResult;
+//    }
     
     
     /**
@@ -225,9 +225,9 @@ public class AlipaySubmit {
      * @return 支付宝处理结果
      * @throws Exception
      */
-    public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp,Map<String, String> payConfig) throws Exception {
+    public static String buildRequest(String strParaFileName, String strFilePath,Map<String, String> sParaTemp,String sign_type,String key) throws Exception {
         //待请求参数数组
-        Map<String, String> sPara = buildRequestPara(sParaTemp,payConfig);
+        Map<String, String> sPara = buildRequestPara(sParaTemp,sign_type,key);
         
         log.info("buildRequestPara:"+sPara.toString());
         HttpProtocolHandler httpProtocolHandler = HttpProtocolHandler.getInstance();

@@ -66,9 +66,7 @@ public class AlipayService {
 	public Message pay(AlipayScanPayReqData payReqData, SysAlipayConfig sysAlipayConfig) {
 		log.info("支付宝条码支付请求参数:" + payReqData.toMap().toString());
 		try {// 建立请求
-			Map<String, String> payMap = new HashMap<>();
-			payMap.put("key", sysAlipayConfig.getKey());
-			String responseXml = AlipaySubmit.buildRequest("", "", payReqData.toMap(), payMap);
+			String responseXml = AlipaySubmit.buildRequest("", "", payReqData.toMap(), AlipayConfig.sign_type,sysAlipayConfig.getKey());
 			if (Strings.isNullOrEmpty(responseXml)) {
 				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
 			}
@@ -104,9 +102,7 @@ public class AlipayService {
 		// sParaTemp.put(PayConst.IT_B_PAY, AlipayConfig.pay_time_out);
 		log.info("查询请求参数:" + alipayQueryReqData.toMap());
 		try {// 建立请求
-			Map<String, String> payMap = new HashMap<>();
-			payMap.put("key", sysAlipayConfig.getKey());
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayQueryReqData.toMap(), payMap);
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayQueryReqData.toMap(),AlipayConfig.sign_type, sysAlipayConfig.getKey());
 			if (Strings.isNullOrEmpty(responseXml)) {
 				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
 			}
@@ -141,9 +137,7 @@ public class AlipayService {
 	public Message cancel(AlipayCancelReqData alipayCancelReqData, SysAlipayConfigWithBLOBs sysAlipayConfig) {
 		log.info("撤单请求参数:" + alipayCancelReqData.toMap());
 		try {// 建立请求
-			Map<String, String> payMap = new HashMap<>();
-			payMap.put("key", sysAlipayConfig.getKey());
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayCancelReqData.toMap(), payMap);
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayCancelReqData.toMap(),AlipayConfig.sign_type, sysAlipayConfig.getKey());
 			if (Strings.isNullOrEmpty(responseXml)) {
 				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
 			}
@@ -181,9 +175,7 @@ public class AlipayService {
 		try {// 建立请求
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService
 					.findByMerchantNo(sysTransaction.getSerialNo());
-			Map<String, String> payMap = new HashMap<>();
-			payMap.put("key", sysAlipayConfig.getKey());
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap(),AlipayConfig.sign_type);
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayRefundReqData.toMap(),AlipayConfig.sign_type, sysAlipayConfig.getKey());
 			if (Strings.isNullOrEmpty(responseXml)) {
 				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
 			}
@@ -223,9 +215,8 @@ public class AlipayService {
 	public Message preCreate(AlipayPrecreateReqData alipayPrecreateReqData, SysAlipayConfig sysAlipayConfig) {
 		log.info("支付宝统一预下单请求参数:" + alipayPrecreateReqData.toMap());
 		try {// 建立请求
-			Map<String, String> payMap = new HashMap<>();
-			payMap.put("key", sysAlipayConfig.getKey());
-			String responseXml = AlipaySubmit.buildRequest("", "", alipayPrecreateReqData.toMap(), payMap);
+		
+			String responseXml = AlipaySubmit.buildRequest("", "", alipayPrecreateReqData.toMap(),AlipayConfig.sign_type,sysAlipayConfig.getKey());
 			if (Strings.isNullOrEmpty(responseXml)) {
 				return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "请求支付返回结果为空！", null);
 			}

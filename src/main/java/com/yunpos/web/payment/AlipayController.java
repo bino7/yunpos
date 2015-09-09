@@ -16,12 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.yunpos.model.SysAlipayConfig;
 import com.yunpos.model.SysAlipayConfigWithBLOBs;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysTransaction;
@@ -312,7 +310,7 @@ public class AlipayController extends BaseController{
 			sysTransactionService.save(sysTransaction);
 			 
 			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "wappay", total_fee, sysAlipayConfig.getPid());
-			 sHtmlText = alipayWapService.pay(payReqData);
+			 sHtmlText = alipayWapService.pay(payReqData,sysAlipayConfig);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);

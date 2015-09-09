@@ -181,11 +181,11 @@
 		</dependency>
 
 		<!-- alipay支付依赖包 -->
-		 <dependency>
+		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.0.1</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -235,24 +235,29 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.3.5</version>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient-cache</artifactId>
 			<version>4.3.5</version>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>4.3.2</version>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
 			<version>4.3.5</version>
 		</dependency>
-		
-		
-		
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
 		<dependency>
 			<groupId>koudaitong.pushclient</groupId>
 			<artifactId>kdtpushclient</artifactId>
@@ -260,7 +265,7 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/push-client-1.1.0.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>koudaitong.pushprotocol</groupId>
 			<artifactId>kdtpushprotocol</artifactId>
@@ -268,7 +273,7 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/push-protocol-1.1.0.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>koudaitong.netty</groupId>
 			<artifactId>kdtnetty</artifactId>
@@ -276,7 +281,7 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/netty-all-4.1.0.Beta3.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>koudaitong.fastjson</groupId>
 			<artifactId>kdtfastjson</artifactId>

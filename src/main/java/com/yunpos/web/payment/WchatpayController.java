@@ -31,7 +31,7 @@ import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqDat
 import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.payment.wxwap.model.WapPayReqData;
 import com.yunpos.payment.wxwap.utils.HttpTool;
-import com.yunpos.payment.wxwap.utils.WechatpayTools;
+import com.yunpos.payment.wxwap.utils.Sha1Util;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.SysWechatConfigService;
@@ -253,8 +253,7 @@ public class WchatpayController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/pay/wechatpay/wap/create")
-	@ResponseBody
-	public void wapCreate(HttpServletRequest request, HttpServletResponse response) {
+	public Object wapCreate(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("wechatpay");
 		String pay_channel = "wechat";
@@ -266,8 +265,7 @@ public class WchatpayController {
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
 				|| Strings.isNullOrEmpty(client_type)) {
-			log.info("传递参数为空！");
-			//return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
 		Message payMsg = null;
 		PrintWriter writer=null;
@@ -278,8 +276,7 @@ public class WchatpayController {
 			log.info("#####code="+code);
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
-				log.info("支付信息未配置");
-				//return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			//获取access_token 和openid
 			String returnJSON= HttpTool.getToken(sysWechatConfig.getAppId(), sysWechatConfig.getAppSecret(), "authorization_code", code);
@@ -289,8 +286,7 @@ public class WchatpayController {
 			
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
 			if (sysMerchant == null) {
-				log.info("该商户号不存在");
-				//return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
 			// 生成流水表信息
 			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -310,7 +306,7 @@ public class WchatpayController {
 			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
 				sysTransaction.setChannel(4);
 			} else {
-				//return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
+				return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
 			}
 			sysTransaction.setTitle("微信wap支付");
 			sysTransaction.setSerialNo(merchant_num);
@@ -340,16 +336,20 @@ public class WchatpayController {
 			if(payMsg.getResult_code().equals("SUCCESS")){
 				payMsg.getLists().put("package", "prepay_id="+payMsg.getLists().get("prepay_id"));
 			}
-			String res = WechatpayTools.buildForm(payMsg.getLists());
-			writer = response.getWriter();
-			response.setContentType("text/html;charset=utf-8");
-			response.setHeader("Cache-Control", "no-cache");
-			writer = response.getWriter();
-			writer.print(res);
+			Map<String ,String> reMap = payMsg.getLists();
+			modelAndView.setViewName("wechatpay");
+			modelAndView.addObject("appId",reMap.get("appid") );
+			modelAndView.addObject("timeStamp", Sha1Util.getTimeStamp());
+			modelAndView.addObject("nonceStr", reMap.get("nonce_str"));
+			modelAndView.addObject("package", "prepay_id="+reMap.get("prepay_id"));
+			modelAndView.addObject("signType","MD5");
+			modelAndView.addObject("paySign", reMap.get("sign"));
+			
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
-			//return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
+			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
+		return modelAndView;
 	}
 	
 

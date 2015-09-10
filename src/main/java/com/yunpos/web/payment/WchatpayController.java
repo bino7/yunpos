@@ -345,7 +345,7 @@ public class WchatpayController {
 			modelAndView.addObject("appId",reMap.get("appid") );
 			modelAndView.addObject("timeStamp", Sha1Util.getTimeStamp());
 			modelAndView.addObject("nonceStr", reMap.get("nonce_str"));
-			modelAndView.addObject("package", "prepay_id="+reMap.get("prepay_id"));
+			modelAndView.addObject("packagess", "prepay_id="+reMap.get("prepay_id"));
 			modelAndView.addObject("signType","MD5");
 			modelAndView.addObject("paySign", reMap.get("sign"));
 		} catch (Exception e) {

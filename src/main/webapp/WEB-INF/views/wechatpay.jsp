@@ -33,7 +33,7 @@
 				"appId" : "${appId}",
 				"timeStamp" : "${timeStamp}",
 				"nonceStr" : "${nonceStr}",
-				"package" : "${package}",
+				"package" : "${packagess}",
 				"signType" : "${signType}",
 				"paySign" : "${paySign}"
 			}, function(res) {

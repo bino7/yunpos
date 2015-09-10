@@ -251,7 +251,6 @@ public class WchatpayController {
 	 * 3、
 	 * @param request
 	 * @param response
-	 * @return
 	 */
 	@RequestMapping(value = "/pay/wechatpay/wap/create")
 	@ResponseBody
@@ -273,7 +272,7 @@ public class WchatpayController {
 		Message payMsg = null;
 		PrintWriter writer=null;
 		try {
-			writer = response.getWriter();
+			
 			//前段页面授权跳转到该地址，应用获取授权code发起
 			String code = request.getParameter("code");
 			log.info("#####code="+code);
@@ -341,8 +340,12 @@ public class WchatpayController {
 			if(payMsg.getResult_code().equals("SUCCESS")){
 				payMsg.getLists().put("package", "prepay_id="+payMsg.getLists().get("prepay_id"));
 			}
-			writer.write(WechatpayTools.buildForm(payMsg.getLists()));
-			writer.flush();
+			String res = WechatpayTools.buildForm(payMsg.getLists());
+			writer = response.getWriter();
+			response.setContentType("text/html;charset=utf-8");
+			response.setHeader("Cache-Control", "no-cache");
+			writer = response.getWriter();
+			writer.print(res);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			//return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);

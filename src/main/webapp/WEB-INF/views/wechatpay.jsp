@@ -22,8 +22,6 @@
 	});
 
 	function jsApiCall() {
-		alert("${timeStamp}");
-		alert("${appId}");
 		var str = window.navigator.userAgent;
 		var version = str.substring(8, 11);
 		if (version != "5.0") {

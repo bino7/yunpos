@@ -253,7 +253,7 @@ public class WchatpayController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/pay/wechatpay/wap/create")
-	public ModelAndView wapCreate(HttpServletRequest request, HttpServletResponse response) {
+	public Object wapCreate(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("wechatpay");
 		String pay_channel = "wechat";
@@ -265,8 +265,7 @@ public class WchatpayController {
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
 				|| Strings.isNullOrEmpty(client_type)) {
-			log.error("传递参数为空");
-			//return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
 		Message payMsg = null;
 		PrintWriter writer=null;
@@ -277,8 +276,7 @@ public class WchatpayController {
 			log.info("#####code="+code);
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
-				log.error("支付信息未配置");
-				//return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			//获取access_token 和openid
 			String returnJSON= HttpTool.getToken(sysWechatConfig.getAppId(), sysWechatConfig.getAppSecret(), "authorization_code", code);
@@ -288,8 +286,7 @@ public class WchatpayController {
 			
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
 			if (sysMerchant == null) {
-				log.error("该商户号不存在");
-				//return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
 			// 生成流水表信息
 			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -310,7 +307,7 @@ public class WchatpayController {
 				sysTransaction.setChannel(4);
 			} else {
 				log.error("微信支付出现异");
-				//return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
+				return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
 			}
 			sysTransaction.setTitle("微信wap支付");
 			sysTransaction.setSerialNo(merchant_num);
@@ -349,8 +346,7 @@ public class WchatpayController {
 			modelAndView.addObject("signType","MD5");
 			modelAndView.addObject("paySign", reMap.get("sign"));
 		} catch (Exception e) {
-			log.error("微信支付出现异常：", e);
-			//return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
+			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
 		return modelAndView;
 	}

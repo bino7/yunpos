@@ -270,12 +270,14 @@ public class WchatpayController {
 		try {
 			//前段页面授权跳转到该地址，应用获取授权code发起
 			String code = request.getParameter("code");
+			log.info("#####code="+code);
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			//获取access_token 和openid
 			String returnJSON= HttpTool.getToken(sysWechatConfig.getAppId(), sysWechatConfig.getAppSecret(), "authorization_code", code);
+			log.info("#####returnJSON="+returnJSON);
 			JSONObject obj = JSONObject.fromObject(returnJSON);
 			String openid=obj.get("openid").toString();
 			

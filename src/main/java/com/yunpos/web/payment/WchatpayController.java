@@ -255,12 +255,12 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/wap/create")
 	@ResponseBody
 	public Object wapCreate(HttpServletRequest request, HttpServletResponse response) {
-		String pay_channel = request.getParameter("pay_channel");
-		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
-		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
-		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
-		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
-		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		String pay_channel = "wechat";
+		String total_fee = "0.01"; // 支付金额（非空）
+		String merchant_num = "201509020001"; // 商户号（非空）
+		String terminal_unique_no = "1"; // 终端编号（非空）
+		String cashier_num = "1"; // 核销码（可空）
+		String client_type = "PC"; // 客户端类型（PC、Web、POS、DLL）（非空）
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
 				|| Strings.isNullOrEmpty(client_type)) {

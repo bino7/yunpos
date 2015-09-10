@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../views/commons/taglibs.jsp" %>
-<%@ include file="../views/commons/meta.jsp" %>
+<%--  <%@ include file="../views/commons/taglibs.jsp" %>
+<%@ include file="../views/commons/meta.jsp" %>  --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,11 +36,11 @@
 				"paySign" : "${paySign}"
 			}, function(res) {
 				if (res.err_msg == "get_brand_wcpay_request：ok") {
-					alert("支付成功");
+					window.location.href = "${ctx}/ajax/transaction/update/${id}?status=2";
 				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-					alert(JSON.stringify(res));
+					window.location.href = "${ctx}/ajax/transaction/update/${id}?status=6";
 				} else if (res.err_msg == "get_brand_wcpay_request:fail") {
-					alert(JSON.stringify(res));
+					window.location.href = "${ctx}/ajax/transaction/update/${id}?status=6";
 				}
 			});
 		}

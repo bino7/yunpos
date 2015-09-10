@@ -22,7 +22,6 @@
 	});
 
 	function jsApiCall() {
-	
 		var str = window.navigator.userAgent;
 		var version = str.substring(8, 11);
 		if (version != "5.0") {
@@ -39,9 +38,9 @@
 				if (res.err_msg == "get_brand_wcpay_request：ok") {
 					alert("支付成功");
 				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-					alert(res);
+					alert(JSON.stringify(res));
 				} else if (res.err_msg == "get_brand_wcpay_request:fail") {
-					alert(res);
+					alert(JSON.stringify(res));
 				}
 			});
 		}

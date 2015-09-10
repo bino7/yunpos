@@ -17,17 +17,20 @@
 			}
 		} else {
 			jsApiCall();
+			
 		}
 	});
 
 	function jsApiCall() {
+		alert("${timeStamp}");
+		alert("${appId}");
 		var str = window.navigator.userAgent;
 		var version = str.substring(8, 11);
 		if (version != "5.0") {
 			alert("微信浏览器系统版本过低，请将微信升级至5.0以上");
 		} else {
 			WeixinJSBridge.invoke('getBrandWCPayRequest', {
-				"appId" : "$!appId",
+				"appId" : "${appId}",
 				"timeStamp" : "${timeStamp}",
 				"nonceStr" : "${nonceStr}",
 				"package" : "${package}",

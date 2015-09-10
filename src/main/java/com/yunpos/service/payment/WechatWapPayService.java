@@ -1,5 +1,6 @@
 package com.yunpos.service.payment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -98,6 +99,7 @@ public class WechatWapPayService {
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("【统一下单成功】");
 					//WapPayResData wapPayResData = new WapPayResData(responseXml,dtoMap);
+					
 					return new Message(ResultCode.SUCCESS.name(), "", "下单成功", responseXml); // 支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");

@@ -15,12 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
+import com.yunpos.payment.wxpay.common.Signature;
 import com.yunpos.payment.wxpay.common.Util;
 import com.yunpos.payment.wxpay.protocol.close_protocol.CloseOrderReqData;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanCodePayReqData;
@@ -30,7 +32,7 @@ import com.yunpos.payment.wxpay.protocol.refund_query_protocol.RefundQueryReqDat
 import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.payment.wxwap.model.WapPayReqData;
 import com.yunpos.payment.wxwap.utils.HttpTool;
-import com.yunpos.payment.wxwap.utils.WechatpayTools;
+import com.yunpos.payment.wxwap.utils.Sha1Util;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.SysWechatConfigService;
@@ -115,13 +117,13 @@ public class WchatpayController {
 			sysTransaction.setMerchantName(sysMerchant.getCompanyName());
 			// 1支付宝，2微信，3银联，4：预存款
 			if (pay_channel.trim().equalsIgnoreCase("alipay")) {
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			} else if (pay_channel.trim().equalsIgnoreCase("wechat")) {
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			} else if (pay_channel.trim().equalsIgnoreCase("bill")) {
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			} else {
 				return new Message("error", "pay_channel_unkonw", "未知支付方式！", null);
 			}
@@ -132,15 +134,15 @@ public class WchatpayController {
 			sysTransaction.setTransNum(orderNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			sysTransaction.setScanType(Byte.valueOf("0")); // 正扫：1
+			sysTransaction.setScanType(0); // 正扫：1
 															// QR_CODE_OFFLIN，反扫：0
 															// BARCODE_PAY_OFFLINE
 			if (!Strings.isNullOrEmpty(cashier_num)) {
 				sysTransaction.setCouponCode(cashier_num);
 			}
-			sysTransaction.setStatus((byte) 1); // 付款状态， 0：未付款，1：付款中，2：已付款
+			sysTransaction.setStatus(1); // 付款状态， 0：未付款，1：付款中，2：已付款
 												// ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte) 0); // 交易类型，0:支付，1:退款
+			sysTransaction.setTransType(0); // 交易类型，0:支付，1:退款
 			sysTransaction.setInfo("微信线下条码支付");
 			sysTransactionService.save(sysTransaction);
 
@@ -199,13 +201,13 @@ public class WchatpayController {
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());
 			// 1支付宝，2微信，3银联，4：预存款
 			if (pay_channel.trim().equalsIgnoreCase("alipay")) {
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			} else if (pay_channel.trim().equalsIgnoreCase("wechat")) {
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			} else if (pay_channel.trim().equalsIgnoreCase("bill")) {
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			} else {
 				return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
 			}
@@ -216,15 +218,15 @@ public class WchatpayController {
 			sysTransaction.setTransNum(orderNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			sysTransaction.setScanType(Byte.valueOf("1")); // 正扫：1
+			sysTransaction.setScanType(1); // 正扫：1
 															// QR_CODE_OFFLIN，反扫：0
 															// BARCODE_PAY_OFFLINE
 			if (!Strings.isNullOrEmpty(cashier_num)) {
 				sysTransaction.setCouponCode(cashier_num);
 			}
-			sysTransaction.setStatus((byte) 1); // 付款状态， 0：未付款，1：付款中，2：已付款
+			sysTransaction.setStatus(1); // 付款状态， 0：未付款，1：付款中，2：已付款
 												// ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte) 0); // 交易类型，0:支付，1:退款
+			sysTransaction.setTransType(0); // 交易类型，0:支付，1:退款
 			sysTransaction.setInfo("微信线下扫码支付");
 			sysTransactionService.save(sysTransaction);
 
@@ -250,32 +252,36 @@ public class WchatpayController {
 	 * 3、
 	 * @param request
 	 * @param response
-	 * @return
 	 */
 	@RequestMapping(value = "/pay/wechatpay/wap/create")
-	@ResponseBody
 	public Object wapCreate(HttpServletRequest request, HttpServletResponse response) {
-		String pay_channel = request.getParameter("pay_channel");
-		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
-		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
-		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
-		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
-		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("wechatpay");
+		String pay_channel = "wechat";
+		String total_fee = "0.01"; // 支付金额（非空）
+		String merchant_num = "201509020001"; // 商户号（非空）
+		String terminal_unique_no = "1"; // 终端编号（非空）
+		String cashier_num = "1"; // 核销码（可空）
+		String client_type = "PC"; // 客户端类型（PC、Web、POS、DLL）（非空）
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
 				|| Strings.isNullOrEmpty(client_type)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
 		Message payMsg = null;
+		PrintWriter writer=null;
 		try {
+			
 			//前段页面授权跳转到该地址，应用获取授权code发起
 			String code = request.getParameter("code");
+			log.info("#####code="+code);
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			//获取access_token 和openid
 			String returnJSON= HttpTool.getToken(sysWechatConfig.getAppId(), sysWechatConfig.getAppSecret(), "authorization_code", code);
+			log.info("#####returnJSON="+returnJSON);
 			JSONObject obj = JSONObject.fromObject(returnJSON);
 			String openid=obj.get("openid").toString();
 			
@@ -293,14 +299,15 @@ public class WchatpayController {
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());
 			// 1支付宝，2微信，3银联，4：预存款
 			if (pay_channel.trim().equalsIgnoreCase("alipay")) {
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			} else if (pay_channel.trim().equalsIgnoreCase("wechat")) {
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			} else if (pay_channel.trim().equalsIgnoreCase("bill")) {
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			} else {
+				log.error("微信支付出现异");
 				return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
 			}
 			sysTransaction.setTitle("微信wap支付");
@@ -310,15 +317,15 @@ public class WchatpayController {
 			sysTransaction.setTransNum(orderNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			sysTransaction.setScanType(Byte.valueOf("1")); // 正扫：1
+			sysTransaction.setScanType(1); // 正扫：1
 															// QR_CODE_OFFLIN，反扫：0
 															// BARCODE_PAY_OFFLINE
 			if (!Strings.isNullOrEmpty(cashier_num)) {
 				sysTransaction.setCouponCode(cashier_num);
 			}
-			sysTransaction.setStatus((byte) 1); // 付款状态， 0：未付款，1：付款中，2：已付款
+			sysTransaction.setStatus(1); // 付款状态， 0：未付款，1：付款中，2：已付款
 												// ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte) 0); // 交易类型，0:支付，1:退款
+			sysTransaction.setTransType(0); // 交易类型，0:支付，1:退款
 			sysTransaction.setInfo("微信wap支付");
 			sysTransactionService.save(sysTransaction);
 			
@@ -331,11 +338,27 @@ public class WchatpayController {
 			if(payMsg.getResult_code().equals("SUCCESS")){
 				payMsg.getLists().put("package", "prepay_id="+payMsg.getLists().get("prepay_id"));
 			}
-			return WechatpayTools.buildForm(payMsg.getLists());
+			Map<String ,String> reMap = payMsg.getLists();
+			
+			Map<String,Object> wxPayParamMap = new HashMap<>(); 
+			wxPayParamMap.put("appId", reMap.get("appid"));
+			wxPayParamMap.put("timeStamp",Sha1Util.getTimeStamp() );		
+			wxPayParamMap.put("nonceStr", reMap.get("nonce_str"));
+			wxPayParamMap.put("package", "prepay_id="+reMap.get("prepay_id"));
+			wxPayParamMap.put("signType", "MD5");
+			String paySign=  Signature.getSign(wxPayParamMap, sysWechatConfig.getAppKey());
+			wxPayParamMap.put("paySign", paySign);
+			
+			modelAndView.addObject("appId", wxPayParamMap.get("appId"));
+			modelAndView.addObject("timeStamp", wxPayParamMap.get("timeStamp"));
+			modelAndView.addObject("nonceStr", wxPayParamMap.get("nonceStr"));
+			modelAndView.addObject("packagess", wxPayParamMap.get("package"));
+			modelAndView.addObject("signType", wxPayParamMap.get("signType"));
+			modelAndView.addObject("paySign", wxPayParamMap.get("paySign"));
 		} catch (Exception e) {
-			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
+		return modelAndView;
 	}
 	
 
@@ -488,13 +511,13 @@ public class WchatpayController {
 			sysTransaction.setId(null);
 			// 1支付宝，2微信，3银联，4：预存款
 			if (pay_channel.trim().equalsIgnoreCase("alipay")) {
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			} else if (pay_channel.trim().equalsIgnoreCase("wechat")) {
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			} else if (pay_channel.trim().equalsIgnoreCase("bill")) {
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			} else if (pay_channel.trim().equalsIgnoreCase("prepay")) {
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			} else {
 				return new Message("error", "pay_channel_unknow", "未知支付方式！", null);
 			}
@@ -503,9 +526,9 @@ public class WchatpayController {
 			sysTransaction.setTransNum(refundNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(refund_amount));
-			sysTransaction.setStatus((byte) 4); // 付款状态， 0：未付款，1：付款中，2：已付款
+			sysTransaction.setStatus(4); // 付款状态， 0：未付款，1：付款中，2：已付款
 												// ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte) 1); // 交易类型，0:支付，1:退款
+			sysTransaction.setTransType(1); // 交易类型，0:支付，1:退款
 			sysTransaction.setInfo("退款");
 			sysTransactionService.save(sysTransaction);
 
@@ -597,7 +620,7 @@ public class WchatpayController {
 	
 	@RequestMapping("/pay/wechatpay/wap/notify")
 	public void wapNotify(HttpServletRequest request, HttpServletResponse response) {
-		log.info("receive wechatpay notify");
+		log.info("###########receive wechatpay wap notify");
 		PrintWriter writer=null;
 		try {
 			writer = response.getWriter();

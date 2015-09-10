@@ -39,4 +39,14 @@ public class SysOrderService extends EntityService<SysOrder> {
 		return sysOrderMapper.findByshopIdAndOrderid(shopId, orderId);
 	}
 	
+
+	/**
+	 * 根据代理商参数查询
+	 * @param sysAgentMerchant
+	 * @return
+	 */
+	public List<SysOrder> findByParms(SysOrder sysOrder) {
+		List<SysOrder> list = sysOrderMapper.selectByParm(sysOrder);
+		return list;
+	}
 }

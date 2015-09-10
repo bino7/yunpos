@@ -117,13 +117,13 @@ public class AlipayController extends BaseController{
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());
 			//1支付宝，2微信，3银联，4：预存款
 			if(pay_channel.trim().equals("alipay")){
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			}else if(pay_channel.trim().equals("wechat")){
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			}else if(pay_channel.trim().equals("bill")){
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			}else if(pay_channel.trim().equals("prepay")){
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			}else{
 				return new Message("error","pay_channel_unkonw", "未知支付方式！", null);
 			}
@@ -133,12 +133,12 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTransNum(orderNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			sysTransaction.setScanType(Byte.valueOf("0"));		//正扫：1 QR_CODE_OFFLIN，反扫：0 BARCODE_PAY_OFFLINE
+			sysTransaction.setScanType(0);		//正扫：1 QR_CODE_OFFLIN，反扫：0 BARCODE_PAY_OFFLINE
 			if(!Strings.isNullOrEmpty(cashier_num)){
 				sysTransaction.setCouponCode(cashier_num);
 			}
-			sysTransaction.setStatus((byte)1); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte)0);	//交易类型，0:支付，1:退款
+			sysTransaction.setStatus(1); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
+			sysTransaction.setTransType(0);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("支付宝线下条码支付");
 			sysTransactionService.save(sysTransaction);
 			Map<String,String> map = new HashMap<>();
@@ -205,13 +205,13 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTransCardNum(sysAlipayConfig.getSellerEmail());
 			//1支付宝，2微信，3银联，4：预存款
 			if(pay_channel.trim().equals("alipay")){
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			}else if(pay_channel.trim().equals("wechat")){
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			}else if(pay_channel.trim().equals("bill")){
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			}else if(pay_channel.trim().equals("prepay")){
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			}else{
 				return new Message("error","pay_channel_unknow", "未知支付方式！", null);
 			}
@@ -224,12 +224,12 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTransTime(new Date());
 			
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			sysTransaction.setScanType(Byte.valueOf("1"));		//正扫：1 QR_CODE_OFFLIN，反扫：0 BARCODE_PAY_OFFLINE
+			sysTransaction.setScanType(1);		//正扫：1 QR_CODE_OFFLIN，反扫：0 BARCODE_PAY_OFFLINE
 			if(!Strings.isNullOrEmpty(cashier_num)){
 				sysTransaction.setCouponCode(cashier_num);
 			}
-			sysTransaction.setStatus((byte)1); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte)0);	//交易类型，0:支付，1:退款
+			sysTransaction.setStatus(1); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
+			sysTransaction.setTransType(0);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("线下扫码支付");
 			sysTransactionService.save(sysTransaction);
 			Map<String,String> map = new HashMap<>();
@@ -281,13 +281,13 @@ public class AlipayController extends BaseController{
 			//sysTransaction.setOrderId(orderNo);
 			//1支付宝，2微信，3银联，4：预存款
 			if(pay_channel.trim().equals("alipay")){
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			}else if(pay_channel.trim().equals("wechat")){
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			}else if(pay_channel.trim().equals("bill")){
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			}else if(pay_channel.trim().equals("prepay")){
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			}else{
 				return new Message("error","pay_channel_unknow", "未知支付方式！", null);
 			}
@@ -300,12 +300,12 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTransTime(new Date());
 			
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			//sysTransaction.setScanType(Byte.valueOf("0"));		//正扫：1 QR_CODE_OFFLIN，反扫：0 BARCODE_PAY_OFFLINE
+			//sysTransaction.setScanType(0);		//正扫：1 QR_CODE_OFFLIN，反扫：0 BARCODE_PAY_OFFLINE
 			if(!Strings.isNullOrEmpty(cashier_num)){
 				sysTransaction.setCouponCode(cashier_num);
 			}
-			sysTransaction.setStatus((byte)1); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte)0);	//交易类型，0:支付，1:退款
+			sysTransaction.setStatus(1); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
+			sysTransaction.setTransType(0);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("手机网站（手机wap）在线支付");
 			sysTransactionService.save(sysTransaction);
 			 
@@ -450,13 +450,13 @@ public class AlipayController extends BaseController{
 		
 			//1支付宝，2微信，3银联，4：预存款
 			if(pay_channel.trim().equalsIgnoreCase("alipay")){
-				sysTransaction.setChannel(Byte.valueOf("1"));
+				sysTransaction.setChannel(1);
 			}else if(pay_channel.trim().equalsIgnoreCase("wechat")){
-				sysTransaction.setChannel(Byte.valueOf("2"));
+				sysTransaction.setChannel(2);
 			}else if(pay_channel.trim().equalsIgnoreCase("bill")){
-				sysTransaction.setChannel(Byte.valueOf("3"));
+				sysTransaction.setChannel(3);
 			}else if(pay_channel.trim().equalsIgnoreCase("prepay")){
-				sysTransaction.setChannel(Byte.valueOf("4"));
+				sysTransaction.setChannel(4);
 			}else{
 				return new Message("error","pay_channel_unknow", "未知支付方式！", null);
 			}
@@ -465,8 +465,8 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTransNum(refundOrderNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(refund_amount));
-			sysTransaction.setStatus((byte)4); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
-			sysTransaction.setTransType((byte)1);	//交易类型，0:支付，1:退款
+			sysTransaction.setStatus(4); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
+			sysTransaction.setTransType(1);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("退款");
 			sysTransactionService.save(sysTransaction);
 			

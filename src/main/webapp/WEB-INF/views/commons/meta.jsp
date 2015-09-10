@@ -35,5 +35,3 @@
 <script src="${ctx}/static/js/vendor/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="${ctx}/static/js/ie10-viewport-bug-workaround.js"></script>
-
-<title>Admin Console</title>

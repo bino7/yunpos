@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../views/commons/taglibs.jsp" %>
+<%@ include file="../views/commons/meta.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +22,7 @@
 	});
 
 	function jsApiCall() {
+	
 		var str = window.navigator.userAgent;
 		var version = str.substring(8, 11);
 		if (version != "5.0") {
@@ -35,12 +36,12 @@
 				"signType" : "${signType}",
 				"paySign" : "${paySign}"
 			}, function(res) {
-				if (res.err_msg == "get_brand_wcpay_request:ok") {
+				if (res.err_msg == "get_brand_wcpay_request：ok") {
 					alert("支付成功");
 				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-					alert("支付取消");
+					alert(res);
 				} else if (res.err_msg == "get_brand_wcpay_request:fail") {
-					alert("支付失败");
+					alert(res);
 				}
 			});
 		}

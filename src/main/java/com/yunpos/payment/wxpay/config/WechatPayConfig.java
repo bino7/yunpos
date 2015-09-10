@@ -63,6 +63,8 @@ public class WechatPayConfig {
 	
 	public static String PATERNER_KEY = "";
 	
+	public static String WAP_NOTIFY_URL = "";
+	
 
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("payconfig/wchatpay");	
@@ -80,6 +82,7 @@ public class WechatPayConfig {
 		WechatPayConfig.scan_notify_url = rb.getString("scan_notify_url").trim();
 		WechatPayConfig.scan_unifiedorder_api = rb.getString("scan_unifiedorder_api").trim();
 		WechatPayConfig.CLOSE_ORDER_API = rb.getString("CLOSE_ORDER_API").trim();
+		WechatPayConfig.WAP_NOTIFY_URL = rb.getString("WAP_NOTIFY_URL").trim();
 		
 	}
 

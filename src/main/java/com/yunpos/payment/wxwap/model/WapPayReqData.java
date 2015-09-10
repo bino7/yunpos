@@ -7,6 +7,7 @@ import java.util.Map;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
+import com.yunpos.payment.wxpay.config.WechatPayConfig;
 
 /**
  * 请求被扫支付API需要提交的数据
@@ -60,7 +61,7 @@ public class WapPayReqData {
 		setSpbill_create_ip(spBillCreateIP);
 
 		// 异步通知地址
-		setNotify_url(notify_url);
+		setNotify_url(WechatPayConfig.WAP_NOTIFY_URL);
 
 		// 交易类型（JSAPI时，openid必填）
 		setTrade_type("JSAPI");

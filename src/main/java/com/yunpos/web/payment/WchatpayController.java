@@ -599,7 +599,7 @@ public class WchatpayController {
 	
 	@RequestMapping("/pay/wechatpay/wap/notify")
 	public void wapNotify(HttpServletRequest request, HttpServletResponse response) {
-		log.info("receive wechatpay notify");
+		log.info("###########receive wechatpay wap notify");
 		PrintWriter writer=null;
 		try {
 			writer = response.getWriter();

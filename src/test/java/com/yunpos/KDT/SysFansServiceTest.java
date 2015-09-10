@@ -67,7 +67,7 @@ public class SysFansServiceTest {
 		}		
 	}
 	
-	//@Test
+	@Test
 	public void getOrderbytid() throws Exception {
 		StringBuffer url = new StringBuffer(KdtTokenService.KDTURL);
 		Date endDate = new Date();
@@ -77,10 +77,12 @@ public class SysFansServiceTest {
 		Date startDate = cal.getTime();
 		String accessToken = "c8cb1eb262f07f08e6bf0a5b29b304fc7535804e";
 		String tradeMethod = "kdt.trade.get";
+		//String tid = "E20150910141225089567974";
+		String tid = "E20150909145706089599952";
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
 		url = url.append("?access_token=").append(accessToken).append("&method=").append(tradeMethod)
-				.append("&tid=").append("E20150910094619089542928");	
+				.append("&tid=").append(tid);	
 		String urltmp = URLEncoder.encode(url.toString(), "UTF-8")
 				.replace("%3A", ":")
 				.replace("%2F", "/")

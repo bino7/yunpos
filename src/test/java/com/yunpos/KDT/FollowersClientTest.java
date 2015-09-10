@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.yunpos.Application;
 import com.yunpos.KDT.client.FansClient;
 import com.yunpos.service.KDT.KdtFansService;
+import com.yunpos.service.KDT.KdtOrderService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -41,9 +42,19 @@ public class FollowersClientTest {
 	@Autowired
 	KdtFansService kdtFansService;
 	
-	@Test
+	//@Test
 	public void getFans() {
 		kdtFansService.getFans(5,-200);
 	}
+	
+	@Autowired
+	KdtOrderService kdtOrderService;
+
+	@Test
+	public void getOrders() {
+		kdtOrderService.getOrders(5, -100);
+	}
+	
+	
 	
 }

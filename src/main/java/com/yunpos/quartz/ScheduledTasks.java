@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.yunpos.service.KDT.KdtFansService;
+import com.yunpos.service.KDT.KdtOrderService;
 
 @Component
 @Configurable
@@ -18,6 +19,9 @@ import com.yunpos.service.KDT.KdtFansService;
 public class ScheduledTasks{
 	@Autowired
 	KdtFansService dktFansService;
+	
+	@Autowired
+	KdtOrderService kdtOrderService;
 
 	
 //    @Scheduled(fixedRate = 1000 * 30)
@@ -44,8 +48,14 @@ public class ScheduledTasks{
     	int field = Calendar.HOUR;
 		dktFansService.getFans(field, -12);
     }
- 
- 
- 
+    
+    @Scheduled(cron = "0 9 1,7,13,17 * * ?")
+    //获取有赞的退款、收货确认订单
+    public void getKdtOrders() {
+    	System.out.println("定时获取有赞的退款、收货确认订单数据，时间：" + dateFormat ().format (new Date ()));
+    	//Dint field = Calendar.DAY_OF_MONTH;
+    	int field = Calendar.HOUR;
+    	kdtOrderService.getOrders(field, -6);
+    }
  
 }

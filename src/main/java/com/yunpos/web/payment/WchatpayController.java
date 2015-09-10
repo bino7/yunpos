@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
+import com.yunpos.payment.wxpay.common.Signature;
 import com.yunpos.payment.wxpay.common.Util;
 import com.yunpos.payment.wxpay.protocol.close_protocol.CloseOrderReqData;
 import com.yunpos.payment.wxpay.protocol.pay_protocol.ScanCodePayReqData;
@@ -338,13 +339,22 @@ public class WchatpayController {
 				payMsg.getLists().put("package", "prepay_id="+payMsg.getLists().get("prepay_id"));
 			}
 			Map<String ,String> reMap = payMsg.getLists();
-			modelAndView.setViewName("wechatpay");
-			modelAndView.addObject("appId",reMap.get("appid") );
-			modelAndView.addObject("timeStamp", Sha1Util.getTimeStamp());
-			modelAndView.addObject("nonceStr", reMap.get("nonce_str"));
-			modelAndView.addObject("packagess", "prepay_id="+reMap.get("prepay_id"));
-			modelAndView.addObject("signType","MD5");
-			modelAndView.addObject("paySign", reMap.get("sign"));
+			
+			Map<String,Object> wxPayParamMap = new HashMap<>(); 
+			wxPayParamMap.put("appId", reMap.get("appid"));
+			wxPayParamMap.put("timeStamp",Sha1Util.getTimeStamp() );		
+			wxPayParamMap.put("nonceStr", reMap.get("nonce_str"));
+			wxPayParamMap.put("package", "prepay_id="+reMap.get("prepay_id"));
+			wxPayParamMap.put("signType", "MD5");
+			String paySign=  Signature.getSign(wxPayParamMap, sysWechatConfig.getAppKey());
+			wxPayParamMap.put("paySign", paySign);
+			
+			modelAndView.addObject("appId", wxPayParamMap.get("appId"));
+			modelAndView.addObject("timeStamp", wxPayParamMap.get("timeStamp"));
+			modelAndView.addObject("nonceStr", wxPayParamMap.get("nonceStr"));
+			modelAndView.addObject("packagess", wxPayParamMap.get("package"));
+			modelAndView.addObject("signType", wxPayParamMap.get("signType"));
+			modelAndView.addObject("paySign", wxPayParamMap.get("paySign"));
 		} catch (Exception e) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}

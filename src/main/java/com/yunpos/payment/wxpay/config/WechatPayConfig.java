@@ -61,6 +61,8 @@ public class WechatPayConfig {
 	public static String scan_unifiedorder_api = "";
 	public static String CLOSE_ORDER_API = "";
 	
+	public static String PATERNER_KEY = "";
+	
 
 	static {
 		ResourceBundle rb = ResourceBundle.getBundle("payconfig/wchatpay");	

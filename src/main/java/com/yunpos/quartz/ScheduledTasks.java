@@ -49,7 +49,7 @@ public class ScheduledTasks{
 		dktFansService.getFans(field, -12);
     }
     
-    @Scheduled(cron = "0 9 1,7,13,17 * * ?")
+    @Scheduled(cron = "0 0 1,7,13,19 * * ?")
     //获取有赞的退款、收货确认订单
     public void getKdtOrders() {
     	System.out.println("定时获取有赞的退款、收货确认订单数据，时间：" + dateFormat ().format (new Date ()));

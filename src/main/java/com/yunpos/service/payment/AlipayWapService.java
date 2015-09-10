@@ -71,20 +71,20 @@ public class AlipayWapService {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),"无法完成支付，支付接口返回的订单号["+orderNo+"]无效！" , null);
 		}
 		
-		if(sysTransaction.getStatus() ==Byte.valueOf("2")){
+		if(sysTransaction.getStatus() ==2){
 			String msg = "支付接口返回的订单流水["+orderNo+"]已经完成支付，无需再次处理！"; 
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),msg , null);
 		}
 		
 		if(isSuccess){
-			sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+			sysTransaction.setStatus(2);// 支付成功
 			sysTransaction.setTransCardNum(params.get("buyer_logon_id")); //买家支付宝账号
 			sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
 			sysTransactionService.update(sysTransaction);
 			String msg = "订单["+orderNo+"]支付交易成功！";
 			return new Message(ResultCode.SUCCESS.name(), "SUCCESS",msg , null);
 		}else{
-			sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+			sysTransaction.setStatus(6);// 付款失败
 			sysTransactionService.update(sysTransaction);
 			String msg = "支付接口返回的订单[" + orderNo+ "]支付失败！";
 			
@@ -111,21 +111,21 @@ public class AlipayWapService {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),"无法完成支付，支付接口返回的订单号["+orderNo+"]无效！" , null);
 		}
 		
-		if(sysTransaction.getStatus() ==Byte.valueOf("2")){
+		if(sysTransaction.getStatus() ==2){
 			String msg = "支付接口返回的订单流水["+orderNo+"]已经完成支付，无需再次处理！"; 
 			log.error(msg);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.ORDER_NOT_EXIST.name(),msg , null);
 		}
 		
 		if(isSuccess){
-			sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+			sysTransaction.setStatus(2);// 支付成功
 			sysTransaction.setTransCardNum(params.get("buyer_logon_id")); //买家支付宝账号
 			sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
 			sysTransactionService.update(sysTransaction);
 			String msg = "订单["+orderNo+"]支付交易成功！";
 			return new Message(ResultCode.SUCCESS.name(), "SUCCESS",msg , null);
 		}else{
-			sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+			sysTransaction.setStatus(6);// 付款失败
 			sysTransactionService.update(sysTransaction);
 			String msg = "支付接口返回的订单[" + orderNo+ "]支付失败！";
 			return new Message(ResultCode.FAIL.name(), "支付失败",msg , null);

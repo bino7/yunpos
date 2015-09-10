@@ -131,7 +131,7 @@ public class WechatPayService {
 					//更新流水支付状态
 					SysTransaction sysTransaction = sysTransactionService.findByTransNum(payResData.getTrace_num());
 					sysTransaction.setTransPrice(Float.valueOf(payResData.getTrans_amount()));
-					sysTransaction.setStatus(Byte.valueOf("2"));
+					sysTransaction.setStatus(2);
 					sysTransactionService.update(sysTransaction);
 					return new Message(ResultCode.SUCCESS.name(), "", "支付成功", payResData.toMap()); // 支付宝交易流水号
 				} else {// result_code FAIL
@@ -660,7 +660,7 @@ public class WechatPayService {
 				return returnMap;
 			}
 
-			if (sysTransaction.getStatus() == Byte.valueOf("2")) {
+			if (sysTransaction.getStatus() == 2) {
 				String msg = "支付接口返回的订单流水[" + orderNo + "]已经完成支付，无需再次处理！";
 				log.warn(msg);
 				returnMap.put(FLAG_NAME, true);
@@ -669,7 +669,7 @@ public class WechatPayService {
 			}
 
 			if (isSuccess) {
-				sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+				sysTransaction.setStatus(2);// 支付成功
 				sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
 				sysTransactionService.update(sysTransaction);
 				String msg = "订单[" + orderNo+ "]支付交易成功！";
@@ -678,7 +678,7 @@ public class WechatPayService {
 				returnMap.put(MSG_NAME, msg);
 				return returnMap;
 			} else {
-				sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+				sysTransaction.setStatus(6);// 付款失败
 				sysTransactionService.update(sysTransaction);
 				String msg = "支付接口返回的订单[" + orderNo+ "]支付失败！";
 				log.info(msg);

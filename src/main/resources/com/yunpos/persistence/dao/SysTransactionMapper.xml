@@ -3,8 +3,8 @@
 <mapper namespace="com.yunpos.persistence.dao.SysTransactionMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.SysTransaction">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="channel" property="channel" jdbcType="TINYINT" />
-		<result column="subChannel" property="subChannel" jdbcType="TINYINT" />
+		<result column="channel" property="channel" jdbcType="INTEGER" />
+		<result column="subChannel" property="subChannel" jdbcType="INTEGER" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
 		<result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
@@ -16,10 +16,10 @@
 		<result column="transTime" property="transTime" jdbcType="TIMESTAMP" />
 		<result column="transPrice" property="transPrice" jdbcType="REAL" />
 		<result column="totalPrice" property="totalPrice" jdbcType="REAL" />
-		<result column="scanType" property="scanType" jdbcType="TINYINT" />
+		<result column="scanType" property="scanType" jdbcType="INTEGER" />
 		<result column="couponCode" property="couponCode" jdbcType="VARCHAR" />
-		<result column="status" property="status" jdbcType="TINYINT" />
-		<result column="transType" property="transType" jdbcType="TINYINT" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="transType" property="transType" jdbcType="INTEGER" />
 		<result column="orderId" property="orderId" jdbcType="VARCHAR" />
 		<result column="info" property="info" jdbcType="VARCHAR" />
 	</resultMap>
@@ -57,7 +57,7 @@
 		status, transType, orderId,
 		info)
 		values
-		(#{channel,jdbcType=TINYINT}, #{subChannel,jdbcType=TINYINT},
+		(#{channel,jdbcType=INTEGER}, #{subChannel,jdbcType=INTEGER},
 		#{title,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR},
 		#{serialNo,jdbcType=VARCHAR},
 		#{agentSerialNo,jdbcType=VARCHAR},
@@ -65,8 +65,8 @@
 		#{transNum,jdbcType=VARCHAR}, #{transTime,jdbcType=TIMESTAMP},
 		#{transPrice,jdbcType=REAL},
 		#{totalPrice,jdbcType=REAL},
-		#{scanType,jdbcType=TINYINT}, #{couponCode,jdbcType=VARCHAR},
-		#{status,jdbcType=TINYINT}, #{transType,jdbcType=TINYINT},
+		#{scanType,jdbcType=INTEGER}, #{couponCode,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER}, #{transType,jdbcType=INTEGER},
 		#{orderId,jdbcType=VARCHAR},
 		#{info,jdbcType=VARCHAR})
 	</insert>
@@ -136,10 +136,10 @@
 				#{id,jdbcType=INTEGER},
 			</if>
 			<if test="channel != null">
-				#{channel,jdbcType=TINYINT},
+				#{channel,jdbcType=INTEGER},
 			</if>
 			<if test="subChannel != null">
-				#{subChannel,jdbcType=TINYINT},
+				#{subChannel,jdbcType=INTEGER},
 			</if>
 			<if test="title != null">
 				#{title,jdbcType=VARCHAR},
@@ -172,16 +172,16 @@
 				#{totalPrice,jdbcType=REAL},
 			</if>
 			<if test="scanType != null">
-				#{scanType,jdbcType=TINYINT},
+				#{scanType,jdbcType=INTEGER},
 			</if>
 			<if test="couponCode != null">
 				#{couponCode,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
-				#{status,jdbcType=TINYINT},
+				#{status,jdbcType=INTEGER},
 			</if>
 			<if test="transType != null">
-				#{transType,jdbcType=TINYINT},
+				#{transType,jdbcType=INTEGER},
 			</if>
 			<if test="orderId != null">
 				#{orderId,jdbcType=VARCHAR},
@@ -195,10 +195,10 @@
 		update sys_transaction
 		<set>
 			<if test="channel != null">
-				channel = #{channel,jdbcType=TINYINT},
+				channel = #{channel,jdbcType=INTEGER},
 			</if>
 			<if test="subChannel != null">
-				subChannel = #{subChannel,jdbcType=TINYINT},
+				subChannel = #{subChannel,jdbcType=INTEGER},
 			</if>
 			<if test="title != null">
 				title = #{title,jdbcType=VARCHAR},
@@ -231,16 +231,16 @@
 				totalPrice = #{totalPrice,jdbcType=REAL},
 			</if>
 			<if test="scanType != null">
-				scanType = #{scanType,jdbcType=TINYINT},
+				scanType = #{scanType,jdbcType=INTEGER},
 			</if>
 			<if test="couponCode != null">
 				couponCode = #{couponCode,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
-				status = #{status,jdbcType=TINYINT},
+				status = #{status,jdbcType=INTEGER},
 			</if>
 			<if test="transType != null">
-				transType = #{transType,jdbcType=TINYINT},
+				transType = #{transType,jdbcType=INTEGER},
 			</if>
 			<if test="orderId != null">
 				orderId = #{orderId,jdbcType=VARCHAR},
@@ -254,9 +254,9 @@
 	<update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysTransaction">
 		update
 		sys_transaction
-		set channel = #{channel,jdbcType=TINYINT},
+		set channel = #{channel,jdbcType=INTEGER},
 		subChannel =
-		#{subChannel,jdbcType=TINYINT},
+		#{subChannel,jdbcType=INTEGER},
 		title = #{title,jdbcType=VARCHAR},
 		merchantName = #{merchantName,jdbcType=VARCHAR},
 		serialNo =
@@ -274,11 +274,11 @@
 		transPrice =
 		#{transPrice,jdbcType=REAL},
 		totalPrice = #{totalPrice,jdbcType=REAL},
-		scanType = #{scanType,jdbcType=TINYINT},
+		scanType = #{scanType,jdbcType=INTEGER},
 		couponCode =
 		#{couponCode,jdbcType=VARCHAR},
-		status = #{status,jdbcType=TINYINT},
-		transType = #{transType,jdbcType=TINYINT},
+		status = #{status,jdbcType=INTEGER},
+		transType = #{transType,jdbcType=INTEGER},
 		orderId =
 		#{orderId,jdbcType=VARCHAR},
 		info = #{info,jdbcType=VARCHAR}
@@ -294,7 +294,7 @@
 		from sys_transaction
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="status!=null">
-				status = #{status,jdbcType=TINYINT}
+				status = #{status,jdbcType=INTEGER}
 			</if>
 			<if test="startTransTime!=null and startTransTime!=''">
 				<![CDATA[and DATE_FORMAT(transTime, '%Y-%m-%d') >=  #{startTransTime}]]>
@@ -303,7 +303,7 @@
 				<![CDATA[and DATE_FORMAT(transTime, '%Y-%m-%d') <=  #{endTransTime}]]>
 			</if>
 			<if test="channel!=null">
-				and channel = #{channel,jdbcType=TINYINT}
+				and channel = #{channel,jdbcType=INTEGER}
 			</if>
 
 		</trim>

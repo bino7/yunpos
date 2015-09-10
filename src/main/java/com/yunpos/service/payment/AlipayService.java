@@ -184,13 +184,13 @@ public class AlipayService {
 			log.info("同步返回结果：" + result.toString());
 			if ("T".equalsIgnoreCase(result.get("is_success"))) {// T代表成功
 				if (result.get("result_code").equals("SUCCESS")) {
-					sysTransaction.setStatus(Byte.valueOf("3"));// 已退款
+					sysTransaction.setStatus(3);// 已退款
 					sysTransactionService.update(sysTransaction);
 					RefundResData refundResData = new RefundResData(PayChannel.ALIPAY, result,
 							alipayRefundReqData.toMap());
 					return new Message(ResultCode.SUCCESS.name(), "", "退款成功", refundResData.toMap()); // 支付宝交易流水号
 				} else {
-					sysTransaction.setStatus(Byte.valueOf("5"));// 退款失败
+					sysTransaction.setStatus(5);// 退款失败
 					sysTransactionService.update(sysTransaction);
 					String detail_error_code = result.get("detail_error_code");
 					String detail_error_des = result.get("detail_error_des");
@@ -274,7 +274,7 @@ public class AlipayService {
 			return returnMap;
 		}
 
-		if (sysTransaction.getStatus() == Byte.valueOf("2")) {
+		if (sysTransaction.getStatus() == 2) {
 			String msg = "支付接口返回的订单流水[" + orderNo + "]已经完成支付，无需再次处理！";
 			log.warn(msg);
 			returnMap.put(FLAG_NAME, true);
@@ -283,7 +283,7 @@ public class AlipayService {
 		}
 
 		if (isSuccess) {
-			sysTransaction.setStatus(Byte.valueOf("2"));// 支付成功
+			sysTransaction.setStatus(2);// 支付成功
 			if (flag.equals("bar")) {// 条码支付
 				sysTransaction.setTransCardNum(params.get("buyer_logon_id")); // 买家支付宝账号
 			} else if (flag.equals("scan")) {// 扫码支付
@@ -298,7 +298,7 @@ public class AlipayService {
 			returnMap.put(MSG_NAME, msg);
 			return returnMap;
 		} else {
-			sysTransaction.setStatus(Byte.valueOf("6"));// 付款失败
+			sysTransaction.setStatus(6);// 付款失败
 			sysTransactionService.update(sysTransaction);
 			String msg = "支付接口返回的订单[" + orderNo + "]支付失败！";
 			log.info(msg);

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.yunpos.service.KDT.KdtPushService;
 
+
+
 @Component
 public class KdtPushServiceListener implements ApplicationListener<ContextRefreshedEvent> {
 	private static final Logger log = LoggerFactory.getLogger(KdtPushServiceListener.class);
@@ -19,7 +21,7 @@ public class KdtPushServiceListener implements ApplicationListener<ContextRefres
 		if (context.getParent() ==null) {//防止重复执行		
 			KdtPushService kdtPushService = (KdtPushService)context.getBean("kdtPushService");
 			try {
-				//kdtPushService.pushAndUpdate();
+				kdtPushService.pushAndUpdate();
 				log.info("-------有赞推送服务KdtPushService已启动--------");
 			} catch (Exception e) {
 				log.info("-------有赞推送服务KdtPushService启动出错--------");

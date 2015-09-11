@@ -5,9 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import com.yunpos.service.KDT.KdtPushService;
 
 @EnableConfigurationProperties
 @SpringBootApplication
@@ -19,8 +16,6 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
-		KdtPushService kdtPushService = (KdtPushService)context.getBean("kdtPushService");
-		kdtPushService.pushAndUpdate();
+		SpringApplication.run(Application.class, args);
 	}
 }

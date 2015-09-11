@@ -26,6 +26,7 @@ import com.youzan.push.protocol.message.business.trade.Order;
 import com.youzan.push.protocol.message.business.trade.Trade;
 import com.yunpos.KDT.client.TradeAndProductClient;
 import com.yunpos.model.ProductBean;
+import com.yunpos.model.SysFans;
 import com.yunpos.model.SysOrder;
 import com.yunpos.model.SysOrderEcommerce;
 import com.yunpos.service.SysFansService;
@@ -89,7 +90,10 @@ public class KdtPushService {
 
 							String oid = String.valueOf(trade.getWeixin_user_id());
 							order.setMemberId(oid);// 下单用户ID
-							order.setOpenId(sysFansService.findByOid(oid).getOpenId());// 用户的OpenId
+							SysFans sysFans = sysFansService.findByOid(oid);
+							if (sysFans != null) {//会员没拿过来的情况下，忽略获取openId
+								order.setOpenId(sysFans.getOpenId());// 用户的OpenId
+							}
 							order.setNickName(trade.getBuyer_nick());// 买家昵称
 							order.setCreatedAt(trade.getCreated());// 下单时间
 							order.setTrueName(trade.getReceiver_name());// 订单消费用户

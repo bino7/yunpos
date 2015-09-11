@@ -35,3 +35,10 @@
 <script src="${ctx}/static/js/vendor/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="${ctx}/static/js/ie10-viewport-bug-workaround.js"></script>
+
+
+<!-- angular######################################### -->
+<script type="text/javascript" src="${ctx}/static/js/angular/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/angular/angular.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/angular/angular-resource.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/angular/angular-my.js"></script>

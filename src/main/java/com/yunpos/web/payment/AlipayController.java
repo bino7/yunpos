@@ -516,7 +516,7 @@ public class AlipayController extends BaseController{
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			
-			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getKey())) {// 验证成功
+			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (!Objects.equal("TRADE_CLOSED",  params.get("trade_status"))) {
 					alipayService.notify(params, true, "","bar");
 				} else {
@@ -561,7 +561,7 @@ public class AlipayController extends BaseController{
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			// 交易状态
 			String trade_status = request.getParameter("trade_status");
-			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getKey())) {// 验证成功
+			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
 					alipayService.notify(params, true, "","scan");
 				} else {
@@ -604,10 +604,16 @@ public class AlipayController extends BaseController{
 				}
 				params.put(name, valueStr);
 			}
+			
+			if(Strings.isNullOrEmpty(params.get("out_trade_no"))){
+				return new Message(ResultCode.FAIL.name(), "", "支付失败", null);
+			}
+			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
+			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
+			
 			String trade_status = params.get("trade_status");
-			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,AlipayConfig.wap_ali_public_key)) {// 验证成功
+			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,sysAlipayConfig.getAlipayPublicKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (trade_status.equals("TRADE_SUCCESS")||trade_status.equals("TRADE_FINISHED")) {
-					SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
 					SysMerchant sysMerchant = sysMerchantService.findBySerialNo(sysTransaction.getSerialNo());
 					AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(params);
 					alipayWapPayResData.setMerchant_name(sysMerchant.getCompanyName());
@@ -651,9 +657,16 @@ public class AlipayController extends BaseController{
 				params.put(name, valueStr);
 			}
 			
+			if(Strings.isNullOrEmpty(params.get("out_trade_no"))){
+				throw new  RuntimeException();
+			}
+			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
+			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
+			
+			
 			log.info("wap notify param：", params);
 			String trade_status = request.getParameter("trade_status");
-			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,AlipayConfig.wap_ali_public_key)) {// 验证成功
+			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,sysAlipayConfig.getAlipayPublicKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (trade_status.equals("TRADE_SUCCESS")) {
 					alipayWapService.asyWapPayment(params, true, "");
 				} else {

@@ -21,8 +21,8 @@ public class KdtPushServiceListener implements ApplicationListener<ContextRefres
 		if (context.getParent() ==null) {//防止重复执行		
 			KdtPushService kdtPushService = (KdtPushService)context.getBean("kdtPushService");
 			try {
-				kdtPushService.pushAndUpdate();
-				log.info("-------有赞推送服务KdtPushService已启动--------");
+				//kdtPushService.pushAndUpdate();
+				//log.info("-------有赞推送服务KdtPushService已启动--------");
 			} catch (Exception e) {
 				log.info("-------有赞推送服务KdtPushService启动出错--------");
 				e.printStackTrace();

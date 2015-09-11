@@ -1,19 +1,28 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="./commons/taglibs.jsp"%>
-<html>
-<head>
-<title>Index Page</title>
-<script>
-//返回当前页面高度
-jQuery(document).ready(function(){
-	 var redirect_uri = encodeURIComponent("http://t.o2o520.com/pay/wechatpay/wap/create");	
-	 var action = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9a930755fdc2698d&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
-	 alert(action);
-});
-
-</script>
-</head>
-<body>
-	欢迎来到云铺后台！
-</body>
+<!doctype html>
+<html ng-app>
+    <head>
+        <script src="http://apps.bdimg.com/libs/angular.js/1.2.16/angular.min.js"></script>
+    </head>
+    <body>
+        <div ng-controller="testCtrl">
+            <b>Invoice:</b>
+            <br>
+            <br>
+            <table>
+                <tr><td>num1</td><td>num2</td></tr>
+                <tr>
+                    <td><input type="number" min="0" max="10" ng-model="number1" required ></td>
+                    <td><input type="number" min="2" max="10" ng-model="number2" required ></td>
+                </tr>
+            </table>
+            <hr>
+            <b>Total:</b> {{number1 * number2 | currency}}
+        </div>
+        <script>
+            function testCtrl($scope) {
+                $scope.number1 = 2;
+                $scope.number2 = 5.6;
+            }
+        </script>
+    </body>
 </html>

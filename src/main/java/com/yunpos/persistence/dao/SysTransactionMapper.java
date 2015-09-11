@@ -13,6 +13,7 @@ public interface SysTransactionMapper extends EntityMapper<SysTransaction>{
 	
 	List<SysTransaction> findByCondition(SearchRequest searchRequest);
 	
-	SysTransaction findByTransNum(String orderNo);
+	@Select("select * from sys_transaction where transNum=#{transNum}")
+	SysTransaction findByTransNum(String transNum);
 }
 

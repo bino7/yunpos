@@ -54,14 +54,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
      * sitemeshFilter过滤器配置
      * @return
      */
-//    @Bean(name = "sitemeshFilter")
-//    public FilterRegistrationBean sitemeshFilter() {
-//        FilterRegistrationBean bean = new FilterRegistrationBean();
-//        bean.setFilter(new SitemeshFilter());
-//        bean.addUrlPatterns("/*");
-//        bean.setOrder(1111);
-//        return bean;
-//    }
+    @Bean(name = "sitemeshFilter")
+    public FilterRegistrationBean sitemeshFilter() {
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        bean.setFilter(new SitemeshFilter());
+        bean.addUrlPatterns("/*");
+        bean.setOrder(1111);
+        return bean;
+    }
     
     /**
      * 解决springmvc 控制器接收不了put请求参数问题

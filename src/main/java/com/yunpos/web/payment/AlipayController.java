@@ -624,7 +624,7 @@ public class AlipayController extends BaseController{
 					if(!Strings.isNullOrEmpty(synNotify)){
 						String resString = mapper.writeValueAsString(new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap()));
 						//response.getWriter().write(resString);
-						response.getOutputStream().print(resString);
+						response.getOutputStream().write(resString.getBytes());
 						response.sendRedirect(sysAlipayConfig.getMerchanSynNotify());
 					}
 					return null;

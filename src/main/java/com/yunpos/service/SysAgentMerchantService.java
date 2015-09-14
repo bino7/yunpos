@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yunpos.model.SysAgentMerchant;
-import com.yunpos.model.SysOrg;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysAgentMerchantMapper;
 import com.yunpos.utils.jqgrid.GridRequest;
@@ -44,4 +43,14 @@ public class SysAgentMerchantService extends EntityService<SysAgentMerchant>{
 		List<SysAgentMerchant> list = sysAgentMerchantMapper.selectByParm(sysAgentMerchant);
 		return list;
 	}
+	
+	/**
+	 * 新增代理商
+	 * @param session
+	 */
+	public void createSysAgentMerchant(SysAgentMerchant sysAgentMerchant) {
+		save(sysAgentMerchant);
+	}
+	
+	
 }

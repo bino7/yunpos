@@ -2,6 +2,7 @@ package com.yunpos.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysAgentMerchant;
+import com.yunpos.model.SysOrg;
+import com.yunpos.model.SysUser;
 import com.yunpos.service.SysAgentMerchantService;
+import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysUserService;
 import com.yunpos.utils.Tools;
 import com.yunpos.utils.jqgrid.GridRequest;
@@ -42,9 +46,11 @@ public class SysAgentMerchantController {
 	@Autowired
 	private  SysAgentMerchantService sysAgentMerchantService;
 	
-	
 	@Autowired
 	private SysUserService sysUserService;
+	
+	@Autowired
+	private SysOrgService sysOrgService;
 	
 	/**
 	 * 代理商列表
@@ -81,26 +87,56 @@ public class SysAgentMerchantController {
 	}
 	
 	/**
-	 * 新增代理商信息
+	 * 新增代理商信息，现在代理商用户信息
 	 * @param sysAgentMerchant
 	 * @return
 	 */
 	@RequestMapping(value = "/ajax/agentmerchant", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysAgentMerchant sysAgentMerchant) {
+		
+		SysUser user = new SysUser();
+		user.setUserName(sysAgentMerchant.getUserName());
+		user.setNickname(sysAgentMerchant.getNickname());
+		user.setPassword(sysAgentMerchant.getPassword());
+		user.setLoginId(sysAgentMerchant.getLoginId());
+		sysUserService.creatSysUser(user);
+		
+		SysOrg sysOrg = new SysOrg();
+		sysOrg.setOrgName(sysAgentMerchant.getCompanyName());
+		sysOrg.setCreateUserId(Integer.parseInt(sysAgentMerchant.getLoginId()));
+		sysOrg.setCreateDate(new Date());
+		sysOrg.setLevel(1);
+		sysOrg.setOrgNo("111111");
+		sysOrgService.save(sysOrg);
 		if(!Tools.isNullOrEmpty(sysAgentMerchant)){
 			sysAgentMerchantService.save(sysAgentMerchant);
 		}
+		
 		return new GridRowResponse(sysAgentMerchant.getId());
 	}
 
 	/**
-	 * 代理商更新
+	 * 代理商更新 更新代理商用户信息
 	 * @param sysAgentMerchant
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/ajax/agentmerchant/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysAgentMerchant sysAgentMerchant, @PathVariable("id") int id) {
+		SysUser user = sysUserService.findById(Integer.parseInt(sysAgentMerchant.getUserId()));
+		user.setUserName(sysAgentMerchant.getUserName());
+		user.setNickname(sysAgentMerchant.getNickname());
+		user.setPassword(sysAgentMerchant.getNewPassword());
+		user.setLoginId(sysAgentMerchant.getLoginId());
+		sysUserService.updateSysUser(user);
+		
+		
+		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
+		sysOrg.setOrgName(sysAgentMerchant.getCompanyName());
+		sysOrg.setModifyUserId(Integer.parseInt(sysAgentMerchant.getLoginId()));
+		sysOrg.setModifyDate(new Date());
+		sysOrgService.update(sysOrg);
+		
 		if(!Tools.isNullOrEmpty(sysAgentMerchant)){
 			sysAgentMerchant.setId(id);
 			sysAgentMerchantService.update(sysAgentMerchant);

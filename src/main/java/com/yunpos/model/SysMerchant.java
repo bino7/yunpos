@@ -66,6 +66,22 @@ public class SysMerchant extends GridRequest{
 
     private String serviceType;					//服务类型，格式：服务窗,公众号,收银台（多个用,分割）
 
+    
+    
+ // 下面表单接收数据使用，非实体数据库字段
+    private String userId;					//代理商用户ID
+    
+ 	private String loginId;					//登录者ID
+ 	
+ 	private String userName;				// 用户名
+ 	
+ 	private String nickname;				// 昵称
+ 	
+	private String password;				// 密码
+
+	private String newPassword;				// 新密码
+	
+    
     public Integer getId() {
         return id;
     }
@@ -257,4 +273,54 @@ public class SysMerchant extends GridRequest{
     public void setServiceType(String serviceType) {
         this.serviceType = serviceType == null ? null : serviceType.trim();
     }
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+    
+    
 }

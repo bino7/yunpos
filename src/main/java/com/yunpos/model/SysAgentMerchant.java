@@ -2,6 +2,8 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.yunpos.utils.jqgrid.GridRequest;
+
 /**
  * 代理商
  * 功能描述：
@@ -14,7 +16,7 @@ import java.util.Date;
  * @author tiger_lin 修改日期：2015年9月1日
  *
  */
-public class SysAgentMerchant {
+public class SysAgentMerchant  extends GridRequest {
     private Integer id;					//主键ID
 
     private Integer baseUserId;			//关联的基础用户信息ID（关联sys_user表）
@@ -48,7 +50,20 @@ public class SysAgentMerchant {
     private int status;					//代理商状态 0停用 1启用
 
     private Date endTime;				//合同到期时间
+    
+ // 下面表单接收数据使用，非实体数据库字段
+    private String userId;					//代理商用户ID
+    
+ 	private String loginId;					//登录者ID
+ 	
+ 	private String userName;				// 用户名
+ 	
+ 	private String nickname;				// 昵称
+ 	
+	private String password;				// 密码
 
+	private String newPassword;				// 新密码
+	
     public Integer getId() {
         return id;
     }
@@ -184,5 +199,54 @@ public class SysAgentMerchant {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
     
+	
 }

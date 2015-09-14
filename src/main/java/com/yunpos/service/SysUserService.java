@@ -1,11 +1,14 @@
 package com.yunpos.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.yunpos.model.SysUser;
+import com.yunpos.model.SysUserRole;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysUserMapper;
 import com.yunpos.utils.jqgrid.GridRequest;
@@ -15,6 +18,9 @@ import com.yunpos.utils.jqgrid.GridResponse;
 public class SysUserService extends EntityService<SysUser> {
 	@Autowired
 	SysUserMapper sysUserMapper;
+	
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
 
 	@Override
 	public EntityMapper<SysUser> getMapper() {
@@ -84,6 +90,47 @@ public class SysUserService extends EntityService<SysUser> {
 		return sysUserMapper.findListByIds(array);
 	}
 
+	/**
+	 * 新增用户及添加角色
+	 */
+	public void creatSysUser(SysUser user) {
+		user.setCreatedAt(new Date());
+		user.setCreatedBy(Integer.parseInt(user.getLoginId()));
+		user.setStatus("1");
+		save(user);
+		
+		if(!Strings.isNullOrEmpty(user.getRole())){
+			String[] roleIds = user.getRole().split(",");
+			SysUserRole sysUserRole = null;
+			for(int i=0;i<roleIds.length;i++){
+				sysUserRole = new SysUserRole();
+				sysUserRole.setUserId(user.getId());
+				sysUserRole.setRoleId(Integer.valueOf(roleIds[i]));
+				sysUserRoleService.insert(sysUserRole);
+			}
+		}
+	}
+	
 
+	/**
+	 * 更新用户及角色
+	 */
+	public void updateSysUser(SysUser user) {
+		user.setUpdatedAt(new Date());
+		user.setUpdatedBy(Integer.parseInt(user.getLoginId()));
+		user.setStatus("1");
+		update(user);
+		sysUserRoleService.deleteByUserId(user.getId());
+		if(!Strings.isNullOrEmpty(user.getRole())){
+			String[] roleIds = user.getRole().split(",");
+			SysUserRole sysUserRole = null;
+			for(int i=0;i<roleIds.length;i++){
+				sysUserRole = new SysUserRole();
+				sysUserRole.setUserId(user.getId());
+				sysUserRole.setRoleId(Integer.valueOf(roleIds[i]));
+				sysUserRoleService.insert(sysUserRole);
+			}
+		}
+	}
 	
 }

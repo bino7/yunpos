@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.Industry;
-import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysOrg;
+import com.yunpos.model.SysStore;
 import com.yunpos.model.SysUser;
 import com.yunpos.service.IndustryService;
-import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysOrgService;
+import com.yunpos.service.SysStoreService;
 import com.yunpos.service.SysUserService;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
@@ -31,7 +31,7 @@ import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
  * 
- * 功能描述：商户信息控制器
+ * 功能描述：门店信息控制器
  * <p>
  * 版权所有：小牛信息科技有限公司
  * <p>
@@ -42,9 +42,9 @@ import com.yunpos.utils.jqgrid.JqGridResponse;
  *
  */
 @RestController
-public class SysMerchantController extends BaseController{
+public class SysStoreController extends BaseController{
 	@Autowired
-	private  SysMerchantService sysMerchantService;
+	private  SysStoreService sysStoreService;
 	
 	@Autowired
 	private  IndustryService industryService;
@@ -55,101 +55,100 @@ public class SysMerchantController extends BaseController{
 	@Autowired
 	private SysUserService sysUserService;
 	
-	/**所以商户信息
-	 * 商户
+	/**所以门店信息
+	 * 门店
 	 * @return
 	 * @throws ServiceException
 	 */
-	@RequestMapping(value="/ajax/merchant",method = GET)
-	public List<SysMerchant> list()throws ServiceException{
-		return sysMerchantService.findAll();
+	@RequestMapping(value="/ajax/Store",method = GET)
+	public List<SysStore> list()throws ServiceException{
+		return sysStoreService.findAll();
 		
 	}
 	
 	/**
-	 * 查询商户列表
+	 * 查询门店列表
 	 * @param jqGridRequest
 	 * @return
 	 * @throws ServiceException
 	 */
-	@RequestMapping(value="/ajax/merchant/search",method = GET)
-	public JqGridResponse<SysMerchant> search(JqGridRequest jqGridRequest)throws ServiceException{
-		GridRequest gridRequest = jqGridRequest.createDataRequest();
-		GridResponse<SysMerchant> dataResponse = sysMerchantService.search(gridRequest);
-		return new JqGridResponse<SysMerchant>(dataResponse);
+	@RequestMapping(value="/ajax/Store/search",method = GET)
+	public List<SysStore> search(SysStore sysStore)throws ServiceException{
+		List<SysStore> dataResponse = sysStoreService.findByParms(sysStore);
+		return dataResponse;
 	}
 	
 	/**
-	 * 商户详情
+	 * 门店详情
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/merchant/{id}", method = GET)
-	public SysMerchant read(@PathVariable("id") int id) {
-		return sysMerchantService.findById(id);
+	@RequestMapping(value = "/ajax/Store/{id}", method = GET)
+	public SysStore read(@PathVariable("id") int id) {
+		return sysStoreService.findById(id);
 	}
 	
 	/**
-	 * 现在商户信息,，商户用户信息
-	 * @param sysMerchant
+	 * 现在门店信息,，门店用户信息
+	 * @param sysStore
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/merchant", method = RequestMethod.POST)
-	public GridRowResponse create(@Valid SysMerchant sysMerchant) {
+	@RequestMapping(value = "/ajax/Store", method = RequestMethod.POST)
+	public GridRowResponse create(@Valid SysStore sysStore) {
 		SysUser user = new SysUser();
-		user.setUserName(sysMerchant.getUserName());
-		user.setNickname(sysMerchant.getNickname());
-		user.setPassword(sysMerchant.getPassword());
-		user.setLoginId(sysMerchant.getLoginId());
+		user.setUserName(sysStore.getUserName());
+		user.setNickname(sysStore.getNickname());
+		user.setPassword(sysStore.getPassword());
+		user.setLoginId(sysStore.getLoginId());
 		sysUserService.creatSysUser(user);
 		
 		SysOrg sysOrg = new SysOrg();
-		sysOrg.setOrgName(sysMerchant.getCompanyName());
-		sysOrg.setCreateUserId(Integer.parseInt(sysMerchant.getLoginId()));
+		sysOrg.setOrgName(sysStore.getStoreName());
+		sysOrg.setCreateUserId(Integer.parseInt(sysStore.getLoginId()));
 		sysOrg.setCreateDate(new Date());
 		sysOrg.setLevel(1);
-		sysOrg.setOrgNo("222222");
+		sysOrg.setOrgNo("111111");
 		sysOrgService.save(sysOrg);
 		
-		sysMerchantService.save(sysMerchant);
-		return new GridRowResponse(sysMerchant.getId());
+		sysStoreService.save(sysStore);
+		return new GridRowResponse(sysStore.getId());
 	}
 
 	/**
-	 * 更新商户信息 ，更新商户用户信息
-	 * @param sysMerchant
+	 * 更新门店信息 ，更新门店用户信息
+	 * @param sysStore
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/merchant/{id}", method = RequestMethod.PUT)
-	public GridRowResponse update(@Valid SysMerchant sysMerchant, @PathVariable("id") int id) {
+	@RequestMapping(value = "/ajax/Store/{id}", method = RequestMethod.PUT)
+	public GridRowResponse update(@Valid SysStore sysStore, @PathVariable("id") int id) {
 		
-		SysUser user = sysUserService.findById(Integer.parseInt(sysMerchant.getUserId()));
-		user.setUserName(sysMerchant.getUserName());
-		user.setNickname(sysMerchant.getNickname());
-		user.setPassword(sysMerchant.getNewPassword());
-		user.setLoginId(sysMerchant.getLoginId());
+		SysUser user = sysUserService.findById(Integer.parseInt(sysStore.getUserId()));
+		user.setUserName(sysStore.getUserName());
+		user.setNickname(sysStore.getNickname());
+		user.setPassword(sysStore.getNewPassword());
+		user.setLoginId(sysStore.getLoginId());
 		sysUserService.updateSysUser(user);
 		
 		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
-		sysOrg.setOrgName(sysMerchant.getCompanyName());
-		sysOrg.setModifyUserId(Integer.parseInt(sysMerchant.getLoginId()));
+		sysOrg.setOrgName(sysStore.getStoreName());
+		sysOrg.setModifyUserId(Integer.parseInt(sysStore.getLoginId()));
 		sysOrg.setModifyDate(new Date());
 		sysOrgService.update(sysOrg);
 		
 		
-		sysMerchant.setId(id);
-		sysMerchantService.update(sysMerchant);
-		return new GridRowResponse(sysMerchant.getId());
+		sysStore.setId(id);
+		sysStoreService.update(sysStore);
+		return new GridRowResponse(sysStore.getId());
 	}
 
 	/**
-	 * 删除商户
+	 * 删除门店
 	 * @param id
 	 */
-	@RequestMapping(value = "/ajax/merchant/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/ajax/Store/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") int id) {
-		sysMerchantService.delete(id);
+		sysStoreService.delete(id);
 	}
 	
 	/**
@@ -160,7 +159,7 @@ public class SysMerchantController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/ajax/user/agentmerchant/{type}/{value}", method =RequestMethod.GET )
+	@RequestMapping(value = "/ajax/user/agentStore/{type}/{value}", method =RequestMethod.GET )
 	public Object exist(HttpServletRequest request, @PathVariable("type") String type,@PathVariable("value") String value) throws Exception {
 		boolean flag = false;
 		if (type.equals("userName")){

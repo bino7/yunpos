@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysStoreMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysStore" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
+    <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
+    <result column="storeNo" property="storeNo" jdbcType="VARCHAR" />
+    <result column="storeName" property="storeName" jdbcType="VARCHAR" />
+    <result column="contactMan" property="contactMan" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="mail" property="mail" jdbcType="VARCHAR" />
+    <result column="prov" property="prov" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mapAddress" property="mapAddress" jdbcType="VARCHAR" />
+    <result column="mapPoint" property="mapPoint" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, baseUserId, serialNo, storeNo, storeName, contactMan, phone, tel, mail, prov, 
+    city, area, remark, address, mapAddress, mapPoint, status
+  </sql>
+  
+  <sql id="Select_Parm_Column_List">
+  	 <if test="baseUserId != null" >
+       and baseUserId = #{baseUserId,jdbcType=INTEGER}
+      </if>
+      <if test="serialNo != null" >
+       and serialNo = #{serialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="storeNo != null" >
+       and storeNo = #{storeNo,jdbcType=VARCHAR}
+      </if>
+      <if test="storeName != null" >
+       and storeName = #{storeName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMan != null" >
+       and contactMan = #{contactMan,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null" >
+       and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="tel != null" >
+       and tel = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="mail != null" >
+       and mail = #{mail,jdbcType=VARCHAR}
+      </if>
+      <if test="prov != null" >
+       and prov = #{prov,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null" >
+       and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="area != null" >
+       and area = #{area,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null" >
+       and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null" >
+       and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="mapAddress != null" >
+       and mapAddress = #{mapAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="mapPoint != null" >
+       and mapPoint = #{mapPoint,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+       and status = #{status,jdbcType=INTEGER}
+      </if>
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_store
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_store
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysStore" >
+    insert into sys_store (id, baseUserId, serialNo, 
+      storeNo, storeName, contactMan, 
+      phone, tel, mail, prov, 
+      city, area, remark, 
+      address, mapAddress, mapPoint, status)
+    values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
+      #{storeNo,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{mapAddress,jdbcType=VARCHAR}, #{mapPoint,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysStore" >
+    insert into sys_store
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="baseUserId != null" >
+        baseUserId,
+      </if>
+      <if test="serialNo != null" >
+        serialNo,
+      </if>
+      <if test="storeNo != null" >
+        storeNo,
+      </if>
+      <if test="storeName != null" >
+        storeName,
+      </if>
+      <if test="contactMan != null" >
+        contactMan,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="mail != null" >
+        mail,
+      </if>
+      <if test="prov != null" >
+        prov,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="mapAddress != null" >
+        mapAddress,
+      </if>
+       <if test="mapPoint != null" >
+        mapPoint,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="baseUserId != null" >
+        #{baseUserId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeNo != null" >
+        #{storeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMan != null" >
+        #{contactMan,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="prov != null" >
+        #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+       <if test="mapAddress != null" >
+        #{mapAddress,jdbcType=VARCHAR},
+      </if>
+       <if test="mapPoint != null" >
+        #{mapPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysStore" >
+    update sys_store
+    <set >
+      <if test="baseUserId != null" >
+        baseUserId = #{baseUserId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNo != null" >
+        serialNo = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeNo != null" >
+        storeNo = #{storeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        storeName = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMan != null" >
+        contactMan = #{contactMan,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="prov != null" >
+        prov = #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mapAddress != null" >
+        mapAddress = #{mapAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mapPoint != null" >
+        mapPoint = #{mapPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysStore" >
+    update sys_store
+    set baseUserId = #{baseUserId,jdbcType=INTEGER},
+      serialNo = #{serialNo,jdbcType=VARCHAR},
+      storeNo = #{storeNo,jdbcType=VARCHAR},
+      storeName = #{storeName,jdbcType=VARCHAR},
+      contactMan = #{contactMan,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      prov = #{prov,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mapAddress = #{mapAddress,jdbcType=VARCHAR},
+      mapPoint = #{mapPoint,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+    <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysStore" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_store
+    where 1 = 1
+	  <include refid="Select_Parm_Column_List" />
+  </select>
+</mapper>

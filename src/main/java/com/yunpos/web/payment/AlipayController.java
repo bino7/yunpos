@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
@@ -591,7 +592,7 @@ public class AlipayController extends BaseController{
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/pay/alipay/wap/synNotify")
 	@ResponseBody
-	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response) {
+	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr) {
 		log.info("######receive alipay wap synnotify message!");
 		try {
 			// 获取支付宝POST过来反馈信息
@@ -622,10 +623,12 @@ public class AlipayController extends BaseController{
 					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
 					String synNotify = sysAlipayConfig.getMerchanSynNotify();
 					if(!Strings.isNullOrEmpty(synNotify)){
-						String resString = mapper.writeValueAsString(new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap()));
+						Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
 						//response.getWriter().write(resString);
-						response.getOutputStream().write(resString.getBytes());
-						response.sendRedirect(sysAlipayConfig.getMerchanSynNotify());
+						//response.getOutputStream().write(resString.getBytes());
+						attr.addAttribute(message);
+						return "redirect:"+sysAlipayConfig.getMerchanSynNotify();
+						//response.sendRedirect(sysAlipayConfig.getMerchanSynNotify());
 					}
 					return null;
 				}else{
@@ -648,7 +651,8 @@ public class AlipayController extends BaseController{
 		try {
 			writer = response.getWriter();
 			String json = Util.inputStreamToString(request.getInputStream());
-			log.info("##############重定向收到数据："+json);
+			log.info("######"+request.getParameter("result_code"));
+			log.info("##############重定向收到数据："+request.getParameter("is_success"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

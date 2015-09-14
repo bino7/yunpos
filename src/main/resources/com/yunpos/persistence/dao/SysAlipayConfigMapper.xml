@@ -6,6 +6,11 @@
     <result column="sellerEmail" property="sellerEmail" jdbcType="VARCHAR" />
     <result column="pid" property="pid" jdbcType="VARCHAR" />
     <result column="key" property="key" jdbcType="VARCHAR" />
+    <result column="merchanSynNotify" property="merchanSynNotify" jdbcType="VARCHAR" />
+    <result column="merchanAsynNotify" property="merchanAsynNotify" jdbcType="VARCHAR" />
+    <result column="synNotify" property="synNotify" jdbcType="VARCHAR" />
+    <result column="asynNotify" property="asynNotify" jdbcType="VARCHAR" />
+    <result column="devGetway" property="devGetway" jdbcType="VARCHAR" />
     <result column="token" property="token" jdbcType="VARCHAR" />
     <result column="pagentId" property="pagentId" jdbcType="VARCHAR" />
     <result column="mark" property="mark" jdbcType="VARCHAR" />
@@ -18,12 +23,14 @@
     <result column="alipayPublicKey" property="alipayPublicKey" jdbcType="LONGVARCHAR" />
     <result column="appPrivateKey" property="appPrivateKey" jdbcType="LONGVARCHAR" />
     <result column="appPublicKey" property="appPublicKey" jdbcType="LONGVARCHAR" />
+    <result column="devPublicKey" property="devPublicKey" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, sellerEmail, pid, key, token, pagentId, mark, info, status, merchantNo
+    id, sellerEmail, pid, key, merchanSynNotify, merchanAsynNotify, synNotify, asynNotify, 
+    devGetway, token, pagentId, mark, info, status, merchantNo
   </sql>
   <sql id="Blob_Column_List" >
-    merchantPrivateKey, alipayPublicKey, appPrivateKey, appPublicKey
+    merchantPrivateKey, alipayPublicKey, appPrivateKey, appPublicKey, devPublicKey
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
@@ -38,16 +45,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id">
-    insert into sys_alipay_config (sellerEmail, pid, 
-      key, token, pagentId, 
-      mark, info, status, 
-      merchantNo, merchantPrivateKey, alipayPublicKey, 
-      appPrivateKey, appPublicKey)
+    insert into sys_alipay_config ( sellerEmail, pid, 
+      key, merchanSynNotify, merchanAsynNotify, 
+      synNotify, asynNotify, devGetway, 
+      token, pagentId, mark, 
+      info, status, merchantNo, 
+      merchantPrivateKey, alipayPublicKey, 
+      appPrivateKey, appPublicKey, devPublicKey
+      )
     values (#{sellerEmail,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, 
-      #{key,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{pagentId,jdbcType=VARCHAR}, 
-      #{mark,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{merchantNo,jdbcType=VARCHAR}, #{merchantPrivateKey,jdbcType=LONGVARCHAR}, #{alipayPublicKey,jdbcType=LONGVARCHAR}, 
-      #{appPrivateKey,jdbcType=LONGVARCHAR}, #{appPublicKey,jdbcType=LONGVARCHAR})
+      #{key,jdbcType=VARCHAR}, #{merchanSynNotify,jdbcType=VARCHAR}, #{merchanAsynNotify,jdbcType=VARCHAR}, 
+      #{synNotify,jdbcType=VARCHAR}, #{asynNotify,jdbcType=VARCHAR}, #{devGetway,jdbcType=VARCHAR}, 
+      #{token,jdbcType=VARCHAR}, #{pagentId,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}, 
+      #{info,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{merchantNo,jdbcType=VARCHAR}, 
+      #{merchantPrivateKey,jdbcType=LONGVARCHAR}, #{alipayPublicKey,jdbcType=LONGVARCHAR}, 
+      #{appPrivateKey,jdbcType=LONGVARCHAR}, #{appPublicKey,jdbcType=LONGVARCHAR}, #{devPublicKey,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" >
     insert into sys_alipay_config
@@ -63,6 +76,21 @@
       </if>
       <if test="key != null" >
         key,
+      </if>
+      <if test="merchanSynNotify != null" >
+        merchanSynNotify,
+      </if>
+      <if test="merchanAsynNotify != null" >
+        merchanAsynNotify,
+      </if>
+      <if test="synNotify != null" >
+        synNotify,
+      </if>
+      <if test="asynNotify != null" >
+        asynNotify,
+      </if>
+      <if test="devGetway != null" >
+        devGetway,
       </if>
       <if test="token != null" >
         token,
@@ -94,6 +122,9 @@
       <if test="appPublicKey != null" >
         appPublicKey,
       </if>
+      <if test="devPublicKey != null" >
+        devPublicKey,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -107,6 +138,21 @@
       </if>
       <if test="key != null" >
         #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="merchanSynNotify != null" >
+        #{merchanSynNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="merchanAsynNotify != null" >
+        #{merchanAsynNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="synNotify != null" >
+        #{synNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="asynNotify != null" >
+        #{asynNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="devGetway != null" >
+        #{devGetway,jdbcType=VARCHAR},
       </if>
       <if test="token != null" >
         #{token,jdbcType=VARCHAR},
@@ -138,6 +184,9 @@
       <if test="appPublicKey != null" >
         #{appPublicKey,jdbcType=LONGVARCHAR},
       </if>
+      <if test="devPublicKey != null" >
+        #{devPublicKey,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" >
@@ -151,6 +200,21 @@
       </if>
       <if test="key != null" >
         key = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="merchanSynNotify != null" >
+        merchanSynNotify = #{merchanSynNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="merchanAsynNotify != null" >
+        merchanAsynNotify = #{merchanAsynNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="synNotify != null" >
+        synNotify = #{synNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="asynNotify != null" >
+        asynNotify = #{asynNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="devGetway != null" >
+        devGetway = #{devGetway,jdbcType=VARCHAR},
       </if>
       <if test="token != null" >
         token = #{token,jdbcType=VARCHAR},
@@ -182,6 +246,9 @@
       <if test="appPublicKey != null" >
         appPublicKey = #{appPublicKey,jdbcType=LONGVARCHAR},
       </if>
+      <if test="devPublicKey != null" >
+        devPublicKey = #{devPublicKey,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -190,6 +257,11 @@
     set sellerEmail = #{sellerEmail,jdbcType=VARCHAR},
       pid = #{pid,jdbcType=VARCHAR},
       key = #{key,jdbcType=VARCHAR},
+      merchanSynNotify = #{merchanSynNotify,jdbcType=VARCHAR},
+      merchanAsynNotify = #{merchanAsynNotify,jdbcType=VARCHAR},
+      synNotify = #{synNotify,jdbcType=VARCHAR},
+      asynNotify = #{asynNotify,jdbcType=VARCHAR},
+      devGetway = #{devGetway,jdbcType=VARCHAR},
       token = #{token,jdbcType=VARCHAR},
       pagentId = #{pagentId,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
@@ -199,7 +271,8 @@
       merchantPrivateKey = #{merchantPrivateKey,jdbcType=LONGVARCHAR},
       alipayPublicKey = #{alipayPublicKey,jdbcType=LONGVARCHAR},
       appPrivateKey = #{appPrivateKey,jdbcType=LONGVARCHAR},
-      appPublicKey = #{appPublicKey,jdbcType=LONGVARCHAR}
+      appPublicKey = #{appPublicKey,jdbcType=LONGVARCHAR},
+      devPublicKey = #{devPublicKey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysAlipayConfig" >
@@ -207,6 +280,11 @@
     set sellerEmail = #{sellerEmail,jdbcType=VARCHAR},
       pid = #{pid,jdbcType=VARCHAR},
       key = #{key,jdbcType=VARCHAR},
+      merchanSynNotify = #{merchanSynNotify,jdbcType=VARCHAR},
+      merchanAsynNotify = #{merchanAsynNotify,jdbcType=VARCHAR},
+      synNotify = #{synNotify,jdbcType=VARCHAR},
+      asynNotify = #{asynNotify,jdbcType=VARCHAR},
+      devGetway = #{devGetway,jdbcType=VARCHAR},
       token = #{token,jdbcType=VARCHAR},
       pagentId = #{pagentId,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},

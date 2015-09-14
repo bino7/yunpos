@@ -261,37 +261,6 @@
 			<classifier>jdk15</classifier>
 		</dependency>
 
-		<dependency>
-			<groupId>koudaitong.pushclient</groupId>
-			<artifactId>kdtpushclient</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/push-client-1.1.0.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>koudaitong.pushprotocol</groupId>
-			<artifactId>kdtpushprotocol</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/push-protocol-1.1.0.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>koudaitong.netty</groupId>
-			<artifactId>kdtnetty</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/netty-all-4.1.0.Beta3.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>koudaitong.fastjson</groupId>
-			<artifactId>kdtfastjson</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fastjson-1.2.3.jar</systemPath>
-		</dependency>
 		<!-- 生成EXCEL文件 -->
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>

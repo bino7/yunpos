@@ -3,6 +3,7 @@ package com.yunpos.KDT;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.security.cert.CertificateException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,11 +26,16 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 
 public class KdtApiClient {
@@ -64,11 +76,47 @@ public class KdtApiClient {
 		return response;
     }
     
+    /** 
+     * 重写验证方法，取消检测ssl 
+     */  
+	private TrustManager truseAllManager = new X509TrustManager() {
+		public void checkClientTrusted(java.security.cert.X509Certificate[] arg0, String arg1)
+				throws CertificateException {
+			// TODO Auto-generated method stub
+		}
+
+		public void checkServerTrusted(java.security.cert.X509Certificate[] arg0, String arg1)
+				throws CertificateException {
+			// TODO Auto-generated method stub
+		}
+
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	};
+	
+	private void enableSSL(HttpClient httpclient){  
+        //调用ssl  
+         try {  
+                SSLContext sslcontext = SSLContext.getInstance("TLS");  
+                sslcontext.init(null, new TrustManager[] { truseAllManager }, null);  
+                SSLSocketFactory sf = new SSLSocketFactory(sslcontext);  
+                sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);  
+                Scheme https = new Scheme("https", sf, 443);  
+                httpclient.getConnectionManager().getSchemeRegistry().register(https);  
+            } catch (Exception e) {  
+                e.printStackTrace();  
+            }  
+    }  
+	
+    
     public HttpResponse get(String url) throws Exception{       
         HttpClient client = new DefaultHttpClient();
+        enableSSL(client);
+	
 		HttpGet request = new HttpGet(url);
 		request.addHeader("User-Agent", DefaultUserAgent);
- 
 		HttpResponse response = client.execute(request);
 		return response;
     }
@@ -92,7 +140,6 @@ public class KdtApiClient {
 	        httppost.setEntity(mpEntity);
     	}
     	
-        System.out.println("executing request " + httppost.getRequestLine());
         HttpResponse response = client.execute(httppost);
         
         return response;
@@ -100,7 +147,8 @@ public class KdtApiClient {
     
 	public HttpResponse post(String url, HashMap<String, String> params) throws ClientProtocolException, IOException {
 		HttpClient client = new DefaultHttpClient();
-
+		enableSSL(client);
+		
 		List<NameValuePair> param = new ArrayList<NameValuePair>(); // 参数
 		if (params != null) {
 			// 添加参数

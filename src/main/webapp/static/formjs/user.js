@@ -49,7 +49,7 @@ var jqGridNavBarOptions = {
 
 
 $(document).ready(function() {
-	setupGrid();
+	//setupGrid();
 	$("#kdtBtn").click(function(){
 		//client_id:7718b70dad904f6f3bclient_secret:05703a2a336f893f53f72d6406bce731client_name:云铺redirect_uri:http://y.o2o520.com
        var client_id = "7718b70dad904f6f3b";
@@ -68,7 +68,7 @@ $(document).ready(function() {
        //location.href = url;
            
        //var code = getParam("code");
-       var code= "c0770c6e61ee33bb0a8d100019e9c91353ee0d20";
+       var code= "2728d743ca3035cbe49077674d0a4ed6eb1dbe17";
 
 
    	$.ajax({

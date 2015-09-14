@@ -24,6 +24,51 @@
     id, systrace, batch_no, tid, mid, txn_id, txn_name, pan, txn_amt, txn_time, rrn, 
     auth_code, order_no, acc_type, txn_type, create_time, create_by
   </sql>
+  
+  <sql id="Select_Parm_Column_List">
+	   <if test="tid != null" >
+        and tid = #{tid,jdbcType=VARCHAR}
+      </if>
+      <if test="mid != null" >
+       and  mid = #{mid,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_id != null" >
+       and  txn_id = #{txn_id,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_name != null" >
+       and  txn_name = #{txn_name,jdbcType=VARCHAR}
+      </if>
+      <if test="pan != null" >
+       and  pan = #{pan,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_amt != null" >
+       and  txn_amt = #{txn_amt,jdbcType=DOUBLE}
+      </if>
+      <if test="txn_time != null" >
+       and  txn_time = #{txn_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="rrn != null" >
+       and  rrn = #{rrn,jdbcType=VARCHAR}
+      </if>
+      <if test="auth_code != null" >
+       and  auth_code = #{auth_code,jdbcType=VARCHAR}
+      </if>
+      <if test="order_no != null" >
+       and  order_no = #{order_no,jdbcType=VARCHAR}
+      </if>
+      <if test="acc_type != null" >
+       and  acc_type = #{acc_type,jdbcType=VARCHAR}
+      </if>
+      <if test="txn_type != null" >
+       and  txn_type = #{txn_type,jdbcType=VARCHAR}
+      </if>
+      <if test="create_time != null" >
+       and  create_time = #{create_time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="create_by != null" >
+       and  create_by = #{create_by,jdbcType=VARCHAR}
+      </if>
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yunpos.model.MktPosTransaction" >
     select 
     <include refid="Base_Column_List" />
@@ -238,57 +283,26 @@
     <include refid="Base_Column_List" />
     from mkt_pos_transaction
     where 1 = 1
-
-	    <if test="tid != null" >
-        and tid = #{tid,jdbcType=VARCHAR}
-      </if>
-      <if test="mid != null" >
-       and  mid = #{mid,jdbcType=VARCHAR}
-      </if>
-      <if test="txn_id != null" >
-       and  txn_id = #{txn_id,jdbcType=VARCHAR}
-      </if>
-      <if test="txn_name != null" >
-       and  txn_name = #{txn_name,jdbcType=VARCHAR}
-      </if>
-      <if test="pan != null" >
-       and  pan = #{pan,jdbcType=VARCHAR}
-      </if>
-      <if test="txn_amt != null" >
-       and  txn_amt = #{txn_amt,jdbcType=DOUBLE}
-      </if>
-      <if test="txn_time != null" >
-       and  txn_time = #{txn_time,jdbcType=TIMESTAMP}
-      </if>
-      <if test="rrn != null" >
-       and  rrn = #{rrn,jdbcType=VARCHAR}
-      </if>
-      <if test="auth_code != null" >
-       and  auth_code = #{auth_code,jdbcType=VARCHAR}
-      </if>
-      <if test="order_no != null" >
-       and  order_no = #{order_no,jdbcType=VARCHAR}
-      </if>
-      <if test="acc_type != null" >
-       and  acc_type = #{acc_type,jdbcType=VARCHAR}
-      </if>
-      <if test="txn_type != null" >
-       and  txn_type = #{txn_type,jdbcType=VARCHAR}
-      </if>
-      <if test="create_time != null" >
-       and  create_time = #{create_time,jdbcType=TIMESTAMP}
-      </if>
-      <if test="create_by != null" >
-       and  create_by = #{create_by,jdbcType=VARCHAR}
-      </if>
+	<include refid="Select_Parm_Column_List" />
       <if test="searchValue != null">
 		and (mid like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
 		)
 	  </if>
+	  ORDER BY  id
 	   <if test="pageNumber != null">
-		 limit #{pageNumber},  #{pageSize}
+		 limit #{start},  #{pageSize}
 	  </if>
-	  
+  </select>
+  
+  <select id="selectCountByParm" resultType="java.lang.Integer" parameterType="com.yunpos.model.MktPosTransaction" >
+    select  count(*) from mkt_pos_transaction
+	where 1 = 1
+ 	<include refid="Select_Parm_Column_List" />
+	<include refid="Select_Parm_Column_List" />
+      <if test="searchValue != null">
+		and (mid like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		)
+	  </if>
 	  
   </select>
 </mapper>

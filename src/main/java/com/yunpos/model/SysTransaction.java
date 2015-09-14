@@ -3,6 +3,9 @@ package com.yunpos.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.yunpos.utils.jqgrid.GridRequest;
+
+
 /**
  * 
  * 功能描述：交易流水
@@ -15,7 +18,7 @@ import java.util.Date;
  * @author tiger_lin 修改日期：2015年9月9日
  *
  */
-public class SysTransaction implements Serializable {
+public class SysTransaction  extends GridRequest implements Serializable {
     /**
 	 * 
 	 */

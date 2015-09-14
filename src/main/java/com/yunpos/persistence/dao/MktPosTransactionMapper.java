@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 
 import com.yunpos.model.MktPosTransaction;
+import com.yunpos.model.SysTransaction;
 
 public interface MktPosTransactionMapper extends EntityMapper<MktPosTransaction>{
 	
@@ -29,4 +30,11 @@ public interface MktPosTransactionMapper extends EntityMapper<MktPosTransaction>
 	 * @return
 	 */
 	List<MktPosTransaction> selectByParm(MktPosTransaction mktPosTransaction);
+	
+	/**
+	 * 根据订单参数查询
+	 * @param MktPosTransaction
+	 * @return
+	 */
+	int selectCountByParm(MktPosTransaction mktPosTransaction);
 }

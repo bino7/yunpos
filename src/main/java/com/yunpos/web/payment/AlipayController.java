@@ -592,7 +592,7 @@ public class AlipayController extends BaseController{
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/pay/alipay/wap/synNotify")
 	@ResponseBody
-	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr) {
+	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response) {
 		log.info("######receive alipay wap synnotify message!");
 		try {
 			// 获取支付宝POST过来反馈信息
@@ -626,9 +626,9 @@ public class AlipayController extends BaseController{
 						Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
 						//response.getWriter().write(resString);
 						//response.getOutputStream().write(resString.getBytes());
-						attr.addAttribute(message);
-						return "redirect:"+sysAlipayConfig.getMerchanSynNotify();
-						//response.sendRedirect(sysAlipayConfig.getMerchanSynNotify());
+						//attr.addAttribute(message);
+						//return "redirect:"+sysAlipayConfig.getMerchanSynNotify();//http://t.o2o520.com/pay/alipay/wap/redirect
+						response.sendRedirect(sysAlipayConfig.getMerchanSynNotify()+"?result_code=yang&result_msg=xxxxx");
 					}
 					return null;
 				}else{

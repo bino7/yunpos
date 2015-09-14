@@ -159,7 +159,7 @@ public class SysStoreController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/ajax/user/agentStore/{type}/{value}", method =RequestMethod.GET )
+	@RequestMapping(value = "/ajax/user/sysStore/{type}/{value}", method =RequestMethod.GET )
 	public Object exist(HttpServletRequest request, @PathVariable("type") String type,@PathVariable("value") String value) throws Exception {
 		boolean flag = false;
 		if (type.equals("userName")){
@@ -169,14 +169,5 @@ public class SysStoreController extends BaseController{
 	}
 	
 	
-	/**行业数据
-	 * 
-	 * @return
-	 * @throws ServiceException
-	 */
-	@RequestMapping(value="/ajax/industry",method = GET)
-	public List<Industry> industrList() throws ServiceException{
-		return industryService.findAll();
-		
-	}
+
 }

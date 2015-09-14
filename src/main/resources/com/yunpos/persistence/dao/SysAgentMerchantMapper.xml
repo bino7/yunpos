@@ -18,12 +18,68 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="auditStatus" property="auditStatus" jdbcType="TINYINT" />
+    <result column="auditOpinion" property="auditOpinion" jdbcType="VARCHAR" />
     <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, baseUserId, agentSerialNo, companyName, businessLicense, registerNumber, identityCard, 
-    contactMan, phone, tel, prov, city, area, address, status, auditStatus, endTime
+    contactMan, phone, tel, prov, city, area, address, status, auditStatus, auditOpinion, endTime
   </sql>
+  
+  <sql id="Select_Parm_Column_List">
+  	 <if test="baseUserId != null" >
+       and  baseUserId = #{baseUserId,jdbcType=INTEGER}
+      </if>
+      <if test="agentSerialNo != null" >
+       and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="companyName != null" >
+       and companyName = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="businessLicense != null" >
+       and businessLicense = #{businessLicense,jdbcType=VARCHAR}
+      </if>
+      <if test="registerNumber != null" >
+       and registerNumber = #{registerNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="identityCard != null" >
+       and identityCard = #{identityCard,jdbcType=VARCHAR}
+      </if>
+      <if test="contactMan != null" >
+       and contactMan = #{contactMan,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null" >
+       and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="tel != null" >
+       and tel = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="prov != null" >
+       and prov = #{prov,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null" >
+       and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="area != null" >
+       and area = #{area,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null" >
+       and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+       and status = #{status,jdbcType=TINYINT}
+      </if>
+      <if test="auditStatus != null" >
+       and auditStatus = #{auditStatus,jdbcType=TINYINT}
+      </if>
+      <if test="auditOpinion != null" >
+       and auditOpinion = #{auditOpinion,jdbcType=TINYINT}
+      </if>
+      <if test="endTime != null" >
+       and endTime = #{endTime,jdbcType=TIMESTAMP}
+      </if>
+  </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -39,13 +95,13 @@
       companyName, businessLicense, registerNumber, 
       identityCard, contactMan, phone, 
       tel, prov, city, area, 
-      address, status, auditStatus, endTime
+      address, status, auditStatus, auditOpinion, endTime
       )
     values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{agentSerialNo,jdbcType=VARCHAR}, 
       #{companyName,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{registerNumber,jdbcType=VARCHAR}, 
       #{identityCard,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{auditStatus,jdbcType=TINYINT}, #{endTime,jdbcType=TIMESTAMP}
+      #{address,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{auditStatus,jdbcType=TINYINT}, #{auditOpinion,jdbcType=VARCHAR}, #{endTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysAgentMerchant" >
@@ -98,6 +154,9 @@
       </if>
        <if test="auditStatus != null" >
         auditStatus,
+      </if>
+       <if test="auditOpinion != null" >
+        auditOpinion,
       </if>
       <if test="endTime != null" >
         endTime,
@@ -152,6 +211,9 @@
       <if test="auditStatus != null" >
         #{auditStatus,jdbcType=TINYINT},
       </if>
+      <if test="auditOpinion != null" >
+        #{auditOpinion,jdbcType=VARCHAR},
+      </if>
       <if test="endTime != null" >
         #{endTime,jdbcType=TIMESTAMP},
       </if>
@@ -205,6 +267,9 @@
       <if test="auditStatus != null" >
         auditStatus = #{auditStatus,jdbcType=TINYINT},
       </if>
+      <if test="auditOpinion != null" >
+        auditOpinion = #{auditOpinion,jdbcType=VARCHAR},
+      </if>
       <if test="endTime != null" >
         endTime = #{endTime,jdbcType=TIMESTAMP},
       </if>
@@ -228,6 +293,7 @@
       address = #{address,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       auditStatus = #{auditStatus,jdbcType=TINYINT},
+      auditOpinion = #{auditOpinion,jdbcType=VARCHAR},
       endTime = #{endTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -258,54 +324,6 @@
     <include refid="Base_Column_List" />
     from sys_agentmerchant
     where 1 = 1
-
-	  <if test="baseUserId != null" >
-       and  baseUserId = #{baseUserId,jdbcType=INTEGER}
-      </if>
-      <if test="agentSerialNo != null" >
-       and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
-      </if>
-      <if test="companyName != null" >
-       and companyName = #{companyName,jdbcType=VARCHAR}
-      </if>
-      <if test="businessLicense != null" >
-       and businessLicense = #{businessLicense,jdbcType=VARCHAR}
-      </if>
-      <if test="registerNumber != null" >
-       and registerNumber = #{registerNumber,jdbcType=VARCHAR}
-      </if>
-      <if test="identityCard != null" >
-       and identityCard = #{identityCard,jdbcType=VARCHAR}
-      </if>
-      <if test="contactMan != null" >
-       and contactMan = #{contactMan,jdbcType=VARCHAR}
-      </if>
-      <if test="phone != null" >
-       and phone = #{phone,jdbcType=VARCHAR}
-      </if>
-      <if test="tel != null" >
-       and tel = #{tel,jdbcType=VARCHAR}
-      </if>
-      <if test="prov != null" >
-       and prov = #{prov,jdbcType=VARCHAR}
-      </if>
-      <if test="city != null" >
-       and city = #{city,jdbcType=VARCHAR}
-      </if>
-      <if test="area != null" >
-       and area = #{area,jdbcType=VARCHAR}
-      </if>
-      <if test="address != null" >
-       and address = #{address,jdbcType=VARCHAR}
-      </if>
-      <if test="status != null" >
-       and status = #{status,jdbcType=TINYINT}
-      </if>
-      <if test="auditStatus != null" >
-       and auditStatus = #{auditStatus,jdbcType=TINYINT}
-      </if>
-      <if test="endTime != null" >
-       and endTime = #{endTime,jdbcType=TIMESTAMP}
-      </if>
+	  <include refid="Select_Parm_Column_List" />
   </select>
 </mapper>

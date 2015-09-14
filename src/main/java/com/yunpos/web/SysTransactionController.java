@@ -7,7 +7,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +20,6 @@ import com.yunpos.model.SysAlipayConfigWithBLOBs;
 import com.yunpos.model.SysRole;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.service.SysTransactionService;
-import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
 import com.yunpos.utils.jqgrid.JqGridRequest;
@@ -45,11 +43,16 @@ public class SysTransactionController {
 	private SysTransactionService  sysTransactionService;
 	
 
-
+	/**
+	 * 流水查询
+	 * @param sysTransaction
+	 * @return
+	 * @throws ServiceException
+	 */
 	@RequestMapping(value = "/ajax/transaction/search", method = RequestMethod.GET)
-	public SearchRespose<SysTransaction> search(SearchRequest searchRequest) throws ServiceException {
-		SearchRespose<SysTransaction> dataResponse = sysTransactionService.search(searchRequest);
-		return dataResponse;
+	public JqGridResponse<SysTransaction> search(SysTransaction sysTransaction) throws ServiceException {
+		JqGridResponse<SysTransaction> list = sysTransactionService.findPageDataByParms(sysTransaction);
+		return list;
 	}
 	
 	@RequestMapping(value = "/ajax/transaction/{id}", method = GET)

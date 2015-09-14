@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.yunpos.model.SearchRequest;
 import com.yunpos.model.SearchRespose;
+import com.yunpos.model.SysOrder;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysTransactionMapper;
+import com.yunpos.utils.jqgrid.GridResponse;
+import com.yunpos.utils.jqgrid.JqGridResponse;
 
 @Service
 public class SysTransactionService extends EntityService<SysTransaction> {
@@ -31,4 +34,38 @@ public class SysTransactionService extends EntityService<SysTransaction> {
 		return sysTransactionMapper.findByTransNum(orderNo);
 	}
 
+	/**
+	 * 根据代理商参数查询
+	 * @param sysAgentMerchant
+	 * @return
+	 */
+	public List<SysTransaction> findByParms(SysTransaction sysTransaction) {
+		List<SysTransaction> list = sysTransactionMapper.selectByParm(sysTransaction);
+		return list;
+	}
+	
+	/**
+	 * 根据代理商参数查询
+	 * @param sysAgentMerchant
+	 * @return
+	 */
+	public int findCountByParms(SysTransaction sysTransaction) {
+		int count = sysTransactionMapper.selectCountByParm(sysTransaction);
+		return count;
+	}
+	
+	/**
+	 * 根据代理商参数分页查询
+	 * @param sysAgentMerchant
+	 * @return
+	 */
+	public JqGridResponse<SysTransaction> findPageDataByParms(SysTransaction sysTransaction) {
+		List<SysTransaction> list = findByParms(sysTransaction);
+		GridResponse<SysTransaction> response = new GridResponse<SysTransaction>();
+		response.setPageNumber(sysTransaction.getPageNumber());
+		response.setPageSize(sysTransaction.getPageSize());
+		response.setRows(list);
+		response.setTotalRowCount(findCountByParms(sysTransaction));
+		return new JqGridResponse<SysTransaction>(response);
+	}
 }

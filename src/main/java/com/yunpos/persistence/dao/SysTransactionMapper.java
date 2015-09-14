@@ -15,5 +15,19 @@ public interface SysTransactionMapper extends EntityMapper<SysTransaction>{
 	
 	@Select("select * from sys_transaction where transNum=#{transNum}")
 	SysTransaction findByTransNum(String transNum);
-}
+   
+	/**
+	 * 根据订单流水参数查询
+	 * @param SysTransaction
+	 * @return
+	 */
+	List<SysTransaction> selectByParm(SysTransaction sysTransaction);
+	
+	/**
+	 * 根据订单流水参数查询总数
+	 * @param SysTransaction
+	 * @return
+	 */
+	int selectCountByParm(SysTransaction sysTransaction);
 
+}

@@ -33,6 +33,64 @@
 		status, transType,
 		orderId, info
 	</sql>
+	
+	<sql id="Select_Parm_Column_List">
+		<if test="channel != null">
+			and channel = #{channel,jdbcType=INTEGER}
+		</if>
+		<if test="subChannel != null">
+			and subChannel = #{subChannel,jdbcType=INTEGER}
+		</if>
+		<if test="title != null">
+			and title = #{title,jdbcType=VARCHAR}
+		</if>
+		<if test="merchantName != null">
+			and merchantName = #{merchantName,jdbcType=VARCHAR}
+		</if>
+		<if test="serialNo != null">
+			and serialNo = #{serialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="agentSerialNo != null">
+			and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
+		</if>
+		<if test="terminalNum != null">
+			and terminalNum = #{terminalNum,jdbcType=VARCHAR}
+		</if>
+		<if test="transCardNum != null">
+			and transCardNum = #{transCardNum,jdbcType=VARCHAR}
+		</if>
+		<if test="transNum != null">
+			and transNum = #{transNum,jdbcType=VARCHAR}
+		</if>
+		<if test="transTime != null">
+			and transTime = #{transTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="transPrice != null">
+			and transPrice = #{transPrice,jdbcType=REAL}
+		</if>
+		<if test="totalPrice != null">
+			and totalPrice = #{totalPrice,jdbcType=REAL}
+		</if>
+		<if test="scanType != null">
+			and scanType = #{scanType,jdbcType=INTEGER}
+		</if>
+		<if test="couponCode != null">
+			and couponCode = #{couponCode,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null">
+			and status = #{status,jdbcType=INTEGER}
+		</if>
+		<if test="transType != null">
+			and transType = #{transType,jdbcType=INTEGER}
+		</if>
+		<if test="orderId != null">
+			and orderId = #{orderId,jdbcType=VARCHAR}
+		</if>
+		<if test="info != null">
+			and info = #{info,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
@@ -311,4 +369,40 @@
 
 
 	</select>
+	
+	<select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysTransaction" >
+    select 
+    <include refid="Base_Column_List" />
+	from sys_transaction
+	where 1 = 1
+	
+	 <include refid="Select_Parm_Column_List" />
+	
+	<if test="searchValue != null">
+		and (merchantName like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		or agentSerialNo like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		or terminalNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		or transCardNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		)
+	</if>
+		ORDER BY id
+	  <if test="pageNumber != null">
+		  limit #{start},  #{pageSize}
+	  </if>
+  </select>
+  
+  <select id="selectCountByParm" resultType="java.lang.Integer" parameterType="com.yunpos.model.SysTransaction" >
+    select  count(*) from sys_transaction
+	where 1 = 1
+ 	<include refid="Select_Parm_Column_List" />
+	<if test="searchValue != null">
+		and (merchantName like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		or agentSerialNo like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		or terminalNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		or transCardNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+		)
+	</if>
+	  
+  </select>
+  
 </mapper>

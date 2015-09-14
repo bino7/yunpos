@@ -5,107 +5,157 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SysAlipayConfig {
-    private Integer id;
+	private Integer id;
 
-    private String sellerEmail;
+	private String sellerEmail;
 
-    private String pid;
+	private String pid;
 
-    private String key;
+	private String key;
 
-    private String token;
+	private String merchanSynNotify;
 
-    private String pagentId;
+	private String merchanAsynNotify;
 
-    private String mark;
+	private String synNotify;
 
-    private String info;
+	private String asynNotify;
 
-    private Byte status;
+	private String devGetway;
 
-    private String merchantNo;
+	private String token;
 
-    public Integer getId() {
-        return id;
-    }
+	private String pagentId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String mark;
 
-    public String getSellerEmail() {
-        return sellerEmail;
-    }
+	private String info;
 
-    public void setSellerEmail(String sellerEmail) {
-        this.sellerEmail = sellerEmail == null ? null : sellerEmail.trim();
-    }
+	private Byte status;
 
-    public String getPid() {
-        return pid;
-    }
+	private String merchantNo;
 
-    public void setPid(String pid) {
-        this.pid = pid == null ? null : pid.trim();
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getKey() {
-        return key;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setKey(String key) {
-        this.key = key == null ? null : key.trim();
-    }
+	public String getSellerEmail() {
+		return sellerEmail;
+	}
 
-    public String getToken() {
-        return token;
-    }
+	public void setSellerEmail(String sellerEmail) {
+		this.sellerEmail = sellerEmail == null ? null : sellerEmail.trim();
+	}
 
-    public void setToken(String token) {
-        this.token = token == null ? null : token.trim();
-    }
+	public String getPid() {
+		return pid;
+	}
 
-    public String getPagentId() {
-        return pagentId;
-    }
+	public void setPid(String pid) {
+		this.pid = pid == null ? null : pid.trim();
+	}
 
-    public void setPagentId(String pagentId) {
-        this.pagentId = pagentId == null ? null : pagentId.trim();
-    }
+	public String getKey() {
+		return key;
+	}
 
-    public String getMark() {
-        return mark;
-    }
+	public void setKey(String key) {
+		this.key = key == null ? null : key.trim();
+	}
 
-    public void setMark(String mark) {
-        this.mark = mark == null ? null : mark.trim();
-    }
+	public String getToken() {
+		return token;
+	}
 
-    public String getInfo() {
-        return info;
-    }
+	public void setToken(String token) {
+		this.token = token == null ? null : token.trim();
+	}
 
-    public void setInfo(String info) {
-        this.info = info == null ? null : info.trim();
-    }
+	public String getPagentId() {
+		return pagentId;
+	}
 
-    public Byte getStatus() {
-        return status;
-    }
+	public void setPagentId(String pagentId) {
+		this.pagentId = pagentId == null ? null : pagentId.trim();
+	}
 
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
+	public String getMark() {
+		return mark;
+	}
 
-    public String getMerchantNo() {
-        return merchantNo;
-    }
+	public void setMark(String mark) {
+		this.mark = mark == null ? null : mark.trim();
+	}
 
-    public void setMerchantNo(String merchantNo) {
-        this.merchantNo = merchantNo == null ? null : merchantNo.trim();
-    }
-    
-    public Map<String, Object> toMap() {
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info == null ? null : info.trim();
+	}
+
+	public Byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(Byte status) {
+		this.status = status;
+	}
+
+	public String getMerchantNo() {
+		return merchantNo;
+	}
+
+	public void setMerchantNo(String merchantNo) {
+		this.merchantNo = merchantNo == null ? null : merchantNo.trim();
+	}
+
+	public String getMerchanSynNotify() {
+		return merchanSynNotify;
+	}
+
+	public void setMerchanSynNotify(String merchanSynNotify) {
+		this.merchanSynNotify = merchanSynNotify;
+	}
+
+	public String getMerchanAsynNotify() {
+		return merchanAsynNotify;
+	}
+
+	public void setMerchanAsynNotify(String merchanAsynNotify) {
+		this.merchanAsynNotify = merchanAsynNotify;
+	}
+
+	public String getSynNotify() {
+		return synNotify;
+	}
+
+	public void setSynNotify(String synNotify) {
+		this.synNotify = synNotify;
+	}
+
+	public String getAsynNotify() {
+		return asynNotify;
+	}
+
+	public void setAsynNotify(String asynNotify) {
+		this.asynNotify = asynNotify;
+	}
+
+	public String getDevGetway() {
+		return devGetway;
+	}
+
+	public void setDevGetway(String devGetway) {
+		this.devGetway = devGetway;
+	}
+
+	public Map<String, Object> toMap() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field field : fields) {
@@ -113,7 +163,7 @@ public class SysAlipayConfig {
 			try {
 				obj = field.get(this);
 				if (obj != null) {
-					map.put(field.getName(),  obj);
+					map.put(field.getName(), obj);
 				}
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();

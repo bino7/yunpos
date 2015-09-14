@@ -5,47 +5,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SysAlipayConfigWithBLOBs extends SysAlipayConfig {
-    private String merchantPrivateKey;
+	private String merchantPrivateKey;
 
-    private String alipayPublicKey;
+	private String alipayPublicKey;
 
-    private String appPrivateKey;
+	private String appPrivateKey;
 
-    private String appPublicKey;
+	private String appPublicKey;
 
-    public String getMerchantPrivateKey() {
-        return merchantPrivateKey;
-    }
+	private String devPublicKey;
 
-    public void setMerchantPrivateKey(String merchantPrivateKey) {
-        this.merchantPrivateKey = merchantPrivateKey == null ? null : merchantPrivateKey.trim();
-    }
+	public String getMerchantPrivateKey() {
+		return merchantPrivateKey;
+	}
 
-    public String getAlipayPublicKey() {
-        return alipayPublicKey;
-    }
+	public void setMerchantPrivateKey(String merchantPrivateKey) {
+		this.merchantPrivateKey = merchantPrivateKey == null ? null : merchantPrivateKey.trim();
+	}
 
-    public void setAlipayPublicKey(String alipayPublicKey) {
-        this.alipayPublicKey = alipayPublicKey == null ? null : alipayPublicKey.trim();
-    }
+	public String getAlipayPublicKey() {
+		return alipayPublicKey;
+	}
 
-    public String getAppPrivateKey() {
-        return appPrivateKey;
-    }
+	public void setAlipayPublicKey(String alipayPublicKey) {
+		this.alipayPublicKey = alipayPublicKey == null ? null : alipayPublicKey.trim();
+	}
 
-    public void setAppPrivateKey(String appPrivateKey) {
-        this.appPrivateKey = appPrivateKey == null ? null : appPrivateKey.trim();
-    }
+	public String getAppPrivateKey() {
+		return appPrivateKey;
+	}
 
-    public String getAppPublicKey() {
-        return appPublicKey;
-    }
+	public void setAppPrivateKey(String appPrivateKey) {
+		this.appPrivateKey = appPrivateKey == null ? null : appPrivateKey.trim();
+	}
 
-    public void setAppPublicKey(String appPublicKey) {
-        this.appPublicKey = appPublicKey == null ? null : appPublicKey.trim();
-    }
-    
-    public Map<String, Object> toMap() {
+	public String getAppPublicKey() {
+		return appPublicKey;
+	}
+
+	public void setAppPublicKey(String appPublicKey) {
+		this.appPublicKey = appPublicKey == null ? null : appPublicKey.trim();
+	}
+
+	public String getDevPublicKey() {
+		return devPublicKey;
+	}
+
+	public void setDevPublicKey(String devPublicKey) {
+		this.devPublicKey = devPublicKey == null ? null : devPublicKey.trim();
+	}
+
+	public Map<String, Object> toMap() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Field[] fields = this.getClass().getDeclaredFields();
 		for (Field field : fields) {
@@ -53,7 +63,7 @@ public class SysAlipayConfigWithBLOBs extends SysAlipayConfig {
 			try {
 				obj = field.get(this);
 				if (obj != null) {
-					map.put(field.getName(),  obj);
+					map.put(field.getName(), obj);
 				}
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();

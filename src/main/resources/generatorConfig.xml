@@ -7,7 +7,7 @@
 <generatorConfiguration>
 	<!--数据库驱动jar -->
 	<classPathEntry
-		location="C:\Users\janice\.m2\repository\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar" />
+		location="E:\yumpos\repo\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar" />
 
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!--去除注释 -->
@@ -58,12 +58,12 @@
 			<property name="useActualColumnNames" value="true" />
 		</table>
 -->
-        <table tableName="sys_order" domainObjectName="SysOrder"
+        <table tableName="sys_alipay_config" domainObjectName="SysAlipayConfig"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="flase" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
-		<table tableName="sys_order_ecommerce" domainObjectName="SysOrderEcommerce"
+<!-- 		<table tableName="sys_order_ecommerce" domainObjectName="SysOrderEcommerce"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="flase" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
@@ -73,7 +73,7 @@
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="flase" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
-		</table>
+		</table> -->
 
 <!-- 
 		<table tableName="sys_member" domainObjectName="SysMember" enableCountByExample="false" 

@@ -60,7 +60,7 @@ public class AlipayWapPayReqData {
 	private String merchant_name = "";
 
 	public AlipayWapPayReqData(String out_trade_no, String partner, String subject,
-			String total_fee, String seller_id) {
+			String total_fee, String seller_id,String notify_url,String return_url) {
 		// 必填选项
 		setService(AlipayConfig.wap_service);
 		setPartner(partner);
@@ -75,8 +75,8 @@ public class AlipayWapPayReqData {
 		
 		// 非必填选项
 		//setBody(subject);
-		setNotify_url(AlipayConfig.wap_notify_url);
-		setReturn_url(AlipayConfig.wap_return);
+		setNotify_url(notify_url);
+		setReturn_url(return_url);
 		
 //		sParaTemp.put("it_b_pay", it_b_pay);
 //		sParaTemp.put("extern_token", extern_token);

@@ -32,6 +32,7 @@ import com.yunpos.payment.alipay.model.AlipayScanPayReqData;
 import com.yunpos.payment.alipay.model.AlipayWapPayReqData;
 import com.yunpos.payment.alipay.model.AlipayWapPayResData;
 import com.yunpos.payment.alipay.util.AlipayNotify;
+import com.yunpos.payment.wxpay.common.Util;
 import com.yunpos.service.SysAlipayConfigService;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysTransactionService;
@@ -309,7 +310,8 @@ public class AlipayController extends BaseController{
 			sysTransaction.setInfo("手机网站（手机wap）在线支付");
 			sysTransactionService.save(sysTransaction);
 			 
-			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "wappay", total_fee, sysAlipayConfig.getPid());
+			AlipayWapPayReqData payReqData = new AlipayWapPayReqData(orderNo, sysAlipayConfig.getPid(), "wappay", total_fee, sysAlipayConfig.getPid(),
+					sysAlipayConfig.getAsynNotify(),sysAlipayConfig.getSynNotify());
 			 sHtmlText = alipayWapService.pay(payReqData,sysAlipayConfig);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
@@ -618,7 +620,13 @@ public class AlipayController extends BaseController{
 					AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(params);
 					alipayWapPayResData.setMerchant_name(sysMerchant.getCompanyName());
 					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
-					return new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
+					String synNotify = sysAlipayConfig.getMerchanSynNotify();
+					if(!Strings.isNullOrEmpty(synNotify)){
+						String resString = mapper.writeValueAsString(new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap()));
+						response.getWriter().write(resString);
+						response.sendRedirect(sysAlipayConfig.getMerchanSynNotify());
+					}
+					return null;
 				}else{
 					return new Message(ResultCode.FAIL.name(), "", "支付失败", null);
 				}
@@ -629,6 +637,19 @@ public class AlipayController extends BaseController{
 		} catch(Exception e) {
 			log.error("支付宝手机wap同步通知异常", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "系统异常", null);
+		}
+	}
+	
+	
+	@RequestMapping("/pay/alipay/wap/redirect")
+	public void test(HttpServletRequest request, HttpServletResponse response) {
+		PrintWriter writer=null;
+		try {
+			writer = response.getWriter();
+			String json = Util.inputStreamToString(request.getInputStream());
+			log.info("##############重定向收到数据："+json);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

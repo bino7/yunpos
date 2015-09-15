@@ -2,10 +2,10 @@ package com.yunpos.web.payment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,9 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
@@ -37,7 +36,6 @@ import com.yunpos.payment.alipay.model.AlipayScanPayReqData;
 import com.yunpos.payment.alipay.model.AlipayWapPayReqData;
 import com.yunpos.payment.alipay.model.AlipayWapPayResData;
 import com.yunpos.payment.alipay.util.AlipayNotify;
-import com.yunpos.payment.wxpay.common.Util;
 import com.yunpos.service.SysAlipayConfigService;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysTransactionService;
@@ -48,8 +46,6 @@ import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
 import com.yunpos.web.BaseController;
-
-import net.sf.json.JSONObject;
 
 /**
  * 
@@ -594,12 +590,18 @@ public class AlipayController extends BaseController{
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws IOException 
+	 * @throws JsonProcessingException 
+	 * @throws UnsupportedEncodingException 
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/pay/alipay/wap/synNotify")
 	@ResponseBody
-	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttrs) {
+	public void wapSynNotify(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, JsonProcessingException, IOException {
 		log.info("######receive alipay wap synnotify message!");
+		Message message = null;
+		SysAlipayConfigWithBLOBs sysAlipayConfig = null ;
+		String synNotify = "";
 		try {
 			// 获取支付宝POST过来反馈信息
 			Map<String, String> params = new HashMap<String, String>();
@@ -613,13 +615,12 @@ public class AlipayController extends BaseController{
 				}
 				params.put(name, valueStr);
 			}
-			
 			if(Strings.isNullOrEmpty(params.get("out_trade_no"))){
-				return new Message(ResultCode.FAIL.name(), "", "支付失败", null);
+				throw new RuntimeException("支付失败");
 			}
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
-			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
-			
+		    sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
+		    synNotify = sysAlipayConfig.getMerchanSynNotify();
 			String trade_status = params.get("trade_status");
 			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,sysAlipayConfig.getAlipayPublicKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (trade_status.equals("TRADE_SUCCESS")||trade_status.equals("TRADE_FINISHED")) {
@@ -627,72 +628,27 @@ public class AlipayController extends BaseController{
 					AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(params);
 					alipayWapPayResData.setMerchant_name(sysMerchant.getCompanyName());
 					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
-					String synNotify = sysAlipayConfig.getMerchanSynNotify();
 					if(!Strings.isNullOrEmpty(synNotify)){
-						Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
-//						redirectAttrs.addAttribute("result_code", "success");
-//						redirectAttrs.addAttribute("err_code", "");
-//						redirectAttrs.addAttribute("result_msg",URLEncoder.encode("支付成功","UTF-8"));
-//						redirectAttrs.addAttribute("merchant_name", URLEncoder.encode(sysMerchant.getCompanyName(), "UTF-8"));
-//						redirectAttrs.addAttribute("merchant_num", sysMerchant.getSerialNo());
-//						redirectAttrs.addAttribute("trace_num", params.get("out_trade_no"));
-//						redirectAttrs.addAttribute("trans_amount",sysTransaction.getTotalPrice());
-//						redirectAttrs.addAttribute("total_fee", sysTransaction.getTotalPrice());
-						redirectAttrs.addAttribute("result", URLEncoder.encode(mapper.writeValueAsString(message), "utf-8"));
-						return "redirect:"+sysAlipayConfig.getMerchanSynNotify();
+					    message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
+					    String directString = synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8");
+						response.sendRedirect(directString);
 					}
-					return null;
 				}else{
-					return new Message(ResultCode.FAIL.name(), "", "支付失败", null);
+					message = new Message(ResultCode.FAIL.name(), "", "支付失败", null);
+					response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message),"utf-8"));
 				}
 			} else {// 验证失败
 				log.info("支付宝手机wap同步通知请求验证失败...");
-				return new Message(ResultCode.FAIL.name(), "", "支付宝手机wap同步通知请求验证失败", null);
+				message = new Message(ResultCode.FAIL.name(), "", "支付宝手机wap同步通知请求验证失败", null);
+				response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8"));
 			}
 		} catch(Exception e) {
 			log.error("支付宝手机wap同步通知异常", e);
-			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "系统异常", null);
+			//message =  new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "系统异常", null);
+			//response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message),"utf-8"));
 		}
 	}
 	
-	
-	
-	@RequestMapping("/pay/alipay/wap/aa")
-	public String test1(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttrs) {
-		try {
-			redirectAttrs.addAttribute("result_code", "success");
-//			Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",null);
-			Map<String,String> map = new HashMap<>();
-			map.put("out_trade_no", "123456");
-			map.put("notify_time", "2015-09-18 18:12:11");
-			map.put("total_fee", "50");
-			AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(map);
-//			redirectAttrs.addAttribute("maps", map);
-//			redirectAttrs.addAttribute(message);
-			redirectAttrs.addAttribute("out_trade_no",URLEncoder.encode( "杨学勇", "UTF-8"));
-			redirectAttrs.addAttribute("notify_time", "2015-09-18 18:12:11");
-			
-			Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
-			redirectAttrs.addAttribute("result", mapper.writeValueAsString(message));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "redirect:http://localhost:8080/pay/alipay/wap/redirect";
-		
-	}
-
-	
-	@RequestMapping("/pay/alipay/wap/redirect")
-	public void test(HttpServletRequest request, HttpServletResponse response) {
-		try {
-			Map<String,?> dd = RequestContextUtils.getInputFlashMap(request);
-			log.info("######同步回调:"+URLDecoder.decode(request.getParameter("result"),"utf-8"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 
 	/**
 	 * 支付宝手机网站支付异步通知
@@ -708,6 +664,7 @@ public class AlipayController extends BaseController{
 			// 获取支付宝POST过来反馈信息
 			Map<String, String> params = new HashMap<String, String>();
 			Map requestParams = request.getParameterMap();
+			Message message = null;
 			for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
 				String name = (String) iter.next();
 				String[] values = (String[]) requestParams.get(name);
@@ -723,15 +680,13 @@ public class AlipayController extends BaseController{
 			}
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
-			
-			
 			log.info("wap notify param：", params);
 			String trade_status = request.getParameter("trade_status");
 			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,sysAlipayConfig.getAlipayPublicKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (trade_status.equals("TRADE_SUCCESS")) {
-					alipayWapService.asyWapPayment(params, true, "");
+					message = alipayWapService.asyWapPayment(params, true, "");
 				} else {
-					alipayWapService.asyWapPayment(params, false,trade_status);
+					message = alipayWapService.asyWapPayment(params, false,trade_status);
 				}
 				writer.write("success");
 				writer.flush();
@@ -740,6 +695,7 @@ public class AlipayController extends BaseController{
 				writer.write("fail");
 				writer.flush();
 			}
+			response.sendRedirect(sysAlipayConfig.getMerchanAsynNotify()+"?result="+URLDecoder.decode(mapper.writeValueAsString(message), "utf-8"));
 		} catch (IOException e) {
 			log.error("处理支付宝wap支付异常", e);
 		}

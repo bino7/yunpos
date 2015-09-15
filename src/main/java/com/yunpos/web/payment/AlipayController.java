@@ -2,7 +2,10 @@ package com.yunpos.web.payment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
@@ -44,6 +48,8 @@ import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
 import com.yunpos.web.BaseController;
+
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -592,7 +598,7 @@ public class AlipayController extends BaseController{
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/pay/alipay/wap/synNotify")
 	@ResponseBody
-	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response) {
+	public Object wapSynNotify(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttrs) {
 		log.info("######receive alipay wap synnotify message!");
 		try {
 			// 获取支付宝POST过来反馈信息
@@ -623,12 +629,16 @@ public class AlipayController extends BaseController{
 					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
 					String synNotify = sysAlipayConfig.getMerchanSynNotify();
 					if(!Strings.isNullOrEmpty(synNotify)){
-						Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
-						//response.getWriter().write(resString);
-						//response.getOutputStream().write(resString.getBytes());
-						//attr.addAttribute(message);
-						//return "redirect:"+sysAlipayConfig.getMerchanSynNotify();//http://t.o2o520.com/pay/alipay/wap/redirect
-						response.sendRedirect(sysAlipayConfig.getMerchanSynNotify()+"?result_code=yang&result_msg=xxxxx");
+						//Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
+						redirectAttrs.addAttribute("result_code", "success");
+						redirectAttrs.addAttribute("err_code", "");
+						redirectAttrs.addAttribute("result_msg",URLEncoder.encode("支付成功","UTF-8"));
+						redirectAttrs.addAttribute("merchant_name", URLEncoder.encode(sysMerchant.getCompanyName(), "UTF-8"));
+						redirectAttrs.addAttribute("merchant_num", sysMerchant.getSerialNo());
+						redirectAttrs.addAttribute("trace_num", params.get("out_trade_no"));
+						redirectAttrs.addAttribute("trans_amount",sysTransaction.getTotalPrice());
+						redirectAttrs.addAttribute("total_fee", sysTransaction.getTotalPrice());
+						return "redirect:"+sysAlipayConfig.getMerchanSynNotify();
 					}
 					return null;
 				}else{
@@ -645,14 +655,40 @@ public class AlipayController extends BaseController{
 	}
 	
 	
+	
+	@RequestMapping("/pay/alipay/wap/aa")
+	public String test1(HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttrs) {
+		try {
+			redirectAttrs.addAttribute("result_code", "success");
+//			Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",null);
+//			Map<String,String> map = new HashMap<>();
+//			map.put("out_trade_no", "123456");
+//			map.put("notify_time", "2015-09-18 18:12:11");
+//			map.put("total_fee", "50");
+//			//AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(map);
+//			redirectAttrs.addAttribute("maps", map);
+//			redirectAttrs.addAttribute(message);
+			redirectAttrs.addAttribute("out_trade_no",URLEncoder.encode( "杨学勇", "UTF-8"));
+			redirectAttrs.addAttribute("notify_time", "2015-09-18 18:12:11");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:http://localhost:8080/pay/alipay/wap/redirect";
+		
+	}
+
+	
 	@RequestMapping("/pay/alipay/wap/redirect")
 	public void test(HttpServletRequest request, HttpServletResponse response) {
-		PrintWriter writer=null;
 		try {
-			writer = response.getWriter();
-			String json = Util.inputStreamToString(request.getInputStream());
+			Map<String,?> dd = RequestContextUtils.getInputFlashMap(request);
 			log.info("######"+request.getParameter("result_code"));
-			log.info("##############重定向收到数据："+request.getParameter("is_success"));
+			log.info("######"+URLDecoder.decode(request.getParameter("out_trade_no"),"UTF-8"));
+			log.info("######"+URLDecoder.decode(request.getParameter("merchant_name"),"UTF-8"));
+			log.info("######"+request.getParameter("merchant_num"));
+			log.info("######"+request.getParameter("trans_amount"));
+			log.info("######"+request.getParameter("notify_time"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

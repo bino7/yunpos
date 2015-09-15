@@ -66,9 +66,25 @@ $(document).ready(function() {
        //url += "&redirect_uri=" + window.location;
        url += "&redirect_uri=" + redirect_uri; 
        //location.href = url;
-           
-       //var code = getParam("code");
-       var code= "2728d743ca3035cbe49077674d0a4ed6eb1dbe17";
+       
+ /*     
+       var code = getParam("code");
+       if (code == null) {
+    	   location.href = url;
+       }else {
+    	 	$.ajax({
+   		    type:"GET",
+		    url : $ctx+"/ajax/kdtToken",
+		    async : false,
+		    data: { "grant_type": "authorization_code","code":code,"redirect_uri":redirect_uri,"serialNo":serialNo},
+		    success : function (data) {
+			  alert(data);
+		    }
+	    });  
+       }
+ */   
+       
+       var code= "d70e5ac1e806f2146596e81a8e5ff0622478cd22";
 
 
    	$.ajax({

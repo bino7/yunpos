@@ -17,22 +17,23 @@ import java.util.Map;
  *
  */
 public class AlipayWapPayResData {
-	//private String dynamic_type = ""; // 1微信支付，2支付宝支付
+	// private String dynamic_type = ""; // 1微信支付，2支付宝支付
 	// private String trans_type = ""; // 交易类型
 	private String merchant_name = ""; // 商户名
 	private String merchant_num = ""; // 商户号
 	// private String terminal_num = ""; // 终端号
-	//private String trans_card_num = ""; // 支付卡号
+	// private String trans_card_num = ""; // 支付卡号
 	private String trace_num = ""; // 交易流水号
 	private String trans_time = ""; // 交易时间
 	private String trans_amount = ""; // 实际交易金额
 	private String total_fee = ""; // 交易金额
+	private String user_order_no = "";
 
 	// 支付返回类型数据转换
 	public AlipayWapPayResData(Map<String, String> resMap) {
 		// 支付渠道返回信息
 		// this.trans_type = "";
-		//this.trans_card_num = resMap.get("seller_id");
+		// this.trans_card_num = resMap.get("seller_id");
 		this.trace_num = resMap.get("out_trade_no");
 		this.trans_time = resMap.get("notify_time");
 		this.trans_amount = resMap.get("total_fee");
@@ -85,6 +86,14 @@ public class AlipayWapPayResData {
 
 	public void setTotal_fee(String total_fee) {
 		this.total_fee = total_fee;
+	}
+
+	public String getUser_order_no() {
+		return user_order_no;
+	}
+
+	public void setUser_order_no(String user_order_no) {
+		this.user_order_no = user_order_no;
 	}
 
 	public Map<String, String> toMap() {

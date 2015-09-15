@@ -58,7 +58,7 @@
 			<property name="useActualColumnNames" value="true" />
 		</table>
 -->
-        <table tableName="sys_alipay_config" domainObjectName="SysAlipayConfig"
+        <table tableName="sys_transaction" domainObjectName="SysTransaction"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="flase" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />

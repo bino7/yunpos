@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-
 <mapper namespace="com.yunpos.persistence.dao.SysTransactionMapper">
 	<resultMap id="BaseResultMap" type="com.yunpos.model.SysTransaction">
 		<id column="id" property="id" jdbcType="INTEGER" />
@@ -22,6 +21,8 @@
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="transType" property="transType" jdbcType="INTEGER" />
 		<result column="orderId" property="orderId" jdbcType="VARCHAR" />
+		<result column="user_order_no" property="user_order_no"
+			jdbcType="VARCHAR" />
 		<result column="info" property="info" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -31,66 +32,8 @@
 		transCardNum, transNum, transTime,
 		transPrice, totalPrice, scanType, couponCode,
 		status, transType,
-		orderId, info
+		orderId, user_order_no, info
 	</sql>
-	
-	<sql id="Select_Parm_Column_List">
-		<if test="channel != null">
-			and channel = #{channel,jdbcType=INTEGER}
-		</if>
-		<if test="subChannel != null">
-			and subChannel = #{subChannel,jdbcType=INTEGER}
-		</if>
-		<if test="title != null">
-			and title = #{title,jdbcType=VARCHAR}
-		</if>
-		<if test="merchantName != null">
-			and merchantName = #{merchantName,jdbcType=VARCHAR}
-		</if>
-		<if test="serialNo != null">
-			and serialNo = #{serialNo,jdbcType=VARCHAR}
-		</if>
-		<if test="agentSerialNo != null">
-			and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
-		</if>
-		<if test="terminalNum != null">
-			and terminalNum = #{terminalNum,jdbcType=VARCHAR}
-		</if>
-		<if test="transCardNum != null">
-			and transCardNum = #{transCardNum,jdbcType=VARCHAR}
-		</if>
-		<if test="transNum != null">
-			and transNum = #{transNum,jdbcType=VARCHAR}
-		</if>
-		<if test="transTime != null">
-			and transTime = #{transTime,jdbcType=TIMESTAMP}
-		</if>
-		<if test="transPrice != null">
-			and transPrice = #{transPrice,jdbcType=REAL}
-		</if>
-		<if test="totalPrice != null">
-			and totalPrice = #{totalPrice,jdbcType=REAL}
-		</if>
-		<if test="scanType != null">
-			and scanType = #{scanType,jdbcType=INTEGER}
-		</if>
-		<if test="couponCode != null">
-			and couponCode = #{couponCode,jdbcType=VARCHAR}
-		</if>
-		<if test="status != null">
-			and status = #{status,jdbcType=INTEGER}
-		</if>
-		<if test="transType != null">
-			and transType = #{transType,jdbcType=INTEGER}
-		</if>
-		<if test="orderId != null">
-			and orderId = #{orderId,jdbcType=VARCHAR}
-		</if>
-		<if test="info != null">
-			and info = #{info,jdbcType=VARCHAR}
-		</if>
-	</sql>
-	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
@@ -103,10 +46,9 @@
 		sys_transaction
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.yunpos.model.SysTransaction"
-		useGeneratedKeys="true" keyProperty="id">
-		insert into sys_transaction (
-		channel, subChannel,
+	<insert id="insert" parameterType="com.yunpos.model.SysTransaction" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_transaction
+		( channel, subChannel,
 		title, merchantName, serialNo,
 		agentSerialNo,
 		terminalNum, transCardNum,
@@ -114,20 +56,20 @@
 		totalPrice,
 		scanType, couponCode,
 		status, transType, orderId,
-		info)
-		values
-		(#{channel,jdbcType=INTEGER}, #{subChannel,jdbcType=INTEGER},
-		#{title,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR},
-		#{serialNo,jdbcType=VARCHAR},
-		#{agentSerialNo,jdbcType=VARCHAR},
-		#{terminalNum,jdbcType=VARCHAR}, #{transCardNum,jdbcType=VARCHAR},
-		#{transNum,jdbcType=VARCHAR}, #{transTime,jdbcType=TIMESTAMP},
-		#{transPrice,jdbcType=REAL},
-		#{totalPrice,jdbcType=REAL},
-		#{scanType,jdbcType=INTEGER}, #{couponCode,jdbcType=VARCHAR},
-		#{status,jdbcType=INTEGER}, #{transType,jdbcType=INTEGER},
-		#{orderId,jdbcType=VARCHAR},
-		#{info,jdbcType=VARCHAR})
+		user_order_no, info)
+		values (#{channel,jdbcType=INTEGER},
+		#{subChannel,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
+		#{merchantName,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR},
+		#{agentSerialNo,jdbcType=VARCHAR}, #{terminalNum,jdbcType=VARCHAR},
+		#{transCardNum,jdbcType=VARCHAR},
+		#{transNum,jdbcType=VARCHAR},
+		#{transTime,jdbcType=TIMESTAMP}, #{transPrice,jdbcType=REAL},
+		#{totalPrice,jdbcType=REAL}, #{scanType,jdbcType=INTEGER},
+		#{couponCode,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{transType,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR},
+		#{user_order_no,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.SysTransaction">
 		insert into sys_transaction
@@ -185,6 +127,9 @@
 			</if>
 			<if test="orderId != null">
 				orderId,
+			</if>
+			<if test="user_order_no != null">
+				user_order_no,
 			</if>
 			<if test="info != null">
 				info,
@@ -245,6 +190,9 @@
 			<if test="orderId != null">
 				#{orderId,jdbcType=VARCHAR},
 			</if>
+			<if test="user_order_no != null">
+				#{user_order_no,jdbcType=VARCHAR},
+			</if>
 			<if test="info != null">
 				#{info,jdbcType=VARCHAR},
 			</if>
@@ -304,6 +252,9 @@
 			<if test="orderId != null">
 				orderId = #{orderId,jdbcType=VARCHAR},
 			</if>
+			<if test="user_order_no != null">
+				user_order_no = #{user_order_no,jdbcType=VARCHAR},
+			</if>
 			<if test="info != null">
 				info = #{info,jdbcType=VARCHAR},
 			</if>
@@ -340,11 +291,11 @@
 		transType = #{transType,jdbcType=INTEGER},
 		orderId =
 		#{orderId,jdbcType=VARCHAR},
+		user_order_no =
+		#{user_order_no,jdbcType=VARCHAR},
 		info = #{info,jdbcType=VARCHAR}
-		where id =
-		#{id,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
 	</update>
-
 	<!-- ################################################### -->
 	<select id="findByCondition" resultMap="BaseResultMap"
 		parameterType="com.yunpos.model.SearchRequest">
@@ -369,40 +320,42 @@
 
 
 	</select>
-	
-	<select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysTransaction" >
-    select 
-    <include refid="Base_Column_List" />
-	from sys_transaction
-	where 1 = 1
-	
-	 <include refid="Select_Parm_Column_List" />
-	
-	<if test="searchValue != null">
-		and (merchantName like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		or agentSerialNo like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		or terminalNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		or transCardNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		)
-	</if>
+
+	<select id="selectByParm" resultMap="BaseResultMap"
+		parameterType="com.yunpos.model.SysTransaction">
+		select
+		<include refid="Base_Column_List" />
+		from sys_transaction
+		where 1 = 1
+
+		<include refid="Select_Parm_Column_List" />
+
+		<if test="searchValue != null">
+			and (merchantName like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or agentSerialNo like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or terminalNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or transCardNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			)
+		</if>
 		ORDER BY id
-	  <if test="pageNumber != null">
-		  limit #{start},  #{pageSize}
-	  </if>
-  </select>
-  
-  <select id="selectCountByParm" resultType="java.lang.Integer" parameterType="com.yunpos.model.SysTransaction" >
-    select  count(*) from sys_transaction
-	where 1 = 1
- 	<include refid="Select_Parm_Column_List" />
-	<if test="searchValue != null">
-		and (merchantName like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		or agentSerialNo like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		or terminalNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		or transCardNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
-		)
-	</if>
-	  
-  </select>
-  
+		<if test="pageNumber != null">
+			limit #{start}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="selectCountByParm" resultType="java.lang.Integer"
+		parameterType="com.yunpos.model.SysTransaction">
+		select count(*) from sys_transaction
+		where 1 = 1
+		<include refid="Select_Parm_Column_List" />
+		<if test="searchValue != null">
+			and (merchantName like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or agentSerialNo like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or terminalNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or transCardNum like CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			)
+		</if>
+
+	</select>
+
 </mapper>

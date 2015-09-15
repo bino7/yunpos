@@ -260,10 +260,11 @@ public class AlipayController extends BaseController{
 		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		String user_order_no = request.getParameter("user_order_no"); //用户订单号
 
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
-				|| Strings.isNullOrEmpty(client_type)) {
+				|| Strings.isNullOrEmpty(client_type)||Strings.isNullOrEmpty(user_order_no)) {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
 		String sHtmlText  = "";
@@ -302,7 +303,7 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTerminalNum(terminal_unique_no);
 			sysTransaction.setTransNum(orderNo);
 			sysTransaction.setTransTime(new Date());
-			
+			sysTransaction.setUser_order_no(user_order_no);
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
 			//sysTransaction.setScanType(0);		//正扫：1 QR_CODE_OFFLIN，反扫：0 BARCODE_PAY_OFFLINE
 			if(!Strings.isNullOrEmpty(cashier_num)){
@@ -628,6 +629,7 @@ public class AlipayController extends BaseController{
 					AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(params);
 					alipayWapPayResData.setMerchant_name(sysMerchant.getCompanyName());
 					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
+					alipayWapPayResData.setUser_order_no(sysTransaction.getUser_order_no());
 					if(!Strings.isNullOrEmpty(synNotify)){
 					    message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
 					    String directString = synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8");

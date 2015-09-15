@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.yunpos.utils.jqgrid.GridRequest;
 
-
 /**
  * 
  * 功能描述：交易流水
@@ -18,51 +17,53 @@ import com.yunpos.utils.jqgrid.GridRequest;
  * @author tiger_lin 修改日期：2015年9月9日
  *
  */
-public class SysTransaction  extends GridRequest implements Serializable {
-    /**
+public class SysTransaction extends GridRequest implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;					//id
+	private Integer id; // id
 
-    private Integer channel;			//支付渠道,，1支付宝，2微信，3银联，4：预存款
+	private Integer channel; // 支付渠道,，1支付宝，2微信，3银联，4：预存款
 
-    private Integer subChannel;			//细分渠道，0：支付宝Wap，1:支付宝手机
+	private Integer subChannel; // 细分渠道，0：支付宝Wap，1:支付宝手机
 
-    private String title;				//商品名称
+	private String title; // 商品名称
 
-    private String merchantName;		//商户名
+	private String merchantName; // 商户名
 
-    private String serialNo;			//商户编号
+	private String serialNo; // 商户编号
 
-    private String agentSerialNo;		//代理商编号
+	private String agentSerialNo; // 代理商编号
 
-    private String terminalNum;			//终端号
+	private String terminalNum; // 终端号
 
-    private String transCardNum;		//支付帐号（支付宝账户、银联卡号、微信财付通帐号）	
+	private String transCardNum; // 支付帐号（支付宝账户、银联卡号、微信财付通帐号）
 
-    private String transNum;			//交易流水号
+	private String transNum; // 交易流水号
 
-    private Date transTime;				//交易时间
+	private Date transTime; // 交易时间
 
-    private Float transPrice;			//实际交易金额（小数点后两位）
+	private Float transPrice; // 实际交易金额（小数点后两位）
 
-    private Float totalPrice;			//订单金额（小数点后两位）
+	private Float totalPrice; // 订单金额（小数点后两位）
 
-    private Integer scanType;				//扫描类型，正扫：QR_CODE_OFFLIN，反扫：BARCODE_PAY_OFFLINE
+	private Integer scanType; // 扫描类型，正扫：QR_CODE_OFFLIN，反扫：BARCODE_PAY_OFFLINE
 
-    private String couponCode;			//卡券核销码
+	private String couponCode; // 卡券核销码
 
-    private Integer status;				//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
+	private Integer status; // 付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
 
-    private Integer transType;				//交易类型，0:支付，1:退款
+	private Integer transType; // 交易类型，0:支付，1:退款
 
-    private String orderId;
+	private String orderId;
 
-    private String oid;
+	private String oid;
 
-    private String info;				//备注
+	private String info; // 备注
+
+	private String user_order_no;
 
 	public Integer getId() {
 		return id;
@@ -208,22 +209,28 @@ public class SysTransaction  extends GridRequest implements Serializable {
 		this.orderId = orderId;
 	}
 
+	public String getOid() {
+		return oid;
+	}
 
-    public String getOid() {
-        return oid;
-    }
+	public void setOid(String oid) {
+		this.oid = oid == null ? null : oid.trim();
+	}
 
-    public void setOid(String oid) {
-        this.oid = oid == null ? null : oid.trim();
-    }
-
-    public String getInfo() {
-        return info;
-    }
+	public String getInfo() {
+		return info;
+	}
 
 	public void setInfo(String info) {
 		this.info = info;
 	}
 
-  
+	public String getUser_order_no() {
+		return user_order_no;
+	}
+
+	public void setUser_order_no(String user_order_no) {
+		this.user_order_no = user_order_no;
+	}
+
 }

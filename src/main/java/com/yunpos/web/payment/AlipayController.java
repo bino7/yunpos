@@ -630,7 +630,8 @@ public class AlipayController extends BaseController{
 					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
 					if(!Strings.isNullOrEmpty(synNotify)){
 					    message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
-						response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8"));
+					    String directString = synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8");
+						response.sendRedirect(directString);
 					}
 				}else{
 					message = new Message(ResultCode.FAIL.name(), "", "支付失败", null);

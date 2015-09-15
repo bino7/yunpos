@@ -629,15 +629,16 @@ public class AlipayController extends BaseController{
 					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
 					String synNotify = sysAlipayConfig.getMerchanSynNotify();
 					if(!Strings.isNullOrEmpty(synNotify)){
-						//Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
-						redirectAttrs.addAttribute("result_code", "success");
-						redirectAttrs.addAttribute("err_code", "");
-						redirectAttrs.addAttribute("result_msg",URLEncoder.encode("支付成功","UTF-8"));
-						redirectAttrs.addAttribute("merchant_name", URLEncoder.encode(sysMerchant.getCompanyName(), "UTF-8"));
-						redirectAttrs.addAttribute("merchant_num", sysMerchant.getSerialNo());
-						redirectAttrs.addAttribute("trace_num", params.get("out_trade_no"));
-						redirectAttrs.addAttribute("trans_amount",sysTransaction.getTotalPrice());
-						redirectAttrs.addAttribute("total_fee", sysTransaction.getTotalPrice());
+						Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
+//						redirectAttrs.addAttribute("result_code", "success");
+//						redirectAttrs.addAttribute("err_code", "");
+//						redirectAttrs.addAttribute("result_msg",URLEncoder.encode("支付成功","UTF-8"));
+//						redirectAttrs.addAttribute("merchant_name", URLEncoder.encode(sysMerchant.getCompanyName(), "UTF-8"));
+//						redirectAttrs.addAttribute("merchant_num", sysMerchant.getSerialNo());
+//						redirectAttrs.addAttribute("trace_num", params.get("out_trade_no"));
+//						redirectAttrs.addAttribute("trans_amount",sysTransaction.getTotalPrice());
+//						redirectAttrs.addAttribute("total_fee", sysTransaction.getTotalPrice());
+						redirectAttrs.addAttribute("result", URLEncoder.encode(mapper.writeValueAsString(message), "utf-8"));
 						return "redirect:"+sysAlipayConfig.getMerchanSynNotify();
 					}
 					return null;
@@ -661,15 +662,18 @@ public class AlipayController extends BaseController{
 		try {
 			redirectAttrs.addAttribute("result_code", "success");
 //			Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",null);
-//			Map<String,String> map = new HashMap<>();
-//			map.put("out_trade_no", "123456");
-//			map.put("notify_time", "2015-09-18 18:12:11");
-//			map.put("total_fee", "50");
-//			//AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(map);
+			Map<String,String> map = new HashMap<>();
+			map.put("out_trade_no", "123456");
+			map.put("notify_time", "2015-09-18 18:12:11");
+			map.put("total_fee", "50");
+			AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(map);
 //			redirectAttrs.addAttribute("maps", map);
 //			redirectAttrs.addAttribute(message);
 			redirectAttrs.addAttribute("out_trade_no",URLEncoder.encode( "杨学勇", "UTF-8"));
 			redirectAttrs.addAttribute("notify_time", "2015-09-18 18:12:11");
+			
+			Message message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
+			redirectAttrs.addAttribute("result", mapper.writeValueAsString(message));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -683,12 +687,7 @@ public class AlipayController extends BaseController{
 	public void test(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			Map<String,?> dd = RequestContextUtils.getInputFlashMap(request);
-			log.info("######"+request.getParameter("result_code"));
-			log.info("######"+URLDecoder.decode(request.getParameter("out_trade_no"),"UTF-8"));
-			log.info("######"+URLDecoder.decode(request.getParameter("merchant_name"),"UTF-8"));
-			log.info("######"+request.getParameter("merchant_num"));
-			log.info("######"+request.getParameter("trans_amount"));
-			log.info("######"+request.getParameter("notify_time"));
+			log.info("######同步回调:"+URLDecoder.decode(request.getParameter("result"),"utf-8"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

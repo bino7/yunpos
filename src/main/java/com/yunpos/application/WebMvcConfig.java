@@ -23,8 +23,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".jsp");
+        resolver.setPrefix("/static/");
+        resolver.setSuffix(".html");
         return resolver;
     }
 
@@ -54,14 +54,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
      * sitemeshFilter过滤器配置
      * @return
      */
-    @Bean(name = "sitemeshFilter")
-    public FilterRegistrationBean sitemeshFilter() {
-        FilterRegistrationBean bean = new FilterRegistrationBean();
-        bean.setFilter(new SitemeshFilter());
-        bean.addUrlPatterns("/*");
-        bean.setOrder(1111);
-        return bean;
-    }
+//    @Bean(name = "sitemeshFilter")
+//    public FilterRegistrationBean sitemeshFilter() {
+//        FilterRegistrationBean bean = new FilterRegistrationBean();
+//        bean.setFilter(new SitemeshFilter());
+//        bean.addUrlPatterns("/*");
+//        bean.setOrder(1111);
+//        return bean;
+//    }
     
     /**
      * 解决springmvc 控制器接收不了put请求参数问题

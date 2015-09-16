@@ -3,7 +3,7 @@ spring:
   datasource-primary:
     url: "jdbc:mysql://localhost:3306/yunpos?useUnicode=true&characterEncoding=utf8"
     driverClassName: com.mysql.jdbc.Driver
-    username: yunpos
+    username: root
     password: 123456
     min-idle: 1
     max-idle: 1

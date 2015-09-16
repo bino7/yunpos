@@ -53,9 +53,9 @@ angular.module('app')
         $localStorage.settings = $scope.app.settings;
       }, true);
 
-      // angular translate
+      // angular translate（国际化语言设置）
       $scope.lang = { isopen: false };
-      $scope.langs = {en:'English', de_DE:'German', it_IT:'Italian'};
+      $scope.langs = {en:'English', de_DE:'German', it_IT:'Italian',zh_CN:'Chinese'};
       $scope.selectLang = $scope.langs[$translate.proposedLanguage()] || "English";
       $scope.setLang = function(langKey, $event) {
         // set the current lang

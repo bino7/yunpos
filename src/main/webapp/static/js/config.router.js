@@ -159,6 +159,22 @@ angular.module('app')
                   url: '/datatable',
                   templateUrl: 'tpl/table_datatable.html'
               })
+              .state('app.table.fans', {//粉丝管理
+                  url: '/datatable',
+                  templateUrl: 'tpl/system/fans_datalist.html'
+              })
+              .state('app.table.transactionlist', {//交易流水管理
+                  url: '/datatable',
+                  templateUrl: 'tpl/system/transaction_datalist.html'
+              })
+              .state('app.table.sharelist', {//分润结算
+                  url: '/datatable',
+                  templateUrl: 'tpl/system/share_datalist.html'
+              })
+              .state('app.table.share.setting', {//分润设置
+                  url: '/datatable',
+                  templateUrl: 'tpl/system/share_setting.html'
+              })
               .state('app.table.footable', {
                   url: '/footable',
                   templateUrl: 'tpl/table_footable.html'

@@ -15,6 +15,7 @@
 },
 "aside" : {
   "nav" : {
+	"WELLCOME": "欢迎！",
     "INDEX" : "首页",
     "MEMBER" : "会员",
     "TRANSACTION" : "流水",
@@ -65,8 +66,8 @@
       "DOCUMENTS" : "Documents"
     }
   },
-  "MILESTONE" : "Milestone",
-  "RELEASE" : "Release"
+  "MILESTONE" : "里程碑百分比",
+  "RELEASE" : "版本发行进度"
 }
 
 }

@@ -30,7 +30,7 @@
         <!-- / buttons -->
 
         <!-- link and dropdown -->
-        <ul class="nav navbar-nav hidden-sm">
+<!--         <ul class="nav navbar-nav hidden-sm">
           <li class="dropdown pos-stc" dropdown>
             <a href class="dropdown-toggle" dropdown-toggle>
               <span>Mega</span> 
@@ -157,14 +157,14 @@
               </li>
             </ul>
           </li>
-        </ul>
+        </ul> -->
         <!-- / link and dropdown -->
 
         <!-- search form -->
         <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
           <div class="form-group">
             <div class="input-group">
-              <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search projects...">
+              <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search ...">
               <span class="input-group-btn">
                 <button type="submit" class="btn btn-sm bg-light rounded"><i class="fa fa-search"></i></button>
               </span>
@@ -193,14 +193,14 @@
           <li class="dropdown" dropdown>
             <a href class="dropdown-toggle" dropdown-toggle>
               <i class="icon-bell fa-fw"></i>
-              <span class="visible-xs-inline">Notifications</span>
+              <span class="visible-xs-inline">通知</span>
               <span class="badge badge-sm up bg-danger pull-right-xs">2</span>
             </a>
             <!-- dropdown -->
             <div class="dropdown-menu w-xl animated fadeInUp">
               <div class="panel bg-white">
                 <div class="panel-heading b-light bg-light">
-                  <strong>You have <span>2</span> notifications</strong>
+                  <strong>您有<span>2</span>条 通知</strong>
                 </div>
                 <div class="list-group">
                   <a href class="media list-group-item">
@@ -208,20 +208,20 @@
                       <img src="img/a0.jpg" alt="..." class="img-circle">
                     </span>
                     <span class="media-body block m-b-none">
-                      Use awesome animate.css<br>
-                      <small class="text-muted">10 minutes ago</small>
+                      	样式更新<br>
+                      <small class="text-muted">10 分钟前</small>
                     </span>
                   </a>
                   <a href class="media list-group-item">
                     <span class="media-body block m-b-none">
-                      1.0 initial released<br>
-                      <small class="text-muted">1 hour ago</small>
+                      1.0 版本发布<br>
+                      <small class="text-muted">1 小时 前</small>
                     </span>
                   </a>
                 </div>
                 <div class="panel-footer text-sm">
                   <a href class="pull-right"><i class="fa fa-cog"></i></a>
-                  <a href="#notes" data-toggle="class:show animated fadeInRight">See all the notifications</a>
+                  <a href="#notes" data-toggle="class:show animated fadeInRight">查看所有通知</a>
                 </div>
               </div>
             </div>
@@ -233,34 +233,34 @@
                 <img src="img/a0.jpg" alt="...">
                 <i class="on md b-white bottom"></i>
               </span>
-              <span class="hidden-sm hidden-md">John.Smith</span> <b class="caret"></b>
+              <span class="hidden-sm hidden-md">admin</span> <b class="caret"></b>
             </a>
             <!-- dropdown -->
             <ul class="dropdown-menu animated fadeInRight w">
-              <li class="wrapper b-b m-b-sm bg-light m-t-n-xs">
+              <!-- <li class="wrapper b-b m-b-sm bg-light m-t-n-xs">
                 <div>
-                  <p>300mb of 500mb used</p>
+                  <p>用户300mb of 500mb used</p>
                 </div>
                 <progressbar value="60" class="progress-xs m-b-none bg-white"></progressbar>
-              </li>
+              </li> -->
               <li>
                 <a href>
                   <span class="badge bg-danger pull-right">30%</span>
-                  <span>Settings</span>
+                  <span>用户设置</span>
                 </a>
               </li>
               <li>
-                <a ui-sref="app.page.profile">Profile</a>
+                <a ui-sref="app.page.profile">配置</a>
               </li>
               <li>
                 <a ui-sref="app.docs">
                   <span class="label bg-info pull-right">new</span>
-                  Help
+                 	 帮助
                 </a>
               </li>
               <li class="divider"></li>
               <li>
-                <a ui-sref="access.signin">Logout</a>
+                <a ui-sref="access.signin">退出</a>
               </li>
             </ul>
             <!-- / dropdown -->

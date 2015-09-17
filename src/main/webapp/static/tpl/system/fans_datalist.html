@@ -1,34 +1,13 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">粉丝管理</h1>
 </div>
-<div class="wrapper-md">
+<div class="wrapper-md" ng-controller="SysFansCtrl">
   <div class="panel panel-default">
-  <!--   <div class="panel-heading">
-     	 粉丝管理
+   <!--  <div class="panel-heading">
+      ngGrid
     </div> -->
     <div class="table-responsive">
-      <table ui-jq="dataTable" ui-options="{
-          sAjaxSource: 'vendor/jquery/datatables/datatable.json',
-          aoColumns: [
-            { mData: 'engine' },
-            { mData: 'browser' },
-            { mData: 'platform' },
-            { mData: 'version' },
-            { mData: 'grade' }
-          ]
-        }" class="table table-striped m-b-none">
-        <thead>
-          <tr>
-            <th  style="width:20%">会员编号</th>
-            <th  style="width:25%">昵称</th>
-            <th  style="width:25%">手机号码</th>
-            <th  style="width:15%">所在地区</th>
-            <th  style="width:15%">交易流水</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+      <div ng-grid="gridOptions" style="min-height:420px"></div>
     </div>
   </div>
 </div>

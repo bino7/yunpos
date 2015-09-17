@@ -45,15 +45,45 @@ angular.module('app')
               })
               .state('app.table.fans', {//粉丝管理
                   url: '/fans',
-                  templateUrl: 'tpl/system/fans_datalist.html'
+                  templateUrl: 'tpl/system/fans_datalist.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysFansGrid.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.table.transaction', {//交易流水管理
                   url: '/transaction',
-                  templateUrl: 'tpl/system/transaction_datalist.html'
+                  templateUrl: 'tpl/system/transaction_datalist.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysTransacionGrid.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.table.share', {//分润结算
                   url: '/share',
-                  templateUrl: 'tpl/system/share_datalist.html'
+                  templateUrl: 'tpl/system/share_datalist.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysShareGrid.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.table.sharesetting', {//分润设置
                   url: '/share/setting',
@@ -61,7 +91,17 @@ angular.module('app')
               })
               .state('app.table.order', {//订单
                   url: '/order',
-                  templateUrl: 'tpl/system/sys_order.html'
+                  templateUrl: 'tpl/system/sys_order.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysOrderGrid.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.table.org', {//组织结构管理
                   url: '/org',

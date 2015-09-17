@@ -1,0 +1,37 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">用户管理</h1>
+</div>
+<div class="wrapper-md">
+  <div class="panel panel-default">
+   <!--  <div class="panel-heading">
+     	 用户管理
+    </div> -->
+    <div class="table-responsive">
+      <table ui-jq="dataTable" ui-options="{
+          sAjaxSource: 'vendor/jquery/datatables/datatable.json',
+          aoColumns: [
+            { mData: 'engine' },
+            { mData: 'browser' },
+            { mData: 'platform' },
+            { mData: 'version' },
+            { mData: 'grade' }
+          ]
+        }" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th  style="width:20%">用户名</th>
+            <th  style="width:25%">昵称</th>
+            <th  style="width:25%">联系人</th>
+            <th  style="width:15%">用户角色</th>
+            <th  style="width:15%">添加人</th>
+            <th  style="width:15%">添加时间</th>
+            <th  style="width:15%">状态</th>
+            <th  style="width:15%">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

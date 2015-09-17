@@ -80,7 +80,7 @@ app.controller('GridDemoCtrl', ['$scope', '$http', function($scope, $http) {
                     $scope.setPagingData(data,page,pageSize);
                 });            
             } else {
-                $http.get('http://127.0.0.1:8080/ajax/user/search').success(function (largeLoad) {
+                $http.get('/ajax/user/search').success(function (largeLoad) {
                     $scope.setPagingData(largeLoad.rows,page,pageSize);
                 });
             }

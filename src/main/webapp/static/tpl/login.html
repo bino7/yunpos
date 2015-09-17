@@ -1,27 +1,37 @@
-<div id="login" ng-controller="login">
-  <form class="form-horizontal">
-    <div class="title control-group">
-      <label class="control-label" for="inputEmail">Login</label>
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">云铺后台系统</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">
+                            用户名：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="email" class="form-control" placeholder="推荐使用126邮箱" ng-model="userInfo.email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">
+                            密码：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="password" class="form-control" placeholder="只能是数字、字母、下划线" ng-model="userInfo.password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <a  href="#/app/home" class="btn btn-success btn-lg">登录</a>
+                            <button class="btn btn-default btn-lg" ng-click="setFormData()">注册</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="inputEmail">Email</label>
-      <div class="controls">
-        <input type="text" id="inputEmail" placeholder="Email" ng-model="login.email">
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputPassword">Password</label>
-      <div class="controls">
-        <input type="password" id="inputPassword" placeholder="Password" ng-model="login.password">
-      </div>
-    </div>
-    <div class="control-group">
-      <div class="controls">
-        <label class="checkbox">
-          <input type="checkbox"> Remember me
-        </label>
-        <button type="button" class="btn btn-success" ng-click="login.submit()">Sign in</button>
-      </div>
-    </div>
-  </form>
 </div>

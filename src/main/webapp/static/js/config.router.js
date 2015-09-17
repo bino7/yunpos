@@ -14,15 +14,21 @@ angular.module('app')
   )
   .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
 	  	 //设置默认路由
-          $urlRouterProvider.otherwise('/app/dashboard-v1');
+	  	  //$urlRouterProvider.otherwise('/app/home');
+          $urlRouterProvider.otherwise('/login');
           $stateProvider
+	          .state('login', {//登录页面
+	              url: '/login',
+	              templateUrl: 'tpl/login.html'
+	          })
+	          
               .state('app', {//通用框架基础,内部设置ui-view占位符将其他页面输入到通用框架占位符处
                   abstract: true,
                   url: '/app',
                   templateUrl: 'tpl/app.html'
               })
-              .state('app.dashboard-v1', {//首页路由
-                  url: '/dashboard-v1',
+              .state('app.home', {//首页路由
+                  url: '/home',
                   templateUrl: 'tpl/app_dashboard_v1.html',
                   resolve: {
                     deps: ['$ocLazyLoad',
@@ -31,6 +37,7 @@ angular.module('app')
                     }]
                   }
               })
+              
               // table
               .state('app.table', {
                   url: '/table',
@@ -182,6 +189,7 @@ angular.module('app')
                       }]
                   }
               })
+              
               // pages
               .state('app.page', {
                   url: '/page',

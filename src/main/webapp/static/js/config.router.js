@@ -12,19 +12,16 @@ angular.module('app')
       }
     ]
   )
-  .config(
-    [          '$stateProvider', '$urlRouterProvider',
-      function ($stateProvider,   $urlRouterProvider) {
-          
-          $urlRouterProvider
-              .otherwise('/app/dashboard-v1');
+  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
+	  	 //设置默认路由
+          $urlRouterProvider.otherwise('/app/dashboard-v1');
           $stateProvider
-              .state('app', {
+              .state('app', {//通用框架基础,内部设置ui-view占位符将其他页面输入到通用框架占位符处
                   abstract: true,
                   url: '/app',
                   templateUrl: 'tpl/app.html'
               })
-              .state('app.dashboard-v1', {
+              .state('app.dashboard-v1', {//首页路由
                   url: '/dashboard-v1',
                   templateUrl: 'tpl/app_dashboard_v1.html',
                   resolve: {
@@ -34,165 +31,61 @@ angular.module('app')
                     }]
                   }
               })
-              .state('app.dashboard-v2', {
-                  url: '/dashboard-v2',
-                  templateUrl: 'tpl/app_dashboard_v2.html',
-                  resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(['js/controllers/chart.js']);
-                    }]
-                  }
-              })
-              .state('app.ui', {
-                  url: '/ui',
-                  template: '<div ui-view class="fade-in-up"></div>'
-              })
-              .state('app.ui.buttons', {
-                  url: '/buttons',
-                  templateUrl: 'tpl/ui_buttons.html'
-              })
-              .state('app.ui.icons', {
-                  url: '/icons',
-                  templateUrl: 'tpl/ui_icons.html'
-              })
-              .state('app.ui.grid', {
-                  url: '/grid',
-                  templateUrl: 'tpl/ui_grid.html'
-              })
-              .state('app.ui.widgets', {
-                  url: '/widgets',
-                  templateUrl: 'tpl/ui_widgets.html'
-              })          
-              .state('app.ui.bootstrap', {
-                  url: '/bootstrap',
-                  templateUrl: 'tpl/ui_bootstrap.html'
-              })
-              .state('app.ui.sortable', {
-                  url: '/sortable',
-                  templateUrl: 'tpl/ui_sortable.html'
-              })
-              .state('app.ui.portlet', {
-                  url: '/portlet',
-                  templateUrl: 'tpl/ui_portlet.html'
-              })
-              .state('app.ui.timeline', {
-                  url: '/timeline',
-                  templateUrl: 'tpl/ui_timeline.html'
-              })
-              .state('app.ui.tree', {
-                  url: '/tree',
-                  templateUrl: 'tpl/ui_tree.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad ){
-                          return $ocLazyLoad.load('angularBootstrapNavTree').then(
-                              function(){
-                                 return $ocLazyLoad.load('js/controllers/tree.js');
-                              }
-                          );
-                        }
-                      ]
-                  }
-              })
-              .state('app.ui.toaster', {
-                  url: '/toaster',
-                  templateUrl: 'tpl/ui_toaster.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad){
-                          return $ocLazyLoad.load('toaster').then(
-                              function(){
-                                 return $ocLazyLoad.load('js/controllers/toaster.js');
-                              }
-                          );
-                      }]
-                  }
-              })
-              .state('app.ui.jvectormap', {
-                  url: '/jvectormap',
-                  templateUrl: 'tpl/ui_jvectormap.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad){
-                          return $ocLazyLoad.load('js/controllers/vectormap.js');
-                      }]
-                  }
-              })
-              .state('app.ui.googlemap', {
-                  url: '/googlemap',
-                  templateUrl: 'tpl/ui_googlemap.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( [
-                            'js/app/map/load-google-maps.js',
-                            'js/app/map/ui-map.js',
-                            'js/app/map/map.js'] ).then(
-                              function(){
-                                return loadGoogleMaps(); 
-                              }
-                            );
-                      }]
-                  }
-              })
-              .state('app.chart', {
-                  url: '/chart',
-                  templateUrl: 'tpl/ui_chart.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad){
-                          return uiLoad.load('js/controllers/chart.js');
-                      }]
-                  }
-              })
               // table
               .state('app.table', {
                   url: '/table',
                   template: '<div ui-view></div>'
               })
-              .state('app.table.static', {
-                  url: '/static',
-                  templateUrl: 'tpl/table_static.html'
-              })
-              .state('app.table.datatable', {
-                  url: '/datatable',
-                  templateUrl: 'tpl/table_datatable.html'
-              })
               .state('app.table.fans', {//粉丝管理
-                  url: '/datatable',
+                  url: '/fans',
                   templateUrl: 'tpl/system/fans_datalist.html'
               })
-              .state('app.table.transactionlist', {//交易流水管理
-                  url: '/datatable',
+              .state('app.table.transaction', {//交易流水管理
+                  url: '/transaction',
                   templateUrl: 'tpl/system/transaction_datalist.html'
               })
-              .state('app.table.sharelist', {//分润结算
-                  url: '/datatable',
+              .state('app.table.share', {//分润结算
+                  url: '/share',
                   templateUrl: 'tpl/system/share_datalist.html'
               })
-              .state('app.table.share.setting', {//分润设置
-                  url: '/datatable',
+              .state('app.table.sharesetting', {//分润设置
+                  url: '/share/setting',
                   templateUrl: 'tpl/system/share_setting.html'
               })
-              .state('app.table.footable', {
-                  url: '/footable',
-                  templateUrl: 'tpl/table_footable.html'
+              .state('app.table.order', {//订单
+                  url: '/order',
+                  templateUrl: 'tpl/system/sys_order.html'
               })
-              .state('app.table.grid', {
-                  url: '/grid',
-                  templateUrl: 'tpl/table_grid.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad ){
-                          return $ocLazyLoad.load('ngGrid').then(
-                              function(){
-                                  return $ocLazyLoad.load('js/controllers/grid.js');
-                              }
-                          );
-                      }]
-                  }
+              .state('app.table.org', {//组织结构管理
+                  url: '/org',
+                  templateUrl: 'tpl/system/sys_org.html'
               })
+              .state('app.table.menu', {//菜单管理
+                  url: '/menu',
+                  templateUrl: 'tpl/system/sys_menu.html'
+              })
+              .state('app.table.role', {//角色管理
+                  url: '/role',
+                  templateUrl: 'tpl/system/sys_role.html'
+              })
+              .state('app.table.user', {//用户管理
+                  url: '/user',
+                  templateUrl: 'tpl/system/sys_user.html'
+              })
+              .state('app.table.agent', {//代理商管理
+                  url: '/agent',
+                  templateUrl: 'tpl/system/sys_agent.html'
+              })
+              .state('app.table.merchant', {//商户管理
+                  url: '/merchant',
+                  templateUrl: 'tpl/system/sys_merchant.html'
+              })
+              .state('app.table.store', {//门店管理
+                  url: '/store',
+                  templateUrl: 'tpl/system/sys_store.html'
+              })
+             
+        
               // form
               .state('app.form', {
                   url: '/form',

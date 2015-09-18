@@ -62,5 +62,13 @@
   <script src="js/directives/ui-validate.js"></script>
   <script src="js/controllers/bootstrap.js"></script>
   <!-- Lazy loading -->
+  
+  <!-- 页面URL -->
+  <script th:inline="javascript">
+       var URLS = {};
+       URLS.login = /*[[@{/rest/hotels/:id}]]*/ '/ajax/login';
+       URLS.user = /*[[@{/hotels/partialsList}]]*/ '/hotels/partialsList';
+   </script>
+  
 </body>
 </html>

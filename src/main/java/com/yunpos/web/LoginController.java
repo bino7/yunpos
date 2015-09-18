@@ -51,8 +51,9 @@ public class LoginController extends BaseController{
     
     @RequestMapping(value = "/ajax/login", method = RequestMethod.POST)
     @ResponseBody
-    public Object login(HttpServletRequest request,@RequestParam("username") String username, @RequestParam("password") String password ) {
-       if(Strings.isNullOrEmpty(username)||Strings.isNullOrEmpty(password)){
+    public Object login(HttpServletRequest request,@RequestParam(value="username",required=false) String username, 
+    		@RequestParam(value="password" ,required=false) String password ) {
+    	if(Strings.isNullOrEmpty(username)||Strings.isNullOrEmpty(password)){
     	   return new Message(false,"param_is_null","参数为空");
        }
        
@@ -62,6 +63,7 @@ public class LoginController extends BaseController{
        }
        return new Message(true,"success","登录成功",String.valueOf(sysUser.get(0).getId()));
     }
+
     
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

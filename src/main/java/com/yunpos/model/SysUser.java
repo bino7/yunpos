@@ -181,7 +181,6 @@ public class SysUser {
 		this.lastLoginDatetime = lastLoginDatetime;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -189,7 +188,7 @@ public class SysUser {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
+
 	public Integer getCreatedBy() {
 		return createdBy;
 	}
@@ -198,7 +197,6 @@ public class SysUser {
 		this.createdBy = createdBy;
 	}
 
-	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}

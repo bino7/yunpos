@@ -1,4 +1,4 @@
-app.controller('SysFansCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('FansFocusController', ['$scope', '$http', function($scope, $http) {
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -32,36 +32,29 @@ app.controller('SysFansCtrl', ['$scope', '$http', function($scope, $http) {
             enablePinning: true,
             columnDefs: [{
                 field: 'openId',
-                displayName: '会员编号',
+                displayName: '商户',
                 width: 150,
                 pinnable: false,
                 sortable: false
             }, {
                 field: 'nickName',
-                displayName: '昵称',
+                displayName: '关注时间',
                 pinnable: false,
                 width: 150,
                 enableCellEdit: false
             }, {
                 field: 'tel',
-                displayName: '手机号码',
+                displayName: '来源类型',
                 pinnable: false,
                 enableCellEdit: false,
                 width: 150
             }, {
                 field: 'pubTime',
-                displayName: '所在地区',
+                displayName: '交易流水',
                 pinnable: false,
                 enableCellEdit: false,
                 width: 200
             }, {
-                field: 'price',
-                displayName: '交易流水',
-                pinnable: false,
-                enableCellEdit: false,
-                width: 200,
-                cellTemplate: '<div><a ui-sref="bookdetail({bookId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">201509280001</a></div>'
-            },{
                 field: 'bookId',
                 displayName: '操作',
                 enableCellEdit: false,

@@ -1,4 +1,4 @@
-app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('GridDemoCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -29,45 +29,42 @@ app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
             enableCellEdit: true,
             enablePinning: true,
             columnDefs: [{
-                field: 'userName',
-                displayName: '用户名',
-                width: 120,
+                field: 'orgId',
+                displayName: '序号',
+                width: 60,
                 pinnable: false,
                 sortable: false
             }, {
-                field: 'nickname',
-                displayName: '昵称',
+                field: 'orgName',
+                displayName: '书名',
                 enableCellEdit: true
             }, {
-                field: 'fullname',
-                displayName: '联系人',
+                field: 'userName',
+                displayName: '作者',
                 enableCellEdit: true,
                 width: 220
             }, {
-                field: 'role',
-                displayName: '用户角色',
+                field: 'pubTime',
+                displayName: '出版日期',
                 enableCellEdit: true,
                 width: 120
             }, {
-                field: 'createdBy',
-                displayName: '添加人',
+                field: 'price',
+                displayName: '定价',
                 enableCellEdit: true,
-                width: 120
+                width: 120,
+                cellFilter: 'currency:"￥"'
             }, {
-                field: 'status',
-                displayName: '状态',
-                enableCellEdit: true,
-                width: 60
-            }, {
-                field: 'id',
+                field: 'bookId',
                 displayName: '操作',
                 enableCellEdit: false,
                 sortable: false,
                 pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">详情</a>    <a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">编辑</a>      <a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">删除</a></div>'
+                cellTemplate: '<div><a ui-sref="bookdetail({bookId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">详情</a></div>'
             }],
             enablePaging: true,
-            showFooter: true,        totalServerItems: 'totalServerItems',
+            showFooter: true,
+            totalServerItems: 'totalServerItems',
             pagingOptions: $scope.pagingOptions,
             filterOptions: $scope.filterOptions
         };
@@ -112,37 +109,3 @@ app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
         filterOptions: $scope.filterOptions
     };*/
 }]);
-
-
-
-
-/**
- * 这里是用户编辑
- * @type {[type]}
- */
-app.controller('UserDetailCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.processForm = function() {
-	    $http({
-	        method  : 'get',
-	        url     : '/ajax/user/1'
-	    }).success(function(data) {
-	           // console.log(data);
-	            $scope.user = data;
-	           // alert(data.id);
-	        });
-	};
-	 $scope.saved = {};
-     $scope.save = function(user) {
-    	 $scope.saved = angular.copy(user);
-	     $http({
-	        method  : 'put',
-	        url     : '/ajax/user/' + $scope.saved.id,
-	        params  : $scope.saved
-	     }).success(function(data) {
-	    	 alert("保存成功！");
-	     }).error(function(data,status,headers,config){
-	      	alert("保存失败！");
-	     });
-	}
-}]);
-

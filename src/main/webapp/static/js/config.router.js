@@ -80,6 +80,20 @@ angular.module('app')
                       }]
                   }
               })
+              .state('app.table.focus', {//关注商户
+                  url: '/focus',
+                  templateUrl: 'tpl/system/fans_focus.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/fansFocusController.js');
+                              }
+                          );
+                      }]
+                  }
+              })
               .state('app.table.transaction', {//交易流水管理
                   url: '/transaction',
                   templateUrl: 'tpl/system/transaction_datalist.html',
@@ -141,20 +155,6 @@ angular.module('app')
               .state('app.table.user', {//用户管理
                   url: '/user',
                   templateUrl: 'tpl/system/sys_user.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad ){
-                          return $ocLazyLoad.load('ngGrid').then(
-                              function(){
-                                  return $ocLazyLoad.load('js/controllers/yunpos/sysUserGrid.js');
-                              }
-                          );
-                      }]
-                  }
-              })
-              .state('app.table.userDetail', {//用户管理
-                  url: '/userDetail/:id',
-                  templateUrl: 'tpl/system/sys_user_detail.html',
                   resolve: {
                       deps: ['$ocLazyLoad',
                         function( $ocLazyLoad ){

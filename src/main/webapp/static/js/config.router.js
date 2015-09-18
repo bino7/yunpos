@@ -129,6 +129,20 @@ angular.module('app')
                       }]
                   }
               })
+              .state('app.table.userDetail', {//用户管理
+                  url: '/userDetail/:id',
+                  templateUrl: 'tpl/system/sys_user_detail.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysUserGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
               .state('app.table.agent', {//代理商管理
                   url: '/agent',
                   templateUrl: 'tpl/system/sys_agent.html'

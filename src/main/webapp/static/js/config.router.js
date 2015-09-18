@@ -17,11 +17,34 @@ angular.module('app')
 	  	  //$urlRouterProvider.otherwise('/app/home');
           $urlRouterProvider.otherwise('/login');
           $stateProvider
-	          .state('login', {//登录页面
+	         .state('login', {//登录页面
 	              url: '/login',
-	              templateUrl: 'tpl/login.html'
+	              templateUrl: 'tpl/system/sys_login.html',
+	              resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad ){
+                          return uiLoad.load( ['js/controllers/yunpos/loginController.js'] );
+                      }]
+                  }
 	          })
-	          
+	          .state('register', {
+                  url: '/register',
+                  templateUrl: 'tpl/system/sys_register.html',
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad ){
+                          return uiLoad.load( ['js/controllers/yunpos/signupController.js'] );
+                      }]
+                  }
+              })
+              .state('forgotpwd', {
+                  url: '/forgotpwd',
+                  templateUrl: 'tpl/system/page_forgotpwd.html'
+              })
+              .state('404', {
+                  url: '/404',
+                  templateUrl: 'tpl/system/page_404.html'
+              })
               .state('app', {//通用框架基础,内部设置ui-view占位符将其他页面输入到通用框架占位符处
                   abstract: true,
                   url: '/app',
@@ -274,38 +297,8 @@ angular.module('app')
                   url: '/lockme',
                   templateUrl: 'tpl/page_lockme.html'
               })
-              .state('access', {
-                  url: '/access',
-                  template: '<div ui-view class="fade-in-right-big smooth"></div>'
-              })
-              .state('access.signin', {
-                  url: '/signin',
-                  templateUrl: 'tpl/page_signin.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( ['js/controllers/signin.js'] );
-                      }]
-                  }
-              })
-              .state('access.signup', {
-                  url: '/signup',
-                  templateUrl: 'tpl/page_signup.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( ['js/controllers/signup.js'] );
-                      }]
-                  }
-              })
-              .state('access.forgotpwd', {
-                  url: '/forgotpwd',
-                  templateUrl: 'tpl/page_forgotpwd.html'
-              })
-              .state('access.404', {
-                  url: '/404',
-                  templateUrl: 'tpl/page_404.html'
-              })
+             
+              
 
               // fullCalendar
               .state('app.calendar', {

@@ -120,11 +120,11 @@ app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('UserDetailCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('UserDetailCtrl', function($scope, $http, $state, $stateParams) {
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/user/1'
+	        url     : '/ajax/user/'+ $stateParams.id
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.user = data;
@@ -144,5 +144,5 @@ app.controller('UserDetailCtrl', ['$scope', '$http', function($scope, $http) {
 	      	alert("保存失败！");
 	     });
 	}
-}]);
+});
 

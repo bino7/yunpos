@@ -55,6 +55,13 @@ angular.module('app')
                   ]
               },
               {
+            	  name: 'uiGrid',
+            	  files: [
+            	          'ui-grid/3.0.6/ui-grid.min.js',
+            	          'ui-grid/3.0.6/ui-grid.min.css'
+            	          ]
+              },
+              {
                   name: 'ui.select',
                   files: [
                       'vendor/modules/angular-ui-select/select.min.js',

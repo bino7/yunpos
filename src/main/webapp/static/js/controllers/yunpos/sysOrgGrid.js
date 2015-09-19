@@ -1,5 +1,5 @@
 
-var app = angular.module('app', ['ngAnimate', 'ngTouch', 'ui.grid', 'ui.grid.treeView' ]);
+//var app = angular.module('app', ['ngAnimate', 'ngTouch', 'ui.grid', 'ui.grid.treeView' ]);
 
 app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConstants', function ($scope, $http, $interval, uiGridTreeViewConstants ) {
   $scope.gridOptions = {

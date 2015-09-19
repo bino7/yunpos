@@ -130,7 +130,7 @@ app.controller('UserAddCtrl', function($scope, $http, $state, $stateParams) {
 	    $http({
 	        method  : 'post',
 	        url     : '/ajax/user',
-	        params    : $scope.update  
+	        params    : user  
 	    }).success(function(data) {
 	            console.log(data);
 	            alert("添加成功！");

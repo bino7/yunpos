@@ -95,7 +95,6 @@ public class SysUserService extends EntityService<SysUser> {
 	 */
 	public void creatSysUser(SysUser user) {
 		user.setCreatedAt(new Date());
-		user.setCreatedBy(Integer.parseInt(user.getLoginId()));
 		user.setStatus("1");
 		save(user);
 		
@@ -117,7 +116,6 @@ public class SysUserService extends EntityService<SysUser> {
 	 */
 	public void updateSysUser(SysUser user) {
 		user.setUpdatedAt(new Date());
-		user.setUpdatedBy(Integer.parseInt(user.getLoginId()));
 		user.setStatus("1");
 		update(user);
 		sysUserRoleService.deleteByUserId(user.getId());
@@ -128,6 +126,8 @@ public class SysUserService extends EntityService<SysUser> {
 				sysUserRole = new SysUserRole();
 				sysUserRole.setUserId(user.getId());
 				sysUserRole.setRoleId(Integer.valueOf(roleIds[i]));
+				sysUserRole.setCreateDate(new Date());
+				sysUserRole.setCreateUserId(user.getUpdatedBy());
 				sysUserRoleService.insert(sysUserRole);
 			}
 		}

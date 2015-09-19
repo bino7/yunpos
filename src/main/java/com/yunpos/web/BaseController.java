@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yunpos.model.Page;
 import com.yunpos.security.SecurityUser;
 import com.yunpos.utils.PageDate;
+import com.yunpos.utils.Tools;
 import com.yunpos.utils.UuidUtil;
 
 public class BaseController {
@@ -47,7 +47,15 @@ public class BaseController {
 	
 	
 	public SecurityUser getUser(){
-		 SecurityUser currentUser = (SecurityUser) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+		SecurityUser currentUser = null ;
+		try{
+		    currentUser = (SecurityUser) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+		}catch(Exception e){
+			
+		}
+		 if(Tools.isNullOrEmpty(currentUser)){
+			 currentUser = new SecurityUser(1, null, null, 1, "cash");
+		 }
 		 return currentUser;
 	}
 

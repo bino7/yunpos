@@ -57,7 +57,6 @@ public class SysUser {
 	private Integer updatedBy;				// 更新人
 
 	// 下面表单接收数据使用，非实体数据库字段
-	private String loginId;					//
 	private String role;					//
 
 	public String getRole() {
@@ -212,13 +211,5 @@ public class SysUser {
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-
-	public String getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
-	}
-
+	
 }

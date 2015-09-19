@@ -121,7 +121,7 @@ public class SecurityRealm extends AuthorizingRealm {
 
 	            byte[] salt = Encodes.decodeHex(sysUser.getSalt());
 
-	            return new SimpleAuthenticationInfo(new SecurityUser(sysUser.getId(),sysUser.getUserName(), sysUser.getNickname()),
+	            return new SimpleAuthenticationInfo(new SecurityUser(sysUser.getId(),sysUser.getUserName(), sysUser.getNickname(), sysUser.getOrgId(), sysUser.getOrgName()),
 	            		sysUser.getPassword(), ByteSource.Util.bytes(salt), getName());
 	        }
 	        return null;

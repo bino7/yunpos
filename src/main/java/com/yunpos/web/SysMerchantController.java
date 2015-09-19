@@ -100,12 +100,12 @@ public class SysMerchantController extends BaseController{
 		user.setUserName(sysMerchant.getUserName());
 		user.setNickname(sysMerchant.getNickname());
 		user.setPassword(sysMerchant.getPassword());
-		user.setLoginId(sysMerchant.getLoginId());
+		user.setCreatedBy(getUser().getId());
 		sysUserService.creatSysUser(user);
 		
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setOrgName(sysMerchant.getCompanyName());
-		sysOrg.setCreateUserId(Integer.parseInt(sysMerchant.getLoginId()));
+		sysOrg.setCreateUserId(user.getCreatedBy());
 		sysOrg.setCreateDate(new Date());
 		sysOrg.setLevel(1);
 		sysOrg.setOrgNo("222222");
@@ -128,12 +128,12 @@ public class SysMerchantController extends BaseController{
 		user.setUserName(sysMerchant.getUserName());
 		user.setNickname(sysMerchant.getNickname());
 		user.setPassword(sysMerchant.getNewPassword());
-		user.setLoginId(sysMerchant.getLoginId());
+		user.setUpdatedBy(getUser().getId());
 		sysUserService.updateSysUser(user);
 		
 		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
 		sysOrg.setOrgName(sysMerchant.getCompanyName());
-		sysOrg.setModifyUserId(Integer.parseInt(sysMerchant.getLoginId()));
+		sysOrg.setModifyUserId(user.getUpdatedBy());
 		sysOrg.setModifyDate(new Date());
 		sysOrgService.update(sysOrg);
 		

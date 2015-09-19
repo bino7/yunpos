@@ -41,7 +41,7 @@ import com.yunpos.utils.jqgrid.JqGridResponse;
  *
  */
 @RestController
-public class SysAgentMerchantController {
+public class SysAgentMerchantController extends BaseController {
 	
 	@Autowired
 	private  SysAgentMerchantService sysAgentMerchantService;
@@ -98,12 +98,11 @@ public class SysAgentMerchantController {
 		user.setUserName(sysAgentMerchant.getUserName());
 		user.setNickname(sysAgentMerchant.getNickname());
 		user.setPassword(sysAgentMerchant.getPassword());
-		user.setLoginId(sysAgentMerchant.getLoginId());
 		sysUserService.creatSysUser(user);
 		
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setOrgName(sysAgentMerchant.getCompanyName());
-		sysOrg.setCreateUserId(Integer.parseInt(sysAgentMerchant.getLoginId()));
+		sysOrg.setCreateUserId(getUser().getId());
 		sysOrg.setCreateDate(new Date());
 		sysOrg.setLevel(1);
 		sysOrg.setOrgNo("111111");
@@ -127,13 +126,12 @@ public class SysAgentMerchantController {
 		user.setUserName(sysAgentMerchant.getUserName());
 		user.setNickname(sysAgentMerchant.getNickname());
 		user.setPassword(sysAgentMerchant.getNewPassword());
-		user.setLoginId(sysAgentMerchant.getLoginId());
 		sysUserService.updateSysUser(user);
 		
 		
 		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
 		sysOrg.setOrgName(sysAgentMerchant.getCompanyName());
-		sysOrg.setModifyUserId(Integer.parseInt(sysAgentMerchant.getLoginId()));
+		sysOrg.setModifyUserId(getUser().getId());
 		sysOrg.setModifyDate(new Date());
 		sysOrgService.update(sysOrg);
 		

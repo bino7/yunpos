@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
-import com.yunpos.model.Industry;
 import com.yunpos.model.SysOrg;
 import com.yunpos.model.SysStore;
 import com.yunpos.model.SysUser;
@@ -23,11 +22,7 @@ import com.yunpos.service.IndustryService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysStoreService;
 import com.yunpos.service.SysUserService;
-import com.yunpos.utils.jqgrid.GridRequest;
-import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
-import com.yunpos.utils.jqgrid.JqGridRequest;
-import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
  * 
@@ -99,12 +94,12 @@ public class SysStoreController extends BaseController{
 		user.setUserName(sysStore.getUserName());
 		user.setNickname(sysStore.getNickname());
 		user.setPassword(sysStore.getPassword());
-		user.setLoginId(sysStore.getLoginId());
+		user.setCreatedBy(getUser().getId());
 		sysUserService.creatSysUser(user);
 		
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setOrgName(sysStore.getStoreName());
-		sysOrg.setCreateUserId(Integer.parseInt(sysStore.getLoginId()));
+		sysOrg.setCreateUserId(user.getCreatedBy());
 		sysOrg.setCreateDate(new Date());
 		sysOrg.setLevel(1);
 		sysOrg.setOrgNo("111111");
@@ -127,12 +122,12 @@ public class SysStoreController extends BaseController{
 		user.setUserName(sysStore.getUserName());
 		user.setNickname(sysStore.getNickname());
 		user.setPassword(sysStore.getNewPassword());
-		user.setLoginId(sysStore.getLoginId());
+		user.setUpdatedBy(getUser().getId());
 		sysUserService.updateSysUser(user);
 		
 		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
 		sysOrg.setOrgName(sysStore.getStoreName());
-		sysOrg.setModifyUserId(Integer.parseInt(sysStore.getLoginId()));
+		sysOrg.setModifyUserId(user.getUpdatedBy());
 		sysOrg.setModifyDate(new Date());
 		sysOrgService.update(sysOrg);
 		

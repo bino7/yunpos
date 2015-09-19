@@ -54,8 +54,6 @@ public class SysAgentMerchant  extends GridRequest {
  // 下面表单接收数据使用，非实体数据库字段
     private String userId;					//代理商用户ID
     
- 	private String loginId;					//登录者ID
- 	
  	private String userName;				// 用户名
  	
  	private String nickname;				// 昵称
@@ -198,14 +196,6 @@ public class SysAgentMerchant  extends GridRequest {
 
 	public void setStatus(int status) {
 		this.status = status;
-	}
-
-	public String getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
 	}
 
 	public String getNickname() {

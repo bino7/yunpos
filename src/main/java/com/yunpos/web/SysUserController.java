@@ -54,9 +54,10 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping(value="/ajax/user",method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysUser user)throws ServiceException {
-		SysUser sysUser = sysUserService.findById(Integer.parseInt(user.getLoginId()));
 		user.setCreatedAt(new Date());
-		user.setCreatedBy(sysUser.getId());
+		user.setCreatedBy(getUser().getId());
+		user.setOrgId(getUser().getOrgId());
+		user.setOrgName(getUser().getOrgName());
 		user.setStatus("1");
 		sysUserService.save(user);
 		
@@ -75,7 +76,12 @@ public class SysUserController extends BaseController {
 
 	@RequestMapping(value = "/ajax/user/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysUser user, @PathVariable("id") int id) {
-
+		user.setId(id);
+		user.setUpdatedAt(new Date());
+		user.setUpdatedBy(getUser().getId());
+		user.setSalt(SecurityUtils.generateSalt());
+		sysUserService.update(user);
+		
 		if(!Strings.isNullOrEmpty(user.getRole())){
 			String[] roleIds = user.getRole().split(",");
 			SysUserRole sysUserRole = null;
@@ -83,16 +89,12 @@ public class SysUserController extends BaseController {
 			for(int i=0;i<roleIds.length;i++){
 				sysUserRole = new SysUserRole();
 				sysUserRole.setUserId(user.getId());
+				sysUserRole.setCreateDate(new Date());
+				sysUserRole.setCreateUserId(getUser().getId());
 				sysUserRole.setRoleId(Integer.valueOf(roleIds[i]));
 				sysUserRoleService.insert(sysUserRole);
 			}
 		}
-
-		user.setId(id);
-		user.setUpdatedAt(new Date());
-		//user.setUpdatedBy(getUser().getId());
-		user.setSalt(SecurityUtils.generateSalt());
-		sysUserService.update(user);
 		return new GridRowResponse(user.getId());
 	}
 

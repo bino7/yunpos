@@ -1,0 +1,24 @@
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <!-- jQuery -->
+  	<script src="vendor/jquery/jquery.min.js"></script>
+
+  	<!-- Angular -->
+  	<script src="vendor/angular/angular.js"></script>
+  	<script src="vendor/angular/angular-touch/angular-touch.js"></script>
+  	<script src="vendor/angular/angular-animate/angular-animate.js"></script>
+    <script src="ui-grid/3.0.6/ui-grid.js"></script>
+    <link rel="stylesheet" href="ui-grid/3.0.6/ui-grid.css" type="text/css" />
+    <script src="js/controllers/yunpos/sysOrgGrid.js"></script>
+  </head>
+  <body>
+    <div ng-controller="MainCtrl">
+      <button id="expandAll" type="button" class="btn btn-success" ng-click="expandAll()">Expand All</button>
+      <button id="toggleFirstRow" type="button" class="btn btn-success" ng-click="toggleRow(0)">Toggle First Row</button>
+      <button id="toggleSecondRow" type="button" class="btn btn-success" ng-click="toggleRow(1)">Toggle Second Row</button>
+      <button id="toggleExpandNoChildren" type="button" class="btn btn-success" ng-click="toggleExpandNoChildren()">Toggle Expand No Children</button>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-tree-view class="grid"></div>
+    </div>
+  </body>
+</html>

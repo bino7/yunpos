@@ -115,6 +115,37 @@ app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
 
 
 
+/**
+ * 这里是用户 新增 模块
+ * 
+ * @type {[type]}
+ */
+app.controller('UserAddCtrl', function($scope, $http, $state, $stateParams) {
+    console.log($stateParams);
+    
+    $scope.master = {};
+
+	  $scope.update = function(user) {
+	    $scope.master = angular.copy(user);
+	    $http({
+	        method  : 'post',
+	        url     : '/ajax/user',
+	        params    : $scope.update  
+	    }).success(function(data) {
+	            console.log(data);
+	            alert("添加成功！");
+	    }).error(function(data){
+	    	alert("出错");
+	    });
+	  };
+
+	  $scope.reset = function() {
+	    $scope.user = angular.copy($scope.master);
+	  };
+
+	  $scope.reset();
+});
+
 
 /**
  * 这里是用户编辑

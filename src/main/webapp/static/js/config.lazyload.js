@@ -57,8 +57,10 @@ angular.module('app')
               {
             	  name: 'uiGrid',
             	  files: [
-            	          'ui-grid/3.0.6/ui-grid.min.js',
-            	          'ui-grid/3.0.6/ui-grid.min.css'
+//            	          'vendor/modules/ui-grid/3.0.6/ui-grid.min.js',
+//            	          'vendor/modules/ui-grid/3.0.6/ui-grid.min.css',
+            	          'vendor/modules/ui-grid/3.0.6/ui-grid.js',
+            	          'vendor/modules/ui-grid/3.0.6/ui-grid.css'
             	          ]
               },
               {

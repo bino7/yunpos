@@ -48,18 +48,14 @@ angular.module('app')
 //            	  }
 //              })
               .state('app.table.org', {
-                  url: '/orgIndex',
-                  templateUrl: 'tpl/system/orgIndex.html',
+                  url: '/org',
+                  templateUrl: 'tpl/system/sys_org.html',
                   resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad ){
-                          return $ocLazyLoad.load('uiGrid').then(
-                              function(){
-                                  return $ocLazyLoad.load('js/controllers/yunpos/sysOrgGrid.js');
-                              }
-                          );
-                      }]
-                  }
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysOrgGrid.js'] );
+            		  }]
+            	  }
               })
               .state('forgotpwd', {
                   url: '/forgotpwd',

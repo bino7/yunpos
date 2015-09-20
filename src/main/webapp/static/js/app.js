@@ -15,5 +15,6 @@ angular.module('app', [
     'ui.validate',
     'oc.lazyLoad',
     'pascalprecht.translate',
-    'ngAnimate', 'ngTouch', 'ui.grid', 'ui.grid.treeView'
+    'ui.grid', 
+    'ui.grid.treeView'
 ]);

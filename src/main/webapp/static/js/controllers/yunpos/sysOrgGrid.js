@@ -1,8 +1,6 @@
-
-//var app = angular.module('app', ['ngAnimate', 'ngTouch', 'ui.grid', 'ui.grid.treeView' ]);
-
 app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConstants', function ($scope, $http, $interval, uiGridTreeViewConstants ) {
-  $scope.gridOptions = {
+  
+	$scope.gridOptions = {
     enableSorting: true,
     enableFiltering: true,
     showTreeExpandNoChildren: true,
@@ -30,7 +28,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConst
     }
   };
  
- $http.get('ui-grid/data/500_complex.json')
+ $http.get('vendor/modules/ui-grid/data/500_complex.json')
  .success(function(data) {
    for ( var i = 0; i < data.length; i++ ){
      data[i].state = data[i].address.state;

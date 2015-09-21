@@ -134,6 +134,7 @@ app.controller('UserAddCtrl', function($scope, $http, $state, $stateParams) {
 	    }).success(function(data) {
 	            console.log(data);
 	            alert("添加成功！");
+	            $state.go('app.table.user');
 	    }).error(function(data){
 	    	alert("出错");
 	    });

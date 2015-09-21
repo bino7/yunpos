@@ -1,11 +1,15 @@
 package com.yunpos.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yunpos.model.SysFans;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysFansMapper;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
 
 @Service
 public class SysFansService extends EntityService<SysFans> {
@@ -28,13 +32,19 @@ public class SysFansService extends EntityService<SysFans> {
 		}
 	}
 	
-	/**
-	 * 通过外部系统ID获取粉丝
-	 * @param oid
-	 * @return
-	 */
-	public SysFans findByOid(String oid) {
-		return sysFansMapper.findByOid(oid);		
+	
+	public List<SysFans> findAll() {
+		return sysFansMapper.findAll();
 	}
+	
 
+	public GridResponse<SysFans> search(GridRequest gridRequest) {
+		GridResponse<SysFans> response = new GridResponse<SysFans>();
+		List<SysFans> sysFans =  sysFansMapper.search();
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(sysFans);
+		response.setTotalRowCount(sysFans.size());
+		return response;
+	}
 }

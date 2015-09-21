@@ -16,4 +16,14 @@ public interface SysFansMapper extends EntityMapper<SysFans>{
 	
 	@Select("select * from sys_fans r WHERE r.appid_userId=#{oid}")
 	SysFans findByOid(@Param(value = "oid") String oid);
+	
+	/**
+	 * 根据粉丝参数查询
+	 * @param sysAgentFans
+	 * @return
+	 */
+	List<SysFans> selectByParm(SysFans sysFans);
+	
+	List<SysFans> search();
+
 }

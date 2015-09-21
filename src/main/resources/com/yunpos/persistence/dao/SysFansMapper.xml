@@ -39,6 +39,97 @@
     appid_userId, unionid, remark, userType, userStatus, firmName, certType, certNo, 
     phone, mobile, is_certified, is_id_auth, is_mobile_auth
   </sql>
+  
+  <sql id="Select_Parm_Column_List">
+	   <if test="subscribeFlag != null" >
+       and subscribeFlag = #{subscribeFlag,jdbcType=TINYINT}
+      </if>
+      <if test="serialNo != null" >
+       and serialNo = #{serialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="wxalipayId != null" >
+       and wxalipayId = #{wxalipayId,jdbcType=VARCHAR}
+      </if>
+      <if test="sourceType != null" >
+       and sourceType = #{sourceType,jdbcType=TINYINT}
+      </if>
+      <if test="openId != null" >
+       and openId = #{openId,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null" >
+       and nickName = #{nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="trueName != null" >
+       and trueName = #{trueName,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null" >
+       and sex = #{sex,jdbcType=TINYINT}
+      </if>
+      <if test="prov != null" >
+       and prov = #{prov,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null" >
+       and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="area != null" >
+       and area = #{area,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null" >
+       and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="zip != null" >
+       and zip = #{zip,jdbcType=VARCHAR}
+      </if>
+      <if test="headimgurl != null" >
+       and headimgurl = #{headimgurl,jdbcType=VARCHAR}
+      </if>
+      <if test="subscribeTime != null" >
+       and subscribeTime = #{subscribeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="unSubscribeTime != null" >
+      and unSubscribeTime = #{unSubscribeTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="appid_userId != null" >
+       and appid_userId = #{appid_userId,jdbcType=VARCHAR}
+      </if>
+      <if test="unionid != null" >
+       and unionid = #{unionid,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null" >
+       and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="userType != null" >
+       and userType = #{userType,jdbcType=TINYINT}
+      </if>
+      <if test="userStatus != null" >
+       and userStatus = #{userStatus,jdbcType=CHAR}
+      </if>
+      <if test="firmName != null" >
+       and firmName = #{firmName,jdbcType=VARCHAR}
+      </if>
+      <if test="certType != null" >
+       and certType = #{certType,jdbcType=TINYINT}
+      </if>
+      <if test="certNo != null" >
+       and certNo = #{certNo,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null" >
+       and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+       and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="is_certified != null" >
+       and is_certified = #{is_certified,jdbcType=CHAR}
+      </if>
+      <if test="is_id_auth != null" >
+       and is_id_auth = #{is_id_auth,jdbcType=CHAR}
+      </if>
+      <if test="is_mobile_auth != null" >
+       and is_mobile_auth = #{is_mobile_auth,jdbcType=CHAR}
+      </if>
+  </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -384,4 +475,48 @@
       is_mobile_auth = #{is_mobile_auth,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="search" resultMap="BaseResultMap"
+		parameterType="com.yunpos.utils.jqgrid.GridRequest">
+		select
+		<include refid="Base_Column_List" />
+		from sys_fans
+		<if test="searchValue != null">
+			where 
+			openId like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		 	 or  nickName like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		 	 or  mobile like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		</if>
+	</select>
+   <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysFans" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_fans
+    where 1 = 1
+	<include refid="Select_Parm_Column_List" />
+      <if test="searchValue != null">
+		and (openId like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		  or  nickName like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		  or  mobile like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		)
+	  </if>
+	  ORDER BY  id
+	   <if test="pageNumber != null">
+		 limit #{start},  #{pageSize}
+	  </if>
+  </select>
+  
+  <select id="selectCountByParm" resultType="java.lang.Integer" parameterType="com.yunpos.model.SysFans" >
+    select  count(*) from sys_fans
+	where 1 = 1
+ 	<include refid="Select_Parm_Column_List" />
+      <if test="searchValue != null">
+		and (openId like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		  or  nickName like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		  or  mobile like  CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')  
+		)
+	  </if>
+	  
+  </select>
+  
 </mapper>

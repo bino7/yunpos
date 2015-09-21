@@ -105,7 +105,6 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
     }, true);
 
     $scope.deleted = function(obj) {
-    	 alert("22222！" + obj.id);
 	     $http({
 	        method  : 'delete',
 	        url     : '/ajax/user/' + obj.id,

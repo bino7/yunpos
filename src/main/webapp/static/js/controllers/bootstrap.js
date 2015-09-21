@@ -94,12 +94,11 @@
     };
   }])
   ; 
-  app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance, items) {
-    $scope.items = items;
+  app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance,items) {
+	$scope.items = items;
     $scope.selected = {
       item: $scope.items[0]
     };
-
     $scope.ok = function () {
       $modalInstance.close($scope.selected.item);
     };
@@ -110,26 +109,29 @@
   }])
   ; 
   
+
+  //模式框
   app.controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
     $scope.items = ['item1', 'item2', 'item3'];
-    $scope.open = function (size,tempUrl,controller) {
-      var modalInstance = $modal.open({
-        templateUrl: 'myModalContent.html',
-        controller: 'ModalInstanceCtrl',
-        size: size,
-        resolve: {
-          items: function () {
-            return $scope.items;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (selectedItem) {
-        $scope.selected = selectedItem;
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });
-    };
+//    $scope.open = function (size,tempUrl,data) {
+//    var corg = data.entity;
+//      var modalInstance = $modal.open({
+//        templateUrl: tempUrl,
+//        controller: 'ModalInstanceCtrl',
+//        size: size,
+//        resolve: {
+//          items: function () {
+//            return $scope.items;
+//          }
+//        }
+//      });
+//
+//      modalInstance.result.then(function (selectedItem) {
+//        $scope.selected = selectedItem;
+//      }, function () {
+//        $log.info('Modal dismissed at: ' + new Date());
+//      });
+//    };
   }])
   ; 
   

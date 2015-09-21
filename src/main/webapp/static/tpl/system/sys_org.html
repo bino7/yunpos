@@ -1,6 +1,8 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">组织结构管理</h1>
 </div>
+
+ <span ng-controller="ModalDemoCtrl"> <script type="text/ng-template" id="sys_org_edit_dialog"><div ng-include="'tpl/system/sys_org_edit.html'"></div></script></span>
 <div class="wrapper-md" ng-controller="MainCtrl">
 <!--       <button id="expandAll" type="button" class="btn btn-success" ng-click="expandAll()">Expand All</button>
       <button id="toggleFirstRow" type="button" class="btn btn-success" ng-click="toggleRow(0)">Toggle First Row</button>
@@ -9,3 +11,5 @@
       -->
       <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-tree-view class="grid"></div>
 </div>
+
+ 

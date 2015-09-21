@@ -14,7 +14,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConst
 		{ name: 'createDate',displayName:'创建时间', type:'date',cellFilter: 'date:"yyyy-MM-dd"',width: '20%' },
 		{ name: 'id',displayName:'操作', width: '23%',enableCellEdit:false,
 		 //cellTemplate:'<div><a ui-sref="app.table.org({id:row.getProperty(col.field)})" id="{{row.getProperty(col.id)}}">修改</a> |  <a ui-sref="app.table.org({id:row.getProperty(col.id)})" id="{{row.getProperty(col.field)}}">添加下级</a>   |   <a ui-sref="app.table.org({id:row.getProperty(col.id)})" id="{{row.getProperty(col.field)}}">删除</a></div>'}
-		cellTemplate:'<span ng-controller="ModalDemoCtrl"> <script type="text/ng-template" id="myModalContent.html"><div ng-include="\'tpl/modal.form.html\'"></div></script><button class="btn btn-success" ng-click="open(lg)">修改</button> <button class="btn btn-success" ng-click="open(lg)">添加下级</button> <button class="btn btn-success" ng-click="open(lg)">删除</button></span>'}
+		cellTemplate:'<button class="btn btn-success" ng-click="open()">修改</button> <button class="btn btn-success" ng-click="open(lg)">添加下级</button> <button class="btn btn-success" ng-click="open(lg)">删除</button>'}
 		],
     
     onRegisterApi: function( gridApi ) {
@@ -26,6 +26,27 @@ app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConst
        });
   }};
  
+	
+    $scope.open = function () {
+    	alert("33333333333333");
+//        var corg = data.entity;
+//          var modalInstance = $modal.open({
+//            templateUrl: tempUrl,
+//            controller: 'ModalInstanceCtrl',
+//            size: size,
+//            resolve: {
+//              items: function () {
+//                return $scope.items;
+//              }
+//            }
+//          });
+//
+//          modalInstance.result.then(function (selectedItem) {
+//            $scope.selected = selectedItem;
+//          }, function () {
+//            $log.info('Modal dismissed at: ' + new Date());
+//          });
+        };
 	
  $http.get('/ajax/org/select')
  .success(function(data) {

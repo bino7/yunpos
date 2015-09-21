@@ -14,7 +14,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConst
 		{ name: 'createDate',displayName:'创建时间', type:'date',cellFilter: 'date:"yyyy-MM-dd"',width: '20%' },
 		{ name: 'id',displayName:'操作', width: '23%',enableCellEdit:false,
 		 //cellTemplate:'<div><a ui-sref="app.table.org({id:row.getProperty(col.field)})" id="{{row.getProperty(col.id)}}">修改</a> |  <a ui-sref="app.table.org({id:row.getProperty(col.id)})" id="{{row.getProperty(col.field)}}">添加下级</a>   |   <a ui-sref="app.table.org({id:row.getProperty(col.id)})" id="{{row.getProperty(col.field)}}">删除</a></div>'}
-		cellTemplate:'<span ng-controller="ModalDemoCtrl"> <script type="text/ng-template" id="myModalContent.html"><div ng-include="\'tpl/modal.form.html\'"></div></script><button class="btn btn-success" ng-click="open(lg,\'myModalContent.html\',row)">修改</button> <button class="btn btn-success" ng-click="open(lg)">添加下级</button> <button class="btn btn-success" ng-click="open(lg)">删除</button></span>'}
+		cellTemplate:'<span ng-controller="ModalDemoCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script><button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">修改</button> <button class="btn btn-success" ng-click="open(lg)">添加下级</button> <button class="btn btn-success" ng-click="open(lg)">删除</button></span>'}
 		],
     
     onRegisterApi: function( gridApi ) {

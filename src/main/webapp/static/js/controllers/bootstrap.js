@@ -94,12 +94,15 @@
     };
   }])
   ; 
+  
   app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance,items) {
 	$scope.items = items;
+	$scope.corg = $scope.corg;
     $scope.selected = {
       item: $scope.items[0]
     };
     $scope.ok = function () {
+    	alert('xxx');
       $modalInstance.close($scope.selected.item);
     };
 
@@ -114,11 +117,12 @@
   app.controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
     $scope.items = ['item1', 'item2', 'item3'];
     $scope.open = function (size,tempUrl,data) {
-    var corg = data.entity;
+    $scope.corg = data.entity;
       var modalInstance = $modal.open({
         templateUrl: tempUrl,
         controller: 'ModalInstanceCtrl',
         size: size,
+        scope:$scope,
         resolve: {
           items: function () {
             return $scope.items;

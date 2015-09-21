@@ -29,12 +29,12 @@ public class GridRequest {
 	}
 
 	public GridRequest(int pageNumber, int pageSize, String sortField, boolean sortDesc, String searchField, String searchValue, String searchOperation) {
-		if(Tools.isNullOrEmpty(pageNumber)){
-			pageNumber = 1;
-		}
-		if(Tools.isNullOrEmpty(pageSize)){
-			pageSize = 20;
-		}
+//		if(Tools.isNullOrEmpty(pageNumber)){
+//			pageNumber = 1;
+//		}
+//		if(Tools.isNullOrEmpty(pageSize)){
+//			pageSize = 20;
+//		}
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
 		this.sortField = sortField;

@@ -1,24 +1,24 @@
-app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
     }; 
     $scope.totalServerItems = 0;
     $scope.pagingOptions = {
-        pageSizes: [250, 500, 1000],
-        pageSize: 250,
+        pageSizes: [10, 20, 50],
+        pageSize: 10,
         currentPage: 1
     };  
     $scope.setPagingData = function(data, page, pageSize){  
         var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-        $scope.myData = pagedData;
+        $scope.userListData = pagedData;
         $scope.totalServerItems = data.length;
         if (!$scope.$$phase) {
             $scope.$apply();
         }
     };
     $scope.gridOptions = {
-            data: 'myData',
+            data: 'userListData',
             rowTemplate: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
                 '<div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }"> </div>' +
                 '<div ng-cell></div>' +
@@ -64,10 +64,11 @@ app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
                 enableCellEdit: false,
                 sortable: false,
                 pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">详情</a>    <a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">编辑</a>      <a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">删除</a></div>'
+                cellTemplate: '<div><a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">查看编辑</a>      <button class="btn btn-success col-offset-6" ng-click="deleted({id:row.getProperty(col.field) , user:row})">删除</button></div>'
             }],
             enablePaging: true,
-            showFooter: true,        totalServerItems: 'totalServerItems',
+            showFooter: true,        
+            totalServerItems: 'totalServerItems',
             pagingOptions: $scope.pagingOptions,
             filterOptions: $scope.filterOptions
         };
@@ -103,15 +104,35 @@ app.controller('UserListCtrl', ['$scope', '$http', function($scope, $http) {
         }
     }, true);
 
+    $scope.deleted = function(obj) {
+    	 alert("22222！" + obj.id);
+	     $http({
+	        method  : 'delete',
+	        url     : '/ajax/user/' + obj.id,
+	        params  : {"id":obj.id}
+	     }).success(function() {
+	    	 alert("删除成功！");
+//	    	 $state.go('app.table.user');
+//	    	 $http.get('/ajax/user/search').success(function (largeLoad) {
+//                 $scope.setPagingData(largeLoad.rows,1,10);
+//             });
+//	    	 $scope.fetchList;
+	    	 $scope.userListData.splice(obj.user.rowIndex, 1);
+	    	 $scope.setPagingData($scope.userListData, 1, 10);
+	     }).error(function(data,status,headers,config){
+	      	alert("删除失败！");
+	     });
+	};
+    
   /*  $scope.gridOptions = {
-        data: 'myData',
+        data: 'userListData',
         enablePaging: true,
         showFooter: true,
         totalServerItems: 'totalServerItems',
         pagingOptions: $scope.pagingOptions,
         filterOptions: $scope.filterOptions
     };*/
-}]);
+});
 
 
 
@@ -125,7 +146,7 @@ app.controller('UserAddCtrl', function($scope, $http, $state, $stateParams) {
     
     $scope.master = {};
 
-	  $scope.update = function(user) {
+	  $scope.add = function(user) {
 	    $scope.master = angular.copy(user);
 	    $http({
 	        method  : 'post',

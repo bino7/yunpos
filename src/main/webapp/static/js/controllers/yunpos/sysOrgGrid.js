@@ -5,12 +5,10 @@ app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConst
     enableFiltering: true,
     showTreeExpandNoChildren: true,
     columnDefs: [
-		{ name: 'id', width: '15%' },
-		{ name: 'orgNo', width: '10%' },
-		{ name: 'orgName', width: '10%' },
-		{ name: 'orgParentId', width: '15%' },
-		{ name: 'level', width: '20%' },
-		{ name: 'oper', width: '20%'}
+		{ name: 'orgNo',displayName:'组织机构代码', width: '20%' },
+		{ name: 'orgName',displayName:'组织机构', width: '30%' },
+		{ name: 'createDate',displayName:'创建时间', type:'date',cellFilter: 'date:"yyyy-MM-dd"',width: '20%' },
+		{ name: 'oper',displayName:'操作', width: '30%',}
     ],
     onRegisterApi: function( gridApi ) {
       $scope.gridApi = gridApi;

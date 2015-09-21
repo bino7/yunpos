@@ -37,16 +37,6 @@ angular.module('app')
                       }]
                   }
               })
-//              .state('app.table.org', {
-//            	  url: '/orgIndex',
-//            	  templateUrl: 'tpl/system/orgIndex.html',
-//            	  resolve: {
-//            		  deps: ['uiLoad',
-//            		         function( uiLoad ){
-//            			  return uiLoad.load( ['js/controllers/yunpos/sysOrgGrid.js'] );
-//            		  }]
-//            	  }
-//              })
               .state('app.table.org', {
                   url: '/org',
                   templateUrl: 'tpl/system/sys_org.html',
@@ -146,13 +136,15 @@ angular.module('app')
                       }]
                   }
               })
-//              .state('app.table.org', {//组织结构管理
-//                  url: '/org',
-//                  templateUrl: 'tpl/system/sys_org.html'
-//              })
               .state('app.table.menu', {//菜单管理
                   url: '/menu',
-                  templateUrl: 'tpl/system/sys_menu.html'
+                  templateUrl: 'tpl/system/sys_menu.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysMenuGrid.js'] );
+            		  }]
+            	  }
               })
               .state('app.table.role', {//角色管理
                   url: '/role',

@@ -1,37 +1,11 @@
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">组织结构管理</h1>
+  <h1 class="m-n font-thin h3">菜单管理</h1>
 </div>
-<div class="wrapper-md">
-  <div class="panel panel-default">
-   <!--  <div class="panel-heading">
-     	组织结构管理
-    </div> -->
-    <div class="table-responsive">
-      <table ui-jq="dataTable" ui-options="{
-          sAjaxSource: 'vendor/jquery/datatables/datatable.json',
-          aoColumns: [
-            { mData: 'engine' },
-            { mData: 'browser' },
-            { mData: 'platform' },
-            { mData: 'version' },
-            { mData: 'grade' }
-          ]
-        }" class="table table-striped m-b-none">
-        <thead>
-          <tr>
-            <th  style="width:20%">代理商编号</th>
-            <th  style="width:25%">代理商</th>
-            <th  style="width:25%">结算月份</th>
-            <th  style="width:15%">交易笔数</th>
-            <th  style="width:15%">交易金额</th>
-            <th  style="width:15%">结算金额</th>
-            <th  style="width:15%">结算状态</th>
-            <th  style="width:15%">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="wrapper-md" ng-controller="SysMenuController">
+<!--       <button id="expandAll" type="button" class="btn btn-success" ng-click="expandAll()">Expand All</button>
+      <button id="toggleFirstRow" type="button" class="btn btn-success" ng-click="toggleRow(0)">Toggle First Row</button>
+      <button id="toggleSecondRow" type="button" class="btn btn-success" ng-click="toggleRow(1)">Toggle Second Row</button>
+      <button id="toggleExpandNoChildren" type="button" class="btn btn-success" ng-click="toggleExpandNoChildren()">Toggle Expand No Children</button>
+      --> 
+      <div id="grid1" ui-grid="gridOptions" ui-grid-tree-view class="grid"></div>
 </div>

@@ -88,7 +88,7 @@ app.controller('SysFansCtrl', ['$scope', '$http', function($scope, $http) {
                     $scope.setPagingData(data,page,pageSize);
                 });            
             } else {
-                $http.get('/ajax/order/search').success(function (largeLoad) {
+                $http.get('/ajax/fans/search').success(function (largeLoad) {
                     $scope.setPagingData(largeLoad.rows,page,pageSize);
                 });
             }

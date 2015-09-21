@@ -111,26 +111,21 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
 	        params  : {"id":obj.id}
 	     }).success(function() {
 	    	 alert("删除成功！");
-//	    	 $state.go('app.table.user');
-//	    	 $http.get('/ajax/user/search').success(function (largeLoad) {
-//                 $scope.setPagingData(largeLoad.rows,1,10);
-//             });
-//	    	 $scope.fetchList;
 	    	 $scope.userListData.splice(obj.user.rowIndex, 1);
 	    	 $scope.setPagingData($scope.userListData, 1, 10);
 	     }).error(function(data,status,headers,config){
 	      	alert("删除失败！");
 	     });
 	};
+	
+	 $scope.search = function() {
+		  var ft = $scope.filterText;
+          var data = $scope.userListData.filter(function(item) {
+                  return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+         });
+         $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
+	};
     
-  /*  $scope.gridOptions = {
-        data: 'userListData',
-        enablePaging: true,
-        showFooter: true,
-        totalServerItems: 'totalServerItems',
-        pagingOptions: $scope.pagingOptions,
-        filterOptions: $scope.filterOptions
-    };*/
 });
 
 

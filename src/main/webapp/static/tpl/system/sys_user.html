@@ -4,7 +4,7 @@
 <div class="wrapper-md" ng-controller="UserListCtrl">
   <div class="panel panel-default">
     <div class="panel-heading">
-      	<a ui-sref="app.table.userAdd">新增用户</a>
+      	<a ui-sref="app.table.userAdd">新增用户</a><input ng-model='filterText'/><button ng-click='search()'>查询</button>
     </div>
     <div class="table-responsive">
       <div ng-grid="gridOptions" style="min-height:420px"></div>

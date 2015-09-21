@@ -16,5 +16,9 @@ angular.module('app', [
     'oc.lazyLoad',
     'pascalprecht.translate',
     'ui.grid', 
-    'ui.grid.treeView'
+    'ui.grid.treeView',
+    'ui.grid.edit', 
+    'ui.grid.cellNav'
 ]);
+
+//var app = angular.module('app', ['ngTouch', 'ui.grid', 'ui.grid.edit', 'ui.grid.cellNav', 'addressFormatter']);

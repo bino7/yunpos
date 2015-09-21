@@ -109,9 +109,10 @@
     };
   }])
   ; 
+  
   app.controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
     $scope.items = ['item1', 'item2', 'item3'];
-    $scope.open = function (size) {
+    $scope.open = function (size,tempUrl,controller) {
       var modalInstance = $modal.open({
         templateUrl: 'myModalContent.html',
         controller: 'ModalInstanceCtrl',
@@ -131,6 +132,7 @@
     };
   }])
   ; 
+  
   app.controller('PaginationDemoCtrl', ['$scope', '$log', function($scope, $log) {
     $scope.totalItems = 64;
     $scope.currentPage = 4;

@@ -95,49 +95,48 @@
   }])
   ; 
   
-  app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance,items) {
-	$scope.items = items;
-	$scope.corg = $scope.corg;
-    $scope.selected = {
-      item: $scope.items[0]
-    };
-    $scope.ok = function () {
-    	alert('xxx');
-      $modalInstance.close($scope.selected.item);
-    };
-
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-  }])
-  ; 
-  
-
-  //模式框
-  app.controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
-    $scope.items = ['item1', 'item2', 'item3'];
-    $scope.open = function (size,tempUrl,data) {
-    $scope.corg = data.entity;
-      var modalInstance = $modal.open({
-        templateUrl: tempUrl,
-        controller: 'ModalInstanceCtrl',
-        size: size,
-        scope:$scope,
-        resolve: {
-          items: function () {
-            return $scope.items;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (selectedItem) {
-        $scope.selected = selectedItem;
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
-      });
-    };
-  }])
-  ; 
+//  app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', function($scope, $modalInstance,items) {
+//	$scope.items = items;
+//	$scope.corg = $scope.corg;
+//    $scope.selected = {
+//      item: $scope.items[0]
+//    };
+//    $scope.ok = function () {
+//      $modalInstance.close($scope.selected.item);
+//    };
+//
+//    $scope.cancel = function () {
+//      $modalInstance.dismiss('cancel');
+//    };
+//  }])
+//  ; 
+//  
+//
+//  //模式框
+//  app.controller('ModalDemoCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+//    $scope.items = ['item1', 'item2', 'item3'];
+//    $scope.open = function (size,tempUrl,data) {
+//    $scope.corg = data.entity;
+//      var modalInstance = $modal.open({
+//        templateUrl: tempUrl,
+//        controller: 'ModalInstanceCtrl',
+//        size: size,
+//        scope:$scope,
+//        resolve: {
+//          items: function () {
+//            return $scope.items;
+//          }
+//        }
+//      });
+//
+//      modalInstance.result.then(function (selectedItem) {
+//        $scope.selected = selectedItem;
+//      }, function () {
+//        $log.info('Modal dismissed at: ' + new Date());
+//      });
+//    };
+//  }])
+//  ; 
   
   app.controller('PaginationDemoCtrl', ['$scope', '$log', function($scope, $log) {
     $scope.totalItems = 64;

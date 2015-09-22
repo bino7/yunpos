@@ -1,9 +1,10 @@
-app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConstants', function ($scope, $http, $interval, uiGridTreeViewConstants) {
+app.controller('SysOrgController', ['$scope', '$http', '$interval', 'uiGridTreeViewConstants','uiGridConstants', function ($scope, $http, $interval, uiGridTreeViewConstants,uiGridConstants) {
 			$scope.gridOptions = {};
-			//$scope.gridOptions.enableCellEditOnFocus = true;
+			$scope.gridOptions.enableSorting = true;
 			$scope.gridOptions.columnDefs = [{
 					name : 'orgNo',
 					displayName : '组织机构代码',
+					enableColumMenu:true,
 					enableCellEdit : true,
 					enableCellEditOnFocus : false,
 					width : '20%'
@@ -26,7 +27,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$interval', 'uiGridTreeViewConst
 					displayName : '操作',
 					width : '23%',
 					//cellTemplate : '<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span> <button class="btn btn-success" ng-click="deleted({id:row.getProperty(col.field) , id})">删除</button>'
-					cellTemplate : '<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span><span ng-controller="MainCtrl"> <button class="btn btn-success" ng-click="deleted({id:row.getProperty(col.field) , org:row})">删除</button></span>'
+					cellTemplate : '<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span><span ng-controller="SysOrgController"> <button class="btn btn-success" ng-click="deleted({id:row.getProperty(col.field) , org:row})">删除</button></span>'
 
 				}
 			];

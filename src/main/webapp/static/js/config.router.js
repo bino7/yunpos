@@ -214,7 +214,7 @@ angular.module('app')
                         function( $ocLazyLoad ){
                           return $ocLazyLoad.load('ngGrid').then(
                               function(){
-                                  return $ocLazyLoad.load('js/controllers/yunpos/sysagentmerchantGrid.js');
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
                               }
                           );
                       }]
@@ -234,10 +234,47 @@ angular.module('app')
                       }]
                   }
               })
-              
-              .state('app.table.merchant', {//商户管理
+               .state('app.table.merchant', {//商户管理
                   url: '/merchant',
-                  templateUrl: 'tpl/system/sys_merchant.html'
+                  templateUrl: 'tpl/system/sys_merchant.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.merchantDetail', {//商户管理
+                  url: '/merchantDetail/:id',
+                  templateUrl: 'tpl/system/sys_merchant_detail.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.merchantAdd', {//商户新增
+                  url: '/merchantAdd',
+                  templateUrl: 'tpl/system/sys_merchant_add.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.table.store', {//门店管理
                   url: '/store',

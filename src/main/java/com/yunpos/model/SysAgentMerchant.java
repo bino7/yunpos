@@ -195,6 +195,7 @@ public class SysAgentMerchant  extends GridRequest {
         return endTime;
     }
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }

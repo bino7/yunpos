@@ -1,8 +1,17 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">订单管理</h1>
 </div>
-<div class="wrapper-md" ng-controller="SysOrderCtrl">
+<div class="wrapper-md" ng-controller="UserListCtrl">
   <div class="panel panel-default">
+	  <div class="panel-heading">
+		  <div class="row">
+		    <div class="col-xs-8">
+		    </div>
+		    <div class="col-xs-3" style ="float: right;">
+		   	 	<input ng-model='filterText'/><button ng-click='search()'>查询</button>
+			</div>
+		</div>
+    </div>
     <div class="table-responsive">
       <div ng-grid="gridOptions" style="min-height:420px"></div>
     </div>

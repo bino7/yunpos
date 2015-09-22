@@ -18,6 +18,7 @@ import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysAgentMerchant;
 import com.yunpos.model.SysOrg;
 import com.yunpos.model.SysUser;
+import com.yunpos.payment.wxpay.common.DateUtil;
 import com.yunpos.service.SysAgentMerchantService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysUserService;
@@ -93,13 +94,6 @@ public class SysAgentMerchantController extends BaseController {
 	 */
 	@RequestMapping(value = "/ajax/agentmerchant", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysAgentMerchant sysAgentMerchant) {
-		
-		SysUser user = new SysUser();
-		user.setUserName(sysAgentMerchant.getUserName());
-		user.setNickname(sysAgentMerchant.getNickname());
-		user.setPassword(sysAgentMerchant.getPassword());
-		sysUserService.creatSysUser(user);
-		
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setOrgName(sysAgentMerchant.getCompanyName());
 		sysOrg.setCreateUserId(getUser().getId());
@@ -108,13 +102,22 @@ public class SysAgentMerchantController extends BaseController {
 		sysOrg.setOrgNo("111111");
 		sysOrgService.save(sysOrg);
 		
-		if(!Tools.isNullOrEmpty(sysAgentMerchant)){
-			sysAgentMerchant.setBaseUserId(user.getId());
-			sysAgentMerchant.setAgentSerialNo("222222");
-			sysAgentMerchantService.save(sysAgentMerchant);
-		}
-		
-		return new GridRowResponse(sysAgentMerchant.getId());
+		SysUser user = new SysUser();
+		user.setUserName(sysAgentMerchant.getUserName());
+		user.setNickname(sysAgentMerchant.getNickname());
+		user.setPassword(sysAgentMerchant.getPassword());
+		user.setCreatedBy(getUser().getId());
+		user.setCreatedAt(new Date());
+		user.setOrgId(sysOrg.getId());
+		user.setOrgName(sysOrg.getOrgName());
+		sysUserService.creatSysUser(user);
+	
+
+		sysAgentMerchant.setBaseUserId(user.getId());
+		sysAgentMerchant.setAgentSerialNo("222222");
+		sysAgentMerchantService.save(sysAgentMerchant);
+
+		return new GridRowResponse(-2);
 	}
 
 	/**
@@ -125,10 +128,12 @@ public class SysAgentMerchantController extends BaseController {
 	 */
 	@RequestMapping(value = "/ajax/agentmerchant/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysAgentMerchant sysAgentMerchant, @PathVariable("id") int id) {
-		SysUser user = sysUserService.findById(Integer.parseInt(sysAgentMerchant.getUserId()));
+		SysUser user = sysUserService.findById(sysAgentMerchant.getBaseUserId());
 		user.setUserName(sysAgentMerchant.getUserName());
 		user.setNickname(sysAgentMerchant.getNickname());
 		user.setPassword(sysAgentMerchant.getNewPassword());
+		user.setUpdatedBy(getUser().getId());
+		user.setUpdatedAt(new Date());
 		sysUserService.updateSysUser(user);
 		
 		

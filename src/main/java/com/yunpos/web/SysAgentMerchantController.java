@@ -107,7 +107,10 @@ public class SysAgentMerchantController extends BaseController {
 		sysOrg.setLevel(1);
 		sysOrg.setOrgNo("111111");
 		sysOrgService.save(sysOrg);
+		
 		if(!Tools.isNullOrEmpty(sysAgentMerchant)){
+			sysAgentMerchant.setBaseUserId(user.getId());
+			sysAgentMerchant.setAgentSerialNo("222222");
 			sysAgentMerchantService.save(sysAgentMerchant);
 		}
 		

@@ -192,10 +192,49 @@ angular.module('app')
                       }]
                   }
               })
-              .state('app.table.agent', {//代理商管理
-                  url: '/agent',
-                  templateUrl: 'tpl/system/sys_agent.html'
+              .state('app.table.agentmerchant', {//代理商管理
+                  url: '/agentmerchant',
+                  templateUrl: 'tpl/system/sys_agentmerchant.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
               })
+              .state('app.table.agentmerchantDetail', {//代理商管理
+                  url: '/agentmerchantDetail/:id',
+                  templateUrl: 'tpl/system/sys_agentmerchant_detail.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysagentmerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.agentmerchantAdd', {//代理商新增
+                  url: '/agentmerchantAdd',
+                  templateUrl: 'tpl/system/sys_agentmerchant_add.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              
               .state('app.table.merchant', {//商户管理
                   url: '/merchant',
                   templateUrl: 'tpl/system/sys_merchant.html'

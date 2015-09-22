@@ -1,12 +1,12 @@
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">用户管理</h1>
+  <h1 class="m-n font-thin h3">代理商管理</h1>
 </div>
-<div class="wrapper-md" ng-controller="UserListCtrl">
+<div class="wrapper-md" ng-controller="AgentmerchantListCtrl">
   <div class="panel panel-default">
 	  <div class="panel-heading">
 		  <div class="row">
 		    <div class="col-xs-8">
-		   		 <a ui-sref="app.table.userAdd"><button>新增用户</button></a>
+		   		 <a ui-sref="app.table.agentmerchantAdd"><button>新增代理商</button></a>
 		    </div>
 		    <div class="col-xs-3" style ="float: right;">
 		   	 	<input ng-model='filterText'/><button ng-click='search()'>查询</button>

@@ -2,7 +2,9 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.serializer.JsonDateSerializer;
 
 /**
  * 代理商
@@ -47,6 +49,8 @@ public class SysAgentMerchant  extends GridRequest {
 
     private int auditStatus;			//审核状态 0：审核中，1：未审核 ，2：审核通过、3：回退、4：驳回
     
+    private String auditOpinion;		//审核意见
+    
     private int status;					//代理商状态 0停用 1启用
 
     private Date endTime;				//合同到期时间
@@ -61,6 +65,10 @@ public class SysAgentMerchant  extends GridRequest {
 	private String password;				// 密码
 
 	private String newPassword;				// 新密码
+	
+	private Date createdAt;					// 创建时间
+
+	private Integer createdBy;				// 创建人
 	
     public Integer getId() {
         return id;
@@ -182,6 +190,7 @@ public class SysAgentMerchant  extends GridRequest {
         this.auditStatus = auditStatus;
     }
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     public Date getEndTime() {
         return endTime;
     }
@@ -236,6 +245,31 @@ public class SysAgentMerchant  extends GridRequest {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	@JsonSerialize(using = JsonDateSerializer.class)
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getAuditOpinion() {
+		return auditOpinion;
+	}
+
+	public void setAuditOpinion(String auditOpinion) {
+		this.auditOpinion = auditOpinion;
 	}
     
 	

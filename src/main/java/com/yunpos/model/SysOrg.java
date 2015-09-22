@@ -2,6 +2,8 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 public class SysOrg {
 	private Integer id;
 	

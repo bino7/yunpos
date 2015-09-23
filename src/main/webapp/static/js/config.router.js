@@ -90,6 +90,24 @@ angular.module('app')
                       }]
                   }
               })
+              .state('app.table.membercard', {//会员卡管理
+                  url: '/membercard',
+                  templateUrl: 'tpl/system/sys_member_card.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberCardGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.integralsetting', {//积分设置
+                  url: '/integral/setting',
+                  templateUrl: 'tpl/system/sys_integral_setting.html'
+              })
               .state('app.table.transaction', {//交易流水管理
                   url: '/transaction',
                   templateUrl: 'tpl/system/transaction_datalist.html',
@@ -99,6 +117,20 @@ angular.module('app')
                           return $ocLazyLoad.load('ngGrid').then(
                               function(){
                                   return $ocLazyLoad.load('js/controllers/yunpos/sysTransacionGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.tables.sharemanage', {//分润管理
+                  url: '/share',
+                  templateUrl: 'tpl/system/sys_share_manage.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysShareGrid.js');
                               }
                           );
                       }]
@@ -122,7 +154,7 @@ angular.module('app')
                   url: '/share/setting',
                   templateUrl: 'tpl/system/share_setting.html'
               })
-              .state('app.table.order', {//订单
+              .state('app.table.sysorder', {//订单
                   url: '/order',
                   templateUrl: 'tpl/system/sys_order.html',
                   resolve: {
@@ -131,6 +163,34 @@ angular.module('app')
                           return $ocLazyLoad.load('ngGrid').then(
                               function(){
                                   return $ocLazyLoad.load('js/controllers/yunpos/sysOrderGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.merchantorder', {//商户订单
+                  url: '/merchant/order',
+                  templateUrl: 'tpl/system/sys_merchant_order.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantOrderGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.storeorder', {//门店订单
+                  url: '/store/order',
+                  templateUrl: 'tpl/system/sys_store_order.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/SysStoreOrderGrid.js');
                               }
                           );
                       }]

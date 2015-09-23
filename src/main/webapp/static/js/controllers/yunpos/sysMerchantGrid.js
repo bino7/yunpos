@@ -29,12 +29,14 @@ app.controller('MerchantListCtrl',  function($scope, $http, $state, $stateParams
             enableCellEdit: true,
           //  enablePinning: true,
             columnDefs: [
-               {field: 'merchantName', displayName: '用户名', width: 120,  pinnable: false,  sortable: false}, 
+               {field: 'userName', displayName: '用户名', width: 120,  pinnable: false,  sortable: false}, 
                {field: 'nickname', displayName: '昵称', enableCellEdit: false}, 
-               {field: 'fullname', displayName: '联系人', enableCellEdit: false, width: 220},
-               {field: 'role', displayName: '用户角色', enableCellEdit: false, width: 120}, 
+               {field: 'companyName', displayName: '公司名称', enableCellEdit: false, width: 220},
+               {field: 'industryType', displayName: '行业类型', enableCellEdit: false, width: 80}, 
                {field: 'createdBy',displayName: '添加人',enableCellEdit: false, width: 120}, 
+               {field: 'createdAt',displayName: '添加时间',enableCellEdit: false, width: 140}, 
                {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 }, 
+               {field: 'auditStatus', displayName: '审核状态', enableCellEdit: false, width: 100 }, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                 cellTemplate: '<div><a ui-sref="app.table.merchantDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a>     <button ng-click="deleted({id:row.getProperty(col.field) , merchant:row})">删除</button></div>'
             }],

@@ -42,6 +42,106 @@
     productPrice, total, mailPrice, couponPrice, totalPrice, groupon, groupcode, houseAddress, 
     payTime, payMode, payType, payStatus, score, printStatus, handleStatus, info, shopId
   </sql>
+  
+  <sql id="Select_Parm_Column_List">
+		<if test="orderId != null" >
+       and orderId = #{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="openId != null" >
+       and openId = #{openId,jdbcType=VARCHAR}
+      </if>
+      <if test="memberId != null" >
+       and memberId = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null" >
+       and nickName = #{nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="sysMerchantId != null" >
+       and sysMerchantId = #{sysMerchantId,jdbcType=VARCHAR}
+      </if>
+      <if test="sysMerchantSerialNo != null" >
+       and sysMerchantSerialNo = #{sysMerchantSerialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="agentId != null" >
+       and agentId = #{agentId,jdbcType=VARCHAR}
+      </if>
+      <if test="agentSerialNo != null" >
+       and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null" >
+       and orgId = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="orgName != null" >
+       and orgName = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="createdAt != null" >
+       and createdAt = #{createdAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updatedAt != null" >
+       and updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="trueName != null" >
+       and trueName = #{trueName,jdbcType=VARCHAR}
+      </if>
+      <if test="tel != null" >
+       and tel = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="productList != null" >
+       and productList = #{productList,jdbcType=VARCHAR}
+      </if>
+      <if test="productPrice != null" >
+       and productPrice = #{productPrice,jdbcType=REAL}
+      </if>
+      <if test="total != null" >
+       and total = #{total,jdbcType=INTEGER}
+      </if>
+      <if test="mailPrice != null" >
+       and mailPrice = #{mailPrice,jdbcType=REAL}
+      </if>
+      <if test="couponPrice != null" >
+       and couponPrice = #{couponPrice,jdbcType=REAL}
+      </if>
+      <if test="totalPrice != null" >
+       and totalPrice = #{totalPrice,jdbcType=REAL}
+      </if>
+      <if test="groupon != null" >
+       and groupon = #{groupon,jdbcType=BIT}
+      </if>
+      <if test="groupcode != null" >
+       and groupcode = #{groupcode,jdbcType=VARCHAR}
+      </if>
+      <if test="houseAddress != null" >
+       and houseAddress = #{houseAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="payTime != null" >
+       and payTime = #{payTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="payMode != null" >
+       and payMode = #{payMode,jdbcType=TINYINT}
+      </if>
+      <if test="payType != null" >
+       and payType = #{payType,jdbcType=TINYINT}
+      </if>
+      <if test="payStatus != null" >
+       and payStatus = #{payStatus,jdbcType=TINYINT}
+      </if>
+      <if test="score != null" >
+       and score = #{score,jdbcType=INTEGER}
+      </if>
+      <if test="printStatus != null" >
+       and printStatus = #{printStatus,jdbcType=TINYINT}
+      </if>
+      <if test="handleStatus != null" >
+       and handleStatus = #{handleStatus,jdbcType=TINYINT}
+      </if>
+      <if test="info != null" >
+       and info = #{info,jdbcType=VARCHAR}
+      </if>
+      <if test="shopId != null" >
+       and shopId = #{shopId,jdbcType=VARCHAR}
+      </if>
+	</sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -422,4 +522,46 @@
       shopId = #{shopId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  	<select id="selectByParm" resultMap="BaseResultMap"
+		parameterType="com.yunpos.model.SysOrder">
+		select
+		<include refid="Base_Column_List" />
+		from sys_order
+		where 1 = 1
+
+		<include refid="Select_Parm_Column_List" />
+
+		<if test="searchValue != null">
+			and (orderId like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or sysMerchantSerialNo like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or agentSerialNo like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			)
+		</if>
+		ORDER BY id
+		<if test="pageNumber != null">
+			limit #{start}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="selectCountByParm" resultType="java.lang.Integer"
+		parameterType="com.yunpos.model.SysOrder">
+		select count(*) from sys_order
+		where 1 = 1
+		<include refid="Select_Parm_Column_List" />
+		<if test="searchValue != null">
+			and (orderId like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or sysMerchantSerialNo like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or agentSerialNo like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			)
+		</if>
+
+	</select>
+  
 </mapper>

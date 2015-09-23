@@ -1,6 +1,12 @@
 package com.yunpos.model;
 
-public class SysStore {
+import java.util.Date;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.serializer.JsonDateSerializer;
+
+public class SysStore  extends GridRequest {
     private Integer id;
 
     private Integer baseUserId;
@@ -46,6 +52,9 @@ public class SysStore {
 
 	private String newPassword;				// 新密码
 	
+	private Date createdAt;					// 创建时间
+
+	private Integer createdBy;				// 创建人
 
     public Integer getId() {
         return id;
@@ -221,6 +230,23 @@ public class SysStore {
 
 	public void setMapAddress(String mapAddress) {
 		this.mapAddress = mapAddress;
+	}
+
+	@JsonSerialize(using = JsonDateSerializer.class)
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
 	}
     
     

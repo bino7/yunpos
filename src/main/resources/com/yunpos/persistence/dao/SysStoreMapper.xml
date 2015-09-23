@@ -3,6 +3,12 @@
 <mapper namespace="com.yunpos.persistence.dao.SysStoreMapper" >
   <resultMap id="BaseResultMap" type="com.yunpos.model.SysStore" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+	<result column="createdBy" property="createdBy" jdbcType="INTEGER" />
+	
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
     <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
     <result column="storeNo" property="storeNo" jdbcType="VARCHAR" />
@@ -21,10 +27,12 @@
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, baseUserId, serialNo, storeNo, storeName, contactMan, phone, tel, mail, prov, 
-    city, area, remark, address, mapAddress, mapPoint, status
+    baseUserId, serialNo, storeNo, storeName, contactMan, mail, prov, 
+    city, area, remark, address, mapAddress, mapPoint
   </sql>
-  
+   <sql id="Base_Column_List_user" >
+  		id,phone, tel , status
+  </sql>
   <sql id="Select_Parm_Column_List">
   	 <if test="baseUserId != null" >
        and baseUserId = #{baseUserId,jdbcType=INTEGER}
@@ -77,10 +85,14 @@
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_store
-    where id = #{id,jdbcType=INTEGER}
+      select store.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
+		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		store.phone as phone, store.tel as tel, store.status as status, 
+		<include refid="Base_Column_List" />
+		from sys_store store, sys_user user
+		where store.baseUserId = user.id
+    		and store.id = #{id,jdbcType=INTEGER}
+  
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_store
@@ -284,10 +296,13 @@
   
   
     <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysStore" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_store
-    where 1 = 1
+    
+     select store.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
+		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		store.phone as phone, store.tel as tel, store.status as status, 
+		<include refid="Base_Column_List" />
+		from sys_store store, sys_user user
+		where store.baseUserId = user.id
 	  <include refid="Select_Parm_Column_List" />
   </select>
 </mapper>

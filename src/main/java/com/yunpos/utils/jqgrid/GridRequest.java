@@ -17,6 +17,8 @@ import com.yunpos.utils.Tools;
 public class GridRequest {
 	protected int pageNumber;
 	protected int pageSize;
+	
+	protected int start;
 
 	protected String sortField;
 	protected boolean sortDesc;
@@ -30,13 +32,14 @@ public class GridRequest {
 
 	public GridRequest(int pageNumber, int pageSize, String sortField, boolean sortDesc, String searchField, String searchValue, String searchOperation) {
 //		if(Tools.isNullOrEmpty(pageNumber)){
-//			pageNumber = 1;
+//			pageNumber = 0;
 //		}
 //		if(Tools.isNullOrEmpty(pageSize)){
 //			pageSize = 20;
 //		}
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
+		this.start = pageNumber * pageSize;
 		this.sortField = sortField;
 		this.sortDesc = sortDesc;
 		this.searchField = searchField;
@@ -45,6 +48,9 @@ public class GridRequest {
 	}
 
 	public int getPageNumber() {
+		if(Tools.isNullOrEmpty(pageNumber)){
+			pageNumber = 0;
+		}
 		return pageNumber;
 	}
 
@@ -53,6 +59,9 @@ public class GridRequest {
 	}
 
 	public int getPageSize() {
+		if(Tools.isNullOrEmpty(pageSize) || pageSize == 0){
+			pageSize = 20;
+		}
 		return pageSize;
 	}
 
@@ -138,4 +147,14 @@ public class GridRequest {
 			return false;
 		return true;
 	}
+
+	public int getStart() {
+		start = pageNumber * pageSize;
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
 }

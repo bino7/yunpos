@@ -2,7 +2,9 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.serializer.JsonDateSerializer;
 
 /**
  * 
@@ -79,6 +81,9 @@ public class SysMerchant extends GridRequest{
 
 	private String newPassword;				// 新密码
 	
+	private Date createdAt;					// 创建时间
+
+	private Integer createdBy;				// 创建人
     
     public Integer getId() {
         return id;
@@ -208,6 +213,7 @@ public class SysMerchant extends GridRequest{
         this.auditStatus = auditStatus;
     }
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     public Date getEndTime() {
         return endTime;
     }
@@ -310,6 +316,23 @@ public class SysMerchant extends GridRequest{
 
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
+	}
+
+	 @JsonSerialize(using = JsonDateSerializer.class)
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
 	}
     
     

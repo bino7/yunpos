@@ -25,13 +25,13 @@ public class SysOrderService extends EntityService<SysOrder> {
 		return sysOrderMapper.findAll();
 	}
 	
-	public GridResponse<SysOrder> search(GridRequest gridRequest) {
+	public GridResponse<SysOrder> search(SysOrder sysOrder) {
 		GridResponse<SysOrder> response = new GridResponse<SysOrder>();
-		List<SysOrder> sysOrder =  sysOrderMapper.search();
+		List<SysOrder> sysOrderList =  findByParms(sysOrder);
 		response.setPageNumber(1);
 		response.setPageSize(10);
-		response.setRows(sysOrder);
-		response.setTotalRowCount(sysOrder.size());
+		response.setRows(sysOrderList);
+		response.setTotalRowCount(sysOrderList.size());
 		return response;
 	}
 	

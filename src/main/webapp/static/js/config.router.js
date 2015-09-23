@@ -338,7 +338,17 @@ angular.module('app')
               })
               .state('app.table.store', {//门店管理
                   url: '/store',
-                  templateUrl: 'tpl/system/sys_store.html'
+                  templateUrl: 'tpl/system/sys_store.html',
+                	  resolve: {
+                          deps: ['$ocLazyLoad',
+                            function( $ocLazyLoad ){
+                              return $ocLazyLoad.load('ngGrid').then(
+                                  function(){
+                                      return $ocLazyLoad.load('js/controllers/yunpos/sysStoreGrid.js');
+                                  }
+                              );
+                          }]
+                      }
               })
               .state('app.table.info', {//企业信息
                   url: '/info',

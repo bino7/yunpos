@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
+import com.yunpos.model.SysAgentMerchant;
+import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysOrg;
 import com.yunpos.model.SysStore;
 import com.yunpos.model.SysUser;
@@ -22,7 +24,10 @@ import com.yunpos.service.IndustryService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysStoreService;
 import com.yunpos.service.SysUserService;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
+import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
  * 
@@ -67,10 +72,10 @@ public class SysStoreController extends BaseController{
 	 * @return
 	 * @throws ServiceException
 	 */
-	@RequestMapping(value="/ajax/Store/search",method = GET)
-	public List<SysStore> search(SysStore sysStore)throws ServiceException{
-		List<SysStore> dataResponse = sysStoreService.findByParms(sysStore);
-		return dataResponse;
+	@RequestMapping(value="/ajax/store/search",method = GET)
+	public JqGridResponse<SysStore> search(SysStore sysStore)throws ServiceException{
+		GridResponse<SysStore> dataResponse = sysStoreService.search(sysStore);
+		return new JqGridResponse<SysStore>(dataResponse);
 	}
 	
 	/**
@@ -78,7 +83,7 @@ public class SysStoreController extends BaseController{
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/Store/{id}", method = GET)
+	@RequestMapping(value = "/ajax/store/{id}", method = GET)
 	public SysStore read(@PathVariable("id") int id) {
 		return sysStoreService.findById(id);
 	}
@@ -115,7 +120,7 @@ public class SysStoreController extends BaseController{
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/Store/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/ajax/store/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysStore sysStore, @PathVariable("id") int id) {
 		
 		SysUser user = sysUserService.findById(Integer.parseInt(sysStore.getUserId()));
@@ -141,7 +146,7 @@ public class SysStoreController extends BaseController{
 	 * 删除门店
 	 * @param id
 	 */
-	@RequestMapping(value = "/ajax/Store/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/ajax/store/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") int id) {
 		sysStoreService.delete(id);
 	}

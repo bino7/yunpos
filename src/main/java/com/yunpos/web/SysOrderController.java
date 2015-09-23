@@ -51,9 +51,8 @@ public class SysOrderController {
 	}
 	
 	@RequestMapping(value="/ajax/order/search",method = GET)
-	public JqGridResponse<SysOrder> search(JqGridRequest jqGridRequest)throws ServiceException{
-		GridRequest gridRequest = jqGridRequest.createDataRequest();
-		GridResponse<SysOrder> dataResponse = sysOrderService.search(gridRequest);
+	public JqGridResponse<SysOrder> search(SysOrder sysOrder)throws ServiceException{
+		GridResponse<SysOrder> dataResponse = sysOrderService.search(sysOrder);
 		return new JqGridResponse<SysOrder>(dataResponse);
 	}
 	

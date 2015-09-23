@@ -3,6 +3,12 @@
 <mapper namespace="com.yunpos.persistence.dao.SysMerchantMapper" >
   <resultMap id="BaseResultMap" type="com.yunpos.model.SysMerchant" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+	<result column="createdBy" property="createdBy" jdbcType="INTEGER" />
+	
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
     <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
@@ -28,16 +34,22 @@
     <result column="serviceType" property="serviceType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, baseUserId, serialNo, agentSerialNo, companyName, industryTypeId, industryType, 
-    contactMan, phone, tel, postcode, prov, city, area, address, auditStatus, endTime, 
+     baseUserId, serialNo, agentSerialNo, companyName, industryTypeId, industryType, 
+    contactMan, postcode, prov, city, area, address, auditStatus, endTime, 
     businessLicense, registerNumber, identityType, identityCardOn, identityCardOff, terminals, 
     serviceType
   </sql>
+   <sql id="Base_Column_List_user" >
+  		id,phone, tel , 
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_merchant
-    where id = #{id,jdbcType=INTEGER}
+        select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
+		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		merc.phone as phone, merc.tel as tel, 
+		<include refid="Base_Column_List" />
+		from sys_merchant merc, sys_user user
+		where merc.baseUserId = user.id
+    		and merc.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_merchant
@@ -319,10 +331,12 @@
   
   
     <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysMerchant" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_merchant
-    where 1 = 1
+        select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
+		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		merc.phone as phone, merc.tel as tel, 
+		<include refid="Base_Column_List" />
+		from sys_merchant merc, sys_user user
+		where merc.baseUserId = user.id
 
       <if test="baseUserId != null" >
         and baseUserId = #{baseUserId,jdbcType=INTEGER}

@@ -26,7 +26,7 @@ app.controller('SysOrgController', ['$scope', '$http', '$interval', 'uiGridTreeV
 					name : 'id',
 					displayName : '操作',
 					width : '23%',
-					cellTemplate:'<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="grid.appScope.open(lg,\'sys_org_edit\',row)">添加下级</button></span><button class="btn btn-success" ng-click="grid.appScope.Delete(row)">删除</button>' 
+					cellTemplate:'<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span><button class="btn btn-success" ng-click="grid.appScope.Delete(row)">删除</button>' 
 				}
 			];
 			//数据获取

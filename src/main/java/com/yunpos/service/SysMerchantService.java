@@ -23,13 +23,13 @@ public class SysMerchantService extends EntityService<SysMerchant>{
 		return sysMerchantMapper;
 	}
 
-	public GridResponse<SysMerchant> search(GridRequest gridRequest) {
+	public GridResponse<SysMerchant> search(SysMerchant sysMerchant) {
 		GridResponse<SysMerchant> response = new GridResponse<SysMerchant>();
-		List<SysMerchant> sysMerchant =  sysMerchantMapper.search(gridRequest);
+		List<SysMerchant> sysMerchantList =  sysMerchantMapper.selectByParm(sysMerchant);
 		response.setPageNumber(1);
 		response.setPageSize(10);
-		response.setRows(sysMerchant);
-		response.setTotalRowCount(sysMerchant.size());
+		response.setRows(sysMerchantList);
+		response.setTotalRowCount(sysMerchantList.size());
 		return response;
 	}
 

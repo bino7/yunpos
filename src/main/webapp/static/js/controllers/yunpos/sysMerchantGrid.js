@@ -114,6 +114,7 @@ app.controller('MerchantAddCtrl', function($scope, $http, $state, $stateParams) 
     $scope.master = {};
 
 	  $scope.add = function(merchant) {
+		merchant.endTime = formatDateTime(merchant.endTime);
 	    $scope.master = angular.copy(merchant);
 	    $http({
 	        method  : 'post',
@@ -153,6 +154,7 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
 	};
 	 $scope.saved = {};
      $scope.save = function(merchant) {
+    	 merchant.endTime = formatDateTime(merchant.endTime);
     	 $scope.saved = angular.copy(merchant);
 	     $http({
 	        method  : 'put',

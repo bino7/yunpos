@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.Industry;
+import com.yunpos.model.SysAgentMerchant;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysOrg;
 import com.yunpos.model.SysUser;
 import com.yunpos.service.IndustryService;
+import com.yunpos.service.SysAgentMerchantService;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysUserService;
-import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
-import com.yunpos.utils.jqgrid.JqGridRequest;
 import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
@@ -45,6 +45,9 @@ import com.yunpos.utils.jqgrid.JqGridResponse;
 public class SysMerchantController extends BaseController{
 	@Autowired
 	private  SysMerchantService sysMerchantService;
+	
+	@Autowired
+	private  SysAgentMerchantService sysAgentMerchantService;
 	
 	@Autowired
 	private  IndustryService industryService;
@@ -73,9 +76,8 @@ public class SysMerchantController extends BaseController{
 	 * @throws ServiceException
 	 */
 	@RequestMapping(value="/ajax/merchant/search",method = GET)
-	public JqGridResponse<SysMerchant> search(JqGridRequest jqGridRequest)throws ServiceException{
-		GridRequest gridRequest = jqGridRequest.createDataRequest();
-		GridResponse<SysMerchant> dataResponse = sysMerchantService.search(gridRequest);
+	public JqGridResponse<SysMerchant> search(SysMerchant sysMerchant)throws ServiceException{
+		GridResponse<SysMerchant> dataResponse = sysMerchantService.search(sysMerchant);
 		return new JqGridResponse<SysMerchant>(dataResponse);
 	}
 	
@@ -101,8 +103,10 @@ public class SysMerchantController extends BaseController{
 		user.setNickname(sysMerchant.getNickname());
 		user.setPassword(sysMerchant.getPassword());
 		user.setCreatedBy(getUser().getId());
+		user.setCreatedAt(new Date());
 		sysUserService.creatSysUser(user);
 		
+		SysAgentMerchant sysAgentMerchant  =  sysAgentMerchantService.getDataByBaseUserId(getUser().getId()); 
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setOrgName(sysMerchant.getCompanyName());
 		sysOrg.setCreateUserId(user.getCreatedBy());
@@ -111,6 +115,9 @@ public class SysMerchantController extends BaseController{
 		sysOrg.setOrgNo("222222");
 		sysOrgService.save(sysOrg);
 		
+		sysMerchant.setSerialNo("555555");
+		sysMerchant.setBaseUserId(user.getId());
+		sysMerchant.setAgentSerialNo(sysAgentMerchant.getAgentSerialNo());
 		sysMerchantService.save(sysMerchant);
 		return new GridRowResponse(sysMerchant.getId());
 	}

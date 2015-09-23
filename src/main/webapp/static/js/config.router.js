@@ -340,8 +340,19 @@ angular.module('app')
                   url: '/store',
                   templateUrl: 'tpl/system/sys_store.html'
               })
+              .state('app.table.info', {//企业信息
+                  url: '/info',
+                  templateUrl: 'tpl/system/sys_info.html'
+              })
+              .state('app.table.pay', {//支付管理
+                  url: '/pay',
+                  templateUrl: 'tpl/system/sys_pay.html'
+              })
+              .state('app.table.paypassword', {//支付密码
+                  url: '/paypassword',
+                  templateUrl: 'tpl/system/sys_paypassword.html'
+              })
              
-        
               // form
               .state('app.form', {
                   url: '/form',

@@ -398,3 +398,26 @@ CREATE TABLE `sys_area` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4525506 DEFAULT CHARSET=utf8 COMMENT='地区';
 
 
+CREATE TABLE `sys_store` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `baseUserId` int(11) NOT NULL COMMENT '关联的基础用户Id（关联sys_user表）',
+  `serialNo` varchar(100) NOT NULL COMMENT '商户编号',
+  `storeNo` varchar(100) NOT NULL COMMENT '代理商编号',
+  `storeName` varchar(80) NOT NULL COMMENT '公司名称',
+  `contactMan` varchar(20) NOT NULL COMMENT '联系人',
+  `phone` varchar(20) DEFAULT NULL COMMENT '联系人电话',
+  `tel` varchar(12) DEFAULT NULL COMMENT '联系人手机',
+  `mail` varchar(6) DEFAULT NULL COMMENT '邮编',
+  `prov` varchar(16) DEFAULT NULL COMMENT '省',
+  `city` varchar(16) DEFAULT NULL COMMENT '市',
+  `area` varchar(16) DEFAULT NULL COMMENT '区',
+  `remark` varchar(200) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL COMMENT '地址',
+  `mapAddress` varchar(100) DEFAULT NULL,
+  `mapPoint` varchar(100) DEFAULT NULL,
+  `status` int(4) DEFAULT NULL COMMENT '状态，0：启用 ，1：停用',
+  PRIMARY KEY (`id`),
+  KEY `FK_sys_store` (`baseUserId`),
+  CONSTRAINT `FK_sys_store` FOREIGN KEY (`baseUserId`) REFERENCES `sys_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='门店';
+

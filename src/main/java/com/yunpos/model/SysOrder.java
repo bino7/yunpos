@@ -2,7 +2,9 @@ package com.yunpos.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.serializer.JsonDateSerializer;
 
 /**
  * 
@@ -171,6 +173,7 @@ public class SysOrder  extends GridRequest {
         this.orgName = orgName == null ? null : orgName.trim();
     }
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -179,6 +182,7 @@ public class SysOrder  extends GridRequest {
         this.createdAt = createdAt;
     }
 
+    @JsonSerialize(using = JsonDateSerializer.class)
     public Date getUpdatedAt() {
         return updatedAt;
     }

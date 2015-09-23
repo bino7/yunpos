@@ -59,9 +59,9 @@ public class GridRequest {
 	}
 
 	public int getPageSize() {
-		if(Tools.isNullOrEmpty(pageSize) || pageSize == 0){
-			pageSize = 20;
-		}
+//		if(Tools.isNullOrEmpty(pageSize) || pageSize == 0){
+//			pageSize = 20;
+//		}
 		return pageSize;
 	}
 

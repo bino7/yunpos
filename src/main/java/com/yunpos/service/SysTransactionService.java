@@ -62,8 +62,8 @@ public class SysTransactionService extends EntityService<SysTransaction> {
 	public JqGridResponse<SysTransaction> findPageDataByParms(SysTransaction sysTransaction) {
 		List<SysTransaction> list = findByParms(sysTransaction);
 		GridResponse<SysTransaction> response = new GridResponse<SysTransaction>();
-		response.setPageNumber(sysTransaction.getPageNumber());
-		response.setPageSize(sysTransaction.getPageSize());
+		response.setPageNumber(1);
+		response.setPageSize(10);
 		response.setRows(list);
 		response.setTotalRowCount(findCountByParms(sysTransaction));
 		return new JqGridResponse<SysTransaction>(response);

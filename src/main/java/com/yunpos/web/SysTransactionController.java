@@ -2,8 +2,6 @@ package com.yunpos.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.yunpos.exception.ServiceException;
-import com.yunpos.model.SearchRequest;
-import com.yunpos.model.SearchRespose;
-import com.yunpos.model.SysAlipayConfigWithBLOBs;
-import com.yunpos.model.SysRole;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.service.SysTransactionService;
-import com.yunpos.utils.jqgrid.GridResponse;
-import com.yunpos.utils.jqgrid.GridRowResponse;
-import com.yunpos.utils.jqgrid.JqGridRequest;
 import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**

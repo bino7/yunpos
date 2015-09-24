@@ -1,0 +1,105 @@
+<div class="well" ng-controller="SysPayEditCtl" ng-init="processForm()">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-12">
+					<form class="form-horizontal" role="form" name="form">
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付方式： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.info">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 描述信息： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.info">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付宝签约账号： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.sellerEmail">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付宝商户号： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.pid">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付宝安全校验码： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.key">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付宝wap商户同步跳转地址： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.merchanSynNotify">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付宝wap商户异步回调地址： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.merchanAsynNotify">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付宝wap商户异步回调地址： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.merchanAsynNotify">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>开发者公钥：</label>
+							<textarea class="form-control" placeholder="Enter a message"
+								rows="5" ng-model="toaster.text"></textarea>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 开发者网关接口URL： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.devGetway">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>商户公钥：</label>
+							<textarea class="form-control" placeholder="Enter a message"
+								rows="5" ng-model="alipay.merchantPrivateKey"></textarea>
+						</div>
+					
+						<div class="form-group">
+							<label class="col-md-2 control-label">token： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.merchantPrivateKey">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">代理商号： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="alipay.pagentId">
+							</div>
+						</div>
+						<button ng-disabled="form.$invalid" ng-click="add(user)">保存</button>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

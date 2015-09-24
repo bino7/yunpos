@@ -388,7 +388,31 @@ angular.module('app')
               })
               .state('app.table.pay', {//支付管理
                   url: '/pay',
-                  templateUrl: 'tpl/system/sys_pay.html'
+                  templateUrl: 'tpl/system/sys_pay.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysPayGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.alipaPayEdit', {//用户管理
+                  url: '/pay/:id',
+                  templateUrl: 'tpl/system/sys_pay_edit.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysPayGrid.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.table.paypassword', {//支付密码
                   url: '/paypassword',

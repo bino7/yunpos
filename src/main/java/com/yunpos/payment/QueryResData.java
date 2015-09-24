@@ -30,12 +30,13 @@ public class QueryResData {
 	private String trans_time = ""; // 交易时间
 	private String trans_amount = ""; // 实际交易金额
 	private String total_fee = ""; // 交易金额
+	private String user_order_no = "";
 
 	// 支付返回类型数据转换
 	public QueryResData(PayChannel channel, Map<String, String> resMap, Map<String, String> map) {
 		try {
 			if (channel.equals(PayChannel.WECHAT)) {// 微信
-				//支付渠道返回信息
+				// 支付渠道返回信息
 				this.trans_type = resMap.get("trade_type");
 				this.terminal_num = resMap.get("device_info");
 				this.trans_card_num = "";
@@ -43,31 +44,33 @@ public class QueryResData {
 				this.trans_time = resMap.get("time_end");
 				this.trans_amount = AmountUtils.changeF2Y(resMap.get("cash_fee"));
 				this.total_fee = AmountUtils.changeF2Y(resMap.get("total_fee"));
-				//平台返回信息
+				// 平台返回信息
 				this.dynamic_type = "1";
 				this.merchant_num = map.get("merchant_num");
 				this.merchant_name = map.get("merchant_name");
-				
+				this.user_order_no = map.get("user_order_no");
+
 			}
 			if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
-				//支付渠道返回信息
+				// 支付渠道返回信息
 				this.trans_card_num = "";
 				this.trace_num = resMap.get("out_trade_no");
 				this.trans_time = resMap.get("send_pay_date");
 				this.trans_amount = resMap.get("total_fee");
 				this.total_fee = resMap.get("total_fee");
-				//平台返回信息
+				// 平台返回信息
 				this.dynamic_type = "2";
 				this.trans_type = "";
-				this.merchant_name =map.get("merchant_name");
+				this.merchant_name = map.get("merchant_name");
 				this.merchant_num = map.get("merchant_num");
 				this.terminal_num = map.get("terminal_unique_no");
+				this.user_order_no = map.get("user_order_no");
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public String getDynamic_type() {
@@ -148,6 +151,14 @@ public class QueryResData {
 
 	public void setTotal_fee(String total_fee) {
 		this.total_fee = total_fee;
+	}
+
+	public String getUser_order_no() {
+		return user_order_no;
+	}
+
+	public void setUser_order_no(String user_order_no) {
+		this.user_order_no = user_order_no;
 	}
 
 	public Map<String, String> toMap() {

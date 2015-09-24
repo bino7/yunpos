@@ -134,7 +134,7 @@ public class AlipayService {
 	 * @param sysAlipayConfig
 	 * @return
 	 */
-	public Message cancel(AlipayCancelReqData alipayCancelReqData, SysAlipayConfigWithBLOBs sysAlipayConfig) {
+	public Message cancel(AlipayCancelReqData alipayCancelReqData, SysAlipayConfigWithBLOBs sysAlipayConfig,String user_order_no) {
 		log.info("撤单请求参数:" + alipayCancelReqData.toMap());
 		try {// 建立请求
 			String responseXml = AlipaySubmit.buildRequest("", "", alipayCancelReqData.toMap(),AlipayConfig.sign_type, sysAlipayConfig.getKey());
@@ -146,7 +146,7 @@ public class AlipayService {
 			log.info("同步返回结果：" + result.toString());
 			if ("T".equalsIgnoreCase(result.get("is_success"))) {// T代表成功
 				if (result.get("result_code").equals("SUCCESS")) {
-					AlipayCancelResData cancelResData = new AlipayCancelResData(result, alipayCancelReqData.toMap());
+					AlipayCancelResData cancelResData = new AlipayCancelResData(result, alipayCancelReqData.toMap(),user_order_no);
 					return new Message(ResultCode.SUCCESS.name(), "", "撤单成功", cancelResData.toMap()); // 支付宝交易流水号
 				} else {
 					String detail_error_code = result.get("detail_error_code");
@@ -169,7 +169,7 @@ public class AlipayService {
 	 * @param param
 	 * @return
 	 */
-	public Message refund(AlipayRefundReqData alipayRefundReqData, SysTransaction sysTransaction) {
+	public Message refund(AlipayRefundReqData alipayRefundReqData, SysTransaction sysTransaction,String user_order_no) {
 		// 把请求参数打包成数组
 		log.info("支付宝条码支付请求参数:" + alipayRefundReqData.toMap());
 		try {// 建立请求
@@ -187,7 +187,7 @@ public class AlipayService {
 					sysTransaction.setStatus(3);// 已退款
 					sysTransactionService.update(sysTransaction);
 					RefundResData refundResData = new RefundResData(PayChannel.ALIPAY, result,
-							alipayRefundReqData.toMap());
+							alipayRefundReqData.toMap(),user_order_no);
 					return new Message(ResultCode.SUCCESS.name(), "", "退款成功", refundResData.toMap()); // 支付宝交易流水号
 				} else {
 					sysTransaction.setStatus(5);// 退款失败
@@ -212,7 +212,7 @@ public class AlipayService {
 	 * @param alipayPrecreateReqData
 	 * @return
 	 */
-	public Message preCreate(AlipayPrecreateReqData alipayPrecreateReqData, SysAlipayConfig sysAlipayConfig) {
+	public Message preCreate(AlipayPrecreateReqData alipayPrecreateReqData, SysAlipayConfig sysAlipayConfig,String user_order_no) {
 		log.info("支付宝统一预下单请求参数:" + alipayPrecreateReqData.toMap());
 		try {// 建立请求
 		
@@ -225,7 +225,7 @@ public class AlipayService {
 			log.info("同步返回结果：" + result.toString());
 			if ("T".equalsIgnoreCase(result.get("is_success"))) {// T代表成功
 				if (result.get("result_code").equals("SUCCESS")) {
-					PreCreateResData preCreateResData = new PreCreateResData(result);
+					PreCreateResData preCreateResData = new PreCreateResData(result,user_order_no);
 					return new Message(ResultCode.SUCCESS.name(), "", "预下单成功", preCreateResData.toMap());
 				} else {
 					String detail_error_code = result.get("detail_error_code");

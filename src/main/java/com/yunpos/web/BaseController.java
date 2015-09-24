@@ -4,6 +4,9 @@ package com.yunpos.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.yunpos.model.Page;
 import com.yunpos.security.SecurityUser;
+import com.yunpos.utils.Message;
 import com.yunpos.utils.PageDate;
 import com.yunpos.utils.Tools;
 import com.yunpos.utils.UuidUtil;
@@ -31,7 +35,25 @@ public class BaseController {
 	public PageDate getPageParam() {
 		return new PageDate(this.getRequest());
 	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public Map<String,String> getRequestParams(HttpServletRequest request){
+		Map<String,String> params = new HashMap<String, String>();
+		Map requestParams = request.getParameterMap();
+		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+			String name = (String) iter.next();
+			String[] values = (String[]) requestParams.get(name);
+			String valueStr = "";
+			for (int i = 0; i < values.length; i++) {
+				valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
+			}
+			params.put(name, valueStr);
+		}
+		return params;
 
+	}
+	
 
 	/**
 	 * 得到request对象

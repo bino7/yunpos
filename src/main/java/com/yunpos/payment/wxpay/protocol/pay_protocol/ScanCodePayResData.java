@@ -23,12 +23,14 @@ public class ScanCodePayResData {
 	private String prepay_id = "";
 	private String code_url = "";
 	private String trace_num = "";
+	private String user_order_no = "";
 
-	public ScanCodePayResData(Map<String, String> map, Map<String, String> resMap) {
+	public ScanCodePayResData(Map<String, String> map, Map<String, String> resMap, String user_order_no) {
 		this.trade_type = map.get("trade_type");
 		this.prepay_id = map.get("prepay_id");
 		this.code_url = map.get("code_url");
 		this.trace_num = resMap.get("out_trade_no");
+		this.user_order_no = user_order_no;
 	}
 
 	public String getTrace_num() {
@@ -63,6 +65,14 @@ public class ScanCodePayResData {
 		this.code_url = code_url;
 	}
 
+	public String getUser_order_no() {
+		return user_order_no;
+	}
+
+	public void setUser_order_no(String user_order_no) {
+		this.user_order_no = user_order_no;
+	}
+
 	public Map<String, String> toMap() {
 		Map<String, String> map = new HashMap<String, String>();
 		Field[] fields = this.getClass().getDeclaredFields();
@@ -71,7 +81,7 @@ public class ScanCodePayResData {
 			try {
 				obj = field.get(this);
 				if (obj != null) {
-					map.put(field.getName(),(String) obj);
+					map.put(field.getName(), (String) obj);
 				}
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();

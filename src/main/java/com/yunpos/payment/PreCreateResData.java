@@ -24,14 +24,16 @@ public class PreCreateResData {
 	private String qr_code = "";
 	private String pic_url = "";
 	private String small_pic_url = "";
+	private String user_order_no = "";
 
-	public PreCreateResData(Map<String, String> map) {
+	public PreCreateResData(Map<String, String> map, String user_order_no) {
 		this.trade_no = map.get("trade_no");
 		this.out_trade_no = map.get("out_trade_no");
 		this.voucher_type = map.get("voucher_type");
 		this.qr_code = map.get("qr_code");
 		this.pic_url = map.get("pic_url");
 		this.small_pic_url = map.get("small_pic_url");
+		this.user_order_no = map.get("user_order_no");
 	}
 
 	public String getTrade_no() {
@@ -80,6 +82,14 @@ public class PreCreateResData {
 
 	public void setSmall_pic_url(String small_pic_url) {
 		this.small_pic_url = small_pic_url;
+	}
+
+	public String getUser_order_no() {
+		return user_order_no;
+	}
+
+	public void setUser_order_no(String user_order_no) {
+		this.user_order_no = user_order_no;
 	}
 
 	public Map<String, String> toMap() {

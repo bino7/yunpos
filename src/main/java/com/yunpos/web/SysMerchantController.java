@@ -25,6 +25,7 @@ import com.yunpos.service.SysAgentMerchantService;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysUserService;
+import com.yunpos.utils.MD5Utils;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
 import com.yunpos.utils.jqgrid.JqGridResponse;
@@ -115,6 +116,8 @@ public class SysMerchantController extends BaseController{
 		sysOrg.setOrgNo("222222");
 		sysOrgService.save(sysOrg);
 		
+
+		sysMerchant.setKey(MD5Utils.genRandomNum(32));
 		sysMerchant.setSerialNo("555555");
 		sysMerchant.setBaseUserId(user.getId());
 		sysMerchant.setAgentSerialNo(sysAgentMerchant.getAgentSerialNo());

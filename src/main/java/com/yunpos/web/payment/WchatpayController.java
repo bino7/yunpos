@@ -40,10 +40,12 @@ import com.yunpos.service.payment.WechatPayService;
 import com.yunpos.service.payment.WechatWapPayService;
 import com.yunpos.utils.AmountUtils;
 import com.yunpos.utils.IdWorker;
+import com.yunpos.utils.MD5Utils;
 import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
 import com.yunpos.utils.XMLUtil;
+import com.yunpos.web.BaseController;
 
 import net.sf.json.JSONObject;
 
@@ -60,7 +62,7 @@ import net.sf.json.JSONObject;
  *
  */
 @Controller
-public class WchatpayController {
+public class WchatpayController extends BaseController{
 	Logger log = LoggerFactory.getLogger(WchatpayController.class);
 
 	@Autowired
@@ -86,18 +88,24 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/create")
 	@ResponseBody
 	public Object barCreate(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
 		String dynamic_id = request.getParameter("dynamic_id"); // 支付码（非空）
 		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
-		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
+		String user_order_no = request.getParameter("user_order_no"); // 商户号（非空）
+		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 商户订单号
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
 
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee) || Strings.isNullOrEmpty(dynamic_id)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
-				|| Strings.isNullOrEmpty(client_type)) {
+				|| Strings.isNullOrEmpty(client_type)||Strings.isNullOrEmpty(user_order_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
@@ -105,14 +113,19 @@ public class WchatpayController {
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
+			
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			// 生成流水表信息
-			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-			IdWorker iw = new IdWorker(idepo);
+//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+//			IdWorker iw = new IdWorker(idepo);
 			String orderNo = iw.getId() + "";
 
 			SysTransaction sysTransaction = new SysTransaction();
@@ -136,9 +149,8 @@ public class WchatpayController {
 			sysTransaction.setTransNum(orderNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			sysTransaction.setScanType(0); // 正扫：1
-															// QR_CODE_OFFLIN，反扫：0
-															// BARCODE_PAY_OFFLINE
+			sysTransaction.setScanType(0); // 正扫：1// QR_CODE_OFFLIN，反扫：0// BARCODE_PAY_OFFLINE
+			sysTransaction.setUser_order_no(user_order_no);
 			if (!Strings.isNullOrEmpty(cashier_num)) {
 				sysTransaction.setCouponCode(cashier_num);
 			}
@@ -159,6 +171,7 @@ public class WchatpayController {
 			dtoMap.put("merchant_name", sysMerchant.getCompanyName());
 			dtoMap.put("merchant_num", sysMerchant.getSerialNo());
 			dtoMap.put("terminal_unique_no", terminal_unique_no);
+			dtoMap.put("user_order_no", user_order_no);
 			
 			payMsg = wechatPayService.barPay(scanPayReqData, sysWechatConfig,dtoMap);
 		} catch (Exception e) {
@@ -171,17 +184,22 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/scan/create")
 	@ResponseBody
 	public Object scanCreate(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
 		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
 		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		String user_order_no = request.getParameter("user_order_no"); // 商户订单号
 
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
-				|| Strings.isNullOrEmpty(client_type)) {
+				|| Strings.isNullOrEmpty(client_type)|| Strings.isNullOrEmpty(user_order_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
@@ -189,13 +207,16 @@ public class WchatpayController {
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			// 生成流水表信息
-			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-			IdWorker iw = new IdWorker(idepo);
+//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+//			IdWorker iw = new IdWorker(idepo);
 			String orderNo = iw.getId() + "";
 
 			SysTransaction sysTransaction = new SysTransaction();
@@ -220,9 +241,8 @@ public class WchatpayController {
 			sysTransaction.setTransNum(orderNo);
 			sysTransaction.setTransTime(new Date());
 			sysTransaction.setTotalPrice(Float.valueOf(total_fee));
-			sysTransaction.setScanType(1); // 正扫：1
-															// QR_CODE_OFFLIN，反扫：0
-															// BARCODE_PAY_OFFLINE
+			sysTransaction.setScanType(1); // 正扫：1// QR_CODE_OFFLIN，反扫：0// BARCODE_PAY_OFFLINE
+			sysTransaction.setUser_order_no(user_order_no);
 			if (!Strings.isNullOrEmpty(cashier_num)) {
 				sysTransaction.setCouponCode(cashier_num);
 			}
@@ -238,7 +258,7 @@ public class WchatpayController {
 			// 支付请求
 			ScanCodePayReqData scanCodePayReqData = new ScanCodePayReqData("wechat pay", orderNo, totalFee,
 					terminal_unique_no, ip, "wechat pay", "wechat pay test", sysWechatConfig);
-			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData, sysWechatConfig);
+			payMsg = wechatPayService.unifiedOrder(scanCodePayReqData, sysWechatConfig,user_order_no);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -259,20 +279,31 @@ public class WchatpayController {
 	public Object wapCreate(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("wechatpay");
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
 		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
 		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		String user_order_no = request.getParameter("user_order_no"); // 商户订单号
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
-				|| Strings.isNullOrEmpty(client_type)) {
+				|| Strings.isNullOrEmpty(client_type)||Strings.isNullOrEmpty(user_order_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
-			
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
+			if (sysMerchant == null) {
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
 			//前段页面授权跳转到该地址，应用获取授权code发起
 			String code = request.getParameter("code");
 			log.info("#####code="+code);
@@ -286,7 +317,6 @@ public class WchatpayController {
 			JSONObject obj = JSONObject.fromObject(returnJSON);
 			String openid=obj.get("openid").toString();
 			
-			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
@@ -322,6 +352,7 @@ public class WchatpayController {
 			sysTransaction.setStatus(1); // 付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
 			sysTransaction.setTransType(0); // 交易类型，0:支付，1:退款
 			sysTransaction.setInfo("微信wap支付");
+			sysTransaction.setUser_order_no(user_order_no);
 			sysTransactionService.save(sysTransaction);
 			
 			// 调用支付接口发起支付请求
@@ -371,24 +402,48 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/scan/close")
 	@ResponseBody
 	public Object closeOrder(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
 		String trace_num = request.getParameter("trace_num");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		String user_order_no = request.getParameter("user_order_no"); // 商户订单号
 
-		if (Strings.isNullOrEmpty(pay_channel) ||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(trace_num)
+		if (Strings.isNullOrEmpty(pay_channel) ||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(user_order_no)
 				|| Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
+		}
 		Message payMsg = null;
 		try {
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
+			if (sysMerchant == null) {
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
+			
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				SysTransaction sysTransaction  = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
+				if(sysTransaction!=null){
+					out_trade_no = sysTransaction.getTransNum();
+				}
+			}else{
+				out_trade_no = trace_num;
+			}
+			
 			// 支付请求
-			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, trace_num, sysWechatConfig);
-			payMsg = wechatPayService.closeOrder(closeOrderReqData, sysWechatConfig);
+			CloseOrderReqData closeOrderReqData = new CloseOrderReqData(merchant_num, out_trade_no, sysWechatConfig);
+			payMsg = wechatPayService.closeOrder(closeOrderReqData, sysWechatConfig,user_order_no);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -407,24 +462,46 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/reverse")
 	@ResponseBody
 	public Object reverse(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
 		String trace_num = request.getParameter("trace_num");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		String user_order_no =  request.getParameter("user_order_no");
 
-		if (Strings.isNullOrEmpty(pay_channel) ||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(trace_num)
+		if (Strings.isNullOrEmpty(pay_channel) ||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(user_order_no)
 				|| Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
+		}
 		Message payMsg = null;
 		try {
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
+			if (sysMerchant == null) {
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				SysTransaction sysTransaction  = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
+				if(sysTransaction!=null){
+					out_trade_no = sysTransaction.getTransNum();
+				}
+			}else{
+				out_trade_no = trace_num;
+			}
 			// 支付请求
-			ReverseReqData reverseReqData = new ReverseReqData(merchant_num, trace_num, sysWechatConfig);
-			payMsg = wechatPayService.reverse(reverseReqData, sysWechatConfig);
+			ReverseReqData reverseReqData = new ReverseReqData(merchant_num, out_trade_no, sysWechatConfig);
+			payMsg = wechatPayService.reverse(reverseReqData, sysWechatConfig,user_order_no);
 		} catch (Exception e) {
 			log.error("微信支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -442,13 +519,18 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/query")
 	@ResponseBody
 	public Object query(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
 		String trace_num = request.getParameter("trace_num");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		String user_order_no =  request.getParameter("user_order_no");
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
-				|| Strings.isNullOrEmpty(trace_num) || Strings.isNullOrEmpty("terminal_unique_no")) {
+				|| Strings.isNullOrEmpty(user_order_no) || Strings.isNullOrEmpty("terminal_unique_no")) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
@@ -456,11 +538,25 @@ public class WchatpayController {
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户不存在", null);
 			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				SysTransaction sysTransaction  = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
+				if(sysTransaction!=null){
+					out_trade_no = sysTransaction.getTransNum();
+				}
+			}else{
+				out_trade_no = trace_num;
+			}
+			
 			Map<String,String> dtoMap = new HashMap<>();
-			dtoMap.put("trace_num", trace_num);
+			dtoMap.put("trace_num", out_trade_no);
 			dtoMap.put("merchant_num", merchant_num);
 			dtoMap.put("merchant_name", sysMerchant.getCompanyName());
 			dtoMap.put("terminal_unique_no", terminal_unique_no);
+			dtoMap.put("user_order_no", user_order_no);
 			payMsg = wechatPayService.query(dtoMap);
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);
@@ -479,20 +575,32 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/refund")
 	@ResponseBody
 	public Object refund(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
 		String trace_num = request.getParameter("trace_num");
 		String transactionID = request.getParameter("transactionID");
 		String refund_amount = request.getParameter("refund_amount");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		String user_order_no =  request.getParameter("user_order_no"); 
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
-				|| Strings.isNullOrEmpty(trace_num) || Strings.isNullOrEmpty(refund_amount)
+				|| Strings.isNullOrEmpty(user_order_no) || Strings.isNullOrEmpty(refund_amount)
 				|| Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 
 		Message payMsg = null;
 		try {
+			SysMerchant	sysMerchant =sysMerchantService.findBySerialNo(merchant_num);
+			if (sysMerchant == null) {
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户不存在", null);
+			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
 			// 获取原支付流水
 			SysTransaction sysTransaction = sysTransactionService.findByTransNum(trace_num);
 			if (sysTransaction == null) {
@@ -502,9 +610,10 @@ public class WchatpayController {
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
+			
 			// 生成流水表信息
-			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-			IdWorker iw = new IdWorker(idepo);
+//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+//			IdWorker iw = new IdWorker(idepo);
 			String refundNo = "R" + iw.getId();
 			sysTransaction.setId(null);
 			// 1支付宝，2微信，3银联，4：预存款
@@ -528,13 +637,14 @@ public class WchatpayController {
 												// ，3：退款，4：退款中，5：退款失败，6：付款失败
 			sysTransaction.setTransType(1); // 交易类型，0:支付，1:退款
 			sysTransaction.setInfo("退款");
+			sysTransaction.setUser_order_no(user_order_no);
 			sysTransactionService.save(sysTransaction);
 
 			RefundReqData refundReqData = new RefundReqData(transactionID, trace_num, terminal_unique_no, refundNo,
 					Integer.valueOf(AmountUtils.changeY2F(refund_amount)),
 					Integer.valueOf(AmountUtils.changeY2F(refund_amount)), merchant_num, "CNY", sysWechatConfig);
 
-			payMsg = wechatPayService.refund(refundReqData, sysWechatConfig);
+			payMsg = wechatPayService.refund(refundReqData, sysWechatConfig,user_order_no);
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -555,27 +665,49 @@ public class WchatpayController {
 	@RequestMapping(value = "/pay/wechatpay/refundQuery")
 	@ResponseBody
 	public Object refundQuery(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
 		String trace_num = request.getParameter("trace_num");
 		String refund_amount = request.getParameter("refund_amount");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
+		String user_order_no =  request.getParameter("user_order_no"); 
 
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
-				|| Strings.isNullOrEmpty(trace_num) || Strings.isNullOrEmpty(refund_amount)
+				|| Strings.isNullOrEmpty(user_order_no) || Strings.isNullOrEmpty(refund_amount)
 				|| Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 
 		Message payMsg = null;
 		try {
+			SysMerchant	sysMerchant =sysMerchantService.findBySerialNo(merchant_num);
+			if (sysMerchant == null) {
+				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户不存在", null);
+			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
-			RefundQueryReqData refundQueryReqData = new RefundQueryReqData(trace_num, terminal_unique_no,
-					sysWechatConfig);
-			payMsg = wechatPayService.refundQuery(refundQueryReqData, sysWechatConfig);
+			
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				SysTransaction sysTransaction  = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
+				if(sysTransaction!=null){
+					out_trade_no = sysTransaction.getTransNum();
+				}
+			}else{
+				out_trade_no = trace_num;
+			}
+			
+			RefundQueryReqData refundQueryReqData = new RefundQueryReqData(out_trade_no, terminal_unique_no,sysWechatConfig);
+			payMsg = wechatPayService.refundQuery(refundQueryReqData, sysWechatConfig,user_order_no);
 
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);

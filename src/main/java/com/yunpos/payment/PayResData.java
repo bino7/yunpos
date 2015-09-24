@@ -30,6 +30,7 @@ public class PayResData {
 	private String trans_time = ""; // 交易时间
 	private String trans_amount = ""; // 实际交易金额
 	private String total_fee = ""; // 交易金额
+	private String user_order_no;
 
 	// 支付返回类型数据转换
 	public PayResData(PayChannel channel, Map<String, String> resMap, Map<String, String> map,Map<String, String> dtoMap) {
@@ -47,6 +48,7 @@ public class PayResData {
 				this.dynamic_type = "1";
 				this.merchant_name = dtoMap.get("merchant_name");
 				this.merchant_num = dtoMap.get("merchant_num");
+				this.user_order_no = dtoMap.get("user_order_no");
 			}
 			if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
 				//支付渠道返回信息
@@ -61,6 +63,7 @@ public class PayResData {
 				this.merchant_name = map.get("merchant_name");
 				this.merchant_num = map.get("merchant_num");
 				this.terminal_num = map.get("terminal_unique_no");
+				this.user_order_no = dtoMap.get("user_order_no");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,6 +150,16 @@ public class PayResData {
 
 	public void setTotal_fee(String total_fee) {
 		this.total_fee = total_fee;
+	}
+	
+	
+
+	public String getUser_order_no() {
+		return user_order_no;
+	}
+
+	public void setUser_order_no(String user_order_no) {
+		this.user_order_no = user_order_no;
 	}
 
 	public Map<String, String> toMap() {

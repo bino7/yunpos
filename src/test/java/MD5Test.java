@@ -16,12 +16,14 @@ public class MD5Test {
 		Map<String,String> params = new HashedMap();
 		params.put("merchant_num", "201509020001");
 		params.put("terminal_unique_no", "1");
-		params.put("cashier_num", "1");
-		params.put("client_type", "PC");
+		//params.put("cashier_num", "1");
+		//params.put("client_type", "PC");
 		params.put("pay_channel", "alipay");
-		params.put("total_fee", "0.01");
-		params.put("dynamic_id", "288618955476404818");
-		
+		params.put("trace_num", "15099499712512");
+		//params.put("refund_amount", "0.01");
+		//params.put("total_fee", "0.01");
+		//params.put("dynamic_id", "288618955476404818");
+		params.put("user_order_no", "201509240001");
 		System.out.println(MD5Utils.sign(params, "MD5", key, input_charset));
 	}
 	

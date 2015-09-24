@@ -111,18 +111,23 @@ public class AlipayController extends BaseController{
 		Message payMsg = null;
 		try {
 			//获取商户信息
-			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(reqParamMap.get("merchant_num").trim());
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
 			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
-				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN_VERIFY", "验签错误，请求数据可能被篡改", null);
 			}
 			
-			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(reqParamMap.get("merchant_num").trim());
+			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(merchant_num);
 			if(sysAlipayConfig == null){
-				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+				return new Message(ResultCode.FAIL.name(), "PAYCONFIG_NOT_FIND", "支付信息未配置", null);
 			}
+			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
+			if(temSysTransaction!=null){
+				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
+			}
+			
 			// 生成流水表信息
 //			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
 //			IdWorker iw = new IdWorker(idepo);
@@ -215,7 +220,7 @@ public class AlipayController extends BaseController{
 			
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num.trim());
 			if(sysMerchant ==null){
-				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+				return new Message(ResultCode.FAIL.name(), "MERCHANT_NOT_FIND", "该商户号不存在", null);
 			}
 			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
@@ -223,7 +228,11 @@ public class AlipayController extends BaseController{
 			
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(merchant_num.trim());
 			if(sysAlipayConfig == null){
-				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+				return new Message(ResultCode.FAIL.name(), "PAYCONFIG_NOT_FIND", "支付信息未配置", null);
+			}
+			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
+			if(temSysTransaction!=null){
+				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
 			}
 			// 生成流水表信息
 //			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -308,7 +317,11 @@ public class AlipayController extends BaseController{
 			}
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(sysMerchant.getSerialNo());
 			if(sysAlipayConfig == null){
-				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+				return new Message(ResultCode.FAIL.name(), "PAYCONFIG_NOT_FIND", "支付信息未配置", null);
+			}
+			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
+			if(temSysTransaction!=null){
+				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
 			}
 			// 生成流水表信息
 //			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -527,8 +540,20 @@ public class AlipayController extends BaseController{
 			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
+//			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
+//			if(temSysTransaction!=null){
+//				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
+//			}
 			
-			//user_order_no
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				SysTransaction temp  = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
+				if(temp!=null){
+					out_trade_no = sysTransaction.getTransNum();
+				}
+			}else{
+				out_trade_no = trace_num;
+			}
 			
 			// 生成流水表信息
 //			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -559,7 +584,7 @@ public class AlipayController extends BaseController{
 			sysTransaction.setUser_order_no(user_order_no);
 			sysTransactionService.save(sysTransaction);
 			
-			AlipayRefundReqData alipayRefundReqData = new AlipayRefundReqData(sysAlipayConfig.getPid(), trace_num,refund_amount);
+			AlipayRefundReqData alipayRefundReqData = new AlipayRefundReqData(sysAlipayConfig.getPid(), out_trade_no,refund_amount);
 			alipayRefundReqData.setPay_channel(pay_channel);
 			alipayRefundReqData.setTerminal_unique_no(terminal_unique_no);
 			alipayRefundReqData.setMerchant_num(sysMerchant.getSerialNo());
@@ -737,7 +762,7 @@ public class AlipayController extends BaseController{
 				}
 			} else {// 验证失败
 				log.info("支付宝手机wap同步通知请求验证失败...");
-				response.sendRedirect(synNotify+"?result_code="+ResultCode.FAIL.name()+"&err_code=ILLEGAL_SIGN"); 
+				response.sendRedirect(synNotify+"?result_code="+ResultCode.FAIL.name()+"&err_code=ILLEGAL_SIGN_VERIFY"); 
 //				message = new Message(ResultCode.FAIL.name(), "", "支付宝手机wap同步通知请求验证失败", null);
 //				response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8"));
 			}
@@ -759,6 +784,7 @@ public class AlipayController extends BaseController{
 	@RequestMapping("/pay/alipay/wap/asynNotify")
 	public void wapNotify(HttpServletRequest request, HttpServletResponse response) {
 		log.info("call wap notify");
+		Map<String,String> returnMap = new HashMap<String,String>();
 		try {
 			PrintWriter writer = response.getWriter();
 			// 获取支付宝POST过来反馈信息
@@ -780,22 +806,36 @@ public class AlipayController extends BaseController{
 			}
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
+			String signString = "";
+			String synNotify = sysAlipayConfig.getMerchanSynNotify();
 			log.info("wap notify param：", params);
 			String trade_status = request.getParameter("trade_status");
 			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,sysAlipayConfig.getAlipayPublicKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (trade_status.equals("TRADE_SUCCESS")) {
+					SysMerchant sysMerchant = sysMerchantService.findBySerialNo(sysTransaction.getSerialNo());
 					message = alipayWapService.asyWapPayment(params, true, "");
+					returnMap.put("result_code", ResultCode.SUCCESS.name());
+					returnMap.put("result_msg", "pay success");
+					returnMap.put("out_trade_no", params.get("out_trade_no"));
+					returnMap.put("notify_time", params.get("notify_time"));
+					returnMap.put("total_fee", params.get("total_fee"));
+					returnMap.put("merchant_name", sysMerchant.getCompanyName());
+					returnMap.put("merchant_num", sysMerchant.getSerialNo());
+					returnMap.put("user_order_no", sysTransaction.getUser_order_no());
+					signString = MD5Utils.sign(returnMap, "MD5", sysMerchant.getMd5Key(), "UTF-8");
 				} else {
 					message = alipayWapService.asyWapPayment(params, false,trade_status);
 				}
-				writer.write("success");
-				writer.flush();
 			} else {// 验证失败
 				log.info("支付宝wap支付异步通知验证失败...");
 				writer.write("fail");
 				writer.flush();
+				response.sendRedirect(synNotify+"?result_code="+ResultCode.FAIL.name()+"&err_code=ILLEGAL_SIGN_VERIFY"); 
 			}
-			response.sendRedirect(sysAlipayConfig.getMerchanAsynNotify()+"?result="+URLDecoder.decode(mapper.writeValueAsString(message), "utf-8"));
+			writer.write("success");
+			writer.flush();
+			response.sendRedirect(synNotify+"?"+signString);
+			//response.sendRedirect(sysAlipayConfig.getMerchanAsynNotify()+"?result="+URLDecoder.decode(mapper.writeValueAsString(message), "utf-8"));
 		} catch (IOException e) {
 			log.error("处理支付宝wap支付异常", e);
 		}

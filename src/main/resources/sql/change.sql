@@ -21,3 +21,64 @@ ALTER TABLE `sys_agentmerchant`
 ADD COLUMN `status`  tinyint(2) NULL COMMENT '代理商状态' ;
 ADD COLUMN `auditOpinion`  varchar(100) NULL COMMENT '审核意见' ;
 
+
+DROP TABLE IF EXISTS `filter`;
+CREATE TABLE `filter` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `filter_difinition_id` int(11) DEFAULT NULL,
+  `op` int(11) DEFAULT NULL,
+  `filter_value` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `filter_difinition`;
+CREATE TABLE `filter_difinition` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `value_type` int(11) DEFAULT NULL,
+  `data_type` int(11) DEFAULT NULL,
+  `col_name` varchar(45) DEFAULT NULL,
+  `key_param` varchar(45) DEFAULT NULL,
+  `key_column` varchar(45) DEFAULT NULL,
+  `support_op` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `filter_difinition_value`;
+CREATE TABLE `filter_difinition_value` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `filter_difinition_id` int(11) DEFAULT NULL,
+  `value` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `filter_group`;
+CREATE TABLE `filter_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `key_param`;
+CREATE TABLE `key_param` (
+  `name` varchar(45) NOT NULL,
+  `table` varchar(45) DEFAULT NULL,
+  `column` varchar(45) DEFAULT NULL,
+  `primary_column` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `resource`;
+CREATE TABLE `resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `table_name` varchar(45) NOT NULL,
+  `path` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+

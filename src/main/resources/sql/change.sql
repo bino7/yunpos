@@ -14,7 +14,7 @@ ADD COLUMN `user_order_no`  varchar(50) NULL COMMENT '商户订单号' AFTER `or
 
 --20150915 杨学勇  新增字段
 ALTER TABLE `sys_merchant`
-ADD COLUMN `key` varchar(100) NULL COMMENT '商户秘钥（MD5加密用）' AFTER `agentSerialNo`;
+ADD COLUMN `md5Key` varchar(100) NULL COMMENT '商户秘钥（MD5加密用）' AFTER `agentSerialNo`;
 
 --20150915 林虎  新增字段
 ALTER TABLE `sys_agentmerchant`

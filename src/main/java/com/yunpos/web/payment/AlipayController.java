@@ -115,7 +115,7 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			
@@ -217,7 +217,7 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			
@@ -303,7 +303,7 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(sysMerchant.getSerialNo());
@@ -391,7 +391,7 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			//获取支付宝配置信息
@@ -456,7 +456,7 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			//获取配置信息
@@ -524,7 +524,7 @@ public class AlipayController extends BaseController{
 			}
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num.trim());
 			
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			
@@ -726,7 +726,7 @@ public class AlipayController extends BaseController{
 					returnMap.put("merchant_num", sysMerchant.getSerialNo());
 					returnMap.put("user_order_no", sysTransaction.getUser_order_no());
 					
-					String signString = MD5Utils.sign(returnMap, "MD5", sysMerchant.getKey(), "UTF-8");
+					String signString = MD5Utils.sign(returnMap, "MD5", sysMerchant.getMd5Key(), "UTF-8");
 					if(!Strings.isNullOrEmpty(synNotify)){
 					    //message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
 						log.info(synNotify+"?"+signString);

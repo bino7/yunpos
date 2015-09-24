@@ -48,11 +48,10 @@ public class MD5Utils {
         //获得签名验证结果
         String text = preSignStr + key;
         String sign = DigestUtils.md5Hex(getContentBytes(text, input_charset));
-        
         //签名结果与签名方式加入请求提交参数组中
         sParaNew.put("sign", sign);
         sParaNew.put("sign_type", sign_type);
-        return sign;
+        return AlipayCore.createLinkString(sParaNew);
     
     }
     

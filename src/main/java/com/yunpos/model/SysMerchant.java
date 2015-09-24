@@ -28,7 +28,7 @@ public class SysMerchant extends GridRequest{
 
     private String agentSerialNo;				//代理商编号
     
-    private String key;							//商户秘钥
+    private String md5Key;							//商户秘钥
 
     private String companyName;					//公司名称
 
@@ -337,15 +337,13 @@ public class SysMerchant extends GridRequest{
 		this.createdBy = createdBy;
 	}
 
-	public String getKey() {
-		return key;
+	public String getMd5Key() {
+		return md5Key;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setMd5Key(String md5Key) {
+		this.md5Key = md5Key;
 	}
-	
-	
-    
+
     
 }

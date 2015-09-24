@@ -350,6 +350,34 @@ angular.module('app')
                           }]
                       }
               })
+              .state('app.table.merchantStore', {//门店管理(商户)
+            	  url: '/merchantStore',
+            	  templateUrl: 'tpl/system/sys_merchant_store.html',
+            	  resolve: {
+            		  deps: ['$ocLazyLoad',
+            		         function( $ocLazyLoad ){
+            			  return $ocLazyLoad.load('ngGrid').then(
+            					  function(){
+            						  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantStoreGrid.js');
+            					  }
+            			  );
+            		  }]
+            	  }
+              })
+              .state('app.table.storeAdd', {//门店新增
+                  url: '/storeAdd',
+                  templateUrl: 'tpl/system/sys_merchant_store_add.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysStoreGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
               .state('app.table.sysMerchantInfo', {//商户企业信息
                   url: '/merchantInfo',
                   templateUrl: 'tpl/system/sys_merchant_info.html'

@@ -2,7 +2,9 @@ package com.yunpos.model;
 
 import java.util.Date;
 
-public class SysMember {
+import com.yunpos.utils.jqgrid.GridRequest;
+
+public class SysMember  extends GridRequest {
     private Integer id;
 
     private String trueName;

@@ -45,9 +45,8 @@ public class SysMemberController extends BaseController{
 	}
 	
 	@RequestMapping(value="/ajax/member/search",method = GET)
-	public JqGridResponse<SysMember> search(JqGridRequest jqGridRequest)throws ServiceException{
-		GridRequest gridRequest = jqGridRequest.createDataRequest();
-		GridResponse<SysMember> dataResponse = sysMemberService.search(gridRequest);
+	public JqGridResponse<SysMember> search(SysMember sysMember)throws ServiceException{
+		GridResponse<SysMember> dataResponse = sysMemberService.search(sysMember);
 		return new JqGridResponse<SysMember>(dataResponse);
 	}
 	

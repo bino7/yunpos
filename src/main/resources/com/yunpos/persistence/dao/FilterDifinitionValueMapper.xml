@@ -10,6 +10,9 @@
   <sql id="Base_Column_List" >
     id, filter_difinition_id, value
   </sql>
+  <select id="countByDifinitionId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select count(*) from filter_difinition_value where filter_difinition_id = #{difinitionId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

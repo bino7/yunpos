@@ -17,8 +17,8 @@
 <mapper namespace="com.yunpos.persistence.dao.FilterGroupMapper" >
   <resultMap id="BaseResultMap" type="com.yunpos.rewriter.filter.FilterGroup" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <association property="resource" column="resource_id" jdbcType="INTEGER" select="com.yunpos.persistence.dao.ResourceMapper.selectByPrimaryKey"/>
-    <collection property="filterList" column="id" jdbcType="INTEGER" select="com.yunpos.persistence.dao.FilterMapper.selectByPrimaryKey"/>
+    <result property="resource" column="resource_id" jdbcType="INTEGER"/>
+    <collection property="filterList" column="id" jdbcType="INTEGER" select="com.yunpos.persistence.dao.FilterMapper.selectByGroupId"/>
     <collection property="children" column="id" jdbcType="INTEGER" select="selectByParentId"/>
   </resultMap>
   <sql id="Base_Column_List" >

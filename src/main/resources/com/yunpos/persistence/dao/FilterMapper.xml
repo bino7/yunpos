@@ -2,33 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.FilterMapper" >
   <resultMap id="BaseResultMap" type="com.yunpos.rewriter.filter.Filter" >
-    <constructor>
-      <arg javaType="Integer" column="data_type"/>
-      <arg javaType="String" column="filter_value"/>
-    </constructor>
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="op" property="op" jdbcType="INTEGER" typeHandler="com.yunpos.mybatisPlugin.FilterOpEnumTypeHandler" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <association property="difinition" column="difinition_id" jdbcType="INTEGER" select="com.yunpos.persistence.dao.FilterDifinitionMapper.selectByPrimaryKey"/>
     <discriminator javaType="int" column="type">
-      <case value="1" resultType="com.yunpos.rewriter.filter.ColumnFilter">
+      <case value="0" resultType="com.yunpos.rewriter.filter.ColumnFilter">
+        <constructor>
+          <arg javaType="Integer" column="data_type"/>
+          <arg javaType="String" column="filter_value"/>
+        </constructor>
         <result property="tableName" column="table_name"/>
         <result property="colName" column="col_name"/>
       </case>
-      <case value="2" resultType="com.yunpos.rewriter.filter.SysParamFilter">
+      <case value="1" resultType="com.yunpos.rewriter.filter.KeyFilter">
         <constructor>
-          <arg javaType="String" column="key"/>
+          <arg javaType="Integer" column="data_type"/>
+          <arg javaType="String"  column="key_param"/>
+          <arg javaType="String" column="filter_value"/>
         </constructor>
+          <result property="keyTable" column="key_table"/>
+          <result property="keyColumn" column="key_column"/>
+          <result property="keyPrimaryColumn" column="primary_column"/>
       </case>
     </discriminator>
-  </resultMap>
-  <resultMap id="ColumnFilterResult" type="com.yunpos.rewriter.filter.ColumnFilter" extends="BaseResultMap">
-    <result property="tableName" column="table_name"/>
-    <result property="colName" column="col_name"/>
-  </resultMap>
-  <resultMap id="SysParamFilterResult" type="com.yunpos.rewriter.filter.SysParamFilter" extends="BaseResultMap">
-    <constructor>
-      <arg javaType="String" column="left_value"/>
-    </constructor>
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -36,16 +33,22 @@
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
-    t1.id,t1.resource_id,t1.group_id,t1.filter_difinition_id,t1.op,t1.filter_value,t2.name,t2.type,t2.value_type,t2.data_type,t2.table_name,t2.col_name,t2.key
+    t1.id,t1.resource_id,t1.group_id,t1.filter_difinition_id,t1.op,t1.filter_value,
+    t2.id as difinition_id,t2.type,t2.data_type,t2.col_name,t2.key_param,t2.key_column,
+    t3.table as key_table,t3.column as key_column,t3.primary_column as primary_column
     from filter t1
     left join filter_difinition t2 on t1.filter_difinition_id=t2.id
+    left join key_param t3 on t2.key_param=t3.name
     where t1.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByGroupId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
-    t1.id,t1.resource_id,t1.group_id,t1.filter_difinition_id,t1.op,t1.filter_value,t2.name,t2.value_type,t2.data_type,t2.table_name,t2.col_name,t2.key
+    t1.id,t1.resource_id,t1.group_id,t1.filter_difinition_id,t1.op,t1.filter_value,
+    t2.id as difinition_id,t2.type,t2.data_type,t2.col_name,t2.key_param,t2.key_column,
+    t3.table as key_table,t3.column as key_column,t3.primary_column as primary_column
     from filter t1
     left join filter_difinition t2 on t1.filter_difinition_id=t2.id
+    left join key_param t3 on t2.key_param=t3.name
     where t1.group_id = #{id,jdbcType=INTEGER}
   </select>
 

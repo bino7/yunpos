@@ -1,77 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.FilterDifinitionMapper" >
-  <resultMap id="BaseResultMap" type="com.yunpos.model.FilterDifinitionData" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.FilterDifinition" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="resource_id" property="resource_id" jdbcType="INTEGER" />
+    <result column="resource_id" property="resourceId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="value_type" property="valueType" jdbcType="INTEGER" typeHandler="com.yunpos.mybatisPlugin.FilterOpEnumTypeHandler"/>
-    <result column="data_type" property="dataType" jdbcType="INTEGER"
-            typeHandler="com.yunpos.mybatisPlugin.ValueDataTypeHandler"/>
-    <result column="table_name" property="table_name" jdbcType="VARCHAR" />
-    <result column="col_name" property="col_name" jdbcType="VARCHAR" />
-    <result column="key" property="key" jdbcType="VARCHAR" />
-    <result column="support_op" property="support_op_code" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" typeHandler="com.yunpos.mybatisPlugin.FilterTypeHandler" />
+    <result column="value_type" jdbcType="INTEGER" property="valueType" typeHandler="com.yunpos.mybatisPlugin.FilterValueTypeHandler"/>
+    <result column="data_type" jdbcType="INTEGER" property="dataType" typeHandler="com.yunpos.mybatisPlugin.ValueDataTypeHandler"/>
+    <result column="col_name" property="colName" jdbcType="VARCHAR" />
+    <result column="key_param" property="keyParam" jdbcType="VARCHAR" />
+    <result column="key_column" property="keyColumn" jdbcType="VARCHAR" />
+    <result column="support_op" property="supportOpCode" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, resource_id, name, value_type, data_type, table_name, col_name, key, support_op
+    id, resource_id, name, type, value_type, data_type, col_name, key_param, key_column, support_op
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from filter_difinition
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-
   <select id="selectByResourceId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from filter_difinition
-    where resource_id = #{resource_id,jdbcType=INTEGER}
+    where resource_id = #{rid,jdbcType=INTEGER}
   </select>
 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from filter_difinition
+    where id = #{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from filter_difinition
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.FilterDifinitionData" >
+  <insert id="insert" parameterType="com.yunpos.model.FilterDifinition" >
     insert into filter_difinition (id, resource_id, name, 
-      type, data_type, table_name, 
-      col_name, key, support_op
-      )
-    values (#{id,jdbcType=INTEGER}, #{resource_id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{valueType,jdbcType=INTEGER}, #{data_type,jdbcType=INTEGER}, #{table_name,jdbcType=VARCHAR},
-      #{col_name,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{support_op,jdbcType=INTEGER}
-      )
+      type, value_type, data_type,
+      col_name, key_param, key_column,
+      support_op)
+    values (#{id,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{valueType,jdbcType=INTEGER}, #{dataType,jdbcType=INTEGER}, 
+      #{colName,jdbcType=VARCHAR}, #{keyParam,jdbcType=VARCHAR}, #{keyColumn,jdbcType=VARCHAR},
+      #{supportOpCode,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.yunpos.model.FilterDifinitionData" >
+  <insert id="insertSelective" parameterType="com.yunpos.model.FilterDifinition" >
     insert into filter_difinition
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="resource_id != null" >
+      <if test="resourceId != null" >
         resource_id,
       </if>
       <if test="name != null" >
         name,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
       <if test="valueType != null" >
         value_type,
       </if>
-      <if test="data_type != null" >
+      <if test="dataType != null" >
         data_type,
       </if>
-      <if test="table_name != null" >
-        table_name,
-      </if>
-      <if test="col_name != null" >
+      <if test="colName != null" >
         col_name,
       </if>
-      <if test="key != null" >
-        key,
+      <if test="keyParam != null" >
+        key_param,
       </if>
-      <if test="support_op != null" >
+      <if test="keyColumn != null" >
+        key_column,
+      </if>
+      <if test="supportOpCode != null" >
         support_op,
       </if>
     </trim>
@@ -79,72 +81,79 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="resource_id != null" >
-        #{resource_id,jdbcType=INTEGER},
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
       <if test="valueType != null" >
         #{valueType,jdbcType=INTEGER},
       </if>
-      <if test="data_type != null" >
-        #{data_type,jdbcType=INTEGER},
+      <if test="dataType != null" >
+        #{dataType,jdbcType=INTEGER},
       </if>
-      <if test="table_name != null" >
-        #{table_name,jdbcType=VARCHAR},
+      <if test="colName != null" >
+        #{colName,jdbcType=VARCHAR},
       </if>
-      <if test="col_name != null" >
-        #{col_name,jdbcType=VARCHAR},
+      <if test="keyParam != null" >
+        #{keyParam,jdbcType=VARCHAR},
       </if>
-      <if test="key != null" >
-        #{key,jdbcType=VARCHAR},
+      <if test="keyColumn != null" >
+        #{keyColumn,jdbcType=VARCHAR},
       </if>
-      <if test="support_op != null" >
-        #{support_op,jdbcType=INTEGER},
+      <if test="supportOpCode != null" >
+        #{supportOpCode,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.FilterDifinitionData" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.FilterDifinition" >
     update filter_difinition
     <set >
-      <if test="resource_id != null" >
-        resource_id = #{resource_id,jdbcType=INTEGER},
+      <if test="resourceId != null" >
+        resource_id = #{resourceId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
       <if test="valueType != null" >
         value_type = #{valueType,jdbcType=INTEGER},
       </if>
-      <if test="data_type != null" >
-        data_type = #{data_type,jdbcType=INTEGER},
+      <if test="dataType != null" >
+        data_type = #{dataType,jdbcType=INTEGER},
       </if>
-      <if test="table_name != null" >
-        table_name = #{table_name,jdbcType=VARCHAR},
+      <if test="colName != null" >
+        col_name = #{colName,jdbcType=VARCHAR},
       </if>
-      <if test="col_name != null" >
-        col_name = #{col_name,jdbcType=VARCHAR},
+      <if test="keyParam != null" >
+        key_param = #{keyParam,jdbcType=VARCHAR},
       </if>
-      <if test="key != null" >
-        key = #{key,jdbcType=VARCHAR},
+      <if test="keyColumn != null" >
+        key_column = #{keyColumn,jdbcType=VARCHAR},
       </if>
-      <if test="support_op != null" >
-        support_op = #{support_op,jdbcType=INTEGER},
+      <if test="supportOpCode != null" >
+        support_op = #{supportOpCode,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.FilterDifinitionData" >
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.FilterDifinition" >
     update filter_difinition
-    set resource_id = #{resource_id,jdbcType=INTEGER},
+    set resource_id = #{resourceId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
       value_type = #{valueType,jdbcType=INTEGER},
-      data_type = #{data_type,jdbcType=INTEGER},
-      table_name = #{table_name,jdbcType=VARCHAR},
-      col_name = #{col_name,jdbcType=VARCHAR},
-      key = #{key,jdbcType=VARCHAR},
-      support_op = #{support_op,jdbcType=INTEGER}
+      data_type = #{dataType,jdbcType=INTEGER},
+      col_name = #{colName,jdbcType=VARCHAR},
+      key_param = #{keyParam,jdbcType=VARCHAR},
+      key_column = #{keyColumn,jdbcType=VARCHAR},
+      support_op = #{supportOpCode,jdbcType=INTEGER},
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

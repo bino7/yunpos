@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.ResourceMapper" >
-  <resultMap id="BaseResultMap" type="com.yunpos.model.Resource"  >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.Resource" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
     <collection column="id" property="filterGroupList" select="com.yunpos.persistence.dao.FilterGroupMapper.selectByResourceId"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name
+    id, name, table_name, path
   </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from resource
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+    select 
     <include refid="Base_Column_List" />
     from resource
     where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select * from resource
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from resource
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.Resource" >
-    insert into resource (id, name)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+    insert into resource (id, name, table_name,
+      path)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR},
+      #{path,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.Resource" >
     insert into resource
@@ -35,6 +39,12 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -42,6 +52,12 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        #{table_name,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -51,12 +67,20 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="tableName != null" >
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.Resource" >
     update resource
-    set name = #{name,jdbcType=VARCHAR}
+    set name = #{name,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

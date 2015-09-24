@@ -11,7 +11,7 @@
             return tab.active;
         })[0];
     };
-        $scope.counter=1;$scope.greeting="hi bino";
+    $scope.counter=1;$scope.greeting="hi bino";
     $scope.resources=DataAuthorityResource.query();
     $scope.cur={};
     $scope.errorMessage=null;

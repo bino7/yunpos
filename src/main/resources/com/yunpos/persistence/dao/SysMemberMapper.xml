@@ -33,6 +33,82 @@
     area, address, postcode, qq, createdBy, updatedBy, info, openId, sourceType, sourceId, 
     appid_userId, connect_userId, merchantId, merchantName
   </sql>
+  
+  <sql id="Select_Parm_Column_List">
+		<if test="trueName != null" >
+       and trueName = #{trueName,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null" >
+       and nickName = #{nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="portrait != null" >
+       and portrait = #{portrait,jdbcType=VARCHAR}
+      </if>
+      <if test="tel != null" >
+       and tel = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null" >
+       and sex = #{sex,jdbcType=TINYINT}
+      </if>
+      <if test="bornYear != null" >
+       and bornYear = #{bornYear,jdbcType=CHAR}
+      </if>
+      <if test="bornMonth != null" >
+       and bornMonth = #{bornMonth,jdbcType=CHAR}
+      </if>
+      <if test="bornDay != null" >
+       and bornDay = #{bornDay,jdbcType=CHAR}
+      </if>
+      <if test="prov != null" >
+       and prov = #{prov,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null" >
+       and city = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="area != null" >
+       and area = #{area,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null" >
+       and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="postcode != null" >
+       and postcode = #{postcode,jdbcType=CHAR}
+      </if>
+      <if test="qq != null" >
+       and qq = #{qq,jdbcType=VARCHAR}
+      </if>
+      <if test="createdBy != null" >
+       and createdBy = #{createdBy,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updatedBy != null" >
+       and updatedBy = #{updatedBy,jdbcType=TIMESTAMP}
+      </if>
+      <if test="info != null" >
+       and info = #{info,jdbcType=VARCHAR}
+      </if>
+      <if test="openId != null" >
+       and openId = #{openId,jdbcType=VARCHAR}
+      </if>
+      <if test="sourceType != null" >
+       and sourceType = #{sourceType,jdbcType=TINYINT}
+      </if>
+      <if test="sourceId != null" >
+       and sourceId = #{sourceId,jdbcType=VARCHAR}
+      </if>
+      <if test="appid_userId != null" >
+       and appid_userId = #{appid_userId,jdbcType=VARCHAR}
+      </if>
+      <if test="connect_userId != null" >
+       and connect_userId = #{connect_userId,jdbcType=VARCHAR}
+      </if>
+      <if test="merchantId != null" >
+       and merchantId = #{merchantId,jdbcType=INTEGER}
+      </if>
+      <if test="merchantName != null" >
+       and merchantName = #{merchantName,jdbcType=VARCHAR}
+      </if>
+	</sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -344,5 +420,40 @@
 		</if>
 	</select>
   
-  
+  <select id="selectByParm" resultMap="BaseResultMap"
+		parameterType="com.yunpos.model.SysMember">
+		select
+		<include refid="Base_Column_List" />
+		from sys_member
+		where 1 = 1
+
+		<include refid="Select_Parm_Column_List" />
+
+		<if test="searchValue != null">
+			and (tel like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or nickName like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			)
+		</if>
+		ORDER BY id
+		<if test="pageNumber != null and  pageNumber &gt; 0">
+			limit #{start}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="selectCountByParm" resultType="java.lang.Integer"
+		parameterType="com.yunpos.model.SysMember">
+		select count(*) from sys_member
+		where 1 = 1
+		<include refid="Select_Parm_Column_List" />
+		<if test="searchValue != null">
+			and (tel like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			or nickName like
+			CONCAT('%',#{searchValue,jdbcType=VARCHAR},'%')
+			)
+		</if>
+
+	</select>
 </mapper>

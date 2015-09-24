@@ -90,15 +90,15 @@ angular.module('app')
                       }]
                   }
               })
-              .state('app.table.membercard', {//会员卡管理
-                  url: '/membercard',
-                  templateUrl: 'tpl/system/sys_member_card.html',
+              .state('app.table.member', {//会员卡管理
+                  url: '/member',
+                  templateUrl: 'tpl/system/sys_member.html',
                   resolve: {
                       deps: ['$ocLazyLoad',
                         function( $ocLazyLoad ){
                           return $ocLazyLoad.load('ngGrid').then(
                               function(){
-                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberCardGrid.js');
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberGrid.js');
                               }
                           );
                       }]

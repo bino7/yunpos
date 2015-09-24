@@ -350,9 +350,13 @@ angular.module('app')
                           }]
                       }
               })
-              .state('app.table.info', {//企业信息
-                  url: '/info',
-                  templateUrl: 'tpl/system/sys_info.html'
+              .state('app.table.sysMerchantInfo', {//商户企业信息
+                  url: '/merchantInfo',
+                  templateUrl: 'tpl/system/sys_merchant_info.html'
+              })
+               .state('app.table.sysAgentmerchantInfo', {//代理商企业信息
+                  url: '/agentmerchantInfo',
+                  templateUrl: 'tpl/system/sys_agentmerchant_info.html'
               })
               .state('app.table.pay', {//支付管理
                   url: '/pay',

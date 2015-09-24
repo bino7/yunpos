@@ -542,7 +542,7 @@
 			)
 		</if>
 		ORDER BY id
-		<if test="pageNumber != null">
+		<if test="pageNumber != null  and  pageNumber &gt; 0">
 			limit #{start}, #{pageSize}
 		</if>
 	</select>

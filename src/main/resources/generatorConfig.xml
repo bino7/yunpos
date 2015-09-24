@@ -44,39 +44,31 @@
 		</javaClientGenerator>
 
 		<!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等 -->
-
-<!-- 
-		<table tableName="sys_member" domainObjectName="SysMember"
-		   enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-
-
-		<table tableName="sys_org" domainObjectName="SysOrg"
+		<table tableName="sys_merchant" domainObjectName="SysMerchant"
 			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
--->
-        <table tableName="sys_transaction" domainObjectName="SysTransaction"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="flase" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table>
-<!-- 		<table tableName="sys_order_ecommerce" domainObjectName="SysOrderEcommerce"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="flase" enableUpdateByExample="false">
+			enableSelectByExample="true" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
 
- 		<table tableName="sys_alipay_config" domainObjectName="SysAlipayConfig"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="flase" enableUpdateByExample="false">
-			<property name="useActualColumnNames" value="true" />
-		</table> -->
+		<!-- <table tableName="sys_member" domainObjectName="SysMember" enableCountByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
+			<property name="useActualColumnNames" value="true" /> <table tableName="sys_org" 
+			domainObjectName="SysOrg" enableCountByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" enableUpdateByExample="false"> <property name="useActualColumnNames" 
+			value="true" /> </table> -->
+   <!-- <table tableName="sys_transaction" domainObjectName="SysTransaction" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="flase" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> -->
+		<!-- <table tableName="sys_order_ecommerce" domainObjectName="SysOrderEcommerce" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="flase" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> <table tableName="sys_alipay_config" domainObjectName="SysAlipayConfig" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="flase" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table> -->
 
-<!-- 
-		<table tableName="sys_member" domainObjectName="SysMember" enableCountByExample="false" 
+		<!-- <table tableName="sys_member" domainObjectName="SysMember" enableCountByExample="false" 
 			enableDeleteByExample="false" enableSelectByExample="true" enableUpdateByExample="false"> 
 			<property name="useActualColumnNames" value="true" /> </table> <table tableName="sys_agentmerchant" 
 			domainObjectName="SysAgentMerchant" enableCountByExample="false" enableDeleteByExample="false" 
@@ -90,7 +82,6 @@
 			domainObjectName="SysMerchant" enableCountByExample="false" enableDeleteByExample="false" 
 			enableSelectByExample="true" enableUpdateByExample="false"> <property name="useActualColumnNames" 
 			value="true" /> </table> -->
-
 
 
 

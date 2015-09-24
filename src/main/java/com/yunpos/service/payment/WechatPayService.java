@@ -214,7 +214,7 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message refund(RefundReqData refundReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
+	public Message refund(RefundReqData refundReqData,SysWechatConfigWithBLOBs sysWechatConfig,String user_order_no) throws Exception {
 		// 把请求参数打包成数组
 		log.info("支付宝条码支付请求参数:" + refundReqData.toMap().toString());
 		try {
@@ -271,7 +271,7 @@ public class WechatPayService {
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("退款成功");
 					RefundResData refundResData = new RefundResData(PayChannel.WECHAT, responseXml,
-							refundReqData.toMap2());
+							refundReqData.toMap2(),user_order_no);
 					return new Message(ResultCode.SUCCESS.name(), "", "退款成功", refundResData.toMap()); // 支付宝交易流水号
 
 				} else {// result_code FAIL
@@ -294,7 +294,7 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message refundQuery(RefundQueryReqData refundQueryReqData,SysWechatConfigWithBLOBs sysWechatConfig) throws Exception {
+	public Message refundQuery(RefundQueryReqData refundQueryReqData,SysWechatConfigWithBLOBs sysWechatConfig,String user_order_no) throws Exception {
 		// 把请求参数打包成数组
 		log.info("退款查询请求参数:" + refundQueryReqData.toMap().toString());
 		try {
@@ -350,7 +350,7 @@ public class WechatPayService {
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("退款查询成功");
 					RefundQueryResData refundQueryResData = new RefundQueryResData(PayChannel.WECHAT, responseXml,
-							null);
+							null,user_order_no);
 					return new Message(ResultCode.SUCCESS.name(), "", "查询成功", refundQueryResData.toMap()); // 微信支付订单号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
@@ -451,7 +451,7 @@ public class WechatPayService {
 	 * @param scanCodePayReqData
 	 * @return
 	 */
-	public Message unifiedOrder(ScanCodePayReqData scanCodePayReqData,SysWechatConfigWithBLOBs sysWechatConfig) {
+	public Message unifiedOrder(ScanCodePayReqData scanCodePayReqData,SysWechatConfigWithBLOBs sysWechatConfig,String user_order_no) {
 		log.info("支付宝扫码统一下单请求参数:" + scanCodePayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -505,7 +505,7 @@ public class WechatPayService {
 
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("【统一下单成功】");
-					ScanCodePayResData scanCodePayResData = new ScanCodePayResData(responseXml,scanCodePayReqData.toStringMap());
+					ScanCodePayResData scanCodePayResData = new ScanCodePayResData(responseXml,scanCodePayReqData.toStringMap(),user_order_no);
 					return new Message(ResultCode.SUCCESS.name(), "", "下单成功", scanCodePayResData.toMap()); // 支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");
@@ -529,7 +529,7 @@ public class WechatPayService {
 	 * @param closeOrderReqData
 	 * @return
 	 */
-	public Message closeOrder(CloseOrderReqData closeOrderReqData,SysWechatConfigWithBLOBs sysWechatConfig) {
+	public Message closeOrder(CloseOrderReqData closeOrderReqData,SysWechatConfigWithBLOBs sysWechatConfig,String user_order_no) {
 		log.info("支付宝扫码统一下单请求参数:" + closeOrderReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -567,7 +567,7 @@ public class WechatPayService {
 							null);
 				}
 				log.info("【关闭订单成功】");
-				
+				responseXml.put("user_order_no", user_order_no);
 				return new Message(ResultCode.SUCCESS.name(), "", "关闭订单成功", responseXml); // 支付宝交易流水号
 			}
 		} catch (Exception e) {
@@ -582,7 +582,7 @@ public class WechatPayService {
 	 * @param sysWechatConfig
 	 * @return
 	 */
-	public Message reverse(ReverseReqData reverseReqData, SysWechatConfigWithBLOBs sysWechatConfig) {
+	public Message reverse(ReverseReqData reverseReqData, SysWechatConfigWithBLOBs sysWechatConfig,String user_order_no) {
 		log.info("支付宝扫码统一下单请求参数:" + reverseReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
@@ -618,7 +618,7 @@ public class WechatPayService {
 							null);
 				}
 				log.info("【撤销订单成功】");
-				
+				responseXml.put("user_order_no", user_order_no);
 				return new Message(ResultCode.SUCCESS.name(), "", "撤销订单成功", responseXml); // 支付宝交易流水号
 			}
 		} catch (Exception e) {

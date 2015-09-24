@@ -90,7 +90,7 @@ angular.module('app')
                       }]
                   }
               })
-              .state('app.table.member', {//会员卡管理
+              .state('app.table.member', {//会员管理
                   url: '/member',
                   templateUrl: 'tpl/system/sys_member.html',
                   resolve: {

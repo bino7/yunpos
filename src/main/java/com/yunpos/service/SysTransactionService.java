@@ -68,4 +68,9 @@ public class SysTransactionService extends EntityService<SysTransaction> {
 		response.setTotalRowCount(findCountByParms(sysTransaction));
 		return new JqGridResponse<SysTransaction>(response);
 	}
+
+	public SysTransaction findbyOrderNoAndMerchantNo(String orderNo,String merchantNo) {
+		return sysTransactionMapper.findbyOrderNoAndMerchantNo(orderNo,merchantNo);
+		
+	}
 }

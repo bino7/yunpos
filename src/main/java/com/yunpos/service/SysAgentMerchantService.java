@@ -62,6 +62,8 @@ public class SysAgentMerchantService extends EntityService<SysAgentMerchant>{
 		return sysAgentMerchant;
 	}
 	
+	
+	
 	/**
 	 * 新增代理商
 	 * @param session

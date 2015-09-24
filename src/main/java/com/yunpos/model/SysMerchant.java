@@ -27,6 +27,8 @@ public class SysMerchant extends GridRequest{
     private String serialNo;					//商户编号
 
     private String agentSerialNo;				//代理商编号
+    
+    private String key;							//商户秘钥
 
     private String companyName;					//公司名称
 
@@ -334,6 +336,16 @@ public class SysMerchant extends GridRequest{
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+	
+	
     
     
 }

@@ -29,10 +29,11 @@ public class AlipayCancelResData {
 	private String trace_num = ""; // 交易流水号
 	private String trans_time = ""; // 交易时间
 	private String trans_amount = ""; // 实际交易金额
-	private String total_fee = ""; 		// 交易金额
+	private String total_fee = ""; // 交易金额
+	private String user_order_no = "";
 
 	// 支付返回类型数据转换
-	public AlipayCancelResData(Map<String, String> resMap, Map<String, String> map) {
+	public AlipayCancelResData(Map<String, String> resMap, Map<String, String> map, String user_order_no) {
 		// 支付渠道返回信息
 		this.trace_num = resMap.get("out_trade_no");
 		// 平台返回信息
@@ -45,6 +46,7 @@ public class AlipayCancelResData {
 		this.trans_amount = map.get("trans_amount");
 		this.total_fee = map.get("total_fee");
 		this.trans_time = DateUtil.format(new Date());
+		this.user_order_no = user_order_no;
 	}
 
 	public String getDynamic_type() {
@@ -126,6 +128,16 @@ public class AlipayCancelResData {
 	public void setTotal_fee(String total_fee) {
 		this.total_fee = total_fee;
 	}
+
+	public String getUser_order_no() {
+		return user_order_no;
+	}
+
+	public void setUser_order_no(String user_order_no) {
+		this.user_order_no = user_order_no;
+	}
+	
+	
 
 	public Map<String, String> toMap() {
 		Map<String, String> map = new HashMap<String, String>();

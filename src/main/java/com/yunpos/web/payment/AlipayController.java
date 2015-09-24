@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +33,6 @@ import com.yunpos.payment.alipay.model.AlipayQueryReqData;
 import com.yunpos.payment.alipay.model.AlipayRefundReqData;
 import com.yunpos.payment.alipay.model.AlipayScanPayReqData;
 import com.yunpos.payment.alipay.model.AlipayWapPayReqData;
-import com.yunpos.payment.alipay.model.AlipayWapPayResData;
 import com.yunpos.payment.alipay.util.AlipayNotify;
 import com.yunpos.service.SysAlipayConfigService;
 import com.yunpos.service.SysMerchantService;
@@ -42,6 +40,7 @@ import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.payment.AlipayService;
 import com.yunpos.service.payment.AlipayWapService;
 import com.yunpos.utils.IdWorker;
+import com.yunpos.utils.MD5Utils;
 import com.yunpos.utils.Message;
 import com.yunpos.utils.Message.ErrorCode;
 import com.yunpos.utils.Message.ResultCode;
@@ -74,7 +73,9 @@ public class AlipayController extends BaseController{
 	@Autowired
 	private SysAlipayConfigService sysAlipayConfigService;
 	
-	 ObjectMapper mapper = new ObjectMapper(); 
+	ObjectMapper mapper = new ObjectMapper(); 
+	 
+	IdWorker iw = new IdWorker();
 
 	/**
 	 * 支付宝条码支付-统一下单并支付
@@ -85,40 +86,53 @@ public class AlipayController extends BaseController{
 	@RequestMapping(value = "/pay/alipay/create")
 	@ResponseBody
 	public Object barCreate(HttpServletRequest request, HttpServletResponse response) {
-		String pay_channel = request.getParameter("pay_channel");
-		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
-		String dynamic_id = request.getParameter("dynamic_id"); // 支付码（非空）
-		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
-		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
-		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
-		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
-
-		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee) || Strings.isNullOrEmpty(dynamic_id)
-				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
-				|| Strings.isNullOrEmpty(client_type)) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
+		String pay_channel = reqParamMap.get("pay_channel");
+		String total_fee = reqParamMap.get("total_fee"); // 支付金额（非空）
+		String dynamic_id = reqParamMap.get("dynamic_id"); // 支付码（非空）
+		String merchant_num = reqParamMap.get("merchant_num"); // 商户号（非空）
+		String terminal_unique_no = reqParamMap.get("terminal_unique_no"); // 终端编号（非空）
+		String cashier_num = reqParamMap.get("cashier_num"); // 核销码（可空）
+		String client_type = reqParamMap.get("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		String user_order_no = request.getParameter("user_order_no"); //用户订单号
+		if (Strings.isNullOrEmpty(pay_channel) 
+				|| Strings.isNullOrEmpty(total_fee) 
+				|| Strings.isNullOrEmpty(dynamic_id)
+				|| Strings.isNullOrEmpty(merchant_num) 
+				|| Strings.isNullOrEmpty(terminal_unique_no)
+				|| Strings.isNullOrEmpty(client_type)
+				|| Strings.isNullOrEmpty(user_order_no)) {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
+		}
+
 		Message payMsg = null;
 		try {
 			//获取商户信息
-			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num.trim());
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(reqParamMap.get("merchant_num").trim());
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(merchant_num.trim());
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			
+			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(reqParamMap.get("merchant_num").trim());
 			if(sysAlipayConfig == null){
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			// 生成流水表信息
-			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-			IdWorker iw = new IdWorker(idepo);
+//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+//			IdWorker iw = new IdWorker(idepo);
+			
 			String orderNo = iw.getId() + "";
-
 			SysTransaction sysTransaction = new SysTransaction();
-			//sysTransaction.setOrderId(orderNo);
 			sysTransaction.setTransCardNum(sysAlipayConfig.getSellerEmail());
 			sysTransaction.setMerchantName(sysMerchant.getCompanyName());
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());
+			sysTransaction.setUser_order_no(user_order_no);
 			//1支付宝，2微信，3银联，4：预存款
 			if(pay_channel.trim().equals("alipay")){
 				sysTransaction.setChannel(1);
@@ -131,7 +145,7 @@ public class AlipayController extends BaseController{
 			}else{
 				return new Message("error","pay_channel_unkonw", "未知支付方式！", null);
 			}
-			sysTransaction.setTitle("微信线下条码支付");
+			sysTransaction.setTitle("支付宝线下条码支付");
 			sysTransaction.setSerialNo(merchant_num);
 			sysTransaction.setTerminalNum(terminal_unique_no);
 			sysTransaction.setTransNum(orderNo);
@@ -156,7 +170,8 @@ public class AlipayController extends BaseController{
 			payReqData.setTerminal_unique_no(terminal_unique_no);
 			payReqData.setMerchant_num(sysMerchant.getSerialNo());
 			payReqData.setMerchant_name(sysMerchant.getCompanyName());
-			
+			payReqData.setMerchant_name(sysMerchant.getCompanyName());
+			payReqData.setUser_order_no(user_order_no);
 			payMsg = alipayService.pay(payReqData,sysAlipayConfig);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
@@ -176,18 +191,25 @@ public class AlipayController extends BaseController{
 	@RequestMapping(value = "/pay/alipay/scan/create")
 	@ResponseBody
 	public Object scanCreate(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
 		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
 		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 终端编号（非空）
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		String user_order_no = request.getParameter("user_order_no"); //用户订单号
 
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
-				|| Strings.isNullOrEmpty(client_type)) {
+				|| Strings.isNullOrEmpty(client_type)
+				||Strings.isNullOrEmpty(user_order_no)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
+		}
+
 		Message payMsg = null;
 		try {
 			
@@ -195,17 +217,20 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(merchant_num.trim());
 			if(sysAlipayConfig == null){
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			// 生成流水表信息
-			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-			IdWorker iw = new IdWorker(idepo);
+//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+//			IdWorker iw = new IdWorker(idepo);
 			String orderNo = iw.getId() + "";
 
 			SysTransaction sysTransaction = new SysTransaction();
-			//sysTransaction.setOrderId(orderNo);
 			sysTransaction.setTransCardNum(sysAlipayConfig.getSellerEmail());
 			//1支付宝，2微信，3银联，4：预存款
 			if(pay_channel.trim().equals("alipay")){
@@ -219,6 +244,7 @@ public class AlipayController extends BaseController{
 			}else{
 				return new Message("error","pay_channel_unknow", "未知支付方式！", null);
 			}
+			sysTransaction.setUser_order_no(user_order_no);
 			sysTransaction.setTitle("微信线下扫码支付");
 			sysTransaction.setMerchantName(sysMerchant.getCompanyName());
 			sysTransaction.setSerialNo(merchant_num);
@@ -242,7 +268,7 @@ public class AlipayController extends BaseController{
 			
 			AlipayPrecreateReqData alipayPrecreateReqData = new AlipayPrecreateReqData(orderNo, sysAlipayConfig.getPid(),"扫码预支付", total_fee,extend_params);
 
-			payMsg = alipayService.preCreate(alipayPrecreateReqData,sysAlipayConfig);
+			payMsg = alipayService.preCreate(alipayPrecreateReqData,sysAlipayConfig,user_order_no);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -254,6 +280,7 @@ public class AlipayController extends BaseController{
 	@RequestMapping(value = "/pay/alipay/wap/create")
 	@ResponseBody
 	public Object wapCreate(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
 		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
@@ -267,23 +294,28 @@ public class AlipayController extends BaseController{
 				|| Strings.isNullOrEmpty(client_type)||Strings.isNullOrEmpty(user_order_no)) {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
+		}
 		String sHtmlText  = "";
 		try {
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(sysMerchant.getSerialNo());
 			if(sysAlipayConfig == null){
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			// 生成流水表信息
-			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-			IdWorker iw = new IdWorker(idepo);
+//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+//			IdWorker iw = new IdWorker(idepo);
 			String orderNo = iw.getId() + "";
 
 			SysTransaction sysTransaction = new SysTransaction();
-			//sysTransaction.setOrderId(orderNo);
 			//1支付宝，2微信，3银联，4：预存款
 			if(pay_channel.trim().equals("alipay")){
 				sysTransaction.setChannel(1);
@@ -335,13 +367,22 @@ public class AlipayController extends BaseController{
 	@RequestMapping(value = "/pay/alipay/query")
 	@ResponseBody
 	public Object query(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
-		String merchant_num = request.getParameter("merchant_num");
-		String trace_num = request.getParameter("trace_num");
+		String merchant_num = request.getParameter("merchant_num");		
+		String user_order_no = request.getParameter("user_order_no");	//用户订单号
+		String trace_num = request.getParameter("trace_num");			//平台交易流水号
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
-		if (Strings.isNullOrEmpty("pay_channel")||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(trace_num)
-				|| Strings.isNullOrEmpty("terminal_unique_no")) {
+		
+		if (Strings.isNullOrEmpty(pay_channel)
+				|| Strings.isNullOrEmpty(merchant_num)
+				||Strings.isNullOrEmpty(user_order_no)
+				|| Strings.isNullOrEmpty(terminal_unique_no)){
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+	
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
@@ -350,13 +391,26 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			//获取配置信息
-			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(sysMerchant.getSerialNo());
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			//获取支付宝配置信息
+			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(merchant_num);
 			if(sysAlipayConfig == null){
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
 			
-			AlipayQueryReqData alipayQueryReqData = new AlipayQueryReqData(trace_num, sysAlipayConfig.getPid());
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				SysTransaction sysTransaction  = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
+				if(sysTransaction!=null){
+					out_trade_no = sysTransaction.getTransNum();
+				}
+			}else{
+				out_trade_no = trace_num;
+			}
+			
+			AlipayQueryReqData alipayQueryReqData = new AlipayQueryReqData(out_trade_no, sysAlipayConfig.getPid());
 			alipayQueryReqData.setPay_channel(pay_channel);
 			alipayQueryReqData.setTerminal_unique_no(terminal_unique_no);
 			alipayQueryReqData.setMerchant_num(sysMerchant.getSerialNo());
@@ -382,13 +436,18 @@ public class AlipayController extends BaseController{
 	@RequestMapping(value = "/pay/alipay/cancel")
 	@ResponseBody
 	public Object cancel(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
+		String user_order_no = request.getParameter("user_order_no");
 		String trace_num = request.getParameter("trace_num");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
-		if (Strings.isNullOrEmpty("pay_channel")||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(trace_num)
+		if (Strings.isNullOrEmpty("pay_channel")||Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(user_order_no)
 				|| Strings.isNullOrEmpty("terminal_unique_no")) {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
@@ -397,16 +456,28 @@ public class AlipayController extends BaseController{
 			if(sysMerchant ==null){
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
 			//获取配置信息
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(sysMerchant.getSerialNo());
 			if(sysAlipayConfig == null){
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
 			}
-			SysTransaction sysTransaction = sysTransactionService.findByTransNum("trace_num");
+			
+			SysTransaction sysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
 			if(sysTransaction == null){
 				return new Message(ResultCode.FAIL.name(), "transNo_not_find", "对应的交易流水不存在", null);
 			}
-			AlipayCancelReqData alipayCancelReqData = new AlipayCancelReqData(trace_num, sysAlipayConfig.getPid());
+
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				out_trade_no = sysTransaction.getTransNum();
+			}else{
+				out_trade_no = trace_num;
+			}
+			
+			AlipayCancelReqData alipayCancelReqData = new AlipayCancelReqData(out_trade_no, sysAlipayConfig.getPid());
 			alipayCancelReqData.setPay_channel(pay_channel);
 			alipayCancelReqData.setTerminal_unique_no(terminal_unique_no);
 			alipayCancelReqData.setMerchant_num(sysMerchant.getSerialNo());
@@ -414,7 +485,7 @@ public class AlipayController extends BaseController{
 			alipayCancelReqData.setTrans_amount(String.valueOf(sysTransaction.getTransPrice()));
 			alipayCancelReqData.setTotal_fee(String.valueOf(sysTransaction.getTotalPrice()));
 			
-			payMsg = alipayService.cancel(alipayCancelReqData,sysAlipayConfig);
+			payMsg = alipayService.cancel(alipayCancelReqData,sysAlipayConfig,user_order_no);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -425,15 +496,20 @@ public class AlipayController extends BaseController{
 	@RequestMapping(value = "/pay/alipay/refund")
 	@ResponseBody
 	public Object refund(HttpServletRequest request, HttpServletResponse response) {
+		Map<String,String> reqParamMap = this.getRequestParams(request);
 		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
+		String user_order_no = request.getParameter("user_order_no");
 		String trace_num = request.getParameter("trace_num");
 		String refund_amount = request.getParameter("refund_amount");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
-				|| Strings.isNullOrEmpty(trace_num) || Strings.isNullOrEmpty(refund_amount)
+				|| Strings.isNullOrEmpty(user_order_no) || Strings.isNullOrEmpty(refund_amount)
 				|| Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		}
+		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
@@ -448,9 +524,15 @@ public class AlipayController extends BaseController{
 			}
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num.trim());
 			
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			
+			//user_order_no
+			
 			// 生成流水表信息
-			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-			IdWorker iw = new IdWorker(idepo);
+//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
+//			IdWorker iw = new IdWorker(idepo);
 			String refundOrderNo = "R"+iw.getId();
 			sysTransaction.setId(null);
 		
@@ -474,6 +556,7 @@ public class AlipayController extends BaseController{
 			sysTransaction.setStatus(4); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
 			sysTransaction.setTransType(1);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("退款");
+			sysTransaction.setUser_order_no(user_order_no);
 			sysTransactionService.save(sysTransaction);
 			
 			AlipayRefundReqData alipayRefundReqData = new AlipayRefundReqData(sysAlipayConfig.getPid(), trace_num,refund_amount);
@@ -482,7 +565,7 @@ public class AlipayController extends BaseController{
 			alipayRefundReqData.setMerchant_num(sysMerchant.getSerialNo());
 			alipayRefundReqData.setMerchant_name(sysMerchant.getCompanyName());
 			
-			payMsg = alipayService.refund(alipayRefundReqData,sysTransaction);
+			payMsg = alipayService.refund(alipayRefundReqData,sysTransaction,user_order_no);
 		} catch (Exception e) {
 			log.error("支付出现异常：", e);
 			return new Message(ResultCode.FAIL.name(),ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
@@ -541,7 +624,11 @@ public class AlipayController extends BaseController{
 	}
 	
 	
-	
+	/**
+	 * 扫码异步回调
+	 * @param request
+	 * @param response
+	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/pay/alipay/scan/notify")
 	public void scanNotify(HttpServletRequest request, HttpServletResponse response) {
@@ -603,6 +690,7 @@ public class AlipayController extends BaseController{
 		Message message = null;
 		SysAlipayConfigWithBLOBs sysAlipayConfig = null ;
 		String synNotify = "";
+		Map<String,String> returnMap = new HashMap<String,String>();
 		try {
 			// 获取支付宝POST过来反馈信息
 			Map<String, String> params = new HashMap<String, String>();
@@ -620,32 +708,42 @@ public class AlipayController extends BaseController{
 				throw new RuntimeException("支付失败");
 			}
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
+			
+			
 		    sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 		    synNotify = sysAlipayConfig.getMerchanSynNotify();
 			String trade_status = params.get("trade_status");
 			if (AlipayNotify.verify(params,AlipayConfig.wap_sign_type,sysAlipayConfig.getAlipayPublicKey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (trade_status.equals("TRADE_SUCCESS")||trade_status.equals("TRADE_FINISHED")) {
 					SysMerchant sysMerchant = sysMerchantService.findBySerialNo(sysTransaction.getSerialNo());
-					AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(params);
-					alipayWapPayResData.setMerchant_name(sysMerchant.getCompanyName());
-					alipayWapPayResData.setMerchant_num(sysMerchant.getSerialNo());
-					alipayWapPayResData.setUser_order_no(sysTransaction.getUser_order_no());
+//					AlipayWapPayResData alipayWapPayResData = new AlipayWapPayResData(params);
+					returnMap.put("result_code", ResultCode.SUCCESS.name());
+					returnMap.put("result_msg", "pay success");
+					returnMap.put("out_trade_no", params.get("out_trade_no"));
+					returnMap.put("notify_time", params.get("notify_time"));
+					returnMap.put("total_fee", params.get("total_fee"));
+					returnMap.put("merchant_name", sysMerchant.getCompanyName());
+					returnMap.put("merchant_num", sysMerchant.getSerialNo());
+					returnMap.put("user_order_no", sysTransaction.getUser_order_no());
+					
+					String signString = MD5Utils.sign(returnMap, "MD5", sysMerchant.getKey(), "UTF-8");
 					if(!Strings.isNullOrEmpty(synNotify)){
-					    message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
-					    String directString = synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8");
-						response.sendRedirect(directString);
+					    //message = new Message(ResultCode.SUCCESS.name(), "", "支付成功",alipayWapPayResData.toMap());
+						log.info(synNotify+"?"+signString);
+						response.sendRedirect(synNotify+"?"+signString);
 					}
 				}else{
-					message = new Message(ResultCode.FAIL.name(), "", "支付失败", null);
-					response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message),"utf-8"));
+					response.sendRedirect(synNotify+"?result_code="+ResultCode.FAIL.name()+"&err_code=PAY_ERROR"); 
 				}
 			} else {// 验证失败
 				log.info("支付宝手机wap同步通知请求验证失败...");
-				message = new Message(ResultCode.FAIL.name(), "", "支付宝手机wap同步通知请求验证失败", null);
-				response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8"));
+				response.sendRedirect(synNotify+"?result_code="+ResultCode.FAIL.name()+"&err_code=ILLEGAL_SIGN"); 
+//				message = new Message(ResultCode.FAIL.name(), "", "支付宝手机wap同步通知请求验证失败", null);
+//				response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message), "utf-8"));
 			}
 		} catch(Exception e) {
 			log.error("支付宝手机wap同步通知异常", e);
+			response.sendRedirect(synNotify+"?result_code="+ResultCode.FAIL.name()+"&err_code=SYS_EXCEPTION"); 
 			//message =  new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "系统异常", null);
 			//response.sendRedirect(synNotify+"?result="+URLEncoder.encode(mapper.writeValueAsString(message),"utf-8"));
 		}

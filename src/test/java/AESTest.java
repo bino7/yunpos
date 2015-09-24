@@ -23,7 +23,6 @@ public class AESTest {
 		
 		System.out.println(InetAddress.getLocalHost().getHostAddress());
 	}
-
 	@Test
 	public void encrypt() {
 		//String str = "192.168.0.116";

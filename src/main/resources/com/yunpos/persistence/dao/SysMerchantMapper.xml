@@ -12,6 +12,7 @@
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
     <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
+    <result column="key" property="key" jdbcType="VARCHAR" />
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
     <result column="industryTypeId" property="industryTypeId" jdbcType="INTEGER" />
     <result column="industryType" property="industryType" jdbcType="VARCHAR" />
@@ -34,7 +35,7 @@
     <result column="serviceType" property="serviceType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-     baseUserId, serialNo, agentSerialNo, companyName, industryTypeId, industryType, 
+     baseUserId, serialNo, agentSerialNo,key, companyName, industryTypeId, industryType, 
     contactMan, postcode, prov, city, area, address, auditStatus, endTime, 
     businessLicense, registerNumber, identityType, identityCardOn, identityCardOff, terminals, 
     serviceType
@@ -57,7 +58,7 @@
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.SysMerchant" >
     insert into sys_merchant (id, baseUserId, serialNo, 
-      agentSerialNo, companyName, industryTypeId, 
+      agentSerialNo,key, companyName, industryTypeId, 
       industryType, contactMan, phone, 
       tel, postcode, prov, 
       city, area, address, 
@@ -66,7 +67,7 @@
       identityCardOff, terminals, serviceType
       )
     values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
-      #{agentSerialNo,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{industryTypeId,jdbcType=INTEGER}, 
+      #{agentSerialNo,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR},#{companyName,jdbcType=VARCHAR}, #{industryTypeId,jdbcType=INTEGER}, 
       #{industryType,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
@@ -89,6 +90,9 @@
       </if>
       <if test="agentSerialNo != null" >
         agentSerialNo,
+      </if>
+      <if test="key != null" >
+        key,
       </if>
       <if test="companyName != null" >
         companyName,
@@ -164,6 +168,9 @@
       <if test="agentSerialNo != null" >
         #{agentSerialNo,jdbcType=VARCHAR},
       </if>
+      <if test="key != null" >
+        #{key,jdbcType=VARCHAR},
+      </if>
       <if test="companyName != null" >
         #{companyName,jdbcType=VARCHAR},
       </if>
@@ -238,6 +245,9 @@
       <if test="agentSerialNo != null" >
         agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
       </if>
+      <if test="key != null" >
+        key = #{key,jdbcType=VARCHAR},
+      </if>
       <if test="companyName != null" >
         companyName = #{companyName,jdbcType=VARCHAR},
       </if>
@@ -306,6 +316,7 @@
     set baseUserId = #{baseUserId,jdbcType=INTEGER},
       serialNo = #{serialNo,jdbcType=VARCHAR},
       agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
+      key = #{key,jdbcType=VARCHAR},
       companyName = #{companyName,jdbcType=VARCHAR},
       industryTypeId = #{industryTypeId,jdbcType=INTEGER},
       industryType = #{industryType,jdbcType=VARCHAR},
@@ -346,6 +357,9 @@
       </if>
       <if test="agentSerialNo != null" >
         and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
+      </if>
+      <if test="key != null" >
+        and key = #{key,jdbcType=VARCHAR}
       </if>
       <if test="companyName != null" >
         and companyName = #{companyName,jdbcType=VARCHAR}

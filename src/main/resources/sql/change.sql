@@ -12,16 +12,18 @@ ADD COLUMN `devGetway`  varchar(255) NULL COMMENT '开发者网关（服务窗�
 ALTER TABLE `sys_transaction`
 ADD COLUMN `user_order_no`  varchar(50) NULL COMMENT '商户订单号' AFTER `orderId`;
 
-
+--20150915 杨学勇  新增字段
 ALTER TABLE `sys_merchant`
 ADD COLUMN `key` varchar(100) NULL COMMENT '商户秘钥（MD5加密用）' AFTER `agentSerialNo`;
 
-
+--20150915 林虎  新增字段
 ALTER TABLE `sys_agentmerchant`
 ADD COLUMN `status`  tinyint(2) NULL COMMENT '代理商状态' ;
+
+ALTER TABLE `sys_agentmerchant`
 ADD COLUMN `auditOpinion`  varchar(100) NULL COMMENT '审核意见' ;
 
-
+--20150915 bino  新增字段
 DROP TABLE IF EXISTS `filter`;
 CREATE TABLE `filter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

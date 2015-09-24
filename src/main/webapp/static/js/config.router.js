@@ -12,20 +12,56 @@ angular.module('app')
       }
     ]
   )
-  .config(
-    [          '$stateProvider', '$urlRouterProvider',
-      function ($stateProvider,   $urlRouterProvider) {
-          
-          $urlRouterProvider
-              .otherwise('/app/dashboard-v1');
+  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
+	  	 //设置默认路由
+	  	  //$urlRouterProvider.otherwise('/app/home');
+          $urlRouterProvider.otherwise('/login');
           $stateProvider
-              .state('app', {
+	         .state('login', {//登录页面
+	              url: '/login',
+	              templateUrl: 'tpl/system/sys_login.html',
+	              resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad ){
+                          return uiLoad.load( ['js/controllers/yunpos/loginController.js'] );
+                      }]
+                  }
+	          })
+	          .state('register', {
+                  url: '/register',
+                  templateUrl: 'tpl/system/sys_register.html',
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad ){
+                          return uiLoad.load( ['js/controllers/yunpos/signupController.js'] );
+                      }]
+                  }
+              })
+              .state('app.table.org', {
+                  url: '/org',
+                  templateUrl: 'tpl/system/sys_org.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysOrgGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('forgotpwd', {
+                  url: '/forgotpwd',
+                  templateUrl: 'tpl/system/page_forgotpwd.html'
+              })
+              .state('404', {
+                  url: '/404',
+                  templateUrl: 'tpl/system/page_404.html'
+              })
+              .state('app', {//通用框架基础,内部设置ui-view占位符将其他页面输入到通用框架占位符处
                   abstract: true,
                   url: '/app',
                   templateUrl: 'tpl/app.html'
               })
-              .state('app.dashboard-v1', {
-                  url: '/dashboard-v1',
+              .state('app.home', {//首页路由
+                  url: '/home',
                   templateUrl: 'tpl/app_dashboard_v1.html',
                   resolve: {
                     deps: ['$ocLazyLoad',
@@ -34,17 +70,26 @@ angular.module('app')
                     }]
                   }
               })
-              .state('app.dashboard-v2', {
-                  url: '/dashboard-v2',
-                  templateUrl: 'tpl/app_dashboard_v2.html',
+              
+              // table
+              .state('app.table', {
+                  url: '/table',
+                  template: '<div ui-view></div>'
+              })
+              .state('app.table.fans', {//粉丝管理
+                  url: '/fans',
+                  templateUrl: 'tpl/system/fans_datalist.html',
                   resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(['js/controllers/chart.js']);
-                    }]
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysFansGrid.js');
+                              }
+                          );
+                      }]
                   }
               })
-<<<<<<< Updated upstream
               .state('app.table.member', {//会员卡管理
                   url: '/member',
                   templateUrl: 'tpl/system/sys_member.html',
@@ -58,157 +103,266 @@ angular.module('app')
                           );
                       }]
                   }
-=======
-              .state('app.ui', {
-                  url: '/ui',
-                  template: '<div ui-view class="fade-in-up"></div>'
->>>>>>> Stashed changes
               })
-              .state('app.ui.buttons', {
-                  url: '/buttons',
-                  templateUrl: 'tpl/ui_buttons.html'
+              .state('app.table.integralsetting', {//积分设置
+                  url: '/integral/setting',
+                  templateUrl: 'tpl/system/sys_integral_setting.html'
               })
-              .state('app.ui.icons', {
-                  url: '/icons',
-                  templateUrl: 'tpl/ui_icons.html'
-              })
-              .state('app.ui.grid', {
-                  url: '/grid',
-                  templateUrl: 'tpl/ui_grid.html'
-              })
-              .state('app.ui.widgets', {
-                  url: '/widgets',
-                  templateUrl: 'tpl/ui_widgets.html'
-              })          
-              .state('app.ui.bootstrap', {
-                  url: '/bootstrap',
-                  templateUrl: 'tpl/ui_bootstrap.html'
-              })
-              .state('app.ui.sortable', {
-                  url: '/sortable',
-                  templateUrl: 'tpl/ui_sortable.html'
-              })
-              .state('app.ui.portlet', {
-                  url: '/portlet',
-                  templateUrl: 'tpl/ui_portlet.html'
-              })
-              .state('app.ui.timeline', {
-                  url: '/timeline',
-                  templateUrl: 'tpl/ui_timeline.html'
-              })
-              .state('app.ui.tree', {
-                  url: '/tree',
-                  templateUrl: 'tpl/ui_tree.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad ){
-                          return $ocLazyLoad.load('angularBootstrapNavTree').then(
-                              function(){
-                                 return $ocLazyLoad.load('js/controllers/tree.js');
-                              }
-                          );
-                        }
-                      ]
-                  }
-              })
-              .state('app.ui.toaster', {
-                  url: '/toaster',
-                  templateUrl: 'tpl/ui_toaster.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad){
-                          return $ocLazyLoad.load('toaster').then(
-                              function(){
-                                 return $ocLazyLoad.load('js/controllers/toaster.js');
-                              }
-                          );
-                      }]
-                  }
-              })
-              .state('app.ui.jvectormap', {
-                  url: '/jvectormap',
-                  templateUrl: 'tpl/ui_jvectormap.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad){
-                          return $ocLazyLoad.load('js/controllers/vectormap.js');
-                      }]
-                  }
-              })
-              .state('app.ui.googlemap', {
-                  url: '/googlemap',
-                  templateUrl: 'tpl/ui_googlemap.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( [
-                            'js/app/map/load-google-maps.js',
-                            'js/app/map/ui-map.js',
-                            'js/app/map/map.js'] ).then(
-                              function(){
-                                return loadGoogleMaps(); 
-                              }
-                            );
-                      }]
-                  }
-              })
-              .state('app.chart', {
-                  url: '/chart',
-                  templateUrl: 'tpl/ui_chart.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad){
-                          return uiLoad.load('js/controllers/chart.js');
-                      }]
-                  }
-              })
-              // table
-              .state('app.table', {
-                  url: '/table',
-                  template: '<div ui-view></div>'
-              })
-              .state('app.table.static', {
-                  url: '/static',
-                  templateUrl: 'tpl/table_static.html'
-              })
-              .state('app.table.datatable', {
-                  url: '/datatable',
-                  templateUrl: 'tpl/table_datatable.html'
-              })
-              .state('app.table.fans', {//粉丝管理
-                  url: '/datatable',
-                  templateUrl: 'tpl/system/fans_datalist.html'
-              })
-              .state('app.table.transactionlist', {//交易流水管理
-                  url: '/datatable',
-                  templateUrl: 'tpl/system/transaction_datalist.html'
-              })
-              .state('app.table.sharelist', {//分润结算
-                  url: '/datatable',
-                  templateUrl: 'tpl/system/share_datalist.html'
-              })
-              .state('app.table.share.setting', {//分润设置
-                  url: '/datatable',
-                  templateUrl: 'tpl/system/share_setting.html'
-              })
-              .state('app.table.footable', {
-                  url: '/footable',
-                  templateUrl: 'tpl/table_footable.html'
-              })
-              .state('app.table.grid', {
-                  url: '/grid',
-                  templateUrl: 'tpl/table_grid.html',
+              .state('app.table.transaction', {//交易流水管理
+                  url: '/transaction',
+                  templateUrl: 'tpl/system/transaction_datalist.html',
                   resolve: {
                       deps: ['$ocLazyLoad',
                         function( $ocLazyLoad ){
                           return $ocLazyLoad.load('ngGrid').then(
                               function(){
-                                  return $ocLazyLoad.load('js/controllers/grid.js');
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysTransacionGrid.js');
                               }
                           );
                       }]
                   }
               })
+              .state('app.tables.sharemanage', {//分润管理
+                  url: '/share',
+                  templateUrl: 'tpl/system/sys_share_manage.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysShareGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.share', {//分润结算
+                  url: '/share',
+                  templateUrl: 'tpl/system/share_datalist.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysShareGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.sharesetting', {//分润设置
+                  url: '/share/setting',
+                  templateUrl: 'tpl/system/share_setting.html'
+              })
+              .state('app.table.sysorder', {//订单
+                  url: '/order',
+                  templateUrl: 'tpl/system/sys_order.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysOrderGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.merchantorder', {//商户订单
+                  url: '/merchant/order',
+                  templateUrl: 'tpl/system/sys_merchant_order.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantOrderGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.storeorder', {//门店订单
+                  url: '/store/order',
+                  templateUrl: 'tpl/system/sys_store_order.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/SysStoreOrderGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.menu', {//菜单管理
+                  url: '/menu',
+                  templateUrl: 'tpl/system/sys_menu.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysMenuGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('app.table.role', {//角色管理
+                  url: '/role',
+                  templateUrl: 'tpl/system/sys_role.html'
+              })
+              .state('app.table.user', {//用户管理
+                  url: '/user',
+                  templateUrl: 'tpl/system/sys_user.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysUserGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.userDetail', {//用户管理
+                  url: '/userDetail/:id',
+                  templateUrl: 'tpl/system/sys_user_detail.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysUserGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.userAdd', {//用户新增
+                  url: '/userAdd',
+                  templateUrl: 'tpl/system/sys_user_add.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysUserGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.agentmerchant', {//代理商管理
+                  url: '/agentmerchant',
+                  templateUrl: 'tpl/system/sys_agentmerchant.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.agentmerchantDetail', {//代理商管理
+                  url: '/agentmerchantDetail/:id',
+                  templateUrl: 'tpl/system/sys_agentmerchant_detail.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.agentmerchantAdd', {//代理商新增
+                  url: '/agentmerchantAdd',
+                  templateUrl: 'tpl/system/sys_agentmerchant_add.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+               .state('app.table.merchant', {//商户管理
+                  url: '/merchant',
+                  templateUrl: 'tpl/system/sys_merchant.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.merchantDetail', {//商户管理
+                  url: '/merchantDetail/:id',
+                  templateUrl: 'tpl/system/sys_merchant_detail.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.merchantAdd', {//商户新增
+                  url: '/merchantAdd',
+                  templateUrl: 'tpl/system/sys_merchant_add.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.store', {//门店管理
+                  url: '/store',
+                  templateUrl: 'tpl/system/sys_store.html',
+                	  resolve: {
+                          deps: ['$ocLazyLoad',
+                            function( $ocLazyLoad ){
+                              return $ocLazyLoad.load('ngGrid').then(
+                                  function(){
+                                      return $ocLazyLoad.load('js/controllers/yunpos/sysStoreGrid.js');
+                                  }
+                              );
+                          }]
+                      }
+              })
+              .state('app.table.info', {//企业信息
+                  url: '/info',
+                  templateUrl: 'tpl/system/sys_info.html'
+              })
+              .state('app.table.pay', {//支付管理
+                  url: '/pay',
+                  templateUrl: 'tpl/system/sys_pay.html'
+              })
+              .state('app.table.paypassword', {//支付密码
+                  url: '/paypassword',
+                  templateUrl: 'tpl/system/sys_paypassword.html'
+              })
+             
               // form
               .state('app.form', {
                   url: '/form',
@@ -305,6 +459,7 @@ angular.module('app')
                       }]
                   }
               })
+              
               // pages
               .state('app.page', {
                   url: '/page',
@@ -339,38 +494,8 @@ angular.module('app')
                   url: '/lockme',
                   templateUrl: 'tpl/page_lockme.html'
               })
-              .state('access', {
-                  url: '/access',
-                  template: '<div ui-view class="fade-in-right-big smooth"></div>'
-              })
-              .state('access.signin', {
-                  url: '/signin',
-                  templateUrl: 'tpl/page_signin.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( ['js/controllers/signin.js'] );
-                      }]
-                  }
-              })
-              .state('access.signup', {
-                  url: '/signup',
-                  templateUrl: 'tpl/page_signup.html',
-                  resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( ['js/controllers/signup.js'] );
-                      }]
-                  }
-              })
-              .state('access.forgotpwd', {
-                  url: '/forgotpwd',
-                  templateUrl: 'tpl/page_forgotpwd.html'
-              })
-              .state('access.404', {
-                  url: '/404',
-                  templateUrl: 'tpl/page_404.html'
-              })
+             
+              
 
               // fullCalendar
               .state('app.calendar', {
@@ -561,15 +686,15 @@ angular.module('app')
                     url: '/playlist/{fold}',
                     templateUrl: 'tpl/music.playlist.html'
                 })
+
               .state('app.role_authority', {
                   url:'/role_authority',
                   templateUrl: 'tpl/system/role_authority.html'
               })
               .state('app.authority_man', {
-                    url:'/authority_man',
-                    templateUrl: 'tpl/system/authority_man.html'
+                  url:'/authority_man',
+                  templateUrl: 'tpl/system/authority_man.html'
               })
-
       }
     ]
   );

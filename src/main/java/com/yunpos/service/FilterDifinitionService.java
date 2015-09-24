@@ -15,10 +15,10 @@
 package com.yunpos.service;
 
 import com.yunpos.model.FilterDifinition;
-import com.yunpos.model.FilterDifinitionData;
 import com.yunpos.model.FilterDifinitionValue;
 import com.yunpos.persistence.dao.FilterDifinitionMapper;
 import com.yunpos.persistence.dao.FilterDifinitionValueMapper;
+import com.yunpos.rewriter.filter.KeyFilter;
 import com.yunpos.rewriter.value.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,8 +52,8 @@ public class FilterDifinitionService {
 
     @Transactional
     public int addOrUpdateFilterDifinition(FilterDifinition difinition,List<FilterDifinitionValue> values) throws IOException, ParseException {
-        int id=-1;
-        if(difinition.getId()==null){
+        Integer id=difinition.getId();
+        if(id==null){
             id=filterDifinitionMapper.insert(difinition);
             for(FilterDifinitionValue value:values){
                 if(value.getId()==null){
@@ -70,6 +70,9 @@ public class FilterDifinitionService {
         return filterDifinitionMapper.deleteByPrimaryKey(id);
     }
 
+    public int getValueCount(int difinitionId) throws IOException,ParseException{
+        return filterDifinitionValueMapper.countByDifinitionId(difinitionId);
+    }
     public List<Value> getValues(int difinitionId,int offset,int limit) throws IOException, ParseException {
         Map map=new HashMap();
         map.put("difinitionId",difinitionId);
@@ -89,4 +92,11 @@ public class FilterDifinitionService {
         filterDifinitionValueMapper.deleteByPrimaryKey(difinitionValueId);
     }
 
+    private static final Map<String,KeyFilter> keyFilterMap=new HashMap<>();
+    static{
+        //keyFilterMap.put(Binding.USER_NAME,new KeyFilter(Binding.USER_NAME));
+    }
+    public KeyFilter getKeyFilter(String key){
+        return null;
+    }
 }

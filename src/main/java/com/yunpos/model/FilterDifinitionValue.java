@@ -4,11 +4,15 @@ public class FilterDifinitionValue {
 
     private Integer id;
 
-    private FilterDifinitionData filterDifinition;
+    private FilterDifinition filterDifinition;
 
     private String value;
 
-    public FilterDifinitionValue(Integer id, FilterDifinitionData filterDifinition, String value) {
+    public FilterDifinitionValue(){
+
+    }
+
+    public FilterDifinitionValue(Integer id, FilterDifinition filterDifinition, String value) {
         this.id = id;
         this.filterDifinition = filterDifinition;
         this.value = value;
@@ -22,11 +26,11 @@ public class FilterDifinitionValue {
         this.id = id;
     }
 
-    public FilterDifinitionData getFilterDifinition() {
+    public FilterDifinition getFilterDifinition() {
         return filterDifinition;
     }
 
-    public void setFilterDifinition(FilterDifinitionData filterDifinition) {
+    public void setFilterDifinition(FilterDifinition filterDifinition) {
         this.filterDifinition = filterDifinition;
     }
 

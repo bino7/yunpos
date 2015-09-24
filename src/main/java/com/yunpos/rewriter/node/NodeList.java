@@ -32,5 +32,6 @@ import java.util.StringJoiner;
  */
 public interface NodeList extends Node {
     void add(Node node);
+    int size();
     String getSeparator();
 }

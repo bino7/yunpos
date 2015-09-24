@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 	
 	@Autowired
-	private UserSecurityInterceptor userSecurityInterceptor;
+	private DataSecurityInterceptor dataSecurityInterceptor;
 
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(WebAppConfig.class);
@@ -31,7 +31,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 	 * @param registry
 	 */
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(this.userSecurityInterceptor).addPathPatterns("/ajax/**").excludePathPatterns("/login**",
+		registry.addInterceptor(this.dataSecurityInterceptor).addPathPatterns("/ajax/**").excludePathPatterns("/login**",
 				"/index**","/error");
 	}
 	

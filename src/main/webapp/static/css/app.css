@@ -361,6 +361,7 @@ a.list-group-item.hover {
 
 .nav-tabs {
   border-color: #dee5e7;
+  margin-bottom: 15px;
 }
 
 .nav-tabs > li > a {
@@ -378,6 +379,9 @@ a.list-group-item.hover {
   border-bottom-color: #fff !important;
 }
 
+.nav-tabs-alt {
+
+}
 .nav-tabs-alt .nav-tabs.nav-justified > li {
   display: table-cell;
   width: 1%;
@@ -5100,3 +5104,57 @@ a.text-#000000:hover {
     background-color: #7266ba;
   }
 }
+
+.authority-man{
+
+}
+
+.data-authority{
+}
+
+.data-authority .header{
+
+}
+
+.data-authority .left-column{
+  height:auto;
+  min-height: 500px;
+  padding:15px;
+}
+.data-authority .right-column{
+  height:auto;
+  min-height: 500px;
+  padding:15px;
+}
+.resource-list{
+
+}
+
+.resource-list .header{
+
+}
+
+.resource-item {
+  /*padding:2px;
+  text-align: center;*/
+}
+
+.filter-column{
+  padding:0 30px;
+}
+
+.infinite-scroll >li >a {
+  padding: 5px 15px;
+}
+
+.infinite-scroll > li:hover{
+  background-image: none;
+  filter:none;
+  background-color:#edf1f2 !important;
+  color: #58666e;
+}
+
+.mitem{
+  margin-right:8px;
+}
+

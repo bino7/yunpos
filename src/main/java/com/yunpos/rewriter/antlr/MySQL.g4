@@ -68,7 +68,7 @@ JOIN: 'join';
 CROSS: 'cross';
 USING: 'using';
 INDEX: 'index';
-KEY: 'key';
+KEY: 'keyParam';
 ORDER: 'order';
 GROUP: 'group';
 BY: 'by';

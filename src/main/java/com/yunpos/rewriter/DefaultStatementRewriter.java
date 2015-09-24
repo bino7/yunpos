@@ -28,14 +28,14 @@
 
 package com.yunpos.rewriter;
 
+import com.yunpos.model.Resource;
 import com.yunpos.rewriter.antlr.MySQLLexer;
 import com.yunpos.rewriter.antlr.MySQLListener;
 import com.yunpos.rewriter.antlr.MySQLParser;
-import com.yunpos.rewriter.filter.Filter;
 import com.yunpos.rewriter.filter.FilterGroup;
 import com.yunpos.rewriter.node.*;
 import com.yunpos.rewriter.node.builder.BaseNodeBuilder;
-import com.yunpos.rewriter.node.builder.ColumnNameBuilder;
+import com.yunpos.rewriter.node.builder.ColumnNodeBuilder;
 import com.yunpos.rewriter.node.builder.NodeBuilder;
 import com.yunpos.rewriter.node.builder.TableBuilder;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -46,7 +46,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -66,13 +65,17 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
     private Statement rootStatement;
     private Stack<NodeList> nodeStack;
     private NodeBuilder curBuilder;
-
+    private int i;
     public DefaultStatementRewriter(){
         nodeStack=new Stack<NodeList>();
     }
 
     @Override
-    public String rewrite(String sql,Filter filter,Map<String,Object> params) {
+    public String rewrite(String sql,Resource resource,Map<String,Object> params) {
+        List<FilterGroup> filterGroupList=resource.getFilterGroupList();
+        FilterGroup filter=new FilterGroup();
+        filter.setChildren(filterGroupList);
+
         MySQLLexer lexer = new MySQLLexer(new ANTLRInputStream(sql));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MySQLParser parser = new MySQLParser(tokens);
@@ -84,6 +87,7 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
         }
         return rootStatement.getText();
     }
+
 
     public static void main(String[] args){
         /*FilterGroup filter=new FilterGroup();
@@ -144,11 +148,14 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
     private void finishBuilder(NodeList nodeList,NodeBuilder builder){
         Node node=builder.result();
         if(node instanceof Table){
-            rootStatement.addTable((Table)node);
+            Table table=(Table)node;
+            table.setIndex(nodeList.size());
+            rootStatement.addTable(table);
         }else if (node instanceof Column){
             rootStatement.addColumn((Column)node);
         }
         nodeList.add(node);
+
     }
     @Override
     public void enterExpr(MySQLParser.ExprContext ctx) {
@@ -358,7 +365,7 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
         if(curBuilder!=null){
             finishBuilder(curBuilder);
         }
-        curBuilder=new ColumnNameBuilder();
+        curBuilder=new ColumnNodeBuilder();
     }
 
     @Override

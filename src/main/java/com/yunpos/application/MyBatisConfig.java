@@ -46,6 +46,7 @@ public class MyBatisConfig {
 	public SqlSessionFactory sqlSessionFactoryForPrimary() throws Exception {
 		SqlSessionFactoryBean ssfb = new SqlSessionFactoryBean();
 		ssfb.setDataSource(primaryDataSource());
+		ssfb.setTypeHandlersPackage("com.yunpos.mybatisPlugin");
 		Interceptor[] plugins = {getMybatisInterceptor()};
 		ssfb.setPlugins(plugins);
 		return ssfb.getObject();

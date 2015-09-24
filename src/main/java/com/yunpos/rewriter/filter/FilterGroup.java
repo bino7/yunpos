@@ -1,7 +1,6 @@
 package com.yunpos.rewriter.filter;
 
 import com.yunpos.model.Resource;
-import com.yunpos.rewriter.Binding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.StringJoiner;
 
 public class FilterGroup extends Filter{
     private int id;
-    private Resource resource;
+    private int resource;
 
     private List<Filter> filterList;
 
@@ -39,30 +38,15 @@ public class FilterGroup extends Filter{
 
 
     @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    protected void bindKey(Map<String, Object> params) throws MissBindingParamExecption {
-        //pass
-    }
-
-    @Override
     protected String getFilterKey() {
         return null;
     }
 
-    public Resource getResource() {
+    public int getResource() {
         return resource;
     }
 
-    public void setResource(Resource resource) {
+    public void setResource(int resource) {
         this.resource = resource;
     }
 

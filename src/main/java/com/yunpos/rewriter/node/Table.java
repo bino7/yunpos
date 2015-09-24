@@ -25,10 +25,19 @@ package com.yunpos.rewriter.node;
  * @author bino 修改日期：2015/8/10
  */
 public class Table extends RewritableNode{
+    private int index;
     private String tableName;
     private String tableAlias;
 
     public Table(){
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getTableName() {

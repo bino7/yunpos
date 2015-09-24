@@ -12,7 +12,7 @@
  *
  */
 
-package com.yunpos.rewriter;
+package com.yunpos.rewriter.binding;
 
 import com.yunpos.exception.Exceptions;
 import org.apache.ibatis.session.ResultContext;
@@ -39,8 +39,8 @@ import java.util.function.Consumer;
  * @author bino 修改日期：2015/8/6
  */
 public interface Binding {
-    static final String USER_ID="{user_id}",USER_NAME="{user_name}",SYS_ROLE="{sys_role}";
-    void bind(Map<String,Object> params) throws MissBindingParamExecption;
+    static final String USER_NAME="{user_name}",SYS_AUTHORITY="{sys_authority}";
+    void bind(Map<String, Object> params) throws MissBindingParamExecption;
     static class MissBindingParamExecption extends Exception{
         public MissBindingParamExecption(String paramName,String message){
             super("miss binding param "+paramName+" "+message);

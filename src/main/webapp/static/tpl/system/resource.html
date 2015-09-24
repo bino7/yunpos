@@ -1,0 +1,109 @@
+<div>
+    {{editRes}}
+    {{editResDifinitions}}
+    <div class="panel row" style="padding-top:20px;">
+        <input type="text" class="form-control" placeholder="名称" ng-model="editRes.name"/>
+        <input type="text" class="form-control" placeholder="表名" ng-model="editRes.tableName"/>
+        <input type="text" class="form-control" placeholder="url" ng-model="editRes.path"/>
+        <button ng-click="saveOrUpdateRes()"class="btn btn-default">保存</button>
+    </div>
+
+    <div class="panel bg-light row" style="padding-top:20px;" ng-repeat="d in editResDifinitions">
+        <div class="form-control">
+            <label>类型:</label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.type" value="1">
+                column filter
+            </label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.type" value="2">
+                key filter
+            </label>
+        </div>
+        <div class="form-control">
+            <label>数据类型:</label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.dataType" value="0">
+                string
+            </label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.dataType" value="1">
+                int
+            </label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.dataType" value="2">
+                date
+            </label>
+        </div>
+
+        <input type="text" class="form-control" placeholder="字段" ng-model="d.colName"
+               ng-if="d.type==1"/>
+
+        <input type="text" class="form-control" placeholder="关联字段" ng-model="d.keyColumn"
+               ng-if="d.type==2"/>
+
+        <input type="text" class="form-control" placeholder="关键字" ng-model="d.keyParam"
+               ng-if="d.type==2"/>
+
+        <div class="form-control">
+            <label>可选操作:</label>
+            <label class="mitem">
+                <input type="checkbox" ng-model="d.supportOpCodes.EQ" value="0">
+                =
+            </label>
+            <label class="mitem">
+                <input type="checkbox" ng-model="d.supportOpCodes.GE" value="1">
+                >=
+            </label>
+            <label class="mitem">
+                <input type="checkbox" ng-model="d.supportOpCodes.GT" value="2">
+                >
+            </label>
+            <label class="mitem">
+                <input type="checkbox" ng-model="d.supportOpCodes.LE" value="3">
+                <=
+            </label>
+            <label class="mitem">
+                <input type="checkbox" ng-model="d.supportOpCodes.LT" value="4">
+                <
+            </label>
+            <label class="mitem">
+                <input type="checkbox" ng-model="d.supportOpCodes.LIKE" value="5">
+                like
+            </label>
+            <label class="mitem">
+                <input type="checkbox" ng-model="d.supportOpCodes.IN" value="6">
+                in
+            </label>
+        </div>
+        <div class="form-control">
+            <label>输入:</label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.valueType" value="0">
+                输入框
+            </label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.valueType" value="1">
+                下拉框
+            </label>
+            <label class="mitem">
+                <input type="radio" ng-model="d.valueType" value="2">
+                多选框
+            </label>
+        </div>
+            <div class="form-control" ng-if="d.valueType==1||d.valueType==2">
+            <label>添加过滤可选值:</label>
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon2">@</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2">
+                </div>
+        </div>
+        <div class="form-inline">
+            <button ng-click="saveDifinition(d)" class="btn btn-default">保存</button>
+            <button ng-click="removeDifinition(d.id)" class="btn btn-default">删除</button>
+        </div>
+        </div>
+    <div>
+        <button ng-click="addDifinition()"class="btn btn-default">增加过滤条件定义</button>
+    </div>
+</div>

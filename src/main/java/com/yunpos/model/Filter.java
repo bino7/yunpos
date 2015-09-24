@@ -11,7 +11,7 @@ public class Filter {
 
     private Integer op;
 
-    private String value;
+    private String filter_value;
 
     public Integer getId() {
         return id;
@@ -53,11 +53,11 @@ public class Filter {
         this.op = op;
     }
 
-    public String getValue() {
-        return value;
+    public String getFilter_value() {
+        return filter_value;
     }
 
-    public void setValue(String value) {
-        this.value = value == null ? null : value.trim();
+    public void setFilter_value(String filter_value) {
+        this.filter_value = filter_value == null ? null : filter_value.trim();
     }
 }

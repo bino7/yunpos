@@ -14,7 +14,8 @@
 
 package com.yunpos.rewriter.filter;
 
-import com.yunpos.rewriter.Binding;
+import com.yunpos.model.FilterDifinition;
+import com.yunpos.rewriter.binding.Binding;
 import com.yunpos.rewriter.value.Value;
 import com.yunpos.rewriter.value.ValueList;
 import org.slf4j.Logger;
@@ -47,26 +48,27 @@ public abstract class Filter implements Binding{
             switch(code){
                 case 0:return EQ;
                 case 1:return GE;
-                case 2:return LT;
+                case 2:return GT;
                 case 3:return LE;
                 case 4:return LT;
                 case 5:return LIKE;
-                default:throw new java.lang.IllegalArgumentException("unsported code "+code+" for enum Filter.Op");
+                case 6:return IN;
+                default:throw new IllegalArgumentException("unsported code "+code+" for enum Filter.Op");
             }
         }
 
         public static List<Op> disjoint(int code){
-            List<Filter.Op> opList=new ArrayList<>();
-            for(Filter.Op op:Filter.Op.values()){
+            List<Op> opList=new ArrayList<>();
+            for(Op op: Op.values()){
                 if(isOp(code,op.getCode())){
                     opList.add(op);
                 }
             }
             return opList;
         }
-        public static int overlap(List<Filter.Op> opList){
+        public static int overlap(List<Op> opList){
             int code=0;
-            for(Filter.Op op:opList){
+            for(Op op:opList){
                 code=setOp(code,code);
             }
             return code;
@@ -89,16 +91,24 @@ public abstract class Filter implements Binding{
     private String name;
     private Op op;
     protected Value filterValue;
+    protected Value.DataType dataType;
+    private FilterDifinition difinition;
     public Filter(){
 
     }
+    public Filter(Integer dataTypeCode) throws IOException, ParseException {
+        this(Value.DataType.fromCode(dataTypeCode),null);
+    }
 
-    public Filter(int dataTypeCode,String json) throws IOException, ParseException {
+    public Filter(Integer dataTypeCode,String json) throws IOException, ParseException {
         this(Value.DataType.fromCode(dataTypeCode),json);
     }
 
     public Filter(Value.DataType dataType,String json) throws IOException, ParseException {
-        filterValue =Value.fromJson(dataType, json);
+        this.dataType=dataType;
+        if(json!=null) {
+            filterValue = Value.fromJson(dataType, json);
+        }
     }
 
     public String toSql(){
@@ -132,9 +142,17 @@ public abstract class Filter implements Binding{
     public void setOp(Op op) {
         this.op = op;
         if(filterValue instanceof ValueList && op!=Op.IN){
-            throw new java.lang.IllegalArgumentException(this.getClass()+" filter value is a list "+filterValue+
+            throw new IllegalArgumentException(this.getClass()+" filter value is a list "+filterValue+
                     " when op is "+op.name());
         }
+    }
+
+    public FilterDifinition getDifinition() {
+        return difinition;
+    }
+
+    public void setDifinition(FilterDifinition difinition) {
+        this.difinition = difinition;
     }
 
     public Value getFilterValue() {
@@ -153,9 +171,12 @@ public abstract class Filter implements Binding{
         this.name = name;
     }
 
+    public Value.DataType getDataType() {
+        return dataType;
+    }
+
     public void bind(Map<String,Object> params){
         try {
-            bindKey(params);
             if (filterValue instanceof Binding){
                 ((Binding) filterValue).bind(params);
             }
@@ -164,14 +185,13 @@ public abstract class Filter implements Binding{
         }
 
     };
-    protected abstract void bindKey (Map<String,Object> params) throws MissBindingParamExecption;
     protected  abstract String getFilterKey();
+
 
     @Override
     public String toString() {
         return "Filter{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", op=" + op +
                 ", filterValue=" + filterValue +
                 '}';

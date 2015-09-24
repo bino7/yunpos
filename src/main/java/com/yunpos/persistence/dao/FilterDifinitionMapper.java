@@ -1,21 +1,21 @@
 package com.yunpos.persistence.dao;
 
-import com.yunpos.model.FilterDifinitionData;
+import com.yunpos.model.FilterDifinition;
 
 import java.util.List;
 
 public interface FilterDifinitionMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(FilterDifinitionData record);
+    int insert(FilterDifinition record);
 
-    int insertSelective(FilterDifinitionData record);
+    int insertSelective(FilterDifinition record);
 
-    FilterDifinitionData selectByPrimaryKey(Integer id);
+    FilterDifinition selectByPrimaryKey(Integer id);
 
-    List<FilterDifinitionData> selectByResourceId(Integer resourceId);
+    List<FilterDifinition> selectByResourceId(Integer rid);
 
-    int updateByPrimaryKeySelective(FilterDifinitionData record);
+    int updateByPrimaryKeySelective(FilterDifinition record);
 
-    int updateByPrimaryKey(FilterDifinitionData record);
+    int updateByPrimaryKey(FilterDifinition record);
 }

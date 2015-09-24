@@ -43,7 +43,7 @@ public class TableBuilder implements NodeBuilder{
     public void push(String text) {
         if(textList.size()>maxText){
             String curTexts= StringUtils.join(textList, " ");
-            throw new java.lang.IllegalArgumentException("exceeds the expected maximum size of the input " +
+            throw new IllegalArgumentException("exceeds the expected maximum size of the input " +
                     "text "+this.getClass()+" current texts "+curTexts);
         }
         textList.add(text);

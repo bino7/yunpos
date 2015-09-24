@@ -14,9 +14,8 @@
 
 package com.yunpos.rewriter.value;
 
-import com.yunpos.rewriter.Binding;
+import com.yunpos.rewriter.binding.Binding;
 
-import java.util.List;
 import java.util.Map;
 
 /**

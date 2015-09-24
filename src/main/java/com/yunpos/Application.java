@@ -9,7 +9,7 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 @EnableConfigurationProperties
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
-
+	public static final String BINDING_PARAMS_KEY="bindingParams";
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(Application.class);

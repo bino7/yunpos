@@ -51,6 +51,11 @@ public class WhereClause implements NodeList{
     }
 
     @Override
+    public int size() {
+        return nodeList.size();
+    }
+
+    @Override
     public String getSeparator() {
         return separator;
     }

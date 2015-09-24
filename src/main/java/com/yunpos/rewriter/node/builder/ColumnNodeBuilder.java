@@ -31,17 +31,17 @@ import java.util.List;
  * @author bino 新增日期：2015/8/12
  * @author bino 修改日期：2015/8/12
  */
-public class ColumnNameBuilder implements NodeBuilder {
+public class ColumnNodeBuilder implements NodeBuilder {
     private static final int maxText=3;
     private List<String> textList;
-    public ColumnNameBuilder(){
+    public ColumnNodeBuilder(){
         textList=new ArrayList<>();
     }
     @Override
     public void push(String text) {
         if(textList.size()>maxText){
             String curTexts= StringUtils.join(textList," ");
-            throw new java.lang.IllegalArgumentException("exceeds the expected maximum size of the input " +
+            throw new IllegalArgumentException("exceeds the expected maximum size of the input " +
                     "text "+this.getClass()+" current texts "+curTexts);
         }
         textList.add(text);
@@ -50,7 +50,7 @@ public class ColumnNameBuilder implements NodeBuilder {
     @Override
     public Column result() {
         if(textList.size()==2){
-            throw new java.lang.IllegalArgumentException("unexpected size of input text 2,expected 1 or 3 "+
+            throw new IllegalArgumentException("unexpected size of input text 2,expected 1 or 3 "+
             this.getClass());
         }
         Column columnName=new Column();

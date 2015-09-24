@@ -14,6 +14,7 @@
 
 package com.yunpos.rewriter;
 
+import com.yunpos.model.Resource;
 import com.yunpos.rewriter.filter.Filter;
 
 import java.util.Map;
@@ -29,5 +30,5 @@ import java.util.Map;
  * @author bino 修改日期：2015/8/6
  */
 public interface StatementRewriter {
-    String rewrite(String sql,Filter filter,Map<String,Object> params);
+    String rewrite(String sql, Resource resource, Map<String, Object> params);
 }

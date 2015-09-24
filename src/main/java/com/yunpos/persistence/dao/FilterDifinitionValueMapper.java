@@ -1,7 +1,6 @@
 package com.yunpos.persistence.dao;
 
 import com.yunpos.model.FilterDifinitionValue;
-import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 import java.util.Map;
@@ -20,4 +19,6 @@ public interface FilterDifinitionValueMapper {
     int updateByPrimaryKey(FilterDifinitionValue record);
 
     List<FilterDifinitionValue> selectByDifinitionId(Map map);
+
+    int countByDifinitionId(int difinitionId);
 }

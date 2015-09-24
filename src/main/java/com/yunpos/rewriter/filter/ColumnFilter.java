@@ -14,7 +14,6 @@
 
 package com.yunpos.rewriter.filter;
 
-import com.yunpos.rewriter.Binding;
 import com.yunpos.rewriter.value.Value;
 
 import java.io.IOException;
@@ -33,17 +32,12 @@ import java.util.Map;
  */
 public class ColumnFilter extends Filter {
     private String tableAlias,tableName,colName;
-
-    public ColumnFilter(Integer dataTypeCode,String valueStr) throws IOException, ParseException {
-        super(Value.DataType.fromCode(dataTypeCode),valueStr);
+    public ColumnFilter(){};
+    public ColumnFilter(Integer dataTypeCode,String json) throws IOException, ParseException {
+        super(Value.DataType.fromCode(dataTypeCode),json);
     }
-    public ColumnFilter(Value.DataType dataType,String valueStr) throws IOException, ParseException {
-        super(dataType,valueStr);
-    }
-
-    @Override
-    protected void bindKey(Map<String, Object> params) throws MissBindingParamExecption {
-        //pass
+    public ColumnFilter(Value.DataType dataType,String json) throws IOException, ParseException {
+        super(dataType,json);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class Value {
                 case 0:return STRING;
                 case 1:return INT;
                 case 2:return DATE;
-                default:throw new java.lang.IllegalArgumentException("unsupported code "+code+" for enum "+DataType.class);
+                default:throw new IllegalArgumentException("unsupported code "+code+" for enum "+DataType.class);
             }
         }
     }
@@ -70,15 +70,31 @@ public class Value {
         this.dataType=dataType;
         this.value=value;
     }
+
+    public String getText(){
+        if (value==null) {
+            return "";
+        }
+        switch(dataType){
+            case DATE:
+                return Value.dateFormat.format(value);
+            case STRING:
+            case INT:
+                return value.toString();
+            default:
+                throw new IllegalArgumentException("unsupported data type "+dataType);
+        }
+
+    }
     public static Value fromJson(DataType dataType, String json) throws IOException, ParseException {
         if(json==null){
             return new Value(dataType,null);
         }
         ObjectMapper objectMapper=new ObjectMapper();
-        objectMapper.setDateFormat(Value.dateFormat);
         Object value = objectMapper.readValue(json, Object.class);
 
         if(dataType==DataType.DATE){
+            objectMapper.setDateFormat(Value.dateFormat);
             if(value instanceof List){
                 List<String> dateStrList=(List<String>)value;
                 List<Date> dateList=new ArrayList<Date>();
@@ -103,7 +119,7 @@ public class Value {
     public String toJson() throws IOException, ParseException {
         ObjectMapper objectMapper=new ObjectMapper();
         objectMapper.setDateFormat(Value.dateFormat);
-        return objectMapper.writeValueAsString(this);
+        return objectMapper.writeValueAsString(this.value);
     }
     public Object getValue(){
         return value;
@@ -111,7 +127,7 @@ public class Value {
 
     public void setValue(Object value){
         if(getDataType()==null){
-            throw new java.lang.IllegalAccessError("you should set dateType before setValue for a "+this.getClass());
+            throw new IllegalAccessError("you should set dateType before setValue for a "+this.getClass());
         }
         validate(getDataType(),value);
     }

@@ -15,7 +15,6 @@
 package com.yunpos.web;
 
 import com.yunpos.model.FilterDifinition;
-import com.yunpos.model.FilterDifinitionData;
 import com.yunpos.model.FilterDifinitionValue;
 import com.yunpos.model.Resource;
 import com.yunpos.model.viewModel.FilterDifinitionViewModel;
@@ -28,20 +27,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -55,9 +49,9 @@ import java.util.List;
  * @author Devin_Yang 修改日期：2015年7月21日
  *
  */
-@Controller
+@RestController
 @RequestMapping("/resource")
-public class ResourceController extends BaseController{
+public class ResourceController{
     private static final Logger logger = LoggerFactory.getLogger(ResourceController.class);
     private static final int MAX_RESULT=50;
 
@@ -68,69 +62,111 @@ public class ResourceController extends BaseController{
     private FilterDifinitionService filterDifinitionService;
 
     @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity addResource(@RequestBody  Resource resource) {
+        int id=resourceService.addResource(resource);
+        return ResponseEntity.created(URI.create("/resource/" + id)).build();
+    }
+
+    @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getAllResources() {
         List<Resource> resourceList=resourceService.getAllResources();
         return ResponseEntity.ok().body(resourceList);
     }
 
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET,value="/{id}")
+    public ResponseEntity getResource(@PathVariable Integer id) {
+        Resource resource=resourceService.getResource(id);
+        return ResponseEntity.ok().body(resource);
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.DELETE,value="/{id}")
+    public ResponseEntity removeResource(@PathVariable Integer id) {
+        int ret=resourceService.removeResource(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity updateResource(@RequestBody Resource res) {
+        int ret=resourceService.updateResource(res);
+        return ResponseEntity.ok().body(res);
+    }
+
+
     @RequestMapping(method = RequestMethod.GET,value="/{id}/filterDifinition")
     public ResponseEntity getAllFilterDifinitions(@PathVariable Integer id){
         List<FilterDifinition> difinitionList=resourceService.getAllFilterDifinitions(id);
-        return ResponseEntity.ok().body(difinitionList);
+        List viewmodels=difinitionList.stream().map(d -> {
+            FilterDifinitionViewModel v =new FilterDifinitionViewModel();
+            v.setCol_name(d.getColName());
+            v.setDataType(d.getDataType().getCode());
+            v.setId(d.getId());
+            v.setType(d.getType().getCode());
+            v.setKeyColumn(d.getKeyColumn());
+            v.setName(d.getName());
+            v.setResource_id(d.getResourceId());
+            Map<String,Boolean> supportOp=new HashMap();
+            Filter.Op[] allOp=Filter.Op.values();
+            for(int i=0;i<allOp.length;i++){
+                supportOp.put(allOp[i].name(),false);
+            }
+            d.getSupportOp().forEach(op->
+                supportOp.replace(op.name(),true)
+            );
+            v.setSupportOp(supportOp);
+            v.setValueType(d.getValueType().getCode());
+            v.setKeyParam(d.getKeyParam());
+            return v;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok().body(viewmodels);
     }
 
     @RequestMapping(method = RequestMethod.POST,value="/{id}/filter")
-    public ResponseEntity addFilter(com.yunpos.model.Filter filter){
-        int filterId=resourceService.addFilter(filter);
+    public ResponseEntity addFilter(@PathVariable Integer id,@RequestBody com.yunpos.model.Filter filter){
+        int filterId=resourceService.addFilter(id, filter);
         if(filterId!=-1){
-            return getAddedResponseEntity(filterId);
+            return ResponseEntity.created(URI.create("/resource/"+id+"/filter/" + filterId)).build();
         }
         return ResponseEntity.badRequest().build();
     }
 
-    private ResponseEntity getAddedResponseEntity(int newObjectId) {
-        try {
-            URI uri=new URI(getRequest().getRequestURI());
-            URI createdFilterDifinitionURI=new URI(uri.getPath()+"/"+newObjectId);
-            return ResponseEntity.created(uri).build();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
     @RequestMapping(method = RequestMethod.PUT,value="/{id}/filter")
-    public ResponseEntity updateFilter(com.yunpos.model.Filter filter){
+    public ResponseEntity updateFilter(@RequestBody com.yunpos.model.Filter filter){
         resourceService.updateFilter(filter);
         return ResponseEntity.accepted().build();
     }
 
     @RequestMapping(method = RequestMethod.DELETE,value="/{id}/filter/{filterId}")
-    public ResponseEntity removeFilter(@PathVariable Integer filterId,HttpServletRequest request,HttpServletResponse response){
+    public ResponseEntity removeFilter(@PathVariable Integer id,@PathVariable Integer filterId,HttpServletRequest request,HttpServletResponse response){
         resourceService.removeFilter(filterId);
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(method = RequestMethod.POST,value="/{id}/filterGroups")
-    public ResponseEntity addFilterGroup(com.yunpos.model.FilterGroup filterGroup){
+    @RequestMapping(method = RequestMethod.POST,value="/{id}/filterGroup")
+    public ResponseEntity addFilterGroup(@PathVariable Integer id,@RequestBody com.yunpos.model.FilterGroup filterGroup){
         int gid=resourceService.addFilterGroup(filterGroup);
         if(gid==-1){
             return ResponseEntity.badRequest().build();
         }
-        return getAddedResponseEntity(gid);
+        return ResponseEntity.created(URI.create("/resource/" + id + "/filterGroup/" + gid)).build();
     }
 
     @RequestMapping(method = RequestMethod.DELETE,value="/{id}/filterGroup/{filterGroupId}")
     public ResponseEntity removeFilterGroup(@PathVariable Integer filterGroupId){
-        resourceService.removeFilterGroup(filterGroupId);
+        if(resourceService.removeFilterGroup(filterGroupId)==-1){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().build();
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST,value="/{id}/difinition")
+    @RequestMapping(method = RequestMethod.POST,value="/{id}/filterDifinition")
     public ResponseEntity addFilterDifinition(@PathVariable Integer id,@PathVariable Integer difinitionId,
-                                              FilterDifinitionViewModel filterDifinition){
+                                              @RequestBody FilterDifinitionViewModel filterDifinition){
         FilterDifinition difinition=convert(filterDifinition);
         List<FilterDifinitionValue> values=null;
         try {
@@ -139,7 +175,7 @@ public class ResourceController extends BaseController{
             if(difId==-1){
                 return ResponseEntity.notFound().build();
             }else{
-                return getAddedResponseEntity(difId);
+                return ResponseEntity.created(URI.create("/resource/" + id + "/difinition/" + difId)).build();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -151,9 +187,9 @@ public class ResourceController extends BaseController{
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.PUT,value="/{id}/difinition/{difinitionId}")
+    @RequestMapping(method = RequestMethod.PUT,value="/{id}/filterDifinition/{difinitionId}")
     public ResponseEntity updateFilterDifinition(@PathVariable Integer id,@PathVariable Integer difinitionId,
-                                                 FilterDifinitionViewModel filterDifinition){
+                                                 @RequestBody FilterDifinitionViewModel filterDifinition){
         FilterDifinition difinition=convert(filterDifinition);
         List<FilterDifinitionValue> values=null;
         try {
@@ -190,18 +226,23 @@ public class ResourceController extends BaseController{
     private FilterDifinition convert(FilterDifinitionViewModel filterDifinition){
         FilterDifinition difinition=new FilterDifinition();
         difinition.setId(filterDifinition.getId());
-        difinition.setResource_id(filterDifinition.getResource_id());
+        difinition.setResourceId(filterDifinition.getResource_id());
         difinition.setName(filterDifinition.getName());
         difinition.setDataType(Value.DataType.fromCode(filterDifinition.getDataType()));
-        difinition.setValueType(FilterDifinitionData.ValueType.fromCode(filterDifinition.getValueType()));
-        difinition.setTable_name(filterDifinition.getTable_name());
-        difinition.setCol_name(filterDifinition.getCol_name());
-        difinition.setKey(filterDifinition.getKey());
+        difinition.setValueType(FilterDifinition.ValueType.fromCode(filterDifinition.getValueType()));
+        difinition.setColName(filterDifinition.getCol_name());
+        difinition.setKeyParam(filterDifinition.getKeyParam());
+        difinition.setKeyColumn(filterDifinition.getKeyColumn());
         int supportOpCode=0;
-        for(Integer code:filterDifinition.getSupportOpCodes()){
-            supportOpCode=Filter.Op.setOp(supportOpCode, code);
+        Iterator<Map.Entry<String,Boolean>> iterator=filterDifinition.getSupportOp().entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String,Boolean> en=iterator.next();
+            if(en.getValue()){
+                Filter.Op op= Filter.Op.valueOf(en.getKey());
+                supportOpCode=Filter.Op.setOp(supportOpCode, op.getCode());
+            }
         }
-        difinition.setSupport_op_code(supportOpCode);
+        difinition.setSupportOpCode(supportOpCode);
         return difinition;
     }
 
@@ -214,7 +255,7 @@ public class ResourceController extends BaseController{
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.DELETE,value="/{id}/difinition/{difinitionId}")
+    @RequestMapping(method = RequestMethod.DELETE,value="/{id}/filterDifinition/{difinitionId}")
     public ResponseEntity removeFilterDifinition(@PathVariable Integer difinitionId){
         Integer id=filterDifinitionService.removeFilterDifinition(difinitionId);
         if(difinitionId==id){
@@ -225,20 +266,7 @@ public class ResourceController extends BaseController{
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET,value="/{id}/difinition/{difinitionId}")
-    public ResponseEntity getFilterValue(@PathVariable Integer difinitionId){
-
-        try {
-            return new ResponseEntity(getFilterValue(difinitionId,0,MAX_RESULT), HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.badRequest().build();
-    }
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.GET,value="/{id}/difinition/{difinitionId}/slice")
+    @RequestMapping(method = RequestMethod.GET,value="/{id}/filterDifinition/{difinitionId}/value/slice")
     public ResponseEntity getFilterValue(@PathVariable Integer difinitionId,HttpServletRequest request) {
         String offsetParam=request.getParameter("offset"),limitParam=request.getParameter("limit");
         int offset=offsetParam==null?0:Integer.valueOf(offsetParam);
@@ -253,8 +281,35 @@ public class ResourceController extends BaseController{
         return ResponseEntity.badRequest().build();
     }
 
-    public List<Value> getFilterValue(Integer difinitionId,Integer offset,Integer limit) throws IOException, ParseException {
-        return filterDifinitionService.getValues(difinitionId,offset,limit);
+    public Values getFilterValue(Integer difinitionId,Integer offset,Integer limit) throws IOException, ParseException {
+        int total=filterDifinitionService.getValueCount(difinitionId);
+        List<Value> valueList=filterDifinitionService.getValues(difinitionId,offset,limit);
+        return new Values(total,valueList);
     }
 
+    private class Values{
+        private int total;
+        private List<Value> valueList;
+
+        public Values(int total, List<Value> valueList) {
+            this.total = total;
+            this.valueList = valueList;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
+
+        public List<Value> getValueList() {
+            return valueList;
+        }
+
+        public void setValueList(List<Value> valueList) {
+            this.valueList = valueList;
+        }
+    }
 }

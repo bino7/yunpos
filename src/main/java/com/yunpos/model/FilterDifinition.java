@@ -1,68 +1,160 @@
-/*
- * *
- *  * 功能描述：
- *  * <p>
- *  * 版权所有：小牛信息科技有限公司
- *  * <p>
- *  * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
- *  *
- *  * @author Bino Zhong 新增日期：${date}
- *  * @author Bino Zhong 修改日期：${date}
- *  *
- *
- */
-
 package com.yunpos.model;
 
-import com.yunpos.rewriter.filter.*;
 import com.yunpos.rewriter.filter.Filter;
+import com.yunpos.rewriter.value.Value;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 功能描述：
- * <p>
- * 版权所有：小牛信息科技有限公司
- * <p>
- * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
- *
- * @author bino 新增日期：2015/8/18
- * @author bino 修改日期：2015/8/18
- */
-public class FilterDifinition extends FilterDifinitionData{
+public class FilterDifinition {
 
+    public static enum ValueType{
+        SINGLE_VALUE(0),SINGLE_SELECTED_VALUE(1),MUTIL_SELECTED_VALUE(2);
+        int code;
+        ValueType(int code){
+            this.code=code;
+        }
+        public int getCode(){
+            return code;
+        }
 
-
-    public FilterDifinition(){
+        public static ValueType fromCode(int code){
+            switch (code){
+                case 0:return SINGLE_VALUE;
+                case 1:return SINGLE_SELECTED_VALUE;
+                case 2:return MUTIL_SELECTED_VALUE;
+                default:throw new IllegalArgumentException("unsupported code enum type FilterDifinitionViewModel.ValueType "+code);
+            }
+        }
 
     }
 
-    public FilterDifinition(FilterDifinitionData data){
-        clone(data);
+    public static enum Type{
+        COLUMN_FILTER(0),KEY_PARAM_FILTER(1);
+        int code;
+        Type(int code){
+            this.code=code;
+        }
+        public int getCode(){
+            return code;
+        }
+
+        public static Type fromCode(int code){
+            switch (code){
+                case 0:return COLUMN_FILTER;
+                case 1:return KEY_PARAM_FILTER;
+                default:throw new IllegalArgumentException("unsupported code enum type FilterDifinitionViewModel.Type "+code);
+            }
+        }
+
     }
 
-    private void clone(FilterDifinitionData data) {
-        super.setCol_name(data.getCol_name());
-        super.setDataType(data.getDataType());
-        super.setId(data.getId());
-        super.setKey(data.getKey());
-        super.setName(data.getName());
-        super.setResource_id(data.getResource_id());
-        super.setSupport_op_code(data.getSupport_op_code());
-        super.setTable_name(data.getTable_name());
-        super.setValueType(data.getValueType());
+
+
+    private Integer id;
+
+    private Integer resourceId;
+
+    private String name;
+
+    private Type type;
+
+    private ValueType valueType;
+
+    private Value.DataType dataType;
+
+    private String colName;
+
+    private String keyParam;
+
+    private String keyColumn;
+
+    private Integer supportOpCode;
+
+    private List<Filter.Op> supportOp;
+
+    public Integer getId() {
+        return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Integer resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public ValueType getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(ValueType valueType) {
+        this.valueType = valueType;
+    }
+
+    public Value.DataType getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(Value.DataType dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getColName() {
+        return colName;
+    }
+
+    public void setColName(String colName) {
+        this.colName = colName == null ? null : colName.trim();
+    }
+
+    public String getKeyParam() {
+        return keyParam;
+    }
+
+    public void setKeyParam(String keyParam) {
+        this.keyParam = keyParam == null ? null : keyParam.trim();
+    }
+
+    public String getKeyColumn() {
+        return keyColumn;
+    }
+
+    public void setKeyColumn(String keyColumn) {
+        this.keyColumn = keyColumn == null ? null : keyColumn.trim();
+    }
+
+    public Integer getSupportOpCode() {
+        return supportOpCode;
+    }
+
+    public void setSupportOpCode(Integer supportOpCode) {
+        this.supportOpCode = supportOpCode;
+        supportOp= Filter.Op.disjoint(supportOpCode);
+    }
 
     public List<Filter.Op> getSupportOp() {
-        Integer code = getSupport_op_code();
-        if(code==null){
-            return null;
-        }
-        List<Filter.Op> supportOp=Filter.Op.disjoint(code);
         return supportOp;
     }
-
 
 }

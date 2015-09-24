@@ -14,12 +14,14 @@
 
 package com.yunpos.rewriter.node;
 
-import com.yunpos.rewriter.Binding;
 import com.yunpos.rewriter.filter.ColumnFilter;
 import com.yunpos.rewriter.filter.Filter;
 import com.yunpos.rewriter.filter.FilterGroup;
+import com.yunpos.rewriter.filter.KeyFilter;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * 功能描述：
@@ -52,18 +54,13 @@ public class Statement extends RewritableNode implements NodeList {
 
     //resolve column's table and table alias
     public void resolveNodes(){
-        for(Column column:columnList){
-            if (column.getTable()!=null && column.getTable() instanceof AliasTable){
-                String tableAlias=column.getTable().getTableAlias();
-                for(Table table:tableList){
-                    if(tableAlias.equals(table.getTableAlias())){
-                        column.setTable(table);
-                        break;
-                    }
-                }
-            }
-        }
-
+        columnList.stream().filter(c->c.getTable()!=null && c.getTable() instanceof AliasTable)
+                .forEach(c -> {
+                            String tableAlias = c.getTable().getTableAlias();
+                            tableList.stream().filter(t -> tableAlias.equals(t.getTableAlias()))
+                                    .forEach(t -> c.setTable(t));
+                        }
+                );
         int i=1;
         for(Table table:tableList){
             table.setTableAlias("t"+i);
@@ -72,45 +69,107 @@ public class Statement extends RewritableNode implements NodeList {
     }
 
     public void addFilter(Filter filter,Map<String,Object> params){
-        resolveFilterTableAlias(filter);
+        //resolveKeyFilterTable
+        new FilterWalker(f->{
+            if (f instanceof KeyFilter){
+                KeyFilter keyFilter=(KeyFilter)f;
+                String tableName=keyFilter.getTable();
+                if(tableList.stream().anyMatch(t -> t.getTableName().equals(tableName))==false){
+                    Table firstTable=tableList.get(0);
+                    int index=firstTable.getIndex();
+                    Table table=new Table();
+                    table.setIndex(index + 2);
+                    table.setTableName(tableName);
+                    nodeList.add(index+1,new BaseNode(","));
+                    nodeList.add(index+2,table);
+                    tableList.add(1,table);
+                    for(int i=2;i<tableList.size();i++){
+                        Table t=tableList.get(i);
+                        t.setIndex(t.getIndex()+2);
+                    }
+                }
+            }
+        }).walk(filter);
+
+        //resolveFilterTableAlias
+        new FilterWalker(f->{
+            if(f instanceof ColumnFilter) {
+                ColumnFilter columnFilter=(ColumnFilter)filter;
+                for (Table table : tableList) {
+                    if (table.getTableName().equals(columnFilter.getTableName())) {
+                        columnFilter.setTableAlias(table.getTableAlias());
+                        break;
+                    }
+                }
+            }
+
+            if(f instanceof KeyFilter) {
+                KeyFilter keyFilter=(KeyFilter)f;
+                for (Table table : tableList) {
+                    if (table.getTableName().equals(keyFilter.getTable())) {
+                        keyFilter.setTableAlias(table.getTableAlias());
+                        break;
+                    }
+                    if(table.getTableName().equals(keyFilter.getKeyTable())){
+                        keyFilter.setKeyTableAlias(table.getTableAlias());
+                        break;
+                    }
+                }
+            }
+
+        }).walk(filter);
+
         filter.bind(params);
+        //resolve key filter table associations
+        Set<String> associations=new TreeSet<>();
+        new FilterWalker(f->{
+            if(f instanceof KeyFilter){
+                KeyFilter kf=(KeyFilter)f;
+                associations.add(kf.getTableAlias()+"."+kf.getTable()+"."+kf.getAssociatedColumn()+"="
+                        +kf.getKeyTableAlias()+"."+kf.getKeyTable()+"."+kf.getKeyPrimaryColumn());
+            }
+        }).walk(filter);
+        String associationSql=StringUtils.join(associations, "and");
         String filterSql=filter.toSql();
         if (whereClause==null){
             whereClause=new WhereClause();
             whereClause.add(new BaseNode("where"));
         }
+        Node associationNode=new BaseNode(" and "+associationSql);
+        whereClause.add(associationNode);
         Node filterNode=new BaseNode(" and ("+filterSql+")");
         whereClause.add(filterNode);
-
     }
 
-    private void resolveFilterTableAlias(Filter filter){
-        if(filter instanceof FilterGroup){
-            resolveFilterGroupTableAlias((FilterGroup)filter);
+
+
+    private class FilterWalker{
+        private Consumer<Filter> filterConsumer;
+
+        public FilterWalker(Consumer<Filter> filterConsumer) {
+            this.filterConsumer = filterConsumer;
         }
-        if(filter instanceof ColumnFilter) {
-            ColumnFilter columnFilter=(ColumnFilter)filter;
-            for (Table table : tableList) {
-                if (table.getTableName().equals(columnFilter.getTableName())) {
-                    columnFilter.setTableAlias(table.getTableAlias());
-                    break;
-                }
+
+        public void walk(Filter filter) {
+            if(filter instanceof FilterGroup){
+                FilterGroup filteGroup=(FilterGroup)filter;
+                filteGroup.getFilterList().forEach(f->filterConsumer.accept(f));
+                filteGroup.getChildren().forEach(g->walk(g));
+            }else{
+                filterConsumer.accept(filter);
             }
         }
-    }
 
-    private void resolveFilterGroupTableAlias(FilterGroup filterGroup){
-        for(FilterGroup group:filterGroup.getChildren()){
-            resolveFilterGroupTableAlias(group);
-        }
-        for(Filter filter:filterGroup.getFilterList()){
-            resolveFilterTableAlias(filter);
-        }
     }
 
     @Override
     public void add(Node node) {
         nodeList.add(node);
+    }
+
+    @Override
+    public int size() {
+        return nodeList.size();
     }
 
     @Override

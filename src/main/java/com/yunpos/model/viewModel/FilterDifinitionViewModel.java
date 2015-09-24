@@ -15,6 +15,7 @@
 package com.yunpos.model.viewModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 功能描述：
@@ -33,19 +34,29 @@ public class FilterDifinitionViewModel {
 
     private String name;
 
+    private Integer type;
+
     private Integer valueType;
 
     private Integer dataType;
 
-    private String table_name;
-
     private String col_name;
 
-    private String key;
+    private String keyParam;
 
-    private List<Integer> supportOpCodes;
+    private String keyColumn;
+
+    private Map<String,Boolean> supportOp;
 
     private List<ValueViewModel> values;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;
@@ -87,14 +98,6 @@ public class FilterDifinitionViewModel {
         this.dataType = dataType;
     }
 
-    public String getTable_name() {
-        return table_name;
-    }
-
-    public void setTable_name(String table_name) {
-        this.table_name = table_name;
-    }
-
     public String getCol_name() {
         return col_name;
     }
@@ -103,20 +106,12 @@ public class FilterDifinitionViewModel {
         this.col_name = col_name;
     }
 
-    public String getKey() {
-        return key;
+    public Map<String,Boolean> getSupportOp() {
+        return supportOp;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public List<Integer> getSupportOpCodes() {
-        return supportOpCodes;
-    }
-
-    public void setSupportOpCodes(List<Integer> supportOpCodes) {
-        this.supportOpCodes = supportOpCodes;
+    public void setSupportOp(Map<String, Boolean> supportOp) {
+        this.supportOp = supportOp;
     }
 
     public List<ValueViewModel> getValues() {
@@ -126,6 +121,23 @@ public class FilterDifinitionViewModel {
     public void setValues(List<ValueViewModel> values) {
         this.values = values;
     }
+
+    public String getKeyColumn() {
+        return keyColumn;
+    }
+
+    public void setKeyColumn(String keyColumn) {
+        this.keyColumn = keyColumn;
+    }
+
+    public String getKeyParam() {
+        return keyParam;
+    }
+
+    public void setKeyParam(String keyParam) {
+        this.keyParam = keyParam;
+    }
+
     public static class ValueViewModel {
         private int id;
         private Object data;
@@ -146,4 +158,6 @@ public class FilterDifinitionViewModel {
             this.data = data;
         }
     }
+
+
 }

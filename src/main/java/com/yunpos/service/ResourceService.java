@@ -46,20 +46,30 @@ public class ResourceService {
     @Autowired
     private FilterDifinitionMapper filterDifinitionMapper;
 
+    public int addResource(Resource resource){
+        return resourceMapper.insert(resource);
+    }
     public List<Resource> getAllResources(){
         return resourceMapper.selectAll();
     }
+    public Resource getResource(int id){
+        return resourceMapper.selectByPrimaryKey(id);
+    }
+    public int removeResource(int id) { return resourceMapper.deleteByPrimaryKey(id);}
+    public int updateResource(Resource res) { return resourceMapper.updateByPrimaryKeySelective(res);}
 
     public List<FilterDifinition> getAllFilterDifinitions(int resourceId){
-        List<FilterDifinition> ret=new ArrayList<>();
-        List<FilterDifinitionData> difinitionDataList=filterDifinitionMapper.selectByResourceId(resourceId);
-        for(FilterDifinitionData data:difinitionDataList){
-            ret.add(new FilterDifinition(data));
-        }
-        return ret;
+        return filterDifinitionMapper.selectByResourceId(resourceId);
+    }
+    public int addFilterDifinition(FilterDifinition filterDifinition){
+        return filterDifinitionMapper.insert(filterDifinition);
+    }
+    public int removeFilterDifinition(int id){
+        return filterDifinitionMapper.deleteByPrimaryKey(id);
     }
 
-    public int addFilter(Filter filter){
+    public int addFilter(int rid,Filter filter){
+        filter.setResource_id(rid);
         return filterMapper.insert(filter);
     }
     public void updateFilter(Filter filter) {
@@ -69,7 +79,7 @@ public class ResourceService {
     public int addFilterGroup(FilterGroup filterGroup){
         return filterGroupMapper.insert(filterGroup);
     }
-    public void removeFilterGroup(Integer id){
-        filterGroupMapper.deleteByPrimaryKey(id);
+    public int removeFilterGroup(Integer id){
+        return filterGroupMapper.deleteByPrimaryKey(id);
     }
 }

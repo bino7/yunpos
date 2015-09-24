@@ -1,0 +1,115 @@
+<div>
+    <div class="error_message" ng-hide="errorMessage==null">
+        <p class="text-danger">
+            <!--{{errorMessage}}-->
+        </p>
+    </div>
+    <div class="panel bg-light" style="padding-top:20px;" ng-repeat="g in res.filterGroupList" ng-init="initGroup(g)">
+        <div class="btn-group" ng-repeat="f in g.filterList" role="group" ng-init="initFilter(f)">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group filter-column" role="group" ng-switch="f.difinition.type">
+                    <button class="label label-primary btn-lg"
+                            ng-switch-when="COLUMN_FILTER">{{f.difinition.colName}}
+                    </button>
+                    <button class="btn btn-default btn-lg"
+                            ng-switch-when="KEY_PARAM_FILTER">{{f.difinition.keyParam}}
+                    </button>
+                </div>
+
+                <div class="btn-group filter-column" role="group">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        {{opMapper[f.op]}} <span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li ng-click="f.op=o" ng-repeat="o in f.difinition.supportOp"><a>{{opMapper[o]}}</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group filter-column" role="group">
+
+                    <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        {{f.filterValue.value}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <div class="infinite-scroll" infinite-scroll='f.difinition.values.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
+                            <li  ng-click="f.filterValue=v" ng-repeat="v in f.difinition.values.items"><a>{{v.value}}</a></li>
+                            <div ng-show='reddit.busy'>Loading data...</div>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="btn-group filter-column" role="group">
+                    <span ng-click="deleteFilter(f)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </div>
+
+            </div>
+        </div>
+        <div>
+                <div class="btn-group btn-group-justified" role="group" aria-label="..." >
+                    <div class="btn-group filter-column" role="group" ng-switch="g.editDifinition.type">
+                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" ng-switch-when="COLUMN_FILTER">
+                            {{g.editDifinition.colName}} <span class="caret"></span>
+                        </button>
+                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" ng-switch-when="KEY_PARAM_FILTER">
+                            {{g.editDifinition.keyParam}} <span class="caret"></span>
+                        </button>
+                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" ng-switch-default="">
+                            选择规则<span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li ng-click="g.editDifinition=d;g.editFilter.filter_difinition_id=d.id;initDif(d);" ng-repeat="d in cur.difinitions" ng-switch="d.type">
+                                <a ng-switch-when="COLUMN_FILTER">{{d.colName}}</a>
+                                <a ng-switch-when="KEY_PARAM_FILTER">{{d.keyParam}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="btn-group filter-column" role="group">
+                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            {{codeOpMapper[g.editFilter.op]}} <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li ng-click="alert('hi');g.editFilter.op=opCodeMapper[o]" ng-repeat="o in g.editDifinition.supportOp"><a>{{opMapper[o]}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group filter-column" role="group">
+                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            {{g.editFilter.filter_value}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                                <div class="infinite-scroll" infinite-scroll='g.editDifinition.values.nextPage()' infinite-scroll-disabled='g.editDifinition.values.busy' infinite-scroll-distance='1'>
+                                <li  ng-click="g.editFilter.filter_value=v.value" ng-repeat="v in g.editDifinition.values.items"><a>{{v.value}}</a></li>
+                                <div ng-show='g.editDifinition.values.busy'>Loading data...</div>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <div class="btn-group filter-column" role="group">
+                        <button ng-click="addFilter(g.editFilter);initGroup(g);" class="btn btn-default btn-lg"  type="remove">增加</button>
+                    </div>
+            </div>
+        </div>
+        <div >
+                <button ng-click="removeFilterGroup(g)"class="btn btn-default btn-lg" type="remove">删除分组</button>
+        </div>
+    </div>
+    <div ng-hide="res==null">
+        <button ng-click="addFilterGroup()"class="btn btn-default btn-lg" type="remove">增加分组</button>
+    </div>
+</div>

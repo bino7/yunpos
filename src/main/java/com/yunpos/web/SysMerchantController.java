@@ -117,7 +117,7 @@ public class SysMerchantController extends BaseController{
 		sysOrgService.save(sysOrg);
 		
 
-		sysMerchant.setKey(MD5Utils.genRandomNum(32));
+		sysMerchant.setMd5Key(MD5Utils.genRandomNum(36));
 		sysMerchant.setSerialNo("555555");
 		sysMerchant.setBaseUserId(user.getId());
 		sysMerchant.setAgentSerialNo(sysAgentMerchant.getAgentSerialNo());

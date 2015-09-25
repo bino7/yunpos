@@ -456,7 +456,7 @@ angular.module('app')
                 	  
               })
               .state('app.table.pay', {//支付管理
-                  url: '/pay',
+                  url: '/pay/:id',
                   templateUrl: 'tpl/system/sys_pay.html',
                   resolve: {
                       deps: ['$ocLazyLoad',
@@ -470,18 +470,25 @@ angular.module('app')
                   }
               })
               .state('app.table.alipaPayEdit', {//用户管理
-                  url: '/pay/:id',
-                  templateUrl: 'tpl/system/sys_pay_edit.html',
+                  url: '/pay/alipay/:id',
+                  templateUrl: 'tpl/system/sys_pay_alipay_edit.html',
                   resolve: {
-                      deps: ['$ocLazyLoad',
-                        function( $ocLazyLoad ){
-                          return $ocLazyLoad.load('ngGrid').then(
-                              function(){
-                                  return $ocLazyLoad.load('js/controllers/yunpos/sysPayGrid.js');
-                              }
-                          );
-                      }]
-                  }
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('app.table.wechatPayEdit', {//用户管理
+                  url: '/pay/wechat/:id',
+                  templateUrl: 'tpl/system/sys_pay_wechat_edit.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  },
+            	  //params: ['tag1', 'tag2', 'tag3']
               })
               .state('app.table.paypassword', {//支付密码
                   url: '/paypassword/:id',

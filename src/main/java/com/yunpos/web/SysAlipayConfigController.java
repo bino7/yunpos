@@ -36,7 +36,8 @@ public class SysAlipayConfigController {
 	
 	@RequestMapping(value = "/ajax/alipayconfig/{id}", method = GET)
 	public SysAlipayConfigWithBLOBs read(@PathVariable("id") int id) {
-		return sysAlipayConfigService.findById(id);
+		SysAlipayConfigWithBLOBs d = sysAlipayConfigService.findById(id);
+		return d;
 	}
 	
 	@RequestMapping(value = "/ajax/alipayconfig", method = RequestMethod.POST)

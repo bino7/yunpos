@@ -33,12 +33,10 @@
     merchantPrivateKey, alipayPublicKey, appPrivateKey, appPublicKey, devPublicKey
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_alipay_config
-    where id = #{id,jdbcType=INTEGER}
+    select id, sellerEmail, pid, key, merchanSynNotify, merchanAsynNotify, synNotify, asynNotify, 
+    devGetway, token, pagentId, mark, info, status, merchantNo,merchantPrivateKey, alipayPublicKey, appPrivateKey, appPublicKey, devPublicKey
+ 	from sys_alipay_config
+    where id = #{id,jdbcType=INTEGER}   
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_alipay_config

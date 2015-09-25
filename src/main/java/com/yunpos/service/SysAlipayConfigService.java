@@ -13,7 +13,7 @@ public class SysAlipayConfigService{
 	private SysAlipayConfigMapper sysAlipayConfigMapper;
 
 	public SysAlipayConfigWithBLOBs findById(int id) {
-		return sysAlipayConfigMapper.selectByPrimaryKey(id);
+		return sysAlipayConfigMapper.findById(id);
 	}
 
 	public void save(SysAlipayConfigWithBLOBs sysalipayconfig) {

@@ -1,4 +1,4 @@
-<div class="well" ng-controller="SysPayEditCtl" ng-init="processForm()">
+<div class="well" ng-controller="SysAlipayEditCtl" ng-init="alipayInit()">
 	<div class="row">
 		<div class="col-md-9">
 			<div class="row">
@@ -6,96 +6,95 @@
 					<form class="form-horizontal" role="form" name="form">
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 支付方式： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.info">
+							<div class="col-sm-10">
+								<p class="form-control-static">支付宝</p>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 描述信息： </label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.info">
+								<p class="form-control-static">中国领先的在线支付平台，致力于为互联网用户和企业提供安全、便捷、专业的在线支付服务。</p>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 支付宝签约账号： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.sellerEmail">
+									ng-model="pay.sellerEmail">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 支付宝商户号： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.pid">
+									ng-model="pay.pid">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 支付宝安全校验码： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.key">
+									ng-model="pay.key">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 商户秘钥：</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="3" placeholder=""
+									ng-model="pay.merchantPrivateKey"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付宝公钥：</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="3" placeholder=""
+									ng-model="pay.alipayPublicKey"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 商户同步跳转地址： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="pay.merchanSynNotify">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付宝wap商户同步跳转地址： </label>
+							<label class="col-md-2 control-label"> 商户异步回调地址： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.merchanSynNotify">
+									ng-model="pay.merchanAsynNotify">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付宝wap商户异步回调地址： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.merchanAsynNotify">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付宝wap商户异步回调地址： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.merchanAsynNotify">
+							<label class="col-md-2 control-label"> 开发者公钥：</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label>开发者公钥：</label>
-							<textarea class="form-control" placeholder="Enter a message"
-								rows="5" ng-model="toaster.text"></textarea>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 开发者网关接口URL： </label>
+							<label class="col-md-2 control-label"> 开发者网关接口： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.devGetway">
+									ng-model="pay.devGetway">
 							</div>
 						</div>
 						<div class="form-group">
-							<label>商户公钥：</label>
-							<textarea class="form-control" placeholder="Enter a message"
-								rows="5" ng-model="alipay.merchantPrivateKey"></textarea>
-						</div>
-					
-						<div class="form-group">
-							<label class="col-md-2 control-label">token： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.merchantPrivateKey">
+							<label class="col-md-2 control-label">Token： </label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="3" placeholder=""
+									ng-model="pay.merchantPrivateKey"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">代理商号： </label>
+							<label class="col-md-2 control-label">AgentId： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="alipay.pagentId">
+									ng-model="pay.pagentId">
 							</div>
 						</div>
-						<button ng-disabled="form.$invalid" ng-click="add(user)">保存</button>
+						<button ng-disabled="form.$invalid" ng-click="alipaySave(pay)">保存</button>
 					</form>
 				</div>
 

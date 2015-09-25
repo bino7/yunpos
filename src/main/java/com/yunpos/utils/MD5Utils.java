@@ -11,6 +11,8 @@ import java.util.Random;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.google.common.base.Strings;
+
 /** 
 * 功能：支付宝MD5签名处理核心文件，不需要修改
 * 版本：3.3
@@ -36,6 +38,30 @@ public class MD5Utils {
 //    
 	
     public static String sign(Map<String,String> params,String sign_type, String key, String input_charset) {
+    	//过滤空值、sign与sign_type参数
+    	Map<String, String> sParaNew = paraFilter(params);
+        //获取待签名字符串
+        String preSignStr = createLinkString(sParaNew);
+        //获得签名验证结果
+        String text = preSignStr + key;
+        String sign = DigestUtils.md5Hex(getContentBytes(text, input_charset));
+        //签名结果与签名方式加入请求提交参数组中
+        sParaNew.put("sign", sign);
+        sParaNew.put("sign_type", sign_type);
+        return createLinkString(sParaNew);
+    
+    }
+    
+    public static String sign(String queryStr,String sign_type, String key, String input_charset) {
+    	Map<String,String> params = new HashMap<String,String>();
+    	if(!Strings.isNullOrEmpty(queryStr)){
+    		String[] arrays =  queryStr.split("&");
+    		for(int i=0;i<arrays.length;i++){
+    			String tempKey = arrays[i].split("=")[0];
+    			String tmeValue = arrays[i].split("=")[1];
+    			params.put(tempKey, tmeValue);
+    		}
+    	}
     	//过滤空值、sign与sign_type参数
     	Map<String, String> sParaNew = paraFilter(params);
         //获取待签名字符串

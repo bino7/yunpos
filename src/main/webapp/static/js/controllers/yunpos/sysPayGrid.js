@@ -33,14 +33,17 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
                          {field: 'payDes', displayName: '配置说明', enableCellEdit: false,width: 500}, 
                          {field: 'openStr', displayName: '是否启用', enableCellEdit: false,width: 120}, 
                          {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                          cellTemplate: '<div><a ui-sref="app.table.payEdit({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>配置</button> </a></div>'
-            }],
+                         // cellTemplate: '<div><a ui-sref="app.table.alipaPayEdit({id:row.getProperty(col.field)})"> <button>配置</button> </a></div>'
+         				 cellTemplate:'<a ng-if="row.getProperty(\'mark\')==\'alipay\'" ui-sref="app.table.alipaPayEdit({id:row.getProperty(col.field)})"><button>配置</button> </a>'
+         					 +'<a ng-if="row.getProperty(\'mark\')==\'wechat\'" ui-sref="app.table.wechatPayEdit({id:row.getProperty(col.field)})"><button>配置</button></a>'
+                         }],
             enablePaging: true,
             showFooter: true,        
             totalServerItems: 'totalServerItems',
             pagingOptions: $scope.pagingOptions,
             filterOptions: $scope.filterOptions
         };
+   
     $scope.getPagedDataAsync = function (pageSize, page, searchText) {
         setTimeout(function () {
             var data;
@@ -73,6 +76,17 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
             $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
         }
     }, true);
+    
+    
+	$scope.Config = function(row) {
+		var mark = row.entity.mark
+		if(mark=='alipay'){
+			$state.go('app.table.alipaPayEdit');
+		}else if(mark=='wechat'){
+			$state.go('app.table.wechatPayEdit',{'tag1':'yang1','tag2':'yang2','tag3':'yang3'});
+			//$location.path("/pay/wechat?tag=yang")
+		}
+	};
 
     $scope.deleted = function(obj) {
 	     $http({
@@ -88,6 +102,8 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
 	     });
 	};
 	
+
+	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
           var data = $scope.orderData.filter(function(item) {
@@ -95,6 +111,9 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
          });
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
 	};
+	
+	
+	
     
 });
 
@@ -103,23 +122,46 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('SysPayEditCtl', function($scope, $http, $state, $stateParams) {
-    $scope.processForm = function() {
+app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams) {
+    $scope.alipayInit = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/pay/'+ $stateParams.id
+	        url     : '/ajax/alipayconfig/'+ $stateParams.id
 	    }).success(function(data) {
-	           // console.log(data);
-	            $scope.order = data;
-	           // alert(data.id);
+	            $scope.pay = data;
 	        });
 	};
 	 $scope.saved = {};
-     $scope.save = function(pay) {
+     $scope.alipaySave = function(pay) {
     	 $scope.saved = angular.copy(pay);
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/pay/' + $scope.saved.id,
+	        url     : '/ajax/alipayconfig/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+});
+
+
+app.controller('SysWechatpayEditCtl', function($scope, $http, $state, $stateParams) {
+    $scope.wechatInit = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/wechatconfig/'+ 1
+	    }).success(function(data) {
+	            $scope.wechat = data;
+	        });
+	};
+	 $scope.saved = {};
+     $scope.wechatSave = function(wechat) {
+    	 $scope.saved = angular.copy(wechat);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/wechatconfig/' + $scope.saved.id,
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");

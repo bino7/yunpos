@@ -70,6 +70,8 @@ public class SysAgentMerchant  extends GridRequest {
 
 	private Integer createdBy;				// 创建人
 	
+	private String description;				// 描述
+	
     public Integer getId() {
         return id;
     }
@@ -271,6 +273,14 @@ public class SysAgentMerchant  extends GridRequest {
 
 	public void setAuditOpinion(String auditOpinion) {
 		this.auditOpinion = auditOpinion;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
     
 	

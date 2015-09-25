@@ -63,7 +63,7 @@ public class PayResData {
 				this.merchant_name = map.get("merchant_name");
 				this.merchant_num = map.get("merchant_num");
 				this.terminal_num = map.get("terminal_unique_no");
-				this.user_order_no = dtoMap.get("user_order_no");
+				this.user_order_no = map.get("user_order_no");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -25,6 +25,8 @@
     <result column="mapAddress" property="mapAddress" jdbcType="VARCHAR" />
     <result column="mapPoint" property="mapPoint" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="apprStatus" property="apprStatus" jdbcType="INTEGER" />
+    <result column="apprRemark" property="apprRemark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     baseUserId, serialNo, storeNo, storeName, contactMan, mail, prov, 
@@ -82,12 +84,19 @@
       <if test="status != null" >
        and status = #{status,jdbcType=INTEGER}
       </if>
+      <if test="apprStatus != null" >
+       and apprStatus = #{apprStatus,jdbcType=INTEGER}
+      </if>
+      <if test="apprRemark != null" >
+       and apprRemark = #{apprRemark,jdbcType=VARCHAR}
+      </if>
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
       select store.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.createdAt as createdAt,   user.createdBy as createdBy,  
-		store.phone as phone, store.tel as tel, store.status as status, 
+		 user.id as userId,user.createdAt as createdAt,   user.createdBy as createdBy,  
+		 store.phone as phone, store.tel as tel, store.status as status,  store.apprStatus as apprStatus,
+		 store.apprRemark as apprRemark,
 		<include refid="Base_Column_List" />
 		from sys_store store, sys_user user
 		where store.baseUserId = user.id
@@ -103,12 +112,13 @@
       storeNo, storeName, contactMan, 
       phone, tel, mail, prov, 
       city, area, remark, 
-      address, mapAddress, mapPoint, status)
+      address, mapAddress, mapPoint, status, apprStatus, apprRemark)
     values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
       #{storeNo,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{mapAddress,jdbcType=VARCHAR}, #{mapPoint,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+      #{address,jdbcType=VARCHAR}, #{mapAddress,jdbcType=VARCHAR}, #{mapPoint,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{apprStatus,jdbcType=INTEGER}, #{apprRemark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysStore" >
     insert into sys_store
@@ -164,6 +174,12 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="apprStatus != null" >
+        apprStatus,
+      </if>
+      <if test="apprRemark != null" >
+        apprRemark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -216,6 +232,12 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="apprStatus != null" >
+        #{apprStatus,jdbcType=INTEGER},
+      </if>
+      <if test="apprRemark != null" >
+        #{apprRemark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -270,6 +292,12 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="apprStatus != null" >
+        apprStatus = #{apprStatus,jdbcType=INTEGER},
+      </if>
+      <if test="apprRemark != null" >
+        apprRemark = #{apprRemark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -290,7 +318,9 @@
       address = #{address,jdbcType=VARCHAR},
       mapAddress = #{mapAddress,jdbcType=VARCHAR},
       mapPoint = #{mapPoint,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      apprStatus = #{apprStatus,jdbcType=INTEGER},
+      apprRemark = #{apprRemark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -298,8 +328,9 @@
     <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysStore" >
     
      select store.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.createdAt as createdAt,   user.createdBy as createdBy,  
-		store.phone as phone, store.tel as tel, store.status as status, 
+		 user.id as userId, user.createdAt as createdAt,   user.createdBy as createdBy,  
+		 store.phone as phone, store.tel as tel, store.status as status,  store.apprStatus as apprStatus, 
+		 store.apprRemark as apprRemark,
 		<include refid="Base_Column_List" />
 		from sys_store store, sys_user user
 		where store.baseUserId = user.id

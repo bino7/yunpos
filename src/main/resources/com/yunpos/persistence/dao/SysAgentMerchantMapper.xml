@@ -8,6 +8,7 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
 	<result column="createdBy" property="createdBy" jdbcType="INTEGER" />
+	<result column="description" property="description" jdbcType="VARCHAR" />
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
@@ -89,7 +90,7 @@
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select agen.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		 user.createdAt as createdAt,   user.createdBy as createdBy,    description,
 		agen.phone as phone, agen.tel as tel, agen.status as status, 
 		<include refid="Base_Column_List" />
 		from sys_agentmerchant agen, sys_user user
@@ -313,7 +314,7 @@
   <select id="search" resultMap="BaseResultMap"
 		parameterType="com.yunpos.utils.jqgrid.GridRequest">
 		select agen.id as id, user.userName as userName, user.nickname as nickname,  
-		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		 user.createdAt as createdAt,   user.createdBy as createdBy,    description,
 		agen.phone as phone, agen.tel as tel, agen.status as status, 
 		<include refid="Base_Column_List" />
 		from sys_agentmerchant agen, sys_user user

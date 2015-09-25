@@ -11,11 +11,6 @@ import java.util.Random;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.google.common.base.Strings;
-import com.yunpos.payment.alipay.config.AlipayConfig;
-import com.yunpos.payment.alipay.sign.MD5;
-import com.yunpos.payment.alipay.util.AlipayCore;
-
 /** 
 * 功能：支付宝MD5签名处理核心文件，不需要修改
 * 版本：3.3
@@ -51,7 +46,7 @@ public class MD5Utils {
         //签名结果与签名方式加入请求提交参数组中
         sParaNew.put("sign", sign);
         sParaNew.put("sign_type", sign_type);
-        return AlipayCore.createLinkString(sParaNew);
+        return createLinkString(sParaNew);
     
     }
     

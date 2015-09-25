@@ -130,11 +130,11 @@ public class SysStoreController extends BaseController{
 		user.setUpdatedBy(getUser().getId());
 		sysUserService.updateSysUser(user);
 		
-		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
-		sysOrg.setOrgName(sysStore.getStoreName());
-		sysOrg.setModifyUserId(user.getUpdatedBy());
-		sysOrg.setModifyDate(new Date());
-		sysOrgService.update(sysOrg);
+//		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
+//		sysOrg.setOrgName(sysStore.getStoreName());
+//		sysOrg.setModifyUserId(user.getUpdatedBy());
+//		sysOrg.setModifyDate(new Date());
+//		sysOrgService.update(sysOrg);
 		
 		
 		sysStore.setId(id);

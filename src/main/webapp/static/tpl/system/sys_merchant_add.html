@@ -15,15 +15,23 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                              	 昵称：
+                              	 昵称�?
                             </label>
                             <div class="col-md-10">
                            		 <input type="text" class="form-control" placeholder="" ng-model="merchant.nickname">
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                              	 公司名称�?
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.companyName">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                               	 登录密码：
+                               	 登录密码�?
                             </label>
                             <div class="col-md-10">
                             	<input type="password" class="form-control" placeholder="" ng-model="merchant.password">
@@ -31,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	确认密码：
+                                	确认密码�?
                             </label>
                             <div class="col-md-10">
                                 <input type="password" class="form-control" placeholder="" ng-model="merchant.password">
@@ -39,16 +47,16 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	状态：
+                                	状�?�：
                             </label>
                             <div class="col-md-10">
                                  <div class="radio">
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-model="merchant.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" ng-model="merchant.status">
 					                启用
 					              </label>
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-model="merchant.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.status">
 					                停用
 					              </label>
 					            </div>
@@ -56,21 +64,17 @@
                         </div>
                          <div class="form-group">
 				          <label class="col-sm-2 control-label">终端申请</label>
-				          <div class="col-sm-10">
-				            <label class="checkbox-inline">
-				              <input type="checkbox" value="1"> 银联
-				            </label>
-				            <label class="checkbox-inline">
-				              <input type="checkbox" value="2"> 支付宝
-				            </label>
-				            <label class="checkbox-inline">
-				              <input type="checkbox" value="3"> 微信支付
-				            </label>
+				           <div class="col-sm-10">
+				         	 <div data-ng-repeat="tag in tags">
+					            <label class="checkbox-inline">
+					              <input type="checkbox" id={{tag.id}} name="merchant.terminals" ng-model="tag.checked"> {{ tag.name }}
+					            </label>
+				            </div>
 				          </div>
 				        </div>
                        <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	服务窗/公众号：
+                                	服务�?/公众号：
                             </label>
                             <div class="col-md-10">
                            		 <input type="text" class="form-control" placeholder="" ng-model="merchant.serviceType1">
@@ -79,10 +83,10 @@
                         </div>
                          <div class="form-group">
                             <label class="col-md-2 control-label">
-                           			 行业类型：
+                           			 行业类型�?
                             </label>
                             <div class="col-md-10">
-                            	 <select name="account" class="form-control m-b" ng-model="merchant.role">
+                            	 <select name="account" class="form-control m-b" ng-model="merchant.industryTypeId">
 						              <option value ='1' >餐饮</option>
 						              <option value ='2' >KTV</option>
 						              <option value ='3' >美容美发</option>
@@ -103,7 +107,7 @@
 				        </div>
                         </div><div class="form-group">
                             <label class="col-md-2 control-label">
-                                	备注：
+                                	备注�?
                             </label>
                             <div class="col-md-10">
                             	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">

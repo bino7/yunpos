@@ -31,7 +31,7 @@ public interface SysTransactionMapper extends EntityMapper<SysTransaction>{
 	 */
 	int selectCountByParm(SysTransaction sysTransaction);
 	
-	@Select("select * from sys_order where user_order_no=#{orderNo} and serialNo=#{merchantNo}")
+	@Select("select * from sys_transaction where user_order_no=#{orderNo} and serialNo=#{merchantNo}")
 	SysTransaction findbyOrderNoAndMerchantNo(@Param("orderNo")String orderNo, @Param("merchantNo")String merchantNo);
 
 }

@@ -62,6 +62,8 @@ public class SysFans {
     private String is_id_auth;
 
     private String is_mobile_auth;
+    
+    private String memberCardTel;
 
     public Integer getId() {
         return id;
@@ -302,4 +304,13 @@ public class SysFans {
     public void setIs_mobile_auth(String is_mobile_auth) {
         this.is_mobile_auth = is_mobile_auth == null ? null : is_mobile_auth.trim();
     }
+
+	public String getMemberCardTel() {
+		return memberCardTel;
+	}
+
+	public void setMemberCardTel(String memberCardTel) {
+		this.memberCardTel = memberCardTel;
+	}
+    
 }

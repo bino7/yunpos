@@ -1,4 +1,4 @@
-app.controller('SysFansCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -29,52 +29,45 @@ app.controller('SysFansCtrl', ['$scope', '$http', function($scope, $http) {
             enableCellSelection: true,
             enableRowSelection: false,
             enableCellEdit: true,
-            enablePinning: true,
-            columnDefs: [{
-                field: 'openId',
-                displayName: '会员编号',
-                width: 150,
-                pinnable: false,
-                sortable: false
-            }, {
-                field: 'nickName',
-                displayName: '昵称',
-                pinnable: false,
-                width: 150,
-                enableCellEdit: false
-            }, {
-                field: 'tel',
-                displayName: '手机号码',
-                pinnable: false,
-                enableCellEdit: false,
-                width: 150
-            }, {
-                field: 'pubTime',
-                displayName: '所在地区',
-                pinnable: false,
-                enableCellEdit: false,
-                width: 200
-            }, {
-                field: 'price',
-                displayName: '交易流水',
-                pinnable: false,
-                enableCellEdit: false,
-                width: 200,
-                cellTemplate: '<div><a ui-sref="bookdetail({bookId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">201509280001</a></div>'
-            },{
-                field: 'bookId',
-                displayName: '操作',
-                enableCellEdit: false,
-                sortable: false,
-                pinnable: false,
-                cellTemplate: '<div><a ui-sref="bookdetail({bookId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}">详情</a></div>'
-            }],
+            //enablePinning: true,
+            columnDefs: [
+                         {field: 'nickName', displayName: '昵称', enableCellEdit: false,  sortable: false, width: 100}, 
+                         {field: 'memberCardTel', displayName: '手机号码', width: 100,  pinnable: false}, 
+                         {field: 'address', displayName: '所在地区', enableCellEdit: false, sortable: false, width: 220},
+                         {field: 'balance', displayName: '余额', enableCellEdit: false, sortable: false, width: 80},
+                         {field: 'score', displayName: '可用积分', enableCellEdit: false, sortable: false, width: 80},
+                         {field: 'subscribeTime', displayName: '关注时间', cellFilter : 'date:"yyyy-MM-dd HH:mm:ss"',enableCellEdit: false, sortable: false, width: 150}, 
+                         {field: 'sourceType', displayName: '来源类型', cellFilter : 'sourceType' ,enableCellEdit: false, sortable: false, width: 150},                        
+                         {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
+                          cellTemplate: '<div>'
+                           +	'<a ui-sref="app.table.sysFanScoreDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>积分明细</button></a>' 
+                           +	'<a ui-sref="app.table.sysPayrecordDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>充值记录</button></a>'
+                           +	'<a ui-sref="app.table.sysUserecordDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>消费记录</button></a>'              	
+                           +	'</div>'
+                      }],
             enablePaging: true,
             showFooter: true,
             totalServerItems: 'totalServerItems',
             pagingOptions: $scope.pagingOptions,
             filterOptions: $scope.filterOptions
         };
+    
+    app.filter('sourceType',function(){
+        return function(sourceType){
+        	var type;
+        	switch (sourceType){
+        	case 0:
+        		type = "公众号";
+        		break;
+        	case 1:
+        		type = "服务窗";
+        		break;
+        	default:
+        		type = "自行注册";    	
+        	}
+            return type;
+        }
+    });
     
     $scope.getPagedDataAsync = function (pageSize, page, searchText) {
         setTimeout(function () {
@@ -88,8 +81,10 @@ app.controller('SysFansCtrl', ['$scope', '$http', function($scope, $http) {
                     $scope.setPagingData(data,page,pageSize);
                 });            
             } else {
-                $http.get('/ajax/fans/search').success(function (largeLoad) {
-                    $scope.setPagingData(largeLoad.rows,page,pageSize);
+            	var url = '/ajax/merchantFans/search?serialNo=' + '08600719332';
+                $http.get(url).success(function (largeLoad) {
+                	$scope.sysFansData = largeLoad.rows;
+                    $scope.setPagingData($scope.sysFansData,page,pageSize);
                 });
             }
         }, 100);
@@ -107,4 +102,14 @@ app.controller('SysFansCtrl', ['$scope', '$http', function($scope, $http) {
           $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
         }
     }, true);
-}]);
+    
+    $scope.search = function() {
+		var ft = $scope.filterText;
+        var data = $scope.sysFansData.filter(function(item) {
+        	var nickName = item.nickName==null ? "":item.nickName ;
+        	var memberCardTel = item.memberCardTel==null ? "":item.memberCardTel ;	
+        	return nickName.indexOf(ft) != -1 || memberCardTel.indexOf(ft) != -1;
+       });
+       $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
+	};
+});

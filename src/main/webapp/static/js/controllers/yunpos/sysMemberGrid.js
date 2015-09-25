@@ -1,4 +1,4 @@
-//会员卡控制器
+//商户会员查询
 app.controller('SysMemberCtl',  function($scope, $http, $state, $stateParams) {
     $scope.filterOptions = {
         filterText: "",
@@ -30,14 +30,18 @@ app.controller('SysMemberCtl',  function($scope, $http, $state, $stateParams) {
             enableCellEdit: true,
           //  enablePinning: true,
             columnDefs: [
-               {field: 'nickName', displayName: '昵称', enableCellEdit: false}, 
-               {field: 'tel', displayName: '手机号', width: 120,  pinnable: false,  sortable: false}, 
-               {field: 'fullname', displayName: '联系人', enableCellEdit: false, width: 220},
-               {field: 'role', displayName: '用户角色', enableCellEdit: false, width: 120}, 
-               {field: 'createdBy',displayName: '添加人',enableCellEdit: false, width: 120}, 
-               {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 }, 
+               {field: 'nickName', displayName: '会员昵称', enableCellEdit: false,  sortable: false, width: 100}, 
+               {field: 'tel', displayName: '手机号码', width: 120,  pinnable: false}, 
+               {field: 'address', displayName: '所在地区', enableCellEdit: false, sortable: false, width: 220},
+               {field: 'balance', displayName: '余额', enableCellEdit: false, sortable: false, width: 80},
+               {field: 'score', displayName: '可用积分', enableCellEdit: false, sortable: false, width: 80},
+               {field: 'createdAt', displayName: '注册时间', enableCellEdit: false, sortable: false, width: 150},        
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.sysMemberDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a>     <button ng-click="deleted({id:row.getProperty(col.field) , sysMember:row})">删除</button></div>'
+                cellTemplate: '<div>'
+                 +	'<a ui-sref="app.table.sysMemberScoreDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>积分明细</button></a>' 
+                 +	'<a ui-sref="app.table.sysPayrecordDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>充值记录</button></a>'
+                 +	'<a ui-sref="app.table.sysUserecordDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>消费记录</button></a>'              	
+                 +	'</div>'
             }],
             enablePaging: true,
             showFooter: true,        
@@ -77,20 +81,6 @@ app.controller('SysMemberCtl',  function($scope, $http, $state, $stateParams) {
             $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
         }
     }, true);
-
-    $scope.deleted = function(obj) {
-	     $http({
-	        method  : 'delete',
-	        url     : '/ajax/member/' + obj.id,
-	        params  : {"id":obj.id}
-	     }).success(function() {
-	    	 alert("删除成功！");
-	    	 $scope.sysMemberData.splice(obj.sysMember.rowIndex, 1);
-	    	 $scope.setPagingData($scope.sysMemberData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
-	     }).error(function(data,status,headers,config){
-	      	alert("删除失败！");
-	     });
-	};
 	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;

@@ -32,12 +32,13 @@
     <result column="is_certified" property="is_certified" jdbcType="CHAR" />
     <result column="is_id_auth" property="is_id_auth" jdbcType="CHAR" />
     <result column="is_mobile_auth" property="is_mobile_auth" jdbcType="CHAR" />
+    <result column="memberCardTel" property="memberCardTel" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, subscribeFlag, serialNo, wxalipayId, sourceType, openId, nickName, trueName, 
     sex, prov, city, area, address, zip, headimgurl, subscribeTime, unSubscribeTime, 
     appid_userId, unionid, remark, userType, userStatus, firmName, certType, certNo, 
-    phone, mobile, is_certified, is_id_auth, is_mobile_auth
+    phone, mobile, is_certified, is_id_auth, is_mobile_auth, memberCardTel
   </sql>
   
   <sql id="Select_Parm_Column_List">
@@ -128,6 +129,9 @@
       <if test="is_mobile_auth != null" >
        and is_mobile_auth = #{is_mobile_auth,jdbcType=CHAR}
       </if>
+      <if test="memberCardTel != null" >
+       and memberCardTel = #{memberCardTel,jdbcType=VARCHAR}
+      </if>
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -150,7 +154,7 @@
       remark, userType, userStatus, 
       firmName, certType, certNo, 
       phone, mobile, is_certified, 
-      is_id_auth, is_mobile_auth)
+      is_id_auth, is_mobile_auth,memberCardTel)
     values (#{id,jdbcType=INTEGER}, #{subscribeFlag,jdbcType=TINYINT}, #{serialNo,jdbcType=VARCHAR}, 
       #{wxalipayId,jdbcType=VARCHAR}, #{sourceType,jdbcType=TINYINT}, #{openId,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{trueName,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
@@ -160,7 +164,7 @@
       #{remark,jdbcType=VARCHAR}, #{userType,jdbcType=TINYINT}, #{userStatus,jdbcType=CHAR}, 
       #{firmName,jdbcType=VARCHAR}, #{certType,jdbcType=TINYINT}, #{certNo,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{is_certified,jdbcType=CHAR}, 
-      #{is_id_auth,jdbcType=CHAR}, #{is_mobile_auth,jdbcType=CHAR})
+      #{is_id_auth,jdbcType=CHAR}, #{is_mobile_auth,jdbcType=CHAR},#{memberCardTel,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysFans" >
     insert into sys_fans
@@ -255,6 +259,9 @@
       <if test="is_mobile_auth != null" >
         is_mobile_auth,
       </if>
+      <if test="memberCardTel != null" >
+        memberCardTel,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -346,6 +353,9 @@
       </if>
       <if test="is_mobile_auth != null" >
         #{is_mobile_auth,jdbcType=CHAR},
+      </if>
+      <if test="memberCardTel != null" >
+        #{memberCardTel,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -439,6 +449,9 @@
       <if test="is_mobile_auth != null" >
         is_mobile_auth = #{is_mobile_auth,jdbcType=CHAR},
       </if>
+      <if test="memberCardTel != null" >
+        memberCardTel = #{memberCardTel,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -472,7 +485,8 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       is_certified = #{is_certified,jdbcType=CHAR},
       is_id_auth = #{is_id_auth,jdbcType=CHAR},
-      is_mobile_auth = #{is_mobile_auth,jdbcType=CHAR}
+      is_mobile_auth = #{is_mobile_auth,jdbcType=CHAR},
+      memberCardTel = #{memberCardTel,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

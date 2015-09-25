@@ -90,6 +90,7 @@ angular.module('app')
                       }]
                   }
               })
+              /*
               .state('app.table.member', {//会员管理
                   url: '/member',
                   templateUrl: 'tpl/system/sys_member.html',
@@ -104,6 +105,7 @@ angular.module('app')
                       }]
                   }
               })
+              */
               .state('app.table.integralsetting', {//积分设置
                   url: '/integral/setting',
                   templateUrl: 'tpl/system/sys_integral_setting.html'

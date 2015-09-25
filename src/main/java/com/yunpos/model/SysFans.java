@@ -129,14 +129,25 @@ public class SysFans {
         this.trueName = trueName == null ? null : trueName.trim();
     }
 
-    public Byte getSex() {
-        return sex;
+    public String getSex() {
+    	if(this.sex==1){
+    		return "男";
+    	}else{
+    		return "女";
+    	}
+    	
+       
     }
 
     public void setSex(Byte sex) {
+    
         this.sex = sex;
     }
 
+   
+    
+    
+    
     public String getProv() {
         return prov;
     }

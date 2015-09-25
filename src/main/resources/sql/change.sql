@@ -14,7 +14,12 @@ ADD COLUMN `user_order_no`  varchar(50) NULL COMMENT '商户订单号' AFTER `or
 
 --20150915 杨学勇  新增字段
 ALTER TABLE `sys_merchant`
-ADD COLUMN `key` varchar(100) NULL COMMENT '商户秘钥（MD5加密用）' AFTER `agentSerialNo`;
+ADD COLUMN `md5Key` varchar(100) NULL COMMENT '商户秘钥（MD5加密用）' AFTER `agentSerialNo`;
+
+ALTER TABLE `sys_merchant`
+ADD COLUMN `serviceAlipay` varchar(100) NULL COMMENT '服务窗';
+ALTER TABLE `sys_merchant`
+ADD COLUMN `serviceWeixin` varchar(100) NULL COMMENT '公众号';
 
 --20150915 林虎  新增字段
 ALTER TABLE `sys_agentmerchant`
@@ -84,3 +89,17 @@ CREATE TABLE `resource` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+--20150924 许金彪  添加门店审核状态、审核意见
+ALTER TABLE `sys_store`
+ADD COLUMN `apprStatus`  int(4) NULL DEFAULT NULL COMMENT '审核状态' AFTER `status`;
+ALTER TABLE `sys_store`
+ADD COLUMN `apprRemark`  varchar(200) NULL COMMENT '审核意见' AFTER `apprStatus`;
+
+--20150924 杨学勇  新增表
+CREATE TABLE `sys_pay` (
+  `id` int(11) NOT NULL,
+  `payName` varchar(50) DEFAULT NULL COMMENT '支付名称',
+  `payDes` varchar(200) DEFAULT NULL COMMENT '支付描述',
+  `open` int(2) DEFAULT '1' COMMENT '是否启用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

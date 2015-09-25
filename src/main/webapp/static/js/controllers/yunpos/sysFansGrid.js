@@ -5,22 +5,20 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
     }; 
     $scope.totalServerItems = 0;
     $scope.pagingOptions = {
-        pageSizes: [250, 500, 1000],
-        pageSize: 250,
+        pageSizes: [10, 20, 50],
+        pageSize: 10,
         currentPage: 1
     };  
     $scope.setPagingData = function(data, page, pageSize){  
         var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-        $scope.myData = pagedData;
+        $scope.SysFansData = pagedData;
         $scope.totalServerItems = data.length;
         if (!$scope.$$phase) {
             $scope.$apply();
         }
     };
-    
-
     $scope.gridOptions = {
-            data: 'myData',
+            data: 'SysFansData',
             rowTemplate: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
                 '<div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }"> </div>' +
                 '<div ng-cell></div>' +
@@ -29,6 +27,7 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
             enableCellSelection: true,
             enableRowSelection: false,
             enableCellEdit: true,
+
             //enablePinning: true,
             columnDefs: [
                          {field: 'nickName', displayName: '昵称', enableCellEdit: false,  sortable: false, width: 100}, 
@@ -45,8 +44,9 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
                            +	'<a ui-sref="app.table.sysUserecordDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>消费记录</button></a>'              	
                            +	'</div>'
                       }],
+
             enablePaging: true,
-            showFooter: true,
+            showFooter: true,        
             totalServerItems: 'totalServerItems',
             pagingOptions: $scope.pagingOptions,
             filterOptions: $scope.filterOptions
@@ -95,13 +95,15 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
     $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 
     $scope.$watch('pagingOptions', function (newVal, oldVal) {
-        if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
-          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+        if (newVal !== oldVal) {
+//        	$scope.setPagingData($scope.userData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
         }
     }, true);
     $scope.$watch('filterOptions', function (newVal, oldVal) {
         if (newVal !== oldVal) {
-          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+//        	$scope.setPagingData($scope.userData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
         }
     }, true);
     
@@ -115,3 +117,84 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
        $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
 	};
 });
+
+
+
+
+/**
+ * 这里是用户 新增 模块
+ * 
+ * @type {[type]}
+ */
+/*app.controller('UserAddCtrl', function($scope, $http, $state, $stateParams) {
+    console.log($stateParams);
+    
+    $scope.master = {};
+
+	  $scope.add = function(user) {
+	    $scope.master = angular.copy(user);
+	    $http({
+	        method  : 'post',
+	        url     : '/ajax/user',
+	        params    : user  
+	    }).success(function(data) {
+	            console.log(data);
+	            alert("添加成功！");
+	            $state.go('app.table.user');
+	    }).error(function(data){
+	    	alert("出错");
+	    });
+	  };
+
+	  $scope.reset = function() {
+	    $scope.user = angular.copy($scope.master);
+	  };
+
+	  $scope.reset();
+});*/
+
+
+/**
+ * 弹出框势实例化控制器
+ */
+app.controller('FansEditInstanceCtrl', ['$scope','$http', '$modalInstance', 'items', function($scope,$http, $modalInstance,items) {
+	$scope.items = items;
+	//$scope.corg = $scope.corg;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+}])
+;
+
+/**
+ * 这里是用户编辑
+ * @type {[type]}
+ */
+
+	app.controller('FansEditCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
+		  $scope.items = ['item1', 'item2', 'item3'];
+		  $scope.open = function (size,tempUrl,data) {
+		  $scope.fans = data.entity;
+		    var modalInstance = $modal.open({
+		      templateUrl: tempUrl,
+		      controller: 'FansEditInstanceCtrl',
+		      size: size,
+		      scope:$scope,
+		      
+//		      fans.sex=1?男:女,
+
+		      resolve: {
+		        items: function () {
+		          return $scope.items;
+		        }
+		      }
+		    });
+	
+	
+	
+	
+	
+   
+	
+		  }}]);
+

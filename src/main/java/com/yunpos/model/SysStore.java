@@ -40,6 +40,10 @@ public class SysStore  extends GridRequest {
     private String mapAddress;
 
     private Integer status;
+
+    private Integer apprStatus;
+    
+    private String apprRemark;
     
  // 下面表单接收数据使用，非实体数据库字段
     private String userId;					//代理商用户ID
@@ -175,6 +179,22 @@ public class SysStore  extends GridRequest {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+	public Integer getApprStatus() {
+		return apprStatus;
+	}
+
+	public void setApprStatus(Integer apprStatus) {
+		this.apprStatus = apprStatus;
+	}
+
+	public String getApprRemark() {
+		return apprRemark;
+	}
+
+	public void setApprRemark(String apprRemark) {
+		this.apprRemark = apprRemark;
+	}
 
 	public String getUserId() {
 		return userId;

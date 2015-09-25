@@ -111,17 +111,19 @@ public class WchatpayController extends BaseController{
 		try {
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
 			if (sysMerchant == null) {
-				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+				return new Message(ResultCode.FAIL.name(), "MERCHANT_NOT_FIND", "该商户号不存在", null);
 			}
 			
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
-			
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
-
 			if (sysWechatConfig == null) {
-				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+				return new Message(ResultCode.FAIL.name(), "PAYCONFIG_NOT_FIND", "支付信息未配置", null);
+			}
+			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
+			if(temSysTransaction!=null){
+				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
 			}
 			// 生成流水表信息
 //			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -205,14 +207,18 @@ public class WchatpayController extends BaseController{
 		try {
 			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(merchant_num);
 			if (sysMerchant == null) {
-				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
+				return new Message(ResultCode.FAIL.name(), "MERCHANT_NOT_FIND", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
-				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+				return new Message(ResultCode.FAIL.name(), "PAYCONFIG_NOT_FIND", "支付信息未配置", null);
+			}
+			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
+			if(temSysTransaction!=null){
+				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
 			}
 			// 生成流水表信息
 //			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
@@ -301,8 +307,12 @@ public class WchatpayController extends BaseController{
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
+			}
+			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
+			if(temSysTransaction!=null){
+				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
 			}
 			//前段页面授权跳转到该地址，应用获取授权code发起
 			String code = request.getParameter("code");
@@ -422,7 +432,7 @@ public class WchatpayController extends BaseController{
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			
@@ -482,7 +492,7 @@ public class WchatpayController extends BaseController{
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户号不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			
@@ -538,7 +548,7 @@ public class WchatpayController extends BaseController{
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			String out_trade_no="";
@@ -598,7 +608,7 @@ public class WchatpayController extends BaseController{
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			// 获取原支付流水
@@ -609,6 +619,16 @@ public class WchatpayController extends BaseController{
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfig == null) {
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
+			}
+			
+			String out_trade_no="";
+			if(Strings.isNullOrEmpty(trace_num)){
+				SysTransaction temp  = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no,merchant_num);
+				if(temp!=null){
+					out_trade_no = sysTransaction.getTransNum();
+				}
+			}else{
+				out_trade_no = trace_num;
 			}
 			
 			// 生成流水表信息
@@ -640,7 +660,7 @@ public class WchatpayController extends BaseController{
 			sysTransaction.setUser_order_no(user_order_no);
 			sysTransactionService.save(sysTransaction);
 
-			RefundReqData refundReqData = new RefundReqData(transactionID, trace_num, terminal_unique_no, refundNo,
+			RefundReqData refundReqData = new RefundReqData(transactionID, out_trade_no, terminal_unique_no, refundNo,
 					Integer.valueOf(AmountUtils.changeY2F(refund_amount)),
 					Integer.valueOf(AmountUtils.changeY2F(refund_amount)), merchant_num, "CNY", sysWechatConfig);
 
@@ -688,7 +708,7 @@ public class WchatpayController extends BaseController{
 			if (sysMerchant == null) {
 				return new Message(ResultCode.FAIL.name(), "merchant_not_find", "该商户不存在", null);
 			}
-			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getKey(), "utf-8")){
+			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merchant_num);

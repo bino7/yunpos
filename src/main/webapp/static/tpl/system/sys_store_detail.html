@@ -1,4 +1,5 @@
-<div class="well" ng-controller="UserAddCtrl" ng-init="processForm()">
+
+<div class="well" ng-controller="StoreDetailCtrl" ng-init="processForm()">
     <div class="row">
         <div class="col-md-9">
             <div class="row">
@@ -9,7 +10,7 @@
                                	用户名：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="user.userName">
+                            	<input type="text" class="form-control" ng-model="store.userName">
                             </div>
                         </div>
                         <div class="form-group">
@@ -17,92 +18,93 @@
                               	 昵称：
                             </label>
                             <div class="col-md-10">
-                           		 <input type="text" class="form-control" placeholder="" ng-model="user.nickname">
+                           		 <input type="text" class="form-control" ng-model="store.nickname">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                               	 登录密码：
+                              	 备注：
                             </label>
                             <div class="col-md-10">
-                            	<input type="password" class="form-control" placeholder="" ng-model="user.password">
+                           		 <input type="text" class="form-control" ng-model="store.remark">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	确认密码：
-                            </label>
-                            <div class="col-md-10">
-                                <input type="password" class="form-control" placeholder="" ng-model="user.password">
-                            </div>
-                        </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-2 control-label">
                            			 角色：
                             </label>
                             <div class="col-md-10">
-                            	 <select name="account" class="form-control m-b" ng-model="user.role">
-						              <option value ='1' >option 1</option>
-						              <option value ='2' >option 2</option>
-						              <option value ='3' >option 3</option>
-						              <option value ='4' >option 4</option>
+                            	 <select name="account" class="form-control m-b" ng-model="store.role">
+						              <option>option 1</option>
+						              <option>option 2</option>
+						              <option>option 3</option>
+						              <option>option 4</option>
 						            </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	状态：
+                                	审核：
                             </label>
                             <div class="col-md-10">
                                  <div class="radio">
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-model="user.status">
-					                启用
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" ng-model="store.apprStatus">
+					                审核中
 					              </label>
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-model="user.status">
-					                停用
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2" ng-model="store.apprStatus">
+					                审核通过
+					              </label>
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="3" ng-model="store.apprStatus">
+					                驳回
+					              </label>
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="4" ng-model="store.apprStatus">
+					                回退
 					              </label>
 					            </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核意见：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="store.apprRemark">
+                            </div>
+                        </div>
                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	门店地址：
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" ng-model="store.address">
+                            </div>
+                        </div><div class="form-group">
                             <label class="col-md-2 control-label">
                                 	联系人：
                             </label>
                             <div class="col-md-10">
-                           		 <input type="text" class="form-control" placeholder="" ng-model="user.fullname">
+                            	<input type="text" class="form-control" ng-model="store.contactMan">
                             </div>
                         </div><div class="form-group">
                             <label class="col-md-2 control-label">
                                 	联系电话：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="user.tel">
+                            	<input type="text" class="form-control" ng-model="store.tel">
                             </div>
                         </div><div class="form-group">
                             <label class="col-md-2 control-label">
                                 	手机号码：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="user.phone">
-                            </div>
-                        </div><div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	电子邮箱：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="user.email">
-                            </div>
-                        </div><div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	备注：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="user.description">
+                            	<input type="text" class="form-control" ng-model="store.phone">
                             </div>
                         </div>
-                      <button  ng-disabled="form.$invalid" ng-click="add(user)">保存</button>
+                      <button  ng-click="save(store)">保存</button>
                      </form>
                 </div>
                 

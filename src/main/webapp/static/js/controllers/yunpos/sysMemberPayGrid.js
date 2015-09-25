@@ -6,9 +6,9 @@ app.controller('SysMemberPayDetail', function($scope, $http, $state, $stateParam
     }; 
     $scope.totalServerItems = 0;
     $scope.pagingOptions = {
-        pageSizes: [250, 500, 1000],
-        pageSize: 250,
-        currentPage: 1
+    	pageSizes: [10, 20, 50],
+    	pageSize: 10,
+    	currentPage: 1
     };  
     $scope.setPagingData = function(data, page, pageSize){  
         var pagedData = data.slice((page - 1) * pageSize, page * pageSize);

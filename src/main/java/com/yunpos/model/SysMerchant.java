@@ -3,6 +3,7 @@ package com.yunpos.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.Tools;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.serializer.JsonDateSerializer;
 
@@ -28,11 +29,11 @@ public class SysMerchant extends GridRequest{
 
     private String agentSerialNo;				//代理商编号
     
-    private String key;							//商户秘钥
+    private String md5Key;							//商户秘钥
 
     private String companyName;					//公司名称
 
-    private Integer industryTypeId;				//行业类型Id
+    private Integer industryTypeId;				//行业类型Id     1 餐饮   2 KTV  3 美容美发  4 酒店 
 
     private String industryType;				//行业类型名称
 
@@ -51,6 +52,8 @@ public class SysMerchant extends GridRequest{
     private String area;						//区
 
     private String address;						//地址
+    
+    private Byte status;						//审核状态，0：停用，1：启用
 
     private Byte auditStatus;					//审核状态，0：审核中，1：审核通过、2：回退、3：驳回
 
@@ -66,12 +69,14 @@ public class SysMerchant extends GridRequest{
 
     private String identityCardOff;				//证件反面照图片路径
 
-    private String terminals;					//申请的终端，格式：银联,支付宝,微信支付（多个用,分割）
+    private String terminals;					//申请的终端，格式：1银联,2支付宝,3微信支付（多个用,分割）
 
     private String serviceType;					//服务类型，格式：服务窗,公众号,收银台（多个用,分割）
+    
+    private String serviceAlipay;				//服务类型，格式：服务窗,
+    
+    private String serviceWeixin;				//服务类型，格式：公众号,
 
-    
-    
  // 下面表单接收数据使用，非实体数据库字段
     private String userId;					//代理商用户ID
     
@@ -86,6 +91,10 @@ public class SysMerchant extends GridRequest{
 	private Date createdAt;					// 创建时间
 
 	private Integer createdBy;				// 创建人
+	
+	private String description;				// 描述
+	
+	private String[] terminalsStr;					//申请的终端，格式：1银联,2支付宝,3微信支付（多个用,分割）
     
     public Integer getId() {
         return id;
@@ -136,6 +145,19 @@ public class SysMerchant extends GridRequest{
     }
 
     public String getIndustryType() {
+    	if(!Tools.isNullOrEmpty(industryTypeId)){
+	    	switch(industryTypeId){
+		    	case 1 :industryType = "餐饮" ;
+		    		break;
+		    	case 2 :industryType = "KTV" ;
+		    		break;
+		    	case 3 :industryType = "美容美发" ;
+		    		break;
+		    	case 4 :industryType = "酒店" ;
+		    		break;
+		    	default : industryType = "";
+	    	}
+    	}
         return industryType;
     }
 
@@ -337,15 +359,56 @@ public class SysMerchant extends GridRequest{
 		this.createdBy = createdBy;
 	}
 
-	public String getKey() {
-		return key;
+	public String getMd5Key() {
+		return md5Key;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setMd5Key(String md5Key) {
+		this.md5Key = md5Key;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String[] getTerminalsStr() {
+		if(!Tools.isNullOrEmpty(terminals)){
+			terminalsStr = terminals.split(",");
+		}
+		return terminalsStr;
+	}
+
+	public void setTerminalsStr(String[] terminalsStr) {
+		this.terminalsStr = terminalsStr;
+	}
+
+	public Byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(Byte status) {
+		this.status = status;
+	}
+
+	public String getServiceAlipay() {
+		return serviceAlipay;
+	}
+
+	public void setServiceAlipay(String serviceAlipay) {
+		this.serviceAlipay = serviceAlipay;
+	}
+
+	public String getServiceWeixin() {
+		return serviceWeixin;
+	}
+
+	public void setServiceWeixin(String serviceWeixin) {
+		this.serviceWeixin = serviceWeixin;
 	}
 	
 	
-    
-    
 }

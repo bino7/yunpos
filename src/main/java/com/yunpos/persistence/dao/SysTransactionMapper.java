@@ -2,6 +2,7 @@ package com.yunpos.persistence.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.yunpos.model.SearchRequest;
@@ -31,6 +32,6 @@ public interface SysTransactionMapper extends EntityMapper<SysTransaction>{
 	int selectCountByParm(SysTransaction sysTransaction);
 	
 	@Select("select * from sys_order where user_order_no=#{orderNo} and serialNo=#{merchantNo}")
-	SysTransaction findbyOrderNoAndMerchantNo(String orderNo, String merchantNo);
+	SysTransaction findbyOrderNoAndMerchantNo(@Param("orderNo")String orderNo, @Param("merchantNo")String merchantNo);
 
 }

@@ -66,6 +66,8 @@ public class SysAgentMerchant  extends GridRequest {
 
 	private String newPassword;				// 新密码
 	
+	private String confirmPassword;			// 新密码
+	
 	private Date createdAt;					// 创建时间
 
 	private Integer createdBy;				// 创建人
@@ -281,6 +283,14 @@ public class SysAgentMerchant  extends GridRequest {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
     
 	

@@ -29,7 +29,7 @@ app.controller('AgentmerchantListCtrl',  function($scope, $http, $state, $stateP
             enableCellEdit: true,
           //  enablePinning: true,
             columnDefs: [
-               {field: 'userName', displayName: '用户名', width: 120,  pinnable: false,  sortable: false}, 
+               {field: 'userName', displayName: '代理商名', width: 120,  pinnable: false,  sortable: false}, 
                {field: 'nickname', displayName: '昵称', enableCellEdit: false , width: 120}, 
                {field: 'companyName', displayName: '公司名称', enableCellEdit: false, width: 180},
                {field: 'createdBy',displayName: '添加人',enableCellEdit: false, width: 120}, 
@@ -37,7 +37,10 @@ app.controller('AgentmerchantListCtrl',  function($scope, $http, $state, $stateP
                {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 }, 
                {field: 'auditStatus', displayName: '审核状态', enableCellEdit: false, width: 100 }, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.agentmerchantDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a>     <button ng-click="deleted({id:row.getProperty(col.field) , agentmerchant:row})">停用</button></div>'
+                cellTemplate: '<div><a ui-sref="app.table.agentmerchantDetail({id:row.getProperty(col.field)})" '
+                	+ 'id="{{row.getProperty(col.field)}}"> <button>查看编辑{{row.status}}</button> </a> ' 
+                	+ '<button ng-if="row.getProperty(\'status\')==0" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:1})">启用<tton>'
+                	+ '<button ng-if="row.getProperty(\'status\')==1" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:0})">停用<tton></div>'
             }],
             enablePaging: true,
             showFooter: true,        
@@ -78,17 +81,18 @@ app.controller('AgentmerchantListCtrl',  function($scope, $http, $state, $stateP
         }
     }, true);
 
-    $scope.deleted = function(obj) {
+    $scope.updateStatus = function(obj) {
+    	obj.agentmerchant.entity.status = obj.status;
 	     $http({
-	        method  : 'delete',
-	        url     : '/ajax/agentmerchant/' + obj.id,
-	        params  : {"id":obj.id}
+	        method  : 'put',
+	        url     : '/ajax/agentmerchant/updateStatus/' + obj.id,
+	        params  :  obj.agentmerchant.entity 
 	     }).success(function() {
-	    	 alert("删除成功！");
-	    	 $scope.agentmerchantData.splice(obj.agentmerchant.rowIndex, 1);
-	    	 $scope.setPagingData($scope.agentmerchantData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	    	 alert("更新成功！");
+	    //	 $scope.agentmerchantData[obj.agentmerchant.rowIndex] = obj.agentmerchant.entity;
+	    //	 $scope.setPagingData($scope.agentmerchantData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
 	     }).error(function(data,status,headers,config){
-	      	alert("删除失败！");
+	      	alert("更新失败！");
 	     });
 	};
 	
@@ -105,7 +109,7 @@ app.controller('AgentmerchantListCtrl',  function($scope, $http, $state, $stateP
 
 
 /**
- * 这里是用户 新增 模块
+ * 这里是代理商 新增 模块
  * 
  * @type {[type]}
  */
@@ -139,7 +143,7 @@ app.controller('AgentmerchantAddCtrl', function($scope, $http, $state, $statePar
 
 
 /**
- * 这里是用户编辑
+ * 这里是代理商编辑
  * @type {[type]}
  */
 app.controller('AgentmerchantDetailCtrl', function($scope, $http, $state, $stateParams) {
@@ -147,6 +151,40 @@ app.controller('AgentmerchantDetailCtrl', function($scope, $http, $state, $state
 	    $http({
 	        method  : 'get',
 	        url     : '/ajax/agentmerchant/'+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.agentmerchant = data;
+	           // alert(data.id);
+	        });
+	};
+	 $scope.saved = {};
+     $scope.save = function(agentmerchant) {
+    	 agentmerchant.endTime = formatDateTime(agentmerchant.endTime);
+    	 $scope.saved = angular.copy(agentmerchant);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/agentmerchant/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	    	 $state.go('app.table.agentmerchant');
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+});
+
+
+
+/**
+ * 这里是代理商企业信息
+ * @type {[type]}
+ */
+app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/agentmerchant/1'
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.agentmerchant = data;

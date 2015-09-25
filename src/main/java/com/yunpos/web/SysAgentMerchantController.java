@@ -151,6 +151,22 @@ public class SysAgentMerchantController extends BaseController {
 		return new GridRowResponse(sysAgentMerchant.getId());
 	}
 
+	
+	
+	/**
+	 * 代理商更新 更新代理商用户信息
+	 * @param sysAgentMerchant
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/ajax/agentmerchant/updateStatus/{id}", method = RequestMethod.PUT)
+	public GridRowResponse updateStatus(@Valid SysAgentMerchant sysAgentMerchant, @PathVariable("id") int id) {
+		SysAgentMerchant sagentMerchant = sysAgentMerchantService.findById(id);
+		sagentMerchant.setStatus(sysAgentMerchant.getStatus());
+		 sysAgentMerchantService.update(sagentMerchant);
+		return new GridRowResponse(sagentMerchant.getId());
+	}
+	
 	/**
 	 * 代理商删除
 	 * @param id

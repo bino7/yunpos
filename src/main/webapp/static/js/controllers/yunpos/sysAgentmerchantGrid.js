@@ -163,6 +163,7 @@ app.controller('AgentmerchantDetailCtrl', function($scope, $http, $state, $state
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
+	    	 $state.go('app.table.agentmerchant');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });

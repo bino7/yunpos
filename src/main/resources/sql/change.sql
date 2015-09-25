@@ -84,3 +84,12 @@ CREATE TABLE `resource` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+
+--20150924 杨学勇  新增表
+CREATE TABLE `sys_pay` (
+  `id` int(11) NOT NULL,
+  `payName` varchar(50) DEFAULT NULL COMMENT '支付名称',
+  `payDes` varchar(200) DEFAULT NULL COMMENT '支付描述',
+  `open` int(2) DEFAULT '1' COMMENT '是否启用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -304,7 +304,15 @@ public class SysOrder  extends GridRequest {
     }
 
     public Byte getPayStatus() {
-        return payStatus;
+    	
+    	return payStatus;
+    	/*if(this.payStatus == 0){
+    		return  "已支付";
+    	}else{
+    		return  "未支付";
+    	}*/
+		
+        
     }
 
     public void setPayStatus(Byte payStatus) {

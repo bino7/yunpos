@@ -199,3 +199,57 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
 	}
 });
 
+
+
+/**
+ * 这里是用户编辑
+ * @type {[type]}
+ */
+app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/merchant/8'//+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.merchant = data;
+	            var terminals = data.terminals;
+	            var flg1 = false;
+	            var flg2 = false;
+	            var flg3 = false;
+	            if(terminals != null && terminals != ''){
+	            	if(terminals.indexOf('1') != -1){ flg1 = true ;}
+	            	if(terminals.indexOf('2') != -1){ flg2 = true ;}
+	            	if(terminals.indexOf('3') != -1){ flg3 = true ;}
+	            }
+	            $scope.tags = [
+	                    { id:1,  name:'银联' ,  	  checked: flg1},
+	                    { id:2,  name:'支付宝',   checked: flg2 },
+	                    { id:3,  name:'微信支付',  checked: flg3 }]
+
+	        });
+	};
+	 $scope.saved = {};
+     $scope.save = function(merchant) {
+    	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
+    	 merchant.terminals  = "";
+    	  $scope.tags.filter(function(item) {
+    		 if(item.checked){
+    			 merchant.terminals  += item.id + ",";
+    		 }
+	    });
+    	 $scope.saved = angular.copy(merchant);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/merchant/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	    	 $state.go('app.table.merchant');
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+});
+
+

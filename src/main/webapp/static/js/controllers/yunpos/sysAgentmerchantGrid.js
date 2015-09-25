@@ -39,8 +39,8 @@ app.controller('AgentmerchantListCtrl',  function($scope, $http, $state, $stateP
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                 cellTemplate: '<div><a ui-sref="app.table.agentmerchantDetail({id:row.getProperty(col.field)})" '
                 	+ 'id="{{row.getProperty(col.field)}}"> <button>查看编辑{{row.status}}</button> </a> ' 
-                	+ '<button ng-if="row.getProperty(\'status\')==0" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:1})">启用<tton>'
-                	+ '<button ng-if="row.getProperty(\'status\')==1" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:0})">停用<tton></div>'
+                	+ '<button ng-if="row.getProperty(\'status\')==0" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:1})">启用<button>'
+                	+ '<button ng-if="row.getProperty(\'status\')==1" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:0})">停用<button></div>'
             }],
             enablePaging: true,
             showFooter: true,        
@@ -205,5 +205,20 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });
-	}
+	};
+     //上传图片
+     $scope.onFileSelect = function($files) {    
+    	    for (var i = 0; i < $files.length; i++) {      var file = $files[i];
+    	      $scope.upload = $upload.upload({
+    	    	method  : 'post',
+    	        url: '/ajax/upload',  
+    	        data: {myObj: $scope.myModelObj},
+    	        file: file,  
+    	      }).progress(function(evt) {        
+    	    	  console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+    	      }).success(function(data, status, headers, config) {        
+    	        console.log(data);
+    	      });     
+    	    }    
+    	    };
 });

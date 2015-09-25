@@ -1,4 +1,3 @@
-
 <div class="well" ng-controller="AgentmerchantInfoCtrl" ng-init="processForm()">
     <div class="row">
         <div class="col-md-9">
@@ -72,7 +71,7 @@
                                 	代理商营业执照：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                           		 <input type="file" ng-file-select="onFileSelect($files)" multiple accept="image/*">
                             </div>
                         </div>
                          <div class="form-group">

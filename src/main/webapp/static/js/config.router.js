@@ -440,8 +440,18 @@ angular.module('app')
                   }
               })
               .state('app.table.paypassword', {//支付密码
-                  url: '/paypassword',
-                  templateUrl: 'tpl/system/sys_paypassword.html'
+                  url: '/paypassword/:id',
+                  templateUrl: 'tpl/system/sys_paypassword.html',
+	                  resolve: {
+	                      deps: ['$ocLazyLoad',
+	                        function( $ocLazyLoad ){
+	                          return $ocLazyLoad.load('ngGrid').then(
+	                              function(){
+	                                  return $ocLazyLoad.load('js/controllers/yunpos/sysUserGrid.js');
+	                              }
+	                          );
+	                      }]
+	                  }
               })
              
               // form

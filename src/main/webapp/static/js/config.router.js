@@ -426,8 +426,19 @@ angular.module('app')
                   }
               })
               .state('app.table.sysMerchantInfo', {//商户企业信息
-                  url: '/merchantInfo',
-                  templateUrl: 'tpl/system/sys_merchant_info.html'
+                	  url: '/merchantInfo/:id',
+                      templateUrl: 'tpl/system/sys_merchant_info.html',
+                          resolve: {
+                              deps: ['$ocLazyLoad',
+                                function( $ocLazyLoad ){
+                                  return $ocLazyLoad.load('ngGrid').then(
+                                      function(){
+                                          return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                                      }
+                                  );
+                              }]
+                          }
+                    	  
               })
                .state('app.table.sysAgentmerchantInfo', {//代理商企业信息
                   url: '/agentmerchantInfo/:id',

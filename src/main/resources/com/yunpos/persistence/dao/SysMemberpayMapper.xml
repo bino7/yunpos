@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysMemberpayMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysMemberpay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="appid_userId" property="appid_userId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="payorderId" property="payorderId" jdbcType="VARCHAR" />
+    <result column="transNum" property="transNum" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="payType" property="payType" jdbcType="SMALLINT" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="payStatus" property="payStatus" jdbcType="SMALLINT" />
+    <result column="payNum" property="payNum" jdbcType="VARCHAR" />
+    <result column="shopID" property="shopID" jdbcType="INTEGER" />
+    <result column="shopName" property="shopName" jdbcType="VARCHAR" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, source, appid_userId, name, payorderId, transNum, price, payType, createdAt, payStatus, payNum, 
+    shopID, shopName, info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_memberpay
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_memberpay
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysMemberpay" >
+    insert into sys_memberpay (id, source, appid_userId, 
+      name, payorderId, transNum, price, 
+      payType, createdAt, payStatus, 
+      payNum, shopID, shopName, 
+      info)
+    values (#{id,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, #{appid_userId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{payorderId,jdbcType=VARCHAR}, #{transNum,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
+      #{payType,jdbcType=SMALLINT}, #{createdAt,jdbcType=TIMESTAMP}, #{payStatus,jdbcType=SMALLINT}, 
+      #{payNum,jdbcType=VARCHAR}, #{shopID,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, 
+      #{info,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysMemberpay" >
+    insert into sys_memberpay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="appid_userId != null" >
+        appid_userId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="payorderId != null" >
+        payorderId,
+      </if>
+      <if test="transNum != null" >
+        transNum,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="payType != null" >
+        payType,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="payStatus != null" >
+        payStatus,
+      </if>
+      <if test="payNum != null" >
+        payNum,
+      </if>
+      <if test="shopID != null" >
+        shopID,
+      </if>
+      <if test="shopName != null" >
+        shopName,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="appid_userId != null" >
+        #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="payorderId != null" >
+        #{payorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="transNum != null" >
+        #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=SMALLINT},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="payNum != null" >
+        #{payNum,jdbcType=VARCHAR},
+      </if>
+      <if test="shopID != null" >
+        #{shopID,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysMemberpay" >
+    update sys_memberpay
+    <set >
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="appid_userId != null" >
+        appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="payorderId != null" >
+        payorderId = #{payorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="transNum != null" >
+        transNum = #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="payType != null" >
+        payType = #{payType,jdbcType=SMALLINT},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null" >
+        payStatus = #{payStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="payNum != null" >
+        payNum = #{payNum,jdbcType=VARCHAR},
+      </if>
+      <if test="shopID != null" >
+        shopID = #{shopID,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        shopName = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysMemberpay" >
+    update sys_memberpay
+    set source = #{source,jdbcType=VARCHAR},
+      appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      payorderId = #{payorderId,jdbcType=VARCHAR},
+      transNum = #{transNum,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      payType = #{payType,jdbcType=SMALLINT},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      payStatus = #{payStatus,jdbcType=SMALLINT},
+      payNum = #{payNum,jdbcType=VARCHAR},
+      shopID = #{shopID,jdbcType=INTEGER},
+      shopName = #{shopName,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

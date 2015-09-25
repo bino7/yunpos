@@ -1,4 +1,5 @@
-app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
+app.controller('SysMemberPayDetail', function($scope, $http, $state, $stateParams) {
+	$scope.openId = $stateParams.openId;
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -31,20 +32,16 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
             enableCellEdit: true,
             //enablePinning: true,
             columnDefs: [
-                         {field: 'nickName', displayName: '昵称', enableCellEdit: false,  sortable: false, width: 100}, 
-                         {field: 'memberCardTel', displayName: '手机号码', width: 100,  pinnable: false}, 
-                         {field: 'address', displayName: '所在地区', enableCellEdit: false, sortable: false, width: 220},
-                         {field: 'balance', displayName: '余额', enableCellEdit: false, sortable: false, width: 80},
-                         {field: 'score', displayName: '可用积分', enableCellEdit: false, sortable: false, width: 80},
-                         {field: 'subscribeTime', displayName: '关注时间', cellFilter : 'date:"yyyy-MM-dd HH:mm:ss"',enableCellEdit: false, sortable: false, width: 150}, 
-                         {field: 'sourceType', displayName: '来源类型', cellFilter : 'sourceType' ,enableCellEdit: false, sortable: false, width: 150},                        
-                         {field: 'openId', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                          cellTemplate: '<div>'
-                           +	'<a ui-sref="app.table.sysFanScoreDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>积分明细</button></a>' 
-                           +	'<a ui-sref="app.table.sysMemberPayDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>充值记录</button></a>'
-                           +	'<a ui-sref="app.table.sysUserecordDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>消费记录</button></a>'              	
-                           +	'</div>'
-                      }],
+                         {field: 'transNum', displayName: '交易流水号', enableCellEdit: false,  sortable: false, width: 100}, 
+                         {field: 'price', displayName: '金额', enableCellEdit: false,  sortable: false, width: 100}, 
+                         {field: 'info', displayName: '备注', enableCellEdit: false,  sortable: false, width: 100}, 
+                         {field: 'payType', displayName: '交易渠道', cellFilter : 'payType',enableCellEdit: false, sortable: false, width: 220},                    
+                         {field: 'payStatus', displayName: '交易类型',  cellFilter : 'payStatus', enableCellEdit: false, sortable: false, width: 80},
+                         {field: 'shopName', displayName: '门店', enableCellEdit: false, sortable: false, width: 80},
+                         {field: 'name', displayName: '用户', enableCellEdit: false, sortable: false, width: 80},
+                         {field: 'payNum', displayName: '支付流水号', enableCellEdit: false, sortable: false, width: 80},           
+                         {field: 'createdAt', displayName: '交易时间', cellFilter : 'date:"yyyy-MM-dd HH:mm:ss"',enableCellEdit: false, sortable: false, width: 150}, 
+                        ],
             enablePaging: true,
             showFooter: true,
             totalServerItems: 'totalServerItems',
@@ -52,18 +49,35 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
             filterOptions: $scope.filterOptions
         };
     
-    app.filter('sourceType',function(){
+    app.filter('payType',function(){
         return function(sourceType){
         	var type;
         	switch (sourceType){
         	case 0:
-        		type = "公众号";
+        		type = "线上充值";
         		break;
         	case 1:
-        		type = "服务窗";
+        		type = "线下充值";
         		break;
         	default:
-        		type = "自行注册";    	
+        		type = "商家充值";    	
+        	}
+            return type;
+        }
+    });
+    
+    app.filter('payStatus',function(){
+        return function(sourceType){
+        	var type;
+        	switch (sourceType){
+        	case 0:
+        		type = "交易失败";
+        		break;
+        	case 1:
+        		type = "交易中";
+        		break;
+        	default:
+        		type = "交易成功";    	
         	}
             return type;
         }
@@ -83,7 +97,7 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
                 });  
                 */          
             } else {
-            	var url = '/ajax/merchantFans/search?serialNo=' + '08600719332';
+            	var url = '/ajax/memberpay/userId?openId=' + $scope.openId;
                 $http.get(url).success(function (largeLoad) {
                 	$scope.sysFansData = largeLoad.rows;
                     $scope.setPagingData($scope.sysFansData,page,pageSize);
@@ -105,13 +119,8 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
         }
     }, true);
     
-    $scope.search = function() {
-		var ft = $scope.filterText;
-        var data = $scope.sysFansData.filter(function(item) {
-        	var nickName = item.nickName==null ? "":item.nickName ;
-        	var memberCardTel = item.memberCardTel==null ? "":item.memberCardTel ;	
-        	return nickName.indexOf(ft) != -1 || memberCardTel.indexOf(ft) != -1;
-       });
-       $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
+    $scope.back = function() {
+    	$state.go('app.table.fans');
 	};
+	
 });

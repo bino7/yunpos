@@ -106,6 +106,23 @@ angular.module('app')
                   }
               })
               */
+              .state('app.table.sysMemberPayDetail', {//充值记录明细管理
+                  url: '/memberPayDetail/:openId',
+                  templateUrl: 'tpl/system/memberPay_dataList.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberPayGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              
+              
+              
               .state('app.table.integralsetting', {//积分设置
                   url: '/integral/setting',
                   templateUrl: 'tpl/system/sys_integral_setting.html'

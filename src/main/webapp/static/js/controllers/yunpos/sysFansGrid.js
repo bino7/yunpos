@@ -39,9 +39,9 @@ app.controller('SysFansCtrl', function($scope, $http, $state, $stateParams) {
                          {field: 'sourceType', displayName: '来源类型', cellFilter : 'sourceType' ,enableCellEdit: false, sortable: false, width: 150},                        
                          {field: 'openId', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                           cellTemplate: '<div>'
-                           +	'<a ui-sref="app.table.sysFanScoreDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>积分明细</button></a>' 
+                          // +	'<a ui-sref="app.table.sysFanScoreDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>积分明细</button></a>' 
                            +	'<a ui-sref="app.table.sysMemberPayDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>充值记录</button></a>'
-                           +	'<a ui-sref="app.table.sysUserecordDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>消费记录</button></a>'              	
+                           +	'<a ui-sref="app.table.sysMemberUseDetail({openId:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"><button>消费记录</button></a>'              	
                            +	'</div>'
                       }],
 

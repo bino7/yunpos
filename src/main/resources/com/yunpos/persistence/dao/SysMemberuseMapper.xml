@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysMemberuseMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysMemberuse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="appid_userId" property="appid_userId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="expense" property="expense" jdbcType="REAL" />
+    <result column="useType" property="useType" jdbcType="TINYINT" />
+    <result column="itemType" property="itemType" jdbcType="TINYINT" />
+    <result column="transNum" property="transNum" jdbcType="VARCHAR" />
+    <result column="payNum" property="payNum" jdbcType="VARCHAR" />
+    <result column="payStatus" property="payStatus" jdbcType="TINYINT" />
+    <result column="itemSerialNo" property="itemSerialNo" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="appid_useId" property="appid_useId" jdbcType="VARCHAR" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="shopID" property="shopID" jdbcType="INTEGER" />
+    <result column="shopName" property="shopName" jdbcType="VARCHAR" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, source, appid_userId, name, expense, useType, itemType, transNum, payNum, payStatus, 
+    itemSerialNo, score, appid_useId, createdAt, shopID, shopName, info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_memberuse
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_memberuse
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysMemberuse" >
+    insert into sys_memberuse (id, source, appid_userId, 
+      name, expense, useType, 
+      itemType, transNum, payNum, 
+      payStatus, itemSerialNo, score, 
+      appid_useId, createdAt, shopID, 
+      shopName, info)
+    values (#{id,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, #{appid_userId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{expense,jdbcType=REAL}, #{useType,jdbcType=TINYINT}, 
+      #{itemType,jdbcType=TINYINT}, #{transNum,jdbcType=VARCHAR}, #{payNum,jdbcType=VARCHAR}, 
+      #{payStatus,jdbcType=TINYINT}, #{itemSerialNo,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{appid_useId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{shopID,jdbcType=INTEGER}, 
+      #{shopName,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysMemberuse" >
+    insert into sys_memberuse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="appid_userId != null" >
+        appid_userId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="expense != null" >
+        expense,
+      </if>
+      <if test="useType != null" >
+        useType,
+      </if>
+      <if test="itemType != null" >
+        itemType,
+      </if>
+      <if test="transNum != null" >
+        transNum,
+      </if>
+      <if test="payNum != null" >
+        payNum,
+      </if>
+      <if test="payStatus != null" >
+        payStatus,
+      </if>
+      <if test="itemSerialNo != null" >
+        itemSerialNo,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="appid_useId != null" >
+        appid_useId,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="shopID != null" >
+        shopID,
+      </if>
+      <if test="shopName != null" >
+        shopName,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="appid_userId != null" >
+        #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expense != null" >
+        #{expense,jdbcType=REAL},
+      </if>
+      <if test="useType != null" >
+        #{useType,jdbcType=TINYINT},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=TINYINT},
+      </if>
+      <if test="transNum != null" >
+        #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payNum != null" >
+        #{payNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="itemSerialNo != null" >
+        #{itemSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="appid_useId != null" >
+        #{appid_useId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopID != null" >
+        #{shopID,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysMemberuse" >
+    update sys_memberuse
+    <set >
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="appid_userId != null" >
+        appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expense != null" >
+        expense = #{expense,jdbcType=REAL},
+      </if>
+      <if test="useType != null" >
+        useType = #{useType,jdbcType=TINYINT},
+      </if>
+      <if test="itemType != null" >
+        itemType = #{itemType,jdbcType=TINYINT},
+      </if>
+      <if test="transNum != null" >
+        transNum = #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payNum != null" >
+        payNum = #{payNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payStatus != null" >
+        payStatus = #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="itemSerialNo != null" >
+        itemSerialNo = #{itemSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="appid_useId != null" >
+        appid_useId = #{appid_useId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopID != null" >
+        shopID = #{shopID,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        shopName = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysMemberuse" >
+    update sys_memberuse
+    set source = #{source,jdbcType=VARCHAR},
+      appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      expense = #{expense,jdbcType=REAL},
+      useType = #{useType,jdbcType=TINYINT},
+      itemType = #{itemType,jdbcType=TINYINT},
+      transNum = #{transNum,jdbcType=VARCHAR},
+      payNum = #{payNum,jdbcType=VARCHAR},
+      payStatus = #{payStatus,jdbcType=TINYINT},
+      itemSerialNo = #{itemSerialNo,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      appid_useId = #{appid_useId,jdbcType=VARCHAR},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      shopID = #{shopID,jdbcType=INTEGER},
+      shopName = #{shopName,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

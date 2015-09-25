@@ -50,7 +50,7 @@ public class SysFansService extends EntityService<SysFans> {
 	
 	public GridResponse<SysFans> searchByMerchant(String serialNo) {
 		GridResponse<SysFans> response = new GridResponse<SysFans>();
-		List<SysFans> sysFans =  sysFansMapper.findByyMerchant(serialNo);//getSearchValue()值为商户编号
+		List<SysFans> sysFans =  sysFansMapper.findByMerchant(serialNo);//getSearchValue()值为商户编号
 		response.setPageNumber(1);
 		response.setPageSize(10);
 		response.setRows(sysFans);

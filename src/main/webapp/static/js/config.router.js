@@ -120,6 +120,20 @@ angular.module('app')
                       }]
                   }
               })
+              .state('app.table.sysMemberUseDetail', {//消费记录明细管理
+                  url: '/memberUseDetail/:openId',
+                  templateUrl: 'tpl/system/memberUse_dataList.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberUseGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
               
               
               

@@ -27,7 +27,7 @@ public interface SysFansMapper extends EntityMapper<SysFans>{
 	List<SysFans> search();
 	
 	@Select("SELECT * FROM sys_fans r WHERE r.serialNo=#{serialNo}")
-	List<SysFans> findByyMerchant(@Param(value = "serialNo") String serialNo);
+	List<SysFans> findByMerchant(@Param(value = "serialNo") String serialNo);
 	
 
 }

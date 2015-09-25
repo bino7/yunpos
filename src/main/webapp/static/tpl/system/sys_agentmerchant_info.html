@@ -63,56 +63,85 @@
                             </label>
 					                请上传清晰的营业执照
                         </div>
-                         <div class="form-group">
-				          <label class="col-sm-2 control-label">终端申请</label>
-				          <div class="col-sm-10">
-				            <label class="checkbox-inline">
-				              <input type="checkbox" value="1"> 银联
-				            </label>
-				            <label class="checkbox-inline">
-				              <input type="checkbox" value="2"> 支付宝
-				            </label>
-				            <label class="checkbox-inline">
-				              <input type="checkbox" value="3"> 微信支付
-				            </label>
-				          </div>
-				        </div>
-                       <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	服务窗/公众号：
-                            </label>
-                            <div class="col-md-10">
-                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.serviceType1">
-                           		 <br><input type="text" class="form-control" placeholder="" ng-model="merchant.serviceType2">
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="col-md-2 control-label">
-                           			 行业类型：
-                            </label>
-                            <div class="col-md-10">
-                            	 <select name="account" class="form-control m-b" ng-model="merchant.role">
-						              <option value ='1' >餐饮</option>
-						              <option value ='2' >KTV</option>
-						              <option value ='3' >美容美发</option>
-						              <option value ='4' >酒店</option>
-						            </select>
-                            </div>
-                        </div>
                   		<div class="form-group">
 				          <label class="col-sm-2 control-label">合同到期时间:</label>
-				          <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
-				            <div class="input-group w-md">
-				              <input type="text" class="form-control" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="merchant.endTime" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span>
-				            </div>
-				          </div>
-				        </div>
-                        </div><div class="form-group">
+				          2015-08-20
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	备注：
+                                	代理商营业执照：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	代理商营业执照：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	法人经营者身份证：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	公司名称：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	营业执照注册号：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	联系人：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	联系电话：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	手机号码：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	电子邮箱：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	详细地址：
                             </label>
                             <div class="col-md-10">
                             	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">

@@ -7,7 +7,7 @@
 <generatorConfiguration>
 	<!--数据库驱动jar -->
 	<classPathEntry
-		location="E:\yumpos\repo\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar" />
+		location="C:\Users\janice\.m2\repository\mysql\mysql-connector-java\5.1.24\mysql-connector-java-5.1.24.jar" />
 
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!--去除注释 -->
@@ -17,7 +17,7 @@
 
 		<!--数据库连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/yunpos" userId="root"
+			connectionURL="jdbc:mysql://120.25.13.69:3306/yunpos" userId="yunpos"
 			password="123456">
 		</jdbcConnection>
 		<!--默认false Java type resolver will always use java.math.BigDecimal if 
@@ -44,9 +44,9 @@
 		</javaClientGenerator>
 
 		<!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等 -->
-		<table tableName="sys_merchant" domainObjectName="SysMerchant"
+		<table tableName="sys_memberpay" domainObjectName="SysMemberpay"
 			enableCountByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="true" enableUpdateByExample="false">
+			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
 		</table>
 

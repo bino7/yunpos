@@ -18,7 +18,6 @@ import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysAgentMerchant;
 import com.yunpos.model.SysOrg;
 import com.yunpos.model.SysUser;
-import com.yunpos.payment.wxpay.common.DateUtil;
 import com.yunpos.service.SysAgentMerchantService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysUserService;
@@ -110,6 +109,7 @@ public class SysAgentMerchantController extends BaseController {
 		user.setCreatedAt(new Date());
 		user.setOrgId(sysOrg.getId());
 		user.setOrgName(sysOrg.getOrgName());
+		user.setDescription(sysAgentMerchant.getDescription());
 		sysUserService.creatSysUser(user);
 	
 
@@ -134,6 +134,7 @@ public class SysAgentMerchantController extends BaseController {
 		user.setPassword(sysAgentMerchant.getNewPassword());
 		user.setUpdatedBy(getUser().getId());
 		user.setUpdatedAt(new Date());
+		user.setDescription(sysAgentMerchant.getDescription());
 		sysUserService.updateSysUser(user);
 		
 		

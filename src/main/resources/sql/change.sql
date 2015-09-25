@@ -16,6 +16,11 @@ ADD COLUMN `user_order_no`  varchar(50) NULL COMMENT '商户订单号' AFTER `or
 ALTER TABLE `sys_merchant`
 ADD COLUMN `md5Key` varchar(100) NULL COMMENT '商户秘钥（MD5加密用）' AFTER `agentSerialNo`;
 
+ALTER TABLE `sys_merchant`
+ADD COLUMN `serviceAlipay` varchar(100) NULL COMMENT '服务窗';
+ALTER TABLE `sys_merchant`
+ADD COLUMN `serviceWeixin` varchar(100) NULL COMMENT '公众号';
+
 --20150915 林虎  新增字段
 ALTER TABLE `sys_agentmerchant`
 ADD COLUMN `status`  tinyint(2) NULL COMMENT '代理商状态' ;

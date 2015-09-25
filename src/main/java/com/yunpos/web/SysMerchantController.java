@@ -99,30 +99,33 @@ public class SysMerchantController extends BaseController{
 	 */
 	@RequestMapping(value = "/ajax/merchant", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysMerchant sysMerchant) {
+		SysAgentMerchant sysAgentMerchant  =  sysAgentMerchantService.getDataByBaseUserId(getUser().getId()); 
+		SysOrg sysOrg = new SysOrg();
+		sysOrg.setOrgName(sysMerchant.getCompanyName());
+		sysOrg.setCreateUserId(getUser().getId());
+		sysOrg.setCreateDate(new Date());
+		sysOrg.setLevel(1);
+		sysOrg.setOrgNo("222222");
+		sysOrgService.save(sysOrg);
+		
 		SysUser user = new SysUser();
 		user.setUserName(sysMerchant.getUserName());
 		user.setNickname(sysMerchant.getNickname());
 		user.setPassword(sysMerchant.getPassword());
 		user.setCreatedBy(getUser().getId());
 		user.setCreatedAt(new Date());
+		user.setOrgId(sysOrg.getId());
+		user.setOrgName(sysOrg.getOrgName());
+		user.setDescription(sysMerchant.getDescription());
 		sysUserService.creatSysUser(user);
-		
-		SysAgentMerchant sysAgentMerchant  =  sysAgentMerchantService.getDataByBaseUserId(getUser().getId()); 
-		SysOrg sysOrg = new SysOrg();
-		sysOrg.setOrgName(sysMerchant.getCompanyName());
-		sysOrg.setCreateUserId(user.getCreatedBy());
-		sysOrg.setCreateDate(new Date());
-		sysOrg.setLevel(1);
-		sysOrg.setOrgNo("222222");
-		sysOrgService.save(sysOrg);
-		
 
 		sysMerchant.setMd5Key(MD5Utils.genRandomNum(36));
 		sysMerchant.setSerialNo("555555");
 		sysMerchant.setBaseUserId(user.getId());
 		sysMerchant.setAgentSerialNo(sysAgentMerchant.getAgentSerialNo());
+		sysMerchant.setAuditStatus(new Byte("0"));
 		sysMerchantService.save(sysMerchant);
-		return new GridRowResponse(sysMerchant.getId());
+		return null;
 	}
 
 	/**
@@ -134,11 +137,12 @@ public class SysMerchantController extends BaseController{
 	@RequestMapping(value = "/ajax/merchant/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysMerchant sysMerchant, @PathVariable("id") int id) {
 		
-		SysUser user = sysUserService.findById(Integer.parseInt(sysMerchant.getUserId()));
+		SysUser user = sysUserService.findById(sysMerchant.getBaseUserId());
 		user.setUserName(sysMerchant.getUserName());
 		user.setNickname(sysMerchant.getNickname());
 		user.setPassword(sysMerchant.getNewPassword());
 		user.setUpdatedBy(getUser().getId());
+		user.setDescription(sysMerchant.getDescription());
 		sysUserService.updateSysUser(user);
 		
 		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());

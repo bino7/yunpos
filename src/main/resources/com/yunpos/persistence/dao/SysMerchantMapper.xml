@@ -8,7 +8,7 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
 	<result column="createdBy" property="createdBy" jdbcType="INTEGER" />
-	
+	<result column="description" property="description" jdbcType="VARCHAR" />
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
     <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
@@ -24,6 +24,7 @@
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
     <result column="auditStatus" property="auditStatus" jdbcType="TINYINT" />
     <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
     <result column="businessLicense" property="businessLicense" jdbcType="VARCHAR" />
@@ -33,19 +34,21 @@
     <result column="identityCardOff" property="identityCardOff" jdbcType="VARCHAR" />
     <result column="terminals" property="terminals" jdbcType="VARCHAR" />
     <result column="serviceType" property="serviceType" jdbcType="VARCHAR" />
+    <result column="serviceAlipay" property="serviceAlipay" jdbcType="VARCHAR" />
+    <result column="serviceWeixin" property="serviceWeixin" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
      baseUserId, serialNo, agentSerialNo,md5Key, companyName, industryTypeId, industryType, 
     contactMan, postcode, prov, city, area, address, auditStatus, endTime, 
     businessLicense, registerNumber, identityType, identityCardOn, identityCardOff, terminals, 
-    serviceType
+    serviceType, serviceAlipay, serviceWeixin
   </sql>
    <sql id="Base_Column_List_user" >
-  		id,phone, tel , 
+  		id,phone, tel , status,
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		 user.createdAt as createdAt,   user.createdBy as createdBy,  description,merc.status as status,
 		merc.phone as phone, merc.tel as tel, 
 		<include refid="Base_Column_List" />
 		from sys_merchant merc, sys_user user
@@ -62,18 +65,19 @@
       industryType, contactMan, phone, 
       tel, postcode, prov, 
       city, area, address, 
-      auditStatus, endTime, businessLicense, 
+      auditStatus, status,  endTime, businessLicense, 
       registerNumber, identityType, identityCardOn, 
-      identityCardOff, terminals, serviceType
+      identityCardOff, terminals, serviceType, serviceAlipay, serviceWeixin
       )
     values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
       #{agentSerialNo,jdbcType=VARCHAR}, #{md5Key,jdbcType=VARCHAR},#{companyName,jdbcType=VARCHAR}, #{industryTypeId,jdbcType=INTEGER}, 
       #{industryType,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{auditStatus,jdbcType=TINYINT}, #{endTime,jdbcType=TIMESTAMP}, #{businessLicense,jdbcType=VARCHAR}, 
+      #{auditStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{endTime,jdbcType=TIMESTAMP}, #{businessLicense,jdbcType=VARCHAR}, 
       #{registerNumber,jdbcType=VARCHAR}, #{identityType,jdbcType=TINYINT}, #{identityCardOn,jdbcType=VARCHAR}, 
-      #{identityCardOff,jdbcType=VARCHAR}, #{terminals,jdbcType=VARCHAR}, #{serviceType,jdbcType=VARCHAR}
+      #{identityCardOff,jdbcType=VARCHAR}, #{terminals,jdbcType=VARCHAR}, #{serviceType,jdbcType=VARCHAR}, 
+      #{serviceAlipay,jdbcType=VARCHAR}, #{serviceWeixin,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysMerchant" >
@@ -130,6 +134,9 @@
       <if test="auditStatus != null" >
         auditStatus,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
       <if test="endTime != null" >
         endTime,
       </if>
@@ -153,6 +160,12 @@
       </if>
       <if test="serviceType != null" >
         serviceType,
+      </if>
+       <if test="serviceAlipay != null" >
+        serviceAlipay,
+      </if>
+       <if test="serviceWeixin != null" >
+        serviceWeixin,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -207,6 +220,9 @@
       <if test="auditStatus != null" >
         #{auditStatus,jdbcType=TINYINT},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
       <if test="endTime != null" >
         #{endTime,jdbcType=TIMESTAMP},
       </if>
@@ -230,6 +246,12 @@
       </if>
       <if test="serviceType != null" >
         #{serviceType,jdbcType=VARCHAR},
+      </if>
+       <if test="serviceAlipay != null" >
+        #{serviceAlipay,jdbcType=VARCHAR},
+      </if>
+       <if test="serviceWeixin != null" >
+        #{serviceWeixin,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -284,6 +306,9 @@
       <if test="auditStatus != null" >
         auditStatus = #{auditStatus,jdbcType=TINYINT},
       </if>
+       <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
       <if test="endTime != null" >
         endTime = #{endTime,jdbcType=TIMESTAMP},
       </if>
@@ -308,6 +333,12 @@
       <if test="serviceType != null" >
         serviceType = #{serviceType,jdbcType=VARCHAR},
       </if>
+      <if test="serviceAlipay != null" >
+        serviceAlipay = #{serviceAlipay,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceWeixin != null" >
+        serviceWeixin = #{serviceWeixin,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -329,6 +360,7 @@
       area = #{area,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       auditStatus = #{auditStatus,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
       endTime = #{endTime,jdbcType=TIMESTAMP},
       businessLicense = #{businessLicense,jdbcType=VARCHAR},
       registerNumber = #{registerNumber,jdbcType=VARCHAR},
@@ -336,14 +368,16 @@
       identityCardOn = #{identityCardOn,jdbcType=VARCHAR},
       identityCardOff = #{identityCardOff,jdbcType=VARCHAR},
       terminals = #{terminals,jdbcType=VARCHAR},
-      serviceType = #{serviceType,jdbcType=VARCHAR}
+      serviceType = #{serviceType,jdbcType=VARCHAR},
+      serviceAlipay = #{serviceAlipay,jdbcType=VARCHAR},
+      serviceWeixin = #{serviceWeixin,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
   
     <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysMerchant" >
         select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.createdAt as createdAt,   user.createdBy as createdBy,  
+		 user.createdAt as createdAt,   user.createdBy as createdBy,    description, merc.status as status,
 		merc.phone as phone, merc.tel as tel, 
 		<include refid="Base_Column_List" />
 		from sys_merchant merc, sys_user user
@@ -397,6 +431,9 @@
       <if test="auditStatus != null" >
         and auditStatus = #{auditStatus,jdbcType=TINYINT}
       </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=TINYINT}
+      </if>
       <if test="endTime != null" >
         and endTime = #{endTime,jdbcType=TIMESTAMP}
       </if>
@@ -420,6 +457,12 @@
       </if>
       <if test="serviceType != null" >
         and serviceType = #{serviceType,jdbcType=VARCHAR}
+      </if>
+      <if test="serviceAlipay != null" >
+        and serviceAlipay = #{serviceAlipay,jdbcType=VARCHAR}
+      </if>
+      <if test="serviceWeixin != null" >
+        and serviceWeixin = #{serviceWeixin,jdbcType=VARCHAR}
       </if>
       <if test="searchValue != null">
 			and (agentSerialNo = #{searchValue,jdbcType=VARCHAR}

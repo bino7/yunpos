@@ -112,11 +112,20 @@ app.controller('MerchantListCtrl',  function($scope, $http, $state, $stateParams
  */
 app.controller('MerchantAddCtrl', function($scope, $http, $state, $stateParams) {
     console.log($stateParams);
-    
+    $scope.tags = [
+                   { id:1,  name:'银联' ,  	  checked: false},
+                   { id:2,  name:'支付宝',   checked: false },
+                   { id:3,  name:'微信支付',  checked: false }] ;
     $scope.master = {};
 
 	  $scope.add = function(merchant) {
 		merchant.endTime = formatDateTime(merchant.endTime);
+		 merchant.terminals  = "";
+   	  	$scope.tags.filter(function(item) {
+   		 if(item.checked = true){
+   			 merchant.terminals  += item.id + ",";
+   		 }
+	    });
 	    $scope.master = angular.copy(merchant);
 	    $http({
 	        method  : 'post',
@@ -151,12 +160,31 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.merchant = data;
-	           // alert(data.id);
+	            var terminals = data.terminals;
+	            var flg1 = false;
+	            var flg2 = false;
+	            var flg3 = false;
+	            if(terminals != null && terminals != ''){
+	            	if(terminals.indexOf('1') != -1){ flg1 = true ;}
+	            	if(terminals.indexOf('2') != -1){ flg2 = true ;}
+	            	if(terminals.indexOf('3') != -1){ flg3 = true ;}
+	            }
+	            $scope.tags = [
+	                    { id:1,  name:'银联' ,  	  checked: flg1},
+	                    { id:2,  name:'支付宝',   checked: flg2 },
+	                    { id:3,  name:'微信支付',  checked: flg3 }]
+
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(merchant) {
-    	 merchant.endTime = formatDateTime(merchant.endTime);
+    	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
+    	 merchant.terminals  = "";
+    	  $scope.tags.filter(function(item) {
+    		 if(item.checked){
+    			 merchant.terminals  += item.id + ",";
+    		 }
+	    });
     	 $scope.saved = angular.copy(merchant);
 	     $http({
 	        method  : 'put',
@@ -164,6 +192,7 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
+	    	 $state.go('app.table.merchant');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });

@@ -1,5 +1,5 @@
 
-<div class="well" ng-controller="MerchantAddCtrl" ng-init="processForm()">
+<div class="well" ng-controller="MerchantInfoCtrl" ng-init="processForm()">
     <div class="row">
         <div class="col-md-9">
             <div class="row">
@@ -23,7 +23,15 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                               	 登录密码：
+                               	 原密码：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="password" class="form-control" placeholder="" ng-model="merchant.password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	 新密码：
                             </label>
                             <div class="col-md-10">
                             	<input type="password" class="form-control" placeholder="" ng-model="merchant.password">
@@ -41,18 +49,19 @@
                             <label class="col-md-2 control-label">
                                 	状态：
                             </label>
-                            <div class="col-md-10">
-                                 <div class="radio">
-					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-model="merchant.status">
 					                启用
-					              </label>
-					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-model="merchant.status">
-					                停用
-					              </label>
-					            </div>
-                            </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核状态：
+                            </label>
+					                未审核
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核意见：
+                            </label>
+					                请上传清晰的营业执照
                         </div>
                          <div class="form-group">
 				          <label class="col-sm-2 control-label">终端申请</label>

@@ -7,7 +7,6 @@ import java.util.Map;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
-import com.yunpos.payment.wxpay.config.WechatPayConfig;
 
 /**
  * 请求被扫支付API需要提交的数据
@@ -29,7 +28,7 @@ public class ScanPayReqData {
 //    private String time_expire = "";
     private String goods_tag = "";
     private String auth_code = "";
-    private String sdk_version;
+//    private String sdk_version;
     
     
 	// 业务附加传递信息（非接口参数）
@@ -52,7 +51,7 @@ public class ScanPayReqData {
      */
     public ScanPayReqData(String authCode,String body,String attach,String outTradeNo,int totalFee,String deviceInfo,String spBillCreateIP,String goodsTag,SysWechatConfigWithBLOBs sysWechatConfig){
 
-        setSdk_version(WechatPayConfig.sdkVersion);
+        //setSdk_version(WechatPayConfig.sdkVersion);
 
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(sysWechatConfig.getAppId());
@@ -214,14 +213,14 @@ public class ScanPayReqData {
         this.auth_code = auth_code;
     }
 
-    public String getSdk_version(){
-        return sdk_version;
-    }
-
-    public void setSdk_version(String sdk_version) {
-        this.sdk_version = sdk_version;
-    }
-    
+//    public String getSdk_version(){
+//        return sdk_version;
+//    }
+//
+//    public void setSdk_version(String sdk_version) {
+//        this.sdk_version = sdk_version;
+//    }
+//    
     
 
 //    public String getPay_channel() {

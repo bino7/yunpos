@@ -139,7 +139,17 @@ angular.module('app')
               
               .state('app.table.integralsetting', {//积分设置
                   url: '/integral/setting',
-                  templateUrl: 'tpl/system/sys_integral_setting.html'
+                  templateUrl: 'tpl/system/sys_integral_setting.html',
+                  resolve: {
+                	  deps: ['$ocLazyLoad',
+                	    function( $ocLazyLoad ){
+                		  return $ocLazyLoad.load('ngGrid').then(
+                		      function(){
+                		    	  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberIngetralGrid.js');
+                		      }
+                		  );
+                	  }]
+                  }
               })
               .state('app.table.transaction', {//交易流水管理
                   url: '/transaction',

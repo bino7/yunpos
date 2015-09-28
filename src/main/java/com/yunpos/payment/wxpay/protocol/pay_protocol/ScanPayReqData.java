@@ -8,7 +8,6 @@ import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
 import com.yunpos.payment.wxpay.config.WechatPayConfig;
-import com.yunpos.utils.DateUtil;
 
 /**
  * 请求被扫支付API需要提交的数据
@@ -26,8 +25,8 @@ public class ScanPayReqData {
     private String out_trade_no = "";
     private int total_fee = 0;
     private String spbill_create_ip = "";
-    private String time_start = "";
-    private String time_expire = "";
+//    private String time_start = "";
+//    private String time_expire = "";
     private String goods_tag = "";
     private String auth_code = "";
     private String sdk_version;
@@ -85,10 +84,10 @@ public class ScanPayReqData {
         setSpbill_create_ip(spBillCreateIP);
 
         //订单生成时间， 格式为yyyyMMddHHmmss，如2009年12 月25 日9 点10 分10 秒表示为20091225091010。时区为GMT+8 beijing。该时间取自商户服务器
-        setTime_start(DateUtil.getNow("yyyyMMddHHmmss"));
+        //setTime_start(DateUtil.getNow("yyyyMMddHHmmss"));
 
         //订单失效时间，格式同上
-        setTime_expire(DateUtil.getDateAfter(DateUtil.getNow("yyyyMMddHHmmss"), "yyyyMMddHHmmss", 1));
+        //setTime_expire(DateUtil.getDateAfter(DateUtil.getNow("yyyyMMddHHmmss"), "yyyyMMddHHmmss", 1));
 
         //商品标记，微信平台配置的商品标记，用于优惠券或者满减使用
         setGoods_tag(goodsTag);
@@ -183,21 +182,21 @@ public class ScanPayReqData {
         this.spbill_create_ip = spbill_create_ip;
     }
 
-    public String getTime_start() {
-        return time_start;
-    }
+//    public String getTime_start() {
+//        return time_start;
+//    }
+//
+//    public void setTime_start(String time_start) {
+//        this.time_start = time_start;
+//    }
 
-    public void setTime_start(String time_start) {
-        this.time_start = time_start;
-    }
-
-    public String getTime_expire() {
-        return time_expire;
-    }
-
-    public void setTime_expire(String time_expire) {
-        this.time_expire = time_expire;
-    }
+//    public String getTime_expire() {
+//        return time_expire;
+//    }
+//
+//    public void setTime_expire(String time_expire) {
+//        this.time_expire = time_expire;
+//    }
 
     public String getGoods_tag() {
         return goods_tag;

@@ -71,7 +71,24 @@
                                 	代理商营业执照：
                             </label>
                             <div class="col-md-10">
-                           		 <input type="file" ng-file-select="onFileSelect($files)" multiple accept="image/*">
+                            <div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="FileUploadCtrl"  nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+							  <div class="col">
+								<div class="wrapper-md">
+								  <input type="file" nv-file-select="" uploader="uploader" ng-model="fileUpload" multiple  />
+								  <table class="table bg-white-only b-a">
+									  <tbody>
+										  <tr ng-repeat="item in uploader.queue">
+											  <td><strong>{{ item.file.name }}</strong></td>
+											  <td nowrap>
+												  <button type="button" class="btn btn-default btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+													  上传
+												  </button>
+											  </td>
+										  </tr>
+									  </tbody>
+								  </table>
+							  </div>
+							</div>
                             </div>
                         </div>
                          <div class="form-group">

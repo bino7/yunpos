@@ -19,13 +19,16 @@ public class MD5Test {
 		params.put("terminal_unique_no", "1");
 		params.put("cashier_num", "1");
 		params.put("client_type", "PC");
-		params.put("pay_channel", "alipay");
+		params.put("pay_channel", "wechat");
 		//params.put("trace_num", "15099499712512");
 		//params.put("refund_amount", "0.01");
-		params.put("total_fee", "0.01");
-		params.put("dynamic_id", "289971286739530141");
-		params.put("user_order_no", "201509250001");
+		params.put("total_fee", "0.1");
+		params.put("sign_type", "MD5");
+		params.put("dynamic_id", "130420580324590859");
+		params.put("user_order_no", "201509280001");
 		System.out.println(MD5Utils.sign(params, "MD5", key, input_charset));
+		
+		
 		
 		
 //		Map<String,String> params = new HashedMap();

@@ -109,3 +109,9 @@ ADD COLUMN `createdAt` datetime NULL COMMENT '创建时间',
 ADD COLUMN `createdBy` int(11) NULL COMMENT '创建人',
 ADD COLUMN `updatedAt` datetime NULL COMMENT '更新时间',
 ADD COLUMN `updatedBy` int(11) NULL COMMENT '更新人';
+
+
+
+--20150924 杨学勇  新增字段
+ALTER TABLE `sys_wechat_config`
+ADD COLUMN `apiSecret` longtext COMMENT 'api秘钥（接口签名使用）' AFTER `mchId`;

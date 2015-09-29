@@ -77,7 +77,7 @@ public class AlipayScanPayReqData {
 	private String merchant_name = "";
 	private String user_order_no= "";
 
-	public AlipayScanPayReqData(String out_trade_no, String partner, String subject, String product_code,
+	public AlipayScanPayReqData(String out_trade_no, String partner, String subject,
 			String total_fee, String dynamic_id,String extend_params) {
 		// 必填选项
 		setService(AlipayConfig.service);
@@ -86,7 +86,7 @@ public class AlipayScanPayReqData {
 		setSign_type(AlipayConfig.sign_type);
 		setOut_trade_no(out_trade_no);
 		setSubject(subject);
-		setProduct_code(product_code);
+		setProduct_code("BARCODE_PAY_OFFLINE"); //订单业务类型
 		setTotal_fee(total_fee);
 		setDynamic_id_type(DynamicIdType.bar_code.toString());
 		setDynamic_id(dynamic_id);

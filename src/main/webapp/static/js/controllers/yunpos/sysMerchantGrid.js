@@ -209,7 +209,7 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/merchant/8'//+ $stateParams.id
+	        url     : '/ajax/merchant/8' //+ $stateParams.id
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.merchant = data;

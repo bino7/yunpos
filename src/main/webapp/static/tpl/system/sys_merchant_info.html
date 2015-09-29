@@ -1,90 +1,51 @@
-
 <div class="well" ng-controller="MerchantInfoCtrl" ng-init="processForm()">
     <div class="row">
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-12">
-                    <form class="form-horizontal" role="form" name="form">
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                               	用户名：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.userName">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                              	 昵称：
-                            </label>
-                            <div class="col-md-10">
-                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.nickname">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                               	 原密码：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="password" class="form-control" placeholder="" ng-model="merchant.password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                               	 新密码：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="password" class="form-control" placeholder="" ng-model="merchant.password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	确认密码：
-                            </label>
-                            <div class="col-md-10">
-                                <input type="password" class="form-control" placeholder="" ng-model="merchant.password">
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	商户密钥：
-                            </label>
-									klfoewlxjcoirlkjf'dklfr
-                       	</div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	状态：
-                            </label>
-					                启用
-                        </div>
+                    <form class="form-horizontal" role="form" name="form">         
                        <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	审核状态：
                             </label>
-					                未审核
+					                {{merchant.auditStatus}}
                         </div>
                          <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	审核意见：
                             </label>
-					                请上传清晰的营业执照
+					                 {{merchant.auditMemo}}
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	行业：
+                           			 行业类型：
                             </label>
-					                酒店
+                            <div class="col-md-10">
+                            	 <select name="account" class="form-control m-b" ng-model="merchant.industryTypeId">
+						              <option value ='1' >餐饮</option>
+						              <option value ='2' >KTV</option>
+						              <option value ='3' >美容美发</option>
+						              <option value ='4' >酒店</option>
+						            </select>
+                            </div>
                         </div>
                   		<div class="form-group">
 				          <label class="col-sm-2 control-label">合同到期时间:</label>
-				          2015-08-20
-                        </div>
+				          <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+				            <div class="input-group w-md">
+				              <input type="text" class="form-control" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="merchant.endTime" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				            </div>
+				          </div>
+				        </div>
                          <div class="form-group">
                             <label class="col-md-2 control-label">
                               	 商家简称：
                             </label>
                             <div class="col-md-10">
-                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.nickname">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.merchantName">
                             </div>
                         </div>
                         <div class="form-group">
@@ -94,11 +55,11 @@
                             <div class="col-md-10">
                                  <div class="radio">
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-model="user.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" ng-model="merchant.merchantType">
 					               个体
 					              </label>
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-model="user.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.merchantType">
 					                企业
 					              </label>
 					            </div>
@@ -109,7 +70,7 @@
                               	 凭条打印名称：
                             </label>
                             <div class="col-md-10">
-                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.nickname">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.printName">
                             </div>
                         </div>
                          <div class="form-group">
@@ -117,23 +78,23 @@
                                 	联系人：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.contactMan">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	联系电话：
+                                	手机号码：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.tel">
                             </div>
                         </div>
                           <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	手机号码：
+                                	联系电话：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.phone">
                             </div>
                         </div>
                          <div class="form-group">
@@ -141,7 +102,7 @@
                                 	电子邮箱：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.email">
                             </div>
                         </div>
                         <div class="form-group">
@@ -149,7 +110,7 @@
                                 	客服电话：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.serviceTel">
                             </div>
                         </div>
                          <div class="form-group">
@@ -157,7 +118,7 @@
                                 	公司网站：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.webSite">
                             </div>
                         </div>
                          <div class="form-group">
@@ -165,24 +126,15 @@
                                 	申请收单业务：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.applyForBusiness">
                             </div>
-                        </div>
-                        
-                         <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	分支机构：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
-                            </div>
-                        </div>
+                        </div>                        
                          <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	经营场所面积：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.totalArea">
                             </div>
                         </div>
                            <div class="form-group">
@@ -190,7 +142,7 @@
                                 	员工人数：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.totalEmployees">
                             </div>
                         </div>
                          <div class="form-group">
@@ -198,7 +150,7 @@
                                 	预计年收入：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.totalIncomes">
                             </div>
                         </div>
                         <div class="form-group">
@@ -206,7 +158,7 @@
                                 	实际经营地照片：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.operatePhoto">
                             </div>
                         </div>
                          <div class="form-group">
@@ -214,7 +166,7 @@
                                 	商户营业执照：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.businessLicense">
                             </div>
                         </div>
                          <div class="form-group">
@@ -222,7 +174,7 @@
                                 	营业执照注册号：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.registerNumber">
                             </div>
                         </div>
                        
@@ -230,8 +182,17 @@
                             <label class="col-md-2 control-label">
                                 	注册地址：
                             </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            <div class="col-md-2">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.prov">
+                            </div>
+                            <div class="col-md-2">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.city">
+                            </div>
+                            <div class="col-md-2">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.area">
+                            </div>
+                            <div class="col-md-4">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.address">
                             </div>
                         </div>
                          <div class="form-group">
@@ -239,15 +200,15 @@
                                 	公司名称：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
-                            </div>
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.companyName">
+                            </div>                            
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	经营范围：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.range">
                             </div>
                         </div>
                         <div class="form-group">
@@ -257,11 +218,11 @@
                             <div class="col-md-10">
                                  <div class="radio">
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-model="user.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" ng-model="merchant.identityType">
 					               身份证
 					              </label>
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-model="user.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.identityType">
 					                护照
 					              </label>
 					            </div>
@@ -271,8 +232,17 @@
                             <label class="col-md-2 control-label">
                                 	证件影印件：
                             </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            <div class="col-md-5">
+                            <label class="col-md-2 control-label">
+                                	正面：
+                            </label>
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.identityCardOn">
+                            </div>
+                            <div class="col-md-5">
+                            <label class="col-md-2 control-label">
+                                	反面：
+                            </label>
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.identityCardOff">
                             </div>
                         </div>
                         
@@ -282,7 +252,7 @@
                                 	姓名：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.identityName">
                             </div>
                         </div>
                         <div class="form-group">
@@ -290,7 +260,7 @@
                                 	证件号码：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.identityNum">
                             </div>
                         </div>
                           <div class="form-group">
@@ -298,7 +268,8 @@
                                 	证件有效期：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.identityBt">
+                                <input type="text" class="form-control" placeholder="" ng-model="merchant.identityEt">
                             </div>
                         </div>
                          <div class="form-group">
@@ -306,7 +277,7 @@
                                 	组织机构代码证：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.organizeBarCodePic">
                             </div>
                         </div>
                         <div class="form-group">
@@ -314,7 +285,7 @@
                                 	组织机构代码证编号：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.organizeBarCode">
                             </div>
                         </div>
                          <div class="form-group">
@@ -322,7 +293,8 @@
                                 	代码证有效期：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.organizeBarCodeBt">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.organizeBarCodeEt">
                             </div>
                         </div>
                          <div class="form-group">
@@ -330,7 +302,7 @@
                                 	税务登记证：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.taxBarCodePic">
                             </div>
                         </div>
                         
@@ -339,7 +311,7 @@
                                 	税务登记证号码：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.taxBarCode">
                             </div>
                         </div>
                          <div class="form-group">
@@ -347,23 +319,41 @@
                                 	税务登记证有效期：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.taxBarCodeBt">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.taxBarCodeEt">
                             </div>
                         </div>
                            <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	清算类型：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
-                            </div>
+                            </label>  
+                            <div class="radio">
+					          <label>
+					          <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" ng-model="merchant.cleanType">
+					               对公清算
+					          </label>
+					          <label>
+				              <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.cleanType">
+					               对私清算
+					          </label>
+					          <label>
+				              <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.cleanType">
+					               交叉清算
+					          </label>
+					          <label>
+				              <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.cleanType">
+					               双账户清算
+					          </label>
+					       </div>
+                            
                         </div>
                          <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	开户行城市：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankProv">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankCity">
                             </div>
                         </div>
                         <div class="form-group">
@@ -371,15 +361,15 @@
                                 	开户行：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBank">
                             </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	开户支行行号：
+                                	开户支行：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankSub">
                             </div>
                         </div>
                          <div class="form-group">
@@ -387,7 +377,7 @@
                                 	户名：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankName">
                             </div>
                         </div>
                        
@@ -396,7 +386,7 @@
                                 	银行账户：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankAccount">
                             </div>
                         </div>
                          <div class="form-group">
@@ -404,7 +394,8 @@
                                 	银行卡：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.bankCardOn">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.bankCardOff">
                             </div>
                         </div>
                         <div class="form-group">
@@ -412,7 +403,7 @@
                                 	开户许可证：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankLicense">
                             </div>
                         </div>
                          <div class="form-group">
@@ -420,7 +411,7 @@
                                 	签约合同：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.signAccount">
                             </div>
                         </div>
                         <div class="form-group">
@@ -430,11 +421,11 @@
                             <div class="col-md-10">
                                  <div class="radio">
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-model="user.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" ng-model="merchant.openBookingCard">
 					               开通
 					              </label>
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-model="user.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.openBookingCard">
 					               不开通
 					              </label>
 					            </div>
@@ -445,7 +436,7 @@
                                 	行业费率：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.industryRate">
                             </div>
                         </div>
                         <div class="form-group">
@@ -453,7 +444,7 @@
                                 	封顶机：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.cappingMachine">
                             </div>
                         </div>
                         <div class="form-group">
@@ -461,7 +452,7 @@
                                 	微信支付线上：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.weixinPayOnline">
                             </div>
                         </div>
                         <div class="form-group">
@@ -469,7 +460,7 @@
                                 	微信支付线下：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.weixinPayOffline">
                             </div>
                         </div>
                         <div class="form-group">
@@ -477,7 +468,7 @@
                                 	支付宝线上：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.aliPayOnline">
                             </div>
                         </div>
                         <div class="form-group">
@@ -485,7 +476,7 @@
                                 	支付宝线下：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.aliPayOffline">
                             </div>
                         </div>
                       <button  ng-disabled="form.$invalid" ng-click="add(merchant)">保存</button>

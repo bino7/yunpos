@@ -3,19 +3,17 @@
 <mapper namespace="com.yunpos.persistence.dao.SysMerchantMapper" >
   <resultMap id="BaseResultMap" type="com.yunpos.model.SysMerchant" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="userName" property="userName" jdbcType="VARCHAR" />
-    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
-	<result column="createdBy" property="createdBy" jdbcType="INTEGER" />
-	<result column="description" property="description" jdbcType="VARCHAR" />
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
     <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
     <result column="md5Key" property="md5Key" jdbcType="VARCHAR" />
+    <result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
+    <result column="merchantType" property="merchantType" jdbcType="TINYINT" />
+    <result column="printName" property="printName" jdbcType="VARCHAR" />
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
     <result column="industryTypeId" property="industryTypeId" jdbcType="INTEGER" />
     <result column="industryType" property="industryType" jdbcType="VARCHAR" />
+    <result column="range" property="range" jdbcType="VARCHAR" />
     <result column="contactMan" property="contactMan" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="tel" property="tel" jdbcType="VARCHAR" />
@@ -24,8 +22,13 @@
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="serviceTel" property="serviceTel" jdbcType="VARCHAR" />
+    <result column="webSite" property="webSite" jdbcType="VARCHAR" />
+    <result column="applyForBusiness" property="applyForBusiness" jdbcType="VARCHAR" />
     <result column="auditStatus" property="auditStatus" jdbcType="TINYINT" />
+    <result column="auditMemo" property="auditMemo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
     <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
     <result column="businessLicense" property="businessLicense" jdbcType="VARCHAR" />
     <result column="registerNumber" property="registerNumber" jdbcType="VARCHAR" />
@@ -34,26 +37,63 @@
     <result column="identityCardOff" property="identityCardOff" jdbcType="VARCHAR" />
     <result column="terminals" property="terminals" jdbcType="VARCHAR" />
     <result column="serviceType" property="serviceType" jdbcType="VARCHAR" />
+    <result column="createdBy" property="createdBy" jdbcType="TIMESTAMP" />
+    <result column="updatedBy" property="updatedBy" jdbcType="TIMESTAMP" />
     <result column="serviceAlipay" property="serviceAlipay" jdbcType="VARCHAR" />
     <result column="serviceWeixin" property="serviceWeixin" jdbcType="VARCHAR" />
+    <result column="totalArea" property="totalArea" jdbcType="REAL" />
+    <result column="totalEmployees" property="totalEmployees" jdbcType="INTEGER" />
+    <result column="totalIncomes" property="totalIncomes" jdbcType="REAL" />
+    <result column="operatePhoto" property="operatePhoto" jdbcType="VARCHAR" />
+    <result column="identityName" property="identityName" jdbcType="VARCHAR" />
+    <result column="identityNum" property="identityNum" jdbcType="VARCHAR" />
+    <result column="identityBt" property="identityBt" jdbcType="TIMESTAMP" />
+    <result column="identityEt" property="identityEt" jdbcType="TIMESTAMP" />
+    <result column="organizeBarCode" property="organizeBarCode" jdbcType="VARCHAR" />
+    <result column="organizeBarCodePic" property="organizeBarCodePic" jdbcType="VARCHAR" />
+    <result column="organizeBarCodeBt" property="organizeBarCodeBt" jdbcType="TIMESTAMP" />
+    <result column="organizeBarCodeEt" property="organizeBarCodeEt" jdbcType="TIMESTAMP" />
+    <result column="taxBarCode" property="taxBarCode" jdbcType="VARCHAR" />
+    <result column="taxBarCodePic" property="taxBarCodePic" jdbcType="VARCHAR" />
+    <result column="taxBarCodeBt" property="taxBarCodeBt" jdbcType="TIMESTAMP" />
+    <result column="taxBarCodeEt" property="taxBarCodeEt" jdbcType="TIMESTAMP" />
+    <result column="cleanType" property="cleanType" jdbcType="TINYINT" />
+    <result column="openBankProv" property="openBankProv" jdbcType="VARCHAR" />
+    <result column="openBankCity" property="openBankCity" jdbcType="VARCHAR" />
+    <result column="openBank" property="openBank" jdbcType="VARCHAR" />
+    <result column="openBankSub" property="openBankSub" jdbcType="VARCHAR" />
+    <result column="openBankName" property="openBankName" jdbcType="VARCHAR" />
+    <result column="openBankAccount" property="openBankAccount" jdbcType="VARCHAR" />
+    <result column="bankCardOn" property="bankCardOn" jdbcType="VARCHAR" />
+    <result column="bankCardOff" property="bankCardOff" jdbcType="VARCHAR" />
+    <result column="openBankLicense" property="openBankLicense" jdbcType="VARCHAR" />
+    <result column="signAccount" property="signAccount" jdbcType="VARCHAR" />
+    <result column="openBookingCard" property="openBookingCard" jdbcType="TINYINT" />
+    <result column="industryRate" property="industryRate" jdbcType="REAL" />
+    <result column="cappingMachine" property="cappingMachine" jdbcType="VARCHAR" />
+    <result column="weixinPayOnline" property="weixinPayOnline" jdbcType="VARCHAR" />
+    <result column="weixinPayOffline" property="weixinPayOffline" jdbcType="VARCHAR" />
+    <result column="aliPayOnline" property="aliPayOnline" jdbcType="VARCHAR" />
+    <result column="aliPayOffline" property="aliPayOffline" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-     baseUserId, serialNo, agentSerialNo,md5Key, companyName, industryTypeId, industryType, 
-    contactMan, postcode, prov, city, area, address, auditStatus, endTime, 
-    businessLicense, registerNumber, identityType, identityCardOn, identityCardOff, terminals, 
-    serviceType, serviceAlipay, serviceWeixin
-  </sql>
-   <sql id="Base_Column_List_user" >
-  		id,phone, tel , status,
+    id, baseUserId, serialNo, agentSerialNo, md5Key, merchantName, merchantType, printName, 
+    companyName, industryTypeId, industryType, range, contactMan, phone, tel, postcode, 
+    prov, city, area, address, email, serviceTel, webSite, applyForBusiness, auditStatus, 
+    auditMemo, status, endTime, businessLicense, registerNumber, identityType, identityCardOn, 
+    identityCardOff, terminals, serviceType, createdBy, updatedBy, serviceAlipay, serviceWeixin, 
+    totalArea, totalEmployees, totalIncomes, operatePhoto, identityName, identityNum, 
+    identityBt, identityEt, organizeBarCode, organizeBarCodePic, organizeBarCodeBt, organizeBarCodeEt, 
+    taxBarCode, taxBarCodePic, taxBarCodeBt, taxBarCodeEt, cleanType, openBankProv, openBankCity, 
+    openBank, openBankSub, openBankName, openBankAccount, bankCardOn, bankCardOff, openBankLicense, 
+    signAccount, openBookingCard, industryRate, cappingMachine, weixinPayOnline, weixinPayOffline, 
+    aliPayOnline, aliPayOffline
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-        select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.createdAt as createdAt,   user.createdBy as createdBy,  description,merc.status as status,
-		merc.phone as phone, merc.tel as tel, 
-		<include refid="Base_Column_List" />
-		from sys_merchant merc, sys_user user
-		where merc.baseUserId = user.id
-    		and merc.id = #{id,jdbcType=INTEGER}
+    select 
+    <include refid="Base_Column_List" />
+    from sys_merchant
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_merchant
@@ -61,24 +101,55 @@
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.SysMerchant" >
     insert into sys_merchant (id, baseUserId, serialNo, 
-      agentSerialNo,md5Key, companyName, industryTypeId, 
-      industryType, contactMan, phone, 
-      tel, postcode, prov, 
-      city, area, address, 
-      auditStatus, status,  endTime, businessLicense, 
-      registerNumber, identityType, identityCardOn, 
-      identityCardOff, terminals, serviceType, serviceAlipay, serviceWeixin
-      )
+      agentSerialNo, md5Key, merchantName, 
+      merchantType, printName, companyName, 
+      industryTypeId, industryType, range, 
+      contactMan, phone, tel, 
+      postcode, prov, city, 
+      area, address, email, 
+      serviceTel, webSite, applyForBusiness, 
+      auditStatus, auditMemo, status, 
+      endTime, businessLicense, registerNumber, 
+      identityType, identityCardOn, identityCardOff, 
+      terminals, serviceType, createdBy, 
+      updatedBy, serviceAlipay, serviceWeixin, 
+      totalArea, totalEmployees, totalIncomes, 
+      operatePhoto, identityName, identityNum, 
+      identityBt, identityEt, organizeBarCode, 
+      organizeBarCodePic, organizeBarCodeBt, 
+      organizeBarCodeEt, taxBarCode, taxBarCodePic, 
+      taxBarCodeBt, taxBarCodeEt, cleanType, 
+      openBankProv, openBankCity, openBank, 
+      openBankSub, openBankName, openBankAccount, 
+      bankCardOn, bankCardOff, openBankLicense, 
+      signAccount, openBookingCard, industryRate, 
+      cappingMachine, weixinPayOnline, weixinPayOffline, 
+      aliPayOnline, aliPayOffline)
     values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
-      #{agentSerialNo,jdbcType=VARCHAR}, #{md5Key,jdbcType=VARCHAR},#{companyName,jdbcType=VARCHAR}, #{industryTypeId,jdbcType=INTEGER}, 
-      #{industryType,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{tel,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{auditStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{endTime,jdbcType=TIMESTAMP}, #{businessLicense,jdbcType=VARCHAR}, 
-      #{registerNumber,jdbcType=VARCHAR}, #{identityType,jdbcType=TINYINT}, #{identityCardOn,jdbcType=VARCHAR}, 
-      #{identityCardOff,jdbcType=VARCHAR}, #{terminals,jdbcType=VARCHAR}, #{serviceType,jdbcType=VARCHAR}, 
-      #{serviceAlipay,jdbcType=VARCHAR}, #{serviceWeixin,jdbcType=VARCHAR}
-      )
+      #{agentSerialNo,jdbcType=VARCHAR}, #{md5Key,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, 
+      #{merchantType,jdbcType=TINYINT}, #{printName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
+      #{industryTypeId,jdbcType=INTEGER}, #{industryType,jdbcType=VARCHAR}, #{range,jdbcType=VARCHAR}, 
+      #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{serviceTel,jdbcType=VARCHAR}, #{webSite,jdbcType=VARCHAR}, #{applyForBusiness,jdbcType=VARCHAR}, 
+      #{auditStatus,jdbcType=TINYINT}, #{auditMemo,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{businessLicense,jdbcType=VARCHAR}, #{registerNumber,jdbcType=VARCHAR}, 
+      #{identityType,jdbcType=TINYINT}, #{identityCardOn,jdbcType=VARCHAR}, #{identityCardOff,jdbcType=VARCHAR}, 
+      #{terminals,jdbcType=VARCHAR}, #{serviceType,jdbcType=VARCHAR}, #{createdBy,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=TIMESTAMP}, #{serviceAlipay,jdbcType=VARCHAR}, #{serviceWeixin,jdbcType=VARCHAR}, 
+      #{totalArea,jdbcType=REAL}, #{totalEmployees,jdbcType=INTEGER}, #{totalIncomes,jdbcType=REAL}, 
+      #{operatePhoto,jdbcType=VARCHAR}, #{identityName,jdbcType=VARCHAR}, #{identityNum,jdbcType=VARCHAR}, 
+      #{identityBt,jdbcType=TIMESTAMP}, #{identityEt,jdbcType=TIMESTAMP}, #{organizeBarCode,jdbcType=VARCHAR}, 
+      #{organizeBarCodePic,jdbcType=VARCHAR}, #{organizeBarCodeBt,jdbcType=TIMESTAMP}, 
+      #{organizeBarCodeEt,jdbcType=TIMESTAMP}, #{taxBarCode,jdbcType=VARCHAR}, #{taxBarCodePic,jdbcType=VARCHAR}, 
+      #{taxBarCodeBt,jdbcType=TIMESTAMP}, #{taxBarCodeEt,jdbcType=TIMESTAMP}, #{cleanType,jdbcType=TINYINT}, 
+      #{openBankProv,jdbcType=VARCHAR}, #{openBankCity,jdbcType=VARCHAR}, #{openBank,jdbcType=VARCHAR}, 
+      #{openBankSub,jdbcType=VARCHAR}, #{openBankName,jdbcType=VARCHAR}, #{openBankAccount,jdbcType=VARCHAR}, 
+      #{bankCardOn,jdbcType=VARCHAR}, #{bankCardOff,jdbcType=VARCHAR}, #{openBankLicense,jdbcType=VARCHAR}, 
+      #{signAccount,jdbcType=VARCHAR}, #{openBookingCard,jdbcType=TINYINT}, #{industryRate,jdbcType=REAL}, 
+      #{cappingMachine,jdbcType=VARCHAR}, #{weixinPayOnline,jdbcType=VARCHAR}, #{weixinPayOffline,jdbcType=VARCHAR}, 
+      #{aliPayOnline,jdbcType=VARCHAR}, #{aliPayOffline,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysMerchant" >
     insert into sys_merchant
@@ -98,6 +169,15 @@
       <if test="md5Key != null" >
         md5Key,
       </if>
+      <if test="merchantName != null" >
+        merchantName,
+      </if>
+      <if test="merchantType != null" >
+        merchantType,
+      </if>
+      <if test="printName != null" >
+        printName,
+      </if>
       <if test="companyName != null" >
         companyName,
       </if>
@@ -106,6 +186,9 @@
       </if>
       <if test="industryType != null" >
         industryType,
+      </if>
+      <if test="range != null" >
+        range,
       </if>
       <if test="contactMan != null" >
         contactMan,
@@ -131,8 +214,23 @@
       <if test="address != null" >
         address,
       </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="serviceTel != null" >
+        serviceTel,
+      </if>
+      <if test="webSite != null" >
+        webSite,
+      </if>
+      <if test="applyForBusiness != null" >
+        applyForBusiness,
+      </if>
       <if test="auditStatus != null" >
         auditStatus,
+      </if>
+      <if test="auditMemo != null" >
+        auditMemo,
       </if>
       <if test="status != null" >
         status,
@@ -161,11 +259,119 @@
       <if test="serviceType != null" >
         serviceType,
       </if>
-       <if test="serviceAlipay != null" >
+      <if test="createdBy != null" >
+        createdBy,
+      </if>
+      <if test="updatedBy != null" >
+        updatedBy,
+      </if>
+      <if test="serviceAlipay != null" >
         serviceAlipay,
       </if>
-       <if test="serviceWeixin != null" >
+      <if test="serviceWeixin != null" >
         serviceWeixin,
+      </if>
+      <if test="totalArea != null" >
+        totalArea,
+      </if>
+      <if test="totalEmployees != null" >
+        totalEmployees,
+      </if>
+      <if test="totalIncomes != null" >
+        totalIncomes,
+      </if>
+      <if test="operatePhoto != null" >
+        operatePhoto,
+      </if>
+      <if test="identityName != null" >
+        identityName,
+      </if>
+      <if test="identityNum != null" >
+        identityNum,
+      </if>
+      <if test="identityBt != null" >
+        identityBt,
+      </if>
+      <if test="identityEt != null" >
+        identityEt,
+      </if>
+      <if test="organizeBarCode != null" >
+        organizeBarCode,
+      </if>
+      <if test="organizeBarCodePic != null" >
+        organizeBarCodePic,
+      </if>
+      <if test="organizeBarCodeBt != null" >
+        organizeBarCodeBt,
+      </if>
+      <if test="organizeBarCodeEt != null" >
+        organizeBarCodeEt,
+      </if>
+      <if test="taxBarCode != null" >
+        taxBarCode,
+      </if>
+      <if test="taxBarCodePic != null" >
+        taxBarCodePic,
+      </if>
+      <if test="taxBarCodeBt != null" >
+        taxBarCodeBt,
+      </if>
+      <if test="taxBarCodeEt != null" >
+        taxBarCodeEt,
+      </if>
+      <if test="cleanType != null" >
+        cleanType,
+      </if>
+      <if test="openBankProv != null" >
+        openBankProv,
+      </if>
+      <if test="openBankCity != null" >
+        openBankCity,
+      </if>
+      <if test="openBank != null" >
+        openBank,
+      </if>
+      <if test="openBankSub != null" >
+        openBankSub,
+      </if>
+      <if test="openBankName != null" >
+        openBankName,
+      </if>
+      <if test="openBankAccount != null" >
+        openBankAccount,
+      </if>
+      <if test="bankCardOn != null" >
+        bankCardOn,
+      </if>
+      <if test="bankCardOff != null" >
+        bankCardOff,
+      </if>
+      <if test="openBankLicense != null" >
+        openBankLicense,
+      </if>
+      <if test="signAccount != null" >
+        signAccount,
+      </if>
+      <if test="openBookingCard != null" >
+        openBookingCard,
+      </if>
+      <if test="industryRate != null" >
+        industryRate,
+      </if>
+      <if test="cappingMachine != null" >
+        cappingMachine,
+      </if>
+      <if test="weixinPayOnline != null" >
+        weixinPayOnline,
+      </if>
+      <if test="weixinPayOffline != null" >
+        weixinPayOffline,
+      </if>
+      <if test="aliPayOnline != null" >
+        aliPayOnline,
+      </if>
+      <if test="aliPayOffline != null" >
+        aliPayOffline,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -184,6 +390,15 @@
       <if test="md5Key != null" >
         #{md5Key,jdbcType=VARCHAR},
       </if>
+      <if test="merchantName != null" >
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantType != null" >
+        #{merchantType,jdbcType=TINYINT},
+      </if>
+      <if test="printName != null" >
+        #{printName,jdbcType=VARCHAR},
+      </if>
       <if test="companyName != null" >
         #{companyName,jdbcType=VARCHAR},
       </if>
@@ -192,6 +407,9 @@
       </if>
       <if test="industryType != null" >
         #{industryType,jdbcType=VARCHAR},
+      </if>
+      <if test="range != null" >
+        #{range,jdbcType=VARCHAR},
       </if>
       <if test="contactMan != null" >
         #{contactMan,jdbcType=VARCHAR},
@@ -217,8 +435,23 @@
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceTel != null" >
+        #{serviceTel,jdbcType=VARCHAR},
+      </if>
+      <if test="webSite != null" >
+        #{webSite,jdbcType=VARCHAR},
+      </if>
+      <if test="applyForBusiness != null" >
+        #{applyForBusiness,jdbcType=VARCHAR},
+      </if>
       <if test="auditStatus != null" >
         #{auditStatus,jdbcType=TINYINT},
+      </if>
+      <if test="auditMemo != null" >
+        #{auditMemo,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
@@ -247,11 +480,119 @@
       <if test="serviceType != null" >
         #{serviceType,jdbcType=VARCHAR},
       </if>
-       <if test="serviceAlipay != null" >
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceAlipay != null" >
         #{serviceAlipay,jdbcType=VARCHAR},
       </if>
-       <if test="serviceWeixin != null" >
+      <if test="serviceWeixin != null" >
         #{serviceWeixin,jdbcType=VARCHAR},
+      </if>
+      <if test="totalArea != null" >
+        #{totalArea,jdbcType=REAL},
+      </if>
+      <if test="totalEmployees != null" >
+        #{totalEmployees,jdbcType=INTEGER},
+      </if>
+      <if test="totalIncomes != null" >
+        #{totalIncomes,jdbcType=REAL},
+      </if>
+      <if test="operatePhoto != null" >
+        #{operatePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="identityName != null" >
+        #{identityName,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNum != null" >
+        #{identityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="identityBt != null" >
+        #{identityBt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="identityEt != null" >
+        #{identityEt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizeBarCode != null" >
+        #{organizeBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="organizeBarCodePic != null" >
+        #{organizeBarCodePic,jdbcType=VARCHAR},
+      </if>
+      <if test="organizeBarCodeBt != null" >
+        #{organizeBarCodeBt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizeBarCodeEt != null" >
+        #{organizeBarCodeEt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taxBarCode != null" >
+        #{taxBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxBarCodePic != null" >
+        #{taxBarCodePic,jdbcType=VARCHAR},
+      </if>
+      <if test="taxBarCodeBt != null" >
+        #{taxBarCodeBt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taxBarCodeEt != null" >
+        #{taxBarCodeEt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cleanType != null" >
+        #{cleanType,jdbcType=TINYINT},
+      </if>
+      <if test="openBankProv != null" >
+        #{openBankProv,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankCity != null" >
+        #{openBankCity,jdbcType=VARCHAR},
+      </if>
+      <if test="openBank != null" >
+        #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankSub != null" >
+        #{openBankSub,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankName != null" >
+        #{openBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankAccount != null" >
+        #{openBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardOn != null" >
+        #{bankCardOn,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardOff != null" >
+        #{bankCardOff,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankLicense != null" >
+        #{openBankLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="signAccount != null" >
+        #{signAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="openBookingCard != null" >
+        #{openBookingCard,jdbcType=TINYINT},
+      </if>
+      <if test="industryRate != null" >
+        #{industryRate,jdbcType=REAL},
+      </if>
+      <if test="cappingMachine != null" >
+        #{cappingMachine,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPayOnline != null" >
+        #{weixinPayOnline,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPayOffline != null" >
+        #{weixinPayOffline,jdbcType=VARCHAR},
+      </if>
+      <if test="aliPayOnline != null" >
+        #{aliPayOnline,jdbcType=VARCHAR},
+      </if>
+      <if test="aliPayOffline != null" >
+        #{aliPayOffline,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -270,6 +611,15 @@
       <if test="md5Key != null" >
         md5Key = #{md5Key,jdbcType=VARCHAR},
       </if>
+      <if test="merchantName != null" >
+        merchantName = #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantType != null" >
+        merchantType = #{merchantType,jdbcType=TINYINT},
+      </if>
+      <if test="printName != null" >
+        printName = #{printName,jdbcType=VARCHAR},
+      </if>
       <if test="companyName != null" >
         companyName = #{companyName,jdbcType=VARCHAR},
       </if>
@@ -278,6 +628,9 @@
       </if>
       <if test="industryType != null" >
         industryType = #{industryType,jdbcType=VARCHAR},
+      </if>
+      <if test="range != null" >
+        range = #{range,jdbcType=VARCHAR},
       </if>
       <if test="contactMan != null" >
         contactMan = #{contactMan,jdbcType=VARCHAR},
@@ -303,10 +656,25 @@
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceTel != null" >
+        serviceTel = #{serviceTel,jdbcType=VARCHAR},
+      </if>
+      <if test="webSite != null" >
+        webSite = #{webSite,jdbcType=VARCHAR},
+      </if>
+      <if test="applyForBusiness != null" >
+        applyForBusiness = #{applyForBusiness,jdbcType=VARCHAR},
+      </if>
       <if test="auditStatus != null" >
         auditStatus = #{auditStatus,jdbcType=TINYINT},
       </if>
-       <if test="status != null" >
+      <if test="auditMemo != null" >
+        auditMemo = #{auditMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
       <if test="endTime != null" >
@@ -333,11 +701,119 @@
       <if test="serviceType != null" >
         serviceType = #{serviceType,jdbcType=VARCHAR},
       </if>
+      <if test="createdBy != null" >
+        createdBy = #{createdBy,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        updatedBy = #{updatedBy,jdbcType=TIMESTAMP},
+      </if>
       <if test="serviceAlipay != null" >
         serviceAlipay = #{serviceAlipay,jdbcType=VARCHAR},
       </if>
       <if test="serviceWeixin != null" >
         serviceWeixin = #{serviceWeixin,jdbcType=VARCHAR},
+      </if>
+      <if test="totalArea != null" >
+        totalArea = #{totalArea,jdbcType=REAL},
+      </if>
+      <if test="totalEmployees != null" >
+        totalEmployees = #{totalEmployees,jdbcType=INTEGER},
+      </if>
+      <if test="totalIncomes != null" >
+        totalIncomes = #{totalIncomes,jdbcType=REAL},
+      </if>
+      <if test="operatePhoto != null" >
+        operatePhoto = #{operatePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="identityName != null" >
+        identityName = #{identityName,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNum != null" >
+        identityNum = #{identityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="identityBt != null" >
+        identityBt = #{identityBt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="identityEt != null" >
+        identityEt = #{identityEt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizeBarCode != null" >
+        organizeBarCode = #{organizeBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="organizeBarCodePic != null" >
+        organizeBarCodePic = #{organizeBarCodePic,jdbcType=VARCHAR},
+      </if>
+      <if test="organizeBarCodeBt != null" >
+        organizeBarCodeBt = #{organizeBarCodeBt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizeBarCodeEt != null" >
+        organizeBarCodeEt = #{organizeBarCodeEt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taxBarCode != null" >
+        taxBarCode = #{taxBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxBarCodePic != null" >
+        taxBarCodePic = #{taxBarCodePic,jdbcType=VARCHAR},
+      </if>
+      <if test="taxBarCodeBt != null" >
+        taxBarCodeBt = #{taxBarCodeBt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taxBarCodeEt != null" >
+        taxBarCodeEt = #{taxBarCodeEt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cleanType != null" >
+        cleanType = #{cleanType,jdbcType=TINYINT},
+      </if>
+      <if test="openBankProv != null" >
+        openBankProv = #{openBankProv,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankCity != null" >
+        openBankCity = #{openBankCity,jdbcType=VARCHAR},
+      </if>
+      <if test="openBank != null" >
+        openBank = #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankSub != null" >
+        openBankSub = #{openBankSub,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankName != null" >
+        openBankName = #{openBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankAccount != null" >
+        openBankAccount = #{openBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardOn != null" >
+        bankCardOn = #{bankCardOn,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardOff != null" >
+        bankCardOff = #{bankCardOff,jdbcType=VARCHAR},
+      </if>
+      <if test="openBankLicense != null" >
+        openBankLicense = #{openBankLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="signAccount != null" >
+        signAccount = #{signAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="openBookingCard != null" >
+        openBookingCard = #{openBookingCard,jdbcType=TINYINT},
+      </if>
+      <if test="industryRate != null" >
+        industryRate = #{industryRate,jdbcType=REAL},
+      </if>
+      <if test="cappingMachine != null" >
+        cappingMachine = #{cappingMachine,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPayOnline != null" >
+        weixinPayOnline = #{weixinPayOnline,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinPayOffline != null" >
+        weixinPayOffline = #{weixinPayOffline,jdbcType=VARCHAR},
+      </if>
+      <if test="aliPayOnline != null" >
+        aliPayOnline = #{aliPayOnline,jdbcType=VARCHAR},
+      </if>
+      <if test="aliPayOffline != null" >
+        aliPayOffline = #{aliPayOffline,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -348,9 +824,13 @@
       serialNo = #{serialNo,jdbcType=VARCHAR},
       agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
       md5Key = #{md5Key,jdbcType=VARCHAR},
+      merchantName = #{merchantName,jdbcType=VARCHAR},
+      merchantType = #{merchantType,jdbcType=TINYINT},
+      printName = #{printName,jdbcType=VARCHAR},
       companyName = #{companyName,jdbcType=VARCHAR},
       industryTypeId = #{industryTypeId,jdbcType=INTEGER},
       industryType = #{industryType,jdbcType=VARCHAR},
+      range = #{range,jdbcType=VARCHAR},
       contactMan = #{contactMan,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
@@ -359,7 +839,12 @@
       city = #{city,jdbcType=VARCHAR},
       area = #{area,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      serviceTel = #{serviceTel,jdbcType=VARCHAR},
+      webSite = #{webSite,jdbcType=VARCHAR},
+      applyForBusiness = #{applyForBusiness,jdbcType=VARCHAR},
       auditStatus = #{auditStatus,jdbcType=TINYINT},
+      auditMemo = #{auditMemo,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       endTime = #{endTime,jdbcType=TIMESTAMP},
       businessLicense = #{businessLicense,jdbcType=VARCHAR},
@@ -369,113 +854,44 @@
       identityCardOff = #{identityCardOff,jdbcType=VARCHAR},
       terminals = #{terminals,jdbcType=VARCHAR},
       serviceType = #{serviceType,jdbcType=VARCHAR},
+      createdBy = #{createdBy,jdbcType=TIMESTAMP},
+      updatedBy = #{updatedBy,jdbcType=TIMESTAMP},
       serviceAlipay = #{serviceAlipay,jdbcType=VARCHAR},
-      serviceWeixin = #{serviceWeixin,jdbcType=VARCHAR}
+      serviceWeixin = #{serviceWeixin,jdbcType=VARCHAR},
+      totalArea = #{totalArea,jdbcType=REAL},
+      totalEmployees = #{totalEmployees,jdbcType=INTEGER},
+      totalIncomes = #{totalIncomes,jdbcType=REAL},
+      operatePhoto = #{operatePhoto,jdbcType=VARCHAR},
+      identityName = #{identityName,jdbcType=VARCHAR},
+      identityNum = #{identityNum,jdbcType=VARCHAR},
+      identityBt = #{identityBt,jdbcType=TIMESTAMP},
+      identityEt = #{identityEt,jdbcType=TIMESTAMP},
+      organizeBarCode = #{organizeBarCode,jdbcType=VARCHAR},
+      organizeBarCodePic = #{organizeBarCodePic,jdbcType=VARCHAR},
+      organizeBarCodeBt = #{organizeBarCodeBt,jdbcType=TIMESTAMP},
+      organizeBarCodeEt = #{organizeBarCodeEt,jdbcType=TIMESTAMP},
+      taxBarCode = #{taxBarCode,jdbcType=VARCHAR},
+      taxBarCodePic = #{taxBarCodePic,jdbcType=VARCHAR},
+      taxBarCodeBt = #{taxBarCodeBt,jdbcType=TIMESTAMP},
+      taxBarCodeEt = #{taxBarCodeEt,jdbcType=TIMESTAMP},
+      cleanType = #{cleanType,jdbcType=TINYINT},
+      openBankProv = #{openBankProv,jdbcType=VARCHAR},
+      openBankCity = #{openBankCity,jdbcType=VARCHAR},
+      openBank = #{openBank,jdbcType=VARCHAR},
+      openBankSub = #{openBankSub,jdbcType=VARCHAR},
+      openBankName = #{openBankName,jdbcType=VARCHAR},
+      openBankAccount = #{openBankAccount,jdbcType=VARCHAR},
+      bankCardOn = #{bankCardOn,jdbcType=VARCHAR},
+      bankCardOff = #{bankCardOff,jdbcType=VARCHAR},
+      openBankLicense = #{openBankLicense,jdbcType=VARCHAR},
+      signAccount = #{signAccount,jdbcType=VARCHAR},
+      openBookingCard = #{openBookingCard,jdbcType=TINYINT},
+      industryRate = #{industryRate,jdbcType=REAL},
+      cappingMachine = #{cappingMachine,jdbcType=VARCHAR},
+      weixinPayOnline = #{weixinPayOnline,jdbcType=VARCHAR},
+      weixinPayOffline = #{weixinPayOffline,jdbcType=VARCHAR},
+      aliPayOnline = #{aliPayOnline,jdbcType=VARCHAR},
+      aliPayOffline = #{aliPayOffline,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  
-    <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysMerchant" >
-        select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.createdAt as createdAt,   user.createdBy as createdBy,    description, merc.status as status,
-		merc.phone as phone, merc.tel as tel, 
-		<include refid="Base_Column_List" />
-		from sys_merchant merc, sys_user user
-		where merc.baseUserId = user.id
-
-      <if test="baseUserId != null" >
-        and baseUserId = #{baseUserId,jdbcType=INTEGER}
-      </if>
-      <if test="serialNo != null" >
-        and serialNo = #{serialNo,jdbcType=VARCHAR}
-      </if>
-      <if test="agentSerialNo != null" >
-        and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
-      </if>
-      <if test="md5Key != null" >
-        and md5Key = #{md5Key,jdbcType=VARCHAR}
-      </if>
-      <if test="companyName != null" >
-        and companyName = #{companyName,jdbcType=VARCHAR}
-      </if>
-      <if test="industryTypeId != null" >
-        and industryTypeId = #{industryTypeId,jdbcType=INTEGER}
-      </if>
-      <if test="industryType != null" >
-        and industryType = #{industryType,jdbcType=VARCHAR}
-      </if>
-      <if test="contactMan != null" >
-        and contactMan = #{contactMan,jdbcType=VARCHAR}
-      </if>
-      <if test="phone != null" >
-        and phone = #{phone,jdbcType=VARCHAR}
-      </if>
-      <if test="tel != null" >
-        and tel = #{tel,jdbcType=VARCHAR}
-      </if>
-      <if test="postcode != null" >
-        and postcode = #{postcode,jdbcType=VARCHAR}
-      </if>
-      <if test="prov != null" >
-        and prov = #{prov,jdbcType=VARCHAR}
-      </if>
-      <if test="city != null" >
-        and city = #{city,jdbcType=VARCHAR}
-      </if>
-      <if test="area != null" >
-        and area = #{area,jdbcType=VARCHAR}
-      </if>
-      <if test="address != null" >
-        and address = #{address,jdbcType=VARCHAR}
-      </if>
-      <if test="auditStatus != null" >
-        and auditStatus = #{auditStatus,jdbcType=TINYINT}
-      </if>
-      <if test="status != null" >
-        and status = #{status,jdbcType=TINYINT}
-      </if>
-      <if test="endTime != null" >
-        and endTime = #{endTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="businessLicense != null" >
-        and businessLicense = #{businessLicense,jdbcType=VARCHAR}
-      </if>
-      <if test="registerNumber != null" >
-        and registerNumber = #{registerNumber,jdbcType=VARCHAR}
-      </if>
-      <if test="identityType != null" >
-        and identityType = #{identityType,jdbcType=TINYINT}
-      </if>
-      <if test="identityCardOn != null" >
-        and identityCardOn = #{identityCardOn,jdbcType=VARCHAR}
-      </if>
-      <if test="identityCardOff != null" >
-        and identityCardOff = #{identityCardOff,jdbcType=VARCHAR}
-      </if>
-      <if test="terminals != null" >
-        and terminals = #{terminals,jdbcType=VARCHAR}
-      </if>
-      <if test="serviceType != null" >
-        and serviceType = #{serviceType,jdbcType=VARCHAR}
-      </if>
-      <if test="serviceAlipay != null" >
-        and serviceAlipay = #{serviceAlipay,jdbcType=VARCHAR}
-      </if>
-      <if test="serviceWeixin != null" >
-        and serviceWeixin = #{serviceWeixin,jdbcType=VARCHAR}
-      </if>
-      <if test="searchValue != null">
-			and (agentSerialNo = #{searchValue,jdbcType=VARCHAR}
-				or
-				companyName = #{searchValue,jdbcType=VARCHAR}
-				or
-				contactMan = #{searchValue,jdbcType=VARCHAR}
-				or
-				phone = #{searchValue,jdbcType=VARCHAR}
-				or
-				tel = #{searchValue,jdbcType=VARCHAR}
-			)
-		</if>
-  </select>
-  
 </mapper>

@@ -211,8 +211,8 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
 	        method  : 'get',
 	        url     : '/ajax/merchant/8' //+ $stateParams.id
 	    }).success(function(data) {
-	           // console.log(data);
 	            $scope.merchant = data;
+	            /*
 	            var terminals = data.terminals;
 	            var flg1 = false;
 	            var flg2 = false;
@@ -226,7 +226,7 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
 	                    { id:1,  name:'银联' ,  	  checked: flg1},
 	                    { id:2,  name:'支付宝',   checked: flg2 },
 	                    { id:3,  name:'微信支付',  checked: flg3 }]
-
+	         */           
 	        });
 	};
 	 $scope.saved = {};

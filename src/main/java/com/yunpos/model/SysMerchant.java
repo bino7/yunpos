@@ -148,6 +148,16 @@ public class SysMerchant {
     private String aliPayOnline;
 
     private String aliPayOffline;
+    
+    private String userName;
+    
+    private String nickname;
+    
+    private String password;
+    
+    private String description;
+    
+    private String newPassword;
 
     public Integer getId() {
         return id;
@@ -732,4 +742,45 @@ public class SysMerchant {
     public void setAliPayOffline(String aliPayOffline) {
         this.aliPayOffline = aliPayOffline == null ? null : aliPayOffline.trim();
     }
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	
 }

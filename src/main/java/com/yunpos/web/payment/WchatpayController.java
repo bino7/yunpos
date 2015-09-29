@@ -381,7 +381,7 @@ public class WchatpayController extends BaseController{
 				wxPayParamMap.put("nonceStr", reMap.get("nonce_str"));
 				wxPayParamMap.put("package", "prepay_id="+reMap.get("prepay_id"));
 				wxPayParamMap.put("signType", "MD5");
-				String paySign=  Signature.getSign(wxPayParamMap, sysWechatConfig.getAppKey());
+				String paySign=  Signature.getSign(wxPayParamMap, sysWechatConfig.getApiSecret());
 				wxPayParamMap.put("paySign", paySign);
 				
 				modelAndView.addObject("appId", wxPayParamMap.get("appId"));

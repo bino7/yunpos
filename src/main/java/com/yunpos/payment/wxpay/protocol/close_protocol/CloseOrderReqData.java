@@ -39,7 +39,7 @@ public class CloseOrderReqData {
 		setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
 		// 商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
 		setOut_trade_no(out_trade_no); // 商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
-		String sign = Signature.getSign(toMap(),sysWechatConfig.getAppKey());
+		String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
 		setSign(sign);// 把签名数据设置到Sign这个属性中
 
 	}

@@ -99,6 +99,7 @@ public class SysStoreController extends BaseController{
 		user.setUserName(sysStore.getUserName());
 		user.setNickname(sysStore.getNickname());
 		user.setPassword(sysStore.getPassword());
+		user.setPhone(sysStore.getPhone());
 		user.setCreatedBy(getUser().getId());
 		sysUserService.creatSysUser(user);
 		

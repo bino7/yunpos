@@ -4,7 +4,7 @@
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-12">
-                    <form class="form-horizontal" role="form" name="form">
+                    <form class="form-horizontal form-validation" role="form" name="form">
                         <div class="form-group">
                             <label class="col-md-2 control-label">
                                	用户名：
@@ -21,38 +21,17 @@
                            		 <input type="text" class="form-control" ng-model="store.nickname">
                             </div>
                         </div>
-						<div class="form-group has-feedback"
-							ng-class="{'has-success':form.password.$valid,'has-error':form.password.$invalid}">
-							<label  class="col-md-2 control-label">
-							 登录密码：
-							</label>
+						<div class="form-group has-feedback">
+							<label class="col-md-2 control-label"> 登录密码： </label>
 							<div class="col-md-10">
-								<input ng-model="password" name="password" type="password"
-									class="form-control" id="password" required=""  placeholder="请输入密码"
-									ng-pattern="/^[\S]{6,}$/"> <span
-									class="glyphicon  form-control-feedback glyphi"
-									ng-class="{'glyphicon-ok':form.password.$valid,'glyphicon-remove':form.password.$invalid}"></span>
-							</div>
-							<div class="col-md-12 has-error text-right"
-								ng-show="form.password.$invalid&&form.password.$dirty">
-								<span style="color: #ff4a0d">密码至少六位</span>
-							</div>
+							 <input type="password" class="form-control" name="password" ng-model="password" required > 
+							</div> 	
 						</div>
-						<div class="form-group has-feedback"
-							ng-class="{'has-success':form.confirmPassword.$valid,'has-error':form.confirmPassword.$invalid}">
-							<label  class="col-md-2 control-label">
-							 确认密码：
-							</label>
+						<div class="form-group has-feedback">
+							<label class="col-md-2 control-label"> 确认密码： </label>
 							<div class="col-md-10">
-								<input ng-model="confirmPassword" name="confirmPassword" type="password"
-									class="form-control" id="confirmPassword" required=""  placeholder="请再次输入密码"
-									ng-pattern="/^[\S]{6,}$/"> <span
-									class="glyphicon  form-control-feedback glyphi"
-									ng-class="{'glyphicon-ok':form.confirmPassword.$valid,'glyphicon-remove':form.confirmPassword.$invalid}"></span>
-							</div>
-							<div class="col-md-12 has-error text-right"
-								ng-show="form.confirmPassword.$invalid&&form.confirmPassword.$dirty">
-								<span style="color: #ff4a0d">密码至少六位</span>
+							<input type="password" class="form-control" name="confirm_password" required ng-model="store.newPassword" ui-validate=" '$value==password' " ui-validate-watch=" 'password' ">
+							<span ng-show='form.confirm_password.$error.validator' style="color: #ff4a0d">两次输入密码不一致！</span>
 							</div>
 						</div>
 						<div class="form-group">

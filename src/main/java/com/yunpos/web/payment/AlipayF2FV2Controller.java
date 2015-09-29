@@ -54,6 +54,7 @@ public class AlipayF2FV2Controller {
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
 
+		String body = request.getParameter("body"); //商品描述信息，支付成功时用户在支付结果中看到
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee) || Strings.isNullOrEmpty(dynamic_id)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
 				|| Strings.isNullOrEmpty(client_type)) {
@@ -89,8 +90,8 @@ public class AlipayF2FV2Controller {
 			IdWorker iw = new IdWorker(idepo);
 			String orderNo = iw.getId() + "";
 			
-			AlipayScanPayReqData payReqData = new AlipayScanPayReqData(orderNo, AlipayConfig.partner, "支付宝条码支付",
-					"BARCODE_PAY_OFFLINE", total_fee, dynamic_id,"");
+			AlipayScanPayReqData payReqData = new AlipayScanPayReqData(orderNo, AlipayConfig.partner, "支付宝条码支付"
+					, total_fee, dynamic_id,"");
 			payReqData.setPay_channel(pay_channel);
 			payReqData.setTerminal_unique_no(terminal_unique_no);
 			payReqData.setMerchant_num(merchant_num);

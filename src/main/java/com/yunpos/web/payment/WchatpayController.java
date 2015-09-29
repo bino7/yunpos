@@ -97,10 +97,11 @@ public class WchatpayController extends BaseController{
 		String terminal_unique_no = request.getParameter("terminal_unique_no"); // 商户订单号
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
+		String body = request.getParameter("body"); //商品描述信息，支付成功时用户在支付结果中看到
 
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee) || Strings.isNullOrEmpty(dynamic_id)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
-				|| Strings.isNullOrEmpty(client_type)||Strings.isNullOrEmpty(user_order_no)) {
+				|| Strings.isNullOrEmpty(client_type)||Strings.isNullOrEmpty(user_order_no)||Strings.isNullOrEmpty(body)) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
 		
@@ -166,7 +167,7 @@ public class WchatpayController extends BaseController{
 			int totalFee = Integer.valueOf(AmountUtils.changeY2F(total_fee));
 			String ip = InetAddress.getLocalHost().getHostAddress();
 			// 支付请求
-			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id, "wechat bar pay test", "attach data",
+			ScanPayReqData scanPayReqData = new ScanPayReqData(dynamic_id,body, "attach data",
 					orderNo, totalFee, terminal_unique_no, ip, "bar pay", sysWechatConfig);
 			
 			Map<String ,String> dtoMap = new HashMap<>();

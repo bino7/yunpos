@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link type="text/css" rel="stylesheet" href="css/common.css">
+  <title>Angular file upload sample</title>
+
+  <script type="text/javascript">
+    FileAPI = {
+      debug: true,
+    };
+  </script>
+
+  <!-- <script src="//code.jquery.com/jquery-1.9.0.min.js"></script> -->
+  <script src="vendor/angular/angular.js"></script>
+  <script src="js/upload/ng-file-upload.js"></script>
+  <script src="js/upload/upload.js"></script>
+
+  <link rel="stylesheet" href="css/codemirror.min.css">
+  <script src="js/upload/codemirror.min.js"></script>
+  <script src="js/upload/xml.min.js"></script>
+</head>
+
+<body >
+
+<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+
+  <div class="upload-buttons">
+    <div id="editArea">
+      <div>
+        <div>
+          <form name="myForm">
+              Profile Picture: <input type="file" ngf-select ng-model="picFile" name="file" accept="image/*" required>
+              <i ng-show="myForm.file.$error.required">*required</i>
+              <br/>
+ 				<img ngf-src="picFile" class="thumb">
+              <span class="progress" ng-show="picFile.progress >= 0">
+                  <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
+              </span>
+              <button ng-disabled="!myForm.$valid" ng-click="uploadPic(picFile)">Submit1111111111</button>
+             
+              <span ng-show="picFile.result">Upload Successful</span>
+            <br/>
+          </form>
+        </div>
+      
+        <br/>
+      </div>
+    </div>
+  </div>
+ 
+ </body>
+</html>

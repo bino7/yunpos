@@ -87,14 +87,19 @@ public class AlipayController extends BaseController{
 	@ResponseBody
 	public Object barCreate(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,String> reqParamMap = this.getRequestParams(request);
+		//必填字段
 		String pay_channel = reqParamMap.get("pay_channel");
 		String total_fee = reqParamMap.get("total_fee"); // 支付金额（非空）
 		String dynamic_id = reqParamMap.get("dynamic_id"); // 支付码（非空）
 		String merchant_num = reqParamMap.get("merchant_num"); // 商户号（非空）
 		String terminal_unique_no = reqParamMap.get("terminal_unique_no"); // 终端编号（非空）
-		String cashier_num = reqParamMap.get("cashier_num"); // 核销码（可空）
 		String client_type = reqParamMap.get("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
 		String user_order_no = request.getParameter("user_order_no"); //用户订单号
+		//非必填字段
+		String subject = request.getParameter("subject"); //订单标题
+		
+		String cashier_num = reqParamMap.get("cashier_num"); // 核销码（可空）
+		
 		if (Strings.isNullOrEmpty(pay_channel) 
 				|| Strings.isNullOrEmpty(total_fee) 
 				|| Strings.isNullOrEmpty(dynamic_id)
@@ -169,8 +174,11 @@ public class AlipayController extends BaseController{
 			//代理商需要分润，支付时需要带入分润ID
 			String extend_params = mapper.writeValueAsString(map);
 			
-			AlipayScanPayReqData payReqData = new AlipayScanPayReqData(orderNo, sysAlipayConfig.getPid(), "支付宝条码支付",
-					"BARCODE_PAY_OFFLINE", total_fee, dynamic_id,extend_params);
+			if(Strings.isNullOrEmpty(subject)){
+				subject = "alipay online";
+			}
+			
+			AlipayScanPayReqData payReqData = new AlipayScanPayReqData(orderNo, sysAlipayConfig.getPid(), subject, total_fee, dynamic_id,extend_params);
 			payReqData.setPay_channel(pay_channel);
 			payReqData.setTerminal_unique_no(terminal_unique_no);
 			payReqData.setMerchant_num(sysMerchant.getSerialNo());

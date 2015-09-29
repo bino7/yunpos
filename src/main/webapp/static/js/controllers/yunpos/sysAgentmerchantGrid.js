@@ -206,6 +206,7 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
 	      	alert("保存失败！");
 	     });
 	};
+	
      //上传图片
      $scope.onFileSelect = function($files) {    
     	    for (var i = 0; i < $files.length; i++) {      var file = $files[i];

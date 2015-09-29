@@ -2,785 +2,862 @@ package com.yunpos.model;
 
 import java.util.Date;
 
-public class SysMerchant {
-    private Integer id;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.Tools;
+import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.serializer.JsonDateSerializer;
 
-    private Integer baseUserId;
+/**
+ * 
+ * 功能描述：商户
+ * <p>
+ * 版权所有：小牛信息科技有限公司
+ * <p>
+ * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
+ * 
+ * @author tiger_lin 新增日期：2015年9月7日
+ * @author tiger_lin 修改日期：2015年9月7日
+ *
+ */
 
-    private String serialNo;
+public class SysMerchant extends GridRequest{
 
-    private String agentSerialNo;
+	    private Integer id;							//商户ID
 
-    private String md5Key;
+	    private Integer baseUserId;					//关联的基础用户Id（关联sys_user表）
 
-    private String merchantName;
+	    private String serialNo;					//商户编号
 
-    private Byte merchantType;
+	    private String agentSerialNo;				//代理商编号
+	    
+	    private String md5Key;							//商户秘钥
 
-    private String printName;
+	    private String companyName;					//公司名称
 
-    private String companyName;
+	    private Integer industryTypeId;				//行业类型Id     1 餐饮   2 KTV  3 美容美发  4 酒店 
 
-    private Integer industryTypeId;
+	    private String industryType;				//行业类型名称
 
-    private String industryType;
+	    private String contactMan;					//联系人
 
-    private String range;
+	    private String phone;						//联系人电话
 
-    private String contactMan;
+	    private String tel;							//联系人手机
 
-    private String phone;
+	    private String postcode;					//邮编
 
-    private String tel;
+	    private String prov;						//省
 
-    private String postcode;
+	    private String city;						//市
 
-    private String prov;
+	    private String area;						//区
 
-    private String city;
+	    private String address;						//地址
+	    
+	    private Byte status;						//审核状态，0：停用，1：启用
 
-    private String area;
+	    private Byte auditStatus;					//审核状态，0：审核中，1：审核通过、2：回退、3：驳回
 
-    private String address;
+	    private Date endTime;						//合同到期时间
 
-    private String email;
+	    private String businessLicense;				//营业执照图片路径
 
-    private String serviceTel;
+	    private String registerNumber;				//营业执照注册号
 
-    private String webSite;
+	    private Byte identityType;					//证件类型，0：身份证，1：护照
 
-    private String applyForBusiness;
+	    private String identityCardOn;				//证件正面照图片路径
 
-    private Byte auditStatus;
+	    private String identityCardOff;				//证件反面照图片路径
 
-    private String auditMemo;
+	    private String terminals;					//申请的终端，格式：1银联,2支付宝,3微信支付（多个用,分割）
 
-    private Byte status;
+	    private String serviceType;					//服务类型，格式：服务窗,公众号,收银台（多个用,分割）
+	    
+	    private String serviceAlipay;				//服务类型，格式：服务窗,
+	    
+	    private String serviceWeixin;				//服务类型，格式：公众号,
+	    
+	    private String merchantName;
 
-    private Date endTime;
+	    private Byte merchantType;
 
-    private String businessLicense;
+	    private String printName;
 
-    private String registerNumber;
+	    private String range;
 
-    private Byte identityType;
+	    private String email;
 
-    private String identityCardOn;
+	    private String serviceTel;
 
-    private String identityCardOff;
+	    private String webSite;
 
-    private String terminals;
+	    private String applyForBusiness;
 
-    private String serviceType;
+	    private String auditMemo;
 
-    private Date createdBy;
+	    private Date updatedBy;
 
-    private Date updatedBy;
+	    private Float totalArea;
 
-    private String serviceAlipay;
+	    private Integer totalEmployees;
 
-    private String serviceWeixin;
+	    private Float totalIncomes;
 
-    private Float totalArea;
+	    private String operatePhoto;
 
-    private Integer totalEmployees;
+	    private String identityName;
 
-    private Float totalIncomes;
+	    private String identityNum;
 
-    private String operatePhoto;
+	    private Date identityBt;
 
-    private String identityName;
+	    private Date identityEt;
 
-    private String identityNum;
+	    private String organizeBarCode;
 
-    private Date identityBt;
+	    private String organizeBarCodePic;
 
-    private Date identityEt;
+	    private Date organizeBarCodeBt;
 
-    private String organizeBarCode;
+	    private Date organizeBarCodeEt;
 
-    private String organizeBarCodePic;
+	    private String taxBarCode;
 
-    private Date organizeBarCodeBt;
+	    private String taxBarCodePic;
 
-    private Date organizeBarCodeEt;
+	    private Date taxBarCodeBt;
 
-    private String taxBarCode;
+	    private Date taxBarCodeEt;
 
-    private String taxBarCodePic;
+	    private Byte cleanType;
 
-    private Date taxBarCodeBt;
+	    private String openBankProv;
 
-    private Date taxBarCodeEt;
+	    private String openBankCity;
 
-    private Byte cleanType;
+	    private String openBank;
 
-    private String openBankProv;
+	    private String openBankSub;
 
-    private String openBankCity;
+	    private String openBankName;
 
-    private String openBank;
+	    private String openBankAccount;
 
-    private String openBankSub;
+	    private String bankCardOn;
 
-    private String openBankName;
+	    private String bankCardOff;
 
-    private String openBankAccount;
+	    private String openBankLicense;
 
-    private String bankCardOn;
+	    private String signAccount;
 
-    private String bankCardOff;
+	    private Byte openBookingCard;
 
-    private String openBankLicense;
+	    private Float industryRate;
 
-    private String signAccount;
+	    private String cappingMachine;
 
-    private Byte openBookingCard;
+	    private String weixinPayOnline;
 
-    private Float industryRate;
+	    private String weixinPayOffline;
 
-    private String cappingMachine;
+	    private String aliPayOnline;
 
-    private String weixinPayOnline;
+	    private String aliPayOffline;
+	    
+	    
 
-    private String weixinPayOffline;
+	 // 下面表单接收数据使用，非实体数据库字段
+	    private String userId;					//代理商用户ID
+	    
+	 	private String userName;				// 用户名
+	 	
+	 	private String nickname;				// 昵称
+	 	
+		private String password;				// 密码
 
-    private String aliPayOnline;
+		private String newPassword;				// 新密码
+		
+		private Date createdAt;					// 创建时间
 
-    private String aliPayOffline;
-    
-    private String userName;
-    
-    private String nickname;
-    
-    private String password;
-    
-    private String description;
-    
-    private String newPassword;
+		private Integer createdBy;				// 创建人
+		
+		private String description;				// 描述
+		
+		private String[] terminalsStr;					//申请的终端，格式：1银联,2支付宝,3微信支付（多个用,分割）
+	    
 
-    public Integer getId() {
-        return id;
-    }
+	    public Integer getId() {
+	        return id;
+	    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	    public void setId(Integer id) {
+	        this.id = id;
+	    }
 
-    public Integer getBaseUserId() {
-        return baseUserId;
-    }
+	    public Integer getBaseUserId() {
+	        return baseUserId;
+	    }
 
-    public void setBaseUserId(Integer baseUserId) {
-        this.baseUserId = baseUserId;
-    }
+	    public void setBaseUserId(Integer baseUserId) {
+	        this.baseUserId = baseUserId;
+	    }
 
-    public String getSerialNo() {
-        return serialNo;
-    }
+	    public String getSerialNo() {
+	        return serialNo;
+	    }
 
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo == null ? null : serialNo.trim();
-    }
+	    public void setSerialNo(String serialNo) {
+	        this.serialNo = serialNo == null ? null : serialNo.trim();
+	    }
 
-    public String getAgentSerialNo() {
-        return agentSerialNo;
-    }
+	    public String getAgentSerialNo() {
+	        return agentSerialNo;
+	    }
 
-    public void setAgentSerialNo(String agentSerialNo) {
-        this.agentSerialNo = agentSerialNo == null ? null : agentSerialNo.trim();
-    }
+	    public void setAgentSerialNo(String agentSerialNo) {
+	        this.agentSerialNo = agentSerialNo == null ? null : agentSerialNo.trim();
+	    }
 
-    public String getMd5Key() {
-        return md5Key;
-    }
+	    public String getCompanyName() {
+	        return companyName;
+	    }
 
-    public void setMd5Key(String md5Key) {
-        this.md5Key = md5Key == null ? null : md5Key.trim();
-    }
+	    public void setCompanyName(String companyName) {
+	        this.companyName = companyName == null ? null : companyName.trim();
+	    }
 
-    public String getMerchantName() {
-        return merchantName;
-    }
+	    public Integer getIndustryTypeId() {
+	        return industryTypeId;
+	    }
 
-    public void setMerchantName(String merchantName) {
-        this.merchantName = merchantName == null ? null : merchantName.trim();
-    }
+	    public void setIndustryTypeId(Integer industryTypeId) {
+	        this.industryTypeId = industryTypeId;
+	    }
 
-    public Byte getMerchantType() {
-        return merchantType;
-    }
+	    public String getIndustryType() {
+	    	if(!Tools.isNullOrEmpty(industryTypeId)){
+		    	switch(industryTypeId){
+			    	case 1 :industryType = "餐饮" ;
+			    		break;
+			    	case 2 :industryType = "KTV" ;
+			    		break;
+			    	case 3 :industryType = "美容美发" ;
+			    		break;
+			    	case 4 :industryType = "酒店" ;
+			    		break;
+			    	default : industryType = "";
+		    	}
+	    	}
+	        return industryType;
+	    }
 
-    public void setMerchantType(Byte merchantType) {
-        this.merchantType = merchantType;
-    }
+	    public void setIndustryType(String industryType) {
+	        this.industryType = industryType == null ? null : industryType.trim();
+	    }
 
-    public String getPrintName() {
-        return printName;
-    }
+	    public String getContactMan() {
+	        return contactMan;
+	    }
 
-    public void setPrintName(String printName) {
-        this.printName = printName == null ? null : printName.trim();
-    }
+	    public void setContactMan(String contactMan) {
+	        this.contactMan = contactMan == null ? null : contactMan.trim();
+	    }
 
-    public String getCompanyName() {
-        return companyName;
-    }
+	    public String getPhone() {
+	        return phone;
+	    }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName == null ? null : companyName.trim();
-    }
+	    public void setPhone(String phone) {
+	        this.phone = phone == null ? null : phone.trim();
+	    }
 
-    public Integer getIndustryTypeId() {
-        return industryTypeId;
-    }
+	    public String getTel() {
+	        return tel;
+	    }
 
-    public void setIndustryTypeId(Integer industryTypeId) {
-        this.industryTypeId = industryTypeId;
-    }
+	    public void setTel(String tel) {
+	        this.tel = tel == null ? null : tel.trim();
+	    }
 
-    public String getIndustryType() {
-        return industryType;
-    }
+	    public String getPostcode() {
+	        return postcode;
+	    }
 
-    public void setIndustryType(String industryType) {
-        this.industryType = industryType == null ? null : industryType.trim();
-    }
+	    public void setPostcode(String postcode) {
+	        this.postcode = postcode == null ? null : postcode.trim();
+	    }
 
-    public String getRange() {
-        return range;
-    }
+	    public String getProv() {
+	        return prov;
+	    }
 
-    public void setRange(String range) {
-        this.range = range == null ? null : range.trim();
-    }
+	    public void setProv(String prov) {
+	        this.prov = prov == null ? null : prov.trim();
+	    }
 
-    public String getContactMan() {
-        return contactMan;
-    }
+	    public String getCity() {
+	        return city;
+	    }
 
-    public void setContactMan(String contactMan) {
-        this.contactMan = contactMan == null ? null : contactMan.trim();
-    }
+	    public void setCity(String city) {
+	        this.city = city == null ? null : city.trim();
+	    }
 
-    public String getPhone() {
-        return phone;
-    }
+	    public String getArea() {
+	        return area;
+	    }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
+	    public void setArea(String area) {
+	        this.area = area == null ? null : area.trim();
+	    }
 
-    public String getTel() {
-        return tel;
-    }
+	    public String getAddress() {
+	        return address;
+	    }
 
-    public void setTel(String tel) {
-        this.tel = tel == null ? null : tel.trim();
-    }
+	    public void setAddress(String address) {
+	        this.address = address == null ? null : address.trim();
+	    }
 
-    public String getPostcode() {
-        return postcode;
-    }
+	    public Byte getAuditStatus() {
+	        return auditStatus;
+	    }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode == null ? null : postcode.trim();
-    }
+	    public void setAuditStatus(Byte auditStatus) {
+	        this.auditStatus = auditStatus;
+	    }
 
-    public String getProv() {
-        return prov;
-    }
+	    @JsonSerialize(using = JsonDateSerializer.class)
+	    public Date getEndTime() {
+	        return endTime;
+	    }
 
-    public void setProv(String prov) {
-        this.prov = prov == null ? null : prov.trim();
-    }
+	    public void setEndTime(Date endTime) {
+	        this.endTime = endTime;
+	    }
 
-    public String getCity() {
-        return city;
-    }
+	    public String getBusinessLicense() {
+	        return businessLicense;
+	    }
 
-    public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
-    }
+	    public void setBusinessLicense(String businessLicense) {
+	        this.businessLicense = businessLicense == null ? null : businessLicense.trim();
+	    }
 
-    public String getArea() {
-        return area;
-    }
+	    public String getRegisterNumber() {
+	        return registerNumber;
+	    }
 
-    public void setArea(String area) {
-        this.area = area == null ? null : area.trim();
-    }
+	    public void setRegisterNumber(String registerNumber) {
+	        this.registerNumber = registerNumber == null ? null : registerNumber.trim();
+	    }
 
-    public String getAddress() {
-        return address;
-    }
+	    public Byte getIdentityType() {
+	        return identityType;
+	    }
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
+	    public void setIdentityType(Byte identityType) {
+	        this.identityType = identityType;
+	    }
 
-    public String getEmail() {
-        return email;
-    }
+	    public String getIdentityCardOn() {
+	        return identityCardOn;
+	    }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
+	    public void setIdentityCardOn(String identityCardOn) {
+	        this.identityCardOn = identityCardOn == null ? null : identityCardOn.trim();
+	    }
 
-    public String getServiceTel() {
-        return serviceTel;
-    }
+	    public String getIdentityCardOff() {
+	        return identityCardOff;
+	    }
 
-    public void setServiceTel(String serviceTel) {
-        this.serviceTel = serviceTel == null ? null : serviceTel.trim();
-    }
+	    public void setIdentityCardOff(String identityCardOff) {
+	        this.identityCardOff = identityCardOff == null ? null : identityCardOff.trim();
+	    }
 
-    public String getWebSite() {
-        return webSite;
-    }
+	    public String getTerminals() {
+	        return terminals;
+	    }
 
-    public void setWebSite(String webSite) {
-        this.webSite = webSite == null ? null : webSite.trim();
-    }
+	    public void setTerminals(String terminals) {
+	        this.terminals = terminals == null ? null : terminals.trim();
+	    }
 
-    public String getApplyForBusiness() {
-        return applyForBusiness;
-    }
+	    public String getServiceType() {
+	        return serviceType;
+	    }
 
-    public void setApplyForBusiness(String applyForBusiness) {
-        this.applyForBusiness = applyForBusiness == null ? null : applyForBusiness.trim();
-    }
+	    public void setServiceType(String serviceType) {
+	        this.serviceType = serviceType == null ? null : serviceType.trim();
+	    }
 
-    public Byte getAuditStatus() {
-        return auditStatus;
-    }
+		public String getUserId() {
+			return userId;
+		}
 
-    public void setAuditStatus(Byte auditStatus) {
-        this.auditStatus = auditStatus;
-    }
+		public void setUserId(String userId) {
+			this.userId = userId;
+		}
 
-    public String getAuditMemo() {
-        return auditMemo;
-    }
+		public String getUserName() {
+			return userName;
+		}
 
-    public void setAuditMemo(String auditMemo) {
-        this.auditMemo = auditMemo == null ? null : auditMemo.trim();
-    }
+		public void setUserName(String userName) {
+			this.userName = userName;
+		}
 
-    public Byte getStatus() {
-        return status;
-    }
+		public String getNickname() {
+			return nickname;
+		}
 
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
+		}
 
-    public Date getEndTime() {
-        return endTime;
-    }
+		public String getPassword() {
+			return password;
+		}
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
+		public void setPassword(String password) {
+			this.password = password;
+		}
 
-    public String getBusinessLicense() {
-        return businessLicense;
-    }
+		public String getNewPassword() {
+			return newPassword;
+		}
 
-    public void setBusinessLicense(String businessLicense) {
-        this.businessLicense = businessLicense == null ? null : businessLicense.trim();
-    }
+		public void setNewPassword(String newPassword) {
+			this.newPassword = newPassword;
+		}
 
-    public String getRegisterNumber() {
-        return registerNumber;
-    }
+		 @JsonSerialize(using = JsonDateSerializer.class)
+		public Date getCreatedAt() {
+			return createdAt;
+		}
 
-    public void setRegisterNumber(String registerNumber) {
-        this.registerNumber = registerNumber == null ? null : registerNumber.trim();
-    }
+		public void setCreatedAt(Date createdAt) {
+			this.createdAt = createdAt;
+		}
 
-    public Byte getIdentityType() {
-        return identityType;
-    }
+		public Integer getCreatedBy() {
+			return createdBy;
+		}
 
-    public void setIdentityType(Byte identityType) {
-        this.identityType = identityType;
-    }
+		public void setCreatedBy(Integer createdBy) {
+			this.createdBy = createdBy;
+		}
 
-    public String getIdentityCardOn() {
-        return identityCardOn;
-    }
+		public String getMd5Key() {
+			return md5Key;
+		}
 
-    public void setIdentityCardOn(String identityCardOn) {
-        this.identityCardOn = identityCardOn == null ? null : identityCardOn.trim();
-    }
+		public void setMd5Key(String md5Key) {
+			this.md5Key = md5Key;
+		}
 
-    public String getIdentityCardOff() {
-        return identityCardOff;
-    }
+		public String getDescription() {
+			return description;
+		}
 
-    public void setIdentityCardOff(String identityCardOff) {
-        this.identityCardOff = identityCardOff == null ? null : identityCardOff.trim();
-    }
+		public void setDescription(String description) {
+			this.description = description;
+		}
 
-    public String getTerminals() {
-        return terminals;
-    }
+		public String[] getTerminalsStr() {
+			if(!Tools.isNullOrEmpty(terminals)){
+				terminalsStr = terminals.split(",");
+			}
+			return terminalsStr;
+		}
 
-    public void setTerminals(String terminals) {
-        this.terminals = terminals == null ? null : terminals.trim();
-    }
+		public void setTerminalsStr(String[] terminalsStr) {
+			this.terminalsStr = terminalsStr;
+		}
 
-    public String getServiceType() {
-        return serviceType;
-    }
+		public Byte getStatus() {
+			return status;
+		}
 
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType == null ? null : serviceType.trim();
-    }
+		public void setStatus(Byte status) {
+			this.status = status;
+		}
 
-    public Date getCreatedBy() {
-        return createdBy;
-    }
+		public String getServiceAlipay() {
+			return serviceAlipay;
+		}
 
-    public void setCreatedBy(Date createdBy) {
-        this.createdBy = createdBy;
-    }
+		public void setServiceAlipay(String serviceAlipay) {
+			this.serviceAlipay = serviceAlipay;
+		}
 
-    public Date getUpdatedBy() {
-        return updatedBy;
-    }
+		public String getServiceWeixin() {
+			return serviceWeixin;
+		}
 
-    public void setUpdatedBy(Date updatedBy) {
-        this.updatedBy = updatedBy;
-    }
+		public void setServiceWeixin(String serviceWeixin) {
+			this.serviceWeixin = serviceWeixin;
+		}
+		
 
-    public String getServiceAlipay() {
-        return serviceAlipay;
-    }
+	    public String getMerchantName() {
+	        return merchantName;
+	    }
 
-    public void setServiceAlipay(String serviceAlipay) {
-        this.serviceAlipay = serviceAlipay == null ? null : serviceAlipay.trim();
-    }
+	    public void setMerchantName(String merchantName) {
+	        this.merchantName = merchantName == null ? null : merchantName.trim();
+	    }
 
-    public String getServiceWeixin() {
-        return serviceWeixin;
-    }
+	    public Byte getMerchantType() {
+	        return merchantType;
+	    }
 
-    public void setServiceWeixin(String serviceWeixin) {
-        this.serviceWeixin = serviceWeixin == null ? null : serviceWeixin.trim();
-    }
+	    public void setMerchantType(Byte merchantType) {
+	        this.merchantType = merchantType;
+	    }
 
-    public Float getTotalArea() {
-        return totalArea;
-    }
+	    public String getPrintName() {
+	        return printName;
+	    }
 
-    public void setTotalArea(Float totalArea) {
-        this.totalArea = totalArea;
-    }
+	    public void setPrintName(String printName) {
+	        this.printName = printName == null ? null : printName.trim();
+	    }
 
-    public Integer getTotalEmployees() {
-        return totalEmployees;
-    }
 
-    public void setTotalEmployees(Integer totalEmployees) {
-        this.totalEmployees = totalEmployees;
-    }
+	    public String getRange() {
+	        return range;
+	    }
 
-    public Float getTotalIncomes() {
-        return totalIncomes;
-    }
+	    public void setRange(String range) {
+	        this.range = range == null ? null : range.trim();
+	    }
 
-    public void setTotalIncomes(Float totalIncomes) {
-        this.totalIncomes = totalIncomes;
-    }
 
-    public String getOperatePhoto() {
-        return operatePhoto;
-    }
+	    public String getEmail() {
+	        return email;
+	    }
 
-    public void setOperatePhoto(String operatePhoto) {
-        this.operatePhoto = operatePhoto == null ? null : operatePhoto.trim();
-    }
+	    public void setEmail(String email) {
+	        this.email = email == null ? null : email.trim();
+	    }
 
-    public String getIdentityName() {
-        return identityName;
-    }
+	    public String getServiceTel() {
+	        return serviceTel;
+	    }
 
-    public void setIdentityName(String identityName) {
-        this.identityName = identityName == null ? null : identityName.trim();
-    }
+	    public void setServiceTel(String serviceTel) {
+	        this.serviceTel = serviceTel == null ? null : serviceTel.trim();
+	    }
 
-    public String getIdentityNum() {
-        return identityNum;
-    }
+	    public String getWebSite() {
+	        return webSite;
+	    }
 
-    public void setIdentityNum(String identityNum) {
-        this.identityNum = identityNum == null ? null : identityNum.trim();
-    }
+	    public void setWebSite(String webSite) {
+	        this.webSite = webSite == null ? null : webSite.trim();
+	    }
 
-    public Date getIdentityBt() {
-        return identityBt;
-    }
+	    public String getApplyForBusiness() {
+	        return applyForBusiness;
+	    }
 
-    public void setIdentityBt(Date identityBt) {
-        this.identityBt = identityBt;
-    }
+	    public void setApplyForBusiness(String applyForBusiness) {
+	        this.applyForBusiness = applyForBusiness == null ? null : applyForBusiness.trim();
+	    }
 
-    public Date getIdentityEt() {
-        return identityEt;
-    }
 
-    public void setIdentityEt(Date identityEt) {
-        this.identityEt = identityEt;
-    }
+	    public String getAuditMemo() {
+	        return auditMemo;
+	    }
 
-    public String getOrganizeBarCode() {
-        return organizeBarCode;
-    }
+	    public void setAuditMemo(String auditMemo) {
+	        this.auditMemo = auditMemo == null ? null : auditMemo.trim();
+	    }
 
-    public void setOrganizeBarCode(String organizeBarCode) {
-        this.organizeBarCode = organizeBarCode == null ? null : organizeBarCode.trim();
-    }
 
-    public String getOrganizeBarCodePic() {
-        return organizeBarCodePic;
-    }
+	    public Date getUpdatedBy() {
+	        return updatedBy;
+	    }
 
-    public void setOrganizeBarCodePic(String organizeBarCodePic) {
-        this.organizeBarCodePic = organizeBarCodePic == null ? null : organizeBarCodePic.trim();
-    }
+	    public void setUpdatedBy(Date updatedBy) {
+	        this.updatedBy = updatedBy;
+	    }
 
-    public Date getOrganizeBarCodeBt() {
-        return organizeBarCodeBt;
-    }
+	    public Float getTotalArea() {
+	        return totalArea;
+	    }
 
-    public void setOrganizeBarCodeBt(Date organizeBarCodeBt) {
-        this.organizeBarCodeBt = organizeBarCodeBt;
-    }
+	    public void setTotalArea(Float totalArea) {
+	        this.totalArea = totalArea;
+	    }
 
-    public Date getOrganizeBarCodeEt() {
-        return organizeBarCodeEt;
-    }
+	    public Integer getTotalEmployees() {
+	        return totalEmployees;
+	    }
 
-    public void setOrganizeBarCodeEt(Date organizeBarCodeEt) {
-        this.organizeBarCodeEt = organizeBarCodeEt;
-    }
+	    public void setTotalEmployees(Integer totalEmployees) {
+	        this.totalEmployees = totalEmployees;
+	    }
 
-    public String getTaxBarCode() {
-        return taxBarCode;
-    }
+	    public Float getTotalIncomes() {
+	        return totalIncomes;
+	    }
 
-    public void setTaxBarCode(String taxBarCode) {
-        this.taxBarCode = taxBarCode == null ? null : taxBarCode.trim();
-    }
+	    public void setTotalIncomes(Float totalIncomes) {
+	        this.totalIncomes = totalIncomes;
+	    }
 
-    public String getTaxBarCodePic() {
-        return taxBarCodePic;
-    }
+	    public String getOperatePhoto() {
+	        return operatePhoto;
+	    }
 
-    public void setTaxBarCodePic(String taxBarCodePic) {
-        this.taxBarCodePic = taxBarCodePic == null ? null : taxBarCodePic.trim();
-    }
+	    public void setOperatePhoto(String operatePhoto) {
+	        this.operatePhoto = operatePhoto == null ? null : operatePhoto.trim();
+	    }
 
-    public Date getTaxBarCodeBt() {
-        return taxBarCodeBt;
-    }
+	    public String getIdentityName() {
+	        return identityName;
+	    }
 
-    public void setTaxBarCodeBt(Date taxBarCodeBt) {
-        this.taxBarCodeBt = taxBarCodeBt;
-    }
+	    public void setIdentityName(String identityName) {
+	        this.identityName = identityName == null ? null : identityName.trim();
+	    }
 
-    public Date getTaxBarCodeEt() {
-        return taxBarCodeEt;
-    }
+	    public String getIdentityNum() {
+	        return identityNum;
+	    }
 
-    public void setTaxBarCodeEt(Date taxBarCodeEt) {
-        this.taxBarCodeEt = taxBarCodeEt;
-    }
+	    public void setIdentityNum(String identityNum) {
+	        this.identityNum = identityNum == null ? null : identityNum.trim();
+	    }
 
-    public Byte getCleanType() {
-        return cleanType;
-    }
+	    public Date getIdentityBt() {
+	        return identityBt;
+	    }
 
-    public void setCleanType(Byte cleanType) {
-        this.cleanType = cleanType;
-    }
+	    public void setIdentityBt(Date identityBt) {
+	        this.identityBt = identityBt;
+	    }
 
-    public String getOpenBankProv() {
-        return openBankProv;
-    }
+	    public Date getIdentityEt() {
+	        return identityEt;
+	    }
 
-    public void setOpenBankProv(String openBankProv) {
-        this.openBankProv = openBankProv == null ? null : openBankProv.trim();
-    }
+	    public void setIdentityEt(Date identityEt) {
+	        this.identityEt = identityEt;
+	    }
 
-    public String getOpenBankCity() {
-        return openBankCity;
-    }
+	    public String getOrganizeBarCode() {
+	        return organizeBarCode;
+	    }
 
-    public void setOpenBankCity(String openBankCity) {
-        this.openBankCity = openBankCity == null ? null : openBankCity.trim();
-    }
+	    public void setOrganizeBarCode(String organizeBarCode) {
+	        this.organizeBarCode = organizeBarCode == null ? null : organizeBarCode.trim();
+	    }
 
-    public String getOpenBank() {
-        return openBank;
-    }
+	    public String getOrganizeBarCodePic() {
+	        return organizeBarCodePic;
+	    }
 
-    public void setOpenBank(String openBank) {
-        this.openBank = openBank == null ? null : openBank.trim();
-    }
+	    public void setOrganizeBarCodePic(String organizeBarCodePic) {
+	        this.organizeBarCodePic = organizeBarCodePic == null ? null : organizeBarCodePic.trim();
+	    }
 
-    public String getOpenBankSub() {
-        return openBankSub;
-    }
+	    public Date getOrganizeBarCodeBt() {
+	        return organizeBarCodeBt;
+	    }
 
-    public void setOpenBankSub(String openBankSub) {
-        this.openBankSub = openBankSub == null ? null : openBankSub.trim();
-    }
+	    public void setOrganizeBarCodeBt(Date organizeBarCodeBt) {
+	        this.organizeBarCodeBt = organizeBarCodeBt;
+	    }
 
-    public String getOpenBankName() {
-        return openBankName;
-    }
+	    public Date getOrganizeBarCodeEt() {
+	        return organizeBarCodeEt;
+	    }
 
-    public void setOpenBankName(String openBankName) {
-        this.openBankName = openBankName == null ? null : openBankName.trim();
-    }
+	    public void setOrganizeBarCodeEt(Date organizeBarCodeEt) {
+	        this.organizeBarCodeEt = organizeBarCodeEt;
+	    }
 
-    public String getOpenBankAccount() {
-        return openBankAccount;
-    }
+	    public String getTaxBarCode() {
+	        return taxBarCode;
+	    }
 
-    public void setOpenBankAccount(String openBankAccount) {
-        this.openBankAccount = openBankAccount == null ? null : openBankAccount.trim();
-    }
+	    public void setTaxBarCode(String taxBarCode) {
+	        this.taxBarCode = taxBarCode == null ? null : taxBarCode.trim();
+	    }
 
-    public String getBankCardOn() {
-        return bankCardOn;
-    }
+	    public String getTaxBarCodePic() {
+	        return taxBarCodePic;
+	    }
 
-    public void setBankCardOn(String bankCardOn) {
-        this.bankCardOn = bankCardOn == null ? null : bankCardOn.trim();
-    }
+	    public void setTaxBarCodePic(String taxBarCodePic) {
+	        this.taxBarCodePic = taxBarCodePic == null ? null : taxBarCodePic.trim();
+	    }
 
-    public String getBankCardOff() {
-        return bankCardOff;
-    }
+	    public Date getTaxBarCodeBt() {
+	        return taxBarCodeBt;
+	    }
 
-    public void setBankCardOff(String bankCardOff) {
-        this.bankCardOff = bankCardOff == null ? null : bankCardOff.trim();
-    }
+	    public void setTaxBarCodeBt(Date taxBarCodeBt) {
+	        this.taxBarCodeBt = taxBarCodeBt;
+	    }
 
-    public String getOpenBankLicense() {
-        return openBankLicense;
-    }
+	    public Date getTaxBarCodeEt() {
+	        return taxBarCodeEt;
+	    }
 
-    public void setOpenBankLicense(String openBankLicense) {
-        this.openBankLicense = openBankLicense == null ? null : openBankLicense.trim();
-    }
+	    public void setTaxBarCodeEt(Date taxBarCodeEt) {
+	        this.taxBarCodeEt = taxBarCodeEt;
+	    }
 
-    public String getSignAccount() {
-        return signAccount;
-    }
+	    public Byte getCleanType() {
+	        return cleanType;
+	    }
 
-    public void setSignAccount(String signAccount) {
-        this.signAccount = signAccount == null ? null : signAccount.trim();
-    }
+	    public void setCleanType(Byte cleanType) {
+	        this.cleanType = cleanType;
+	    }
 
-    public Byte getOpenBookingCard() {
-        return openBookingCard;
-    }
+	    public String getOpenBankProv() {
+	        return openBankProv;
+	    }
 
-    public void setOpenBookingCard(Byte openBookingCard) {
-        this.openBookingCard = openBookingCard;
-    }
+	    public void setOpenBankProv(String openBankProv) {
+	        this.openBankProv = openBankProv == null ? null : openBankProv.trim();
+	    }
 
-    public Float getIndustryRate() {
-        return industryRate;
-    }
+	    public String getOpenBankCity() {
+	        return openBankCity;
+	    }
 
-    public void setIndustryRate(Float industryRate) {
-        this.industryRate = industryRate;
-    }
+	    public void setOpenBankCity(String openBankCity) {
+	        this.openBankCity = openBankCity == null ? null : openBankCity.trim();
+	    }
 
-    public String getCappingMachine() {
-        return cappingMachine;
-    }
+	    public String getOpenBank() {
+	        return openBank;
+	    }
 
-    public void setCappingMachine(String cappingMachine) {
-        this.cappingMachine = cappingMachine == null ? null : cappingMachine.trim();
-    }
+	    public void setOpenBank(String openBank) {
+	        this.openBank = openBank == null ? null : openBank.trim();
+	    }
 
-    public String getWeixinPayOnline() {
-        return weixinPayOnline;
-    }
+	    public String getOpenBankSub() {
+	        return openBankSub;
+	    }
 
-    public void setWeixinPayOnline(String weixinPayOnline) {
-        this.weixinPayOnline = weixinPayOnline == null ? null : weixinPayOnline.trim();
-    }
+	    public void setOpenBankSub(String openBankSub) {
+	        this.openBankSub = openBankSub == null ? null : openBankSub.trim();
+	    }
 
-    public String getWeixinPayOffline() {
-        return weixinPayOffline;
-    }
+	    public String getOpenBankName() {
+	        return openBankName;
+	    }
 
-    public void setWeixinPayOffline(String weixinPayOffline) {
-        this.weixinPayOffline = weixinPayOffline == null ? null : weixinPayOffline.trim();
-    }
+	    public void setOpenBankName(String openBankName) {
+	        this.openBankName = openBankName == null ? null : openBankName.trim();
+	    }
 
-    public String getAliPayOnline() {
-        return aliPayOnline;
-    }
+	    public String getOpenBankAccount() {
+	        return openBankAccount;
+	    }
 
-    public void setAliPayOnline(String aliPayOnline) {
-        this.aliPayOnline = aliPayOnline == null ? null : aliPayOnline.trim();
-    }
+	    public void setOpenBankAccount(String openBankAccount) {
+	        this.openBankAccount = openBankAccount == null ? null : openBankAccount.trim();
+	    }
 
-    public String getAliPayOffline() {
-        return aliPayOffline;
-    }
+	    public String getBankCardOn() {
+	        return bankCardOn;
+	    }
 
-    public void setAliPayOffline(String aliPayOffline) {
-        this.aliPayOffline = aliPayOffline == null ? null : aliPayOffline.trim();
-    }
+	    public void setBankCardOn(String bankCardOn) {
+	        this.bankCardOn = bankCardOn == null ? null : bankCardOn.trim();
+	    }
 
-	public String getUserName() {
-		return userName;
-	}
+	    public String getBankCardOff() {
+	        return bankCardOff;
+	    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+	    public void setBankCardOff(String bankCardOff) {
+	        this.bankCardOff = bankCardOff == null ? null : bankCardOff.trim();
+	    }
 
-	public String getNickname() {
-		return nickname;
-	}
+	    public String getOpenBankLicense() {
+	        return openBankLicense;
+	    }
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
+	    public void setOpenBankLicense(String openBankLicense) {
+	        this.openBankLicense = openBankLicense == null ? null : openBankLicense.trim();
+	    }
 
-	public String getPassword() {
-		return password;
-	}
+	    public String getSignAccount() {
+	        return signAccount;
+	    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	    public void setSignAccount(String signAccount) {
+	        this.signAccount = signAccount == null ? null : signAccount.trim();
+	    }
 
-	public String getDescription() {
-		return description;
-	}
+	    public Byte getOpenBookingCard() {
+	        return openBookingCard;
+	    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	    public void setOpenBookingCard(Byte openBookingCard) {
+	        this.openBookingCard = openBookingCard;
+	    }
 
-	public String getNewPassword() {
-		return newPassword;
-	}
+	    public Float getIndustryRate() {
+	        return industryRate;
+	    }
 
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
+	    public void setIndustryRate(Float industryRate) {
+	        this.industryRate = industryRate;
+	    }
+
+	    public String getCappingMachine() {
+	        return cappingMachine;
+	    }
+
+	    public void setCappingMachine(String cappingMachine) {
+	        this.cappingMachine = cappingMachine == null ? null : cappingMachine.trim();
+	    }
+
+	    public String getWeixinPayOnline() {
+	        return weixinPayOnline;
+	    }
+
+	    public void setWeixinPayOnline(String weixinPayOnline) {
+	        this.weixinPayOnline = weixinPayOnline == null ? null : weixinPayOnline.trim();
+	    }
+
+	    public String getWeixinPayOffline() {
+	        return weixinPayOffline;
+	    }
+
+	    public void setWeixinPayOffline(String weixinPayOffline) {
+	        this.weixinPayOffline = weixinPayOffline == null ? null : weixinPayOffline.trim();
+	    }
+
+	    public String getAliPayOnline() {
+	        return aliPayOnline;
+	    }
+
+	    public void setAliPayOnline(String aliPayOnline) {
+	        this.aliPayOnline = aliPayOnline == null ? null : aliPayOnline.trim();
+	    }
+
+	    public String getAliPayOffline() {
+	        return aliPayOffline;
+	    }
+
+	    public void setAliPayOffline(String aliPayOffline) {
+	        this.aliPayOffline = aliPayOffline == null ? null : aliPayOffline.trim();
+	    }
+
 	
 }

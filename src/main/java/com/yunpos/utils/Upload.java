@@ -16,8 +16,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 public class Upload {
 
@@ -33,12 +33,10 @@ public class Upload {
 	 * @return 返回一个map，map中有4个值，第一个为保存的文件名fileName,第二个为保存的文件大小fileSize,,
 	 *         第三个为保存文件时错误信息errors,如果生成缩略图则map中保存smallFileName，表示缩略图的全路径
 	 */
-	public static Map saveFileToServer(HttpServletRequest request,
-			String filePath, String saveFilePathName, String saveFileName,
+	public static Map saveFileToServer(HttpServletRequest request, String saveFilePathName, String saveFileName,
 			String[] extendes) throws IOException {
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		CommonsMultipartFile file = (CommonsMultipartFile) multipartRequest
-				.getFile(filePath);
+		StandardMultipartHttpServletRequest multipartRequest = (StandardMultipartHttpServletRequest) request;
+		MultipartFile file = (MultipartFile) multipartRequest.getFile("file");
 		Map map = new HashMap();
 		if (file != null && !file.isEmpty()) {
 			// System.out.println("文件名为：" + file.getOriginalFilename());
@@ -105,6 +103,7 @@ public class Upload {
 						BufferedImage bis = ImageIO.read(img);
 						int w = bis.getWidth();
 						int h = bis.getHeight();
+						map.put("path", img.getPath().replace(ConfigContants.IMAGEPATH, ConfigContants.IMAGEURL));
 						map.put("width", w);
 						map.put("height", h);
 					} catch (Exception e) {
@@ -123,6 +122,7 @@ public class Upload {
 				errors.add("不允许的扩展名");
 			}
 		} else {
+			map.put("path", "");
 			map.put("width", 0);
 			map.put("height", 0);
 			map.put("mime", "");
@@ -169,7 +169,9 @@ public class Upload {
 	 * @return
 	 */
 	public static String generatorImagesFolderServerPath(HttpServletRequest request){
-		String path = "E:\\upload";
+//		String path = request.getSession().getServletContext().getRealPath("/") + "\\upload";
+		String path = ConfigContants.IMAGEPATH;
+//		path = "E:\\upload\\images";
 		File imageFolder = new File(path);
 		if(!imageFolder.exists()){
 			imageFolder.mkdirs();
@@ -177,18 +179,20 @@ public class Upload {
 		return path;
 	}
 	
-	public static void upload(HttpServletRequest request, HttpServletResponse response){
-		String saveFilePathName = generatorImagesFolderServerPath(request) + "/"+"member";
+	public static Map upload(HttpServletRequest request, HttpServletResponse response){
+		String saveFilePathName = generatorImagesFolderServerPath(request);
 		File file = new File(saveFilePathName);
 		if(!file.exists()){
 			file.mkdirs();
 		}
+		Map map = null;
 		try {
-			saveFileToServer(request, "my_photo", saveFilePathName, "", null);
+			map = saveFileToServer(request, saveFilePathName, "", null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return map;
 	}
 	
 }

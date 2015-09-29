@@ -13,6 +13,7 @@
     <result column="merchantNo" property="merchantNo" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.yunpos.model.SysWechatConfigWithBLOBs" extends="BaseResultMap" >
+    <result column="apiSecret" property="apiSecret" jdbcType="LONGVARCHAR" />
     <result column="appSecret" property="appSecret" jdbcType="LONGVARCHAR" />
     <result column="appKey" property="appKey" jdbcType="LONGVARCHAR" />
   </resultMap>
@@ -20,7 +21,7 @@
     id, appId, mchId, certLocalPath, certPassword, info, mark, status, merchantNo
   </sql>
   <sql id="Blob_Column_List" >
-    appSecret, appKey
+    apiSecret, appSecret, appKey
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
@@ -34,15 +35,17 @@
     delete from sys_wechat_config
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id">
-    insert into sys_wechat_config (appId, mchId, 
+  <insert id="insert" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_wechat_config ( appId, mchId, 
       certLocalPath, certPassword, info, 
       mark, status, merchantNo, 
-      appSecret, appKey)
+      apiSecret, appSecret, appKey
+      )
     values (#{appId,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
       #{certLocalPath,jdbcType=VARCHAR}, #{certPassword,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, 
       #{mark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{merchantNo,jdbcType=VARCHAR}, 
-      #{appSecret,jdbcType=LONGVARCHAR}, #{appKey,jdbcType=LONGVARCHAR})
+      #{apiSecret,jdbcType=LONGVARCHAR}, #{appSecret,jdbcType=LONGVARCHAR}, #{appKey,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" >
     insert into sys_wechat_config
@@ -73,6 +76,9 @@
       </if>
       <if test="merchantNo != null" >
         merchantNo,
+      </if>
+      <if test="apiSecret != null" >
+        apiSecret,
       </if>
       <if test="appSecret != null" >
         appSecret,
@@ -109,6 +115,9 @@
       <if test="merchantNo != null" >
         #{merchantNo,jdbcType=VARCHAR},
       </if>
+      <if test="apiSecret != null" >
+        #{apiSecret,jdbcType=LONGVARCHAR},
+      </if>
       <if test="appSecret != null" >
         #{appSecret,jdbcType=LONGVARCHAR},
       </if>
@@ -144,6 +153,9 @@
       <if test="merchantNo != null" >
         merchantNo = #{merchantNo,jdbcType=VARCHAR},
       </if>
+      <if test="apiSecret != null" >
+        apiSecret = #{apiSecret,jdbcType=LONGVARCHAR},
+      </if>
       <if test="appSecret != null" >
         appSecret = #{appSecret,jdbcType=LONGVARCHAR},
       </if>
@@ -163,6 +175,7 @@
       mark = #{mark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       merchantNo = #{merchantNo,jdbcType=VARCHAR},
+      apiSecret = #{apiSecret,jdbcType=LONGVARCHAR},
       appSecret = #{appSecret,jdbcType=LONGVARCHAR},
       appKey = #{appKey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}

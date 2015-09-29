@@ -136,7 +136,7 @@ public class SysMerchantController extends BaseController{
 	 */
 	@RequestMapping(value = "/ajax/merchant/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysMerchant sysMerchant, @PathVariable("id") int id) {
-		
+		/*
 		SysUser user = sysUserService.findById(sysMerchant.getBaseUserId());
 		user.setUserName(sysMerchant.getUserName());
 		user.setNickname(sysMerchant.getNickname());
@@ -150,7 +150,7 @@ public class SysMerchantController extends BaseController{
 		sysOrg.setModifyUserId(user.getUpdatedBy());
 		sysOrg.setModifyDate(new Date());
 		sysOrgService.update(sysOrg);
-		
+		*/
 		
 		sysMerchant.setId(id);
 		sysMerchantService.update(sysMerchant);

@@ -209,9 +209,18 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/merchant/8' //+ $stateParams.id
+	        url     : '/ajax/merchant/' + "1"  //+ $stateParams.id
 	    }).success(function(data) {
-	            $scope.merchant = data;
+	         $scope.merchant = data;
+	         $scope.merchant.endTime = parseDateTime(new Date(data.endTime),"YYYY-MM-DD");
+	         $scope.merchant.identityBt = parseDateTime(new Date(data.identityBt),"YYYY-MM-DD");
+	         $scope.merchant.identityEt = parseDateTime(new Date(data.identityEt),"YYYY-MM-DD");
+	         $scope.merchant.organizeBarCodeBt = parseDateTime(new Date(data.organizeBarCodeBt),"YYYY-MM-DD");
+	         $scope.merchant.organizeBarCodeEt = parseDateTime(new Date(data.organizeBarCodeEt),"YYYY-MM-DD");
+	         $scope.merchant.taxBarCodeBt = parseDateTime(new Date(data.taxBarCodeBt),"YYYY-MM-DD");
+	         $scope.merchant.taxBarCodeEt = parseDateTime(new Date(data.taxBarCodeEt),"YYYY-MM-DD");
+	            
+
 	            /*
 	            var terminals = data.terminals;
 	            var flg1 = false;
@@ -231,13 +240,25 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
 	};
 	 $scope.saved = {};
      $scope.save = function(merchant) {
+    	
     	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
+    	 merchant.identityBt = formatDateTime(new Date(merchant.identityBt));
+    	 merchant.identityEt = formatDateTime(new Date(merchant.identityEt));
+    	 merchant.organizeBarCodeBt = formatDateTime(new Date(merchant.organizeBarCodeBt));
+    	 merchant.organizeBarCodeEt = formatDateTime(new Date(merchant.organizeBarCodeEt));
+    	 merchant.taxBarCodeBt = formatDateTime(new Date(merchant.taxBarCodeBt));
+    	 merchant.taxBarCodeEt = formatDateTime(new Date(merchant.taxBarCodeEt));
+    	 
+    	 
+    	 
+    	 /*
     	 merchant.terminals  = "";
     	  $scope.tags.filter(function(item) {
     		 if(item.checked){
     			 merchant.terminals  += item.id + ",";
     		 }
 	    });
+	    */
     	 $scope.saved = angular.copy(merchant);
 	     $http({
 	        method  : 'put',
@@ -245,7 +266,7 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
-	    	 $state.go('app.table.merchant');
+	    	 //$state.go('app.table.merchant');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });

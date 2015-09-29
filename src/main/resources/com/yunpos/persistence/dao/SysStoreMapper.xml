@@ -107,18 +107,23 @@
     delete from sys_store
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysStore" >
-    insert into sys_store (id, baseUserId, serialNo, 
+  <insert id="insert" parameterType="com.yunpos.model.SysStore"  useGeneratedKeys="true"  keyProperty="id">
+    insert into sys_store ( baseUserId, serialNo, 
       storeNo, storeName, contactMan, 
       phone, tel, mail, prov, 
       city, area, remark, 
-      address, mapAddress, mapPoint, status, apprStatus, apprRemark)
-    values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
+      address, mapAddress, mapPoint, status, apprStatus, apprRemark, createdAt,
+		createdBy,
+		updatedAt, updatedBy)
+    values ( #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
       #{storeNo,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{mapAddress,jdbcType=VARCHAR}, #{mapPoint,jdbcType=VARCHAR},
-      #{status,jdbcType=INTEGER}, #{apprStatus,jdbcType=INTEGER}, #{apprRemark,jdbcType=VARCHAR})
+      #{status,jdbcType=INTEGER}, #{apprStatus,jdbcType=INTEGER}, #{apprRemark,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{createdBy,jdbcType=INTEGER},
+		#{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysStore" >
     insert into sys_store
@@ -328,9 +333,9 @@
     <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysStore" >
     
      select store.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
-		 user.id as userId, user.createdAt as createdAt,   user.createdBy as createdBy,  
+		 user.id as userId, store.createdAt as createdAt,   store.createdBy as createdBy,  
 		 store.phone as phone, store.tel as tel, store.status as status,  store.apprStatus as apprStatus, 
-		 store.apprRemark as apprRemark,
+		 store.apprRemark as apprRemark,store.mail as mail,store.remark as remark,
 		<include refid="Base_Column_List" />
 		from sys_store store, sys_user user
 		where store.baseUserId = user.id

@@ -103,3 +103,9 @@ CREATE TABLE `sys_pay` (
   `open` int(2) DEFAULT '1' COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--20150928 许金彪 添加字段
+ALTER TABLE `sys_store`
+ADD COLUMN `createdAt` datetime NULL COMMENT '创建时间',
+ADD COLUMN `createdBy` int(11) NULL COMMENT '创建人',
+ADD COLUMN `updatedAt` datetime NULL COMMENT '更新时间',
+ADD COLUMN `updatedBy` int(11) NULL COMMENT '更新人';

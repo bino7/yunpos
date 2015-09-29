@@ -139,7 +139,17 @@ angular.module('app')
               
               .state('app.table.integralsetting', {//积分设置
                   url: '/integral/setting',
-                  templateUrl: 'tpl/system/sys_integral_setting.html'
+                  templateUrl: 'tpl/system/sys_integral_setting.html',
+                  resolve: {
+                	  deps: ['$ocLazyLoad',
+                	    function( $ocLazyLoad ){
+                		  return $ocLazyLoad.load('ngGrid').then(
+                		      function(){
+                		    	  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberIngetralGrid.js');
+                		      }
+                		  );
+                	  }]
+                  }
               })
               .state('app.table.transaction', {//交易流水管理
                   url: '/transaction',
@@ -411,6 +421,20 @@ angular.module('app')
             		  }]
             	  }
               })
+              .state('app.table.merchantStoreDetail', {//门店管理查看审批
+            	  url: '/merchantStoreDetail/:id',
+            	  templateUrl: 'tpl/system/sys_merchant_store_detail.html',
+            	  resolve: {
+            		  deps: ['$ocLazyLoad',
+            		         function( $ocLazyLoad ){
+            			  return $ocLazyLoad.load('ngGrid').then(
+            					  function(){
+            						  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantStoreGrid.js');
+            					  }
+            			  );
+            		  }]
+            	  }
+              })
               .state('app.table.storeAdd', {//门店新增
                   url: '/storeAdd',
                   templateUrl: 'tpl/system/sys_merchant_store_add.html',
@@ -419,7 +443,7 @@ angular.module('app')
                         function( $ocLazyLoad ){
                           return $ocLazyLoad.load('ngGrid').then(
                               function(){
-                                  return $ocLazyLoad.load('js/controllers/yunpos/sysStoreGrid.js');
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantStoreGrid.js');
                               }
                           );
                       }]

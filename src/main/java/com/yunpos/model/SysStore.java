@@ -59,6 +59,10 @@ public class SysStore  extends GridRequest {
 	private Date createdAt;					// 创建时间
 
 	private Integer createdBy;				// 创建人
+	
+	private Date updatedAt;					// 更新时间
+	
+	private Integer updatedBy;				// 更新人
 
     public Integer getId() {
         return id;
@@ -267,6 +271,22 @@ public class SysStore  extends GridRequest {
 
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Integer getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Integer updatedBy) {
+		this.updatedBy = updatedBy;
 	}
     
     

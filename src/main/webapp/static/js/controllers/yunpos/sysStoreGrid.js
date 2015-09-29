@@ -200,5 +200,8 @@ app.controller('StoreDetailCtrl', function($scope, $http, $state, $stateParams) 
 	      	alert("保存失败！");
 	     });
 	}
+     $scope.cancel = function() {
+    	 $state.go('app.table.store');
+     }
 });
 

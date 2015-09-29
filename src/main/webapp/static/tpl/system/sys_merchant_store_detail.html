@@ -1,5 +1,5 @@
 
-<div class="well" ng-controller="MerchantStoreAddCtrl" ng-init="getAddress()">
+<div class="well" ng-controller="MerchantStoreAddCtrl" ng-init="processForm()">
     <div class="row">
         <div class="col-md-9">
             <div class="row">
@@ -9,11 +9,8 @@
                             <label class="col-md-2 control-label">
                                	用户名：
                             </label>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                             	<input type="text" class="form-control" ng-model="store.userName">
-                            </div>
-                            <div class="col-md-2">
-                            	<button class="btn btn-info" ng-click="check(store.userName)">账号检测</button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -24,7 +21,7 @@
                            		 <input type="text" class="form-control" ng-model="store.nickname">
                             </div>
                         </div>
-						<!-- <div class="form-group has-feedback"
+						<div class="form-group has-feedback"
 							ng-class="{'has-success':form.password.$valid,'has-error':form.password.$invalid}">
 							<label  class="col-md-2 control-label">
 							 登录密码：
@@ -57,13 +54,13 @@
 								ng-show="form.confirmPassword.$invalid&&form.confirmPassword.$dirty">
 								<span style="color: #ff4a0d">密码至少六位</span>
 							</div>
-						</div> -->
+						</div>
 						<div class="form-group">
                             <label class="col-md-2 control-label">
                                 	状态：
                             </label>
                             <div class="col-md-10">
-                                 <div class="radio" ng-init="store.status='1'">
+                                 <div class="radio">
 					              <label>
 					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" ng-model="store.status">
 					                启用
@@ -77,31 +74,47 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
+                                	审核：
+                            </label>
+                            <div class="col-md-10">
+					              <label  ng-if="store.apprStatus==1" class="control-label">
+					                审核中
+					              </label>
+					              <label  ng-if="store.apprStatus==2" class="control-label">
+					                审核通过
+					              </label>
+					              <label  ng-if="store.apprStatus==3" class="control-label">
+					                驳回
+					              </label>
+					              <label  ng-if="store.apprStatus==4" class="control-label">
+					                回退
+					              </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核意见：
+                            </label>
+                            <div class="col-md-10">
+                            	<label class="form-control">{{store.apprRemark}}</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
                                 	门店名：
                             </label>
                             <div class="col-md-10">
                            		 <input type="text" class="form-control" ng-model="store.storeName">
                             </div>
                         </div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 门店地址： </label>
-							<div ng-init="addresses" class="col-md-6 ">
-								<select ng-model="store.prov" ng-change="selectedCity=''"
-									ng-options="addr.name for addr in addresses" class="col-md-4">
-									<option value="">---请选择省份---</option>
-								</select> <select ng-model="store.city" ng-change="selectedArea=''"
-									ng-options="city.name for city in store.prov.city" class="col-md-4">
-									<option value="">---请选择市---</option>
-								</select> <select ng-model="store.area"
-									ng-options="area.name for area in store.city.area" class="col-md-4">
-									<option value="">---请选择区---</option>
-								</select>
-							</div>
-							<div class="col-md-4">
-								<input type="text" class="form-control" ng-model="store.address">
-							</div>
-						</div>
-						<div class="form-group">
+                       <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	门店地址：
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" ng-model="store.address">
+                            </div>
+                        </div><div class="form-group">
                             <label class="col-md-2 control-label">
                                 	联系人：
                             </label>
@@ -138,7 +151,7 @@
                             	<input type="text" class="form-control" ng-model="store.remark">
                             </div>
                         </div>
-                      <button  ng-click="add(store)">保存</button>
+                      <button  ng-click="save(store)">保存</button>
                       <button  ng-click="cancel()">取消</button>
                      </form>
                 </div>

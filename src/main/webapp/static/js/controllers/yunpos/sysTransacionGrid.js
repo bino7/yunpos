@@ -97,26 +97,26 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
 	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
-		  var gt =$scope.timeText;
+		  var gt ;
+		  var transTimeOne =document.getElementById("transaction_time_left").value;
+		  var transTimeTwo = document.getElementById("transaction_time_right").value;
 		  var select_channel = document.getElementById("select_zero").value;
 		  var select_transType = document.getElementById("select_one").value;
-		  var select_two = document.getElementById("select_two").value;
-		    select_two = '';
+		 
 	
           var data = $scope.transactionData.filter(function(item) {
-        	  if(JSON.stringify(item.channel).indexOf(select_channel) !=-1 && JSON.stringify(item.transType).indexOf(select_transType) != -1 /*&& JSON.stringify(item).toLowerCase().indexOf(select_two) != -1*/){
+        	  var ht;
+        	  if(ht>=JSON.stringify(item.transTime).indexOf(transTimeOne) &&ht<=JSON.stringify(item.transTime).indexOf(transTimeTwo)){
+        		  return ht;
+        	  }
+        	  alert( document.getElementById("transaction_time_left").value);
+        	  if(ht!=-1 ){
         		  return item;
-        		  }
-//        	  if(JSON.stringify(item.channel).indexOf(select_zero) !=-1 ){
-//        			return item;  
-//        		  }
-//        	  if(JSON.stringify(item.transType).indexOf(select_one) != -1){
-//        		  return item;  
-//        	  }
-//                if(JSON.stringify(item).toLowerCase().indexOf(ft) != -1){
-//                	return item;
-//                }
-        			  /*return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;*/
+        	  }
+        	 /* if(JSON.stringify(item.channel).indexOf(select_channel) !=-1 & JSON.stringify(item.transType).indexOf(select_transType) != -1 & JSON.stringify(item).toLowerCase().indexOf(ft) != -1
+        			  &JSON.stringify(item.channel).indexOf(select_channel) !=-1){
+        		  return item;
+        		  }*/
          });
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
 	};

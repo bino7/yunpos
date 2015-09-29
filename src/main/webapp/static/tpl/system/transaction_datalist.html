@@ -26,12 +26,19 @@
 			</select> 
 			 </div>
 			 <div style="float:left;" ng-controller="DatepickerDemoCtrl" >
-			 <label style="margin:0px 0px 0px 25px;">交易时间：</label>
-			     <input type="text"  style="width:100px;;" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="agentmerchant.endTime" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+			 <label style="margin:0px 0px 0px 25px;">支付时间：</label>
+			     <input type="text"  style="width:100px;;" datepicker-popup="{{'yyyy-MM-dd HH:mm:ss'}}" id="transaction_time_left" ng-model="transaction_time_one" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
 				      <span class="input-group-btn">
       <button type="button" style="position:relative;left:200px;top:-30px;" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 				     </span>
 				          </div>    
+				          	 <div style="float:left;" ng-controller="DatepickerDemoCtrl" >
+			 <label style="margin:0px 0px 0px 25px;">—————→</label>
+			     <input type="text"  style="width:100px;;" datepicker-popup="{{'yyyy-MM-dd HH:mm:ss'}}" id="transaction_time_right" ng-model="transaction_time_two" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				      <span class="input-group-btn">
+      <button type="button" style="position:relative;left:200px;top:-30px;" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				     </span>
+				          </div> 
 					</div>    
 		    <div class="col-xs-3" style ="float: right;">
 		   	 	<input ng-model='filterText'/><button ng-click='search()'>查询</button>

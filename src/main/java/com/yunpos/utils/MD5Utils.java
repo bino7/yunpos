@@ -14,7 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import com.google.common.base.Strings;
 
 /** 
-* 功能：支付宝MD5签名处理核心文件，不需要修改
+* 功能：MD5签名处理核心文件，不需要修改
 * 版本：3.3
 * 修改日期：2012-08-17
 * 说明：

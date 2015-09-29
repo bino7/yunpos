@@ -99,31 +99,16 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
 		  var gt = $scope.option_zero;
-		  var select_zero = document.getElementById("select_zero").value;
-		  var select_one = document.getElementById("select_one").value;
+		  var select_payStatus = document.getElementById("select_payStatus").value;
+		  var select_orgName = document.getElementById("select_orgName").value;
 		  var select_two = document.getElementById("select_two").value;
 		  
 		  
           var data = $scope.orderData.filter(function(item) {
-        	/*  alert(item.payStatus);*/
+        	/* alert(item.payStatus);*/
         	  
-        	  if(JSON.stringify(item.payStatus).indexOf(select_zero) !=-1  && JSON.stringify(item).toLowerCase().indexOf(ft) != -1
-        		/*&& SON.stringify(item.orgName).indexOf(select_one) == null && SON.stringify(item.info).indexOf(select_two) == null*/){
+        	  if(JSON.stringify(item.payStatus).indexOf(select_payStatus) !=-1 && JSON.stringify(item.orgName).indexOf(select_orgName) != -1 && JSON.stringify(item).toLowerCase().indexOf(select_two) != -1){
         		  return item ;}
-        		  
-        	/*  }else if(JSON.stringify(item.payStatus).indexOf(select_zero) !=-1  && JSON.stringify(item).toLowerCase().indexOf(ft) != -1){
-        		  return item ;
-        		  
-        	  }else if(JSON.stringify(item.payStatus).indexOf(select_zero) !=-1  && JSON.stringify(item).toLowerCase().indexOf(ft) != -1
-              		&& SON.stringify(item.orgName).indexOf(select_one) == null){
-        		  return item;
-        		  
-        	  }else{
-        		  return item;
-        		 
-        	  }*/
-        		 /* return JSON.stringify(item).toLowerCase().indexOf(document.getElementById("select_zero").value) != -1;*/
-             /* return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;*/
          });
    
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
@@ -136,7 +121,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) {
+/*app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) {
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
@@ -146,7 +131,7 @@ app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) 
 	            $scope.order = data;
 	           // alert(data.id);
 	        });
-	};
+	};*/
 	
 	/**
 	 * 弹出框势实例化控制器
@@ -160,8 +145,19 @@ app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) 
 	}])
 	;
 	
-	app.controller('OrderDetailCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log) {
-		  $scope.items = ['item1', 'item2', 'item3'];
+	app.controller('OrderDetailCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log,$stateParams) {
+		 
+		  $scope.processForm = function() {
+			    $http({
+			        method  : 'get',
+			        url     : '/ajax/order/'+ $stateParams.id
+			    }).success(function(data) {
+			           // console.log(data);
+			            $scope.order = data;
+			           // alert(data.id);
+			        });
+			};
+		$scope.items = ['item1', 'item2', 'item3'];
 		  $scope.open = function (size,tempUrl,data) {
 		  $scope.order = data.entity;
 		    var modalInstance = $modal.open({
@@ -198,7 +194,7 @@ app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) 
 	
 	
 	
-	
+/*	
 	 $scope.saved = {};
      $scope.save = function(order) {
     	 $scope.saved = angular.copy(order);
@@ -212,5 +208,5 @@ app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) 
 	      	alert("保存失败！");
 	     });
 	}
-});
+     })};*/
 

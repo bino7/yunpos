@@ -98,6 +98,7 @@ public class SysOrderController {
 			map.put("orderId", sysOrder.getOrderId());
 			map.put("createdAt", sysOrder.getCreatedAt().toString());
 			map.put("totalPrice", sysOrder.getTotalPrice());
+			
 			map.put("payStatus", sysOrder.getPayStatus());
 			map.put("MerchantSerialNo", sysOrder.getSysMerchantSerialNo());
 			listData.add(map);

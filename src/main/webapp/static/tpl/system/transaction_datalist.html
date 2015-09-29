@@ -1,3 +1,4 @@
+<body ng-app="myApp">
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">交易流水管理</h1>
 </div>
@@ -5,8 +6,33 @@
   <div class="panel panel-default">
 	  <div class="panel-heading">
 		  <div class="row">
-		    <div class="col-xs-8">
-		    </div>
+		    <div class="col-xs-8" >
+		    <div style="float:left;">
+		     <label >交易渠道：</label>
+		     <select id="select_zero" ng-model="option_zero"  name="order_state"> 
+				<option value = "">   </option> 
+				<option value="支付宝">支付宝</option> 
+				<option value="微信">微信</option> 	
+				<option value="银联">银联</option> 
+				<option value="预存款">预存款</option> 		
+			</select> 
+			</div>
+			<div style="float:left;">
+			 <label style="margin:0px 0px 0px 25px;">交易类型：</label>
+		     <select id="select_one" ng-model='filterText_one' name="order_state"> 
+				<option  value = "">   </option> 
+				<option value="支付">支付</option> 
+				<option value="退款">退款</option> 
+			</select> 
+			 </div>
+			 <div style="float:left;" ng-controller="DatepickerDemoCtrl" >
+			 <label style="margin:0px 0px 0px 25px;">交易时间：</label>
+			     <input type="text"  style="width:100px;;" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="agentmerchant.endTime" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				      <span class="input-group-btn">
+      <button type="button" style="position:relative;left:200px;top:-30px;" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				     </span>
+				          </div>    
+					</div>    
 		    <div class="col-xs-3" style ="float: right;">
 		   	 	<input ng-model='filterText'/><button ng-click='search()'>查询</button>
 			</div>
@@ -15,5 +41,28 @@
     <div class="table-responsive">
       <div ng-grid="gridOptions" style="min-height:420px"></div>
     </div>
-  </div>
-</div>
+  </div>          
+                       
+		<!-- 	    <label ng-controller="DatepickerDemoCtrl">
+          
+        <div class="well well-small" ng-model="dt" style="display:inline-block;">  
+            <datepicker min="minDate" show-weeks="showWeeks"></datepicker>  
+        </div>  
+		    </div> -->
+		
+      
+        <!-- <h4>Popup</h4>  
+        <div class="form-horizontal" ng-controller="DatepickerDemoCtrl">  
+            <p>  
+                <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />  
+                <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>  
+            </p>  
+		    </div> -->
+		    
+	
+ 
+		</div>
+	
+	
+
+</body>

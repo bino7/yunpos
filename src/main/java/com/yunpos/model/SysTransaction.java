@@ -73,8 +73,29 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getChannel() {
-		return channel;
+	public String getChannel() {
+	if(this.channel!=null){
+		if(this.channel==0){
+			return "支付宝";
+		}else if(this.channel==1){
+			return "微信";
+		}else if(this.channel==2){
+			return "银联";
+		}else if(this.channel==3){
+			return "预付款";
+		}else{
+			return null;
+		}
+	}else{
+		return null;
+	}
+		
+		
+		/*if(this.payStatus == 0){
+		return  "已支付";
+	}else{
+		return  "未支付";
+	}*/
 	}
 
 	public void setChannel(Integer channel) {
@@ -169,8 +190,18 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.totalPrice = totalPrice;
 	}
 
-	public Integer getScanType() {
-		return scanType;
+	public String getScanType() {
+		if(this.scanType!=null){
+			if(this.scanType==0){
+				return "正扫";
+			}else if(this.scanType==1){
+				return "反扫";
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
 	}
 
 	public void setScanType(Integer scanType) {
@@ -193,8 +224,16 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.status = status;
 	}
 
-	public Integer getTransType() {
-		return transType;
+	public String getTransType() {
+		if(this.transType!=null){
+			if(this.transType==0){
+				return "支付";
+			}else{
+				return "退款";
+			}
+		}else{
+			return null;
+		}
 	}
 
 	public void setTransType(Integer transType) {

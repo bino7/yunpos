@@ -89,7 +89,7 @@ public class WechatWapPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",

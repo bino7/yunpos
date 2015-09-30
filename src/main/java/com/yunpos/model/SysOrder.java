@@ -303,8 +303,25 @@ public class SysOrder  extends GridRequest {
         this.payType = payType;
     }
 
-    public Byte getPayStatus() {
-        return payStatus;
+    public String getPayStatus() {
+    	
+ 	if(this.payStatus!=null){
+    /*	switch(this.payStatus){
+    	case 0 : return "已支付";
+    	case 1 : return "已取消";
+    	default : return ;
+    	}*/
+ 		if(this.payStatus == 0){
+    		return  "已支付";
+    	}else if(this.payStatus==1){
+    		return  "已取消";
+    	}else{
+    		return null;
+    	}
+ 	}else{
+ 		return null;
+ 	}
+        
     }
 
     public void setPayStatus(Byte payStatus) {

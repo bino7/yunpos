@@ -30,13 +30,26 @@ app.controller('StoreListCtrl',  function($scope, $http, $state, $stateParams) {
           //  enablePinning: true,
             columnDefs: [
                {field: 'userName', displayName: '用户名', width: 120,  pinnable: false,  sortable: false}, 
-               {field: 'nickname', displayName: '昵称', enableCellEdit: false}, 
-               {field: 'fullname', displayName: '门店名称', enableCellEdit: false, width: 220},
-               {field: 'role', displayName: '地址', enableCellEdit: false, width: 120}, 
-               {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 },
-               {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 },
-               {field: 'id', displayName: '审核状态', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.storeDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a>     <button ng-click="deleted({id:row.getProperty(col.field) , store:row})">删除</button></div>'
+               {field: 'nickname', displayName: '昵称', width: 120,enableCellEdit: false}, 
+               {field: 'storeName', displayName: '门店名称', width: 320, enableCellEdit: false},
+               {field: 'address', displayName: '地址', width: 320, enableCellEdit: false }, 
+               {field: 'status', displayName: '状态', width: 120, enableCellEdit: false,sortable: false,  pinnable: false,
+                    cellTemplate: '<div class="ngCellText ng-scope ngCellElement col3 colt3">'
+           	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==1" >启用</span>'
+           	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==0" >停用</span>'
+           			+'</div>'},
+               {field: 'apprStatus', displayName: '审核状态', width: 120, enableCellEdit: false,sortable: false,  pinnable: false,
+                    cellTemplate: '<div class="ngCellText ng-scope ngCellElement col3 colt3">'
+                   	+'<span ng-if="row.getProperty(\'apprStatus\')==1" >审核中</span>'
+                    +'<span ng-if="row.getProperty(\'apprStatus\')==2" >审核通过</span>'
+                    +'<span ng-if="row.getProperty(\'apprStatus\')==3" >驳回</span>'
+                    +'<span ng-if="row.getProperty(\'apprStatus\')==4" >回退</span>'
+                   	+'</div>'},
+               {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
+                cellTemplate: '<div ><a ui-sref="app.table.storeDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看审核</button> </a> '
+                	        +'<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field)},{store:row})">启用</button>'
+                	        +'<button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field)},{store:row})">停用</button>'
+                			+'</div>'
             }],
             enablePaging: true,
             showFooter: true,        
@@ -91,6 +104,28 @@ app.controller('StoreListCtrl',  function($scope, $http, $state, $stateParams) {
 	     });
 	};
 	
+	 $scope.saveStatus = function(id ,store) {
+	 $scope.saved = {};
+   	 $scope.saved = angular.copy(store.store.entity);
+   	 if ($scope.saved.status == '0'){
+   		$scope.saved.status='1';
+   	 }else{
+   		 $scope.saved.status='0';
+   	 }
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/store/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+//	    	 alert("保存成功！");
+//	    	 $state.go('app.table.store');
+	    	 $scope.storeData[store.store.rowIndex] =$scope.saved;
+	    	 $scope.setPagingData($scope.storeData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
           var data = $scope.storeData.filter(function(item) {
@@ -137,7 +172,7 @@ app.controller('StoreAddCtrl', function($scope, $http, $state, $stateParams) {
 
 
 /**
- * 这里是用户编辑
+ * 这里是门店审批
  * @type {[type]}
  */
 app.controller('StoreDetailCtrl', function($scope, $http, $state, $stateParams) {
@@ -160,9 +195,13 @@ app.controller('StoreDetailCtrl', function($scope, $http, $state, $stateParams) 
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
+	    	 $state.go('app.table.store');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });
 	}
+     $scope.cancel = function() {
+    	 $state.go('app.table.store');
+     }
 });
 

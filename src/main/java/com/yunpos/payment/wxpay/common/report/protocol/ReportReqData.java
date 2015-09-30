@@ -83,7 +83,7 @@ public class ReportReqData {
         setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
 
         //根据API给的签名规则进行签名
-        String sign = Signature.getSign(toMap(),sysWechatConfig.getAppKey());
+        String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
         setSign(sign);//把签名数据设置到Sign这个属性中
     }
 

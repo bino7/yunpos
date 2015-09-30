@@ -90,6 +90,7 @@ angular.module('app')
                       }]
                   }
               })
+              /*
               .state('app.table.member', {//会员管理
                   url: '/member',
                   templateUrl: 'tpl/system/sys_member.html',
@@ -104,9 +105,51 @@ angular.module('app')
                       }]
                   }
               })
+              */
+              .state('app.table.sysMemberPayDetail', {//充值记录明细管理
+                  url: '/memberPayDetail/:openId',
+                  templateUrl: 'tpl/system/memberPay_dataList.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberPayGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.sysMemberUseDetail', {//消费记录明细管理
+                  url: '/memberUseDetail/:openId',
+                  templateUrl: 'tpl/system/memberUse_dataList.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberUseGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              
+              
+              
               .state('app.table.integralsetting', {//积分设置
                   url: '/integral/setting',
-                  templateUrl: 'tpl/system/sys_integral_setting.html'
+                  templateUrl: 'tpl/system/sys_integral_setting.html',
+                  resolve: {
+                	  deps: ['$ocLazyLoad',
+                	    function( $ocLazyLoad ){
+                		  return $ocLazyLoad.load('ngGrid').then(
+                		      function(){
+                		    	  return $ocLazyLoad.load('js/controllers/yunpos/sysMemberIngetralGrid.js');
+                		      }
+                		  );
+                	  }]
+                  }
               })
               .state('app.table.transaction', {//交易流水管理
                   url: '/transaction',
@@ -350,17 +393,139 @@ angular.module('app')
                           }]
                       }
               })
-              .state('app.table.info', {//企业信息
-                  url: '/info',
-                  templateUrl: 'tpl/system/sys_info.html'
+              .state('app.table.storeDetail', {//门店管理查看审批
+                  url: '/storeDetail/:id',
+                  templateUrl: 'tpl/system/sys_store_detail.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysStoreGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.merchantStore', {//门店管理(商户)
+            	  url: '/merchantStore',
+            	  templateUrl: 'tpl/system/sys_merchant_store.html',
+            	  resolve: {
+            		  deps: ['$ocLazyLoad',
+            		         function( $ocLazyLoad ){
+            			  return $ocLazyLoad.load('ngGrid').then(
+            					  function(){
+            						  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantStoreGrid.js');
+            					  }
+            			  );
+            		  }]
+            	  }
+              })
+              .state('app.table.merchantStoreDetail', {//门店管理查看审批
+            	  url: '/merchantStoreDetail/:id',
+            	  templateUrl: 'tpl/system/sys_merchant_store_detail.html',
+            	  resolve: {
+            		  deps: ['$ocLazyLoad',
+            		         function( $ocLazyLoad ){
+            			  return $ocLazyLoad.load('ngGrid').then(
+            					  function(){
+            						  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantStoreGrid.js');
+            					  }
+            			  );
+            		  }]
+            	  }
+              })
+              .state('app.table.storeAdd', {//门店新增
+                  url: '/storeAdd',
+                  templateUrl: 'tpl/system/sys_merchant_store_add.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantStoreGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.sysMerchantInfo', {//商户企业信息
+                	  url: '/merchantInfo/:id',
+                      templateUrl: 'tpl/system/sys_merchant_info.html',
+                          resolve: {
+                              deps: ['$ocLazyLoad',
+                                function( $ocLazyLoad ){
+                                  return $ocLazyLoad.load('ngGrid').then(
+                                      function(){
+                                          return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                                      }
+                                  );
+                              }]
+                          }
+                    	  
+              })
+               .state('app.table.sysAgentmerchantInfo', {//代理商企业信息
+                  url: '/agentmerchantInfo/:id',
+                  templateUrl: 'tpl/system/sys_agentmerchant_info.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load(['angularFileUpload','ngGrid']).then(
+                              function(){
+                                 return $ocLazyLoad.load(['js/controllers/file-upload.js' , 'js/controllers/yunpos/sysAgentmerchantGrid.js']);
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.table.pay', {//支付管理
-                  url: '/pay',
-                  templateUrl: 'tpl/system/sys_pay.html'
+                  url: '/pay/:id',
+                  templateUrl: 'tpl/system/sys_pay.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysPayGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
+              .state('app.table.alipaPayEdit', {//用户管理
+                  url: '/pay/alipay/:id',
+                  templateUrl: 'tpl/system/sys_pay_alipay_edit.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('app.table.wechatPayEdit', {//用户管理
+                  url: '/pay/wechat/:id',
+                  templateUrl: 'tpl/system/sys_pay_wechat_edit.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  },
+            	  //params: ['tag1', 'tag2', 'tag3']
               })
               .state('app.table.paypassword', {//支付密码
-                  url: '/paypassword',
-                  templateUrl: 'tpl/system/sys_paypassword.html'
+                  url: '/paypassword/:id',
+                  templateUrl: 'tpl/system/sys_paypassword.html',
+	                  resolve: {
+	                      deps: ['$ocLazyLoad',
+	                        function( $ocLazyLoad ){
+	                          return $ocLazyLoad.load('ngGrid').then(
+	                              function(){
+	                                  return $ocLazyLoad.load('js/controllers/yunpos/sysUserGrid.js');
+	                              }
+	                          );
+	                      }]
+	                  }
               })
              
               // form

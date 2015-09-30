@@ -166,3 +166,54 @@ app.controller('UserDetailCtrl', function($scope, $http, $state, $stateParams) {
 	}
 });
 
+/**
+ * 这里是支付密码修改
+ * @type {[type]}
+ */
+app.controller('PayPasswordCtrl', function($scope, $http, $state, $stateParams){
+	$scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/user/'+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.user = data;
+	           // alert(data.id);
+	        });
+	};
+	
+	$scope.save = function() {
+		var o = {};
+		
+		o.old_pwd = $scope.old_pwd;
+		o.new_pwd = $scope.new_pwd;
+		o.verify_pwd = $scope.verify_pwd;
+		
+		if(o.old_pwd.length == '') {
+			alert('请输入旧的支付密码');
+			return ;
+		}
+		if(o.new_pwd.length < 6) {
+			alert('新的支付密码不能为空且至少6位');
+			return ;
+		}
+		if(o.new_pwd != o.verify_pwd) {
+			alert('确认密码不匹配');
+			return ;
+		}
+		
+		$scope.user.payPassword = new_pwd;
+		$scope.user.oldPayPassword = old_pwd;
+		
+		$http({
+			mothod : 'put',
+			url : '/ajax/user/updatePwd/'+$scope.user.id,
+			params : $scope.user 
+		}).success(function(data){
+			alert('保存成功！');
+		}).error(function(data){
+			alert('保存失败');
+		});
+	}
+});
+

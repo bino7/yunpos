@@ -47,4 +47,14 @@ public class SysFansService extends EntityService<SysFans> {
 		response.setTotalRowCount(sysFans.size());
 		return response;
 	}
+	
+	public GridResponse<SysFans> searchByMerchant(String serialNo) {
+		GridResponse<SysFans> response = new GridResponse<SysFans>();
+		List<SysFans> sysFans =  sysFansMapper.findByMerchant(serialNo);//getSearchValue()值为商户编号
+		response.setPageNumber(1);
+		response.setPageSize(10);
+		response.setRows(sysFans);
+		response.setTotalRowCount(sysFans.size());
+		return response;
+	}
 }

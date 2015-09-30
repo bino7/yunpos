@@ -30,16 +30,18 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
           //  enablePinning: true,
             columnDefs: [
                {field: 'orderId', displayName: '订单号', width: 200,  pinnable: false,  sortable: false}, 
-               {field: 'nickname', displayName: '商品名', enableCellEdit: false, width: 80}, 
+               {field: 'sysMerchantId', displayName: '商品名', enableCellEdit: false, width: 80}, 
                {field: 'productPrice', displayName: '订单金额', enableCellEdit: false, width: 80},
                {field: 'trueName', displayName: '联系人', enableCellEdit: false, width: 100}, 
                {field: 'tel',displayName: '联系电话',enableCellEdit: false, width: 100}, 
-               {field: 'status', displayName: '交易状态', enableCellEdit: false, width: 80 }, 
+               {field: 'payStatus', displayName: '交易状态', enableCellEdit: false, width: 80 }, 
                {field: 'createdAt', displayName: '下单时间', enableCellEdit: false, width: 140 }, 
                {field: 'status', displayName: '来源类型', enableCellEdit: false, width: 120 }, 
-               {field: 'status', displayName: '支付流水号', enableCellEdit: false, width: 120 }, 
+               {field: 'openId', displayName: '支付流水号', enableCellEdit: false, width: 120 }, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.orderDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看</button> </a></div>'
+                cellTemplate:'<div><span ng-controller="OrderDetailCtrl"> <script type="text/ng-template" id="order_detail"><div ng-include="\'tpl/system/sys_order_detail.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'order_detail\',row)">详情</button></div>'  
+                	
+                	/*'<div><a ui-sref="app.table.orderDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看</button> </a></div>'*/
             }],
             enablePaging: true,
             showFooter: true,        
@@ -96,9 +98,19 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
 	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
+		  var gt = $scope.option_zero;
+		  var select_payStatus = document.getElementById("select_payStatus").value;
+		  var select_orgName = document.getElementById("select_orgName").value;
+		  var select_two = document.getElementById("select_two").value;
+		  
+		  
           var data = $scope.orderData.filter(function(item) {
-                  return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+        	/* alert(item.payStatus);*/
+        	  
+        	  if(JSON.stringify(item.payStatus).indexOf(select_payStatus) !=-1 && JSON.stringify(item.orgName).indexOf(select_orgName) != -1 && JSON.stringify(item).toLowerCase().indexOf(select_two) != -1){
+        		  return item ;}
          });
+   
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
 	};
     
@@ -109,7 +121,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) {
+/*app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) {
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
@@ -119,7 +131,70 @@ app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) 
 	            $scope.order = data;
 	           // alert(data.id);
 	        });
-	};
+	};*/
+	
+	/**
+	 * 弹出框势实例化控制器
+	 */
+	app.controller('order_detail_ctrl', ['$scope','$http', '$modalInstance', 'items', function($scope,$http, $modalInstance,items) {
+		$scope.items = items;
+		//$scope.corg = $scope.corg;
+	  $scope.selected = {
+	    item: $scope.items[0]
+	  };
+	}])
+	;
+	
+	app.controller('OrderDetailCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log,$stateParams) {
+		 
+		  $scope.processForm = function() {
+			    $http({
+			        method  : 'get',
+			        url     : '/ajax/order/'+ $stateParams.id
+			    }).success(function(data) {
+			           // console.log(data);
+			            $scope.order = data;
+			           // alert(data.id);
+			        });
+			};
+		$scope.items = ['item1', 'item2', 'item3'];
+		  $scope.open = function (size,tempUrl,data) {
+		  $scope.order = data.entity;
+		    var modalInstance = $modal.open({
+		      templateUrl: tempUrl,
+		      controller: 'order_detail_ctrl',
+		      size: size,
+		      scope:$scope,
+		      resolve: {
+		        items: function () {
+		          return $scope.items;
+		        }
+		      }
+		    });
+		  }}]);
+	
+//	option选项
+
+/*	$scope.getOptionList = function () {
+        return $http.get("/ajax/order/search").success(function (response) {
+            $scope.typemodel = response.data;
+            $scope.typemodel.unshift({id:null,typeName:'全部'});
+        }).error(function (response) {
+            $log.debug("请求超时或网络故障!获得列表失败!")
+        });
+    };
+    */
+    
+    
+    
+    $http.get('/ajax/order/search').success(function (largeLoad) {
+        $scope.orderData = largeLoad.rows;
+        $scope.setPagingData($scope.orderData,1,10);
+    });
+	
+	
+	
+/*	
 	 $scope.saved = {};
      $scope.save = function(order) {
     	 $scope.saved = angular.copy(order);
@@ -133,5 +208,5 @@ app.controller('OrderDetailCtrl', function($scope, $http, $state, $stateParams) 
 	      	alert("保存失败！");
 	     });
 	}
-});
+     })};*/
 

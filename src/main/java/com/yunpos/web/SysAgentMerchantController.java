@@ -18,7 +18,6 @@ import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysAgentMerchant;
 import com.yunpos.model.SysOrg;
 import com.yunpos.model.SysUser;
-import com.yunpos.payment.wxpay.common.DateUtil;
 import com.yunpos.service.SysAgentMerchantService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysUserService;
@@ -110,6 +109,7 @@ public class SysAgentMerchantController extends BaseController {
 		user.setCreatedAt(new Date());
 		user.setOrgId(sysOrg.getId());
 		user.setOrgName(sysOrg.getOrgName());
+		user.setDescription(sysAgentMerchant.getDescription());
 		sysUserService.creatSysUser(user);
 	
 
@@ -134,6 +134,7 @@ public class SysAgentMerchantController extends BaseController {
 		user.setPassword(sysAgentMerchant.getNewPassword());
 		user.setUpdatedBy(getUser().getId());
 		user.setUpdatedAt(new Date());
+		user.setDescription(sysAgentMerchant.getDescription());
 		sysUserService.updateSysUser(user);
 		
 		
@@ -150,6 +151,22 @@ public class SysAgentMerchantController extends BaseController {
 		return new GridRowResponse(sysAgentMerchant.getId());
 	}
 
+	
+	
+	/**
+	 * 代理商更新 更新代理商用户信息
+	 * @param sysAgentMerchant
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/ajax/agentmerchant/updateStatus/{id}", method = RequestMethod.PUT)
+	public GridRowResponse updateStatus(@Valid SysAgentMerchant sysAgentMerchant, @PathVariable("id") int id) {
+		SysAgentMerchant sagentMerchant = sysAgentMerchantService.findById(id);
+		sagentMerchant.setStatus(sysAgentMerchant.getStatus());
+		 sysAgentMerchantService.update(sagentMerchant);
+		return new GridRowResponse(sagentMerchant.getId());
+	}
+	
 	/**
 	 * 代理商删除
 	 * @param id

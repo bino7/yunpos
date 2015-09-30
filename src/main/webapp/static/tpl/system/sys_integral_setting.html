@@ -1,36 +1,83 @@
-<div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">积分设置</h1>
-</div>
-<div class="wrapper-md">
- <div class="panel panel-default">
-    <div class="panel-heading font-bold">                  
-      Inline form
-    </div>
-    <div class="panel-body">
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputEmail2">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="exampleInputPassword2">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-        </div>
-        <div class="checkbox m-l m-r-xs">
-          <label class="i-checks">
-            <input type="checkbox"><i></i> Remember me
-          </label>
-        </div>
-        <button type="submit" class="btn btn-default">Sign in</button>
-        <span ng-controller="SysIntegralSettingCtl">
-          <script type="text/ng-template" id="myModalContent.html">
-            <div ng-include="'tpl/modal.form.html'"></div>
-          </script>
-          <button class="btn btn-success" ng-click="open('lg')">Form in a modal</button>
-        </span>
-      </form>
-    </div>
-  </div>
-
- </div>
+<style type="text/css">
+.input{ 
+	border-color: #cfdadd;
+    border-radius: 2px;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #cfdadd;
+    color: #555;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    }
+.input:focus{
+	border-color: #23b7e5;
+	box-shadow: none;
+}
+.w100{
+	width:100px;
+}
+</style>
+<div class="well" ng-controller="IntegralSettingCtrl" ng-init="processForm()">
+	<div class="row">
+		<div class="col-md-12">
+			<form  class="form-horizontal" role="form" name="form">
+				<div class="form-group">
+					<label class="control-label col-md-2">是否启用积分：</label>
+					<div class="col-md-10">
+						<div class="radio">
+							<label>
+								<input ng-model="sysMemberIngetral.is_using_ingetral" name="is_using_ingetral" type="radio" value="1" required />是
+							</label>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<label>
+								<input ng-model="sysMemberIngetral.is_using_ingetral" name="is_using_ingetral" type="radio" value="0" required />否
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">
+						积分抵现比例：
+					</label>
+					<div class="col-md-10">
+						<input ng-model="sysMemberIngetral.ingetral" type="number" min=0 class="input w100" required />
+					 = 
+						<input ng-model="sysMemberIngetral.money" type="number" min=0 class="input w100" required />
+					元
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-2">
+						消费积分：
+					</label>
+					<div class="col-md-10">
+						<p>
+						消费满  <input ng-model="sysMemberIngetral.expense_base_money" class="input w100" min=0 type="number" required /> 元起，
+						每  <input ng-model="sysMemberIngetral.item_money" class="input w100" type="number" min=0 required /> 元
+						送  <input ng-model="sysMemberIngetral.item_ingetral" class="input w100" type="number" min=0 required /> 分
+						</p>
+						<p>
+							积分小数点后 &nbsp; 
+							<span class="radio inline">
+							<label>
+								<input ng-model="sysMemberIngetral.ingetral_type" name="ingetral_type" type="radio" value="1" required />取整
+							</label>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<label>
+								<input ng-model="sysMemberIngetral.ingetral_type" name="ingetral_type" type="radio" value="0" required />四舍五入
+							</label>
+							</span>
+						</p>
+					</div>
+				</div>
+				<div class="col-md-offset-2">
+					<button class="btn btn-default" ng-click="save(sysMemberIngetral)">保存修改</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

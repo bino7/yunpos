@@ -117,7 +117,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -182,7 +182,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payQueryServiceResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(payQueryServiceResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -261,7 +261,7 @@ public class WechatPayService {
 			} else {
 				log.info("退款API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(refundServiceResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(refundServiceResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("退款请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "退款请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -341,7 +341,7 @@ public class WechatPayService {
 			} else {
 				log.info("退款查询API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(refundQueryServiceResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(refundQueryServiceResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("退款查询API返回的数据签名验证失败，有可能数据被篡改了");
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "退款查询API返回的数据签名验证失败，有可能数据被篡改了",
 							null);
@@ -496,7 +496,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -560,7 +560,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(payServiceResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",
@@ -611,7 +611,7 @@ public class WechatPayService {
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
-				if (!Signature.checkIsSignValidFromResponseString(reserveResponseString,sysWechatConfig.getAppKey())) {
+				if (!Signature.checkIsSignValidFromResponseString(reserveResponseString,sysWechatConfig.getApiSecret())) {
 					log.error("【支付失败】支付请求API返回的数据签名验证失败，有可能数据被篡改了");
 					// resultListener.onFailBySignInvalid(scanPayResData);
 					return new Message(ResultCode.FAIL.name(), "CONTEXT_INCONSISTENT", "支付请求API返回的数据签名验证失败，有可能数据被篡改了",

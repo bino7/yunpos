@@ -20,6 +20,7 @@ import com.yunpos.model.SysUserRole;
 import com.yunpos.security.SecurityUtils;
 import com.yunpos.service.SysUserRoleService;
 import com.yunpos.service.SysUserService;
+import com.yunpos.utils.Upload;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
@@ -97,6 +98,22 @@ public class SysUserController extends BaseController {
 		}
 		return new GridRowResponse(user.getId());
 	}
+	
+	/**
+	 * 修改密码
+	 * @param user
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/ajax/user/updatePwd/{id}", method = RequestMethod.PUT)
+	public GridRowResponse updatePWD(@Valid SysUser user, @PathVariable("id") int id) {
+		SysUser sysUser = sysUserService.findById(id);
+		sysUser.setPassword(user.getPassword());
+		sysUserService.update(user);
+		return new GridRowResponse(user.getId());
+	}
+
+	
 
 	/**
 	 * 删除用户需要将对应关联的角色删除

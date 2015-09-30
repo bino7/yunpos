@@ -27,6 +27,10 @@ public class ConfigContants {
 	private static Properties prop = null;
 
 	public static String SHOWCOUNT = "15"; // 分页常量
+	
+	public static String IMAGEPATH = ""; // 图片路径
+	
+	public static String IMAGEURL = "";  // 图片路径
 
 	static {
 		InputStream is = ConfigContants.class.getClassLoader()
@@ -38,7 +42,8 @@ public class ConfigContants {
 			logger.error(e.getMessage());
 		}
 		SHOWCOUNT = prop.getProperty("page.showCount");
-
+		IMAGEPATH = prop.getProperty("imagePath");
+		IMAGEURL  = prop.getProperty("imageURL");
 	}
 
 }

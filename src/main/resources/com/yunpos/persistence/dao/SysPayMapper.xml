@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.SysPayMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.SysPay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="payName" property="payName" jdbcType="VARCHAR" />
+    <result column="payDes" property="payDes" jdbcType="VARCHAR" />
+    <result column="open" property="open" jdbcType="INTEGER" />
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, payName, payDes, open, mark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_pay
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_pay
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.SysPay" >
+    insert into sys_pay (id, payName, payDes, 
+      open, mark)
+    values (#{id,jdbcType=INTEGER}, #{payName,jdbcType=VARCHAR}, #{payDes,jdbcType=VARCHAR}, 
+      #{open,jdbcType=INTEGER}, #{mark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.SysPay" >
+    insert into sys_pay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="payName != null" >
+        payName,
+      </if>
+      <if test="payDes != null" >
+        payDes,
+      </if>
+      <if test="open != null" >
+        open,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="payName != null" >
+        #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="payDes != null" >
+        #{payDes,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        #{open,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.SysPay" >
+    update sys_pay
+    <set >
+      <if test="payName != null" >
+        payName = #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="payDes != null" >
+        payDes = #{payDes,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null" >
+        open = #{open,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysPay" >
+    update sys_pay
+    set payName = #{payName,jdbcType=VARCHAR},
+      payDes = #{payDes,jdbcType=VARCHAR},
+      open = #{open,jdbcType=INTEGER},
+      mark = #{mark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

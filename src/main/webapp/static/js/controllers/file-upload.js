@@ -1,7 +1,14 @@
 app.controller('FileUploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-        url: 'js/controllers/upload.php'
-    });
+    	//method  : 'put',
+      //  url: '/ajax/upload'
+    	method  : 'post',
+        url: '/ajax/upload'
+    }).success(function(data) {
+    	alert("上传成功！");
+	}).error(function(data,status,headers,config){
+	      	alert("上传失败！");
+	});
 
     // FILTERS
 

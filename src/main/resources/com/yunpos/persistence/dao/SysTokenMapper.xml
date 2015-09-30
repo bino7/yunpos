@@ -5,13 +5,15 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="appid" property="appid" jdbcType="VARCHAR" />
     <result column="appSecret" property="appSecret" jdbcType="VARCHAR" />
+    <result column="abbre" property="abbre" jdbcType="VARCHAR" />
+    <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
     <result column="access_token" property="access_token" jdbcType="VARCHAR" />
     <result column="expires_time" property="expires_time" jdbcType="INTEGER" />
     <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, appid, appSecret, access_token, expires_time, createdAt, updatedAt
+    id, appid, appSecret ,abbre, serialNo, access_token, expires_time, createdAt, updatedAt
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,10 +26,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.SysToken" >
-    insert into sys_token (id, appid, appSecret, 
+    insert into sys_token (id, appid, appSecret, abbre,serialNo
       access_token, expires_time, createdAt, 
       updatedAt)
-    values (#{id,jdbcType=INTEGER}, #{appid,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{appid,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR},
+     #{abbre,jdbcType=VARCHAR},#{serialNo,jdbcType=VARCHAR},
       #{access_token,jdbcType=VARCHAR}, #{expires_time,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
@@ -42,6 +45,12 @@
       </if>
       <if test="appSecret != null" >
         appSecret,
+      </if>
+      <if test="abbre != null" >
+        abbre,
+      </if>
+      <if test="serialNo != null" >
+        serialNo,
       </if>
       <if test="access_token != null" >
         access_token,
@@ -66,6 +75,12 @@
       <if test="appSecret != null" >
         #{appSecret,jdbcType=VARCHAR},
       </if>
+      <if test="abbre != null" >
+        #{abbre,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
       <if test="access_token != null" >
         #{access_token,jdbcType=VARCHAR},
       </if>
@@ -89,6 +104,12 @@
       <if test="appSecret != null" >
         appSecret = #{appSecret,jdbcType=VARCHAR},
       </if>
+      <if test="abbre != null" >
+        abbre = #{abbre,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        serialNo = #{serialNo,jdbcType=VARCHAR},
+      </if>
       <if test="access_token != null" >
         access_token = #{access_token,jdbcType=VARCHAR},
       </if>
@@ -108,6 +129,8 @@
     update sys_token
     set appid = #{appid,jdbcType=VARCHAR},
       appSecret = #{appSecret,jdbcType=VARCHAR},
+      abbre = #{abbre,jdbcType=VARCHAR},
+      serialNo = #{serialNo,jdbcType=VARCHAR},
       access_token = #{access_token,jdbcType=VARCHAR},
       expires_time = #{expires_time,jdbcType=INTEGER},
       createdAt = #{createdAt,jdbcType=TIMESTAMP},

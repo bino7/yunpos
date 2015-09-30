@@ -85,7 +85,7 @@ public class ScanCodePayReqData {
 		// 商品标记，微信平台配置的商品标记，用于优惠券或者满减使用
 		setGoods_tag(goodsTag);
 		//根据API给的签名规则进行签名
-		String sign = Signature.getSign(toMap(),sysWechatConfig.getAppKey());
+		String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
 		
 		setSign(sign);//把签名数据设置到Sign这个属性中
 	}

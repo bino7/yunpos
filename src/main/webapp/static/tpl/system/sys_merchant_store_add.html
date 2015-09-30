@@ -1,0 +1,116 @@
+
+<div class="well" ng-controller="MerchantStoreAddCtrl" ng-init="getAddress()">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal form-validation" role="form" name="form">
+                        <div class="form-group">
+							<label class="col-md-2 control-label"> 用户名： </label>
+							<div class="col-md-8">
+                            	<input type="text" class="form-control" ng-model="store.userName" required name="userName">
+                            </div>
+                            <div class="col-md-2">
+                            	<button class="btn btn-info" ng-click="check(store.userName)">账号检测</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+							<label class="col-md-2 control-label"> 昵称： </label>
+							<div class="col-md-10">
+                           		 <input type="text" class="form-control" ng-model="store.nickname"  ng-maxlength="20">
+                            </div>
+                        </div>
+						<div class="form-group ">
+							<label class="col-md-2 control-label"> 登录密码： </label>
+							<div class="col-md-10">
+							 <input type="password" class="form-control" name="newPassword" ng-model="newPassword" required > 
+							</div>
+						</div>
+						<div class="form-group ">
+							<label class="col-md-2 control-label"> 确认密码： </label>
+							<div class="col-md-10">
+							<input type="password" class="form-control" name="confirm_password" required ng-model="store.password" ui-validate=" '$value==newPassword' " ui-validate-watch=" 'newPassword' ">
+							<span ng-show='form.confirm_password.$error.validator' style="color: #ff4a0d">两次输入密码不一致！</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 状态： </label>
+							<div class="col-md-10">
+								<div class="radio" ng-init="store.status='1'">
+									<label> <input type="radio" name="optionsRadios"
+										id="optionsRadios1" value="1" ng-model="store.status">
+										启用
+									</label> <label> <input type="radio" name="optionsRadios"
+										id="optionsRadios2" value="0" ng-model="store.status">
+										停用
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 门店名： </label>
+							<div class="col-md-10">
+                           		 <input type="text" class="form-control" ng-model="store.storeName" required>
+                            </div>
+                        </div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 门店地址： </label>
+							<div ng-init="addresses">
+								<div class="col-md-2">
+									<select ng-model="store.prov" ng-change="selectedCity=''"
+										ng-options="addr.name for addr in addresses"
+										class=" form-control" required>
+										<option value="">---请选择省份---</option>
+									</select>
+								</div>
+								<div class="col-md-2">
+									<select ng-model="store.city" ng-change="selectedArea=''"
+										ng-options="city.name for city in store.prov.city"
+										class=" form-control" required>
+										<option value="">---请选择市---</option>
+									</select>
+								</div>
+								<div class="col-md-2">
+									<select ng-model="store.area"
+										ng-options="area.name for area in store.city.area"
+										class=" form-control" required>
+										<option value="">---请选择区---</option>
+									</select>
+								</div>
+								<div class="col-md-4">
+									<input type="text" class="form-control"
+										ng-model="store.address" required>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 联系人： </label>
+							<div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="store.contactMan">
+                            </div>
+                        </div><div class="form-group">
+							<label class="col-md-2 control-label"> 联系电话： </label>
+							<div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="store.tel">
+                            </div>
+                        </div><div class="form-group">
+							<label class="col-md-2 control-label"> 手机号码： </label>
+							<div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="store.phone"  ng-pattern="/^[\d]{11,}$/" required >
+                            </div>
+                        </div>
+                        <div class="form-group">
+							<label class="col-md-2 control-label"> 备注： </label>
+							<div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="store.remark">
+                            </div>
+                        </div>
+                      <button  ng-click="add(store)">保存</button>
+                      <button  ng-click="cancel()">取消</button>
+                     </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

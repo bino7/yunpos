@@ -10,97 +10,107 @@
                                	用户名：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" ng-model="merchant.name">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.userName">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                              	 昵称：
+                              	 昵称�?
                             </label>
                             <div class="col-md-10">
-                           		 <input type="text" class="form-control" ng-model="merchant.nickname">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.nickname">
                             </div>
                         </div>
-                        <div class="form-group">
+                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                               	 登录密码：
+                              	 公司名称�?
                             </label>
                             <div class="col-md-10">
-                            	<input type="password" class="form-control" ng-model="merchant.password">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.companyName">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	确认密码：
+                               	 登录密码�?
                             </label>
                             <div class="col-md-10">
-                                <input type="password" class="form-control" ng-model="merchant.password">
+                            	<input type="password" class="form-control" placeholder="" ng-model="merchant.password">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                           			 角色：
+                                	确认密码�?
                             </label>
                             <div class="col-md-10">
-                            	 <select name="account" class="form-control m-b" ng-model="merchant.role">
-						              <option>option 1</option>
-						              <option>option 2</option>
-						              <option>option 3</option>
-						              <option>option 4</option>
-						            </select>
+                                <input type="password" class="form-control" placeholder="" ng-model="merchant.password">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	状态：
+                                	状�?�：
                             </label>
                             <div class="col-md-10">
                                  <div class="radio">
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" ng-model="merchant.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="0" ng-model="merchant.status">
 					                启用
 					              </label>
 					              <label>
-					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" ng-model="merchant.status">
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="1" ng-model="merchant.status">
 					                停用
 					              </label>
 					            </div>
                             </div>
                         </div>
+                         <div class="form-group">
+				          <label class="col-sm-2 control-label">终端申请</label>
+				          <div class="col-sm-10">
+				         	 <div data-ng-repeat="tag in tags">
+					            <label class="checkbox-inline">
+					              <input type="checkbox" id={{tag.id}} name="merchant.terminals" ng-model="tag.checked"> {{ tag.name }}
+					            </label>
+				            </div>
+				          </div>
+				        </div>
                        <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	联系人：
+                                	服务�?/公众号：
                             </label>
                             <div class="col-md-10">
-                           		 <input type="text" class="form-control" ng-model="merchant.fullname">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="merchant.serviceAlipay">
+                           		 <br><input type="text" class="form-control" placeholder="" ng-model="merchant.serviceWeixin">
                             </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                           			 行业类型�?
+                            </label>
+                            <div class="col-md-10">
+                            	 <select name="account" class="form-control m-b" ng-model="merchant.industryTypeId">
+						              <option value ='1' >餐饮</option>
+						              <option value ='2' >KTV</option>
+						              <option value ='3' >美容美发</option>
+						              <option value ='4' >酒店</option>
+						            </select>
+                            </div>
+                        </div>
+                  		<div class="form-group">
+				          <label class="col-sm-2 control-label">合同到期时间:</label>
+				          <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+				            <div class="input-group w-md">
+				              <input type="text" class="form-control" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="merchant.endTime" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				            </div>
+				          </div>
+				        </div>
                         </div><div class="form-group">
                             <label class="col-md-2 control-label">
-                                	联系电话：
+                                	备注�?
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" ng-model="merchant.tel">
-                            </div>
-                        </div><div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	手机号码：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" ng-model="merchant.phone">
-                            </div>
-                        </div><div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	电子邮箱：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" ng-model="merchant.email">
-                            </div>
-                        </div><div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	备注：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" ng-model="merchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.description">
                             </div>
                         </div>
                       <button  ng-click="save(merchant)">保存</button>

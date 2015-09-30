@@ -8,6 +8,10 @@ public class SysToken {
     private String appid;
 
     private String appSecret;
+    
+    private String abbre;
+    
+    private String serialNo;
 
     private String access_token;
 
@@ -40,8 +44,24 @@ public class SysToken {
     public void setAppSecret(String appSecret) {
         this.appSecret = appSecret == null ? null : appSecret.trim();
     }
+ 
+    public String getAbbre() {
+		return abbre;
+	}
 
-    public String getAccess_token() {
+	public void setAbbre(String abbre) {
+		this.abbre = abbre;
+	}
+
+	public String getSerialNo() {
+		return serialNo;
+	}
+
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
+	}
+
+	public String getAccess_token() {
         return access_token;
     }
 

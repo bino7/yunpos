@@ -33,6 +33,8 @@ public class SysUser {
 	private String email;					// 电子邮箱
 
 	private String password;				// 密码
+	
+	private String payPassword;				// 支付密码
 
 	private String nickname;				// 昵称
 
@@ -213,5 +215,15 @@ public class SysUser {
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+
+	public String getPayPassword() {
+		return payPassword;
+	}
+
+	public void setPayPassword(String payPassword) {
+		this.payPassword = payPassword;
+	}
+	
+	
 	
 }

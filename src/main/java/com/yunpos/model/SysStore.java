@@ -40,6 +40,10 @@ public class SysStore  extends GridRequest {
     private String mapAddress;
 
     private Integer status;
+
+    private Integer apprStatus;
+    
+    private String apprRemark;
     
  // 下面表单接收数据使用，非实体数据库字段
     private String userId;					//代理商用户ID
@@ -55,6 +59,10 @@ public class SysStore  extends GridRequest {
 	private Date createdAt;					// 创建时间
 
 	private Integer createdBy;				// 创建人
+	
+	private Date updatedAt;					// 更新时间
+	
+	private Integer updatedBy;				// 更新人
 
     public Integer getId() {
         return id;
@@ -176,6 +184,22 @@ public class SysStore  extends GridRequest {
         this.status = status;
     }
 
+	public Integer getApprStatus() {
+		return apprStatus;
+	}
+
+	public void setApprStatus(Integer apprStatus) {
+		this.apprStatus = apprStatus;
+	}
+
+	public String getApprRemark() {
+		return apprRemark;
+	}
+
+	public void setApprRemark(String apprRemark) {
+		this.apprRemark = apprRemark;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -247,6 +271,22 @@ public class SysStore  extends GridRequest {
 
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Integer getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Integer updatedBy) {
+		this.updatedBy = updatedBy;
 	}
     
     

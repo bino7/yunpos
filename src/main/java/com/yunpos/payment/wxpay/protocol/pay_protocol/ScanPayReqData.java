@@ -7,8 +7,6 @@ import java.util.Map;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.payment.wxpay.common.RandomStringGenerator;
 import com.yunpos.payment.wxpay.common.Signature;
-import com.yunpos.payment.wxpay.config.WechatPayConfig;
-import com.yunpos.utils.DateUtil;
 
 /**
  * 请求被扫支付API需要提交的数据
@@ -26,18 +24,18 @@ public class ScanPayReqData {
     private String out_trade_no = "";
     private int total_fee = 0;
     private String spbill_create_ip = "";
-    private String time_start = "";
-    private String time_expire = "";
+//    private String time_start = "";
+//    private String time_expire = "";
     private String goods_tag = "";
     private String auth_code = "";
-    private String sdk_version;
+//    private String sdk_version;
     
     
 	// 业务附加传递信息（非接口参数）
-	private String pay_channel = "";
-	private String terminal_unique_no = "";
-	private String merchant_num = "";
-	private String merchant_name = "";
+//	private String pay_channel = "";
+//	private String terminal_unique_no = "";
+//	private String merchant_num = "";
+//	private String merchant_name = "";
 
     /**
      * @param authCode 这个是扫码终端设备从用户手机上扫取到的支付授权号，这个号是跟用户用来支付的银行卡绑定的，有效期是1分钟
@@ -53,7 +51,7 @@ public class ScanPayReqData {
      */
     public ScanPayReqData(String authCode,String body,String attach,String outTradeNo,int totalFee,String deviceInfo,String spBillCreateIP,String goodsTag,SysWechatConfigWithBLOBs sysWechatConfig){
 
-        setSdk_version(WechatPayConfig.sdkVersion);
+        //setSdk_version(WechatPayConfig.sdkVersion);
 
         //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(sysWechatConfig.getAppId());
@@ -85,10 +83,10 @@ public class ScanPayReqData {
         setSpbill_create_ip(spBillCreateIP);
 
         //订单生成时间， 格式为yyyyMMddHHmmss，如2009年12 月25 日9 点10 分10 秒表示为20091225091010。时区为GMT+8 beijing。该时间取自商户服务器
-        setTime_start(DateUtil.getNow("yyyyMMddHHmmss"));
+        //setTime_start(DateUtil.getNow("yyyyMMddHHmmss"));
 
         //订单失效时间，格式同上
-        setTime_expire(DateUtil.getDateAfter(DateUtil.getNow("yyyyMMddHHmmss"), "yyyyMMddHHmmss", 1));
+        //setTime_expire(DateUtil.getDateAfter(DateUtil.getNow("yyyyMMddHHmmss"), "yyyyMMddHHmmss", 1));
 
         //商品标记，微信平台配置的商品标记，用于优惠券或者满减使用
         setGoods_tag(goodsTag);
@@ -97,7 +95,7 @@ public class ScanPayReqData {
         setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
 
         //根据API给的签名规则进行签名
-        String sign = Signature.getSign(toMap(),sysWechatConfig.getAppKey());
+        String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
         setSign(sign);//把签名数据设置到Sign这个属性中
     }
     
@@ -183,21 +181,21 @@ public class ScanPayReqData {
         this.spbill_create_ip = spbill_create_ip;
     }
 
-    public String getTime_start() {
-        return time_start;
-    }
+//    public String getTime_start() {
+//        return time_start;
+//    }
+//
+//    public void setTime_start(String time_start) {
+//        this.time_start = time_start;
+//    }
 
-    public void setTime_start(String time_start) {
-        this.time_start = time_start;
-    }
-
-    public String getTime_expire() {
-        return time_expire;
-    }
-
-    public void setTime_expire(String time_expire) {
-        this.time_expire = time_expire;
-    }
+//    public String getTime_expire() {
+//        return time_expire;
+//    }
+//
+//    public void setTime_expire(String time_expire) {
+//        this.time_expire = time_expire;
+//    }
 
     public String getGoods_tag() {
         return goods_tag;
@@ -215,61 +213,61 @@ public class ScanPayReqData {
         this.auth_code = auth_code;
     }
 
-    public String getSdk_version(){
-        return sdk_version;
-    }
-
-    public void setSdk_version(String sdk_version) {
-        this.sdk_version = sdk_version;
-    }
+//    public String getSdk_version(){
+//        return sdk_version;
+//    }
+//
+//    public void setSdk_version(String sdk_version) {
+//        this.sdk_version = sdk_version;
+//    }
+//    
     
-    
 
-    public String getPay_channel() {
-		return pay_channel;
-	}
-
-
-
-	public void setPay_channel(String pay_channel) {
-		this.pay_channel = pay_channel;
-	}
-
-
-
-	public String getTerminal_unique_no() {
-		return terminal_unique_no;
-	}
-
-
-
-	public void setTerminal_unique_no(String terminal_unique_no) {
-		this.terminal_unique_no = terminal_unique_no;
-	}
-
-
-
-	public String getMerchant_num() {
-		return merchant_num;
-	}
-
-
-
-	public void setMerchant_num(String merchant_num) {
-		this.merchant_num = merchant_num;
-	}
-
-
-
-	public String getMerchant_name() {
-		return merchant_name;
-	}
-
-
-
-	public void setMerchant_name(String merchant_name) {
-		this.merchant_name = merchant_name;
-	}
+//    public String getPay_channel() {
+//		return pay_channel;
+//	}
+//
+//
+//
+//	public void setPay_channel(String pay_channel) {
+//		this.pay_channel = pay_channel;
+//	}
+//
+//
+//
+//	public String getTerminal_unique_no() {
+//		return terminal_unique_no;
+//	}
+//
+//
+//
+//	public void setTerminal_unique_no(String terminal_unique_no) {
+//		this.terminal_unique_no = terminal_unique_no;
+//	}
+//
+//
+//
+//	public String getMerchant_num() {
+//		return merchant_num;
+//	}
+//
+//
+//
+//	public void setMerchant_num(String merchant_num) {
+//		this.merchant_num = merchant_num;
+//	}
+//
+//
+//
+//	public String getMerchant_name() {
+//		return merchant_name;
+//	}
+//
+//
+//
+//	public void setMerchant_name(String merchant_name) {
+//		this.merchant_name = merchant_name;
+//	}
 
 
 

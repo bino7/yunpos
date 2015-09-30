@@ -112,11 +112,20 @@ app.controller('MerchantListCtrl',  function($scope, $http, $state, $stateParams
  */
 app.controller('MerchantAddCtrl', function($scope, $http, $state, $stateParams) {
     console.log($stateParams);
-    
+    $scope.tags = [
+                   { id:1,  name:'银联' ,  	  checked: false},
+                   { id:2,  name:'支付宝',   checked: false },
+                   { id:3,  name:'微信支付',  checked: false }] ;
     $scope.master = {};
 
 	  $scope.add = function(merchant) {
 		merchant.endTime = formatDateTime(merchant.endTime);
+		 merchant.terminals  = "";
+   	  	$scope.tags.filter(function(item) {
+   		 if(item.checked = true){
+   			 merchant.terminals  += item.id + ",";
+   		 }
+	    });
 	    $scope.master = angular.copy(merchant);
 	    $http({
 	        method  : 'post',
@@ -151,12 +160,31 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.merchant = data;
-	           // alert(data.id);
+	            var terminals = data.terminals;
+	            var flg1 = false;
+	            var flg2 = false;
+	            var flg3 = false;
+	            if(terminals != null && terminals != ''){
+	            	if(terminals.indexOf('1') != -1){ flg1 = true ;}
+	            	if(terminals.indexOf('2') != -1){ flg2 = true ;}
+	            	if(terminals.indexOf('3') != -1){ flg3 = true ;}
+	            }
+	            $scope.tags = [
+	                    { id:1,  name:'银联' ,  	  checked: flg1},
+	                    { id:2,  name:'支付宝',   checked: flg2 },
+	                    { id:3,  name:'微信支付',  checked: flg3 }]
+
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(merchant) {
-    	 merchant.endTime = formatDateTime(merchant.endTime);
+    	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
+    	 merchant.terminals  = "";
+    	  $scope.tags.filter(function(item) {
+    		 if(item.checked){
+    			 merchant.terminals  += item.id + ",";
+    		 }
+	    });
     	 $scope.saved = angular.copy(merchant);
 	     $http({
 	        method  : 'put',
@@ -164,9 +192,85 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
+	    	 $state.go('app.table.merchant');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });
 	}
 });
+
+
+
+/**
+ * 这里是用户编辑
+ * @type {[type]}
+ */
+app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/merchant/' + "1"  //+ $stateParams.id
+	    }).success(function(data) {
+	         $scope.merchant = data;
+	         $scope.merchant.endTime = parseDateTime(new Date(data.endTime),"YYYY-MM-DD");
+	         $scope.merchant.identityBt = parseDateTime(new Date(data.identityBt),"YYYY-MM-DD");
+	         $scope.merchant.identityEt = parseDateTime(new Date(data.identityEt),"YYYY-MM-DD");
+	         $scope.merchant.organizeBarCodeBt = parseDateTime(new Date(data.organizeBarCodeBt),"YYYY-MM-DD");
+	         $scope.merchant.organizeBarCodeEt = parseDateTime(new Date(data.organizeBarCodeEt),"YYYY-MM-DD");
+	         $scope.merchant.taxBarCodeBt = parseDateTime(new Date(data.taxBarCodeBt),"YYYY-MM-DD");
+	         $scope.merchant.taxBarCodeEt = parseDateTime(new Date(data.taxBarCodeEt),"YYYY-MM-DD");
+	            
+
+	            /*
+	            var terminals = data.terminals;
+	            var flg1 = false;
+	            var flg2 = false;
+	            var flg3 = false;
+	            if(terminals != null && terminals != ''){
+	            	if(terminals.indexOf('1') != -1){ flg1 = true ;}
+	            	if(terminals.indexOf('2') != -1){ flg2 = true ;}
+	            	if(terminals.indexOf('3') != -1){ flg3 = true ;}
+	            }
+	            $scope.tags = [
+	                    { id:1,  name:'银联' ,  	  checked: flg1},
+	                    { id:2,  name:'支付宝',   checked: flg2 },
+	                    { id:3,  name:'微信支付',  checked: flg3 }]
+	         */           
+	        });
+	};
+	 $scope.saved = {};
+     $scope.save = function(merchant) {
+    	
+    	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
+    	 merchant.identityBt = formatDateTime(new Date(merchant.identityBt));
+    	 merchant.identityEt = formatDateTime(new Date(merchant.identityEt));
+    	 merchant.organizeBarCodeBt = formatDateTime(new Date(merchant.organizeBarCodeBt));
+    	 merchant.organizeBarCodeEt = formatDateTime(new Date(merchant.organizeBarCodeEt));
+    	 merchant.taxBarCodeBt = formatDateTime(new Date(merchant.taxBarCodeBt));
+    	 merchant.taxBarCodeEt = formatDateTime(new Date(merchant.taxBarCodeEt));
+    	 
+    	 
+    	 
+    	 /*
+    	 merchant.terminals  = "";
+    	  $scope.tags.filter(function(item) {
+    		 if(item.checked){
+    			 merchant.terminals  += item.id + ",";
+    		 }
+	    });
+	    */
+    	 $scope.saved = angular.copy(merchant);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/merchant/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	    	 //$state.go('app.table.merchant');
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+});
+
 

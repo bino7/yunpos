@@ -29,17 +29,18 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
             enableCellEdit: true,
           //  enablePinning: true,
             columnDefs: [
-               {field: 'transNum', displayName: '交易流水号', width: 200,  pinnable: false,  sortable: false}, 
-               {field: 'transPrice', displayName: '金额', enableCellEdit: false, width: 80},
-               {field: 'info', displayName: '备注', enableCellEdit: false, width: 100}, 
-               {field: 'channel',displayName: '交易渠道',enableCellEdit: false, width: 100}, 
+               {field: 'transNum', displayName: '交易流水号', width: 180,  pinnable: false,  sortable: false}, 
+               {field: 'transPrice', displayName: '金额', enableCellEdit: false, width: 100},
+               {field: 'info', displayName: '备注', enableCellEdit: false, width: 140}, 
+               {field: 'channel',displayName: '交易渠道',enableCellEdit: false, width: 80}, 
                {field: 'transType', displayName: '交易类型', enableCellEdit: false, width: 80 }, 
-               {field: 'createdAt', displayName: '收银员', enableCellEdit: false, width: 140 }, 
-               {field: 'status', displayName: '用户', enableCellEdit: false, width: 120 }, 
+               {field: 'merchantName', displayName: '商户', enableCellEdit: false, width: 120 }, 
+               {field: 'orderId', displayName: '原支付订单号', enableCellEdit: false, width: 120 }, 
                {field: 'user_order_no', displayName: '支付流水号', enableCellEdit: false, width: 120 }, 
-               {field: 'transTime', displayName: '支付时间', enableCellEdit: false, width: 120 }, 
+               {field: 'transTime', displayName: '支付时间', cellFilter : 'date:"yyyy-MM-dd HH:mm:ss"',enableCellEdit: false, width: 120 }, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.transactionDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看</button> </a></div>'
+                cellTemplate: '<div><span ng-controller="TransactionDetailCtrl"> <script type="text/ng-template" id="transaction_detail"><div ng-include="\'tpl/system/sys_transaction_detail.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'transaction_detail\',row)">详情</button></div>'  
+                	/*'<div><a ui-sref="app.table.transactionDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看</button> </a></div>'*/
             }],
             enablePaging: true,
             showFooter: true,        
@@ -96,8 +97,26 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
 	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
+		  var gt ;
+		  var transTimeOne =document.getElementById("transaction_time_left").value;
+		  var transTimeTwo = document.getElementById("transaction_time_right").value;
+		  var select_channel = document.getElementById("select_zero").value;
+		  var select_transType = document.getElementById("select_one").value;
+		 
+	
           var data = $scope.transactionData.filter(function(item) {
-                  return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+        	  var ht;
+        	  if(ht>=JSON.stringify(item.transTime).indexOf(transTimeOne) &&ht<=JSON.stringify(item.transTime).indexOf(transTimeTwo)){
+        		  return ht;
+        	  }
+        	  alert( document.getElementById("transaction_time_left").value);
+        	  if(ht!=-1 ){
+        		  return item;
+        	  }
+        	 /* if(JSON.stringify(item.channel).indexOf(select_channel) !=-1 & JSON.stringify(item.transType).indexOf(select_transType) != -1 & JSON.stringify(item).toLowerCase().indexOf(ft) != -1
+        			  &JSON.stringify(item.channel).indexOf(select_channel) !=-1){
+        		  return item;
+        		  }*/
          });
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
 	};
@@ -109,29 +128,144 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('TransactionDetailCtrl', function($scope, $http, $state, $stateParams) {
-    $scope.processForm = function() {
-	    $http({
-	        method  : 'get',
-	        url     : '/ajax/transaction/'+ $stateParams.id
-	    }).success(function(data) {
-	           // console.log(data);
-	            $scope.transaction = data;
-	           // alert(data.id);
-	        });
-	};
-	 $scope.saved = {};
-     $scope.save = function(transaction) {
-    	 $scope.saved = angular.copy(transaction);
-	     $http({
-	        method  : 'put',
-	        url     : '/ajax/transaction/' + $scope.saved.id,
-	        params  : $scope.saved
-	     }).success(function(data) {
-	    	 alert("保存成功！");
-	     }).error(function(data,status,headers,config){
-	      	alert("保存失败！");
-	     });
-	}
-});
+//app.controller('TransactionDetailCtrl', function($scope, $http, $state, $stateParams) {
+//    $scope.processForm = function() {
+//	    $http({
+//	        method  : 'get',
+//	        url     : '/ajax/transaction/'+ $stateParams.id
+//	    }).success(function(data) {
+//	           // console.log(data);
+//	            $scope.transaction = data;
+//	           // alert(data.id);
+//	        });
+//	};
+//	
+	
+	/**
+	 * 弹出框势实例化控制器
+	 */
+	app.controller('transaction_detail_ctrl', ['$scope','$http', '$modalInstance', 'items', function($scope,$http, $modalInstance,items) {
+		$scope.items = items;
+		//$scope.corg = $scope.corg;
+	  $scope.selected = {
+	    item: $scope.items[0]
+	  };
+	}])
+	;
+	
+	//app.controller('TransactionDetailCtrl', function($scope, $http, $state, $stateParams) {
+	app.controller('TransactionDetailCtrl', ['$scope', '$modal', '$log', function($scope, $modal, $log , $stateParams) {
+		 $scope.processForm = function() {
+			    $http({
+			        method  : 'get',
+			        url     : '/ajax/transaction/'+ $stateParams.id
+			    }).success(function(data) {
+			           // console.log(data);
+			            $scope.transaction = data;
+			           // alert(data.id);
+			        });
+		 }
+		
+		$scope.items = ['item1', 'item2', 'item3'];
+		  $scope.open = function (size,tempUrl,data) {
+		  $scope.transaction = data.entity;
+		    var modalInstance = $modal.open({
+		      templateUrl: tempUrl,
+		      controller: 'transaction_detail_ctrl',
+		      size: size,
+		      scope:$scope,
+		      resolve: {
+		        items: function () {
+		          return $scope.items;
+		        }
+		      }
+		    });
+		  }}]);
+	
+	
+//	 $scope.saved = {};
+//     $scope.save = function(transaction) {
+//    	 $scope.saved = angular.copy(transaction);
+//	     $http({
+//	        method  : 'put',
+//	        url     : '/ajax/transaction/' + $scope.saved.id,
+//	        params  : $scope.saved
+//	     }).success(function(data) {
+//	    	 alert("保存成功！");
+//	     }).error(function(data,status,headers,config){
+//	      	alert("保存失败！");
+//	     });
+//	}
+//});
+//
+	/**
+	 * 日期时间控件
+	 */
+	app.controller('DatepickerDemoCtrl', ['$scope', function($scope) {
+	    $scope.today = function() {
+	      $scope.dt = new Date();
+	    };
+	    $scope.today();
+	    $scope.clear = function () {
+	      $scope.dt = null;
+	    };
 
+	    // Disable weekend selection
+	    $scope.disabled = function(date, mode) {
+	      return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+	    };
+
+	    $scope.toggleMin = function() {
+	      $scope.minDate = $scope.minDate ? null : new Date();
+	    };
+	    $scope.toggleMin();
+
+	    $scope.open = function($event) {
+	      $event.preventDefault();
+	      $event.stopPropagation();
+
+	      $scope.opened = true;
+	    };
+
+	    $scope.dateOptions = {
+	      formatYear: 'yy',
+	      startingDay: 1,
+	      class: 'datepicker'
+	    };
+
+	    $scope.initDate = new Date('2016-15-20');
+	    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+	    $scope.format = $scope.formats[0];
+	  }])
+	  ; 
+	  app.controller('TimepickerDemoCtrl', ['$scope', function($scope) {
+	    $scope.mytime = new Date();
+
+	    $scope.hstep = 1;
+	    $scope.mstep = 15;
+
+	    $scope.options = {
+	      hstep: [1, 2, 3],
+	      mstep: [1, 5, 10, 15, 25, 30]
+	    };
+
+	    $scope.ismeridian = true;
+	    $scope.toggleMode = function() {
+	      $scope.ismeridian = ! $scope.ismeridian;
+	    };
+
+	    $scope.update = function() {
+	      var d = new Date();
+	      d.setHours( 14 );
+	      d.setMinutes( 0 );
+	      $scope.mytime = d;
+	    };
+
+	    $scope.changed = function () {
+	      //console.log('Time changed to: ' + $scope.mytime);
+	    };
+
+	    $scope.clear = function() {
+	      $scope.mytime = null;
+	    };
+	  }]);

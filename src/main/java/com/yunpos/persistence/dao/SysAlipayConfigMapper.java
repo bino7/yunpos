@@ -25,4 +25,7 @@ public interface SysAlipayConfigMapper{
     
     @Select("select * from sys_alipay_config where merchantNo=#{merchantNo}")
     SysAlipayConfigWithBLOBs findByMerchantNo(String merchantNo);
+    
+    @Select("select * from sys_alipay_config where id=#{id}")
+    SysAlipayConfigWithBLOBs findById(Integer id);
 }

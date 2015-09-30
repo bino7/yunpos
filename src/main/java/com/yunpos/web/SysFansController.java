@@ -71,5 +71,15 @@ public class SysFansController extends BaseController{
 		return sysFansService.findById(id);
 	}
 	
-	
+	/**
+	 * 查询商户的粉丝
+	 * @param jqGridRequest
+	 * @return
+	 * @throws ServiceException
+	 */
+	@RequestMapping(value="/ajax/merchantFans/search",method = GET)
+	public JqGridResponse<SysFans> merchantSearch(String serialNo)throws ServiceException{
+		GridResponse<SysFans> dataResponse = sysFansService.searchByMerchant(serialNo);
+		return new JqGridResponse<SysFans>(dataResponse);
+	}
 }

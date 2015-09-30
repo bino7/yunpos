@@ -93,14 +93,16 @@ public class SysStoreController extends BaseController{
 	 * @param sysStore
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/Store", method = RequestMethod.POST)
-	public GridRowResponse create(@Valid SysStore sysStore) {
+	@RequestMapping(value = "/ajax/store", method = RequestMethod.POST)
+	public GridRowResponse create(HttpServletRequest request,@Valid SysStore sysStore) {
 		SysUser user = new SysUser();
 		user.setUserName(sysStore.getUserName());
 		user.setNickname(sysStore.getNickname());
 		user.setPassword(sysStore.getPassword());
+		user.setPhone(sysStore.getPhone());
 		user.setCreatedBy(getUser().getId());
 		sysUserService.creatSysUser(user);
+		
 		
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setOrgName(sysStore.getStoreName());
@@ -109,6 +111,13 @@ public class SysStoreController extends BaseController{
 		sysOrg.setLevel(1);
 		sysOrg.setOrgNo("111111");
 		sysOrgService.save(sysOrg);
+		
+		sysStore.setBaseUserId(user.getId());
+		sysStore.setSerialNo("2222");
+		sysStore.setStoreNo("3333");
+		sysStore.setApprStatus(1);
+		sysStore.setCreatedAt(new Date());
+		sysStore.setCreatedBy(getUser().getId());
 		
 		sysStoreService.save(sysStore);
 		return new GridRowResponse(sysStore.getId());
@@ -130,11 +139,11 @@ public class SysStoreController extends BaseController{
 		user.setUpdatedBy(getUser().getId());
 		sysUserService.updateSysUser(user);
 		
-		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
-		sysOrg.setOrgName(sysStore.getStoreName());
-		sysOrg.setModifyUserId(user.getUpdatedBy());
-		sysOrg.setModifyDate(new Date());
-		sysOrgService.update(sysOrg);
+//		SysOrg sysOrg = sysOrgService.findById(user.getOrgId());
+//		sysOrg.setOrgName(sysStore.getStoreName());
+//		sysOrg.setModifyUserId(user.getUpdatedBy());
+//		sysOrg.setModifyDate(new Date());
+//		sysOrgService.update(sysOrg);
 		
 		
 		sysStore.setId(id);

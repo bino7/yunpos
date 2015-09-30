@@ -36,8 +36,16 @@ public class ColumnFilter extends Filter {
     public ColumnFilter(Integer dataTypeCode,String json) throws IOException, ParseException {
         super(Value.DataType.fromCode(dataTypeCode),json);
     }
+    public ColumnFilter(String colName,Integer dataTypeCode,String json) throws IOException, ParseException {
+        super(Value.DataType.fromCode(dataTypeCode),json);
+        this.colName=colName;
+    }
     public ColumnFilter(Value.DataType dataType,String json) throws IOException, ParseException {
         super(dataType,json);
+    }
+    public ColumnFilter(String colName,Op op,Value value){
+        super(op,value);
+        this.colName=colName;
     }
 
     @Override

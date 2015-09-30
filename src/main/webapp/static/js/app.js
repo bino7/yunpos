@@ -15,5 +15,8 @@ angular.module('app', [
     'ui.validate',
     'oc.lazyLoad',
     'pascalprecht.translate',
-    'infinite-scroll'
+    'infinite-scroll',
+    'jsTag',
+    'isteven-multi-select'
+
 ]);

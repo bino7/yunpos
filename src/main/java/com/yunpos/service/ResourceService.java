@@ -19,6 +19,8 @@ import com.yunpos.persistence.dao.FilterDifinitionMapper;
 import com.yunpos.persistence.dao.FilterGroupMapper;
 import com.yunpos.persistence.dao.FilterMapper;
 import com.yunpos.persistence.dao.ResourceMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,7 @@ import java.util.List;
  */
 @Service
 public class ResourceService {
+    Logger logger= LoggerFactory.getLogger(ResourceService.class);
     @Autowired
     private ResourceMapper resourceMapper;
     @Autowired
@@ -69,10 +72,11 @@ public class ResourceService {
     }
 
     public int addFilter(int rid,Filter filter){
-        filter.setResource_id(rid);
+        filter.setResourceId(rid);
         return filterMapper.insert(filter);
     }
     public void updateFilter(Filter filter) {
+        logger.info("filter update:"+filter.getFilterValue());
         filterMapper.updateByPrimaryKey(filter);
     }
     public void removeFilter(Integer id) { filterMapper.deleteByPrimaryKey(id);}

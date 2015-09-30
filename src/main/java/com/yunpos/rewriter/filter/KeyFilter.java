@@ -15,6 +15,7 @@
 package com.yunpos.rewriter.filter;
 
 import com.yunpos.rewriter.value.SysParamValue;
+import com.yunpos.rewriter.value.Value;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -31,11 +32,14 @@ import java.text.ParseException;
  */
 public class KeyFilter extends Filter {
     private String tableAlias,table,associatedColumn,keyTableAlias,keyTable,keyColumn, keyPrimaryColumn;
-    private SysParamValue sysValue;
-    public KeyFilter(Integer dataTypeCode,String key,String json) throws IOException, ParseException {
-        super(dataTypeCode,json);
-        sysValue=new SysParamValue(getDataType(),key);
-        //setFilterValue(sysValue);
+    private Value value;
+
+    public KeyFilter(Op op,Value value,String associatedColumn,String keyTable,String keyColumn,String keyPrimaryColumn){
+        super(op,value);
+        this.associatedColumn=associatedColumn;
+        this.keyTable=keyTable;
+        this.keyColumn=keyColumn;
+        this.keyPrimaryColumn=keyPrimaryColumn;
     }
 
     @Override
@@ -107,12 +111,5 @@ public class KeyFilter extends Filter {
             throw new IllegalArgumentException("filter(name:"+getName()+")'s" +
                     " Op must be EQ or IN current Op is "+op.getCode()+" "+Op.EQ.getCode()+" "+Op.IN.getCode());
         }*/
-    }
-
-    @Override
-    public String toString() {
-        return super.toString()+" KeyFilter{" +
-                "sysValue=" + sysValue +
-                '}';
     }
 }

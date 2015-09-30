@@ -5,45 +5,67 @@
         </p>
     </div>
     <div class="panel bg-light" style="padding-top:20px;" ng-repeat="g in res.filterGroupList" ng-init="initGroup(g)">
+
         <div class="btn-group" ng-repeat="f in g.filterList" role="group" ng-init="initFilter(f)">
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                <div class="btn-group filter-column" role="group" ng-switch="f.difinition.type">
-                    <button class="label label-primary btn-lg"
-                            ng-switch-when="COLUMN_FILTER">{{f.difinition.colName}}
+                <div class="btn-group filter-column" role="group" ng-switch="f.type">
+                    <button class="btn btn-default "
+                            ng-switch-when="0">{{f.colName}}
                     </button>
-                    <button class="btn btn-default btn-lg"
-                            ng-switch-when="KEY_PARAM_FILTER">{{f.difinition.keyParam}}
+                    <button class="btn btn-default "
+                            ng-switch-when="1">{{f.keyParam}}
                     </button>
                 </div>
 
                 <div class="btn-group filter-column" role="group">
-                    <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                    <button type="button" class="btn btn-default dropdown-toggle "
                             data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                        {{opMapper[f.op]}} <span class="caret"></span>
+                        {{codeOpMapper[f.op]}} <span class="caret"></span>
                     </button>
 
                     <ul class="dropdown-menu">
-                        <li ng-click="f.op=o" ng-repeat="o in f.difinition.supportOp"><a>{{opMapper[o]}}</a></li>
+                        <li ng-if="f.supportOp.EQ" ng-click="f.op=0;updateFilter(f)"><a>=</a></li>
+                        <li ng-if="f.supportOp.GE" ng-click="f.op=1;updateFilter(f)"><a>>=</a></li>
+                        <li ng-if="f.supportOp.GT" ng-click="f.op=2;updateFilter(f)"><a>></a></li>
+                        <li ng-if="f.supportOp.LE" ng-click="f.op=3;updateFilter(f)"><a><=</a></li>
+                        <li ng-if="f.supportOp.LT" ng-click="f.op=4;updateFilter(f)"><a><</a></li>
+                        <li ng-if="f.supportOp.LIKE" ng-click="f.op=5;updateFilter(f)"><a>like</a></li>
+                        <li ng-if="f.supportOp.IN" ng-click="f.op=6;updateFilter(f)"><a>in</a></li>
                     </ul>
                 </div>
-                <div class="btn-group filter-column" role="group">
 
-                    <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+
+                <div class="btn-group filter-column" role="group" ng-switch="f.valueType">
+                    <div    ng-switch-when="2"
+                            isteven-multi-select
+                            input-model="f.mutilValues"
+                            output-model="f.outMutilValues"
+                            button-label="value"
+                            item-label="value"
+                            tick-property="ticked"
+                            on-item-click="fClick( data,f )"
+                            >
+                    </div>
+                    <div ng-switch-when="1">
+                    <button type="button" class="btn btn-default dropdown-toggle "
                             data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                        {{f.filterValue.value}} <span class="caret"></span>
+                        {{f.filterValue}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <div class="infinite-scroll" infinite-scroll='f.difinition.values.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
-                            <li  ng-click="f.filterValue=v" ng-repeat="v in f.difinition.values.items"><a>{{v.value}}</a></li>
-                            <div ng-show='reddit.busy'>Loading data...</div>
-                        </div>
+                        <li  ng-click="f.filterValue=v;updateFilter(f)" ng-repeat="v in f.difiniValues">
+                            <a>{{v}}</a>
+                        </li>
                     </ul>
+                    </div>
+                    <div ng-switch-when="0">
+                        <input type="text" class="form-control" placeholder="字段" ng-model="f.filterValue" ng-change="updateFilter(f)"/>
+                    </div>
                 </div>
 
                 <div class="btn-group filter-column" role="group">
-                    <span ng-click="deleteFilter(f)" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    <a ng-click="deleteFilter(f)" class="glyphicon glyphicon-trash" aria-hidden="true"></a>
                 </div>
 
             </div>
@@ -51,65 +73,88 @@
         <div>
                 <div class="btn-group btn-group-justified" role="group" aria-label="..." >
                     <div class="btn-group filter-column" role="group" ng-switch="g.editDifinition.type">
-                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                        <button type="button" class="btn btn-default dropdown-toggle "
                                 data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" ng-switch-when="COLUMN_FILTER">
+                                aria-expanded="false" ng-switch-when="0">
                             {{g.editDifinition.colName}} <span class="caret"></span>
                         </button>
-                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                        <button type="button" class="btn btn-default dropdown-toggle "
                                 data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" ng-switch-when="KEY_PARAM_FILTER">
+                                aria-expanded="false" ng-switch-when="1">
                             {{g.editDifinition.keyParam}} <span class="caret"></span>
                         </button>
-                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                        <button type="button" class="btn btn-default dropdown-toggle "
                                 data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" ng-switch-default="">
                             选择规则<span class="caret"></span>
                         </button>
 
                         <ul class="dropdown-menu">
-                            <li ng-click="g.editDifinition=d;g.editFilter.filter_difinition_id=d.id;initDif(d);" ng-repeat="d in cur.difinitions" ng-switch="d.type">
-                                <a ng-switch-when="COLUMN_FILTER">{{d.colName}}</a>
-                                <a ng-switch-when="KEY_PARAM_FILTER">{{d.keyParam}}</a>
+                            <li ng-click="g.editDifinition=d;g.editFilter.difinitionId=d.id;initEditFilter(g)" ng-repeat="d in difinitions" ng-switch="d.type">
+                                <a ng-switch-when="0">{{d.colName}}</a>
+                                <a ng-switch-when="1">{{d.keyParam}}</a>
                             </li>
                         </ul>
                     </div>
 
                     <div class="btn-group filter-column" role="group">
-                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
+                        <button type="button" class="btn btn-default dropdown-toggle "
                                 data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                             {{codeOpMapper[g.editFilter.op]}} <span class="caret"></span>
                         </button>
 
                         <ul class="dropdown-menu">
-                            <li ng-click="alert('hi');g.editFilter.op=opCodeMapper[o]" ng-repeat="o in g.editDifinition.supportOp"><a>{{opMapper[o]}}</a></li>
+                            <li ng-if="g.editDifinition.supportOp.EQ" ng-click="g.editFilter.op=0"><a>=</a></li>
+                            <li ng-if="g.editDifinition.supportOp.GE" ng-click="g.editFilter.op=1"><a>>=</a></li>
+                            <li ng-if="g.editDifinition.supportOp.GT" ng-click="g.editFilter.op=2"><a>></a></li>
+                            <li ng-if="g.editDifinition.supportOp.LE" ng-click="g.editFilter.op=3"><a><=</a></li>
+                            <li ng-if="g.editDifinition.supportOp.LT" ng-click="g.editFilter.op=4"><a><</a></li>
+                            <li ng-if="g.editDifinition.supportOp.LIKE" ng-click="g.editFilter.op=5"><a>like</a></li>
+                            <li ng-if="g.editDifinition.supportOp.IN" ng-click="g.editFilter.op=6"><a>in</a></li>
                         </ul>
                     </div>
-                    <div class="btn-group filter-column" role="group">
-                        <button type="button" class="btn btn-default dropdown-toggle btn-lg"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                            {{g.editFilter.filter_value}} <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                                <div class="infinite-scroll" infinite-scroll='g.editDifinition.values.nextPage()' infinite-scroll-disabled='g.editDifinition.values.busy' infinite-scroll-distance='1'>
-                                <li  ng-click="g.editFilter.filter_value=v.value" ng-repeat="v in g.editDifinition.values.items"><a>{{v.value}}</a></li>
-                                <div ng-show='g.editDifinition.values.busy'>Loading data...</div>
-                            </div>
-                        </ul>
+                    <div class="btn-group filter-column" role="group" ng-switch="g.editDifinition.valueType">
+                        <div    ng-switch-when="2"
+                                isteven-multi-select
+                                input-model="g.editFilter.mutilValues"
+                                output-model="g.editFilter.outMutilValues"
+                                button-label="value"
+                                item-label="value"
+                                tick-property="ticked"
+                                on-item-click="fClick( data,f )"
+                                >
+                        </div>
+                        <div ng-switch-when="1">
+                            <button type="button" class="btn btn-default dropdown-toggle "
+                                    data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                {{g.editFilter.filterValue}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li  ng-click="g.editFilter.filterValue=v" ng-repeat="v in g.editDifinition.values">
+                                    <a>{{v}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div ng-switch-when="0">
+                            <input type="text" class="form-control" placeholder="字段" ng-model="g.editFilter.filterValue"/>
+                        </div>
+                        <div ng-switch-default="">
+                            <input type="text" class="form-control" placeholder="字段" ng-model="g.editFilter.filterValue"/>
+                        </div>
                     </div>
 
                     <div class="btn-group filter-column" role="group">
-                        <button ng-click="addFilter(g.editFilter);initGroup(g);" class="btn btn-default btn-lg"  type="remove">增加</button>
+                        <button ng-click="addFilter(g.editFilter);initGroup(g);" class="btn btn-default "  type="remove">增加</button>
                     </div>
             </div>
         </div>
         <div >
-                <button ng-click="removeFilterGroup(g)"class="btn btn-default btn-lg" type="remove">删除分组</button>
+                <button ng-click="removeFilterGroup(g)"class="btn btn-default " type="remove">删除分组</button>
         </div>
     </div>
     <div ng-hide="res==null">
-        <button ng-click="addFilterGroup()"class="btn btn-default btn-lg" type="remove">增加分组</button>
+        <button ng-click="addFilterGroup()"class="btn btn-default " type="remove">增加分组</button>
     </div>
 </div>

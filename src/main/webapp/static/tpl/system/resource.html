@@ -1,22 +1,19 @@
 <div>
-    {{editRes}}
-    {{editResDifinitions}}
     <div class="panel row" style="padding-top:20px;">
         <input type="text" class="form-control" placeholder="名称" ng-model="editRes.name"/>
         <input type="text" class="form-control" placeholder="表名" ng-model="editRes.tableName"/>
         <input type="text" class="form-control" placeholder="url" ng-model="editRes.path"/>
         <button ng-click="saveOrUpdateRes()"class="btn btn-default">保存</button>
     </div>
-
-    <div class="panel bg-light row" style="padding-top:20px;" ng-repeat="d in editResDifinitions">
+    <div class="panel bg-light row" style="padding-top:20px;" ng-repeat="d in editResDifinitions" ng-init="initJsTag(d)">
         <div class="form-control">
             <label>类型:</label>
             <label class="mitem">
-                <input type="radio" ng-model="d.type" value="1">
+                <input type="radio" ng-model="d.type" value="0">
                 column filter
             </label>
             <label class="mitem">
-                <input type="radio" ng-model="d.type" value="2">
+                <input type="radio" ng-model="d.type" value="1">
                 key filter
             </label>
         </div>
@@ -37,42 +34,42 @@
         </div>
 
         <input type="text" class="form-control" placeholder="字段" ng-model="d.colName"
-               ng-if="d.type==1"/>
+               ng-if="d.type==0"/>
 
         <input type="text" class="form-control" placeholder="关联字段" ng-model="d.keyColumn"
-               ng-if="d.type==2"/>
+               ng-if="d.type==1"/>
 
         <input type="text" class="form-control" placeholder="关键字" ng-model="d.keyParam"
-               ng-if="d.type==2"/>
+               ng-if="d.type==1"/>
 
         <div class="form-control">
             <label>可选操作:</label>
             <label class="mitem">
-                <input type="checkbox" ng-model="d.supportOpCodes.EQ" value="0">
+                <input type="checkbox" ng-model="d.supportOp.EQ" value="0">
                 =
             </label>
             <label class="mitem">
-                <input type="checkbox" ng-model="d.supportOpCodes.GE" value="1">
+                <input type="checkbox" ng-model="d.supportOp.GE" value="1">
                 >=
             </label>
             <label class="mitem">
-                <input type="checkbox" ng-model="d.supportOpCodes.GT" value="2">
+                <input type="checkbox" ng-model="d.supportOp.GT" value="2">
                 >
             </label>
             <label class="mitem">
-                <input type="checkbox" ng-model="d.supportOpCodes.LE" value="3">
+                <input type="checkbox" ng-model="d.supportOp.LE" value="3">
                 <=
             </label>
             <label class="mitem">
-                <input type="checkbox" ng-model="d.supportOpCodes.LT" value="4">
+                <input type="checkbox" ng-model="d.supportOp.LT" value="4">
                 <
             </label>
             <label class="mitem">
-                <input type="checkbox" ng-model="d.supportOpCodes.LIKE" value="5">
+                <input type="checkbox" ng-model="d.supportOp.LIKE" value="5">
                 like
             </label>
             <label class="mitem">
-                <input type="checkbox" ng-model="d.supportOpCodes.IN" value="6">
+                <input type="checkbox" ng-model="d.supportOp.IN" value="6">
                 in
             </label>
         </div>
@@ -91,19 +88,15 @@
                 多选框
             </label>
         </div>
-            <div class="form-control" ng-if="d.valueType==1||d.valueType==2">
-            <label>添加过滤可选值:</label>
-                <div class="input-group">
-                    <span class="input-group-addon" id="sizing-addon2">@</span>
-                    <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2">
-                </div>
-        </div>
-        <div class="form-inline">
+        <js-tag class="form-control" style="height:auto;" ng-if="d.valueType==1||d.valueType==2" js-tag-options="d.jsTagOptions"></js-tag>
+        <div class="form-control form-inline" style="height:auto;">
             <button ng-click="saveDifinition(d)" class="btn btn-default">保存</button>
-            <button ng-click="removeDifinition(d.id)" class="btn btn-default">删除</button>
+            <button ng-click="removeDifinition(d)" class="btn btn-default">删除</button>
         </div>
         </div>
-    <div>
+    <div ng-if="editRes.id!=null">
         <button ng-click="addDifinition()"class="btn btn-default">增加过滤条件定义</button>
     </div>
+
+
 </div>

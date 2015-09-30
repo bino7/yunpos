@@ -13,7 +13,7 @@ DELETE: 'delete';
 UPDATE: 'update';
 INSERT: 'insert';
 INTO: 'into';
-VALUES: 'values';
+VALUES: 'value';
 FROM: 'from';
 SET:'set';
 WHERE: 'where';

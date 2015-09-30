@@ -54,8 +54,6 @@ public class FilterDifinition {
 
     private Integer resourceId;
 
-    private String name;
-
     private Type type;
 
     private ValueType valueType;
@@ -72,6 +70,8 @@ public class FilterDifinition {
 
     private List<Filter.Op> supportOp;
 
+    private String values;
+
     public Integer getId() {
         return id;
     }
@@ -86,14 +86,6 @@ public class FilterDifinition {
 
     public void setResourceId(Integer resourceId) {
         this.resourceId = resourceId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
     }
 
     public Type getType() {
@@ -146,6 +138,14 @@ public class FilterDifinition {
 
     public Integer getSupportOpCode() {
         return supportOpCode;
+    }
+
+    public String getValues() {
+        return values;
+    }
+
+    public void setValues(String values) {
+        this.values = values;
     }
 
     public void setSupportOpCode(Integer supportOpCode) {

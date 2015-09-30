@@ -32,15 +32,13 @@ public class FilterDifinitionViewModel {
 
     private Integer resource_id;
 
-    private String name;
-
     private Integer type;
 
     private Integer valueType;
 
     private Integer dataType;
 
-    private String col_name;
+    private String colName;
 
     private String keyParam;
 
@@ -48,7 +46,7 @@ public class FilterDifinitionViewModel {
 
     private Map<String,Boolean> supportOp;
 
-    private List<ValueViewModel> values;
+    private List values;
 
     public Integer getType() {
         return type;
@@ -74,14 +72,6 @@ public class FilterDifinitionViewModel {
         this.resource_id = resource_id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Integer getValueType() {
         return valueType;
     }
@@ -98,12 +88,12 @@ public class FilterDifinitionViewModel {
         this.dataType = dataType;
     }
 
-    public String getCol_name() {
-        return col_name;
+    public String getColName() {
+        return colName;
     }
 
-    public void setCol_name(String col_name) {
-        this.col_name = col_name;
+    public void setColName(String colName) {
+        this.colName = colName;
     }
 
     public Map<String,Boolean> getSupportOp() {
@@ -112,14 +102,6 @@ public class FilterDifinitionViewModel {
 
     public void setSupportOp(Map<String, Boolean> supportOp) {
         this.supportOp = supportOp;
-    }
-
-    public List<ValueViewModel> getValues() {
-        return values;
-    }
-
-    public void setValues(List<ValueViewModel> values) {
-        this.values = values;
     }
 
     public String getKeyColumn() {
@@ -132,6 +114,14 @@ public class FilterDifinitionViewModel {
 
     public String getKeyParam() {
         return keyParam;
+    }
+
+    public List getValues() {
+        return values;
+    }
+
+    public void setValues(List values) {
+        this.values = values;
     }
 
     public void setKeyParam(String keyParam) {

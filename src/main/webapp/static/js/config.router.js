@@ -510,16 +510,21 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                .state('app.table.sysAgentmerchantInfo', {//代理商企业信息
                   url: '/agentmerchantInfo/:id',
                   templateUrl: 'tpl/system/sys_agentmerchant_info.html',
-                  resolve: {
+               /*   resolve: {
                       deps: ['$ocLazyLoad',
                         function( $ocLazyLoad){
-                          return $ocLazyLoad.load(['angularFileUpload','ngGrid']).then(
+                          return $ocLazyLoad.load('ngGrid').then(
                               function(){
-                                 return $ocLazyLoad.load(['js/controllers/file-upload.js' , 'js/controllers/yunpos/sysAgentmerchantGrid.js']);
+                                 return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
                               }
                           );
-                      }]
-                  }
+                      }]*/
+               resolve: {
+                   deps: ['uiLoad',
+                     function( uiLoad ){
+                       return uiLoad.load( ['js/controllers/yunpos/sysAgentmerchantGrid.js'] );
+                   }]
+               }
               })
               .state('app.table.pay', {//支付管理
                   url: '/pay/:id',

@@ -1,7 +1,6 @@
 'use strict';
 
-
-var app = angular.module('app', ['ngFileUpload']);
+var uploadUrl = '/ajax/upload';
 var version = '8.0.0';
 
 app.controller('FileUploadCtrl', ['$scope', '$http', '$timeout', '$compile', 'Upload', function ($scope, $http, $timeout, $compile, Upload) {
@@ -34,29 +33,29 @@ app.controller('FileUploadCtrl', ['$scope', '$http', '$timeout', '$compile', 'Up
     }
   });
 
-  $scope.uploadPic = function (file) {
+  $scope.uploadPic = function (file,id) {
     $scope.formUpload = true;
     if (file != null) {
-      $scope.upload(file)
+      $scope.upload(file,id)
     }
   };
 
-  $scope.upload = function(file, resumable) {
+  $scope.upload = function(file, id, resumable) {
     $scope.errorMsg = null;
-    if ($scope.howToSend === 1) {
-      uploadUsingUpload(file, resumable);
-    } else if ($scope.howToSend == 2) {
-      uploadUsing$http(file);
-    } else {
-      uploadS3(file);
-    }
+//    if ($scope.howToSend === 1) {
+      uploadUsingUpload(file, id,resumable);
+//    } else if ($scope.howToSend == 2) {
+//      uploadUsing$http(file);
+//    } else {
+//      uploadS3(file);
+//    }
   };
 
   $scope.isResumeSupported = Upload.isResumeSupported();
 
   $scope.restart = function(file) {
     if (Upload.isResumeSupported()) {
-      $http.get('https://angular-file-upload-cors-srv.appspot.com/upload?restart=true&name=' + encodeURIComponent(file.name)).then(function () {
+      $http.get(uploadUrl + '?restart=true&name=' + encodeURIComponent(file.name)).then(function () {
         $scope.upload(file, true);
       });
     } else {
@@ -65,10 +64,11 @@ app.controller('FileUploadCtrl', ['$scope', '$http', '$timeout', '$compile', 'Up
   };
 
   $scope.chunkSize = 100000;
-  function uploadUsingUpload(file, resumable) {
+  function uploadUsingUpload(file,id, resumable) {
+	var id = id ;
     file.upload = Upload.upload({
-      url: 'https://angular-file-upload-cors-srv.appspot.com/upload' + $scope.getReqParams(),
-      resumeSizeUrl: resumable ? 'https://angular-file-upload-cors-srv.appspot.com/upload?name=' + encodeURIComponent(file.name) : null,
+      url: uploadUrl + $scope.getReqParams(),
+      resumeSizeUrl: resumable ? uploadUrl + '?name=' + encodeURIComponent(file.name) : null,
       resumeChunkSize: resumable ? $scope.chunkSize : null,
       headers: {
         'optional-header': 'header-value'
@@ -78,11 +78,16 @@ app.controller('FileUploadCtrl', ['$scope', '$http', '$timeout', '$compile', 'Up
 
     file.upload.then(function (response) {
       $timeout(function () {
-        file.result = response.data;
+    	  	file.result = response.data.path;
+    	  	var obj = document.getElementById(id);
+    	  	if(obj)
+    	  		obj.value = response.data.path;
+    	  	document.getElementById(id + "Button").removeAttribute("disabled");
       });
     }, function (response) {
-      if (response.status > 0)
+      if (response.status > 0){
         $scope.errorMsg = response.status + ': ' + response.data;
+      }
     });
 
     file.upload.progress(function (evt) {
@@ -97,7 +102,7 @@ app.controller('FileUploadCtrl', ['$scope', '$http', '$timeout', '$compile', 'Up
 
   function uploadUsing$http(file) {
     file.upload = Upload.http({
-      url: 'https://angular-file-upload-cors-srv.appspot.com/upload' + $scope.getReqParams(),
+      url: uploadUrl + $scope.getReqParams(),
       method: 'POST',
       headers: {
         'Content-Type': file.type
@@ -119,7 +124,7 @@ app.controller('FileUploadCtrl', ['$scope', '$http', '$timeout', '$compile', 'Up
 
   function uploadS3(file) {
     file.upload = Upload.upload({
-      url: $scope.s3url,
+      url: uploadUrl,
       method: 'POST',
       data: {
         key: file.name,
@@ -242,7 +247,7 @@ app.controller('FileUploadCtrl', ['$scope', '$http', '$timeout', '$compile', 'Up
       localStorage.setItem('capture' + version, $scope.capture);
       localStorage.setItem('pattern' + version, $scope.pattern);
       localStorage.setItem('acceptSelect' + version, $scope.acceptSelect);
-      localStorage.setItem('disabled' + version, $scope.disabled);
+      localStorage.setItem('disabled' + version, true);
       localStorage.setItem('multiple' + version, $scope.multiple);
       localStorage.setItem('allowDir' + version, $scope.allowDir);
       localStorage.setItem('validate' + version, $scope.validate);

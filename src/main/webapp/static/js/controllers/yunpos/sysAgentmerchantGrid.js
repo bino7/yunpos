@@ -188,12 +188,17 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.agentmerchant = data;
-	           // alert(data.id);
+	            if($scope.agentmerchant.identityCard != null && $scope.agentmerchant.identityCard != '' ){
+	            	document.getElementById("identityCardImg").className  = "thumb";
+	            	document.getElementById("identityCardImg").src = $scope.agentmerchant.identityCard;
+	            	document.getElementById("identityCardButton").removeAttribute("disabled");
+	            }
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(agentmerchant) {
     	 agentmerchant.endTime = formatDateTime(agentmerchant.endTime);
+    	 agentmerchant.identityCard = document.getElementById("identityCard").value;
     	 $scope.saved = angular.copy(agentmerchant);
 	     $http({
 	        method  : 'put',
@@ -201,7 +206,6 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
-	    	 $state.go('app.table.agentmerchant');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });

@@ -19,7 +19,8 @@ angular.module('app', [
     'ui.grid.treeView',
     'ui.grid.edit', 
     'ui.grid.cellNav',
-    'infinite-scroll'
+    'infinite-scroll',
+    'ngFileUpload'
 ]);
 var formatDateTime = function (date) {  
 	if(date instanceof Date){

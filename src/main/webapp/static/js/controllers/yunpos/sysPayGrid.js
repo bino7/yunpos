@@ -34,7 +34,7 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
                          {field: 'openStr', displayName: '是否启用', enableCellEdit: false,width: 120}, 
                          {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                          // cellTemplate: '<div><a ui-sref="app.table.alipaPayEdit({id:row.getProperty(col.field)})"> <button>配置</button> </a></div>'
-         				 cellTemplate:'<a ng-if="row.getProperty(\'mark\')==\'alipay\'" ui-sref="app.table.row.getProperty(\'mark\')({id:row.getProperty(col.field)})"><button>配置</button> </a>'
+         				 cellTemplate:'<a ng-if="row.getProperty(\'mark\')==\'alipay\'" ui-sref="app.table.alipaPayEdit({id:row.getProperty(col.field)})"><button>配置</button> </a>'
          					 +'<a ng-if="row.getProperty(\'mark\')==\'wechat\'" ui-sref="app.table.wechatPayEdit({id:row.getProperty(col.field)})"><button>配置</button></a>'
          					+'<a ng-if="row.getProperty(\'mark\')==\'alipay_bar\'" ui-sref="app.table.alipayBar({id:row.getProperty(col.field)})"><button>配置</button></a><a ng-if="row.getProperty(\'mark\')==\'alipay_bar\'" ui-sref="app.table.alipayBarTest()"><button>测试</button></a>'
          					+'<a ng-if="row.getProperty(\'mark\')==\'alipay_scan\'" ui-sref="app.table.alipayScan({id:row.getProperty(col.field)})"><button>配置</button></a><a ng-if="row.getProperty(\'mark\')==\'alipay_scan\'" ui-sref="app.table.alipayScanTest()"><button>测试</button></a>'
@@ -131,7 +131,7 @@ app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams)
     $scope.alipayInit = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/alipayconfig/'+ $stateParams.id
+	        url     : '/ajax/alipayconfig/'+ 1
 	    }).success(function(data) {
 	            $scope.pay = data;
 	        });
@@ -142,7 +142,7 @@ app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams)
     	 $scope.saved = angular.copy(pay);
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/alipayconfig/',
+	        url     : '/ajax/alipayconfig/'+1,
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");

@@ -60,8 +60,15 @@ public class SysTransaction extends GridRequest implements Serializable {
 	private Integer status; // 付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
 
 	private Integer transType; // 交易类型，0:支付，1:退款
+	
+	private String transTypeStr;
 
 	private String orderId;
+	
+
+	public Integer getTransType() {
+		return transType;
+	}
 
 	private String oid;
 
@@ -233,7 +240,7 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.status = status;
 	}
 
-	public String getTransType() {
+	public String getTransTypeStr() {
 		if (this.transType != null) {
 			if (this.transType == 0) {
 				return "支付";
@@ -280,5 +287,20 @@ public class SysTransaction extends GridRequest implements Serializable {
 	public void setUser_order_no(String user_order_no) {
 		this.user_order_no = user_order_no;
 	}
+
+
+	public void setTransTypeStr(String transTypeStr) {
+		this.transTypeStr = transTypeStr;
+	}
+
+	public Integer getChannel() {
+		return channel;
+	}
+
+	public Integer getScanType() {
+		return scanType;
+	}
+	
+	
 
 }

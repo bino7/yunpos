@@ -52,8 +52,9 @@ public class Message implements Serializable {
 	}
 
 	public enum ResultCode{
-		SUCCESS,
-		FAIL;
+		SUCCESS,	//支付成功
+		USERPAYING,	//支付中 （等待用户输入支付密码）
+		FAIL;		//支付失败
 	}
 
 	public String getResult_code() {

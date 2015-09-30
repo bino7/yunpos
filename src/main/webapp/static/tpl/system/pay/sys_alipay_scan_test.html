@@ -14,21 +14,21 @@
 							<label class="col-md-2 control-label"> 支付网关： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder="wechat-微信/alipay-支付宝/bill-银联/prepay-预存款"  value="alipay"
-									ng-model="scandata.url" ng-init="scandata.url='http://t.o2o520.com/pay/alipay/scan/create'" required>
+									ng-model="scandata.url" ng-init="scandata.url='http://t.o2o520.com/pay/alipay/scan/create'" >
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 支付渠道： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""  value=""
-									ng-model="scandata.pay_channel" ng-init="scandata.pay_channel='alipay'"  required>
+									ng-model="scandata.pay_channel" ng-init="scandata.pay_channel='alipay'"  >
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 价格： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder="0.01"
-									ng-model="scandata.total_fee" ng-init="scandata.total_fee='0.01'"  required>
+									ng-model="scandata.total_fee" ng-init="scandata.total_fee='0.01'"  >
 							</div>
 						</div>
 						
@@ -36,28 +36,28 @@
 							<label class="col-md-2 control-label"> 商户号： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="scandata.merchant_num" ng-init="scandata.merchant_num='201509020001'" required>
+									ng-model="scandata.merchant_num" ng-init="scandata.merchant_num='201509020001'" >
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 终端编号： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="scandata.terminal_unique_no" ng-init="scandata.terminal_unique_no='1'" required>
+									ng-model="scandata.terminal_unique_no" ng-init="scandata.terminal_unique_no='1'" >
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 客户端类型： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="scandata.client_type"  ng-init="scandata.client_type='PC'"  required>
+									ng-model="scandata.client_type"  ng-init="scandata.client_type='PC'"  >
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 商户订单号： </label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" placeholder=""
-									ng-model="scandata.user_order_no" required>
+									ng-model="scandata.user_order_no" >
 							</div>
 						</div>
 						
@@ -69,7 +69,7 @@
 							</div>
 						</div>
 						
-						<button ng-click="alipayScanTest(scandata)">测试</button>
+						<button ng-click="alipayScanTest(scandata)">测试</button> <button ng-click="getOrderNo(scandata)">生成订单</button>
 						<div id="imgs" style="display:none;"><a><img id="aaa" alt="" src=""></a></div>
 					</form>
 				</div>

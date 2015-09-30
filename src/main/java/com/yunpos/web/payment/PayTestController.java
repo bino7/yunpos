@@ -1,5 +1,6 @@
 package com.yunpos.web.payment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import com.yunpos.model.PayReq;
 import com.yunpos.model.SysMerchant;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.utils.HttpTookit;
+import com.yunpos.utils.IdWorker;
 import com.yunpos.utils.MD5Utils;
 import com.yunpos.web.BaseController;
 
@@ -100,5 +102,16 @@ public class PayTestController extends BaseController{
 			log.info("返回字符串="+returnStr);
 		}
 		return returnStr;
+	}
+	
+	
+	@RequestMapping(value = "/ajax/getOrderNo")
+	@ResponseBody
+	public Object getOrderNo() {
+		Map<String,String> map = new HashMap<String,String>();
+		IdWorker iw = new IdWorker();
+		String orderNo  = "T_"+iw.getId();
+		map.put("orderNo", orderNo);
+		return map;
 	}
 }

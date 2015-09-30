@@ -59,7 +59,7 @@
 									ng-model="wapdata.cashier_num"  ng-init="wapdata.cashier_num ='1'">
 							</div>
 						</div>
-						<button ng-disabled="form.$invalid" ng-click="alipayWapTest(pay)">测试</button>
+						<button ng-disabled="form.$invalid" ng-click="alipayWapTest(pay)">测试</button><button ng-click="getOrderNo(wapdata)">生成订单</button>
 					</form>
 				</div>
 

@@ -74,11 +74,11 @@ public class WechatPayService {
 	 * @return
 	 */
 	public Message barPay(ScanPayReqData scanPayReqData,SysWechatConfigWithBLOBs sysWechatConfig,Map<String ,String> dtoMap) throws Exception {
-		log.info("支付宝条码支付请求参数:" + scanPayReqData.toMap().toString());
 		try {// 建立请求
 			long costTimeStart = System.currentTimeMillis();
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_API, scanPayReqData,sysWechatConfig);
+			
 			long costTimeEnd = System.currentTimeMillis();
 			long totalTimeCost = costTimeEnd - costTimeStart;
 			log.info("api请求总耗时：" + totalTimeCost + "ms");
@@ -111,9 +111,8 @@ public class WechatPayService {
 			}
 
 			if (responseXml.get("return_code").equals("FAIL")) {
-				// 注意：一般这里返回FAIL是出现系统级参数错误，请检测Post给API的数据是否规范合法
-				log.error("【支付失败】支付API系统返回失败，请检测Post给API的数据是否规范合法");
-				return new Message(ResultCode.FAIL.name(), "FAIL", "支付API系统返回失败，请检测Post给API的数据是否规范合法", null);
+				log.error("【支付失败】"+responseXml.get("return_msg"));
+				return new Message(ResultCode.FAIL.name(), "FAIL", responseXml.get("return_msg"), null);
 			} else {
 				log.info("支付API系统成功返回数据");
 				// 收到API的返回数据的时候得先验证一下数据有没有被第三方篡改，确保安全
@@ -138,9 +137,11 @@ public class WechatPayService {
 					String errorCode = responseXml.get("err_code");
 					String errorCodeDes = responseXml.get("err_code_des");
 					log.error("业务返回失败,err_code" + errorCode + "|err_code_des:" + errorCodeDes);
-
 					// 对于扣款明确失败的情况直接走撤销逻辑
 					// doReverseLoop(scanPayReqData.getOut_trade_no());
+					if(errorCode.equals("USERPAYING")){//等待用户输入密码
+						return new Message(ResultCode.USERPAYING.name(), errorCode, errorCodeDes, null);
+					}
 					return new Message(ResultCode.FAIL.name(), errorCode, errorCodeDes, null);
 				}
 			}

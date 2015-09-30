@@ -190,12 +190,29 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">
-                                	实际经营地照片：
+                                	实际经营地照片11111111111sss：
                             </label>
-                            <div class="col-md-9">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.operatePhoto">
-                            </div>
-                        </div>
+
+							<div class="col-md-9">
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="picFile" name="file" accept="image/*"> 
+												<img ngf-src="picFile" src="" id="operatePhotoImg" class="thumb">
+												<button ng-click="uploadPic(picFile,'operatePhoto')" id="operatePhotoButton">上传</button>
+												<span ng-show="picFile.result">Upload Successful</span>
+												<span class="progress" ng-show="picFile.progress >= 0">
+													<div style="width: {{picFile.progress"
+														ng-bind="picFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.operatePhoto"
+													value='' id="operatePhoto"> 								
+										</div>
+										<br />
+									</div>
+								</div>
+							</div>
+						</div>
+						
                          <div class="form-group">
                             <label class="col-md-3 control-label">
                                 	商户营业执照：

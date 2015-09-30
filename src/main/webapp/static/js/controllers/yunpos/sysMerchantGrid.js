@@ -276,7 +276,9 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
     	 merchant.city=merchant.city.code;
     	 merchant.area=merchant.area.code;
     	 merchant.openBankProv = merchant.openBankProv.code;
-    	 merchant.openBankCity = merchant.openBankCity.code;    	   	 
+    	 merchant.openBankCity = merchant.openBankCity.code;    
+    	 //图片转换
+    	 merchant.operatePhoto = document.getElementById("operatePhoto").value;
     	 /*
     	 merchant.terminals  = "";
     	  $scope.tags.filter(function(item) {

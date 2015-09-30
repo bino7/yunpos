@@ -3,7 +3,9 @@ package com.yunpos.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yunpos.utils.jqgrid.GridRequest;
+import com.yunpos.utils.serializer.JsonDateSerializer;
 
 /**
  * 
@@ -174,6 +176,7 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.transNum = transNum;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getTransTime() {
 		return transTime;
 	}

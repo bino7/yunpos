@@ -107,7 +107,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
           var data = $scope.orderData.filter(function(item) {
         	/* alert(item.payStatus);*/
         	  
-        	  if(JSON.stringify(item.payStatus).indexOf(select_payStatus) !=-1 && JSON.stringify(item.orgName).indexOf(select_orgName) != -1 && JSON.stringify(item).toLowerCase().indexOf(select_two) != -1){
+        	  if(JSON.stringify(item.payStatus).indexOf(select_payStatus) !=-1 && JSON.stringify(item.orgName).indexOf(select_orgName) != -1 && JSON.stringify(item).toLowerCase().indexOf(ft) != -1){
         		  return item ;}
          });
    

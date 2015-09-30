@@ -7,7 +7,7 @@
 				<label> 商品名称： </label>{{transaction.title}}
 			</div>
 			<div class="form-group">
-					<label>支付渠道：</label>  {{transaction.channel}}<span ng-if="transaction.channel==1">微信</span>
+					<label>支付渠道：</label>  <span ng-if="transaction.channel==1">微信</span>
 											<span ng-show="transaction.channel==0">支付宝</span>
 											<span ng-if="transaction.channel==2">银联</span>
 											<span ng-show="transaction.channel==3">预付款</span>

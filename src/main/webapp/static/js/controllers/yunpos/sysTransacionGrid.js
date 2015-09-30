@@ -97,27 +97,84 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
 	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
-		  var gt ;
-		  var transTimeOne =document.getElementById("transaction_time_left").value;
-		  var transTimeTwo = document.getElementById("transaction_time_right").value;
+		  if (typeof(ft) == "undefined") {
+			   ft=null;
+			}   
+    	  var date2 ;
+    	  var date3 ;
+    	  
+		  var transTimeOne = document.getElementById("transaction_time_left").value ;
+		  var transTimeTwo = document.getElementById("transaction_time_right").value ;
+		  
+		  if(transTimeOne != null && transTimeOne != ''){
+			  transTimeOne  = transTimeOne +  " 00:00:00";
+			  date2 = new Date(transTimeOne.replace(/-/g , '/'))
+		  }
+		  if(transTimeTwo != null && transTimeTwo != ''){
+			  transTimeTwo  =  transTimeTwo + " 23:59:59";
+			  date3 = new Date(transTimeTwo.replace(/-/g , '/'));
+		  }
+			 
+			    
 		  var select_channel = document.getElementById("select_zero").value;
 		  var select_transType = document.getElementById("select_one").value;
 		 
 	
           var data = $scope.transactionData.filter(function(item) {
-        	  var ht;
-        	  if(ht>=JSON.stringify(item.transTime).indexOf(transTimeOne) &&ht<=JSON.stringify(item.transTime).indexOf(transTimeTwo)){
-        		  return ht;
+        	  var date1 = new Date(item.transTime.replace(/-/g , '/'));
+
+        	  var json_channel = JSON.stringify(item.channel).indexOf(select_channel);
+        	  var json_transType = JSON.stringify(item.transType).indexOf(select_transType);
+        	  var json_item = JSON.stringify(item).toLowerCase().indexOf(ft);
+        	  var date4 = date2 ==null &&  date3 ==null;
+        	  
+        	  var checkDate2 = true;
+        	  var checkDate3 = true;
+        	  if(date2 != null && date1 < date2) {
+        		  checkDate2 = false;
         	  }
-        	  alert( document.getElementById("transaction_time_left").value);
-        	  if(ht!=-1 ){
+        	  if(date3 != null && date1 > date3) {
+        		  checkDate3 = false;
+        	  }
+        	  
+        	  if(json_channel !=-1 && json_transType != -1 && json_item != -1 && checkDate2 && checkDate3 ){
         		  return item;
         	  }
-        	 /* if(JSON.stringify(item.channel).indexOf(select_channel) !=-1 & JSON.stringify(item.transType).indexOf(select_transType) != -1 & JSON.stringify(item).toLowerCase().indexOf(ft) != -1
-        			  &JSON.stringify(item.channel).indexOf(select_channel) !=-1){
+        	  /*var json_date1 = JSON.stringify(item.transTime).indexOf(transTimeOne);*/
+//        	  if(date4==false){
+//        		  if(json_channel !=-1 && json_transType != -1 && json_item != -1 )
+//				  /*&& date1 >= date2 && date1 <= date3*/ {
+//    		       return item;
+//        	  }else{
+//        	 if(json_channel !=-1 && json_transType != -1 && json_item != -1 && date1 >= date2  &&  date1 <= date3)
+//				  /*&& date1 >= date2 && date1 <= date3*/ {
+//    		       return item;
+//        	  }
+//        	  }
+//        	  }
+        	  
+        	  
+        		 /* if(date4 == "flase"){
+        			 
+        			  if(json_channel !=-1 && json_transType != -1 && json_item != -1 && date1 >= date2 && date1 <= date3 ){
+                		  return item;
+                	  }
+        		  }
+        		  if(date4 == "true"){
+        			  
+        			  if(json_channel !=-1 && json_transType != -1 && json_item != -1 && date4  && date1 >= date2 && date1 <= date3 ){
+                		  return item;
+                	  }
+        		  }
+        	  */
+        	/*  if(date1 >= date2 && date1 <= date3 ){
         		  return item;
-        		  }*/
-         });
+        	  }*/
+        	  
+        	  
+        	
+        	 
+         }); 
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
 	};
     

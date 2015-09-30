@@ -1,13 +1,55 @@
+<body ng-app="myApp">
 <div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">交易流水管理</h1>
+</div>
+<div class="wrapper-md" ng-controller="SysShareCtrl">
+  <div class="panel panel-default">
+	  <div class="panel-heading">
+		  <div class="row">
+		    <div class="col-xs-8" >
+		
+			 <div style="float:left;" ng-controller="DatepickerDemoCtrl" >
+			 <label >支付时间：</label>
+			     <input type="text"  style="width:100px;;" datepicker-popup="{{'yyyy-MM-dd'}}" id="transaction_time_left" ng-model="transaction_time_one" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				      <span class="input-group-btn">
+      <button type="button" style="position:relative;left:175px;top:-30px;" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				     </span>
+				          </div>    
+				     <div style="float:left;">
+			 <label style="margin:0px 0px 0px 80px;">结算状态：</label>
+		     <select id="select_one" ng-model='filterText_one' name="order_state"> 
+				<option  value = "">   </option> 
+				<option value="已结算">已结算</option> 
+				<option value="未结算">未结算</option> 
+			</select> 
+			 </div>
+		
+					</div>    
+		    <div class="col-xs-3" style ="float: right;">
+		   	 	<input ng-model='filterText'/><button ng-click='search()'>查询</button>
+			</div>
+		</div>
+    </div>
+    <div class="table-responsive">
+      <div ng-grid="gridOptions" style="min-height:420px"></div>
+    </div>
+  </div>          
+		</div>
+</body>
+
+
+
+
+<!-- <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">分润结算</h1>
 </div>
 <div class="wrapper-md" ng-controller="SysShareCtrl">
   <div class="panel panel-default">
-   <!--  <div class="panel-heading">
+    <div class="panel-heading">
       ngGrid
-    </div> -->
+    </div>
     <div class="table-responsive">
       <div ng-grid="gridOptions" style="min-height:420px"></div>
     </div>
   </div>
-</div>
+</div> -->

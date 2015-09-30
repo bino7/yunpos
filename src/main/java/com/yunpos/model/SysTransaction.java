@@ -27,6 +27,8 @@ public class SysTransaction extends GridRequest implements Serializable {
 
 	private Integer channel; // 支付渠道,，1支付宝，2微信，3银联，4：预存款
 
+	private String channelStr; // 页面中文显示
+
 	private Integer subChannel; // 细分渠道，0：支付宝Wap，1:支付宝手机
 
 	private String title; // 商品名称
@@ -51,6 +53,8 @@ public class SysTransaction extends GridRequest implements Serializable {
 
 	private Integer scanType; // 扫描类型，正扫：QR_CODE_OFFLIN，反扫：BARCODE_PAY_OFFLINE
 
+	private String scanTypeStr;
+
 	private String couponCode; // 卡券核销码
 
 	private Integer status; // 付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
@@ -73,29 +77,26 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.id = id;
 	}
 
-	public String getChannel() {
-	if(this.channel!=null){
-		if(this.channel==0){
-			return "支付宝";
-		}else if(this.channel==1){
-			return "微信";
-		}else if(this.channel==2){
-			return "银联";
-		}else if(this.channel==3){
-			return "预付款";
-		}else{
+	public String getChannelStr() {
+		if (this.channel != null) {
+			if (this.channel == 0) {
+				return "支付宝";
+			} else if (this.channel == 1) {
+				return "微信";
+			} else if (this.channel == 2) {
+				return "银联";
+			} else if (this.channel == 3) {
+				return "预付款";
+			} else {
+				return null;
+			}
+		} else {
 			return null;
 		}
-	}else{
-		return null;
-	}
-		
-		
-		/*if(this.payStatus == 0){
-		return  "已支付";
-	}else{
-		return  "未支付";
-	}*/
+
+		/*
+		 * if(this.payStatus == 0){ return "已支付"; }else{ return "未支付"; }
+		 */
 	}
 
 	public void setChannel(Integer channel) {
@@ -190,18 +191,26 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.totalPrice = totalPrice;
 	}
 
-	public String getScanType() {
-		if(this.scanType!=null){
-			if(this.scanType==0){
+	public String getScanTypeStr() {
+		if (this.scanType != null) {
+			if (this.scanType == 0) {
 				return "正扫";
-			}else if(this.scanType==1){
+			} else if (this.scanType == 1) {
 				return "反扫";
-			}else{
+			} else {
 				return null;
 			}
-		}else{
+		} else {
 			return null;
 		}
+	}
+
+	public void setChannelStr(String channelStr) {
+		this.channelStr = channelStr;
+	}
+
+	public void setScanTypeStr(String scanTypeStr) {
+		this.scanTypeStr = scanTypeStr;
 	}
 
 	public void setScanType(Integer scanType) {
@@ -225,13 +234,13 @@ public class SysTransaction extends GridRequest implements Serializable {
 	}
 
 	public String getTransType() {
-		if(this.transType!=null){
-			if(this.transType==0){
+		if (this.transType != null) {
+			if (this.transType == 0) {
 				return "支付";
-			}else{
+			} else {
 				return "退款";
 			}
-		}else{
+		} else {
 			return null;
 		}
 	}

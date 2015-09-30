@@ -22,10 +22,11 @@ public class MD5Test {
 		params.put("pay_channel", "wechat");
 		//params.put("trace_num", "15099499712512");
 		//params.put("refund_amount", "0.01");
-		params.put("total_fee", "0.1");
+		params.put("total_fee", "0.01");
 		params.put("sign_type", "MD5");
-		params.put("dynamic_id", "130420580324590859");
-		params.put("user_order_no", "201509280001");
+		params.put("dynamic_id", "130373695908066812");
+		params.put("user_order_no", "201509300009");
+		params.put("body", "微信支付商品测试");
 		System.out.println(MD5Utils.sign(params, "MD5", key, input_charset));
 		
 		

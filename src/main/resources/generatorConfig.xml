@@ -7,7 +7,7 @@
 <generatorConfiguration>
 	<!--数据库驱动jar -->
 	<classPathEntry
-		location="C:\Users\janice\.m2\repository\mysql\mysql-connector-java\5.1.24\mysql-connector-java-5.1.24.jar" />
+		location="E:\yumpos\repo\mysql\mysql-connector-java\5.1.24\mysql-connector-java-5.1.24.jar" />
 
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!--去除注释 -->
@@ -17,7 +17,7 @@
 
 		<!--数据库连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://120.25.13.69:3306/yunpos" userId="yunpos"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/yunpos" userId="root"
 			password="123456">
 		</jdbcConnection>
 		<!--默认false Java type resolver will always use java.math.BigDecimal if 
@@ -54,12 +54,12 @@
 			<property name="useActualColumnNames" value="true" /> -->
 	<!-- </table> -->
 
-	
+<!-- 	
 		<table tableName="sys_merchant" domainObjectName="SysMerchant"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="false" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />
-		</table>
+		</table> -->
 	
 		<!-- <table tableName="sys_member" domainObjectName="SysMember" enableCountByExample="false" 
 			enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> 
@@ -77,7 +77,7 @@
 			/> </table> -->
 
 <!-- 
-		<table tableName="sys_alipay_config" domainObjectName="SysAlipayConfig"
+		<table tableName="sys_wechat_config" domainObjectName="SysWechatConfig"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableSelectByExample="flase" enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="true" />

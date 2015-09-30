@@ -3,18 +3,61 @@
 /**
  * Config for the router
  */
-angular.module('app')
-  .run(
-    [          '$rootScope', '$state', '$stateParams',
-      function ($rootScope,   $state,   $stateParams) {
-          $rootScope.$state = $state;
-          $rootScope.$stateParams = $stateParams;        
-      }
-    ]
-  )
-  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
+
+//全局配置信息
+app.run(['$rootScope', '$state', '$stateParams',function ($rootScope,   $state,   $stateParams) {
+	 $rootScope.$state = $state;
+     $rootScope.$stateParams = $stateParams;   
+}]);
+
+//app.directive('showImage', [function() {
+//	  return {
+//	    restrict: 'A',
+//	    scope: {
+//	      url: '='
+//	    },
+//	    link: function (sceop, element, attrs) {
+//	      var img = new Image();
+//	      var imgSrc = scope.url;
+//	      img.src = imgSrc;
+//	      $(element).append(img);
+//	    }
+//	  }
+//	}])
+
+//授权指令
+//app.directive('hasPermission', function (permissions) {
+//	return {
+//		link : function (scope, element, attrs) {
+//			if (!_.isString(attrs.hasPermission))
+//				throw "hasPermission value must be a string";
+//
+//			var value = attrs.hasPermission.trim();
+//			var notPermissionFlag = value[0] === '!';
+//			if (notPermissionFlag) {
+//				value = value.slice(1).trim();
+//			}
+//
+//			function toggleVisibilityBasedOnPermission() {
+//				var hasPermission = permissions.hasPermission(value);
+//
+//				if (hasPermission && !notPermissionFlag || !hasPermission && notPermissionFlag)
+//					element.show();
+//				else
+//					element.hide();
+//			}
+//			toggleVisibilityBasedOnPermission();
+//			scope.$on('permissionsChanged', toggleVisibilityBasedOnPermission);
+//		}
+//	};
+//});
+
+
+
+
+app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   $urlRouterProvider) {
 	  	 //设置默认路由
-	  	  //$urlRouterProvider.otherwise('/app/home');
+	  	 //$urlRouterProvider.otherwise('/app/home');
           $urlRouterProvider.otherwise('/login');
           $stateProvider
 	         .state('login', {//登录页面
@@ -502,6 +545,36 @@ angular.module('app')
             		  }]
             	  }
               })
+              .state('app.table.alipayBar', {//用户管理
+                  url: '/pay/alipay/bar/:id',
+                  templateUrl: 'tpl/system/pay/sys_alipay_bar.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+               .state('app.table.alipayScan', {//用户管理
+                  url: '/pay/alipay/scan/:id',
+                  templateUrl: 'tpl/system/pay/sys_alipay_scan.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+               .state('app.table.alipayWap', {//用户管理
+                  url: '/pay/alipay/wap/:id',
+                  templateUrl: 'tpl/system/pay/sys_alipay_wap.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
               .state('app.table.wechatPayEdit', {//用户管理
                   url: '/pay/wechat/:id',
                   templateUrl: 'tpl/system/sys_pay_wechat_edit.html',
@@ -510,8 +583,79 @@ angular.module('app')
             		         function( uiLoad ){
             			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
             		  }]
-            	  },
-            	  //params: ['tag1', 'tag2', 'tag3']
+            	  }
+              })
+              .state('app.table.wechatBar', {//用户管理
+                  url: '/pay/wechat/bar/:id',
+                  templateUrl: 'tpl/system/pay/sys_wechat_bar.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('app.table.wechatScan', {//用户管理
+                  url: '/pay/wechat/scan/:id',
+                  templateUrl: 'tpl/system/pay/sys_wechat_scan.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+              
+              //测试页面
+               .state('app.table.alipayBarTest', {//用户管理
+                  url: '/test/alipay/bar/test',
+                  templateUrl: 'tpl/system/pay/sys_alipay_bar_test.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+               .state('app.table.alipayScanTest', {//用户管理
+                  url: '/test/alipay/scan/test',
+                  templateUrl: 'tpl/system/pay/sys_alipay_scan_test.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('app.table.alipayWapTest', {//用户管理
+                  url: '/test/alipay/wap/test',
+                  templateUrl: 'tpl/system/pay/sys_alipay_wap_test.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('app.table.wechatBarTest', {//用户管理
+                  url: '/test/wechat/bar/test',
+                  templateUrl: 'tpl/system/pay/sys_wechat_bar_test.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
+              })
+              .state('app.table.wechatScanTest', {//用户管理
+                  url: '/test/wechat/scan/test',
+                  templateUrl: 'tpl/system/pay/sys_wechat_scan_test.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysPayGrid.js'] );
+            		  }]
+            	  }
               })
               .state('app.table.paypassword', {//支付密码
                   url: '/paypassword/:id',

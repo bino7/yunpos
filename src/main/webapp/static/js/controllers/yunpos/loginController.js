@@ -1,33 +1,5 @@
 'use strict';
 
-/**
- * 用户登录控制器
- */
-
-//{'get':    {method:'GET'},  
-// 'save':   {method:'POST'},  
-// 'query':  {method:'GET', isArray:true},  
-// 'remove': {method:'DELETE'},  
-// 'delete': {method:'DELETE'}  
-//};
-//app.factory("Login", function ($resource) {
-//    return $resource(URLS.hotels, {id: "@id"}, {
-//        update: {
-//            method: 'PUT'
-//        }
-//    });
-//});
-//
-//
-//app.controller("LoginController", function ($scope, Login, $state) {
-//    $scope.login = function () {
-//        var login = new Login($scope.username,$scope.password);
-//        login.$save({}, function() {
-//            $state.transitionTo("app.home");
-//        });
-//    };
-//
-//});
 
 app.controller('LoginController', ['$scope', '$http', '$state', function($scope, $http, $state) {
     $scope.user = {};

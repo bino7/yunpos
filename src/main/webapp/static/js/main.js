@@ -3,14 +3,15 @@
 /* Controllers */
 
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', 
+.controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', 
     function(              $scope,   $translate,   $localStorage,   $window ) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
       isSmartDevice( $window ) && angular.element($window.document.body).addClass('smart');
 
-      // config
+      
+      // 全局变量设置
       $scope.app = {
         name: '云铺后台系统',
         version: '1.3.3',
@@ -37,6 +38,13 @@ angular.module('app')
           container: false
         }
       }
+      
+      //全局监听器（监听路由变化）
+      $scope.$on('$routeChangeStart', function(scope, next, current) {
+//    	    var permission = next.$$route.permission;
+//    	    if(_.isString(permission) && !permissions.hasPermission(permission))
+//    	      $location.path('/unauthorized');
+    	});
 
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {

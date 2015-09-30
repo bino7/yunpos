@@ -1,0 +1,80 @@
+<div class="well" ng-controller="SysWechatTestCtl">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-12">
+					<form class="form-horizontal" role="form" name="form">
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付方式： </label>
+							<div class="col-sm-10">
+								<p class="form-control-static">微信扫码支付测试</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付网关： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control"
+									ng-model="scandata.url" ng-init="scandata.url='http://t.o2o520.com/pay/wechatpay/scan/create'" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 支付渠道： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""  value=""
+									ng-model="scandata.pay_channel" ng-init="scandata.pay_channel='wechat'"  required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 价格： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="0.01"
+									ng-model="scandata.total_fee" ng-init="scandata.total_fee='0.01'"  required>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 商户号： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="scandata.merchant_num" ng-init="scandata.merchant_num='201509020001'" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 终端编号： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="scandata.terminal_unique_no" ng-init="scandata.terminal_unique_no='1'" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 客户端类型： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="scandata.client_type"  ng-init="scandata.client_type='PC'"  required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 商户订单号： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" 
+									ng-model="scandata.user_order_no" required>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 核销码： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="scandata.cashier_num" ng-init="scandata.cashier_num='1'">
+							</div>
+						</div>
+						
+						<button ng-click="wechatScanTest(scandata)">测试</button>
+						<div id="qrcode"></div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

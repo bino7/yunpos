@@ -34,8 +34,13 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
                          {field: 'openStr', displayName: '是否启用', enableCellEdit: false,width: 120}, 
                          {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                          // cellTemplate: '<div><a ui-sref="app.table.alipaPayEdit({id:row.getProperty(col.field)})"> <button>配置</button> </a></div>'
-         				 cellTemplate:'<a ng-if="row.getProperty(\'mark\')==\'alipay\'" ui-sref="app.table.alipaPayEdit({id:row.getProperty(col.field)})"><button>配置</button> </a>'
+         				 cellTemplate:'<a ng-if="row.getProperty(\'mark\')==\'alipay\'" ui-sref="app.table.row.getProperty(\'mark\')({id:row.getProperty(col.field)})"><button>配置</button> </a>'
          					 +'<a ng-if="row.getProperty(\'mark\')==\'wechat\'" ui-sref="app.table.wechatPayEdit({id:row.getProperty(col.field)})"><button>配置</button></a>'
+         					+'<a ng-if="row.getProperty(\'mark\')==\'alipay_bar\'" ui-sref="app.table.alipayBar({id:row.getProperty(col.field)})"><button>配置</button></a><a ng-if="row.getProperty(\'mark\')==\'alipay_bar\'" ui-sref="app.table.alipayBarTest()"><button>测试</button></a>'
+         					+'<a ng-if="row.getProperty(\'mark\')==\'alipay_scan\'" ui-sref="app.table.alipayScan({id:row.getProperty(col.field)})"><button>配置</button></a><a ng-if="row.getProperty(\'mark\')==\'alipay_scan\'" ui-sref="app.table.alipayScanTest()"><button>测试</button></a>'
+         					+'<a ng-if="row.getProperty(\'mark\')==\'alipay_wap\'" ui-sref="app.table.alipayWap({id:row.getProperty(col.field)})"><button>配置</button></a><a ng-if="row.getProperty(\'mark\')==\'alipay_wap\'" ui-sref="app.table.alipayWapTest()"><button>测试</button></a>'
+         					+'<a ng-if="row.getProperty(\'mark\')==\'wechat_bar\'" ui-sref="app.table.wechatBar({id:row.getProperty(col.field)})"><button>配置</button></a><a ng-if="row.getProperty(\'mark\')==\'wechat_bar\'" ui-sref="app.table.wechatBarTest()"><button>测试</button></a>'
+         					+'<a ng-if="row.getProperty(\'mark\')==\'wechat_scan\'" ui-sref="app.table.wechatScan({id:row.getProperty(col.field)})"><button>配置</button></a><a ng-if="row.getProperty(\'mark\')==\'wechat_scan\'" ui-sref="app.table.wechatScanTest()"><button>测试</button></a>'
                          }],
             enablePaging: true,
             showFooter: true,        
@@ -131,19 +136,121 @@ app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams)
 	            $scope.pay = data;
 	        });
 	};
+	
 	 $scope.saved = {};
      $scope.alipaySave = function(pay) {
     	 $scope.saved = angular.copy(pay);
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/alipayconfig/' + $scope.saved.id,
+	        url     : '/ajax/alipayconfig/',
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });
-	}
+	};
+     
+   
+});
+
+
+app.controller('SysAlipayTestCtl', function($scope, $http, $state, $stateParams) {
+		//条码支付测试
+	   $scope.bardata = {};
+	   $scope.alipayBarTest = function(bardata) {
+	    	 $scope.bardata = angular.copy(bardata);
+		     $http({
+		        method  : 'put',
+		        url     : '/ajax/alipay/bar/test',
+		        params  : $scope.bardata
+		     }).success(function(data) {
+		    	 if(data.result_code=='SUCCESS'){
+		    		 alert("支付成功");
+		    	 }else{
+		    		 alert("支付结果="+data.result_code+" 错误代码="+data.err_code +" 错误说明="+data.result_msg);
+		    	 }
+		     }).error(function(data,status,headers,config){
+		      	alert("系统错误！");
+		     });
+		};
+	     
+		//扫码支付测试
+	     $scope.scandata = {};
+	     $scope.alipayScanTest = function(scandata) {
+	    	 $scope.scandata = angular.copy(scandata);
+		     $http({
+		        method  : 'post',
+		        url     : '/ajax/alipay/scan/test',
+		        params  : $scope.scandata
+		     }).success(function(data) {
+		    	 if(data.result_code=='SUCCESS'){
+		    		 document.getElementById("aaa").src=data.lists.small_pic_url;
+		    		 document.getElementById("imgs").style.display="";
+		    		 //alert(data.lists.small_pic_url);
+		    	 }else{
+		    		 alert("支付结果="+data.result_code+" 错误代码="+data.err_code +" 错误说明="+data.result_msg);
+		    	 }
+		     }).error(function(data,status,headers,config){
+		      	alert("系统错误！");
+		     });
+		};
+	     
+	     $scope.wapdata = {};
+	     $scope.alipayWapTest = function(scandata) {
+	    	 document.getElementById("imgs").style.display="";
+	    	 $scope.wapdata = angular.copy(wapdata);
+		     $http({
+		        method  : 'put',
+		        url     : '/ajax/alipay/wap/test',
+		        params  : $scope.saved
+		     }).success(function(data) {
+		    	 alert("测试成功！");
+		     }).error(function(data,status,headers,config){
+		      	alert("测试失败！");
+		     });
+		}
+});
+
+
+app.controller('SysWechatTestCtl', function($scope, $http, $state, $stateParams) {
+	//条码支付测试
+   $scope.bardata = {};
+   $scope.wechatBarTest = function(bardata) {
+    	 $scope.bardata = angular.copy(bardata);
+	     $http({
+	        method  : 'post',
+	        url     : '/ajax/wechat/bar/test',
+	        params  : $scope.bardata
+	     }).success(function(data) {
+	    	 if(data.result_code=='SUCCESS'){
+	    		 alert("支付成功");
+	    	 }else{
+	    		 alert(data.result_code+"|"+data.err_code +"|"+data.result_msg);
+	    	 }
+	     }).error(function(data,status,headers,config){
+	      	alert("系统错误！");
+	     });
+	};
+     
+	//扫码支付测试
+     $scope.scandata = {};
+     $scope.wechatScanTest = function(scandata) {
+    	 $scope.scandata = angular.copy(scandata);
+	     $http({
+	        method  : 'post',
+	        url     : '/ajax/wechat/scan/test',
+	        params  : $scope.scandata
+	     }).success(function(data) {
+	    	 if(data.result_code=='SUCCESS'){
+	    		 $('#qrcode').qrcode(data.lists.code_url);
+	    	 }else{
+	    		 alert("|"+data.result_code+"|"+data.err_code +"|"+data.result_msg);
+	    	 }
+	     }).error(function(data,status,headers,config){
+	      	alert("系统错误！");
+	     });
+	};
 });
 
 
@@ -156,6 +263,7 @@ app.controller('SysWechatpayEditCtl', function($scope, $http, $state, $statePara
 	            $scope.wechat = data;
 	        });
 	};
+	
 	 $scope.saved = {};
      $scope.wechatSave = function(wechat) {
     	 $scope.saved = angular.copy(wechat);

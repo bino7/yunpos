@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.yunpos.model.FilterDifinition" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="resource_id" property="resourceId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" typeHandler="com.yunpos.mybatisPlugin.FilterTypeHandler" />
     <result column="value_type" jdbcType="INTEGER" property="valueType" typeHandler="com.yunpos.mybatisPlugin.FilterValueTypeHandler"/>
     <result column="data_type" jdbcType="INTEGER" property="dataType" typeHandler="com.yunpos.mybatisPlugin.ValueDataTypeHandler"/>
@@ -12,9 +11,10 @@
     <result column="key_param" property="keyParam" jdbcType="VARCHAR" />
     <result column="key_column" property="keyColumn" jdbcType="VARCHAR" />
     <result column="support_op" property="supportOpCode" jdbcType="INTEGER" />
+    <result column="filter_values" property="values" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, resource_id, name, type, value_type, data_type, col_name, key_param, key_column, support_op
+    id, resource_id, type, value_type, data_type, col_name, key_param, key_column, support_op, filter_values
   </sql>
   <select id="selectByResourceId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -34,14 +34,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.FilterDifinition" >
-    insert into filter_difinition (id, resource_id, name, 
+    insert into filter_difinition (id, resource_id,
       type, value_type, data_type,
       col_name, key_param, key_column,
-      support_op)
-    values (#{id,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      support_op,filter_values)
+    value (#{id,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER},
       #{type,jdbcType=INTEGER}, #{valueType,jdbcType=INTEGER}, #{dataType,jdbcType=INTEGER}, 
       #{colName,jdbcType=VARCHAR}, #{keyParam,jdbcType=VARCHAR}, #{keyColumn,jdbcType=VARCHAR},
-      #{supportOpCode,jdbcType=INTEGER})
+      #{supportOpCode,jdbcType=INTEGER},#{values,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.FilterDifinition" >
     insert into filter_difinition
@@ -51,9 +51,6 @@
       </if>
       <if test="resourceId != null" >
         resource_id,
-      </if>
-      <if test="name != null" >
-        name,
       </if>
       <if test="type != null" >
         type,
@@ -76,16 +73,16 @@
       <if test="supportOpCode != null" >
         support_op,
       </if>
+      <if test="value != null" >
+        filter_values,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <trim prefix="value (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
       <if test="resourceId != null" >
         #{resourceId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
@@ -108,6 +105,9 @@
       <if test="supportOpCode != null" >
         #{supportOpCode,jdbcType=INTEGER},
       </if>
+      <if test="values != null" >
+        #{values,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.FilterDifinition" >
@@ -115,9 +115,6 @@
     <set >
       <if test="resourceId != null" >
         resource_id = #{resourceId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
@@ -140,13 +137,15 @@
       <if test="supportOpCode != null" >
         support_op = #{supportOpCode,jdbcType=INTEGER},
       </if>
+      <if test="values != null" >
+        filter_values = #{values,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.FilterDifinition" >
     update filter_difinition
     set resource_id = #{resourceId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       value_type = #{valueType,jdbcType=INTEGER},
       data_type = #{dataType,jdbcType=INTEGER},
@@ -154,6 +153,7 @@
       key_param = #{keyParam,jdbcType=VARCHAR},
       key_column = #{keyColumn,jdbcType=VARCHAR},
       support_op = #{supportOpCode,jdbcType=INTEGER},
+      filter_values = #{values,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

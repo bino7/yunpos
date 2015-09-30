@@ -15,9 +15,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.FilterGroupMapper" >
-  <resultMap id="BaseResultMap" type="com.yunpos.rewriter.filter.FilterGroup" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.FilterGroup" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result property="resource" column="resource_id" jdbcType="INTEGER"/>
+    <result property="resource_id" column="resource_id" jdbcType="INTEGER"/>
     <collection property="filterList" column="id" jdbcType="INTEGER" select="com.yunpos.persistence.dao.FilterMapper.selectByGroupId"/>
     <collection property="children" column="id" jdbcType="INTEGER" select="selectByParentId"/>
   </resultMap>
@@ -49,7 +49,7 @@
   <insert id="insert" parameterType="com.yunpos.model.FilterGroup" >
     insert into filter_group (id, resource_id, parent_id
       )
-    values (#{id,jdbcType=INTEGER}, #{resource_id,jdbcType=INTEGER}, #{parent_id,jdbcType=INTEGER}
+    value (#{id,jdbcType=INTEGER}, #{resource_id,jdbcType=INTEGER}, #{parent_id,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.FilterGroup" >
@@ -65,7 +65,7 @@
         parent_id,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <trim prefix="value (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>

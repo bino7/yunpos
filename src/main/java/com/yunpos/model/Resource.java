@@ -1,8 +1,5 @@
 package com.yunpos.model;
 
-import com.yunpos.rewriter.filter.*;
-import com.yunpos.rewriter.filter.FilterGroup;
-
 import java.util.List;
 
 public class Resource {

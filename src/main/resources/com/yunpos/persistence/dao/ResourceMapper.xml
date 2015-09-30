@@ -27,7 +27,7 @@
   <insert id="insert" parameterType="com.yunpos.model.Resource" >
     insert into resource (id, name, table_name,
       path)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR},
+    value (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR},
       #{path,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.Resource" >
@@ -46,7 +46,7 @@
         path,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <trim prefix="value (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>

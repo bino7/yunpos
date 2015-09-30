@@ -111,6 +111,12 @@ public abstract class Filter implements Binding{
         }
     }
 
+    public Filter(Op op,Value value){
+        this.op=op;
+        this.filterValue=value;
+    }
+
+
     public String toSql(){
         String key= getFilterKey();
         String value= getFilterValue().toString();

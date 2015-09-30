@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -116,6 +117,50 @@ public class Value {
             return new Value(dataType,value);
         }
     }
+    public static Value fromSplitedStr(DataType dataType,String str,String spliter){
+        if(str==null || str.trim().isEmpty()){
+            return null;
+        }
+        String[] vs=str.split(spliter);
+        if(vs[vs.length-1].trim().isEmpty()){
+            vs= Arrays.copyOf(vs,vs.length-1);
+        }
+        return fromStr(dataType,vs);
+    }
+
+    public static Value fromStr(DataType dataType,String... str ){
+        if(str.length==0){
+            return null;
+        }
+        if(str.length==1){
+            Object data=parse(dataType,str[0]);
+            return new Value(dataType,data);
+        }else{
+            List list=new ArrayList<>();
+            for(int i=0;i<str.length;i++){
+                list.add(parse(dataType,str[i]));
+            }
+            return new Value(dataType,list);
+        }
+    }
+
+    private static Object parse(DataType dataType,String str ){
+        switch(dataType){
+            case STRING:
+                return str;
+            case DATE:
+                try {
+                    return Value.dateFormat.parse(str);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            case INT:
+                return Integer.valueOf(str);
+            default:
+                throw new IllegalArgumentException("unsupported data type "+dataType);
+        }
+    }
+
     public String toJson() throws IOException, ParseException {
         ObjectMapper objectMapper=new ObjectMapper();
         objectMapper.setDateFormat(Value.dateFormat);

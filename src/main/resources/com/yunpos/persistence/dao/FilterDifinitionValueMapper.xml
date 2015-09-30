@@ -35,7 +35,7 @@
   <insert id="insert" parameterType="com.yunpos.model.FilterDifinitionValue" >
     insert into filter_difinition_value (id, filter_difinition_id, type,
       value)
-    values (#{id,jdbcType=INTEGER}, #{filter_difinition_id,jdbcType=VARCHAR},
+    value (#{id,jdbcType=INTEGER}, #{filter_difinition_id,jdbcType=VARCHAR},
       #{value,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.FilterDifinitionValue" >
@@ -51,7 +51,7 @@
         value,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <trim prefix="value (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>

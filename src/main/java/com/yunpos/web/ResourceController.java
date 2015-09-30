@@ -14,10 +14,13 @@
 
 package com.yunpos.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yunpos.model.FilterDifinition;
 import com.yunpos.model.FilterDifinitionValue;
 import com.yunpos.model.Resource;
 import com.yunpos.model.viewModel.FilterDifinitionViewModel;
+import com.yunpos.model.viewModel.FilterViewModel;
 import com.yunpos.rewriter.filter.Filter;
 import com.yunpos.rewriter.value.Value;
 import com.yunpos.service.FilterDifinitionService;
@@ -65,7 +68,8 @@ public class ResourceController{
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addResource(@RequestBody  Resource resource) {
         int id=resourceService.addResource(resource);
-        return ResponseEntity.created(URI.create("/resource/" + id)).build();
+        resource.setId(id);
+        return ResponseEntity.created(URI.create("/resource/" + id)).body(resource);
     }
 
     @ResponseBody
@@ -102,12 +106,11 @@ public class ResourceController{
         List<FilterDifinition> difinitionList=resourceService.getAllFilterDifinitions(id);
         List viewmodels=difinitionList.stream().map(d -> {
             FilterDifinitionViewModel v =new FilterDifinitionViewModel();
-            v.setCol_name(d.getColName());
+            v.setColName(d.getColName());
             v.setDataType(d.getDataType().getCode());
             v.setId(d.getId());
             v.setType(d.getType().getCode());
             v.setKeyColumn(d.getKeyColumn());
-            v.setName(d.getName());
             v.setResource_id(d.getResourceId());
             Map<String,Boolean> supportOp=new HashMap();
             Filter.Op[] allOp=Filter.Op.values();
@@ -120,14 +123,23 @@ public class ResourceController{
             v.setSupportOp(supportOp);
             v.setValueType(d.getValueType().getCode());
             v.setKeyParam(d.getKeyParam());
+            ObjectMapper mapper=new ObjectMapper();
+            try {
+                logger.info("values json "+d.getValues());
+                logger.info("values list "+mapper.readValue(d.getValues(),List.class).size());
+                v.setValues(mapper.readValue(d.getValues(),List.class));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return v;
         }).collect(Collectors.toList());
         return ResponseEntity.ok().body(viewmodels);
     }
 
     @RequestMapping(method = RequestMethod.POST,value="/{id}/filter")
-    public ResponseEntity addFilter(@PathVariable Integer id,@RequestBody com.yunpos.model.Filter filter){
-        int filterId=resourceService.addFilter(id, filter);
+    public ResponseEntity addFilter(@PathVariable Integer id,@RequestBody FilterViewModel vFilter){
+
+        int filterId=resourceService.addFilter(id, viewToFilter(vFilter));
         if(filterId!=-1){
             return ResponseEntity.created(URI.create("/resource/"+id+"/filter/" + filterId)).build();
         }
@@ -135,9 +147,21 @@ public class ResourceController{
     }
 
     @RequestMapping(method = RequestMethod.PUT,value="/{id}/filter")
-    public ResponseEntity updateFilter(@RequestBody com.yunpos.model.Filter filter){
-        resourceService.updateFilter(filter);
+    public ResponseEntity updateFilter(@RequestBody FilterViewModel vFilter){
+        resourceService.updateFilter(viewToFilter(vFilter));
         return ResponseEntity.accepted().build();
+    }
+
+    private com.yunpos.model.Filter viewToFilter(FilterViewModel vFilter){
+        com.yunpos.model.Filter filter=new com.yunpos.model.Filter();
+        filter.setId(vFilter.getId());
+        filter.setDifinitionId(vFilter.getDifinitionId());
+                filter.setFilterValue(vFilter.getFilterValue());
+                        filter.setGroupId(vFilter.getGroupId());
+        filter.setOp(vFilter.getOp());
+                filter.setResourceId(vFilter.getResourceId());
+        return filter;
+
     }
 
     @RequestMapping(method = RequestMethod.DELETE,value="/{id}/filter/{filterId}")
@@ -165,13 +189,11 @@ public class ResourceController{
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST,value="/{id}/filterDifinition")
-    public ResponseEntity addFilterDifinition(@PathVariable Integer id,@PathVariable Integer difinitionId,
+    public ResponseEntity addFilterDifinition(@PathVariable Integer id,
                                               @RequestBody FilterDifinitionViewModel filterDifinition){
         FilterDifinition difinition=convert(filterDifinition);
-        List<FilterDifinitionValue> values=null;
         try {
-            values=getFilterDifinitionValues(difinition,difinition.getDataType(), filterDifinition.getValues());
-            int difId=filterDifinitionService.addOrUpdateFilterDifinition(difinition,values);
+            int difId=filterDifinitionService.addOrUpdateFilterDifinition(difinition);
             if(difId==-1){
                 return ResponseEntity.notFound().build();
             }else{
@@ -191,28 +213,28 @@ public class ResourceController{
     public ResponseEntity updateFilterDifinition(@PathVariable Integer id,@PathVariable Integer difinitionId,
                                                  @RequestBody FilterDifinitionViewModel filterDifinition){
         FilterDifinition difinition=convert(filterDifinition);
-        List<FilterDifinitionValue> values=null;
         try {
-            values=getFilterDifinitionValues(difinition,difinition.getDataType(), filterDifinition.getValues());
-            if(filterDifinitionService.addOrUpdateFilterDifinition(difinition,values)==-1){
+            int difId=filterDifinitionService.addOrUpdateFilterDifinition(difinition);
+            if(difId==-1){
                 return ResponseEntity.notFound().build();
+            }else{
+                return ResponseEntity.accepted().build();
             }
-            return ResponseEntity.accepted().build();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return ResponseEntity.badRequest().build();
-
     }
+
     private List<FilterDifinitionValue> getFilterDifinitionValues(FilterDifinition difinition,Value.DataType dataType,
-                                                                  List<FilterDifinitionViewModel.ValueViewModel> list) throws ParseException, IOException {
+                                                                  List<String> list) throws ParseException, IOException {
         List<FilterDifinitionValue> valueList=new ArrayList<>();
         FilterDifinitionViewModel.ValueViewModel value=null;
-        for(FilterDifinitionViewModel.ValueViewModel v:list){
-            Value vv=new Value(dataType,v.getData());
-            valueList.add(new FilterDifinitionValue(v.getId(),difinition,vv.toJson()));
+        for(String v:list){
+            Value vv=new Value(dataType,v);
+            valueList.add(new FilterDifinitionValue(null,difinition,vv.toJson()));
         }
         return valueList;
     }
@@ -227,10 +249,10 @@ public class ResourceController{
         FilterDifinition difinition=new FilterDifinition();
         difinition.setId(filterDifinition.getId());
         difinition.setResourceId(filterDifinition.getResource_id());
-        difinition.setName(filterDifinition.getName());
+        difinition.setType(FilterDifinition.Type.fromCode(filterDifinition.getType()));
         difinition.setDataType(Value.DataType.fromCode(filterDifinition.getDataType()));
         difinition.setValueType(FilterDifinition.ValueType.fromCode(filterDifinition.getValueType()));
-        difinition.setColName(filterDifinition.getCol_name());
+        difinition.setColName(filterDifinition.getColName());
         difinition.setKeyParam(filterDifinition.getKeyParam());
         difinition.setKeyColumn(filterDifinition.getKeyColumn());
         int supportOpCode=0;
@@ -243,6 +265,12 @@ public class ResourceController{
             }
         }
         difinition.setSupportOpCode(supportOpCode);
+        ObjectMapper mapper=new ObjectMapper();
+        try {
+            difinition.setValues(mapper.writeValueAsString(filterDifinition.getValues()));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return difinition;
     }
 
@@ -255,13 +283,13 @@ public class ResourceController{
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.DELETE,value="/{id}/filterDifinition/{difinitionId}")
-    public ResponseEntity removeFilterDifinition(@PathVariable Integer difinitionId){
+    @RequestMapping(method = RequestMethod.DELETE,value="/{rid}/filterDifinition/{difinitionId}")
+    public ResponseEntity removeFilterDifinition(@PathVariable Integer rid, @PathVariable Integer difinitionId){
         Integer id=filterDifinitionService.removeFilterDifinition(difinitionId);
         if(difinitionId==id){
-            return ResponseEntity.ok().body("message:filter difinition "+difinitionId+" remove successfully");
-        }else{
             return ResponseEntity.notFound().build();
+        }else{
+            return ResponseEntity.ok().body("message:filter difinition "+difinitionId+" remove successfully");
         }
     }
 

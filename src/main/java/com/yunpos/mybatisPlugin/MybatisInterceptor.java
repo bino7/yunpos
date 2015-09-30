@@ -25,6 +25,7 @@ import com.yunpos.model.Resource;
 import com.yunpos.rewriter.binding.Binding;
 import com.yunpos.rewriter.DefaultStatementRewriter;
 import com.yunpos.rewriter.StatementRewriter;
+import com.yunpos.rewriter.filter.Filter;
 import org.apache.ibatis.builder.SqlSourceBuilder;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.ParameterMapping;
@@ -76,20 +77,20 @@ public class MybatisInterceptor implements Interceptor {
 		Object parameterObject = metaStatementHandler.getValue("delegate.boundSql.parameterObject");
 
 		HttpServletRequest request=null;
-		Resource resource=null;
+		Filter filter=null;
 		try{
 			request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-			resource = (Resource) request.getAttribute("resource");
+			filter = (Filter) request.getAttribute("filter");
 		}catch(Exception e){
 			if(request!=null){
 				logger.error("error when get filter from request",e);
 			}
 		}
 
-		if (resource != null && null != originalSql && !"".equals(originalSql)) {
+		if (filter != null && null != originalSql && !"".equals(originalSql)) {
 			StatementRewriter rewriter = new DefaultStatementRewriter();
 			Map<String,Object> params=(Map<String,Object>)request.getAttribute(Application.BINDING_PARAMS_KEY);
-			String rewritedSql = rewriter.rewrite(originalSql, resource, params);
+			String rewritedSql = rewriter.rewrite(originalSql, filter, params);
 			Class parameterType = parameterObject == null ? Object.class : parameterObject.getClass();
 			SqlSourceBuilder builder = new SqlSourceBuilder(configuration);
 			SqlSource sqlSource = builder.parse(rewritedSql, parameterType, null);

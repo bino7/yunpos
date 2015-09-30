@@ -32,6 +32,7 @@ import com.yunpos.model.Resource;
 import com.yunpos.rewriter.antlr.MySQLLexer;
 import com.yunpos.rewriter.antlr.MySQLListener;
 import com.yunpos.rewriter.antlr.MySQLParser;
+import com.yunpos.rewriter.filter.Filter;
 import com.yunpos.rewriter.filter.FilterGroup;
 import com.yunpos.rewriter.node.*;
 import com.yunpos.rewriter.node.builder.BaseNodeBuilder;
@@ -71,10 +72,7 @@ public class DefaultStatementRewriter implements StatementRewriter,MySQLListener
     }
 
     @Override
-    public String rewrite(String sql,Resource resource,Map<String,Object> params) {
-        List<FilterGroup> filterGroupList=resource.getFilterGroupList();
-        FilterGroup filter=new FilterGroup();
-        filter.setChildren(filterGroupList);
+    public String rewrite(String sql,Filter filter,Map<String,Object> params) {
 
         MySQLLexer lexer = new MySQLLexer(new ANTLRInputStream(sql));
         CommonTokenStream tokens = new CommonTokenStream(lexer);

@@ -51,17 +51,12 @@ public class FilterDifinitionService {
     FilterDifinitionValueMapper filterDifinitionValueMapper;
 
     @Transactional
-    public int addOrUpdateFilterDifinition(FilterDifinition difinition,List<FilterDifinitionValue> values) throws IOException, ParseException {
+    public int addOrUpdateFilterDifinition(FilterDifinition difinition) throws IOException, ParseException {
         Integer id=difinition.getId();
         if(id==null){
             id=filterDifinitionMapper.insert(difinition);
-            for(FilterDifinitionValue value:values){
-                if(value.getId()==null){
-                    filterDifinitionValueMapper.insert(value);
-                }else{
-                    filterDifinitionValueMapper.updateByPrimaryKey(value);
-                }
-            }
+        }else{
+            id=filterDifinitionMapper.updateByPrimaryKey(difinition);
         }
         return id;
     }
@@ -73,6 +68,19 @@ public class FilterDifinitionService {
     public int getValueCount(int difinitionId) throws IOException,ParseException{
         return filterDifinitionValueMapper.countByDifinitionId(difinitionId);
     }
+    public List<Value> getValues(int difinitionId) throws IOException, ParseException {
+        Map map=new HashMap();
+        map.put("difinitionId",difinitionId);
+        List<FilterDifinitionValue> filterDifinitionValueList=filterDifinitionValueMapper.selectByDifinitionId(map);
+        List<Value> valueList=new ArrayList<>();
+        for(FilterDifinitionValue filterDifinitionValue:filterDifinitionValueList){
+            Value.DataType dataType=filterDifinitionValue.getFilterDifinition().getDataType();
+            String jsonValue=filterDifinitionValue.getValue();
+            valueList.add(Value.fromJson(dataType, jsonValue));
+        }
+        return valueList;
+    }
+
     public List<Value> getValues(int difinitionId,int offset,int limit) throws IOException, ParseException {
         Map map=new HashMap();
         map.put("difinitionId",difinitionId);

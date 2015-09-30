@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yunpos.persistence.dao.FilterMapper" >
-  <resultMap id="BaseResultMap" type="com.yunpos.rewriter.filter.Filter" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.Filter" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="op" property="op" jdbcType="INTEGER" typeHandler="com.yunpos.mybatisPlugin.FilterOpEnumTypeHandler" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <association property="difinition" column="difinition_id" jdbcType="INTEGER" select="com.yunpos.persistence.dao.FilterDifinitionMapper.selectByPrimaryKey"/>
-    <discriminator javaType="int" column="type">
-      <case value="0" resultType="com.yunpos.rewriter.filter.ColumnFilter">
-        <constructor>
-          <arg javaType="Integer" column="data_type"/>
-          <arg javaType="String" column="filter_value"/>
-        </constructor>
-        <result property="tableName" column="table_name"/>
-        <result property="colName" column="col_name"/>
-      </case>
-      <case value="1" resultType="com.yunpos.rewriter.filter.KeyFilter">
-        <constructor>
-          <arg javaType="Integer" column="data_type"/>
-          <arg javaType="String"  column="key_param"/>
-          <arg javaType="String" column="filter_value"/>
-        </constructor>
-          <result property="keyTable" column="key_table"/>
-          <result property="keyColumn" column="key_column"/>
-          <result property="keyPrimaryColumn" column="primary_column"/>
-      </case>
-    </discriminator>
+    <result column="resource_id" property="resourceId" jdbcType="INTEGER" />
+    <result column="op" property="op" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="filter_difinition_id" property="difinitionId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="data_type" property="dataType" jdbcType="INTEGER" />
+    <result column="value_type" property="valueType" jdbcType="INTEGER" />
+    <result column="filter_value" property="filterValue" jdbcType="VARCHAR" />
+    <result column="col_name" property="colName" jdbcType="VARCHAR" />
+    <result column="key_param" property="keyParam" jdbcType="VARCHAR" />
+    <result column="key_column" property="keyColumn" jdbcType="VARCHAR" />
+    <result column="key_table" property="keyTable" jdbcType="VARCHAR" />
+    <result column="primary_column" property="primaryColumn" jdbcType="VARCHAR" />
+    <result column="difini_values" property="difiniValues" jdbcType="VARCHAR" />
+    <result column="support_op" property="supportOp" jdbcType="INTEGER" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -34,7 +26,8 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
     t1.id,t1.resource_id,t1.group_id,t1.filter_difinition_id,t1.op,t1.filter_value,
-    t2.id as difinition_id,t2.type,t2.data_type,t2.col_name,t2.key_param,t2.key_column,
+    t2.id as difinition_id,t2.type,t2.data_type,t2.value_type,t2.col_name,t2.key_param,t2.key_column,
+    t2.filter_values as difini_values,t2.support_op,
     t3.table as key_table,t3.column as key_column,t3.primary_column as primary_column
     from filter t1
     left join filter_difinition t2 on t1.filter_difinition_id=t2.id
@@ -44,7 +37,8 @@
   <select id="selectByGroupId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
     t1.id,t1.resource_id,t1.group_id,t1.filter_difinition_id,t1.op,t1.filter_value,
-    t2.id as difinition_id,t2.type,t2.data_type,t2.col_name,t2.key_param,t2.key_column,
+    t2.id as difinition_id,t2.type,t2.data_type,t2.value_type,t2.col_name,t2.key_param,t2.key_column,
+    t2.filter_values as difini_values,t2.support_op,
     t3.table as key_table,t3.column as key_column,t3.primary_column as primary_column
     from filter t1
     left join filter_difinition t2 on t1.filter_difinition_id=t2.id
@@ -60,8 +54,8 @@
     insert into filter (id, resource_id, group_id,
     filter_difinition_id, op, filter_value
     )
-    values (#{id,jdbcType=INTEGER}, #{resource_id,jdbcType=INTEGER}, #{group_id,jdbcType=INTEGER},
-    #{filter_difinition_id,jdbcType=INTEGER}, #{op,jdbcType=INTEGER}, #{filter_value,jdbcType=VARCHAR}
+    value (#{id,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER},
+    #{difinitionId,jdbcType=INTEGER}, #{op,jdbcType=INTEGER}, #{filterValue,jdbcType=VARCHAR}
     )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.Filter" >
@@ -70,71 +64,71 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="resource_id != null" >
+      <if test="resourceId != null" >
         resource_id,
       </if>
-      <if test="group_id != null" >
+      <if test="groupId != null" >
         group_id,
       </if>
-      <if test="filter_difinition_id != null" >
+      <if test="difinitionId != null" >
         filter_difinition_id,
       </if>
       <if test="op != null" >
         op,
       </if>
-      <if test="filter_value != null" >
+      <if test="filterValue != null" >
         filter_value,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <trim prefix="value (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="resource_id != null" >
-        #{resource_id,jdbcType=INTEGER},
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=INTEGER},
       </if>
-      <if test="group_id != null" >
-        #{group_id,jdbcType=INTEGER},
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
       </if>
-      <if test="filter_difinition_id != null" >
-        #{filter_difinition_id,jdbcType=INTEGER},
+      <if test="difinitionId != null" >
+        #{difinitionId,jdbcType=INTEGER},
       </if>
       <if test="op != null" >
         #{op,jdbcType=INTEGER},
       </if>
-      <if test="filter_value != null" >
-        #{filter_value,jdbcType=VARCHAR},
+      <if test="filterValue != null" >
+        #{filterValue,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.Filter" >
     update filter
     <set >
-      <if test="resource_id != null" >
-        resource_id = #{resource_id,jdbcType=INTEGER},
+      <if test="resourceId != null" >
+        resource_id = #{resourceId,jdbcType=INTEGER},
       </if>
-      <if test="group_id != null" >
-        group_id = #{group_id,jdbcType=INTEGER},
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=INTEGER},
       </if>
-      <if test="filter_difinition_id != null" >
-        filter_difinition_id = #{filter_difinition_id,jdbcType=INTEGER},
+      <if test="difinitionId != null" >
+        filter_difinition_id = #{difinitionId,jdbcType=INTEGER},
       </if>
       <if test="op != null" >
         op = #{op,jdbcType=INTEGER},
       </if>
-      <if test="filter_value != null" >
-        filter_value = #{filter_value,jdbcType=VARCHAR},
+      <if test="filterValue != null" >
+        filter_value = #{filterValue,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.Filter" >
     update filter
-    set resource_id = #{resource_id,jdbcType=INTEGER},
-      group_id = #{group_id,jdbcType=INTEGER},
-      filter_difinition_id = #{filter_difinition_id,jdbcType=INTEGER},
+    set resource_id = #{resourceId,jdbcType=INTEGER},
+      group_id = #{groupId,jdbcType=INTEGER},
+      filter_difinition_id = #{difinitionId,jdbcType=INTEGER},
       op = #{op,jdbcType=INTEGER},
-      filter_value = #{filter_value,jdbcType=VARCHAR}
+      filter_value = #{filterValue,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

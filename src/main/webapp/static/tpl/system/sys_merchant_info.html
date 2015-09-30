@@ -1,4 +1,4 @@
-<div class="well" ng-controller="MerchantInfoCtrl" ng-init="processForm()">
+<div class="well" ng-controller="MerchantInfoCtrl" ng-init="processForm();getAddress()">
     <div class="row">
         <div class="col-md-9">
             <div class="row">
@@ -217,18 +217,33 @@
                             <label class="col-md-3 control-label">
                                 	注册地址：
                             </label>
-                            <div class="col-md-2">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.prov">
-                            </div>
-                            <div class="col-md-2">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.city">
-                            </div>
-                            <div class="col-md-2">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.area">
-                            </div>
-                            <div class="col-md-3">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.address">
-                            </div>
+                            <div ng-init="addresses">
+                            	<div class="col-md-2">
+									<select ng-model="merchant.prov" ng-change="selectedCity=''"
+										ng-options="addr.name for addr in addresses"
+										class=" form-control" required>
+										<option value="">---请选择省份---</option>
+									</select>
+								</div>
+								<div class="col-md-2">
+									<select ng-model="merchant.city" ng-change="selectedArea=''"
+										ng-options="city.name for city in merchant.prov.city"
+										class=" form-control" required>
+										<option value="">---请选择市---</option>
+									</select>
+								</div>
+								<div class="col-md-2">
+									<select ng-model="merchant.area"
+										ng-options="area.name for area in merchant.city.area"
+										class=" form-control" required>
+										<option value="">---请选择区---</option>
+									</select>
+								</div>
+								<div class="col-md-3">
+									<input type="text" class="form-control"
+										ng-model="merchant.address" required>
+								</div>                           	
+                            </div>	                         
                         </div>
                          <div class="form-group">
                             <label class="col-md-3 control-label">
@@ -427,13 +442,22 @@
                             <label class="col-md-3 control-label">
                                 	开户行城市：
                             </label>
-                            <div class="col-md-4">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankProv">
-                             </div>
-                              <div class="col-md-4">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankCity">
-                            </div>
-                        </div>
+							<div class="col-md-4">
+								<select ng-model="merchant.openBankProv"
+									ng-change="selectedCity=''"
+									ng-options="openBankaddr.name for openBankaddr in addresses"
+									class=" form-control" required>
+									<option value="">---请选择省份---</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+									<select ng-model="merchant.openBankCity" ng-change="selectedArea=''"
+										ng-options="city.name for city in merchant.openBankProv.city"
+										class=" form-control" required>
+										<option value="">---请选择市---</option>
+									</select>
+							</div>
+						</div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">
                                 	开户行：

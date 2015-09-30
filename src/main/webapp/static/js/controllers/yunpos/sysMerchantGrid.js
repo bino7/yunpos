@@ -176,8 +176,8 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
 
 	        });
 	};
-	 $scope.saved = {};
-     $scope.save = function(merchant) {
+	$scope.saved = {};
+    $scope.save = function(merchant) {
     	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
     	 merchant.terminals  = "";
     	  $scope.tags.filter(function(item) {
@@ -206,12 +206,19 @@ app.controller('MerchantDetailCtrl', function($scope, $http, $state, $stateParam
  * @type {[type]}
  */
 app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams) {
+	$scope.addresses={};
+	$scope.getAddress = function() {
+		$http.get('data/address-1.json').success(function (address) {    
+			$scope.addresses= address;
+        }); 
+	};
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
 	        url     : '/ajax/merchant/' + "1"  //+ $stateParams.id
 	    }).success(function(data) {
 	         $scope.merchant = data;
+	         //日期格式
 	         $scope.merchant.endTime = parseDateTime(new Date(data.endTime),"YYYY-MM-DD");
 	         $scope.merchant.identityBt = parseDateTime(new Date(data.identityBt),"YYYY-MM-DD");
 	         $scope.merchant.identityEt = parseDateTime(new Date(data.identityEt),"YYYY-MM-DD");
@@ -219,28 +226,44 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
 	         $scope.merchant.organizeBarCodeEt = parseDateTime(new Date(data.organizeBarCodeEt),"YYYY-MM-DD");
 	         $scope.merchant.taxBarCodeBt = parseDateTime(new Date(data.taxBarCodeBt),"YYYY-MM-DD");
 	         $scope.merchant.taxBarCodeEt = parseDateTime(new Date(data.taxBarCodeEt),"YYYY-MM-DD");
-	            
-
-	            /*
-	            var terminals = data.terminals;
-	            var flg1 = false;
-	            var flg2 = false;
-	            var flg3 = false;
-	            if(terminals != null && terminals != ''){
-	            	if(terminals.indexOf('1') != -1){ flg1 = true ;}
-	            	if(terminals.indexOf('2') != -1){ flg2 = true ;}
-	            	if(terminals.indexOf('3') != -1){ flg3 = true ;}
-	            }
-	            $scope.tags = [
-	                    { id:1,  name:'银联' ,  	  checked: flg1},
-	                    { id:2,  name:'支付宝',   checked: flg2 },
-	                    { id:3,  name:'微信支付',  checked: flg3 }]
-	         */           
+	         //设置注册地址的默认省、市、区  
+	         for (provindex in $scope.addresses) {
+	        	 var prov = $scope.addresses[provindex];
+	        	 if (prov.code == data.prov) {//设置省份
+	        		 $scope.merchant.prov = prov;
+	        		 for (cityindex in prov.city) {
+	        			 var city = prov.city[cityindex];  			 
+	        			 if (city.code == data.city) {//设置市
+	        				 $scope.merchant.city = city; 
+	        				 for (areaindex in city.area) {
+	        					 var area =  city.area[areaindex];
+	        					 if (area.code == data.area) { //设置区
+	        						 $scope.merchant.area = area; 
+	        					 }
+	        				 }				 
+	        			 }
+	        		 }	        		 
+	        	 }	        	 
+	         }
+	         //设置开会行的默认省、市  
+	         for (provindex in $scope.addresses) {
+	        	 var prov = $scope.addresses[provindex];
+	        	 if (prov.code == data.openBankProv) {//设置省份
+	        		 $scope.merchant.openBankProv = prov;
+	        		 for (cityindex in prov.city) {
+	        			 var city = prov.city[cityindex];  			 
+	        			 if (city.code == data.openBankCity) {//设置市
+	        				 $scope.merchant.openBankCity = city; 	        							 
+	        			 }
+	        		 }	        		 
+	        	 }	        	 
+	         }          
 	        });
 	};
-	 $scope.saved = {};
-     $scope.save = function(merchant) {
-    	
+	
+	$scope.saved = {};
+    $scope.save = function(merchant) {
+    	//日期格式化
     	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
     	 merchant.identityBt = formatDateTime(new Date(merchant.identityBt));
     	 merchant.identityEt = formatDateTime(new Date(merchant.identityEt));
@@ -248,9 +271,12 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
     	 merchant.organizeBarCodeEt = formatDateTime(new Date(merchant.organizeBarCodeEt));
     	 merchant.taxBarCodeBt = formatDateTime(new Date(merchant.taxBarCodeBt));
     	 merchant.taxBarCodeEt = formatDateTime(new Date(merchant.taxBarCodeEt));
-    	 
-    	 
-    	 
+    	 //设置省、市、区
+    	 merchant.prov=merchant.prov.code;
+    	 merchant.city=merchant.city.code;
+    	 merchant.area=merchant.area.code;
+    	 merchant.openBankProv = merchant.openBankProv.code;
+    	 merchant.openBankCity = merchant.openBankCity.code;    	   	 
     	 /*
     	 merchant.terminals  = "";
     	  $scope.tags.filter(function(item) {

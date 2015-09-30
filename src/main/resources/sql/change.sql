@@ -103,6 +103,8 @@ CREATE TABLE `sys_pay` (
   `open` int(2) DEFAULT '1' COMMENT '是否启用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 --20150928 许金彪 添加字段
 ALTER TABLE `sys_store`
 ADD COLUMN `createdAt` datetime NULL COMMENT '创建时间',
@@ -115,3 +117,6 @@ ADD COLUMN `updatedBy` int(11) NULL COMMENT '更新人';
 --20150924 杨学勇  新增字段
 ALTER TABLE `sys_wechat_config`
 ADD COLUMN `apiSecret` longtext COMMENT 'api秘钥（接口签名使用）' AFTER `mchId`;
+
+ALTER TABLE `sys_pay`
+ADD COLUMN `mark` varchar(255)  DEFAULT NULL COMMENT '标识' AFTER `open`;

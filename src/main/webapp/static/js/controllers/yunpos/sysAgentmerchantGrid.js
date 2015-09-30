@@ -193,11 +193,17 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
 	            	document.getElementById("identityCardImg").src = $scope.agentmerchant.identityCard;
 	            	document.getElementById("identityCardButton").removeAttribute("disabled");
 	            }
+	            if($scope.agentmerchant.businessLicense != null && $scope.agentmerchant.businessLicense != '' ){
+	            	document.getElementById("businessLicenseImg").className  = "thumb";
+	            	document.getElementById("businessLicenseImg").src = $scope.agentmerchant.businessLicense;
+	            	document.getElementById("businessLicenseButton").removeAttribute("disabled");
+	            }
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(agentmerchant) {
     	 agentmerchant.endTime = formatDateTime(agentmerchant.endTime);
+    	 agentmerchant.businessLicense = document.getElementById("businessLicense").value;
     	 agentmerchant.identityCard = document.getElementById("identityCard").value;
     	 $scope.saved = angular.copy(agentmerchant);
 	     $http({

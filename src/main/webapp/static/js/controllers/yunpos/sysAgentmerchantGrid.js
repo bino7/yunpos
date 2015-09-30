@@ -154,12 +154,19 @@ app.controller('AgentmerchantDetailCtrl', function($scope, $http, $state, $state
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.agentmerchant = data;
+	            $scope.agentmerchant.oldPassword = data.password;
+	            $scope.agentmerchant.password = "";
+	            $scope.newPassword = "";
 	           // alert(data.id);
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(agentmerchant) {
     	 agentmerchant.endTime = formatDateTime(agentmerchant.endTime);
+    	 if(agentmerchant.password == ""){
+    		 agentmerchant.password = agentmerchant.oldPassword;
+    	 }
+    	 agentmerchant.newPassword = agentmerchant.password ;
     	 $scope.saved = angular.copy(agentmerchant);
 	     $http({
 	        method  : 'put',

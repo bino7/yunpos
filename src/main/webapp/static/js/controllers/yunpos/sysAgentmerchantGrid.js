@@ -154,12 +154,19 @@ app.controller('AgentmerchantDetailCtrl', function($scope, $http, $state, $state
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.agentmerchant = data;
+	            $scope.agentmerchant.oldPassword = data.password;
+	            $scope.agentmerchant.password = "";
+	            $scope.newPassword = "";
 	           // alert(data.id);
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(agentmerchant) {
     	 agentmerchant.endTime = formatDateTime(agentmerchant.endTime);
+    	 if(agentmerchant.password == ""){
+    		 agentmerchant.password = agentmerchant.oldPassword;
+    	 }
+    	 agentmerchant.newPassword = agentmerchant.password ;
     	 $scope.saved = angular.copy(agentmerchant);
 	     $http({
 	        method  : 'put',
@@ -188,17 +195,30 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.agentmerchant = data;
+	            $scope.agentmerchant.oldPassword = data.password;
+	            $scope.agentmerchant.password = "";
+	            $scope.newPassword = "";
 	            if($scope.agentmerchant.identityCard != null && $scope.agentmerchant.identityCard != '' ){
 	            	document.getElementById("identityCardImg").className  = "thumb";
 	            	document.getElementById("identityCardImg").src = $scope.agentmerchant.identityCard;
 	            	document.getElementById("identityCardButton").removeAttribute("disabled");
+	            }
+	            if($scope.agentmerchant.businessLicense != null && $scope.agentmerchant.businessLicense != '' ){
+	            	document.getElementById("businessLicenseImg").className  = "thumb";
+	            	document.getElementById("businessLicenseImg").src = $scope.agentmerchant.businessLicense;
+	            	document.getElementById("businessLicenseButton").removeAttribute("disabled");
 	            }
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(agentmerchant) {
     	 agentmerchant.endTime = formatDateTime(agentmerchant.endTime);
+    	 agentmerchant.businessLicense = document.getElementById("businessLicense").value;
     	 agentmerchant.identityCard = document.getElementById("identityCard").value;
+    	 if(agentmerchant.password == ""){
+    		 agentmerchant.password = agentmerchant.oldPassword;
+    	 }
+    	 agentmerchant.newPassword = agentmerchant.password ;
     	 $scope.saved = angular.copy(agentmerchant);
 	     $http({
 	        method  : 'put',

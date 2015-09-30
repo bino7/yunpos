@@ -25,46 +25,51 @@
                                	 原密码：
                             </label>
                             <div class="col-md-10">
-                            	<input type="password" class="form-control" placeholder="" ng-model="agentmerchant.password">
+                            	<input type="password" class="form-control" placeholder="" ng-model="agentmerchant.oldPassword">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                               	 新密码：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="password" class="form-control" placeholder="" ng-model="agentmerchant.newPassword">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	确认密码：
-                            </label>
-                            <div class="col-md-10">
-                                <input type="password" class="form-control" placeholder="" ng-model="agentmerchant.confirmPassword">
-                            </div>
-                        </div>
+                        <div class="form-group ">
+							<label class="col-md-2 control-label"> 新密码： </label>
+							<div class="col-md-10">
+							 <input type="password" class="form-control" name="newPassword" ng-model="newPassword" required > 
+							</div>
+						</div>
+						<div class="form-group ">
+							<label class="col-md-2 control-label"> 确认密码： </label>
+							<div class="col-md-10">
+							<input type="password" class="form-control" name="confirm_password" required ng-model="agentmerchant.password" ui-validate=" '$value==newPassword' " ui-validate-watch=" 'newPassword' ">
+							<span ng-show='form.confirm_password.$error.validator' style="color: #ff4a0d">两次输入密码不一致！</span>
+							</div>
+						</div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	状态：
                             </label>
+                             <div class="col-md-10">
 					                {{agentmerchant.status}}
+					         </div>
                         </div>
                        <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	审核状态：
                             </label>
+                             <div class="col-md-10">
 					                {{agentmerchant.auditStatus}}
+					         </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	审核意见：
                             </label>
+                             <div class="col-md-10">
 					                 {{agentmerchant.auditOpinion}}
+					         </div>
                         </div>
                   		<div class="form-group">
 				          <label class="col-sm-2 control-label">合同到期时间:</label>
+				           <div class="col-md-10">
 				           {{agentmerchant.endTime}}
+				           </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
@@ -72,39 +77,45 @@
                             </label>
                             <div class="col-md-10">
 							                            
-							<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
-							  <div class="upload-buttons">
-							    <div id="editArea">
-							          <form name="myForm">
-							              <input type="file" ngf-select ng-model="picFile" name="file" accept="image/*" >
-							 				<img ngf-src="picFile" src="" id="identityCardImg" class="thumb">
-							              <button  ng-click="uploadPic(picFile,'identityCard')" id="identityCardButton">上传</button>
-							              <span ng-show="picFile.result">Upload Successful</span>
-							            <span class="progress" ng-show="picFile.progress >= 0">
-							                  <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
-							              </span>
-							              <input type="hidden" ng-model="agentmerchant.identityCard" value = '' id="identityCard">
-							            <br/>
-							          </form>
-							        </div>
-							        <br/>
-							  </div>
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+								  <div class="upload-buttons">
+								    <div id="editArea">
+								              <input type="file" ngf-select ng-model="businessLicensePicFile" name="file" accept="image/*" >
+								 				<img ngf-src="businessLicensePicFile" src="" id="businessLicenseImg" class="thumb">
+								              <button  ng-click="uploadPic(businessLicensePicFile,'businessLicense')" id="businessLicenseButton">上传</button>
+								              <span ng-show="businessLicensePicFile.result">Upload Successful</span>
+								            <span class="progress" ng-show="businessLicensePicFile.progress >= 0">
+								                  <div style="width:{{pbusinessLicensePicFile.progress}}%" ng-bind="businessLicensePicFile.progress + '%'"></div>
+								              </span>
+								              <input type="hidden" ng-model="agentmerchant.businessLicense" value = '' id="businessLicense">
+								            <br/>
+								        </div>
+								        <br/>
+								  </div>
+								  </div>
                             </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-2 control-label">
-                                	代理商营业执照：
+                                	法人/经营者身份证：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	法人经营者身份证：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                            	<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+								  <div class="upload-buttons">
+								    <div id="editArea">
+								              <input type="file" ngf-select ng-model="picFile" name="file" accept="image/*" >
+								 				<img ngf-src="picFile" src="" id="identityCardImg" class="thumb">
+								              <button  ng-click="uploadPic(picFile,'identityCard')" id="identityCardButton">上传</button>
+								              <span ng-show="picFile.result">Upload Successful</span>
+								            <span class="progress" ng-show="picFile.progress >= 0">
+								                  <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
+								              </span>
+								              <input type="hidden" ng-model="agentmerchant.identityCard" value = '' id="identityCard">
+								            <br/>
+								        </div>
+								        <br/>
+								  </div>
+								  </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -112,7 +123,7 @@
                                 	公司名称：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.companyName">
                             </div>
                         </div>
                         <div class="form-group">
@@ -120,7 +131,7 @@
                                 	营业执照注册号：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.registerNumber">
                             </div>
                         </div>
                         <div class="form-group">
@@ -128,7 +139,7 @@
                                 	联系人：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.contactMan">
                             </div>
                         </div>
                         <div class="form-group">
@@ -136,7 +147,7 @@
                                 	联系电话：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.phone">
                             </div>
                         </div>
                           <div class="form-group">
@@ -144,15 +155,7 @@
                                 	手机号码：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	电子邮箱：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.tel">
                             </div>
                         </div>
                          <div class="form-group">
@@ -160,7 +163,7 @@
                                 	详细地址：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.description">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.address">
                             </div>
                         </div>
                       <button  ng-disabled="form.$invalid" ng-click="save(agentmerchant)">保存</button>

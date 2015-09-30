@@ -29,7 +29,7 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
             enableCellEdit: true,
           //  enablePinning: true,
             columnDefs: [
-                         {field: 'payName', displayName: '配置名称', width: 120,  pinnable: false,  sortable: false}, 
+                         {field: 'payName', displayName: '配置名称', width: 200,  pinnable: false,  sortable: false}, 
                          {field: 'payDes', displayName: '配置说明', enableCellEdit: false,width: 500}, 
                          {field: 'openStr', displayName: '是否启用', enableCellEdit: false,width: 120}, 
                          {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
@@ -209,7 +209,20 @@ app.controller('SysAlipayTestCtl', function($scope, $http, $state, $stateParams)
 		     }).error(function(data,status,headers,config){
 		      	alert("测试失败！");
 		     });
-		}
+		};
+	     
+		//获取订单号
+	     $scope.getOrderNo = function(bardata) {
+	    	 $http({
+			        method  : 'get',
+			        url     : '/ajax/getOrderNo'
+			     }).success(function(data) {
+			    	 bardata.user_order_no=data.orderNo;
+			     }).error(function(data,status,headers,config){
+			      	alert("测试失败！");
+			     });
+	    	 
+		};
 });
 
 
@@ -251,6 +264,19 @@ app.controller('SysWechatTestCtl', function($scope, $http, $state, $stateParams)
 	      	alert("系统错误！");
 	     });
 	};
+	
+	   //获取订单号
+    $scope.getOrderNo = function(bardata) {
+   	 $http({
+		        method  : 'get',
+		        url     : '/ajax/getOrderNo'
+		     }).success(function(data) {
+		    	 bardata.user_order_no=data.orderNo;
+		     }).error(function(data,status,headers,config){
+		      	alert("测试失败！");
+		     });
+   	 
+	};
 });
 
 
@@ -277,6 +303,8 @@ app.controller('SysWechatpayEditCtl', function($scope, $http, $state, $statePara
 	      	alert("保存失败！");
 	     });
 	}
+     
+
 });
 
 

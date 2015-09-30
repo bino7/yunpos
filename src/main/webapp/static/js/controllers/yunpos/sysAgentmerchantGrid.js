@@ -188,6 +188,9 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.agentmerchant = data;
+	            $scope.agentmerchant.oldPassword = data.password;
+	            $scope.agentmerchant.password = "";
+	            $scope.newPassword = "";
 	            if($scope.agentmerchant.identityCard != null && $scope.agentmerchant.identityCard != '' ){
 	            	document.getElementById("identityCardImg").className  = "thumb";
 	            	document.getElementById("identityCardImg").src = $scope.agentmerchant.identityCard;
@@ -205,6 +208,10 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
     	 agentmerchant.endTime = formatDateTime(agentmerchant.endTime);
     	 agentmerchant.businessLicense = document.getElementById("businessLicense").value;
     	 agentmerchant.identityCard = document.getElementById("identityCard").value;
+    	 if(agentmerchant.password == ""){
+    		 agentmerchant.password = agentmerchant.oldPassword;
+    	 }
+    	 agentmerchant.newPassword = agentmerchant.password ;
     	 $scope.saved = angular.copy(agentmerchant);
 	     $http({
 	        method  : 'put',

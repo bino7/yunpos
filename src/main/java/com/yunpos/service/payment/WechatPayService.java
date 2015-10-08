@@ -669,6 +669,7 @@ public class WechatPayService {
 
 			if (isSuccess) {
 				sysTransaction.setStatus(2);// 支付成功
+				sysTransaction.setTrade_no(params.get("transaction_id"));
 				sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
 				sysTransactionService.update(sysTransaction);
 				String msg = "订单[" + orderNo+ "]支付交易成功！";

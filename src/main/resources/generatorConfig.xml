@@ -67,10 +67,10 @@
 			domainObjectName="SysOrg" enableCountByExample="false" enableDeleteByExample="false" 
 			enableSelectByExample="false" enableUpdateByExample="false"> <property name="useActualColumnNames" 
 			value="true" /> </table> -->
-		<!-- <table tableName="sys_transaction" domainObjectName="SysTransaction" 
+		 <table tableName="sys_transaction" domainObjectName="SysTransaction" 
 			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="flase" 
 			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
-			/> </table> -->
+			/> </table>
 		<!-- <table tableName="sys_order_ecommerce" domainObjectName="SysOrderEcommerce" 
 			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="flase" 
 			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 

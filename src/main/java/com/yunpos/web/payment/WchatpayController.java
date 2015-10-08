@@ -146,6 +146,7 @@ public class WchatpayController extends BaseController{
 				return new Message("error", "pay_channel_unkonw", "未知支付方式！", null);
 			}
 			sysTransaction.setTitle("微信线下条码支付");
+			sysTransaction.setSubject(body);
 			sysTransaction.setSerialNo(merchant_num);
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());
 			sysTransaction.setTerminalNum(terminal_unique_no);

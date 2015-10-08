@@ -290,6 +290,7 @@ public class AlipayService {
 				sysTransaction.setTransCardNum(params.get("buyer_id")); // 买家支付宝账号
 			}
 			sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); // 实际交易金额
+			sysTransaction.setTrade_no(params.get("trade_no"));
 			sysTransactionService.update(sysTransaction);
 
 			String msg = "订单[" + orderNo + "]支付交易成功！";

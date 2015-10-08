@@ -119,6 +119,7 @@ public class AlipayWapService {
 		
 		if(isSuccess){
 			sysTransaction.setStatus(2);// 支付成功
+			sysTransaction.setTrade_no(params.get("trade_no"));
 			sysTransaction.setTransCardNum(params.get("buyer_logon_id")); //买家支付宝账号
 			sysTransaction.setTransPrice(Float.valueOf(params.get("total_fee"))); //实际交易金额
 			sysTransactionService.update(sysTransaction);

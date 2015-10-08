@@ -120,3 +120,8 @@ ADD COLUMN `apiSecret` longtext COMMENT 'api秘钥（接口签名使用）' AFTE
 
 ALTER TABLE `sys_pay`
 ADD COLUMN `mark` varchar(255)  DEFAULT NULL COMMENT '标识' AFTER `open`;
+
+--20151008 杨学勇  新增字段
+ALTER TABLE `sys_transaction`
+ADD COLUMN `trade_no`  varchar(64) NULL COMMENT '第三方支付订单号（支付宝交易号trade_no/微信支付订单号transaction_id）' AFTER `info`,
+ADD COLUMN `subject`  varchar(256) NULL COMMENT '订单简要描述（支付宝订单标题subject /微信商品描述body）' AFTER `trade_no`;

@@ -95,9 +95,8 @@ public class AlipayController extends BaseController{
 		String terminal_unique_no = reqParamMap.get("terminal_unique_no"); // 终端编号（非空）
 		String client_type = reqParamMap.get("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
 		String user_order_no = request.getParameter("user_order_no"); //用户订单号
-		//非必填字段
 		String subject = request.getParameter("subject"); //订单标题
-		
+		//非必填字段
 		String cashier_num = reqParamMap.get("cashier_num"); // 核销码（可空）
 		
 		if (Strings.isNullOrEmpty(pay_channel) 
@@ -133,10 +132,6 @@ public class AlipayController extends BaseController{
 				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
 			}
 			
-			// 生成流水表信息
-//			final long idepo = System.currentTimeMillis() - 3600 * 1000L;
-//			IdWorker iw = new IdWorker(idepo);
-			
 			String orderNo = iw.getId() + "";
 			SysTransaction sysTransaction = new SysTransaction();
 			sysTransaction.setTransCardNum(sysAlipayConfig.getSellerEmail());
@@ -156,6 +151,7 @@ public class AlipayController extends BaseController{
 				return new Message("error","pay_channel_unkonw", "未知支付方式！", null);
 			}
 			sysTransaction.setTitle("支付宝线下条码支付");
+			
 			sysTransaction.setSerialNo(merchant_num);
 			sysTransaction.setTerminalNum(terminal_unique_no);
 			sysTransaction.setTransNum(orderNo);
@@ -168,12 +164,13 @@ public class AlipayController extends BaseController{
 			sysTransaction.setStatus(1); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
 			sysTransaction.setTransType(0);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("支付宝线下条码支付");
+			sysTransaction.setSubject(subject);
 			sysTransactionService.save(sysTransaction);
+			
 			Map<String,String> map = new HashMap<>();
 			map.put("AGENT_ID", sysMerchant.getAgentSerialNo());
 			//代理商需要分润，支付时需要带入分润ID
 			String extend_params = mapper.writeValueAsString(map);
-			
 			if(Strings.isNullOrEmpty(subject)){
 				subject = "alipay online";
 			}
@@ -212,7 +209,7 @@ public class AlipayController extends BaseController{
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
 		String user_order_no = request.getParameter("user_order_no"); //用户订单号
-
+		
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
 				|| Strings.isNullOrEmpty(client_type)

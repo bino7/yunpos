@@ -62,21 +62,22 @@ public class SysTransaction extends GridRequest implements Serializable {
 	private Integer status; // 付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
 
 	private Integer transType; // 交易类型，0:支付，1:退款
-	
+
 	private String transTypeStr;
 
 	private String orderId;
-	
-
-	public Integer getTransType() {
-		return transType;
-	}
 
 	private String oid;
 
 	private String info; // 备注
 
 	private String user_order_no;
+	private String trade_no;	//第三方平台交易号
+	private String subject;		//订单简要描述
+
+	public Integer getTransType() {
+		return transType;
+	}
 
 	public Integer getId() {
 		return id;
@@ -291,7 +292,6 @@ public class SysTransaction extends GridRequest implements Serializable {
 		this.user_order_no = user_order_no;
 	}
 
-
 	public void setTransTypeStr(String transTypeStr) {
 		this.transTypeStr = transTypeStr;
 	}
@@ -303,7 +303,21 @@ public class SysTransaction extends GridRequest implements Serializable {
 	public Integer getScanType() {
 		return scanType;
 	}
-	
-	
 
+	public String getTrade_no() {
+		return trade_no;
+	}
+
+	public void setTrade_no(String trade_no) {
+		this.trade_no = trade_no;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	
 }

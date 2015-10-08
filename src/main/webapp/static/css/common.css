@@ -147,7 +147,7 @@ form .progress {
 form button {
     padding: 3px 10px;
     font-weight: bold;
-    margin-top: 10px;
+   /*  margin-top: 10px; */
 }
 
 .sub {

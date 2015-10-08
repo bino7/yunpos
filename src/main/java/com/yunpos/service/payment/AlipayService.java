@@ -112,7 +112,7 @@ public class AlipayService {
 			if ("T".equalsIgnoreCase(result.get("is_success"))) {// T代表成功
 				if (result.get("result_code").equals("SUCCESS")) {
 					QueryResData queryResData = new QueryResData(PayChannel.ALIPAY, result, alipayQueryReqData.toMap());
-					return new Message(ResultCode.SUCCESS.name(), "", "支付成功", queryResData.toMap()); // 支付宝交易流水号
+					return new Message(ResultCode.SUCCESS.name(), "", "查询成功", queryResData.toMap()); // 支付宝交易流水号
 				} else {
 					String detail_error_code = result.get("detail_error_code");
 					String detail_error_des = result.get("detail_error_des");

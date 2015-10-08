@@ -257,28 +257,86 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
 	        			 }
 	        		 }	        		 
 	        	 }	        	 
-	         }          
+	         } 
+	         //图片显示
+	     	document.getElementById("operatePhotoImg").src = $scope.merchant.operatePhoto;
+	     	document.getElementById("businessLicenseImg").src = $scope.merchant.businessLicense;
+	     	document.getElementById("identityCardOffImg").src = $scope.merchant.identityCardOff;
+	     	document.getElementById("identityCardOnImg").src = $scope.merchant.identityCardOn;
+	     	document.getElementById("organizeBarCodeImg").src = $scope.merchant.organizeBarCodePic;
+	     	document.getElementById("taxBarCodeImg").src = $scope.merchant.taxBarCodePic;
+	     	document.getElementById("bankCardOnImg").src = $scope.merchant.bankCardOn;
+	     	document.getElementById("bankCardOffImg").src = $scope.merchant.bankCardOff;
+	     	document.getElementById("openBankLicenseImg").src = $scope.merchant.openBankLicense;
+	     	document.getElementById("signAccountImg").src = $scope.merchant.signAccount;
+
+
+	         
+	         
+	         
 	        });
 	};
 	
 	$scope.saved = {};
     $scope.save = function(merchant) {
+    	$scope.saved = angular.copy(merchant);
     	//日期格式化
-    	 merchant.endTime = formatDateTime(new Date(merchant.endTime));
-    	 merchant.identityBt = formatDateTime(new Date(merchant.identityBt));
-    	 merchant.identityEt = formatDateTime(new Date(merchant.identityEt));
-    	 merchant.organizeBarCodeBt = formatDateTime(new Date(merchant.organizeBarCodeBt));
-    	 merchant.organizeBarCodeEt = formatDateTime(new Date(merchant.organizeBarCodeEt));
-    	 merchant.taxBarCodeBt = formatDateTime(new Date(merchant.taxBarCodeBt));
-    	 merchant.taxBarCodeEt = formatDateTime(new Date(merchant.taxBarCodeEt));
+    	$scope.saved.endTime = formatDateTime(new Date(merchant.endTime));
+    	$scope.saved.identityBt = formatDateTime(new Date(merchant.identityBt));
+    	$scope.saved.identityEt = formatDateTime(new Date(merchant.identityEt));
+    	$scope.saved.organizeBarCodeBt = formatDateTime(new Date(merchant.organizeBarCodeBt));
+    	$scope.saved.organizeBarCodeEt = formatDateTime(new Date(merchant.organizeBarCodeEt));
+    	$scope.saved.taxBarCodeBt = formatDateTime(new Date(merchant.taxBarCodeBt));
+    	$scope.saved.taxBarCodeEt = formatDateTime(new Date(merchant.taxBarCodeEt));
     	 //设置省、市、区
-    	 merchant.prov=merchant.prov.code;
-    	 merchant.city=merchant.city.code;
-    	 merchant.area=merchant.area.code;
-    	 merchant.openBankProv = merchant.openBankProv.code;
-    	 merchant.openBankCity = merchant.openBankCity.code;    
+    	$scope.saved.prov=merchant.prov.code;
+    	$scope.saved.city=merchant.city.code;
+    	$scope.saved.area=merchant.area.code;
+    	$scope.saved.openBankProv = merchant.openBankProv.code;
+    	$scope.saved.openBankCity = merchant.openBankCity.code;    
     	 //图片转换
-    	 merchant.operatePhoto = document.getElementById("operatePhoto").value;
+    	
+    	var operatePhoto = document.getElementById("operatePhoto").value;
+    	if (operatePhoto!="") {
+    		$scope.saved.operatePhoto = operatePhoto;
+    	}
+    	var businessLicense = document.getElementById("businessLicense").value;
+    	if (businessLicense!="") {
+    		$scope.saved.businessLicense = businessLicense;
+    	}
+    	var identityCardOff = document.getElementById("identityCardOff").value;
+    	if (identityCardOff!="") {
+    		$scope.saved.identityCardOff = identityCardOff;
+    	}
+    	var identityCardOn = document.getElementById("identityCardOn").value;
+    	if (identityCardOn!="") {
+    		$scope.saved.identityCardOn = identityCardOn;
+    	}
+    	var organizeBarCodePic = document.getElementById("organizeBarCodePic").value;
+    	if (organizeBarCodePic!="") {
+    		$scope.saved.organizeBarCodePic = organizeBarCodePic;
+    	}
+    	var taxBarCodePic = document.getElementById("taxBarCodePic").value;
+    	if (taxBarCodePic!="") {
+    		$scope.saved.taxBarCodePic = taxBarCodePic;
+    	}
+    	var bankCardOn = document.getElementById("bankCardOn").value;
+    	if (bankCardOn!="") {
+    		$scope.saved.bankCardOn = bankCardOn;
+    	}
+    	var bankCardOff = document.getElementById("bankCardOff").value;
+    	if (bankCardOff!="") {
+    		$scope.saved.bankCardOff = bankCardOff;
+    	}
+    	var openBankLicense = document.getElementById("openBankLicense").value;
+    	if (openBankLicense!="") {
+    		$scope.saved.openBankLicense = openBankLicense;
+    	}
+    	var signAccount = document.getElementById("signAccount").value;
+    	if (signAccount!="") {
+    		$scope.saved.signAccount = signAccount;
+    	}
+    	
     	 /*
     	 merchant.terminals  = "";
     	  $scope.tags.filter(function(item) {
@@ -287,7 +345,7 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
     		 }
 	    });
 	    */
-    	 $scope.saved = angular.copy(merchant);
+    	 
 	     $http({
 	        method  : 'put',
 	        url     : '/ajax/merchant/' + $scope.saved.id,

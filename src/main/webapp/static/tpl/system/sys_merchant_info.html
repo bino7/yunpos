@@ -190,7 +190,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">
-                                	实际经营地照片11111111111sss：
+                                	实际经营地照片：
                             </label>
 
 							<div class="col-md-9">
@@ -218,7 +218,22 @@
                                 	商户营业执照：
                             </label>
                             <div class="col-md-9">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.businessLicense">
+                               <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="businessLicensepicFile" name="file" accept="image/*"> 
+												<img ngf-src="businessLicensepicFile" src="" id="businessLicenseImg" class="thumb">
+												<button ng-click="uploadPic(businessLicensepicFile,'businessLicense')" id="businessLicenseButton">上传</button>
+												<span ng-show="businessLicensepicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="businessLicensepicFile.progress >= 0">
+													<div style="width: {{businessLicensepicFile.progress"
+														ng-bind="businessLicensepicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.businessLicense"
+													value='' id="businessLicense"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>
                         </div>
                          <div class="form-group">
@@ -301,11 +316,41 @@
                             </label>
                             <div class="col-md-4">
                             <label>正面：</label>
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.identityCardOn">
+                               <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="identityCardOnpicFile" name="file" accept="image/*"> 
+												<img ngf-src="identityCardOnpicFile" src="" id="identityCardOnImg" class="thumb">
+												<button ng-click="uploadPic(identityCardOnpicFile,'identityCardOn')" id="identityCardOnButton">上传</button>
+												<span ng-show="identityCardOnpicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="identityCardOnpicFile.progress >= 0">
+													<div style="width: {{identityCardOnpicFile.progress"
+														ng-bind="identityCardOnpicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.identityCardOn"
+													value='' id="identityCardOn"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>
                             <div class="col-md-4">
                             <label>反面：</label>
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.identityCardOff">
+                               <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="identityCardOffpicFile" name="file" accept="image/*"> 
+												<img ngf-src="identityCardOffpicFile" src="" id="identityCardOffImg" class="thumb">
+												<button ng-click="uploadPic(identityCardOffpicFile,'identityCardOff')" id="identityCardOffButton">上传</button>
+												<span ng-show="identityCardOffpicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="identityCardOffpicFile.progress >= 0">
+													<div style="width: {{identityCardOffpicFile.progress"
+														ng-bind="identityCardOffpicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.identityCardOff"
+													value='' id="identityCardOff"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>
                         </div>
                         
@@ -355,7 +400,22 @@
                                 	组织机构代码证：
                             </label>
                             <div class="col-md-9">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.organizeBarCodePic">
+                             <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="organizeBarCodePicFile" name="file" accept="image/*"> 
+												<img ngf-src="organizeBarCodePicFile" src="" id="organizeBarCodeImg" class="thumb">
+												<button ng-click="uploadPic(organizeBarCodePicFile,'organizeBarCodePic')" id="organizeBarCodePicButton">上传</button>
+												<span ng-show="organizeBarCodePicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="organizeBarCodePicFile.progress >= 0">
+													<div style="width: {{organizeBarCodePicFile.progress"
+														ng-bind="organizeBarCodePicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.organizeBarCodePic"
+													value='' id="organizeBarCodePic"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -395,7 +455,22 @@
                                 	税务登记证：
                             </label>
                             <div class="col-md-9">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.taxBarCodePic">
+                             <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="taxBarCodePicFile" name="file" accept="image/*"> 
+												<img ngf-src="taxBarCodePicFile" src="" id="taxBarCodeImg" class="thumb">
+												<button ng-click="uploadPic(taxBarCodePicFile,'taxBarCodePic')" id="taxBarCodePicButton">上传</button>
+												<span ng-show="taxBarCodePicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="taxBarCodePicFile.progress >= 0">
+													<div style="width: {{taxBarCodePicFile.progress"
+														ng-bind="taxBarCodePicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.taxBarCodePic"
+													value='' id="taxBarCodePic"> 								
+										</div>
+										<br />
+									</div>
+								 </div>                         
                             </div>
                         </div>
                         
@@ -514,11 +589,40 @@
                             </label>
                             <div class="col-md-4">
                             <label>正面：</label>
-                            <input type="text" class="form-control" placeholder="" ng-model="merchant.bankCardOn">
+                             <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="bankCardOnPicFile" name="file" accept="image/*"> 
+												<img ngf-src="bankCardOnPicFile" src="" id="bankCardOnImg" class="thumb">
+												<button ng-click="uploadPic(bankCardOnPicFile,'bankCardOn')" id="bankCardOnButton">上传</button>												
+												<span ng-show="bankCardOnPicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="bankCardOnPicFile.progress >= 0">
+													<div style="width: {{bankCardOnPicFile.progress"
+														ng-bind="bankCardOnPicFile.progress + '%'"></div>
+												</span>
+												 <input type="hidden" ng-model="merchant.bankCardOn" value='' id="bankCardOn"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>
                             <div class="col-md-4">
                             <label>反面：</label>
-                            <input type="text" class="form-control" placeholder="" ng-model="merchant.bankCardOff">
+                              <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="bankCardOffPicFile" name="file" accept="image/*"> 
+												<img ngf-src="bankCardOffPicFile" src="" id="bankCardOffImg" class="thumb">
+												<button ng-click="uploadPic(bankCardOffPicFile,'bankCardOff')" id="bankCardOffButton">上传</button>
+												<span ng-show="bankCardOffPicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="bankCardOffPicFile.progress >= 0">
+													<div style="width: {{bankCardOffPicFile.progress"
+														ng-bind="bankCardOffPicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.bankCardOff" value='' id="bankCardOff"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>     
                         </div>
                         <div class="form-group">
@@ -526,7 +630,21 @@
                                 	开户许可证：
                             </label>
                             <div class="col-md-9">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.openBankLicense">
+                            <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="openBankLicensePicFile" name="file" accept="image/*"> 
+												<img ngf-src="openBankLicensePicFile" src="" id="openBankLicenseImg" class="thumb">
+												<button ng-click="uploadPic(openBankLicensePicFile,'openBankLicense')" id="openBankLicenseButton">上传</button>
+												<span ng-show="openBankLicensePicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="openBankLicensePicFile.progress >= 0">
+													<div style="width: {{openBankLicensePicFile.progress"
+														ng-bind="openBankLicensePicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.openBankLicense" value='' id="openBankLicense"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>
                         </div>
                          <div class="form-group">
@@ -534,7 +652,21 @@
                                 	签约合同：
                             </label>
                             <div class="col-md-9">
-                            	<input type="text" class="form-control" placeholder="" ng-model="merchant.signAccount">
+                              <div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="signAccountPicFile" name="file" accept="image/*"> 
+												<img ngf-src="signAccountPicFile" src="" id="signAccountImg" class="thumb">
+												<button ng-click="uploadPic(signAccountPicFile,'signAccount')" id="signAccountButton">上传</button>
+												<span ng-show="signAccountPicFile.result">Upload Successful</span>
+												<span class="progress" ng-show="signAccountPicFile.progress >= 0">
+													<div style="width: {{signAccountPicFile.progress"
+														ng-bind="signAccountPicFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.signAccount" value='' id="signAccount"> 								
+										</div>
+										<br />
+									</div>
+								 </div>
                             </div>
                         </div>
                         <div class="form-group">

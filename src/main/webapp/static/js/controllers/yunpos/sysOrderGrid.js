@@ -34,7 +34,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
                {field: 'productPrice', displayName: '订单金额', enableCellEdit: false, width: 80},
                {field: 'trueName', displayName: '联系人', enableCellEdit: false, width: 100}, 
                {field: 'tel',displayName: '联系电话',enableCellEdit: false, width: 100}, 
-               {field: 'payStatus', displayName: '交易状态', enableCellEdit: false, width: 80 }, 
+               {field: 'payStatusStr', displayName: '交易状态', enableCellEdit: false, width: 80 }, 
                {field: 'createdAt', displayName: '下单时间', enableCellEdit: false, width: 140 }, 
                {field: 'status', displayName: '来源类型', enableCellEdit: false, width: 120 }, 
                {field: 'openId', displayName: '支付流水号', enableCellEdit: false, width: 120 }, 

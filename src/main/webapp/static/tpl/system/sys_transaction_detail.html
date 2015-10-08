@@ -7,10 +7,11 @@
 				<label> 商品名称： </label>{{transaction.title}}
 			</div>
 			<div class="form-group">
-					<label>支付渠道：</label>  <span ng-if="transaction.channel==1">微信</span>
+					<label>支付渠道：</label>  {{transaction.channelStr}}
+					<!-- <span ng-if="transaction.channel==1">微信</span>
 											<span ng-show="transaction.channel==0">支付宝</span>
 											<span ng-if="transaction.channel==2">银联</span>
-											<span ng-show="transaction.channel==3">预付款</span>
+											<span ng-show="transaction.channel==3">预付款</span> -->
 				</div>
 				 <div class="form-group">
 					<label>商户名：</label> {{transaction.merchantName}}
@@ -33,16 +34,16 @@
 					<label>交易时间：</label> {{transaction.transTime}}
 				</div>
 				<div class="form-group">
-					<label>交易金额：</label> {{transaction.transPrice}}
+					<label>交易金额：</label> {{transaction.totalPrice}}
 				</div> 
 				 	<div class="form-group">
-					<label>扫描类型：</label> {{transaction.scanType}}
+					<label>扫描类型：</label> {{transaction.scanTypeStr}}
 				</div>
 				<div class="form-group">
 					<label>卡券核销码：</label> {{transaction.couponCode}}
 				</div> 
 				 	<div class="form-group">
-					<label>交易类型：</label> {{transaction.transType}}
+					<label>交易类型：</label> {{transaction.transTypeStr}}
 				</div>
 				<div class="form-group">
 					<label>备注：</label> {{transaction.info}}

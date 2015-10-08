@@ -29,7 +29,7 @@ public class SysTransaction extends GridRequest implements Serializable {
 
 	private Integer channel; // 支付渠道,，1支付宝，2微信，3银联，4：预存款
 
-	private String channelStr; // 页面中文显示
+	private String channelStr; // 页面中文显示   支付渠道
 
 	private Integer subChannel; // 细分渠道，0：支付宝Wap，1:支付宝手机
 
@@ -55,7 +55,7 @@ public class SysTransaction extends GridRequest implements Serializable {
 
 	private Integer scanType; // 扫描类型，正扫：QR_CODE_OFFLIN，反扫：BARCODE_PAY_OFFLINE
 
-	private String scanTypeStr;
+	private String scanTypeStr;  
 
 	private String couponCode; // 卡券核销码
 

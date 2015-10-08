@@ -74,6 +74,8 @@ public class SysOrder  extends GridRequest {
     private Byte payType;
 
     private Byte payStatus;
+    
+    private String payStatusStr;//交易状态页面显示
 
     private Integer score;
 
@@ -303,25 +305,9 @@ public class SysOrder  extends GridRequest {
         this.payType = payType;
     }
 
-    public String getPayStatus() {
+    public Byte getPayStatus() {
     	
- 	if(this.payStatus!=null){
-    /*	switch(this.payStatus){
-    	case 0 : return "已支付";
-    	case 1 : return "已取消";
-    	default : return ;
-    	}*/
- 		if(this.payStatus == 0){
-    		return  "已支付";
-    	}else if(this.payStatus==1){
-    		return  "已取消";
-    	}else{
-    		return null;
-    	}
- 	}else{
- 		return null;
- 	}
-        
+    	return payStatus;
     }
 
     public void setPayStatus(Byte payStatus) {
@@ -367,4 +353,28 @@ public class SysOrder  extends GridRequest {
     public void setShopId(String shopId) {
         this.shopId = shopId == null ? null : shopId.trim();
     }
+
+	public String getPayStatusStr() {
+		if(this.payStatus!=null){
+		    /*	switch(this.payStatus){
+		    	case 0 : return "已支付";
+		    	case 1 : return "已取消";
+		    	default : return ;
+		    	}*/
+		 		if(this.payStatus == 0){
+		    		return  "已支付";
+		    	}else if(this.payStatus==1){
+		    		return  "已取消";
+		    	}else{
+		    		return null;
+		    	}
+		 	}else{
+		 		return null;
+		 	}
+		        
+	}
+
+	public void setPayStatusStr(String payStatusStr) {
+		this.payStatusStr = payStatusStr;
+	}
 }

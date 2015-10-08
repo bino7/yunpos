@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.yunpos.payment.RefundResData.PayChannel;
+import com.yunpos.payment.alipay.util.Constant;
 import com.yunpos.utils.AmountUtils;
 
 /**
@@ -30,13 +31,17 @@ public class QueryResData {
 	private String trans_time = ""; // 交易时间
 	private String trans_amount = ""; // 实际交易金额
 	private String total_fee = ""; // 交易金额
-	private String user_order_no = "";
+	private String user_order_no = "";	//商户订单号
+	private String trade_state = "";	//交易状态
+	private String trade_state_desc = "";//交易状态描述
 
 	// 支付返回类型数据转换
 	public QueryResData(PayChannel channel, Map<String, String> resMap, Map<String, String> map) {
 		try {
 			if (channel.equals(PayChannel.WECHAT)) {// 微信
 				// 支付渠道返回信息
+				this.trade_state = resMap.get("trade_state");
+				this.trade_state_desc = resMap.get("trade_state_desc");
 				this.trans_type = resMap.get("trade_type");
 				this.terminal_num = resMap.get("device_info");
 				this.trans_card_num = "";
@@ -53,11 +58,13 @@ public class QueryResData {
 			}
 			if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
 				// 支付渠道返回信息
-				this.trans_card_num = "";
+				this.trade_state =resMap.get("trade_state") ;
+				this.trade_state_desc = Constant.getAlipayTradeStatus(resMap.get("trade_state_desc"));   
 				this.trace_num = resMap.get("out_trade_no");
 				this.trans_time = resMap.get("send_pay_date");
 				this.trans_amount = resMap.get("total_fee");
 				this.total_fee = resMap.get("total_fee");
+				this.trans_card_num = "";
 				// 平台返回信息
 				this.dynamic_type = "2";
 				this.trans_type = "";
@@ -159,6 +166,22 @@ public class QueryResData {
 
 	public void setUser_order_no(String user_order_no) {
 		this.user_order_no = user_order_no;
+	}
+	
+	public String getTrade_state() {
+		return trade_state;
+	}
+
+	public void setTrade_state(String trade_state) {
+		this.trade_state = trade_state;
+	}
+
+	public String getTrade_state_desc() {
+		return trade_state_desc;
+	}
+
+	public void setTrade_state_desc(String trade_state_desc) {
+		this.trade_state_desc = trade_state_desc;
 	}
 
 	public Map<String, String> toMap() {

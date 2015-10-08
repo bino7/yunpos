@@ -193,6 +193,7 @@ public class WechatPayService {
 						&& responseXml.get("trade_state").equals("SUCCESS")) {
 					log.info("查询到订单支付成功");
 					QueryResData queryResData = new QueryResData(PayChannel.WECHAT, responseXml, map);
+					
 					return new Message(ResultCode.SUCCESS.name(), "", "支付成功", queryResData.toMap()); // 支付宝交易流水号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");

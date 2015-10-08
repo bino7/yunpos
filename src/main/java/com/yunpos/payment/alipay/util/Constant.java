@@ -18,6 +18,7 @@ public class Constant {
 	
 	private static ResourceBundle err_msg_alipay = null;
 	private static ResourceBundle err_msg_wxpay = null;
+	private static ResourceBundle alipay_trade_status = null;
 	
 	/**
 	 * 获取支付异常信息
@@ -41,6 +42,13 @@ public class Constant {
 			err_msg_wxpay = ResourceBundle.getBundle("paymsg/wxpay_error_msg");
 		}
 		return err_msg_wxpay.containsKey(errorCode)?err_msg_wxpay.getString(errorCode):"";
+	}
+	
+	public static String getAlipayTradeStatus(String errorCode){
+		if(null == alipay_trade_status){
+			alipay_trade_status = ResourceBundle.getBundle("paymsg/alipay_trade_state");
+		}
+		return alipay_trade_status.containsKey(errorCode)?alipay_trade_status.getString(errorCode):"";
 	}
 
 }

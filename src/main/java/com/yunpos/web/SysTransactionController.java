@@ -59,10 +59,18 @@ public class SysTransactionController {
 	}
 	
 	@RequestMapping(value = "/ajax/transaction/update/{id}")
-	public String update(@Valid SysTransaction sysTransaction, @PathVariable("id") int id) {
+	public GridRowResponse update(@Valid SysTransaction sysTransaction, @PathVariable("id") int id) {
 		sysTransaction.setId(id);
 		sysTransactionService.update(sysTransaction);
-		return "pay_success";
+		return new GridRowResponse(sysTransaction.getId());
+	}
+	
+	@RequestMapping(value = "/ajax/transaction/updateByTransNum/{transNum}")
+	public GridRowResponse updateByTransNum(@Valid SysTransaction sysTransaction, @PathVariable("transNum") String transNum) {
+		SysTransaction	trans = sysTransactionService.findByTransNum(transNum);
+		sysTransaction.setId(trans.getId());
+		sysTransactionService.update(sysTransaction);
+		return new GridRowResponse(sysTransaction.getId());
 	}
 }
 	

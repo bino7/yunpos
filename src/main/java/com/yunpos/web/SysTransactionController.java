@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
+import com.yunpos.model.SysOrder;
 import com.yunpos.model.SysTransaction;
 import com.yunpos.service.SysTransactionService;
+import com.yunpos.utils.jqgrid.GridRowResponse;
 import com.yunpos.utils.jqgrid.JqGridResponse;
 
 /**
@@ -48,6 +50,12 @@ public class SysTransactionController {
 	@RequestMapping(value = "/ajax/transaction/{id}", method = GET)
 	public SysTransaction read(@PathVariable("id") int id) {
 		return sysTransactionService.findById(id);
+	}
+	
+	@RequestMapping(value = "/ajax/transaction", method = RequestMethod.POST)
+	public GridRowResponse create(@Valid SysTransaction sysTransaction) {
+		sysTransactionService.save(sysTransaction);
+		return new GridRowResponse(sysTransaction.getId());
 	}
 	
 	@RequestMapping(value = "/ajax/transaction/update/{id}")

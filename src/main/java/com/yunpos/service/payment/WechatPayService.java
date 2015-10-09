@@ -293,7 +293,7 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message refundQuery(RefundQueryReqData refundQueryReqData,SysWechatConfigWithBLOBs sysWechatConfig,String user_order_no) throws Exception {
+	public Message refundQuery(RefundQueryReqData refundQueryReqData,SysWechatConfigWithBLOBs sysWechatConfig,Map<String,String> reqParamMap) throws Exception {
 		// 把请求参数打包成数组
 		log.info("退款查询请求参数:" + refundQueryReqData.toMap().toString());
 		try {
@@ -348,8 +348,7 @@ public class WechatPayService {
 
 				if (responseXml.get("result_code").equals("SUCCESS")) {
 					log.info("退款查询成功");
-					RefundQueryResData refundQueryResData = new RefundQueryResData(PayChannel.WECHAT, responseXml,
-							null,user_order_no);
+					RefundQueryResData refundQueryResData = new RefundQueryResData(PayChannel.WECHAT, responseXml,reqParamMap);
 					return new Message(ResultCode.SUCCESS.name(), "", "查询成功", refundQueryResData.toMap()); // 微信支付订单号
 				} else {// result_code FAIL
 					String errorCode = responseXml.get("err_code");

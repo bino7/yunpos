@@ -33,22 +33,18 @@ public class RefundQueryResData {
 	private String user_order_no = "";
 
 	// 支付返回类型数据转换
-	public RefundQueryResData(PayChannel channel, Map<String, String> resMap, Map<String, String> map,
-			String user_order_no) {
+	public RefundQueryResData(PayChannel channel, Map<String, String> resMap, Map<String, String> reqParamMap) {
 		if (channel.equals(PayChannel.WECHAT)) {// 微信
 			this.dynamic_type = "1";
-			this.trans_type = "";
-			this.merchant_name = "测试商户名";
+			this.merchant_name = reqParamMap.get("merchant_name");
 			this.merchant_num = resMap.get("mch_id");
 			this.terminal_num = resMap.get("device_info");
-			this.trans_card_num = "";
 			this.trace_num = resMap.get("out_trade_no");
 			this.trans_time = DateUtil.getNow("yyyy-MM-dd HH:mm:ss");
 			this.trans_amount = resMap.get("refund_fee");
 			this.total_fee = resMap.get("total_fee");
-			this.user_order_no = user_order_no;
+			this.user_order_no = reqParamMap.get("user_order_no");
 		}
-
 	}
 
 	public String getDynamic_type() {

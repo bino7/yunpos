@@ -245,6 +245,26 @@ app.controller('SysWechatTestCtl', function($scope, $http, $state, $stateParams)
 	      	alert("系统错误！");
 	     });
 	};
+	
+	//查询
+   $scope.barquerydata = {};
+   $scope.wechatBarQueryTest = function(barquerydata) {
+    	 $scope.bardata = angular.copy(barquerydata);
+	     $http({
+	        method  : 'post',
+	        url     : '/ajax/wechat/bar/test',
+	        params  : $scope.barquerydata
+	     }).success(function(data) {
+	    	 if(data.result_code=='SUCCESS'){
+	    		 alert("支付成功");
+	    	 }else{
+	    		 alert(data.result_code+"|"+data.err_code +"|"+data.result_msg);
+	    	 }
+	     }).error(function(data,status,headers,config){
+	      	alert("系统错误！");
+	     });
+	};
+
      
 	//扫码支付测试
      $scope.scandata = {};

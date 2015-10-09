@@ -688,17 +688,16 @@ public class WchatpayController extends BaseController{
 	@ResponseBody
 	public Object refundQuery(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,String> reqParamMap = this.getRequestParams(request);
-		String pay_channel = request.getParameter("pay_channel");
 		String merchant_num = request.getParameter("merchant_num");
-		String trace_num = request.getParameter("trace_num");
-		String refund_amount = request.getParameter("refund_amount");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
 		String user_order_no =  request.getParameter("user_order_no"); 
+		String trace_num = request.getParameter("trace_num");
 
-		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
-				|| Strings.isNullOrEmpty(user_order_no) || Strings.isNullOrEmpty(refund_amount)
-				|| Strings.isNullOrEmpty(terminal_unique_no)) {
-			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
+		if (Strings.isNullOrEmpty(merchant_num)) {
+			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "商户号不能为空！", null);
+		}
+		if (Strings.isNullOrEmpty(user_order_no)&&Strings.isNullOrEmpty(terminal_unique_no)) {
+			return new Message(ResultCode.FAIL.name(), ErrorCode.PARAM_IS_NULL.name(), "商户订单号、平台流水号不能同时为空！", null);
 		}
 		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
@@ -729,7 +728,8 @@ public class WchatpayController extends BaseController{
 			}
 			
 			RefundQueryReqData refundQueryReqData = new RefundQueryReqData(out_trade_no, terminal_unique_no,sysWechatConfig);
-			payMsg = wechatPayService.refundQuery(refundQueryReqData, sysWechatConfig,user_order_no);
+			reqParamMap.put("merchant_name", sysMerchant.getMerchantName());
+			payMsg = wechatPayService.refundQuery(refundQueryReqData, sysWechatConfig,reqParamMap);
 
 		} catch (Exception e) {
 			log.error("微信退款出现异常：", e);

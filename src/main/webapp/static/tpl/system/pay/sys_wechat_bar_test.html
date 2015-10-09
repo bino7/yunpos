@@ -1,90 +1,305 @@
 <div class="well" ng-controller="SysWechatTestCtl">
-	<div class="row">
-		<div class="col-md-9">
-			<div class="row">
-				<div class="col-md-12">
-					<form class="form-horizontal" role="form" name="form">
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付方式： </label>
-							<div class="col-sm-10">
-								<p class="form-control-static">微信条码支付测试</p>
+	<div>
+		<tabset class="tab-container"> <tab> <tab-heading>支付测试
+		</tab-heading>
+		<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">微信条码支付测试</p>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付网关： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control"  
-									ng-model="bardata.url" ng-init="bardata.url='http://t.o2o520.com/pay/wechatpay/create'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" ng-model="bardata.url"
+										ng-init="bardata.url='http://t.o2o520.com/pay/wechatpay/create'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付渠道： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""  
-									ng-model="bardata.pay_channel" ng-init="bardata.pay_channel='wechat'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付渠道： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.pay_channel"
+										ng-init="bardata.pay_channel='wechat'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 价格： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder="0.01"
-									ng-model="bardata.total_fee" ng-init="bardata.total_fee='0.01'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 价格： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder="0.01"
+										ng-model="bardata.total_fee"
+										ng-init="bardata.total_fee='0.01'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 付款码： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.dynamic_id" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 付款码： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.dynamic_id">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 商户号： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.merchant_num" ng-init="bardata.merchant_num='201509020001'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.merchant_num"
+										ng-init="bardata.merchant_num='201509020001'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 终端编号： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.terminal_unique_no" ng-init="bardata.terminal_unique_no='1'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 终端编号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.terminal_unique_no"
+										ng-init="bardata.terminal_unique_no='1'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 客户端类型： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.client_type" ng-init="bardata.client_type='PC'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 客户端类型： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.client_type"
+										ng-init="bardata.client_type='PC'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 商户订单号： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.user_order_no" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.user_order_no">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 订单标题： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.body" ng-init="bardata.body='微信条码支付测试'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 订单标题： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.body" ng-init="bardata.body='微信条码支付测试'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 核销码： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.cashier_num" ng-init="bardata.cashier_num='1'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 核销码： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.cashier_num"
+										ng-init="bardata.cashier_num='1'">
+								</div>
 							</div>
-						</div>
-						<button ng-click="wechatBarTest(bardata)">测试</button><button ng-click="getOrderNo(bardata)">生成订单</button>
-					</form>
-				</div>
+							<button ng-click="wechatBarTest(bardata)">测试</button>
+							<button ng-click="getOrderNo(bardata)">生成订单</button>
+						</form>
+					</div>
 
+				</div>
 			</div>
 		</div>
+		</tab> <tab> <tab-heading>查询测试</tab-heading> 
+				<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">微信条码查询测试</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" ng-model="bardata.url"
+										ng-init="barquerydata.url='http://t.o2o520.com/pay/wechatpay/query'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付渠道： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="barquerydata.pay_channel"
+										ng-init="barquerydata.pay_channel='wechat'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="barquerydata.merchant_num"
+										ng-init="barquerydata.merchant_num='201509020001'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder="商户订单号/交易流水号 二选一"
+										ng-model="barquerydata.user_order_no">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 交易流水号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder="商户订单号/交易流水号 二选一"
+										ng-model="barquerydata.trace_num">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 终端编号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="barquerydata.terminal_unique_no"
+										ng-init="barquerydata.terminal_unique_no='1'">
+								</div>
+							</div>
+							<button ng-click="wechatBarQueryTest(barquerydata)">查询</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab>
+		 <tab> <tab-heading>退款测试</tab-heading>
+					<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">微信退款测试</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" ng-model="bardata.url"
+										ng-init="bardata.url='http://t.o2o520.com/pay/wechatpay/refund'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付渠道： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.pay_channel"
+										ng-init="bardata.pay_channel='wechat'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 退款金额： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder="0.01"
+										ng-model="bardata.refund_amount"
+										ng-init="bardata.refund_amount='0.01'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 交易流水号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.trace_num">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.merchant_num"
+										ng-init="bardata.merchant_num='201509020001'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 终端编号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.terminal_unique_no"
+										ng-init="bardata.terminal_unique_no='1'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 客户端类型： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.client_type"
+										ng-init="bardata.client_type='PC'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.user_order_no">
+								</div>
+							</div>
+							<button ng-click="wechatBarTest(bardata)">测试</button>
+							<button ng-click="getOrderNo(bardata)">生成订单</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab> 
+		<tab> <tab-heading>退款查询</tab-heading>
+					<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">微信退款查询测试</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" ng-model="bardata.url"
+										ng-init="bardata.url='http://t.o2o520.com/pay/alipay/refundQuery'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.merchant_num"
+										ng-init="bardata.merchant_num='201509020001'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户支付交易流水号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder="交易流水号/商户订单号 四选一"
+										ng-model="bardata.trace_num">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户退款订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.user_order_no">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.user_order_no">
+								</div>
+							</div>
+							<button ng-click="wechatBarTest(bardata)">测试</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab>
+		</tabset>
 	</div>
 </div>

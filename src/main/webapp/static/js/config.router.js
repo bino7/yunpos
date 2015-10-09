@@ -644,8 +644,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
             	  }
               })
               .state('app.table.wechatBarTest', {//用户管理
-                  url: '/test/wechat/bar/test',
-                  templateUrl: 'tpl/system/pay/sys_wechat_bar_test.html',
+                 url: '/test/wechat/bar/test',
+                 templateUrl: 'tpl/system/pay/sys_wechat_bar_test.html',
+                  //templateUrl: 'tpl/system/sys_alipay_test_tab.html',
                   resolve: {
             		  deps: ['uiLoad',
             		         function( uiLoad ){

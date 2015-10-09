@@ -30,7 +30,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
           //  enablePinning: true,
             columnDefs: [
                {field: 'orderId', displayName: '订单号', width: 200,  pinnable: false,  sortable: false}, 
-               {field: 'sysMerchantId', displayName: '商品名', enableCellEdit: false, width: 80}, 
+               {field: 'orgName', displayName: '商品名', enableCellEdit: false, width: 80}, 
                {field: 'productPrice', displayName: '订单金额', enableCellEdit: false, width: 80},
                {field: 'trueName', displayName: '联系人', enableCellEdit: false, width: 100}, 
                {field: 'tel',displayName: '联系电话',enableCellEdit: false, width: 100}, 
@@ -49,13 +49,19 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
             pagingOptions: $scope.pagingOptions,
             filterOptions: $scope.filterOptions
         };
-    $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+    $scope.getPagedDataAsync = function (pageSize, page, searchText,payStatus) {
         setTimeout(function () {
             var data;
             if (searchText) {
-                var ft = searchText.toLowerCase();
+              var ft = searchText.toLowerCase();
+              var select_payStatus = document.getElementById("select_payStatus").value;
+      		  var select_orgName = document.getElementById("select_orgName").value;
+      		  var select_sourceType = document.getElementById("select_type").value;
+      		  var filter_text = document.getElementById("filter_text").value;
+      		  
                 data = $scope.orderData.filter(function(item) {
-                     return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                	if(JSON.stringify(item.payStatusStr).indexOf(select_payStatus) !=-1 && JSON.stringify(item.orgName).indexOf(select_orgName) != -1 && JSON.stringify(item).toLowerCase().indexOf(filter_text) != -1){
+              		  return item ;}
                 });
                 $scope.setPagingData(data,page,pageSize);
             } else {
@@ -64,7 +70,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
                     $scope.setPagingData($scope.orderData,page,pageSize);
                 });
             }
-        }, 100);
+        }, 0.01);
     };
 
     $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
@@ -72,7 +78,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
     $scope.$watch('pagingOptions', function (newVal, oldVal) {
         if (newVal !== oldVal) {
 //        	$scope.setPagingData($scope.orderData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
-            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
+            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText,$scope.option_payStatus);
         }
     }, true);
     $scope.$watch('filterOptions', function (newVal, oldVal) {
@@ -100,14 +106,14 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
 		  var ft = $scope.filterText;
 		  var gt = $scope.option_zero;
 		  var select_payStatus = document.getElementById("select_payStatus").value;
-		  var select_orgName = document.getElementById("select_orgName").value;
-		  var select_two = document.getElementById("select_two").value;
-		  
+		  var select_order_type= document.getElementById("select_order_type").value;
+		  var select_sourceType = document.getElementById("select_type").value;
+		  var filter_text = document.getElementById("filter_text").value;
 		  
           var data = $scope.orderData.filter(function(item) {
         	/* alert(item.payStatus);*/
         	  
-        	  if(JSON.stringify(item.payStatus).indexOf(select_payStatus) !=-1 && JSON.stringify(item.orgName).indexOf(select_orgName) != -1 && JSON.stringify(item).toLowerCase().indexOf(ft) != -1){
+        	  if(JSON.stringify(item.payStatusStr).indexOf(select_payStatus) !=-1 && JSON.stringify(item.industryTypeId).indexOf(select_order_type) != -1 && JSON.stringify(item).toLowerCase().indexOf(filter_text) != -1){
         		  return item ;}
          });
    
@@ -187,11 +193,11 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
     
     
     
-    $http.get('/ajax/order/search').success(function (largeLoad) {
+   /* $http.get('/ajax/order/search').success(function (largeLoad) {
         $scope.orderData = largeLoad.rows;
         $scope.setPagingData($scope.orderData,1,10);
     });
-	
+	*/
 	
 	
 /*	

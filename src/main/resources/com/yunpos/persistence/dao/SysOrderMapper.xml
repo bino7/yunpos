@@ -143,10 +143,11 @@
 	</sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select *
     <include refid="Base_Column_List" />
-    from sys_order
-    where id = #{id,jdbcType=INTEGER}
+    form sys_order order ,sys_merchant merc 
+    where order.sysMerchantId = merc.serialNo   
+    and order.id  = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_order

@@ -2,6 +2,8 @@ var time_left;
 app.controller('TransactionListCtrl',  function($scope, $http, $state, $stateParams) {
     $scope.filterOptions = {
         filterText: "",
+        transaction_time_one:"",
+        transaction_time_two:"",
         useExternalFilter: true
     }; 
    
@@ -56,36 +58,19 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
     
     $scope.getPagedDataAsync = function (pageSize, page, searchText,json_channel,transType,transaction_time_one,transaction_time_two) {
         setTimeout(function () {
+        	var select_channel = document.getElementById("select_zero").value;
+       	 var select_transType = document.getElementById("select_one").value;
+       	 var filter_text = document.getElementById("filter_text").value;
             var data;
-            if ( searchText || json_channel || transType ||transaction_time_one || transaction_time_two) {
-            	 var select_channel = document.getElementById("select_zero").value;
-            	 var select_transType = document.getElementById("select_one").value;
-            	 /*var ft = searchText.toLowerCase();*/
-            	 /*var ft = $scope.filterText;*/
-            	 if (typeof(searchText) == "undefined") {
-      			   searchText=null;
-      			}   
-            	 var date2 ;
-           	  var date3 ;
-           	var transTimeOne = document.getElementById("transaction_time_left").value ;
-  		  var transTimeTwo = document.getElementById("transaction_time_right").value ;
-  		if(transTimeOne != null && transTimeOne != ''){
-			  transTimeOne  = transTimeOne +  " 00:00:00";
-			  date2 = new Date(transTimeOne.replace(/-/g , '/'))
-		  }
-		  if(transTimeTwo != null && transTimeTwo != ''){
-			  transTimeTwo  =  transTimeTwo + " 23:59:59";
-			  date3 = new Date(transTimeTwo.replace(/-/g , '/'));
-		  }
-                
+            if ( searchText || json_channel || transType || transaction_time_one || transaction_time_two) {
                 data = $scope.transactionData.filter(function(item) {
                 	 var date1 = new Date(item.transTime.replace(/-/g , '/'));
                 	 var checkDate2 = true;
                	  var checkDate3 = true;
-               	  if(date2 != null && date1 < date2) {
+               	  if(transaction_time_one != null && date1 < transaction_time_one) {
                		  checkDate2 = false;
                	  }
-               	  if(date3 != null && date1 > date3) {
+               	  if(transaction_time_two != null && date1 > transaction_time_two) {
                		  checkDate3 = false;
                	  }
                	  
@@ -102,7 +87,7 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
                     $scope.setPagingData($scope.transactionData,page,pageSize);
                 });
             }
-        }, 100);
+        }, 0.1);
     };
 
     $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
@@ -110,7 +95,29 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
     $scope.$watch('pagingOptions', function (newVal, oldVal) {
         if (newVal !== oldVal) {
 //        	$scope.setPagingData($scope.transactionData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
-            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText, $scope.option_zero, $scope.select_one, time_left, $scope.transaction_time_two);
+        	 var select_channel = document.getElementById("select_zero").value;
+        	 var select_transType = document.getElementById("select_one").value;
+        	 var filter_text = document.getElementById("filter_text").value;
+        	
+        	 /*var ft = searchText.toLowerCase();*/
+        	 /*var ft = $scope.filterText;*/
+        	 var transaction_time_lef =  $scope.transaction_time_one;
+        	 var transaction_tion_righ = $scope.transaction_time_one;
+        	 var date2 ;
+       	     var date3 ;
+	       	 var transTimeOne = document.getElementById("transaction_time_left").value ;
+			 var transTimeTwo = document.getElementById("transaction_time_right").value ;
+			if(transTimeOne != null && transTimeOne != ''){
+			  transTimeOne  = transTimeOne +  " 00:00:00";
+			  date2 = new Date(transTimeOne.replace(/-/g , '/'))
+		  }
+		  if(transTimeTwo != null && transTimeTwo != ''){
+			  transTimeTwo  =  transTimeTwo + " 23:59:59";
+			  date3 = new Date(transTimeTwo.replace(/-/g , '/'));
+		  }
+            
+        	
+            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, filter_text, select_channel, select_transType, date2, date3);
         }
     }, true);
     $scope.$watch('filterOptions', function (newVal, oldVal) {
@@ -154,7 +161,7 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
 			  date3 = new Date(transTimeTwo.replace(/-/g , '/'));
 		  }
 			 
-			    
+		   
 		  var select_channel = document.getElementById("select_zero").value;
 		  var select_transType = document.getElementById("select_one").value;
 		 
@@ -165,8 +172,7 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
         	  var json_channel = JSON.stringify(item.channelStr).indexOf(select_channel);
         	  var json_transType = JSON.stringify(item.transTypeStr).indexOf(select_transType);
         	  var json_item = JSON.stringify(item).toLowerCase().indexOf(ft);
-        	  var date4 = date2 ==null &&  date3 ==null;
-        	  
+//        	  var date4 = date2 ==null &&  date3 ==null;
         	  var checkDate2 = true;
         	  var checkDate3 = true;
         	  if(date2 != null && date1 < date2) {
@@ -298,7 +304,7 @@ app.controller('TransactionListCtrl',  function($scope, $http, $state, $statePar
 	 * 日期时间控件
 	 */
 	app.controller('DatepickerDemoCtrl', ['$scope', function($scope) {
-		var time_left = $scope.transaction_time_one;
+		
 		
 	    $scope.today = function() {
 	      $scope.dt = new Date();

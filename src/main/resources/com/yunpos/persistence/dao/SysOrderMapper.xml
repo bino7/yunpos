@@ -7,7 +7,7 @@
     <result column="openId" property="openId" jdbcType="VARCHAR" />
     <result column="memberId" property="memberId" jdbcType="VARCHAR" />
     <result column="nickName" property="nickName" jdbcType="VARCHAR" />
-    <result column="sysMerchantId" property="sysMerchantId" jdbcType="VARCHAR" />
+    <result column="sysMerchantId" property="sysMerchantId" jdbcType="INTEGER" />
     <result column="sysMerchantSerialNo" property="sysMerchantSerialNo" jdbcType="VARCHAR" />
     <result column="agentId" property="agentId" jdbcType="VARCHAR" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
@@ -35,13 +35,18 @@
     <result column="handleStatus" property="handleStatus" jdbcType="TINYINT" />
     <result column="info" property="info" jdbcType="VARCHAR" />
     <result column="shopId" property="shopId" jdbcType="VARCHAR" />
+   <result column="sourceType" property="sourceType" jdbcType="VARCHAR" />
+    <result column="merchantType" property="merchantType" jdbcType="TINYINT" />
+     <result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
+   
   </resultMap>
   <sql id="Base_Column_List" >
-    id, orderId, openId, memberId, nickName, sysMerchantId, sysMerchantSerialNo, agentId, 
-    agentSerialNo, orgId, orgName, createdAt, updatedAt, trueName, tel, productList, 
+     orderId, openId, memberId, nickName, sysMerchantId, sysMerchantSerialNo, agentId, 
+	 orgId, orgName, createdAt, updatedAt, trueName, order1.tel, productList, 
     productPrice, total, mailPrice, couponPrice, totalPrice, groupon, groupcode, houseAddress, 
-    payTime, payMode, payType, payStatus, score, printStatus, handleStatus, info, shopId
+    payTime, payMode, payType, payStatus, score, printStatus, handleStatus, info, shopId,sourceType,
   </sql>
+ 
   
   <sql id="Select_Parm_Column_List">
 		<if test="orderId != null" >
@@ -140,14 +145,22 @@
       <if test="shopId != null" >
        and shopId = #{shopId,jdbcType=VARCHAR}
       </if>
+      <if test="sourceType != null" >
+       and sourceType = #{sourceType,jdbcType=VARCHAR}
+      </if>
+       <if test="merchantType != null" >
+       and merchantType = #{merchantType,jdbcType=VARCHAR}
+      </if>
 	</sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select *
+    select order1.id, order1.agentSerialNo,  merc.merchantType , merc.merchantName 
+   <!--  merc.merchantType as merchantType, merc.merchantName as merchantName, -->
     <include refid="Base_Column_List" />
-    form sys_order order ,sys_merchant merc 
-    where order.sysMerchantId = merc.serialNo   
-    and order.id  = #{id,jdbcType=INTEGER}
+   
+    from sys_order order1 ,sys_merchant merc 
+    where order1.sysMerchantId = merc.id   
+    and order1.id  = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_order
@@ -165,7 +178,7 @@
       groupon, groupcode, houseAddress, 
       payTime, payMode, payType, 
       payStatus, score, printStatus, 
-      handleStatus, info, shopId
+      handleStatus, info, shopId,sourceType,merchantType
       )
     values (#{orderId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, 
       #{memberId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{sysMerchantId,jdbcType=VARCHAR}, 
@@ -177,7 +190,7 @@
       #{groupon,jdbcType=BIT}, #{groupcode,jdbcType=VARCHAR}, #{houseAddress,jdbcType=VARCHAR}, 
       #{payTime,jdbcType=TIMESTAMP}, #{payMode,jdbcType=TINYINT}, #{payType,jdbcType=TINYINT}, 
       #{payStatus,jdbcType=TINYINT}, #{score,jdbcType=INTEGER}, #{printStatus,jdbcType=TINYINT}, 
-      #{handleStatus,jdbcType=TINYINT}, #{info,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}
+      #{handleStatus,jdbcType=TINYINT}, #{info,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR},#{sourceType,jdbcType=VARCHAR},#{merchantType,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysOrder" >
@@ -282,6 +295,10 @@
       <if test="shopId != null" >
         shopId,
       </if>
+      <if test="sourceType != null" >
+        sourceType,
+      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -382,6 +399,12 @@
       </if>
       <if test="shopId != null" >
         #{shopId,jdbcType=VARCHAR},
+      </if>
+       <if test="sourceType != null" >
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+       <if test="merchantType != null" >
+        #{merchantType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -484,6 +507,13 @@
       <if test="shopId != null" >
         shopId = #{shopId,jdbcType=VARCHAR},
       </if>
+       <if test="sourceType != null" >
+        sourceType = #{sourceType,jdbcType=VARCHAR},
+      </if>
+       <if test="merchantType != null" >
+        merchantType = #{merchantType,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -521,16 +551,20 @@
       handleStatus = #{handleStatus,jdbcType=TINYINT},
       info = #{info,jdbcType=VARCHAR},
       shopId = #{shopId,jdbcType=VARCHAR}
+      sourceType = #{sourceType,jdbcType=VARCHAR}
+      merchantType = #{ merchantType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
   	<select id="selectByParm" resultMap="BaseResultMap"
 		parameterType="com.yunpos.model.SysOrder">
-		select
+		select order1.id, order1.agentSerialNo,
 		<include refid="Base_Column_List" />
-		from sys_order
-		where 1 = 1
-
+	
+  merc.merchantType, merc.merchantName 
+    from sys_order order1 ,sys_merchant merc 
+    where order1.sysMerchantId = merc.id   
+   
 		<include refid="Select_Parm_Column_List" />
 
 		<if test="searchValue != null">

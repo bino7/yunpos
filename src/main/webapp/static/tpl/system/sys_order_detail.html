@@ -6,9 +6,9 @@
 			<div class="form-group">
 				<label> 订单号： </label>{{order.orderId}}
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 					<label>所属行业：</label>  {{order.industryTypeId}} 
-				</div>
+				</div> -->
 				 <div class="form-group">
 					<label>下单时间：</label> {{order.createdAt}}
 				</div> 
@@ -24,8 +24,9 @@
 				<div class="form-group">
 					<label>订单状态：</label><span ng-if="order.payStatus==1">未支付</span>
 											<span ng-show="order.payStatus==0">已支付</span>
+											</div>
 			 	<div class="form-group">
-					<label>商户名称：</label> {{order.sysMerchantId}}
+					<label>商户编码：</label> {{order.sysMerchantSerialNo}}
 				</div>  
 				 	<div class="form-group">
 					<label>订单更新时间：</label> {{order.updatedAt}}

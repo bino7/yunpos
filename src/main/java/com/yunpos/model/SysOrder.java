@@ -86,6 +86,9 @@ public class SysOrder  extends GridRequest {
     private String info;
 
     private String shopId;
+    private String sourceType;	//来源类型
+    private String merchantType;
+    private String merchantName;
 
     public Integer getId() {
         return id;
@@ -376,5 +379,29 @@ public class SysOrder  extends GridRequest {
 
 	public void setPayStatusStr(String payStatusStr) {
 		this.payStatusStr = payStatusStr;
+	}
+
+	public String getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(String sourceType) {
+		this.sourceType = sourceType;
+	}
+
+	public String getMerchantType() {
+		return merchantType;
+	}
+
+	public void setMerchantType(String merchantType) {
+		this.merchantType = merchantType;
+	}
+
+	public String getMerchantName() {
+		return merchantName;
+	}
+
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
 	}
 }

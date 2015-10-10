@@ -18,18 +18,18 @@
       </select>
  </div> -->
 			
-			  <label style="margin:0px 0px 0px 25px;">行业类型：</label>
-		     <select id="select_order_type" ng-model='filterText_one' name="order_state"> 
+			  <label style="margin:0px 0px 0px 25px;">商户类型：</label>
+		     <select id="merchant_type" ng-model='merchantType' name="order_state"> 
 				<option value="">   </option> 
-				<option value="0">已支付</option> 
-				<option value="1">已取消</option> 
+				<option value="0">个体</option> 
+				<option value="1">企业</option> 
 			</select> 
 			
 			  <label style="margin:0px 0px 0px 25px;">来源类型：</label>
-		     <select  id="select_type"  ng-model='filterText_type' name="order_state"> 
+		     <select  id="source_type"  ng-model='source_type' name="order_state"> 
 				<option value="">  </option> 
-				<option value="0">已支付</option> 
-				<option value="1">已取消</option> 
+				<option value="餐饮">餐饮</option> 
+				<option value="ktv">ktv</option> 
 			</select> 
 			
 		    </div>

@@ -30,7 +30,7 @@ import com.yunpos.utils.jqgrid.JqGridResponse;
  *
  */
 @RestController
-public class SysTransactionController {
+public class SysTransactionController extends BaseController {
 	@Autowired
 	private SysTransactionService  sysTransactionService;
 	

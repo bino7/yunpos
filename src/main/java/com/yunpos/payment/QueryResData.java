@@ -59,7 +59,7 @@ public class QueryResData {
 			if (channel.equals(PayChannel.ALIPAY)) {// 支付宝
 				// 支付渠道返回信息
 				this.trade_state =resMap.get("trade_state") ;
-				this.trade_state_desc = Constant.getAlipayTradeStatus(resMap.get("trade_state_desc"));   
+				this.trade_state_desc = Constant.getAlipayTradeStatus(resMap.get("trade_state"));
 				this.trace_num = resMap.get("out_trade_no");
 				this.trans_time = resMap.get("send_pay_date");
 				this.trans_amount = resMap.get("total_fee");

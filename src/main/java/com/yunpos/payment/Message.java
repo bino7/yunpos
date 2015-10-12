@@ -1,6 +1,7 @@
 package com.yunpos.payment;
 
 import java.io.Serializable;
+import java.util.Map;
 
 
 public class Message implements Serializable {
@@ -25,6 +26,8 @@ public class Message implements Serializable {
 	
 	public String id = "";
 	
+	public Map<String,Object> data; 
+	
 	public Message(String code, String msg) {
 		super();
 		this.code = code;
@@ -44,12 +47,12 @@ public class Message implements Serializable {
 	}
 	
 	
-	public Message(boolean isSuccess, String code, String msg,String id) {
+	public Message(boolean isSuccess, String code, String msg,Map<String,Object> map) {
 		super();
 		this.isSuccess = isSuccess;
 		this.code = code;
 		this.msg = msg;
-		this.id = id;
+		this.data = map;
 	}
 
 	public boolean isSuccess() {
@@ -83,6 +86,15 @@ public class Message implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	public Map<String, Object> getData() {
+		return data;
+	}
+
+	public void setData(Map<String, Object> data) {
+		this.data = data;
+	}
+	
 	
 	
 	

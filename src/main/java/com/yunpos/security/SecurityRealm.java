@@ -10,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -105,24 +106,45 @@ public class SecurityRealm extends AuthorizingRealm {
 	    /**
 	     * 认证
 	     */
+//	    @Override
+//	    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+//	        logger.debug("doGetAuthenticationInfo......");
+//	        CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
+//
+//	        List<SysUser> sysUsers = sysUserService.findByUserName(token.getUsername());
+//	       
+//	        if (sysUsers != null) {
+//	        	 SysUser sysUser  = sysUsers.get(0);
+//	            // 检查用户是否禁用
+//	            if (SysUser.STATUS_DISABLED.equalsIgnoreCase(sysUser.getStatus())) {
+//	                throw new DisabledAccountException();
+//	            }
+//
+//	            byte[] salt = Encodes.decodeHex(sysUser.getSalt());
+//
+//	            return new SimpleAuthenticationInfo(new SecurityUser(sysUser.getId(),sysUser.getUserName(), sysUser.getNickname(), sysUser.getOrgId(), sysUser.getOrgName()),
+//	            		sysUser.getPassword(), ByteSource.Util.bytes(salt), getName());
+//	        }
+//	        return null;
+//	    }
+	    
+	    /**
+	     * 认证
+	     */
 	    @Override
 	    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 	        logger.debug("doGetAuthenticationInfo......");
-	        CaptchaUsernamePasswordToken token = (CaptchaUsernamePasswordToken) authcToken;
-
+	        //令牌——基于用户名和密码的令牌  
+	        UsernamePasswordToken token = (UsernamePasswordToken) authcToken; 
+	        
 	        List<SysUser> sysUsers = sysUserService.findByUserName(token.getUsername());
-	       
 	        if (sysUsers != null) {
 	        	 SysUser sysUser  = sysUsers.get(0);
 	            // 检查用户是否禁用
 	            if (SysUser.STATUS_DISABLED.equalsIgnoreCase(sysUser.getStatus())) {
 	                throw new DisabledAccountException();
 	            }
-
-	            byte[] salt = Encodes.decodeHex(sysUser.getSalt());
-
-	            return new SimpleAuthenticationInfo(new SecurityUser(sysUser.getId(),sysUser.getUserName(), sysUser.getNickname(), sysUser.getOrgId(), sysUser.getOrgName()),
-	            		sysUser.getPassword(), ByteSource.Util.bytes(salt), getName());
+	            return new SimpleAuthenticationInfo(token.getUsername(),token.getPassword(),getName());
 	        }
 	        return null;
 	    }

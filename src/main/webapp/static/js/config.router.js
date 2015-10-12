@@ -8,50 +8,19 @@
 app.run(['$rootScope', '$state', '$stateParams',function ($rootScope,   $state,   $stateParams) {
 	 $rootScope.$state = $state;
      $rootScope.$stateParams = $stateParams;   
-     /*$rootScope.$stateParams = */
+     
+   //监听$stateChangeStart事件并作相应的逻辑处理
+//     $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
+//    		if(toState.name=='login')return;// 如果是进入登录界面则允许
+//    		// 如果用户不存在
+//    		if(!$rootScope.isLogined){
+//    			event.preventDefault();// 取消默认跳转行为
+//    			$state.go("login",{from:fromState.name,w:'notLogin'});//跳转到登录界面
+//    		}
+//    	});
 }]);
 
-//app.directive('showImage', [function() {
-//	  return {
-//	    restrict: 'A',
-//	    scope: {
-//	      url: '='
-//	    },
-//	    link: function (sceop, element, attrs) {
-//	      var img = new Image();
-//	      var imgSrc = scope.url;
-//	      img.src = imgSrc;
-//	      $(element).append(img);
-//	    }
-//	  }
-//	}])
 
-//授权指令
-//app.directive('hasPermission', function (permissions) {
-//	return {
-//		link : function (scope, element, attrs) {
-//			if (!_.isString(attrs.hasPermission))
-//				throw "hasPermission value must be a string";
-//
-//			var value = attrs.hasPermission.trim();
-//			var notPermissionFlag = value[0] === '!';
-//			if (notPermissionFlag) {
-//				value = value.slice(1).trim();
-//			}
-//
-//			function toggleVisibilityBasedOnPermission() {
-//				var hasPermission = permissions.hasPermission(value);
-//
-//				if (hasPermission && !notPermissionFlag || !hasPermission && notPermissionFlag)
-//					element.show();
-//				else
-//					element.hide();
-//			}
-//			toggleVisibilityBasedOnPermission();
-//			scope.$on('permissionsChanged', toggleVisibilityBasedOnPermission);
-//		}
-//	};
-//});
 
 
 

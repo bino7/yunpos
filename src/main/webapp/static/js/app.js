@@ -1,27 +1,30 @@
 'use strict';
 
+var modules = [  'ngAnimate',
+               'ngCookies',
+               'ngResource',
+               'ngSanitize',
+               'ngTouch',
+               'ngStorage',
+               'ui.router',
+               'ui.bootstrap',
+               'ui.load',
+               'ui.jq',
+               'ui.validate',
+               'oc.lazyLoad',
+               'pascalprecht.translate',
+               'ui.grid', 
+               'ui.grid.treeView',
+               'ui.grid.edit', 
+               'ui.grid.cellNav',
+               'infinite-scroll',
+               'ngFileUpload'
+               ];
 
-angular.module('app', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ngTouch',
-    'ngStorage',
-    'ui.router',
-    'ui.bootstrap',
-    'ui.load',
-    'ui.jq',
-    'ui.validate',
-    'oc.lazyLoad',
-    'pascalprecht.translate',
-    'ui.grid', 
-    'ui.grid.treeView',
-    'ui.grid.edit', 
-    'ui.grid.cellNav',
-    'infinite-scroll',
-    'ngFileUpload'
-]);
+//全局app
+var app = angular.module('app', modules), permissionList,user;
+
+
 var formatDateTime = function (date) {  
 	if(date instanceof Date){
 	    var y = date.getFullYear();  

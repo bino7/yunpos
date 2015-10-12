@@ -5,6 +5,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.junit.Test;
 
 import com.yunpos.payment.alipay.sign.MD5;
+import com.yunpos.payment.alipay.util.Constant;
 import com.yunpos.utils.MD5Utils;
 
 public class MD5Test {
@@ -83,8 +84,13 @@ public class MD5Test {
 	
 	@Test
 	public void password() {
-		System.out.println(MD5Utils.genRandomNum(36));
+		//System.out.println(MD5Utils.genRandomNum(36));
+		//System.out.println(Constant.getAlipayTradeStatus("TRADE_SUCCESS"));
+		System.out.println("123456789012".substring(0, 8));
+		
 	}
+	
+	
 	
 	
 

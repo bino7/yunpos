@@ -1,14 +1,21 @@
 package com.yunpos.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +31,7 @@ import com.google.common.base.Strings;
 import com.yunpos.model.SysUser;
 import com.yunpos.payment.Message;
 import com.yunpos.security.exception.IncorrectCaptchaException;
+import com.yunpos.service.SysPrivilegeService;
 import com.yunpos.service.SysUserService;
 
 /**
@@ -43,6 +51,8 @@ public class LoginController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysPrivilegeService sysPrivilegeService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
@@ -58,10 +68,37 @@ public class LoginController extends BaseController{
        }
        
        List<SysUser> sysUser = sysUserService.findByUserName(username);
+       if(sysUser==null){
+    	   return new Message(false,"user_not_exist","用户不存在");
+       }
        if(!sysUser.get(0).getPassword().equals(password)){
     	   return new Message(false,"password_error","密码错误");
        }
-       return new Message(true,"success","登录成功",String.valueOf(sysUser.get(0).getId()));
+       
+     
+       
+//       UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+//       Subject currentUser = SecurityUtils.getSubject();  
+//       try {
+//    	   currentUser.login(token); 
+//       } catch ( UnknownAccountException uae ) {  
+//    	   return new Message(true,"error","登录失败",null);
+//       } catch ( IncorrectCredentialsException ice ) { 
+//    	   return new Message(true,"error","登录失败",null);
+//       } catch ( LockedAccountException lae ) {  
+//    	   return new Message(true,"error","登录失败",null);
+//       } catch ( ExcessiveAttemptsException eae ) {
+//    	   return new Message(true,"error","登录失败",null);
+//       }catch ( AuthenticationException ae ) {  
+//    	   return new Message(true,"error","登录失败",null);
+//       }
+       Map<String,Object> returnMap = new HashMap<>();
+       String menus = sysPrivilegeService.getUserMenu(sysUser.get(0).getId());
+       
+       returnMap.put("user", sysUser.get(0));
+       returnMap.put("menu", menus);
+       return new Message(true,"success","登录成功",returnMap);
+  
     }
 
     

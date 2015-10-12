@@ -38,6 +38,8 @@ public class SysStoreService extends EntityService<SysStore> {
 		return list;
 	}
 	
+
+	
 	public GridResponse<SysStore> search(SysStore sysStore) {
 		GridResponse<SysStore> response = new GridResponse<SysStore>();
 		List<SysStore> sysApps = sysStoreMapper.selectByParm(sysStore);

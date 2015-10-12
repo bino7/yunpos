@@ -1,90 +1,302 @@
 <div class="well" ng-controller="SysAlipayTestCtl">
-	<div class="row">
-		<div class="col-md-9">
-			<div class="row">
-				<div class="col-md-12">
-					<form class="form-horizontal" role="form" name="form">
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付方式： </label>
-							<div class="col-sm-10">
-								<p class="form-control-static">支付宝条码支付测试</p>
+	<div>
+		<tabset class="tab-container"> 
+		<tab> <tab-heading>支付宝条码支付测试</tab-heading>
+		<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">支付宝条码支付测试</p>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付网关： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder="wechat-微信/alipay-支付宝/bill-银联/prepay-预存款"  value="alipay"
-									ng-model="bardata.url" ng-init="bardata.url='http://t.o2o520.com/pay/alipay/create'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control"
+										placeholder="wechat-微信/alipay-支付宝/bill-银联/prepay-预存款"
+										value="alipay" ng-model="bardata.url"
+										ng-init="bardata.url='http://t.o2o520.com/pay/alipay/create'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 支付渠道： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""  
-									ng-model="bardata.pay_channel" ng-init="bardata.pay_channel='alipay'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付渠道： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.pay_channel"
+										ng-init="bardata.pay_channel='alipay'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 价格： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder="0.01"
-									ng-model="bardata.total_fee" ng-init="bardata.total_fee='0.01'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 价格： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder="0.01"
+										ng-model="bardata.total_fee"
+										ng-init="bardata.total_fee='0.01'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 付款码： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.dynamic_id" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 付款码： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.dynamic_id">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 商户号： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.merchant_num" ng-init="bardata.merchant_num='201509020001'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.merchant_num"
+										ng-init="bardata.merchant_num='201509020001'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 终端编号： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.terminal_unique_no" ng-init="bardata.terminal_unique_no='1'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 终端编号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.terminal_unique_no"
+										ng-init="bardata.terminal_unique_no='1'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 客户端类型： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.client_type" ng-init="bardata.client_type='PC'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 客户端类型： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.client_type"
+										ng-init="bardata.client_type='PC'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 商户订单号： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.user_order_no" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.user_order_no">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 订单标题： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.subject" ng-init="bardata.subject='支付宝扫码支付测试'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 订单标题： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.subject"
+										ng-init="bardata.subject='支付宝扫码支付测试'">
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-2 control-label"> 核销码： </label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" placeholder=""
-									ng-model="bardata.cashier_num" ng-init="bardata.cashier_num='1'" >
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 核销码： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="bardata.cashier_num"
+										ng-init="bardata.cashier_num='1'">
+								</div>
 							</div>
-						</div>
-						<button ng-click="alipayBarTest(bardata)">测试</button> <button ng-click="getOrderNo(bardata)">生成订单</button>
-					</form>
-				</div>
+							<button ng-click="alipayBarTest(bardata)">测试</button>
+							<button ng-click="getOrderNo(bardata)">生成订单</button>
+						</form>
+					</div>
 
+				</div>
 			</div>
 		</div>
+		</tab> 
+		
+		</tab> <tab> <tab-heading>查询测试</tab-heading> 
+				<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">支付宝条码查询测试</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" ng-model="alipaybarquerydata.url"
+										ng-init="alipaybarquerydata.url='http://t.o2o520.com/pay/alipay/query'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付渠道： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarquerydata.pay_channel"
+										ng-init="alipaybarquerydata.pay_channel='alipay'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarquerydata.merchant_num"
+										ng-init="alipaybarquerydata.merchant_num='201509020001'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarquerydata.user_order_no">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 交易流水号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarquerydata.trace_num">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 终端编号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarquerydata.terminal_unique_no"
+										ng-init="alipaybarquerydata.terminal_unique_no='1'">
+								</div>
+							</div>
+							<button ng-click="alipayBarQueryTest(alipaybarquerydata)">查询</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab>
+		</tab> <tab> <tab-heading>撤单测试</tab-heading> 
+				<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">支付宝条码撤单测试</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" ng-model="alipayscanrecanceldata.url"
+										ng-init="alipayscanrecanceldata.url='http://t.o2o520.com/pay/alipay/cancel'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付渠道： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipayscanrecanceldata.pay_channel"
+										ng-init="alipayscanrecanceldata.pay_channel='alipay'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipayscanrecanceldata.merchant_num"
+										ng-init="alipayscanrecanceldata.merchant_num='201509020001'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipayscanrecanceldata.user_order_no">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 交易流水号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipayscanrecanceldata.trace_num">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 终端编号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipayscanrecanceldata.terminal_unique_no"
+										ng-init="alipayscanrecanceldata.terminal_unique_no='1'">
+								</div>
+							</div>
+							<button ng-click="alipayscanrecanceldata(alipayscanrecanceldata)">撤单</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab>
+		</tab> <tab> <tab-heading>退款测试</tab-heading> 
+				<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">支付宝条码退款测试</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付网关： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" ng-model="alipaybarrefunddata.url"
+										ng-init="alipaybarrefunddata.url='http://t.o2o520.com/pay/alipay/refund'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付渠道： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarrefunddata.pay_channel"
+										ng-init="alipaybarrefunddata.pay_channel='alipay'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarrefunddata.merchant_num"
+										ng-init="alipaybarrefunddata.merchant_num='201509020001'">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 商户订单号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarrefunddata.user_order_no">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 交易流水号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarrefunddata.trace_num">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 终端编号： </label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" placeholder=""
+										ng-model="alipaybarrefunddata.terminal_unique_no"
+										ng-init="alipaybarrefunddata.terminal_unique_no='1'">
+								</div>
+							</div>
+							<button ng-click="alipayScanRefundTest(alipaybarrefunddata)">退款</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab>
+		</tabset>
 	</div>
 </div>

@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysUser;
+import com.yunpos.service.SysMerchantService;
+import com.yunpos.service.SysStoreService;
 import com.yunpos.service.SysUserService;
 import com.yunpos.utils.Response.Code;
 import com.yunpos.web.BaseController;
@@ -39,6 +42,8 @@ public class MobileLoginController extends BaseController{
     private ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysMerchantService sysMerchantService;
 
     
     @RequestMapping(value = "/mobile/login")
@@ -49,16 +54,30 @@ public class MobileLoginController extends BaseController{
              	jsonMap.put("error", Code.PARAM_NULL);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             List<SysUser> sysUsers = sysUserService.findByUserName(userName);
+        	 List<SysUser> sysUsers = sysUserService.findByUserName(userName);
              if(sysUsers== null ||sysUsers.size()<1){
              	jsonMap.put("error", Code.USER_NOT_EXISTS);
              	return objectMapper.writeValueAsString(jsonMap);
              }
+             if(!sysUsers.get(0).getUserName().equals(userName)){
+              	jsonMap.put("error", Code.NAME_ERROR);
+              	return objectMapper.writeValueAsString(jsonMap);
+              }
              if(!sysUsers.get(0).getPassword().equals(password)){
              	jsonMap.put("error", Code.PASSWORD_ERROR);
              	return objectMapper.writeValueAsString(jsonMap);
              }
-             jsonMap.put("user", sysUsers.get(0));
+             if(sysUsers.get(0).getOrgNo().length()<12){
+            	 jsonMap.put("error", Code.NOT_STORE_USER);
+              	return objectMapper.writeValueAsString(jsonMap);
+             }
+             //商户号统一使用组织结构号
+             SysMerchant sysMerchant = sysMerchantService.findBySerialNo(sysUsers.get(0).getOrgNo().substring(0, 8));
+             Map<String,String> sysMerchantMap = new HashMap<>();
+             sysMerchantMap.put("serialNo", sysMerchant.getSerialNo()); 		//商户号
+             sysMerchantMap.put("md5Key", sysMerchant.getMd5Key());				//商户秘钥
+             sysMerchantMap.put("companyName", sysMerchant.getCompanyName());	//商户名称（公司名称）
+             jsonMap.put("user", sysMerchantMap);
 		} catch (Exception e) {
 			jsonMap.put("error", Code.EXCEPTION);
 			logger.error("error:"+e.getMessage());

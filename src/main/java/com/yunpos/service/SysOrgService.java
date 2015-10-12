@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yunpos.model.SysOrg;
-import com.yunpos.model.SysRole;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysOrgMapper;
 import com.yunpos.persistence.dao.SysRoleMapper;
+import com.yunpos.utils.Tools;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 
@@ -70,4 +70,36 @@ public class SysOrgService extends EntityService<SysOrg> {
 		return response;
 	}
 
+	
+	/**
+	 * 获取当前等级组织结构最大编号
+	 * @param sysOrg
+	 * @return
+	 */
+	public int findMaxOrgNo(SysOrg sysOrg){
+		String  maxOrgNo = sysOrgMapper.findMaxOrgNo(sysOrg);
+		if(Tools.isNullOrEmpty(maxOrgNo)){
+			maxOrgNo = "0";
+		}
+		return Integer.parseInt(maxOrgNo);
+	}
+	
+	/**
+	 * 获取当前等级组织结构最大编号
+	 * @param sysOrg
+	 * @return
+	 */
+	public String getOrgNo(SysOrg sysOrg){
+		int maxOrgNo = findMaxOrgNo(sysOrg);
+		String orgNo = maxOrgNo+1 +"";
+		if(orgNo.length()%4 == 1 ){
+			orgNo = "000" + orgNo;
+		}else if(orgNo.length()%4 == 2 ){
+			orgNo = "00" + orgNo;
+		}else if(orgNo.length()%4 == 3 ){
+			orgNo = "0" + orgNo;
+		} 
+		return orgNo;
+	}
+	
 }

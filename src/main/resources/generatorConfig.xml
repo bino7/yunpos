@@ -7,7 +7,7 @@
 <generatorConfiguration>
 	<!--数据库驱动jar -->
 	<classPathEntry
-		location="E:\yumpos\repo\mysql\mysql-connector-java\5.1.24\mysql-connector-java-5.1.24.jar" />
+		location="F:\xn\yunpos\repo\mysql\mysql-connector-java\5.1.24\mysql-connector-java-5.1.24.jar" />
 
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 		<!--去除注释 -->
@@ -17,7 +17,7 @@
 
 		<!--数据库连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://127.0.0.1:3306/yunpos" userId="root"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/yunpos_zhengshi" userId="root"
 			password="123456">
 		</jdbcConnection>
 		<!--默认false Java type resolver will always use java.math.BigDecimal if 
@@ -67,7 +67,11 @@
 			domainObjectName="SysOrg" enableCountByExample="false" enableDeleteByExample="false" 
 			enableSelectByExample="false" enableUpdateByExample="false"> <property name="useActualColumnNames" 
 			value="true" /> </table> -->
-		 <table tableName="sys_transaction" domainObjectName="SysTransaction" 
+		 <table tableName="sys_card_coupon" domainObjectName="sysCardCoupon" 
+			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="flase" 
+			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
+			/> </table>
+		 <table tableName="sys_card_template" domainObjectName="sysCardTemplate" 
 			enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="flase" 
 			enableUpdateByExample="false"> <property name="useActualColumnNames" value="true" 
 			/> </table>

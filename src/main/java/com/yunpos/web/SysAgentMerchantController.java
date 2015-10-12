@@ -98,7 +98,7 @@ public class SysAgentMerchantController extends BaseController {
 		sysOrg.setCreateUserId(getUser().getId());
 		sysOrg.setCreateDate(new Date());
 		sysOrg.setLevel(1);
-		sysOrg.setOrgNo("111111");
+		sysOrg.setOrgNo(sysOrgService.getOrgNo(sysOrg));
 		sysOrgService.save(sysOrg);
 		
 		SysUser user = new SysUser();

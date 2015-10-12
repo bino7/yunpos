@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.card.SysCardTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.card.SysCardTemplate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="cardColor" property="cardColor" jdbcType="VARCHAR" />
+    <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+    <result column="background" property="background" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="endDate" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="operation" property="operation" jdbcType="VARCHAR" />
+    <result column="merchant" property="merchant" jdbcType="VARCHAR" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, cardColor, subtitle, type, number, inventory, background, logo, startDate, 
+    endDate, tel, operation, merchant, createdAt, updatedAt
+  </sql>
+   <sql id="Select_Parm_Column_List" >
+     <if test="title != null" >
+       and title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="cardColor != null" >
+       and cardColor = #{cardColor,jdbcType=VARCHAR}
+      </if>
+      <if test="subtitle != null" >
+       and subtitle = #{subtitle,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+       and type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="number != null" >
+       and number = #{number,jdbcType=INTEGER}
+      </if>
+      <if test="inventory != null" >
+       and inventory = #{inventory,jdbcType=INTEGER}
+      </if>
+      <if test="background != null" >
+       and background = #{background,jdbcType=VARCHAR}
+      </if>
+      <if test="logo != null" >
+       and logo = #{logo,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null" >
+       and startDate = #{startDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null" >
+       and endDate = #{endDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="tel != null" >
+       and tel = #{tel,jdbcType=VARCHAR}
+      </if>
+      <if test="operation != null" >
+       and operation = #{operation,jdbcType=VARCHAR}
+      </if>
+      <if test="merchant != null" >
+       and merchant = #{merchant,jdbcType=VARCHAR}
+      </if>
+      <if test="createdAt != null" >
+       and createdAt = #{createdAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updatedAt != null" >
+       and updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
+      </if>
+   </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_card_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_card_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.card.SysCardTemplate" >
+    insert into sys_card_template (id, title, cardColor, 
+      subtitle, type, number, 
+      inventory, background, logo, 
+      startDate, endDate, tel, 
+      operation, merchant, createdAt, 
+      updatedAt)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cardColor,jdbcType=VARCHAR}, 
+      #{subtitle,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
+      #{inventory,jdbcType=INTEGER}, #{background,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{tel,jdbcType=VARCHAR}, 
+      #{operation,jdbcType=VARCHAR}, #{merchant,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.card.SysCardTemplate" >
+    insert into sys_card_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="cardColor != null" >
+        cardColor,
+      </if>
+      <if test="subtitle != null" >
+        subtitle,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="inventory != null" >
+        inventory,
+      </if>
+      <if test="background != null" >
+        background,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="startDate != null" >
+        startDate,
+      </if>
+      <if test="endDate != null" >
+        endDate,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="operation != null" >
+        operation,
+      </if>
+      <if test="merchant != null" >
+        merchant,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cardColor != null" >
+        #{cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="background != null" >
+        #{background,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null" >
+        #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="merchant != null" >
+        #{merchant,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.card.SysCardTemplate" >
+    update sys_card_template
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cardColor != null" >
+        cardColor = #{cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        subtitle = #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="background != null" >
+        background = #{background,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        startDate = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        endDate = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null" >
+        operation = #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="merchant != null" >
+        merchant = #{merchant,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.card.SysCardTemplate" >
+    update sys_card_template
+    set title = #{title,jdbcType=VARCHAR},
+      cardColor = #{cardColor,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      number = #{number,jdbcType=INTEGER},
+      inventory = #{inventory,jdbcType=INTEGER},
+      background = #{background,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      startDate = #{startDate,jdbcType=TIMESTAMP},
+      endDate = #{endDate,jdbcType=TIMESTAMP},
+      tel = #{tel,jdbcType=VARCHAR},
+      operation = #{operation,jdbcType=VARCHAR},
+      merchant = #{merchant,jdbcType=VARCHAR},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="selectByParm" resultMap="BaseResultMap"
+		parameterType="com.yunpos.model.card.SysCardTemplate">
+		select
+		<include refid="Base_Column_List" />
+		from sys_card_template
+		where 1 = 1
+
+		<include refid="Select_Parm_Column_List" />
+		ORDER BY id
+		<if test="pageNumber != null and  pageNumber &gt; 0">
+			limit #{start}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="selectCountByParm" resultType="java.lang.Integer"
+		parameterType="com.yunpos.model.card.SysCardTemplate">
+		select count(*) from sys_card_template
+		where 1 = 1
+		<include refid="Select_Parm_Column_List" />
+
+	</select>
+</mapper>

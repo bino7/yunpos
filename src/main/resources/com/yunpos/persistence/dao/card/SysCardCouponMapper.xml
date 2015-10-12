@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.card.SysCardCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.card.SysCardCoupon" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="appid_userId" property="appid_userId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="subType" property="subType" jdbcType="TINYINT" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="discount" property="discount" jdbcType="REAL" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="pagesPer" property="pagesPer" jdbcType="INTEGER" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="quota" property="quota" jdbcType="REAL" />
+    <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="appid_cardId" property="appid_cardId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="useTime" property="useTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, appid_userId, title, source, type, subType, price, discount, score, pagesPer, 
+    info, sn, startTime, endTime, quota, createdAt, updatedAt, appid_cardId, status, 
+    useTime
+  </sql>
+  
+  
+  <sql id="Select_Parm_Column_List">
+  	 <if test="appid_userId != null" >
+       and appid_userId = #{appid_userId,jdbcType=VARCHAR}
+      </if>
+      <if test="title != null" >
+       and title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="source != null" >
+       and source = #{source,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+       and type = #{type,jdbcType=TINYINT}
+      </if>
+      <if test="subType != null" >
+       and subType = #{subType,jdbcType=TINYINT}
+      </if>
+      <if test="price != null" >
+       and price = #{price,jdbcType=REAL}
+      </if>
+      <if test="discount != null" >
+       and discount = #{discount,jdbcType=REAL}
+      </if>
+      <if test="score != null" >
+       and score = #{score,jdbcType=INTEGER}
+      </if>
+      <if test="pagesPer != null" >
+       and pagesPer = #{pagesPer,jdbcType=INTEGER}
+      </if>
+      <if test="info != null" >
+       and info = #{info,jdbcType=VARCHAR}
+      </if>
+      <if test="sn != null" >
+       and sn = #{sn,jdbcType=VARCHAR}
+      </if>
+      <if test="startTime != null" >
+       and startTime = #{startTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime != null" >
+       and endTime = #{endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="quota != null" >
+       and quota = #{quota,jdbcType=REAL}
+      </if>
+      <if test="createdAt != null" >
+       and createdAt = #{createdAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updatedAt != null" >
+       and updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="appid_cardId != null" >
+       and appid_cardId = #{appid_cardId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+       and status = #{status,jdbcType=TINYINT}
+      </if>
+      <if test="useTime != null" >
+       and useTime = #{useTime,jdbcType=TIMESTAMP}
+      </if>
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_card_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_card_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.card.SysCardCoupon" >
+    insert into sys_card_coupon (id, appid_userId, title, 
+      source, type, subType, 
+      price, discount, score, pagesPer, 
+      info, sn, startTime, 
+      endTime, quota, createdAt, 
+      updatedAt, appid_cardId, status, 
+      useTime)
+    values (#{id,jdbcType=INTEGER}, #{appid_userId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{subType,jdbcType=TINYINT}, 
+      #{price,jdbcType=REAL}, #{discount,jdbcType=REAL}, #{score,jdbcType=INTEGER}, #{pagesPer,jdbcType=INTEGER}, 
+      #{info,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{quota,jdbcType=REAL}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{appid_cardId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{useTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.card.SysCardCoupon" >
+    insert into sys_card_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appid_userId != null" >
+        appid_userId,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="subType != null" >
+        subType,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="pagesPer != null" >
+        pagesPer,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+      <if test="sn != null" >
+        sn,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="quota != null" >
+        quota,
+      </if>
+      <if test="createdAt != null" >
+        createdAt,
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt,
+      </if>
+      <if test="appid_cardId != null" >
+        appid_cardId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="useTime != null" >
+        useTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appid_userId != null" >
+        #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="subType != null" >
+        #{subType,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="pagesPer != null" >
+        #{pagesPer,jdbcType=INTEGER},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quota != null" >
+        #{quota,jdbcType=REAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appid_cardId != null" >
+        #{appid_cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="useTime != null" >
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.card.SysCardCoupon" >
+    update sys_card_coupon
+    <set >
+      <if test="appid_userId != null" >
+        appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="subType != null" >
+        subType = #{subType,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="pagesPer != null" >
+        pagesPer = #{pagesPer,jdbcType=INTEGER},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null" >
+        sn = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quota != null" >
+        quota = #{quota,jdbcType=REAL},
+      </if>
+      <if test="createdAt != null" >
+        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appid_cardId != null" >
+        appid_cardId = #{appid_cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="useTime != null" >
+        useTime = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.card.SysCardCoupon" >
+    update sys_card_coupon
+    set appid_userId = #{appid_userId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      subType = #{subType,jdbcType=TINYINT},
+      price = #{price,jdbcType=REAL},
+      discount = #{discount,jdbcType=REAL},
+      score = #{score,jdbcType=INTEGER},
+      pagesPer = #{pagesPer,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR},
+      sn = #{sn,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      quota = #{quota,jdbcType=REAL},
+      createdAt = #{createdAt,jdbcType=TIMESTAMP},
+      updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      appid_cardId = #{appid_cardId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      useTime = #{useTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  <select id="selectByParm" resultMap="BaseResultMap"
+		parameterType="com.yunpos.model.card.SysCardCoupon">
+		select
+		<include refid="Base_Column_List" />
+		from sys_card_coupon
+		where 1 = 1
+
+		<include refid="Select_Parm_Column_List" />
+		ORDER BY id
+		<if test="pageNumber != null and  pageNumber &gt; 0">
+			limit #{start}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="selectCountByParm" resultType="java.lang.Integer"
+		parameterType="com.yunpos.model.card.SysCardCoupon">
+		select count(*) from sys_card_coupon
+		where 1 = 1
+		<include refid="Select_Parm_Column_List" />
+
+	</select>
+  
+</mapper>

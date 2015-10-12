@@ -109,12 +109,14 @@ public class SysStoreController extends BaseController{
 		sysOrg.setCreateUserId(user.getCreatedBy());
 		sysOrg.setCreateDate(new Date());
 		sysOrg.setLevel(1);
-		sysOrg.setOrgNo("111111");
+		sysOrg.setOrgParentId(getUser().getOrgId());
+		sysOrg.setOrgParentNo(getUser().getOrgNo());
+		sysOrg.setOrgNo(sysOrgService.getOrgNo(sysOrg));
 		sysOrgService.save(sysOrg);
 		
 		sysStore.setBaseUserId(user.getId());
-		sysStore.setSerialNo("2222");
-		sysStore.setStoreNo("3333");
+		sysStore.setSerialNo(sysOrg.getOrgParentNo());
+		sysStore.setStoreNo(sysOrg.getOrgNo());
 		sysStore.setApprStatus(1);
 		sysStore.setCreatedAt(new Date());
 		sysStore.setCreatedBy(getUser().getId());

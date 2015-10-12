@@ -15,5 +15,12 @@ public interface SysOrgMapper extends EntityMapper<SysOrg>{
 	public List<SysOrg> findByOrgName(String orgName);
 
 	public List<SysOrg> findByCondition(GridRequest gridRequest); 
+	
+	/**
+	 * 获取当前等级组织结构最大编号
+	 * @param sysOrg
+	 * @return
+	 */
+	public String findMaxOrgNo(SysOrg sysOrg); 
     
 }

@@ -261,7 +261,7 @@ public class AlipayController extends BaseController{
 				return new Message("error","pay_channel_unknow", "未知支付方式！", null);
 			}
 			sysTransaction.setUser_order_no(user_order_no);
-			sysTransaction.setTitle("微信线下扫码支付");
+			sysTransaction.setTitle("支付宝线下扫码支付");
 			sysTransaction.setMerchantName(sysMerchant.getCompanyName());
 			sysTransaction.setSerialNo(merchant_num);
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());

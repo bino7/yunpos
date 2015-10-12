@@ -55,6 +55,7 @@ public class SysAgentMerchantService extends EntityService<SysAgentMerchant>{
 	public SysAgentMerchant getDataByBaseUserId(Integer baseUserId) {
 		SysAgentMerchant sysAgentMerchant = new SysAgentMerchant();
 		sysAgentMerchant.setBaseUserId(baseUserId);
+		sysAgentMerchant.setStatus(1);
 		List<SysAgentMerchant> list = findByParms(sysAgentMerchant); 
 		if(!Tools.isNullOrEmpty(list)){
 			sysAgentMerchant = list.get(0);

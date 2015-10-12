@@ -26,6 +26,8 @@ public class SysMerchant extends GridRequest{
 
 	    private Integer baseUserId;					//关联的基础用户Id（关联sys_user表）
 
+	    private Integer orgId;				//组织结构ID
+	    
 	    private String serialNo;					//商户编号
 
 	    private String agentSerialNo;				//代理商编号
@@ -84,7 +86,7 @@ public class SysMerchant extends GridRequest{
 
 	    private String printName;
 
-	    private String range;
+	    private String ranges;
 
 	    private String email;
 
@@ -528,15 +530,6 @@ public class SysMerchant extends GridRequest{
 	    }
 
 
-	    public String getRange() {
-	        return range;
-	    }
-
-	    public void setRange(String range) {
-	        this.range = range == null ? null : range.trim();
-	    }
-
-
 	    public String getEmail() {
 	        return email;
 	    }
@@ -858,6 +851,18 @@ public class SysMerchant extends GridRequest{
 	    public void setAliPayOffline(String aliPayOffline) {
 	        this.aliPayOffline = aliPayOffline == null ? null : aliPayOffline.trim();
 	    }
+
+		public Integer getOrgId() {
+			return orgId;
+		}
+
+		public void setOrgId(Integer orgId) {
+			this.orgId = orgId;
+		}
+
+		public void setRanges(String ranges) {
+			this.ranges = ranges;
+		}
 
 	
 }

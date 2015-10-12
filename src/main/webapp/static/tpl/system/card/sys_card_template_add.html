@@ -1,0 +1,233 @@
+<div class="well" ng-controller="SysCardTemplateAddCtrl" ng-init="processForm()">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" name="form">
+                    <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	商户logo：
+                            </label>
+                            <div class="col-md-10">
+							                            
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+								  <div class="upload-buttons">
+								    <div id="editArea">
+								              <input type="file" ngf-select ng-model="logoPicFile" name="file" accept="image/*" >
+								 				<img ngf-src="logoPicFile" src="" id="logoImg" class="thumb">
+								              <button  ng-click="uploadPic(logoPicFile,'logo')" id="logoButton">上传</button>
+								              <span ng-show="logoPicFile.result">Upload Successful</span>
+								            <span class="progress" ng-show="logoPicFile.progress >= 0">
+								                  <div style="width:{{plogoPicFile.progress}}%" ng-bind="logoPicFile.progress + '%'"></div>
+								              </span>
+								              <input type="hidden" ng-model="sysCardTemplate.logo" value = '' id="logo">
+								            <br/>
+								        </div>
+								        <br/>
+								  </div>
+								  </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	卡券颜色：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.cardColor">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                              	 卡券标题：
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	副标题：
+                            </label>
+                             <div class="col-md-10">
+					               <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.subtitle">
+					         </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	折扣额度：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.discount">
+					         </div>
+                        </div>
+                  		<div class="form-group">
+				          <label class="col-sm-2 control-label">开始时间:</label>
+				           <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+				            <div class="input-group w-md">
+				              <input type="text" class="form-control" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="agentmerchant.startDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				          	</div>
+				           </div>
+                        </div>
+                        	<div class="form-group">
+				          <label class="col-sm-2 control-label">结束时间:</label>
+				           <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+				            <div class="input-group w-md">
+				              <input type="text" class="form-control" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="agentmerchant.endDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				          	</div>
+				           </div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	客服电话：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.tel">
+					         </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	折扣券详情
+                            </label>
+					         <div class="line line-dashed b-b line-lg pull-in"></div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	使用须知：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.operation">
+					         </div>
+                        </div>
+                        <!-- 
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	适用门店
+                            </label>
+					         <div class="line line-dashed b-b line-lg pull-in"></div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	适用门店：
+                            </label>
+                             <div class="col-md-10">
+					              <div class="radio" ng-init="store.status='1'">
+									<label> <input type="radio" name="optionsRadios"
+										id="optionsRadios1" value="1" ng-model="store.status">
+										全部门店
+									</label> <label> <input type="radio" name="optionsRadios"
+										id="optionsRadios2" value="0" ng-model="store.status">
+										指定门店
+									</label>
+									 <label> <input type="radio" name="optionsRadios"
+										id="optionsRadios2" value="0" ng-model="store.status">
+										无指定门店
+									</label>
+								</div> </div>
+                        </div>
+                         -->
+                           <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	自定义入口
+                            </label>
+					         <div class="line line-dashed b-b line-lg pull-in"></div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	入口名称：
+                            </label>
+                             <div class="col-md-10">
+					                   <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.userName">
+					         </div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	引导语：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.userName">
+					         </div>
+                        </div>
+                    <!--   <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	触发动作：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.userName">
+					         </div>
+                        </div>
+                         -->  
+                             <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	销券设置
+                            </label>
+					         <div class="line line-dashed b-b line-lg pull-in"></div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+								库存：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.userName">
+					         </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+								领券限制：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.userName">
+					         </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-md-2 control-label">
+                            </label>
+				           <div class="col-sm-10">
+					            <label class="checkbox-inline">
+					              <input type="checkbox" id='1' name="merchant.terminals" ng-model="tag.checked"> 用户可以分享领券链接
+					            </label>
+					             <label class="checkbox-inline">
+					              <input type="checkbox" id='2' name="merchant.terminals" ng-model="tag.checked"> 用户领券后可转赠其他好友
+					            </label>
+				          </div>
+				        </div>
+				         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	销券方式：
+                            </label>
+                             <div class="col-md-10">
+					              <div class="radio" ng-init="store.status='1'">
+									<label> <input type="radio" name="optionsRadios"
+										id="optionsRadios1" value="1" ng-model="store.status">
+										仅SN码
+									</label> <label> <input type="radio" name="optionsRadios"
+										id="optionsRadios2" value="0" ng-model="store.status">
+										二维码
+									</label>
+									 <label> <input type="radio" name="optionsRadios"
+										id="optionsRadios2" value="0" ng-model="store.status">
+										条形码
+									</label>
+								</div> </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+								操作提示：
+                            </label>
+                             <div class="col-md-10">
+					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.userName">
+					         </div>
+                        </div>
+                      <button  ng-disabled="form.$invalid" ng-click="save(sysCardTemplate)">保存</button>      <button  ng-disabled="form.$invalid" ng-click="save(sysCardTemplate)">取消</button>
+                     </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

@@ -125,3 +125,7 @@ ADD COLUMN `mark` varchar(255)  DEFAULT NULL COMMENT '标识' AFTER `open`;
 ALTER TABLE `sys_transaction`
 ADD COLUMN `trade_no`  varchar(64) NULL COMMENT '第三方支付订单号（支付宝交易号trade_no/微信支付订单号transaction_id）' AFTER `info`,
 ADD COLUMN `subject`  varchar(256) NULL COMMENT '订单简要描述（支付宝订单标题subject /微信商品描述body）' AFTER `trade_no`;
+
+--20151012 杨学勇  用户表新增字段组织结构号
+ALTER TABLE `sys_user`
+ADD COLUMN `orgNo`  varchar(20) NULL AFTER `orgId`;

@@ -57,6 +57,51 @@ public class PayTestController extends BaseController{
 		return returnStr;
 	}
 	
+	@RequestMapping(value = "/ajax/alipay/barQuery/test")
+	@ResponseBody
+	public String alipayBarQuery(@Valid PayReq payReq) {
+		Map<String,String> params = payReq.toMap();
+		String returnStr = "";
+		if(!Strings.isNullOrEmpty(payReq.getMerchant_num())){
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(payReq.getMerchant_num());
+			String queryString = MD5Utils.sign(params, "MD5", sysMerchant.getMd5Key(), "UTF-8");
+			log.info("签名结果："+queryString);
+			returnStr = HttpTookit.doGet(payReq.getUrl(), queryString, "UTF-8", true);
+			log.info("返回字符串="+returnStr);
+		}
+		return returnStr;
+	}
+	
+	@RequestMapping(value = "/ajax/alipay/scanRefund/test")
+	@ResponseBody
+	public String alipayBarRefund(@Valid PayReq payReq) {
+		Map<String,String> params = payReq.toMap();
+		String returnStr = "";
+		if(!Strings.isNullOrEmpty(payReq.getMerchant_num())){
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(payReq.getMerchant_num());
+			String queryString = MD5Utils.sign(params, "MD5", sysMerchant.getMd5Key(), "UTF-8");
+			log.info("签名结果："+queryString);
+			returnStr = HttpTookit.doGet(payReq.getUrl(), queryString, "UTF-8", true);
+			log.info("返回字符串="+returnStr);
+		}
+		return returnStr;
+	}
+	
+	@RequestMapping(value = "/ajax/alipay/scanCancel/test")
+	@ResponseBody
+	public String alipayBarCancel(@Valid PayReq payReq) {
+		Map<String,String> params = payReq.toMap();
+		String returnStr = "";
+		if(!Strings.isNullOrEmpty(payReq.getMerchant_num())){
+			SysMerchant sysMerchant = sysMerchantService.findBySerialNo(payReq.getMerchant_num());
+			String queryString = MD5Utils.sign(params, "MD5", sysMerchant.getMd5Key(), "UTF-8");
+			log.info("签名结果："+queryString);
+			returnStr = HttpTookit.doGet(payReq.getUrl(), queryString, "UTF-8", true);
+			log.info("返回字符串="+returnStr);
+		}
+		return returnStr;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/alipay/scan/test")
 	@ResponseBody

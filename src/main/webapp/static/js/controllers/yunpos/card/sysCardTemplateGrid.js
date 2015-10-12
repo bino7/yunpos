@@ -1,0 +1,247 @@
+app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stateParams) {
+    $scope.filterOptions = {
+        filterText: "",
+        useExternalFilter: true
+    }; 
+    $scope.totalServerItems = 0;
+    $scope.pagingOptions = {
+        pageSizes: [10, 20, 50],
+        pageSize: 10,
+        currentPage: 1
+    };  
+    $scope.setPagingData = function(data, page, pageSize){  
+        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+        $scope.sysCardTemplateListData = pagedData;
+        $scope.totalServerItems = data.length;
+        if (!$scope.$$phase) {
+            $scope.$apply();
+        }
+    };
+    $scope.gridOptions = {
+            data: 'sysCardTemplateListData',
+            rowTemplate: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
+                '<div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }"> </div>' +
+                '<div ng-cell></div>' +
+                '</div></div>',
+            multiSelect: false,
+            enableCellSelection: true,
+            enableRowSelection: false,
+            enableCellEdit: true,
+          //  enablePinning: true,
+            columnDefs: [
+               {field: 'title', displayName: '卡券名称', width: 120,  pinnable: false,  sortable: false}, 
+               {field: 'type', displayName: '卡券类型', enableCellEdit: false , width: 120}, 
+               {field: 'validityDate' , displayName: '有效期', enableCellEdit: false, width: 180},
+               {field: 'createdBy',displayName: '投放平台',enableCellEdit: false, width: 120}, 
+               {field: 'createdAt',displayName: '投放状态',enableCellEdit: false, width: 140}, 
+               {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
+                cellTemplate: '<div><a ui-sref="app.table.sysCardTemplateDetail({id:row.getProperty(col.field)})" '
+                	+ 'id="{{row.getProperty(col.field)}}"> <button>详情{{row.status}}</button> </a> ' 
+                	+ '<button ng-click="updateStatus({id:row.getProperty(col.field) , sysCardTemplate:row, status:1})">投放</button>'
+                	+ '<button ng-click="updateStatus({id:row.getProperty(col.field) , sysCardTemplate:row, status:0})">删除</button></div>'
+            }],
+            enablePaging: true,
+            showFooter: true,        
+            totalServerItems: 'totalServerItems',
+            pagingOptions: $scope.pagingOptions,
+            filterOptions: $scope.filterOptions
+        };
+    $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+        setTimeout(function () {
+            var data;
+            if (searchText) {
+                var ft = searchText.toLowerCase();
+                data = $scope.sysCardTemplateData.filter(function(item) {
+                     return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+                });
+                $scope.setPagingData(data,page,pageSize);
+            } else {
+                $http.get('/ajax/sysCardTemplate/search').success(function (largeLoad) {
+                    $scope.sysCardTemplateData = largeLoad.rows;
+                    $scope.setPagingData($scope.sysCardTemplateData,page,pageSize);
+                });
+            }
+        }, 100);
+    };
+
+    $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+
+    $scope.$watch('pagingOptions', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+//        	$scope.setPagingData($scope.sysCardTemplateData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
+        }
+    }, true);
+    $scope.$watch('filterOptions', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+//        	$scope.setPagingData($scope.sysCardTemplateData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
+        }
+    }, true);
+
+    $scope.updateStatus = function(obj) {
+    	obj.sysCardTemplate.entity.status = obj.status;
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/sysCardTemplate/updateStatus/' + obj.id,
+	        params  :  obj.sysCardTemplate.entity 
+	     }).success(function() {
+	    	 alert("更新成功！");
+	    //	 $scope.sysCardTemplateData[obj.sysCardTemplate.rowIndex] = obj.sysCardTemplate.entity;
+	    //	 $scope.setPagingData($scope.sysCardTemplateData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	     }).error(function(data,status,headers,config){
+	      	alert("更新失败！");
+	     });
+	};
+	
+	 $scope.search = function() {
+		  var ft = $scope.filterText;
+          var data = $scope.sysCardTemplateData.filter(function(item) {
+                  return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+         });
+         $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
+	};
+    
+});
+
+
+
+/**
+ * 这里是卡券 新增 模块
+ * 
+ * @type {[type]}
+ */
+app.controller('SysCardTemplateAddCtrl', function($scope, $http, $state, $stateParams) {
+    console.log($stateParams);
+    
+    $scope.master = {};
+
+	  $scope.add = function(sysCardTemplate) {
+		sysCardTemplate.endTime = formatDateTime(sysCardTemplate.endTime);
+	    $scope.master = angular.copy(sysCardTemplate);
+	    $http({
+	        method  : 'post',
+	        url     : '/ajax/sysCardTemplate',
+	        params    : sysCardTemplate  
+	    }).success(function(data) {
+	            console.log(data);
+	            alert("添加成功！");
+	            $state.go('app.table.sysCardTemplate');
+	    }).error(function(data){
+	    	alert("出错");
+	    });
+	  };
+
+	  $scope.reset = function() {
+	    $scope.sysCardTemplate = angular.copy($scope.master);
+	  };
+
+	  $scope.reset();
+});
+
+
+/**
+ * 这里是卡券编辑
+ * @type {[type]}
+ */
+app.controller('SysCardTemplateDetailCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/sysCardTemplate/'+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.sysCardTemplate = data;
+	            $scope.sysCardTemplate.oldPassword = data.password;
+	            $scope.sysCardTemplate.password = "";
+	            $scope.newPassword = "";
+	           // alert(data.id);
+	        });
+	};
+	 $scope.saved = {};
+     $scope.save = function(sysCardTemplate) {
+    	 sysCardTemplate.endTime = formatDateTime(sysCardTemplate.endTime);
+    	 if(sysCardTemplate.password == ""){
+    		 sysCardTemplate.password = sysCardTemplate.oldPassword;
+    	 }
+    	 sysCardTemplate.newPassword = sysCardTemplate.password ;
+    	 $scope.saved = angular.copy(sysCardTemplate);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/sysCardTemplate/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	    	 $state.go('app.table.sysCardTemplate');
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+});
+
+
+
+/**
+ * 这里是卡券企业信息
+ * @type {[type]}
+ */
+app.controller('sysCardTemplateInfoCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/sysCardTemplate/1'
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.sysCardTemplate = data;
+	            $scope.sysCardTemplate.oldPassword = data.password;
+	            $scope.sysCardTemplate.password = "";
+	            $scope.newPassword = "";
+	            if($scope.sysCardTemplate.identityCard != null && $scope.sysCardTemplate.identityCard != '' ){
+	            	document.getElementById("identityCardImg").className  = "thumb";
+	            	document.getElementById("identityCardImg").src = $scope.sysCardTemplate.identityCard;
+	            	document.getElementById("identityCardButton").removeAttribute("disabled");
+	            }
+	            if($scope.sysCardTemplate.businessLicense != null && $scope.sysCardTemplate.businessLicense != '' ){
+	            	document.getElementById("businessLicenseImg").className  = "thumb";
+	            	document.getElementById("businessLicenseImg").src = $scope.sysCardTemplate.businessLicense;
+	            	document.getElementById("businessLicenseButton").removeAttribute("disabled");
+	            }
+	        });
+	};
+	 $scope.saved = {};
+     $scope.save = function(sysCardTemplate) {
+    	 sysCardTemplate.endTime = formatDateTime(sysCardTemplate.endTime);
+    	 sysCardTemplate.businessLicense = document.getElementById("businessLicense").value;
+    	 sysCardTemplate.identityCard = document.getElementById("identityCard").value;
+    	 if(sysCardTemplate.password == ""){
+    		 sysCardTemplate.password = sysCardTemplate.oldPassword;
+    	 }
+    	 sysCardTemplate.newPassword = sysCardTemplate.password ;
+    	 $scope.saved = angular.copy(sysCardTemplate);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/sysCardTemplate/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	};
+	
+     //上传图片
+     $scope.onFileSelect = function($files) {    
+    	    for (var i = 0; i < $files.length; i++) {      var file = $files[i];
+    	      $scope.upload = $upload.upload({
+    	    	method  : 'post',
+    	        url: '/ajax/upload',  
+    	        data: {myObj: $scope.myModelObj},
+    	        file: file,  
+    	      }).progress(function(evt) {        
+    	    	  console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+    	      }).success(function(data, status, headers, config) {        
+    	        console.log(data);
+    	      });     
+    	    }    
+    	    };
+});

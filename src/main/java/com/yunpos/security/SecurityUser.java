@@ -28,16 +28,18 @@ public class SecurityUser implements Serializable {
     public Integer id;
     public Integer orgId;
     public String orgName;
+    public String orgNo;
     public List<SysRole> sysRoles;
     public HashSet<String> permissions;
     
 
-    public SecurityUser(Integer id,String username, String name, Integer orgId, String orgName) {
+    public SecurityUser(Integer id,String username, String name, Integer orgId, String orgName , String orgNo) {
     	this.id = id;
         this.username = username;
         this.name = name;
         this.orgId = orgId;
         this.orgName = orgName;
+        this.orgNo = orgNo;
     }
 
     @Override
@@ -127,4 +129,13 @@ public class SecurityUser implements Serializable {
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
+
+	public String getOrgNo() {
+		return orgNo;
+	}
+
+	public void setOrgNo(String orgNo) {
+		this.orgNo = orgNo;
+	}
+	
 }

@@ -209,6 +209,8 @@ public class AlipayController extends BaseController{
 		String cashier_num = request.getParameter("cashier_num"); // 核销码（可空）
 		String client_type = request.getParameter("client_type"); // 客户端类型（PC、Web、POS、DLL）（非空）
 		String user_order_no = request.getParameter("user_order_no"); //用户订单号
+		//订单标题
+		String subject = request.getParameter("subject"); //用户订单号
 		
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(total_fee)
 				|| Strings.isNullOrEmpty(merchant_num) || Strings.isNullOrEmpty(terminal_unique_no)
@@ -259,7 +261,7 @@ public class AlipayController extends BaseController{
 				return new Message("error","pay_channel_unknow", "未知支付方式！", null);
 			}
 			sysTransaction.setUser_order_no(user_order_no);
-			sysTransaction.setTitle("微信线下扫码支付");
+			sysTransaction.setTitle("支付宝线下扫码支付");
 			sysTransaction.setMerchantName(sysMerchant.getCompanyName());
 			sysTransaction.setSerialNo(merchant_num);
 			sysTransaction.setAgentSerialNo(sysMerchant.getAgentSerialNo());
@@ -280,7 +282,8 @@ public class AlipayController extends BaseController{
 			map.put("AGENT_ID", sysMerchant.getAgentSerialNo());
 			String extend_params = mapper.writeValueAsString(map);
 			
-			AlipayPrecreateReqData alipayPrecreateReqData = new AlipayPrecreateReqData(orderNo, sysAlipayConfig.getPid(),"扫码预支付", total_fee,extend_params);
+			if(Strings.isNullOrEmpty(subject)){subject = "扫码预支付";}
+			AlipayPrecreateReqData alipayPrecreateReqData = new AlipayPrecreateReqData(orderNo, sysAlipayConfig.getPid(),subject, total_fee,extend_params);
 
 			payMsg = alipayService.preCreate(alipayPrecreateReqData,sysAlipayConfig,user_order_no);
 		} catch (Exception e) {

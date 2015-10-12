@@ -24,6 +24,8 @@ public class SysAgentMerchant  extends GridRequest {
     private Integer baseUserId;			//关联的基础用户信息ID（关联sys_user表）
 
     private String agentSerialNo;		//代理商编号
+    
+    private Integer orgId;				//组织结构ID
 
     private String companyName;			//公司名称
 
@@ -291,6 +293,14 @@ public class SysAgentMerchant  extends GridRequest {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	public Integer getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
 	}
     
 	

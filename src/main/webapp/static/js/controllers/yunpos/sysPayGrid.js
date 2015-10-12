@@ -174,6 +174,65 @@ app.controller('SysAlipayTestCtl', function($scope, $http, $state, $stateParams)
 		      	alert("系统错误！");
 		     });
 		};
+		
+		//查询
+	   $scope.barquerydata = {};
+	   $scope.alipayBarQueryTest = function(alipaybarquerydata) {
+	    	 $scope.alipaybarquerydata = angular.copy(alipaybarquerydata);
+		     $http({
+		        method  : 'post',
+		        url     : '/ajax/alipay/barQuery/test',
+		        params  : $scope.alipaybarquerydata
+		     }).success(function(data) {
+		    	 if(data.result_code=='SUCCESS'){
+		    		 alert("查询成功");
+		    	 }else{
+		    		 alert(data.result_code+"|"+data.err_code +"|"+data.result_msg);
+		    	 }
+		     }).error(function(data,status,headers,config){
+		      	alert("系统错误！");
+		     });
+		};
+		
+		//扫码支付退款测试
+	    $scope.alipayscanrecanceldata = {};
+	    $scope.alipayscanrecanceldata = function(alipayscanrecanceldata) {
+	   	 $scope.alipayscanrefunddata = angular.copy(alipayscanrecanceldata);
+		     $http({
+		        method  : 'post',
+		        url     : '/ajax/alipay/scanCancel/test',
+		        params  : $scope.alipayscanrefunddata
+		     }).success(function(data) {
+		    	 if(data.result_code=='SUCCESS'){
+		    		 alert("撤单成功")
+		    	 }else{
+		    		 alert("|"+data.result_code+"|"+data.err_code +"|"+data.result_msg);
+		    	 }
+		     }).error(function(data,status,headers,config){
+		      	alert("系统错误！");
+		     });
+		};
+
+		
+		//扫码支付退款测试
+	    $scope.alipaybarrefunddata = {};
+	    $scope.alipayScanRefundTest = function(alipaybarrefunddata) {
+	   	 $scope.alipaybarrefunddata = angular.copy(alipaybarrefunddata);
+		     $http({
+		        method  : 'post',
+		        url     : '/ajax/alipay/scanRefund/test',
+		        params  : $scope.alipaybarrefunddata
+		     }).success(function(data) {
+		    	 if(data.result_code=='SUCCESS'){
+		    		 alert("退款成功")
+		    	 }else{
+		    		 alert("|"+data.result_code+"|"+data.err_code +"|"+data.result_msg);
+		    	 }
+		     }).error(function(data,status,headers,config){
+		      	alert("系统错误！");
+		     });
+		};
+
 	     
 		//扫码支付测试
 	     $scope.scandata = {};
@@ -259,6 +318,25 @@ app.controller('SysWechatTestCtl', function($scope, $http, $state, $stateParams)
 	    		 alert("支付成功");
 	    	 }else{
 	    		 alert(data.result_code+"|"+data.err_code +"|"+data.result_msg);
+	    	 }
+	     }).error(function(data,status,headers,config){
+	      	alert("系统错误！");
+	     });
+	};
+	
+	//扫码支付退款测试
+    $scope.alipayscanrefunddata = {};
+    $scope.wechatScanRefundTest = function(alipayscanrefunddata) {
+   	 $scope.alipayscanrefunddata = angular.copy(alipayscanrefunddata);
+	     $http({
+	        method  : 'post',
+	        url     : '/ajax/wechat/scanRefund/test',
+	        params  : $scope.alipayscanrefunddata
+	     }).success(function(data) {
+	    	 if(data.result_code=='SUCCESS'){
+	    		 alert("退款成功")
+	    	 }else{
+	    		 alert("|"+data.result_code+"|"+data.err_code +"|"+data.result_msg);
 	    	 }
 	     }).error(function(data,status,headers,config){
 	      	alert("系统错误！");

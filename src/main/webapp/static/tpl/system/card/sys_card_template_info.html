@@ -1,0 +1,176 @@
+<div class="well" ng-controller="SysCardTemplateInfoCtrl" ng-init="processForm()">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" name="form">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	用户名：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.userName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                              	 昵称：
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.nickname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	 原密码：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="password" class="form-control" placeholder="" ng-model="sysCardTemplate.oldPassword">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+							<label class="col-md-2 control-label"> 新密码： </label>
+							<div class="col-md-10">
+							 <input type="password" class="form-control" name="newPassword" ng-model="newPassword" required > 
+							</div>
+						</div>
+						<div class="form-group ">
+							<label class="col-md-2 control-label"> 确认密码： </label>
+							<div class="col-md-10">
+							<input type="password" class="form-control" name="confirm_password" required ng-model="sysCardTemplate.password" ui-validate=" '$value==newPassword' " ui-validate-watch=" 'newPassword' ">
+							<span ng-show='form.confirm_password.$error.validator' style="color: #ff4a0d">两次输入密码不一致！</span>
+							</div>
+						</div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	状态：
+                            </label>
+                             <div class="col-md-10">
+					                {{sysCardTemplate.status}}
+					         </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核状态：
+                            </label>
+                             <div class="col-md-10">
+					                {{sysCardTemplate.auditStatus}}
+					         </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核意见：
+                            </label>
+                             <div class="col-md-10">
+					                 {{sysCardTemplate.auditOpinion}}
+					         </div>
+                        </div>
+                  		<div class="form-group">
+				          <label class="col-sm-2 control-label">合同到期时间:</label>
+				           <div class="col-md-10">
+				           {{sysCardTemplate.endTime}}
+				           </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	代理商营业执照：
+                            </label>
+                            <div class="col-md-10">
+							                            
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+								  <div class="upload-buttons">
+								    <div id="editArea">
+								              <input type="file" ngf-select ng-model="businessLicensePicFile" name="file" accept="image/*" >
+								 				<img ngf-src="businessLicensePicFile" src="" id="businessLicenseImg" class="thumb">
+								              <button  ng-click="uploadPic(businessLicensePicFile,'businessLicense')" id="businessLicenseButton">上传</button>
+								              <span ng-show="businessLicensePicFile.result">Upload Successful</span>
+								            <span class="progress" ng-show="businessLicensePicFile.progress >= 0">
+								                  <div style="width:{{pbusinessLicensePicFile.progress}}%" ng-bind="businessLicensePicFile.progress + '%'"></div>
+								              </span>
+								              <input type="hidden" ng-model="sysCardTemplate.businessLicense" value = '' id="businessLicense">
+								            <br/>
+								        </div>
+								        <br/>
+								  </div>
+								  </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	法人/经营者身份证：
+                            </label>
+                            <div class="col-md-10">
+                            	<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+								  <div class="upload-buttons">
+								    <div id="editArea">
+								              <input type="file" ngf-select ng-model="picFile" name="file" accept="image/*" >
+								 				<img ngf-src="picFile" src="" id="identityCardImg" class="thumb">
+								              <button  ng-click="uploadPic(picFile,'identityCard')" id="identityCardButton">上传</button>
+								              <span ng-show="picFile.result">Upload Successful</span>
+								            <span class="progress" ng-show="picFile.progress >= 0">
+								                  <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
+								              </span>
+								              <input type="hidden" ng-model="sysCardTemplate.identityCard" value = '' id="identityCard">
+								            <br/>
+								        </div>
+								        <br/>
+								  </div>
+								  </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	公司名称：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.companyName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	营业执照注册号：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.registerNumber">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	联系人：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.contactMan">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	联系电话：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.phone">
+                            </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	手机号码：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.tel">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	详细地址：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.address">
+                            </div>
+                        </div>
+                      <button  ng-disabled="form.$invalid" ng-click="save(sysCardTemplate)">保存</button>
+                     </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

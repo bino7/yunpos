@@ -1,0 +1,96 @@
+
+<div class="well" ng-controller="SysCardTemplateDetailCtrl" ng-init="processForm()">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" name="form">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	用户名：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="sysCardTemplate.userName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                              	 昵称：
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" ng-model="sysCardTemplate.nickname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                              	 公司名称：
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.companyName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	 原密码：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="password" class="form-control" placeholder="" ng-model="sysCardTemplate.oldPassword">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+							<label class="col-md-2 control-label"> 新密码： </label>
+							<div class="col-md-10">
+							 <input type="password" class="form-control" name="newPassword" ng-model="newPassword" required > 
+							</div>
+						</div>
+						<div class="form-group ">
+							<label class="col-md-2 control-label"> 确认密码： </label>
+							<div class="col-md-10">
+							<input type="password" class="form-control" name="confirm_password" required ng-model="sysCardTemplate.password" ui-validate=" '$value==newPassword' " ui-validate-watch=" 'newPassword' ">
+							<span ng-show='form.confirm_password.$error.validator' style="color: #ff4a0d">两次输入密码不一致！</span>
+							</div>
+						</div>
+                          <div class="form-group">
+                             <label class="col-sm-2 control-label">合同到期时间:</label>
+				          <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+				            <div class="input-group w-md">
+				              <input type="text" class="form-control" datepicker-popup="{{'yyyy-MM-dd'}}" ng-model="sysCardTemplate.endTime" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				            </div>
+				          </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	状态：
+                            </label>
+                            <div class="col-md-10">
+                                 <div class="radio">
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" ng-model="sysCardTemplate.status">
+					                启用
+					              </label>
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="0" ng-model="sysCardTemplate.status">
+					                停用
+					              </label>
+					            </div>
+                            </div>
+                        </div>
+                        </div><div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	备注：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="sysCardTemplate.description">
+                            </div>
+                        </div>
+                      <button ng-click="save(sysCardTemplate)">保存</button>
+                     </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

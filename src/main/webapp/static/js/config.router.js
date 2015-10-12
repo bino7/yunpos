@@ -148,7 +148,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       }]
                   }
               })
-              /*
               .state('app.table.member', {//会员管理
                   url: '/member',
                   templateUrl: 'tpl/system/sys_member.html',
@@ -163,7 +162,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       }]
                   }
               })
-              */
               .state('app.table.sysMemberPayDetail', {//充值记录明细管理
                   url: '/memberPayDetail/:openId',
                   templateUrl: 'tpl/system/memberPay_dataList.html',
@@ -1023,7 +1021,35 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
               .state('app.authority_man', {
                   url:'/authority_man',
                   templateUrl: 'tpl/system/authority_man.html'
-              })
+              }) 
+              .state('app.table.sysCardTemplate', {//云卡券
+            	  url: '/sysCardTemplate',
+                  templateUrl: 'tpl/system/card/sys_card_template.html',
+                      resolve: {
+                          deps: ['$ocLazyLoad',
+                            function( $ocLazyLoad ){
+                              return $ocLazyLoad.load('ngGrid').then(
+                                  function(){
+                                      return $ocLazyLoad.load('js/controllers/yunpos/card/sysCardTemplateGrid.js');
+                                  }
+                              );
+                          }]
+                      }
+                	  
+          }) .state('app.table.sysCardTemplateAdd', {//用户新增
+              url: '/sysCardTemplateAdd',
+              templateUrl: 'tpl/system/card/sys_card_template_add.html',
+              resolve: {
+                  deps: ['$ocLazyLoad',
+                    function( $ocLazyLoad ){
+                      return $ocLazyLoad.load('ngGrid').then(
+                          function(){
+                              return $ocLazyLoad.load('js/controllers/yunpos/card/sysCardTemplateGrid.js');
+                          }
+                      );
+                  }]
+              }
+          })
       }
     ]
   );

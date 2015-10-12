@@ -19,20 +19,10 @@ public class OrgServiceTest {
 	public void testFindMaxOrgNo() {
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setOrgParentId(39);
-		int maxOrgNo = sysOrgService.findMaxOrgNo(sysOrg);
-		String orgNo = maxOrgNo+1 +"";
-		if(orgNo.length() % 4 == 1 ){
-			orgNo = "000" + orgNo;
-		}else if(orgNo.length() % 4 == 2 ){
-			orgNo = "00" + orgNo;
-		}else if(orgNo.length() % 4 == 3 ){
-			orgNo = "0" + orgNo;
-		} 
-		
+		sysOrg.setOrgParentNo("0004");
+		String orgNo = sysOrgService.getOrgNo(sysOrg);
 		System.out.println("orgNo===" + orgNo );
-		System.out.println(maxOrgNo);
 	}
-
 
 }
  

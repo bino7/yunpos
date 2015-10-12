@@ -114,7 +114,8 @@ public class SysAgentMerchantController extends BaseController {
 	
 
 		sysAgentMerchant.setBaseUserId(user.getId());
-		sysAgentMerchant.setAgentSerialNo("222222");
+		sysAgentMerchant.setAgentSerialNo(sysOrg.getOrgNo());
+		sysAgentMerchant.setOrgId(sysOrg.getId());
 		sysAgentMerchantService.save(sysAgentMerchant);
 
 		return new GridRowResponse(-2);

@@ -29,22 +29,20 @@
                            		 <input type="text" class="form-control" placeholder="" ng-model="merchant.companyName">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                               	 登录密码：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="password" class="form-control" placeholder="" ng-model="merchant.password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	确认密码：
-                            </label>
-                            <div class="col-md-10">
-                                <input type="password" class="form-control" placeholder="" ng-model="merchant.password">
-                            </div>
-                        </div>
+                        <div class="form-group ">
+							<label class="col-md-2 control-label">登录密码： </label>
+							<div class="col-md-10">
+							 <input type="password" class="form-control" name="newPassword" ng-model="newPassword" required > 
+							</div>
+						</div>
+						<div class="form-group ">
+							<label class="col-md-2 control-label"> 确认密码： </label>
+							<div class="col-md-10">
+							<input type="password" class="form-control" name="confirm_password" required ng-model="merchant.password" ui-validate=" '$value==newPassword' " ui-validate-watch=" 'newPassword' ">
+							<span ng-show='form.confirm_password.$error.validator' style="color: #ff4a0d">两次输入密码不一致！</span>
+							</div>
+						</div>
+                        
                         <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	状态：

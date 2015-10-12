@@ -10,6 +10,7 @@
 	<result column="createdBy" property="createdBy" jdbcType="INTEGER" />
 	<result column="description" property="description" jdbcType="VARCHAR" />
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
+    <result column="orgId" property="orgId" jdbcType="INTEGER" />
     <result column="serialNo" property="serialNo" jdbcType="VARCHAR" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
     <result column="md5Key" property="md5Key" jdbcType="VARCHAR" />
@@ -19,7 +20,7 @@
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
     <result column="industryTypeId" property="industryTypeId" jdbcType="INTEGER" />
     <result column="industryType" property="industryType" jdbcType="VARCHAR" />
-    <result column="range" property="range" jdbcType="VARCHAR" />
+    <result column="ranges" property="ranges" jdbcType="VARCHAR" />
     <result column="contactMan" property="contactMan" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="tel" property="tel" jdbcType="VARCHAR" />
@@ -84,7 +85,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     baseUserId, serialNo, agentSerialNo, md5Key, merchantName, merchantType, printName, 
-    companyName, industryTypeId, industryType, range, contactMan,  postcode, 
+    companyName, industryTypeId, industryType, ranges, contactMan,  postcode, 
     prov, city, area, address,  serviceTel, webSite, applyForBusiness, auditStatus, 
     auditMemo, endTime, businessLicense, registerNumber, identityType, identityCardOn, 
     identityCardOff, terminals, serviceType, serviceAlipay, serviceWeixin, 
@@ -96,13 +97,13 @@
     aliPayOnline, aliPayOffline
   </sql>
    <sql id="Base_Column_List_user" >
-  		id,phone, tel , status, email,
+  		id,phone, tel , status, email,orgId, 
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
 		 user.createdAt as createdAt,   user.createdBy as createdBy,  description,merc.status as status,
-		merc.phone as phone, merc.tel as tel, merc.email as email, 
+		merc.phone as phone, merc.tel as tel, merc.email as email, merc.orgId as orgId, 
 		<include refid="Base_Column_List" />
 		from sys_merchant merc, sys_user user
 		where merc.baseUserId = user.id
@@ -113,10 +114,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.SysMerchant" >
-    insert into sys_merchant (id, baseUserId, serialNo, 
+    insert into sys_merchant (id, baseUserId, orgId, serialNo, 
       agentSerialNo, md5Key, merchantName, 
       merchantType, printName, companyName, 
-      industryTypeId, industryType, range, 
+      industryTypeId, industryType, ranges, 
       contactMan, phone, tel, 
       postcode, prov, city, 
       area, address, email, 
@@ -138,10 +139,10 @@
       signAccount, openBookingCard, industryRate, 
       cappingMachine, weixinPayOnline, weixinPayOffline, 
       aliPayOnline, aliPayOffline)
-    values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER},  #{orgId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
       #{agentSerialNo,jdbcType=VARCHAR}, #{md5Key,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, 
       #{merchantType,jdbcType=TINYINT}, #{printName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
-      #{industryTypeId,jdbcType=INTEGER}, #{industryType,jdbcType=VARCHAR}, #{range,jdbcType=VARCHAR}, 
+      #{industryTypeId,jdbcType=INTEGER}, #{industryType,jdbcType=VARCHAR}, #{ranges,jdbcType=VARCHAR}, 
       #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
       #{postcode,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
@@ -173,6 +174,9 @@
       <if test="baseUserId != null" >
         baseUserId,
       </if>
+       <if test="orgId != null" >
+        orgId,
+      </if>
       <if test="serialNo != null" >
         serialNo,
       </if>
@@ -200,8 +204,8 @@
       <if test="industryType != null" >
         industryType,
       </if>
-      <if test="range != null" >
-        range,
+      <if test="ranges != null" >
+        ranges,
       </if>
       <if test="contactMan != null" >
         contactMan,
@@ -394,6 +398,9 @@
       <if test="baseUserId != null" >
         #{baseUserId,jdbcType=INTEGER},
       </if>
+       <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
       <if test="serialNo != null" >
         #{serialNo,jdbcType=VARCHAR},
       </if>
@@ -421,8 +428,8 @@
       <if test="industryType != null" >
         #{industryType,jdbcType=VARCHAR},
       </if>
-      <if test="range != null" >
-        #{range,jdbcType=VARCHAR},
+      <if test="ranges != null" >
+        #{ranges,jdbcType=VARCHAR},
       </if>
       <if test="contactMan != null" >
         #{contactMan,jdbcType=VARCHAR},
@@ -615,6 +622,9 @@
       <if test="baseUserId != null" >
         baseUserId = #{baseUserId,jdbcType=INTEGER},
       </if>
+      <if test="orgId != null" >
+        orgId = #{orgId,jdbcType=INTEGER},
+      </if>
       <if test="serialNo != null" >
         serialNo = #{serialNo,jdbcType=VARCHAR},
       </if>
@@ -642,8 +652,8 @@
       <if test="industryType != null" >
         industryType = #{industryType,jdbcType=VARCHAR},
       </if>
-      <if test="range != null" >
-        range = #{range,jdbcType=VARCHAR},
+      <if test="ranges != null" >
+        ranges = #{ranges,jdbcType=VARCHAR},
       </if>
       <if test="contactMan != null" >
         contactMan = #{contactMan,jdbcType=VARCHAR},
@@ -834,6 +844,7 @@
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysMerchant" >
     update sys_merchant
     set baseUserId = #{baseUserId,jdbcType=INTEGER},
+      orgId = #{orgId,jdbcType=INTEGER},
       serialNo = #{serialNo,jdbcType=VARCHAR},
       agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
       md5Key = #{md5Key,jdbcType=VARCHAR},
@@ -843,7 +854,7 @@
       companyName = #{companyName,jdbcType=VARCHAR},
       industryTypeId = #{industryTypeId,jdbcType=INTEGER},
       industryType = #{industryType,jdbcType=VARCHAR},
-      range = #{range,jdbcType=VARCHAR},
+      ranges = #{ranges,jdbcType=VARCHAR},
       contactMan = #{contactMan,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
@@ -913,13 +924,16 @@
     <select id="selectByParm" resultMap="BaseResultMap" parameterType="com.yunpos.model.SysMerchant" >
         select merc.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
 		 user.createdAt as createdAt,   user.createdBy as createdBy,    description, merc.status as status,
-		merc.phone as phone, merc.tel as tel, merc.mail as mail, 
+		merc.phone as phone, merc.tel as tel, merc.email as email,  merc.orgId as orgId, 
 		<include refid="Base_Column_List" />
 		from sys_merchant merc, sys_user user
 		where merc.baseUserId = user.id
 
       <if test="baseUserId != null" >
         and baseUserId = #{baseUserId,jdbcType=INTEGER}
+      </if>
+       <if test="orgId != null" >
+        and orgId = #{orgId,jdbcType=INTEGER}
       </if>
       <if test="serialNo != null" >
         and serialNo = #{serialNo,jdbcType=VARCHAR}

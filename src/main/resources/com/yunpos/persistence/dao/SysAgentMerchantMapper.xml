@@ -10,6 +10,7 @@
 	<result column="createdBy" property="createdBy" jdbcType="INTEGER" />
 	<result column="description" property="description" jdbcType="VARCHAR" />
     <result column="baseUserId" property="baseUserId" jdbcType="INTEGER" />
+    <result column="orgId" property="orgId" jdbcType="INTEGER" />
     <result column="agentSerialNo" property="agentSerialNo" jdbcType="VARCHAR" />
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
     <result column="businessLicense" property="businessLicense" jdbcType="VARCHAR" />
@@ -32,11 +33,14 @@
     contactMan, prov, city, area, address, auditStatus, auditOpinion, endTime
   </sql>
   <sql id="Base_Column_List_user" >
-  		id,phone, tel , status,
+  		id,phone, tel , status, orgId, 
   </sql>
   <sql id="Select_Parm_Column_List">
   	 <if test="baseUserId != null" >
        and  baseUserId = #{baseUserId,jdbcType=INTEGER}
+      </if>
+      <if test="orgId != null" >
+       and orgId = #{orgId,jdbcType=VARCHAR}
       </if>
       <if test="agentSerialNo != null" >
        and agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR}
@@ -91,7 +95,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select agen.id as id, user.userName as userName, user.nickname as nickname, user.password as password, 
 		 user.createdAt as createdAt,   user.createdBy as createdBy,    description,
-		agen.phone as phone, agen.tel as tel, agen.status as status, 
+		agen.phone as phone, agen.tel as tel, agen.status as status,  agen.orgId as orgId, 
 		<include refid="Base_Column_List" />
 		from sys_agentmerchant agen, sys_user user
 		where agen.baseUserId = user.id
@@ -102,13 +106,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.SysAgentMerchant" >
-    insert into sys_agentmerchant (id, baseUserId, agentSerialNo, 
+    insert into sys_agentmerchant (id, baseUserId, orgId, agentSerialNo, 
       companyName, businessLicense, registerNumber, 
       identityCard, contactMan, phone, 
       tel, prov, city, area, 
       address, status, auditStatus, auditOpinion, endTime
       )
-    values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{agentSerialNo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{baseUserId,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{agentSerialNo,jdbcType=VARCHAR}, 
       #{companyName,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, #{registerNumber,jdbcType=VARCHAR}, 
       #{identityCard,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{prov,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
@@ -123,6 +127,9 @@
       </if>
       <if test="baseUserId != null" >
         baseUserId,
+      </if>
+       <if test="orgId != null" >
+        orgId,
       </if>
       <if test="agentSerialNo != null" >
         agentSerialNo,
@@ -180,6 +187,9 @@
       <if test="baseUserId != null" >
         #{baseUserId,jdbcType=INTEGER},
       </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
       <if test="agentSerialNo != null" >
         #{agentSerialNo,jdbcType=VARCHAR},
       </if>
@@ -236,6 +246,9 @@
       <if test="baseUserId != null" >
         baseUserId = #{baseUserId,jdbcType=INTEGER},
       </if>
+      <if test="orgId != null" >
+        orgId = #{orgId,jdbcType=INTEGER},
+      </if>
       <if test="agentSerialNo != null" >
         agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
       </if>
@@ -290,6 +303,7 @@
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysAgentMerchant" >
     update sys_agentmerchant
     set baseUserId = #{baseUserId,jdbcType=INTEGER},
+    	orgId = #{orgId,jdbcType=INTEGER},
       agentSerialNo = #{agentSerialNo,jdbcType=VARCHAR},
       companyName = #{companyName,jdbcType=VARCHAR},
       businessLicense = #{businessLicense,jdbcType=VARCHAR},
@@ -315,7 +329,7 @@
 		parameterType="com.yunpos.utils.jqgrid.GridRequest">
 		select agen.id as id, user.userName as userName, user.nickname as nickname,  
 		 user.createdAt as createdAt,   user.createdBy as createdBy,    description,
-		agen.phone as phone, agen.tel as tel, agen.status as status, 
+		agen.phone as phone, agen.tel as tel, agen.status as status, agen.orgId as orgId, 
 		<include refid="Base_Column_List" />
 		from sys_agentmerchant agen, sys_user user
 		where agen.baseUserId = user.id

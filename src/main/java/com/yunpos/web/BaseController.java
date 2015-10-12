@@ -82,7 +82,7 @@ public class BaseController {
 			
 		}
 		 if(Tools.isNullOrEmpty(currentUser)){
-			 currentUser = new SecurityUser(1, null, null, 1, "cash","");
+			 currentUser = new SecurityUser(1, null, null, 1, "cash","0002");
 		 }
 		 return currentUser;
 	}

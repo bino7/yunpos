@@ -106,6 +106,7 @@ public class SysMerchantController extends BaseController{
 		sysOrg.setCreateDate(new Date());
 		sysOrg.setLevel(1);
 		sysOrg.setOrgParentId(sysAgentMerchant.getOrgId());
+		sysOrg.setOrgParentNo(sysAgentMerchant.getAgentSerialNo());
 		sysOrg.setOrgNo(sysOrgService.getOrgNo(sysOrg));
 		sysOrgService.save(sysOrg);
 		
@@ -122,6 +123,7 @@ public class SysMerchantController extends BaseController{
 
 		sysMerchant.setMd5Key(MD5Utils.genRandomNum(36));
 		sysMerchant.setSerialNo(sysOrg.getOrgNo());
+		sysMerchant.setOrgId(sysOrg.getId());
 		sysMerchant.setBaseUserId(user.getId());
 		sysMerchant.setAgentSerialNo(sysAgentMerchant.getAgentSerialNo());
 		sysMerchant.setAuditStatus(new Byte("0"));

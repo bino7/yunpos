@@ -76,30 +76,32 @@ public class SysOrgService extends EntityService<SysOrg> {
 	 * @param sysOrg
 	 * @return
 	 */
-	public int findMaxOrgNo(SysOrg sysOrg){
+	public String getOrgNo(SysOrg sysOrg){
 		String  maxOrgNo = sysOrgMapper.findMaxOrgNo(sysOrg);
 		if(Tools.isNullOrEmpty(maxOrgNo)){
-			maxOrgNo = "0";
+			maxOrgNo = sysOrg.getOrgParentNo() + "0001";
 		}
-		return Integer.parseInt(maxOrgNo);
+		String orgNo = Integer.parseInt(maxOrgNo) + 1 +"";
+		if(orgNo.length() % 4 == 1 ){
+			orgNo = "000" + orgNo;
+		}else if(orgNo.length() % 4 == 2 ){
+			orgNo = "00" + orgNo;
+		}else if(orgNo.length() % 4 == 3 ){
+			orgNo = "0" + orgNo;
+		} 
+		return orgNo;
 	}
+	
 	
 	/**
 	 * 获取当前等级组织结构最大编号
 	 * @param sysOrg
 	 * @return
 	 */
-	public String getOrgNo(SysOrg sysOrg){
-		int maxOrgNo = findMaxOrgNo(sysOrg);
-		String orgNo = maxOrgNo+1 +"";
-		if(orgNo.length()%4 == 1 ){
-			orgNo = "000" + orgNo;
-		}else if(orgNo.length()%4 == 2 ){
-			orgNo = "00" + orgNo;
-		}else if(orgNo.length()%4 == 3 ){
-			orgNo = "0" + orgNo;
-		} 
-		return orgNo;
+	public String getOrgNo(String orgParentNo ,int  orgParentId){
+		SysOrg sysOrg = new SysOrg();
+		sysOrg.setOrgParentId(orgParentId);
+		sysOrg.setOrgParentNo(orgParentNo);
+		return getOrgNo(sysOrg);
 	}
-	
 }

@@ -71,6 +71,20 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       }]
                   }
 	          })
+	          .state('app.thirdPartyLogin', {//第三方登录
+                  url: '/thirdpartylogin',
+                  templateUrl: 'tpl/system/sys_thirdPartyLogin.html',
+	                  resolve: {
+	                      deps: ['$ocLazyLoad',
+	                        function( $ocLazyLoad ){
+	                          return $ocLazyLoad.load('ngGrid').then(
+	                              function(){
+	                                  return $ocLazyLoad.load('js/controllers/yunpos/sysThirdPartyLogin.js');
+	                              }
+	                          );
+	                      }]
+	                  }
+              })
 	          .state('register', {
                   url: '/register',
                   templateUrl: 'tpl/system/sys_register.html',
@@ -677,8 +691,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
 	                          );
 	                      }]
 	                  }
-              })
-             
+              })          
               // form
               .state('app.form', {
                   url: '/form',

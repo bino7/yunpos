@@ -1,0 +1,31 @@
+<style>
+	table, th , td {
+  border: 2px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+</style>
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">第三方集中登录</h1>
+</div>
+<div class="wrapper-md" ng-controller="ThirdPartyLoginCtrl">
+	<table>
+		<thead>
+			<tr>
+				<th class="col-md-2">序号</th>
+				<th class="col-md-8">系统名称</th>
+				<th class="col-md-2">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="col-md-2">TP-001</td>
+				<td class="col-md-8">收单宝</td>
+				<td class="col-md-2">
+					<a href="javascript:;" ng-click="loginfwc()" class="btn btn-success">登录收单宝 </a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+  
+</div>

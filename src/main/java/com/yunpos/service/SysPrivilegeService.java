@@ -82,7 +82,7 @@ public class SysPrivilegeService extends EntityService<SysPrivilege>{
 					menus = sysMenuService.findListByIds(privilegeIds.toArray());
 				}
 				for(SysMenu menu: menus){
-					permissions.add("menu:"+menu.getMenuUrl());
+					permissions.add(menu.getMenuUrl());
 				}
 			}
 		} catch (Exception e) {

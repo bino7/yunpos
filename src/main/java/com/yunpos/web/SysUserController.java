@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,12 +55,15 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping(value="/ajax/user",method = RequestMethod.POST)
-	public GridRowResponse create(@Valid SysUser user)throws ServiceException {
+	public GridRowResponse create(@Valid SysUser user,HttpServletRequest request)throws ServiceException {
+		
+		SysUser currentUser = (SysUser) request.getSession().getAttribute("user");
 		user.setCreatedAt(new Date());
-		user.setCreatedBy(getUser().getId());
-		user.setOrgId(getUser().getOrgId());
-		user.setOrgName(getUser().getOrgName());
+		user.setCreatedBy(currentUser.getId());
+		user.setOrgId(currentUser.getOrgId());
+		user.setOrgName(currentUser.getOrgName());
 		user.setStatus("1");
+		user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 		sysUserService.save(user);
 		
 		if(!Strings.isNullOrEmpty(user.getRole())){
@@ -81,6 +85,8 @@ public class SysUserController extends BaseController {
 		user.setUpdatedAt(new Date());
 		user.setUpdatedBy(getUser().getId());
 		user.setSalt(SecurityUtils.generateSalt());
+		if(user.getPassword()!=null && !"".equals(user.getPassword()))
+			user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 		sysUserService.update(user);
 		
 		if(!Strings.isNullOrEmpty(user.getRole())){
@@ -108,7 +114,7 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value = "/ajax/user/updatePwd/{id}", method = RequestMethod.PUT)
 	public GridRowResponse updatePWD(@Valid SysUser user, @PathVariable("id") int id) {
 		SysUser sysUser = sysUserService.findById(id);
-		sysUser.setPassword(user.getPassword());
+		sysUser.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 		sysUserService.update(user);
 		return new GridRowResponse(user.getId());
 	}

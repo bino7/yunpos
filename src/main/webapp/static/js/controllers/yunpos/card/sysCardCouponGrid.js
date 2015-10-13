@@ -1,4 +1,4 @@
-app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stateParams) {
+app.controller('SysCardCouponListCtrl',  function($scope, $http, $state, $stateParams) {
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -11,15 +11,15 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
     };  
     $scope.setPagingData = function(data, page, pageSize){  
         var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-        $scope.sysCardTemplateListData = pagedData;
+        $scope.sysCardCouponListData = pagedData;
         $scope.totalServerItems = data.length;
         if (!$scope.$$phase) {
             $scope.$apply();
         }
     };
     $scope.gridOptions = {
-            data: 'sysCardTemplateListData',
-            rowTemplate: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
+            data: 'sysCardCouponListData',
+            rowCoupon: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
                 '<div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }"> </div>' +
                 '<div ng-cell></div>' +
                 '</div></div>',
@@ -35,10 +35,10 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
                {field: 'createdBy',displayName: '投放平台',enableCellEdit: false, width: 120}, 
                {field: 'createdAt',displayName: '投放状态',enableCellEdit: false, width: 140}, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.sysCardTemplateDetail({id:row.getProperty(col.field)})" '
+                cellCoupon: '<div><a ui-sref="app.table.sysCardCouponDetail({id:row.getProperty(col.field)})" '
                 	+ 'id="{{row.getProperty(col.field)}}"> <button>详情{{row.status}}</button> </a> ' 
-                	+ '<button ng-click="updateStatus({id:row.getProperty(col.field) , sysCardTemplate:row, status:1})">投放</button>'
-                	+ '<button ng-click="deleted({id:row.getProperty(col.field) , sysCardTemplate:row})">删除</button></div>'
+                	+ '<button ng-click="updateStatus({id:row.getProperty(col.field) , sysCardCoupon:row, status:1})">投放</button>'
+                	+ '<button ng-click="deleted({id:row.getProperty(col.field) , sysCardCoupon:row})">删除</button></div>'
             }],
             enablePaging: true,
             showFooter: true,        
@@ -51,14 +51,14 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
             var data;
             if (searchText) {
                 var ft = searchText.toLowerCase();
-                data = $scope.sysCardTemplateData.filter(function(item) {
+                data = $scope.sysCardCouponData.filter(function(item) {
                      return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
                 });
                 $scope.setPagingData(data,page,pageSize);
             } else {
-                $http.get('/ajax/sysCardTemplate/search').success(function (largeLoad) {
-                    $scope.sysCardTemplateData = largeLoad.rows;
-                    $scope.setPagingData($scope.sysCardTemplateData,page,pageSize);
+                $http.get('/ajax/sysCardCoupon/search').success(function (largeLoad) {
+                    $scope.sysCardCouponData = largeLoad.rows;
+                    $scope.setPagingData($scope.sysCardCouponData,page,pageSize);
                 });
             }
         }, 100);
@@ -68,27 +68,27 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
 
     $scope.$watch('pagingOptions', function (newVal, oldVal) {
         if (newVal !== oldVal) {
-//        	$scope.setPagingData($scope.sysCardTemplateData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+//        	$scope.setPagingData($scope.sysCardCouponData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
             $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
         }
     }, true);
     $scope.$watch('filterOptions', function (newVal, oldVal) {
         if (newVal !== oldVal) {
-//        	$scope.setPagingData($scope.sysCardTemplateData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+//        	$scope.setPagingData($scope.sysCardCouponData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
             $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterText);
         }
     }, true);
 
     $scope.updateStatus = function(obj) {
-    	obj.sysCardTemplate.entity.status = obj.status;
+    	obj.sysCardCoupon.entity.status = obj.status;
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/sysCardTemplate/updateStatus/' + obj.id,
-	        params  :  obj.sysCardTemplate.entity 
+	        url     : '/ajax/sysCardCoupon/updateStatus/' + obj.id,
+	        params  :  obj.sysCardCoupon.entity 
 	     }).success(function() {
 	    	 alert("更新成功！");
-	    //	 $scope.sysCardTemplateData[obj.sysCardTemplate.rowIndex] = obj.sysCardTemplate.entity;
-	    //	 $scope.setPagingData($scope.sysCardTemplateData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	    //	 $scope.sysCardCouponData[obj.sysCardCoupon.rowIndex] = obj.sysCardCoupon.entity;
+	    //	 $scope.setPagingData($scope.sysCardCouponData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
 	     }).error(function(data,status,headers,config){
 	      	alert("更新失败！");
 	     });
@@ -97,12 +97,12 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
 	  $scope.deleted = function(obj ,row) {
 		     $http({
 		        method  : 'delete',
-		        url     : '/ajax/sysCardTemplate/' + obj.id,
+		        url     : '/ajax/sysCardCoupon/' + obj.id,
 		        params  : {"id":obj.id}
 		     }).success(function() {
 		    	 alert("删除成功！");
-		    	 $scope.sysCardTemplateListData.splice(obj.sysCardTemplate.rowIndex, 1);
-		    	 $scope.setPagingData($scope.sysCardTemplateListData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+		    	 $scope.sysCardCouponListData.splice(obj.sysCardCoupon.rowIndex, 1);
+		    	 $scope.setPagingData($scope.sysCardCouponListData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
 		     }).error(function(data,status,headers,config){
 		      	alert("删除失败！");
 		     });
@@ -110,7 +110,7 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
 	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
-          var data = $scope.sysCardTemplateData.filter(function(item) {
+          var data = $scope.sysCardCouponData.filter(function(item) {
                   return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
          });
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
@@ -125,30 +125,30 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
  * 
  * @type {[type]}
  */
-app.controller('SysCardTemplateAddCtrl', function($scope, $http, $state, $stateParams) {
+app.controller('SysCardCouponAddCtrl', function($scope, $http, $state, $stateParams) {
     console.log($stateParams);
     
     $scope.master = {};
 
-	  $scope.add = function(sysCardTemplate) {
-		sysCardTemplate.endDate = formatDateTime(sysCardTemplate.endDate);
-		sysCardTemplate.startDate = formatDateTime(sysCardTemplate.startDate);
-	    $scope.master = angular.copy(sysCardTemplate);
+	  $scope.add = function(sysCardCoupon) {
+		sysCardCoupon.endDate = formatDateTime(sysCardCoupon.endDate);
+		sysCardCoupon.startDate = formatDateTime(sysCardCoupon.startDate);
+	    $scope.master = angular.copy(sysCardCoupon);
 	    $http({
 	        method  : 'post',
-	        url     : '/ajax/sysCardTemplate',
-	        params    : sysCardTemplate  
+	        url     : '/ajax/sysCardCoupon',
+	        params    : sysCardCoupon  
 	    }).success(function(data) {
 	            console.log(data);
 	            alert("添加成功！");
-	            $state.go('app.table.sysCardTemplate');
+	            $state.go('app.table.sysCardCoupon');
 	    }).error(function(data){
 	    	alert("出错");
 	    });
 	  };
 
 	  $scope.reset = function() {
-	    $scope.sysCardTemplate = angular.copy($scope.master);
+	    $scope.sysCardCoupon = angular.copy($scope.master);
 	  };
 
 	  $scope.reset();
@@ -159,35 +159,35 @@ app.controller('SysCardTemplateAddCtrl', function($scope, $http, $state, $stateP
  * 这里是卡券编辑
  * @type {[type]}
  */
-app.controller('SysCardTemplateDetailCtrl', function($scope, $http, $state, $stateParams) {
+app.controller('SysCardCouponDetailCtrl', function($scope, $http, $state, $stateParams) {
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/sysCardTemplate/'+ $stateParams.id
+	        url     : '/ajax/sysCardCoupon/'+ $stateParams.id
 	    }).success(function(data) {
 	           // console.log(data);
-	            $scope.sysCardTemplate = data;
-	            $scope.sysCardTemplate.oldPassword = data.password;
-	            $scope.sysCardTemplate.password = "";
+	            $scope.sysCardCoupon = data;
+	            $scope.sysCardCoupon.oldPassword = data.password;
+	            $scope.sysCardCoupon.password = "";
 	            $scope.newPassword = "";
 	           // alert(data.id);
 	        });
 	};
 	 $scope.saved = {};
-     $scope.save = function(sysCardTemplate) {
-    	 sysCardTemplate.endTime = formatDateTime(sysCardTemplate.endTime);
-    	 if(sysCardTemplate.password == ""){
-    		 sysCardTemplate.password = sysCardTemplate.oldPassword;
+     $scope.save = function(sysCardCoupon) {
+    	 sysCardCoupon.endTime = formatDateTime(sysCardCoupon.endTime);
+    	 if(sysCardCoupon.password == ""){
+    		 sysCardCoupon.password = sysCardCoupon.oldPassword;
     	 }
-    	 sysCardTemplate.newPassword = sysCardTemplate.password ;
-    	 $scope.saved = angular.copy(sysCardTemplate);
+    	 sysCardCoupon.newPassword = sysCardCoupon.password ;
+    	 $scope.saved = angular.copy(sysCardCoupon);
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/sysCardTemplate/' + $scope.saved.id,
+	        url     : '/ajax/sysCardCoupon/' + $scope.saved.id,
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
-	    	 $state.go('app.table.sysCardTemplate');
+	    	 $state.go('app.table.sysCardCoupon');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });
@@ -200,42 +200,42 @@ app.controller('SysCardTemplateDetailCtrl', function($scope, $http, $state, $sta
  * 这里是卡券企业信息
  * @type {[type]}
  */
-app.controller('sysCardTemplateInfoCtrl', function($scope, $http, $state, $stateParams) {
+app.controller('sysCardCouponInfoCtrl', function($scope, $http, $state, $stateParams) {
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/sysCardTemplate/1'
+	        url     : '/ajax/sysCardCoupon/1'
 	    }).success(function(data) {
 	           // console.log(data);
-	            $scope.sysCardTemplate = data;
-	            $scope.sysCardTemplate.oldPassword = data.password;
-	            $scope.sysCardTemplate.password = "";
+	            $scope.sysCardCoupon = data;
+	            $scope.sysCardCoupon.oldPassword = data.password;
+	            $scope.sysCardCoupon.password = "";
 	            $scope.newPassword = "";
-	            if($scope.sysCardTemplate.identityCard != null && $scope.sysCardTemplate.identityCard != '' ){
+	            if($scope.sysCardCoupon.identityCard != null && $scope.sysCardCoupon.identityCard != '' ){
 	            	document.getElementById("identityCardImg").className  = "thumb";
-	            	document.getElementById("identityCardImg").src = $scope.sysCardTemplate.identityCard;
+	            	document.getElementById("identityCardImg").src = $scope.sysCardCoupon.identityCard;
 	            	document.getElementById("identityCardButton").removeAttribute("disabled");
 	            }
-	            if($scope.sysCardTemplate.businessLicense != null && $scope.sysCardTemplate.businessLicense != '' ){
+	            if($scope.sysCardCoupon.businessLicense != null && $scope.sysCardCoupon.businessLicense != '' ){
 	            	document.getElementById("businessLicenseImg").className  = "thumb";
-	            	document.getElementById("businessLicenseImg").src = $scope.sysCardTemplate.businessLicense;
+	            	document.getElementById("businessLicenseImg").src = $scope.sysCardCoupon.businessLicense;
 	            	document.getElementById("businessLicenseButton").removeAttribute("disabled");
 	            }
 	        });
 	};
 	 $scope.saved = {};
-     $scope.save = function(sysCardTemplate) {
-    	 sysCardTemplate.endTime = formatDateTime(sysCardTemplate.endTime);
-    	 sysCardTemplate.businessLicense = document.getElementById("businessLicense").value;
-    	 sysCardTemplate.identityCard = document.getElementById("identityCard").value;
-    	 if(sysCardTemplate.password == ""){
-    		 sysCardTemplate.password = sysCardTemplate.oldPassword;
+     $scope.save = function(sysCardCoupon) {
+    	 sysCardCoupon.endTime = formatDateTime(sysCardCoupon.endTime);
+    	 sysCardCoupon.businessLicense = document.getElementById("businessLicense").value;
+    	 sysCardCoupon.identityCard = document.getElementById("identityCard").value;
+    	 if(sysCardCoupon.password == ""){
+    		 sysCardCoupon.password = sysCardCoupon.oldPassword;
     	 }
-    	 sysCardTemplate.newPassword = sysCardTemplate.password ;
-    	 $scope.saved = angular.copy(sysCardTemplate);
+    	 sysCardCoupon.newPassword = sysCardCoupon.password ;
+    	 $scope.saved = angular.copy(sysCardCoupon);
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/sysCardTemplate/' + $scope.saved.id,
+	        url     : '/ajax/sysCardCoupon/' + $scope.saved.id,
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");

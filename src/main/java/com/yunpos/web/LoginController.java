@@ -9,19 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
-import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,9 +65,9 @@ public class LoginController extends BaseController {
 
 		List<SysUser> sysUser = sysUserService.findByUserName(username);
 		if (sysUser == null) {
-			return new Message(false, "user_not_exist", "用户不存在");
+			return new Message(false, "user_not_exist", "用户不存在"); 	
 		}
-		if (!sysUser.get(0).getPassword().equals(password)) {
+		if (!sysUser.get(0).getPassword().equals(DigestUtils.md5DigestAsHex(password.trim().getBytes()))) {
 			return new Message(false, "password_error", "密码错误");
 		}
 
@@ -96,6 +92,7 @@ public class LoginController extends BaseController {
 		request.getSession().setAttribute("user", sysUser.get(0));
 		returnMap.put("user", sysUser.get(0));
 		returnMap.put("menu", menus);
+		System.out.println(menus);
 		return new Message(true, "success", "登录成功", returnMap);
 
 	}

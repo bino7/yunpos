@@ -5,29 +5,22 @@
  */
 
 //全局配置信息
-app.run(['$rootScope', '$state', '$stateParams','$window','Session',function ($rootScope,  $state,   $stateParams,$window,Session) {
+app.run(['$rootScope', '$state','$window', '$stateParams','Session',function ($rootScope,   $state, $window,  $stateParams,Session) {
 	 $rootScope.$state = $state;
      $rootScope.$stateParams = $stateParams;   
      
-	 	var userInfoStr = $window.sessionStorage["userInfo"];
-	 	if(userInfoStr){
-	 		var userInfo =  eval("(" + userInfoStr + ")");
-		 	var user = userInfo.user;
-			var menu = userInfo.menu;
-			Session.create(true, user.id,"",menu);
-	 	}
-		//$scope.setCurrentUser(user);
+  	var userInfoStr = $window.sessionStorage["userInfo"];
+ 	if(userInfoStr){
+ 		var userInfo =  eval("(" + userInfoStr + ")");
+	 	var user = userInfo.user;
+		var menu = userInfo.menu;
+		Session.create(true, user.id,"",menu);
+		$rootScope.user = user;
+		//this.setCurrentUser(user);
+ 	}
      
    //监听$stateChangeStart事件并作相应的逻辑处理
      $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
-//    	 	var userInfoStr = $window.sessionStorage["userInfo"];
-    	 	//var userInfo =  eval("(" + userInfoStr + ")");
-//    	 	alert(userInfoStr);
-//    	 	var user = userInfo.user;
-//			var menu = userInfo.menu;
-//			Session.create(true, user.id,"",menu);
-//			$scope.setCurrentUser(user);
-			
     		if(toState.name=='login')return;// 如果是进入登录界面则允许
     		// 如果用户不存在
     		if(!Session.logined){
@@ -1022,7 +1015,21 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                           }]
                       }
                 	  
-          }) .state('app.table.sysCardTemplateAdd', {//用户新增
+          }).state('app.table.sysCardCoupon', {//卡券统计
+        	  url: '/sysCardCoupon',
+              templateUrl: 'tpl/system/card/sys_card_coupon.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/card/sysCardCouponGrid.js');
+                              }
+                          );
+                      }]
+                  }
+            	  
+      }) .state('app.table.sysCardTemplateAdd', {//用户新增
               url: '/sysCardTemplateAdd',
               templateUrl: 'tpl/system/card/sys_card_template_add.html',
               resolve: {

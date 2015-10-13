@@ -3,8 +3,8 @@
 /* Controllers */
 
 angular.module('app')
-.controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', 'AuthService',
-    function(              $scope,   $translate,   $localStorage,   $window ,AuthService) {
+.controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', 'AuthService','Session',
+    function(              $scope,   $translate,   $localStorage,   $window ,AuthService,Session) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
@@ -14,6 +14,10 @@ angular.module('app')
       $scope.setCurrentUser = function (user) {
     	    $scope.currentUser = user;
     	  };
+    	
+      $scope.isAut = function(url){
+    	  return (Session.userAuthority.indexOf(url) !== -1);
+      }
       
       // 全局变量设置
       $scope.app = {

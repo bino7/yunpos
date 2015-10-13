@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.controller('LoginController', ['$rootScope','$scope', '$http', '$state','AUTH_EVENTS', 'AuthService', function($rootScope,$scope, $http, $state,AUTH_EVENTS,AuthService) {
+app.controller('LoginController', ['$rootScope','$scope','$window', '$http', '$state','AUTH_EVENTS', 'AuthService','Session', function($rootScope,$scope,$window, $http, $state,AUTH_EVENTS,AuthService,Session) {
 	//封装登录输入信息
 	$rootScope.isLogined = false;
 	$scope.authError = null;
@@ -23,7 +23,11 @@ app.controller('LoginController', ['$rootScope','$scope', '$http', '$state','AUT
     
     //登出
     $scope.loginOut = function() {
-    	$rootScope.isLogined = false;
-    	$state.go('login');
+    	$window.sessionStorage["userInfo"]=null;
+    	$scope.setCurrentUser(null);
+    	Session.destroy();
+		$state.go('login');
+		
     }
+    
   }]);

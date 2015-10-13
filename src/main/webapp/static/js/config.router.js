@@ -5,12 +5,29 @@
  */
 
 //全局配置信息
-app.run(['$rootScope', '$state', '$stateParams','Session',function ($rootScope,   $state,   $stateParams,Session) {
+app.run(['$rootScope', '$state', '$stateParams','$window','Session',function ($rootScope,  $state,   $stateParams,$window,Session) {
 	 $rootScope.$state = $state;
      $rootScope.$stateParams = $stateParams;   
      
+	 	var userInfoStr = $window.sessionStorage["userInfo"];
+	 	if(userInfoStr){
+	 		var userInfo =  eval("(" + userInfoStr + ")");
+		 	var user = userInfo.user;
+			var menu = userInfo.menu;
+			Session.create(true, user.id,"",menu);
+	 	}
+		//$scope.setCurrentUser(user);
+     
    //监听$stateChangeStart事件并作相应的逻辑处理
      $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
+//    	 	var userInfoStr = $window.sessionStorage["userInfo"];
+    	 	//var userInfo =  eval("(" + userInfoStr + ")");
+//    	 	alert(userInfoStr);
+//    	 	var user = userInfo.user;
+//			var menu = userInfo.menu;
+//			Session.create(true, user.id,"",menu);
+//			$scope.setCurrentUser(user);
+			
     		if(toState.name=='login')return;// 如果是进入登录界面则允许
     		// 如果用户不存在
     		if(!Session.logined){

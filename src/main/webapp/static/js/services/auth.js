@@ -1,4 +1,4 @@
-app.factory('AuthService', function ($http, Session) {
+app.factory('AuthService', function ($http, $window, Session) {
 	var authService = {};
 	//登录
 	authService.login = function (credentials) {
@@ -7,6 +7,11 @@ app.factory('AuthService', function ($http, Session) {
 						var user = res.data.data.user;
 						var menu = res.data.data.menu;
 						Session.create(true, user.id,"",menu);
+						var userInfo = {
+								user:user,
+								menu:menu
+						}
+						$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
 						return user;
 					});
 	};
@@ -24,7 +29,7 @@ app.factory('AuthService', function ($http, Session) {
 	};
 	
 	//认证
-	authService.isAuthenticated = function () {
+	authService.isAuthenticated = function (url) {
 		return Session.logined;
 	};
 	

@@ -7,6 +7,8 @@
     <result column="cardColor" property="cardColor" jdbcType="VARCHAR" />
     <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="putchannel" property="putchannel" jdbcType="VARCHAR" />
     <result column="number" property="number" jdbcType="INTEGER" />
     <result column="inventory" property="inventory" jdbcType="INTEGER" />
     <result column="background" property="background" jdbcType="VARCHAR" />
@@ -18,10 +20,18 @@
     <result column="merchant" property="merchant" jdbcType="VARCHAR" />
     <result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="updatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="discount" jdbcType="DOUBLE" property="discount" />
+    <result column="customtitle" jdbcType="VARCHAR" property="customtitle" />
+    <result column="limitNum" jdbcType="INTEGER" property="limitNum" />
+    <result column="share" jdbcType="VARCHAR" property="share" />
+    <result column="notice" jdbcType="VARCHAR" property="notice" />
+    <result column="urltitle" jdbcType="VARCHAR" property="urltitle" />
+    <result column="urldesc" jdbcType="VARCHAR" property="urldesc" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, cardColor, subtitle, type, number, inventory, background, logo, startDate, 
-    endDate, tel, operation, merchant, createdAt, updatedAt
+    id, title, cardColor, subtitle, type, status, putchannel, number, inventory, background, logo, startDate, 
+    endDate, tel, operation, merchant, createdAt, updatedAt , discount, customtitle, limitNum, 
+    share, notice, urltitle, urldesc
   </sql>
    <sql id="Select_Parm_Column_List" >
      <if test="title != null" >
@@ -35,6 +45,15 @@
       </if>
       <if test="type != null" >
        and type = #{type,jdbcType=INTEGER}
+      </if>
+       <if test="status != null" >
+       and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="putchannel != null" >
+       and putchannel = #{putchannel,jdbcType=VARCHAR}
+      </if>
+      <if test="background != null" >
+       and background = #{background,jdbcType=VARCHAR}
       </if>
       <if test="number != null" >
        and number = #{number,jdbcType=INTEGER}
@@ -69,6 +88,27 @@
       <if test="updatedAt != null" >
        and updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
       </if>
+      <if test="discount != null">
+       and discount = #{discount,jdbcType=DOUBLE}
+      </if>
+      <if test="customtitle != null">
+       and customtitle = #{customtitle,jdbcType=VARCHAR}
+      </if>
+      <if test="limitNum != null">
+       and limitNum = #{limitNum,jdbcType=INTEGER}
+      </if>
+      <if test="share != null">
+       and share = #{share,jdbcType=VARCHAR}
+      </if>
+      <if test="notice != null">
+       and notice = #{notice,jdbcType=VARCHAR}
+      </if>
+      <if test="urltitle != null">
+       and urltitle = #{urltitle,jdbcType=VARCHAR}
+      </if>
+      <if test="urldesc != null">
+       and urldesc = #{urldesc,jdbcType=VARCHAR}
+      </if>
    </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -82,17 +122,21 @@
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.card.SysCardTemplate" >
     insert into sys_card_template (id, title, cardColor, 
-      subtitle, type, number, 
+      subtitle, type, status, putchannel, number, 
       inventory, background, logo, 
       startDate, endDate, tel, 
       operation, merchant, createdAt, 
-      updatedAt)
+      updatedAt, discount, customtitle, 
+      limitNum, share, notice, 
+      urltitle, urldesc)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cardColor,jdbcType=VARCHAR}, 
-      #{subtitle,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
+      #{subtitle,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{putchannel,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
       #{inventory,jdbcType=INTEGER}, #{background,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{tel,jdbcType=VARCHAR}, 
       #{operation,jdbcType=VARCHAR}, #{merchant,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
+      #{updatedAt,jdbcType=TIMESTAMP}, #{discount,jdbcType=DOUBLE}, #{customtitle,jdbcType=VARCHAR}, 
+      #{limitNum,jdbcType=INTEGER}, #{share,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, 
+      #{urltitle,jdbcType=VARCHAR}, #{urldesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.card.SysCardTemplate" >
     insert into sys_card_template
@@ -111,6 +155,12 @@
       </if>
       <if test="type != null" >
         type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="putchannel != null" >
+        putchannel,
       </if>
       <if test="number != null" >
         number,
@@ -145,6 +195,27 @@
       <if test="updatedAt != null" >
         updatedAt,
       </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="customtitle != null">
+        customtitle,
+      </if>
+      <if test="limitNum != null">
+        limitNum,
+      </if>
+      <if test="share != null">
+        share,
+      </if>
+      <if test="notice != null">
+        notice,
+      </if>
+      <if test="urltitle != null">
+        urltitle,
+      </if>
+      <if test="urldesc != null">
+        urldesc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -161,6 +232,12 @@
       </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="putchannel != null" >
+        #{putchannel,jdbcType=VARCHAR},
       </if>
       <if test="number != null" >
         #{number,jdbcType=INTEGER},
@@ -195,6 +272,27 @@
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="customtitle != null">
+        #{customtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="limitNum != null">
+        #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="share != null">
+        #{share,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null">
+        #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="urltitle != null">
+        #{urltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="urldesc != null">
+        #{urldesc,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.card.SysCardTemplate" >
@@ -211,6 +309,12 @@
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="putchannel != null" >
+        putchannel = #{putchannel,jdbcType=VARCHAR},
       </if>
       <if test="number != null" >
         number = #{number,jdbcType=INTEGER},
@@ -245,6 +349,27 @@
       <if test="updatedAt != null" >
         updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="customtitle != null">
+        customtitle = #{customtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="limitNum != null">
+        limitNum = #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="share != null">
+        share = #{share,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null">
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="urltitle != null">
+        urltitle = #{urltitle,jdbcType=VARCHAR},
+      </if>
+      <if test="urldesc != null">
+        urldesc = #{urldesc,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -254,6 +379,8 @@
       cardColor = #{cardColor,jdbcType=VARCHAR},
       subtitle = #{subtitle,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      putchannel = #{putchannel,jdbcType=VARCHAR},
       number = #{number,jdbcType=INTEGER},
       inventory = #{inventory,jdbcType=INTEGER},
       background = #{background,jdbcType=VARCHAR},
@@ -264,7 +391,14 @@
       operation = #{operation,jdbcType=VARCHAR},
       merchant = #{merchant,jdbcType=VARCHAR},
       createdAt = #{createdAt,jdbcType=TIMESTAMP},
-      updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
+      updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+      discount = #{discount,jdbcType=DOUBLE},
+      customtitle = #{customtitle,jdbcType=VARCHAR},
+      limitNum = #{limitNum,jdbcType=INTEGER},
+      share = #{share,jdbcType=VARCHAR},
+      notice = #{notice,jdbcType=VARCHAR},
+      urltitle = #{urltitle,jdbcType=VARCHAR},
+      urldesc = #{urldesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

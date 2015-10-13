@@ -55,11 +55,13 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequestMapping(value="/ajax/user",method = RequestMethod.POST)
-	public GridRowResponse create(@Valid SysUser user)throws ServiceException {
+	public GridRowResponse create(@Valid SysUser user,HttpServletRequest request)throws ServiceException {
+		
+		SysUser currentUser = (SysUser) request.getSession().getAttribute("user");
 		user.setCreatedAt(new Date());
-		user.setCreatedBy(getUser().getId());
-		user.setOrgId(getUser().getOrgId());
-		user.setOrgName(getUser().getOrgName());
+		user.setCreatedBy(currentUser.getId());
+		user.setOrgId(currentUser.getOrgId());
+		user.setOrgName(currentUser.getOrgName());
 		user.setStatus("1");
 		user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 		sysUserService.save(user);

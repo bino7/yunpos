@@ -5,9 +5,19 @@
  */
 
 //全局配置信息
-app.run(['$rootScope', '$state', '$stateParams','Session',function ($rootScope,   $state,   $stateParams,Session) {
+app.run(['$rootScope', '$state','$window', '$stateParams','Session',function ($rootScope,   $state, $window,  $stateParams,Session) {
 	 $rootScope.$state = $state;
      $rootScope.$stateParams = $stateParams;   
+     
+  	var userInfoStr = $window.sessionStorage["userInfo"];
+ 	if(userInfoStr){
+ 		var userInfo =  eval("(" + userInfoStr + ")");
+	 	var user = userInfo.user;
+		var menu = userInfo.menu;
+		Session.create(true, user.id,"",menu);
+		$rootScope.user = user;
+		//this.setCurrentUser(user);
+ 	}
      
    //监听$stateChangeStart事件并作相应的逻辑处理
      $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){

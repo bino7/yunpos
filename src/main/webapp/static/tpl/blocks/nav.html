@@ -215,7 +215,7 @@
           <span>云卡券</span>
         </a>
       </li>
-       <li ui-sref-active="active">
+       <li ng-if="isAut('app.table.sysCardCoupon')" ui-sref-active="active">
         <a ui-sref="app.table.sysCardCoupon">
           <span>卡券统计</span>
         </a>

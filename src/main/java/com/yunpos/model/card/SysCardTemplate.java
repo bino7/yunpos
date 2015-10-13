@@ -3,193 +3,277 @@ package com.yunpos.model.card;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.DateUtil;
+import com.yunpos.utils.Tools;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.serializer.JsonDateSerializer;
 
-public class SysCardTemplate  extends GridRequest {
-    private Integer id;
+public class SysCardTemplate extends GridRequest {
+	
+	private Integer id;
 
-    private String title;
+	private String title;
 
-    private String cardColor;
+	private String cardColor;
 
-    private String subtitle;
+	private String subtitle;
 
-    private Integer type;				//卡券类型 1：通用券 
+	private Integer type; // 卡券类型 1：通用券
 
-    private Integer number;
+	private Integer number;
 
-    private Integer inventory;
-    
-    private Integer limit;
+	private Integer inventory;
 
-    private String background;
+	private Integer limitNum;
 
-    private String logo;
+	private String background;
 
-    private Date startDate;
+	private String logo;
 
-    private Date endDate;
+	private Date startDate;
 
-    private String tel;
+	private Date endDate;
 
-    private String operation;
+	private String tel;
 
-    private String merchant;
+	private String operation;
 
-    private Date createdAt;
+	private String merchant;
 
-    private Date updatedAt;
-    
-    private String validityDate;
+	private Date createdAt;
 
-    public Integer getId() {
-        return id;
-    }
+	private Date updatedAt;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String validityDate;
 
-    public String getTitle() {
-        return title;
-    }
+	private String discount;// 折扣额度
+	
+	private String customtitle;// 自定义标题
+	
+	private String share;// 卡券分享
+	
+	private String notice;// 操作提示
+	
+	private String urltitle; // 入口名称
+	
+	private String urldesc;// 引导语
+	
+	private String  typeDescription; //卡券类型
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getCardColor() {
-        return cardColor;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setCardColor(String cardColor) {
-        this.cardColor = cardColor == null ? null : cardColor.trim();
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getSubtitle() {
-        return subtitle;
-    }
+	public void setTitle(String title) {
+		this.title = title == null ? null : title.trim();
+	}
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle == null ? null : subtitle.trim();
-    }
+	public String getCardColor() {
+		return cardColor;
+	}
 
-    public Integer getType() {
-        return type;
-    }
+	public void setCardColor(String cardColor) {
+		this.cardColor = cardColor == null ? null : cardColor.trim();
+	}
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
+	public String getSubtitle() {
+		return subtitle;
+	}
 
-    public Integer getNumber() {
-        return number;
-    }
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle == null ? null : subtitle.trim();
+	}
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+	public Integer getType() {
+		return type;
+	}
 
-    public Integer getInventory() {
-        return inventory;
-    }
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
-    public void setInventory(Integer inventory) {
-        this.inventory = inventory;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public String getBackground() {
-        return background;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public void setBackground(String background) {
-        this.background = background == null ? null : background.trim();
-    }
+	public Integer getInventory() {
+		return inventory;
+	}
 
-    public String getLogo() {
-        return logo;
-    }
+	public void setInventory(Integer inventory) {
+		this.inventory = inventory;
+	}
 
-    public void setLogo(String logo) {
-        this.logo = logo == null ? null : logo.trim();
-    }
+	public String getBackground() {
+		return background;
+	}
 
-    @JsonSerialize(using = JsonDateSerializer.class)
-    public Date getStartDate() {
-        return startDate;
-    }
+	public void setBackground(String background) {
+		this.background = background == null ? null : background.trim();
+	}
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+	public String getLogo() {
+		return logo;
+	}
 
-    @JsonSerialize(using = JsonDateSerializer.class)
-    public Date getEndDate() {
-        return endDate;
-    }
+	public void setLogo(String logo) {
+		this.logo = logo == null ? null : logo.trim();
+	}
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+	@JsonSerialize(using = JsonDateSerializer.class)
+	public Date getStartDate() {
+		return startDate;
+	}
 
-    public String getTel() {
-        return tel;
-    }
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
 
-    public void setTel(String tel) {
-        this.tel = tel == null ? null : tel.trim();
-    }
+	@JsonSerialize(using = JsonDateSerializer.class)
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    public String getOperation() {
-        return operation;
-    }
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
-    public void setOperation(String operation) {
-        this.operation = operation == null ? null : operation.trim();
-    }
+	public String getTel() {
+		return tel;
+	}
 
-    public String getMerchant() {
-        return merchant;
-    }
+	public void setTel(String tel) {
+		this.tel = tel == null ? null : tel.trim();
+	}
 
-    public void setMerchant(String merchant) {
-        this.merchant = merchant == null ? null : merchant.trim();
-    }
+	public String getOperation() {
+		return operation;
+	}
 
-    @JsonSerialize(using = JsonDateSerializer.class)
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public void setOperation(String operation) {
+		this.operation = operation == null ? null : operation.trim();
+	}
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public String getMerchant() {
+		return merchant;
+	}
 
-    @JsonSerialize(using = JsonDateSerializer.class)
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	public void setMerchant(String merchant) {
+		this.merchant = merchant == null ? null : merchant.trim();
+	}
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	@JsonSerialize(using = JsonDateSerializer.class)
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	@JsonSerialize(using = JsonDateSerializer.class)
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
 	public String getValidityDate() {
-		return validityDate = this.getStartDate() + "至" + this.getEndDate();
+		return validityDate = DateUtil.format(this.getStartDate()) + "至" + DateUtil.format(this.getEndDate());
 	}
 
 	public void setValidityDate(String validityDate) {
 		this.validityDate = validityDate;
 	}
 
-	public Integer getLimit() {
-		return limit;
+	public Integer getLimitNum() {
+		return limitNum;
 	}
 
-	public void setLimit(Integer limit) {
-		this.limit = limit;
+	public void setLimitNum(Integer limitNum) {
+		this.limitNum = limitNum;
 	}
-    
-    
+
+	public String getShare() {
+		return share;
+	}
+
+	public void setShare(String share) {
+		this.share = share;
+	}
+
+	public String getNotice() {
+		return notice;
+	}
+
+	public void setNotice(String notice) {
+		this.notice = notice;
+	}
+
+	public String getUrltitle() {
+		return urltitle;
+	}
+
+	public void setUrltitle(String urltitle) {
+		this.urltitle = urltitle;
+	}
+
+	public String getUrldesc() {
+		return urldesc;
+	}
+
+	public void setUrldesc(String urldesc) {
+		this.urldesc = urldesc;
+	}
+
+	public String getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+
+	public String getCustomtitle() {
+		return customtitle;
+	}
+
+	public void setCustomtitle(String customtitle) {
+		this.customtitle = customtitle;
+	}
+
+	public String getTypeDescription() {
+		if(!Tools.isNullOrEmpty(type)){
+	    	switch(type){
+		    	case 1 :typeDescription = "通用券" ;
+		    		break;
+		    	case 2 :typeDescription = "折扣券" ;
+		    		break;
+		    	case 3 :typeDescription = "优惠券" ;
+		    		break;
+		    	default : typeDescription = "";
+	    	}
+    	}
+		return typeDescription;
+	}
+
+	public void setTypeDescription(String typeDescription) {
+		this.typeDescription = typeDescription;
+	}
+
+	
 }

@@ -3,7 +3,7 @@ package com.yunpos.model.card;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.yunpos.utils.DateUtil;
+import com.yunpos.payment.wxpay.common.DateUtil;
 import com.yunpos.utils.Tools;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.serializer.JsonDateSerializer;
@@ -19,6 +19,7 @@ public class SysCardTemplate extends GridRequest {
 	private String subtitle;
 
 	private Integer type; // 卡券类型 1：通用券
+
 
 	private Integer number;
 
@@ -47,16 +48,23 @@ public class SysCardTemplate extends GridRequest {
 	private String validityDate;
 
 	private String discount;// 折扣额度
+
 	
 	private String customtitle;// 自定义标题
+
 	
 	private String share;// 卡券分享
+
 	
 	private String notice;// 操作提示
 	
 	private String urltitle; // 入口名称
 	
 	private String urldesc;// 引导语
+
+	private Integer status;
+	
+	private String putchannel;
 	
 	private String  typeDescription; //卡券类型
 
@@ -275,5 +283,22 @@ public class SysCardTemplate extends GridRequest {
 		this.typeDescription = typeDescription;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getPutchannel() {
+		return putchannel;
+	}
+
+	public void setPutchannel(String putchannel) {
+		this.putchannel = putchannel;
+	}
+
 	
 }
+

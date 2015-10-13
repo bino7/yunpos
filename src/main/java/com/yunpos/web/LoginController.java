@@ -97,6 +97,7 @@ public class LoginController extends BaseController {
 		request.getSession().setAttribute("user", sysUser.get(0));
 		returnMap.put("user", sysUser.get(0));
 		returnMap.put("menu", menus);
+		System.out.println(menus);
 		return new Message(true, "success", "登录成功", returnMap);
 
 	}

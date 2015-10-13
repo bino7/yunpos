@@ -33,7 +33,11 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 			
 			//数据获取
 			$http.get('/ajax/menu/select').success(function (data) {
-				data[0].$$treeLevel = 0;
+				for(var i=0;i<data.length;i++){
+					if(data[i].isLeaf==0){
+						data[i].$$treeLevel = 0;
+					}
+				}
 				$scope.gridOptions.data = data;
 			});
 			//焦点数据

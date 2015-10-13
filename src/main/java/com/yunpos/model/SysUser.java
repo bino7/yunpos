@@ -1,5 +1,6 @@
 package com.yunpos.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -17,7 +18,12 @@ import com.yunpos.utils.serializer.JsonDateSerializer;
  * @author tiger_lin 修改日期：2015年9月7日
  *
  */
-public class SysUser {
+public class SysUser implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static final String STATUS_DISABLED = "0";
 
 	private Integer id; // id

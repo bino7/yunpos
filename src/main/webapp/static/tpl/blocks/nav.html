@@ -58,7 +58,7 @@
           <span>积分设置</span>
         </a>
       </li>
-      <li ui-sref-active="active">
+      <li ng-if="isAut('app.table.focus')" ui-sref-active="active">
         <a ui-sref="app.table.focus">
            <span>关注商户</span>
         </a>

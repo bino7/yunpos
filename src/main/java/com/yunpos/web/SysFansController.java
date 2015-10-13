@@ -4,19 +4,24 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysFans;
+import com.yunpos.model.SysMember;
 import com.yunpos.service.IndustryService;
 import com.yunpos.service.SysFansService;
 import com.yunpos.service.SysOrgService;
 import com.yunpos.service.SysUserService;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
+import com.yunpos.utils.jqgrid.GridRowResponse;
 import com.yunpos.utils.jqgrid.JqGridRequest;
 import com.yunpos.utils.jqgrid.JqGridResponse;
 
@@ -82,4 +87,13 @@ public class SysFansController extends BaseController{
 		GridResponse<SysFans> dataResponse = sysFansService.searchByMerchant(serialNo);
 		return new JqGridResponse<SysFans>(dataResponse);
 	}
+	
+	/**
+	 * 增加粉丝的可用余额
+	 */
+	@RequestMapping(value = "/ajax/Fans/balance/{id}", method = RequestMethod.PUT)
+	public boolean updateBalance(@PathVariable("id") int id, float balance) {
+		return sysFansService.updateBalance(id, balance);	
+	}
+	
 }

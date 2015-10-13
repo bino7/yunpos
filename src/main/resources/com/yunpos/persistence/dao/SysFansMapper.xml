@@ -33,12 +33,15 @@
     <result column="is_id_auth" property="is_id_auth" jdbcType="CHAR" />
     <result column="is_mobile_auth" property="is_mobile_auth" jdbcType="CHAR" />
     <result column="memberCardTel" property="memberCardTel" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="REAL" />
+    <result column="score" property="score" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, subscribeFlag, serialNo, wxalipayId, sourceType, openId, nickName, trueName, 
     sex, prov, city, area, address, zip, headimgurl, subscribeTime, unSubscribeTime, 
     appid_userId, unionid, remark, userType, userStatus, firmName, certType, certNo, 
-    phone, mobile, is_certified, is_id_auth, is_mobile_auth, memberCardTel
+    phone, mobile, is_certified, is_id_auth, is_mobile_auth, memberCardTel, balance, 
+    score
   </sql>
   
   <sql id="Select_Parm_Column_List">
@@ -132,6 +135,12 @@
       <if test="memberCardTel != null" >
        and memberCardTel = #{memberCardTel,jdbcType=VARCHAR}
       </if>
+      <if test="balance != null" >
+       and balance = #{balance,jdbcType=REAL}
+      </if>
+      <if test="score != null" >
+       and score = #{score,jdbcType=INTEGER}
+      </if>
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -154,7 +163,8 @@
       remark, userType, userStatus, 
       firmName, certType, certNo, 
       phone, mobile, is_certified, 
-      is_id_auth, is_mobile_auth,memberCardTel)
+      is_id_auth, is_mobile_auth,memberCardTel,
+      balance, score)
     values (#{id,jdbcType=INTEGER}, #{subscribeFlag,jdbcType=TINYINT}, #{serialNo,jdbcType=VARCHAR}, 
       #{wxalipayId,jdbcType=VARCHAR}, #{sourceType,jdbcType=TINYINT}, #{openId,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{trueName,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
@@ -164,7 +174,8 @@
       #{remark,jdbcType=VARCHAR}, #{userType,jdbcType=TINYINT}, #{userStatus,jdbcType=CHAR}, 
       #{firmName,jdbcType=VARCHAR}, #{certType,jdbcType=TINYINT}, #{certNo,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{is_certified,jdbcType=CHAR}, 
-      #{is_id_auth,jdbcType=CHAR}, #{is_mobile_auth,jdbcType=CHAR},#{memberCardTel,jdbcType=VARCHAR})
+      #{is_id_auth,jdbcType=CHAR}, #{is_mobile_auth,jdbcType=CHAR},#{memberCardTel,jdbcType=VARCHAR},
+      #{balance,jdbcType=REAL}, #{score,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysFans" >
     insert into sys_fans
@@ -262,6 +273,12 @@
       <if test="memberCardTel != null" >
         memberCardTel,
       </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -356,6 +373,12 @@
       </if>
       <if test="memberCardTel != null" >
         #{memberCardTel,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=REAL},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -452,6 +475,12 @@
       <if test="memberCardTel != null" >
         memberCardTel = #{memberCardTel,jdbcType=VARCHAR},
       </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=REAL},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -486,7 +515,9 @@
       is_certified = #{is_certified,jdbcType=CHAR},
       is_id_auth = #{is_id_auth,jdbcType=CHAR},
       is_mobile_auth = #{is_mobile_auth,jdbcType=CHAR},
-      memberCardTel = #{memberCardTel,jdbcType=VARCHAR}
+      memberCardTel = #{memberCardTel,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=REAL},
+      score = #{score,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

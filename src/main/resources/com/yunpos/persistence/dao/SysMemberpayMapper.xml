@@ -31,13 +31,13 @@
     delete from sys_memberpay
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysMemberpay" >
-    insert into sys_memberpay (id, source, appid_userId, 
+  <insert id="insert" parameterType="com.yunpos.model.SysMemberpay" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_memberpay (source, appid_userId, 
       name, payorderId, transNum, price, 
       payType, createdAt, payStatus, 
       payNum, shopID, shopName, 
       info)
-    values (#{id,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, #{appid_userId,jdbcType=VARCHAR}, 
+    values (#{source,jdbcType=VARCHAR}, #{appid_userId,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{payorderId,jdbcType=VARCHAR}, #{transNum,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
       #{payType,jdbcType=SMALLINT}, #{createdAt,jdbcType=TIMESTAMP}, #{payStatus,jdbcType=SMALLINT}, 
       #{payNum,jdbcType=VARCHAR}, #{shopID,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, 

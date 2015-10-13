@@ -1,0 +1,35 @@
+<div class="bg-light lter b-b wrapper-md">
+	<h1 class="m-n font-thin h3">会员充值</h1>
+</div>
+<div class="wrapper-md" ng-controller="memberPay_shopCtrl">
+	<div class="form-group">
+		<label class="col-md-3 control-label">
+			充值金额：
+		</label>
+		<div class="col-md-7">
+			<input type="text" class="form-control" placeholder="" ng-model="memberpay.score">
+		</div>
+    </div>
+    <br/>
+    <br/>
+    <div class="form-group">
+		<label class="col-md-3 control-label">
+			充值密码：
+		</label>
+		<div class="col-md-7">
+			<input type="text" class="form-control" placeholder="" ng-model="memberpay.password">
+		</div>
+    </div>
+    <br/>
+    <br/>
+	<div class="form-group">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-3">
+			<button ng-click="payByShop(memberpay)">立即充值</button>
+		</div>
+		<div class="col-md-3" >
+			<button ng-click="cancel()">取消</button>
+		</div>
+	</div>
+</div>

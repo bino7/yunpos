@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.yunpos.model.SysFans;
 import com.yunpos.persistence.dao.EntityMapper;
@@ -56,5 +57,22 @@ public class SysFansService extends EntityService<SysFans> {
 		response.setRows(sysFans);
 		response.setTotalRowCount(sysFans.size());
 		return response;
+	}
+	
+	/**
+	 * 增加粉丝的可用余额
+	 * @param id
+	 * @param balance
+	 */
+	public boolean updateBalance(@PathVariable("id") int id, float balance){ 
+		SysFans sysFan = findById(id);
+		if (sysFan != null) {
+			float soucebalance = sysFan.getBalance() != null ? sysFan.getBalance() : 0;
+			sysFan.setBalance(soucebalance + balance);
+			update(sysFan);
+			return true;
+		} else {
+			return false;
+		}	
 	}
 }

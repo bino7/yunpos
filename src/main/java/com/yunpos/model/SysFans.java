@@ -62,8 +62,12 @@ public class SysFans {
     private String is_id_auth;
 
     private String is_mobile_auth;
-    
+
     private String memberCardTel;
+
+    private Float balance;
+
+    private Integer score;
 
     public Integer getId() {
         return id;
@@ -129,25 +133,14 @@ public class SysFans {
         this.trueName = trueName == null ? null : trueName.trim();
     }
 
-    public String getSex() {
-    	if(this.sex==1){
-    		return "男";
-    	}else{
-    		return "女";
-    	}
-    	
-       
+    public Byte getSex() {
+        return sex;
     }
 
     public void setSex(Byte sex) {
-    
         this.sex = sex;
     }
 
-   
-    
-    
-    
     public String getProv() {
         return prov;
     }
@@ -316,12 +309,27 @@ public class SysFans {
         this.is_mobile_auth = is_mobile_auth == null ? null : is_mobile_auth.trim();
     }
 
-	public String getMemberCardTel() {
-		return memberCardTel;
-	}
+    public String getMemberCardTel() {
+        return memberCardTel;
+    }
 
-	public void setMemberCardTel(String memberCardTel) {
-		this.memberCardTel = memberCardTel;
-	}
-    
+    public void setMemberCardTel(String memberCardTel) {
+        this.memberCardTel = memberCardTel == null ? null : memberCardTel.trim();
+    }
+
+    public Float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Float balance) {
+        this.balance = balance;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 }

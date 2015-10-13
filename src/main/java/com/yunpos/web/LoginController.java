@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,9 +70,9 @@ public class LoginController extends BaseController {
 
 		List<SysUser> sysUser = sysUserService.findByUserName(username);
 		if (sysUser == null) {
-			return new Message(false, "user_not_exist", "用户不存在");
+			return new Message(false, "user_not_exist", "用户不存在"); 	
 		}
-		if (!sysUser.get(0).getPassword().equals(password)) {
+		if (!sysUser.get(0).getPassword().equals(DigestUtils.md5DigestAsHex(password.trim().getBytes()))) {
 			return new Message(false, "password_error", "密码错误");
 		}
 

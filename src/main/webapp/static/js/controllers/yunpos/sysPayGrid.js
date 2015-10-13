@@ -127,8 +127,9 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams) {
+app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams,Session) {
     $scope.alipayInit = function() {
+    	alert(Session.userAuthority);
 	    $http({
 	        method  : 'get',
 	        url     : '/ajax/alipayconfig/'+ 1

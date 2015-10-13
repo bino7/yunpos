@@ -18,7 +18,6 @@ app.factory('AuthService', function ($http, Session) {
 					.then(function (res) {
 						var user = res.data.data.user;
 						var menu = res.data.data.menu;
-						alert(menu);
 						Session.create(true, user.id,"",menu);
 						return user;
 					});
@@ -26,16 +25,13 @@ app.factory('AuthService', function ($http, Session) {
 	
 	//认证
 	authService.isAuthenticated = function () {
-		return !!Session.userId;
+		return Session.logined;
 	};
 	
 	//授权
-	authService.isAuthorized = function (authorizedRoles) {
-		if (!angular.isArray(authorizedRoles)) {
-			authorizedRoles = [authorizedRoles];
-		}
+	authService.isAuthorized = function (authorizedUrl) {
 		return (authService.isAuthenticated() &&
-			authorizedRoles.indexOf(Session.userRole) !== -1);
+				Session.userAuthority.indexOf(authorizedUrl) !== -1);
 	};
 	return authService;	
 });

@@ -2,6 +2,7 @@ package com.yunpos.web.card;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -77,8 +78,10 @@ public class SysCardTemplateController extends BaseController {
 	 * @param sysCardTemplate
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/cardTemplate", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/sysCardTemplate", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysCardTemplate sysCardTemplate) {
+		sysCardTemplate.setType(1);
+		sysCardTemplate.setCreatedAt(new Date());
 		sysCardTemplateService.save(sysCardTemplate);
 
 		return new GridRowResponse(-2);

@@ -101,6 +101,8 @@ public class SysStoreController extends BaseController{
 		user.setPassword(sysStore.getPassword());
 		user.setPhone(sysStore.getPhone());
 		user.setCreatedBy(getUser().getId());
+		user.setOrgId(getUser().getOrgId());
+		user.setOrgNo(getUser().getOrgNo());
 		sysUserService.creatSysUser(user);
 		
 		
@@ -120,7 +122,7 @@ public class SysStoreController extends BaseController{
 		sysStore.setApprStatus(1);
 		sysStore.setCreatedAt(new Date());
 		sysStore.setCreatedBy(getUser().getId());
-		
+		sysStore.setStart(1);
 		sysStoreService.save(sysStore);
 		return new GridRowResponse(sysStore.getId());
 	}

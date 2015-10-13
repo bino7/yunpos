@@ -42,11 +42,13 @@
   </resultMap>
   <sql id="Base_Column_List" >
      orderId, openId, memberId, nickName, sysMerchantId, sysMerchantSerialNo, agentId, 
-	 orgId, orgName, createdAt, updatedAt, trueName, order1.tel, productList, 
+	 orgName, createdAt, updatedAt, trueName, order1.tel, productList, 
     productPrice, total, mailPrice, couponPrice, totalPrice, groupon, groupcode, houseAddress, 
     payTime, payMode, payType, payStatus, score, printStatus, handleStatus, info, shopId,sourceType,
   </sql>
- 
+ <sql id="Base_Public_Column_List" >
+	 orgId,
+  </sql>
   
   <sql id="Select_Parm_Column_List">
 		<if test="orderId != null" >
@@ -157,8 +159,7 @@
     select order1.id, order1.agentSerialNo,  merc.merchantType , merc.merchantName 
    <!--  merc.merchantType as merchantType, merc.merchantName as merchantName, -->
     <include refid="Base_Column_List" />
-   
-    from sys_order order1 ,sys_merchant merc 
+    from sys_order order1 ,sys_merchant merc ,order1.orgId
     where order1.sysMerchantId = merc.id   
     and order1.id  = #{id,jdbcType=INTEGER}
   </select>
@@ -561,7 +562,7 @@
 		select order1.id, order1.agentSerialNo,
 		<include refid="Base_Column_List" />
 	
-  merc.merchantType, merc.merchantName 
+  merc.merchantType, merc.merchantName ,order1.orgId
     from sys_order order1 ,sys_merchant merc 
     where order1.sysMerchantId = merc.id   
    

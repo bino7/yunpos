@@ -15,11 +15,13 @@ public class SysCardTemplate  extends GridRequest {
 
     private String subtitle;
 
-    private Integer type;
+    private Integer type;				//卡券类型 1：通用券 
 
     private Integer number;
 
     private Integer inventory;
+    
+    private Integer limit;
 
     private String background;
 
@@ -179,6 +181,14 @@ public class SysCardTemplate  extends GridRequest {
 
 	public void setValidityDate(String validityDate) {
 		this.validityDate = validityDate;
+	}
+
+	public Integer getLimit() {
+		return limit;
+	}
+
+	public void setLimit(Integer limit) {
+		this.limit = limit;
 	}
     
     

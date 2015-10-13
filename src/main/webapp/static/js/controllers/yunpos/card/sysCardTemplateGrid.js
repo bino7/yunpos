@@ -38,7 +38,7 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
                 cellTemplate: '<div><a ui-sref="app.table.sysCardTemplateDetail({id:row.getProperty(col.field)})" '
                 	+ 'id="{{row.getProperty(col.field)}}"> <button>详情{{row.status}}</button> </a> ' 
                 	+ '<button ng-click="updateStatus({id:row.getProperty(col.field) , sysCardTemplate:row, status:1})">投放</button>'
-                	+ '<button ng-click="updateStatus({id:row.getProperty(col.field) , sysCardTemplate:row, status:0})">删除</button></div>'
+                	+ '<button ng-click="deleted({id:row.getProperty(col.field) , sysCardTemplate:row})">删除</button></div>'
             }],
             enablePaging: true,
             showFooter: true,        
@@ -94,6 +94,20 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
 	     });
 	};
 	
+	  $scope.deleted = function(obj ,row) {
+		     $http({
+		        method  : 'delete',
+		        url     : '/ajax/sysCardTemplate/' + obj.id,
+		        params  : {"id":obj.id}
+		     }).success(function() {
+		    	 alert("删除成功！");
+		    	 $scope.sysCardTemplateListData.splice(obj.sysCardTemplate.rowIndex, 1);
+		    	 $scope.setPagingData($scope.sysCardTemplateListData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+		     }).error(function(data,status,headers,config){
+		      	alert("删除失败！");
+		     });
+		};
+	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
           var data = $scope.sysCardTemplateData.filter(function(item) {
@@ -117,7 +131,8 @@ app.controller('SysCardTemplateAddCtrl', function($scope, $http, $state, $stateP
     $scope.master = {};
 
 	  $scope.add = function(sysCardTemplate) {
-		sysCardTemplate.endTime = formatDateTime(sysCardTemplate.endTime);
+		sysCardTemplate.endDate = formatDateTime(sysCardTemplate.endDate);
+		sysCardTemplate.startDate = formatDateTime(sysCardTemplate.startDate);
 	    $scope.master = angular.copy(sysCardTemplate);
 	    $http({
 	        method  : 'post',

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -20,8 +19,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.yunpos.model.Page;
+import com.yunpos.model.SysUser;
 import com.yunpos.security.SecurityUser;
-import com.yunpos.utils.Message;
 import com.yunpos.utils.PageDate;
 import com.yunpos.utils.Tools;
 import com.yunpos.utils.UuidUtil;
@@ -74,18 +73,32 @@ public class BaseController {
 	}
 	
 	
-	public SecurityUser getUser(){
-		SecurityUser currentUser = null ;
+	public SysUser getUser(){
+		SysUser currentUser = null ;
 		try{
-		    currentUser = (SecurityUser) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+			currentUser = (SysUser) this.getRequest().getSession().getAttribute("user");
 		}catch(Exception e){
 			
 		}
 		 if(Tools.isNullOrEmpty(currentUser)){
-			 currentUser = new SecurityUser(1, null, null, 1, "cash","0002");
+			 currentUser = new SysUser();
 		 }
-		 return currentUser;
+		return currentUser;
 	}
+	
+//	public SecurityUser getUser(){
+//		SecurityUser currentUser = null ;
+//		this.getRequest().getSession().getAttribute("user");
+//		try{
+//		    currentUser = (SecurityUser) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+//		}catch(Exception e){
+//			
+//		}
+//		 if(Tools.isNullOrEmpty(currentUser)){
+//			 currentUser = new SecurityUser(1, null, null, 1, "cash","0002");
+//		 }
+//		 return currentUser;
+//	}
 
 	/**
 	 * 得到分页列表的信息

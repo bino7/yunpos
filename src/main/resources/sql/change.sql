@@ -136,7 +136,7 @@ ADD COLUMN `merchantBarNotify`  varchar(255) NULL COMMENT '商户条码支付异
 ADD COLUMN `merchantScanNotify`  varchar(255) NULL COMMENT '商户扫码异步回调地址' AFTER `merchantBarNotify`;
 
 ALTER TABLE `sys_wechat_config`
-ADD COLUMN `merchantScanNotif`  varchar(255) NULL COMMENT '商户扫码异步回调地址' AFTER `certPassword`;
+ADD COLUMN `merchantScanNotify`  varchar(255) NULL COMMENT '商户扫码异步回调地址' AFTER `certPassword`;
 
 --20151014 解决关键字冲突
 ALTER TABLE `sys_alipay_config`
@@ -146,5 +146,13 @@ CHANGE COLUMN `key` `alipaymrikey`  varchar(100) CHARACTER SET utf8 COLLATE utf8
 ALTER TABLE `sys_wechat_config`
 ADD COLUMN `mchType`  tinyint(4) NULL COMMENT '类型（服务商0、特约商户1）' AFTER `mchId`,
 ADD COLUMN `parentMchId`  varchar(20) NULL COMMENT '父级服务商' AFTER `mchType`;
+
+--20151014 删除多余字段
+ALTER TABLE `sys_org`
+DROP COLUMN `extLevel`,
+DROP COLUMN `extIsLeaf`,
+DROP COLUMN `extLoaded`,
+DROP COLUMN `extExpanded`,
+DROP COLUMN `extParent`;
 
 

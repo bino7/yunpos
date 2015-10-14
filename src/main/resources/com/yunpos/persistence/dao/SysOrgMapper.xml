@@ -14,16 +14,10 @@
     <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
     <result column="modifyUserId" property="modifyUserId" jdbcType="INTEGER" />
     <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
-    <result column="extLevel" property="extLevel" jdbcType="INTEGER" />
-    <result column="extIsLeaf" property="extIsLeaf" jdbcType="BIT" />
-    <result column="extLoaded" property="extLoaded" jdbcType="BIT" />
-    <result column="extExpanded" property="extExpanded" jdbcType="BIT" />
-    <result column="extParent" property="extParent" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, sequence, orgNo, orgName, orgParentId, orgParentName, orgParentNo, level, createUserId, 
-    createDate, modifyUserId, modifyDate, extLevel, extIsLeaf, extLoaded, extExpanded, 
-    extParent
+    createDate, modifyUserId, modifyDate
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -35,19 +29,17 @@
     delete from sys_org
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysOrg"  useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.yunpos.model.SysOrg" useGeneratedKeys="true"  keyProperty="id">
     insert into sys_org (sequence, orgNo, 
       orgName, orgParentId, orgParentName, 
       orgParentNo, level, createUserId, 
-      createDate, modifyUserId, modifyDate, 
-      extLevel, extIsLeaf, extLoaded, 
-      extExpanded, extParent)
+      createDate, modifyUserId, modifyDate
+      )
     values (#{sequence,jdbcType=INTEGER}, #{orgNo,jdbcType=VARCHAR}, 
       #{orgName,jdbcType=VARCHAR}, #{orgParentId,jdbcType=INTEGER}, #{orgParentName,jdbcType=VARCHAR}, 
       #{orgParentNo,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{extLevel,jdbcType=INTEGER}, #{extIsLeaf,jdbcType=BIT}, #{extLoaded,jdbcType=BIT}, 
-      #{extExpanded,jdbcType=BIT}, #{extParent,jdbcType=INTEGER})
+      #{createDate,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.SysOrg" >
     insert into sys_org
@@ -88,21 +80,6 @@
       <if test="modifyDate != null" >
         modifyDate,
       </if>
-      <if test="extLevel != null" >
-        extLevel,
-      </if>
-      <if test="extIsLeaf != null" >
-        extIsLeaf,
-      </if>
-      <if test="extLoaded != null" >
-        extLoaded,
-      </if>
-      <if test="extExpanded != null" >
-        extExpanded,
-      </if>
-      <if test="extParent != null" >
-        extParent,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,21 +117,6 @@
       </if>
       <if test="modifyDate != null" >
         #{modifyDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="extLevel != null" >
-        #{extLevel,jdbcType=INTEGER},
-      </if>
-      <if test="extIsLeaf != null" >
-        #{extIsLeaf,jdbcType=BIT},
-      </if>
-      <if test="extLoaded != null" >
-        #{extLoaded,jdbcType=BIT},
-      </if>
-      <if test="extExpanded != null" >
-        #{extExpanded,jdbcType=BIT},
-      </if>
-      <if test="extParent != null" >
-        #{extParent,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -194,21 +156,6 @@
       <if test="modifyDate != null" >
         modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="extLevel != null" >
-        extLevel = #{extLevel,jdbcType=INTEGER},
-      </if>
-      <if test="extIsLeaf != null" >
-        extIsLeaf = #{extIsLeaf,jdbcType=BIT},
-      </if>
-      <if test="extLoaded != null" >
-        extLoaded = #{extLoaded,jdbcType=BIT},
-      </if>
-      <if test="extExpanded != null" >
-        extExpanded = #{extExpanded,jdbcType=BIT},
-      </if>
-      <if test="extParent != null" >
-        extParent = #{extParent,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -224,12 +171,7 @@
       createUserId = #{createUserId,jdbcType=INTEGER},
       createDate = #{createDate,jdbcType=TIMESTAMP},
       modifyUserId = #{modifyUserId,jdbcType=INTEGER},
-      modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
-      extLevel = #{extLevel,jdbcType=INTEGER},
-      extIsLeaf = #{extIsLeaf,jdbcType=BIT},
-      extLoaded = #{extLoaded,jdbcType=BIT},
-      extExpanded = #{extExpanded,jdbcType=BIT},
-      extParent = #{extParent,jdbcType=INTEGER}
+      modifyDate = #{modifyDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

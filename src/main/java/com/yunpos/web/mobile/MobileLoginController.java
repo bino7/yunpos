@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.yunpos.model.SysMerchant;
+import com.yunpos.model.SysStore;
 import com.yunpos.model.SysUser;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysStoreService;
@@ -44,6 +45,8 @@ public class MobileLoginController extends BaseController{
     private SysUserService sysUserService;
     @Autowired
     private SysMerchantService sysMerchantService;
+    @Autowired
+    private SysStoreService sysStoreService;
 
     
     @RequestMapping(value = "/mobile/login")
@@ -72,8 +75,10 @@ public class MobileLoginController extends BaseController{
               	return objectMapper.writeValueAsString(jsonMap);
              }
              //商户号统一使用组织结构号
+            
              SysMerchant sysMerchant = sysMerchantService.findBySerialNo(sysUsers.get(0).getOrgNo().substring(0, 8));
              Map<String,String> sysMerchantMap = new HashMap<>();
+             sysMerchantMap.put("storeNo", sysUsers.get(0).getOrgNo());
              sysMerchantMap.put("serialNo", sysMerchant.getSerialNo()); 		//商户号
              sysMerchantMap.put("md5Key", sysMerchant.getMd5Key());				//商户秘钥
              sysMerchantMap.put("companyName", sysMerchant.getCompanyName());	//商户名称（公司名称）

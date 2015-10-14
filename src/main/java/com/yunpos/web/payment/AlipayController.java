@@ -638,7 +638,7 @@ public class AlipayController extends BaseController{
 			SysTransaction sysTransaction= sysTransactionService.findByTransNum(params.get("out_trade_no"));
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			
-			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getKey(),sysAlipayConfig.getPid())) {// 验证成功
+			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getAlipaymrikey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (!Objects.equal("TRADE_CLOSED",  params.get("trade_status"))) {
 					alipayService.notify(params, true, "","bar");
 				} else {
@@ -687,7 +687,7 @@ public class AlipayController extends BaseController{
 			SysAlipayConfigWithBLOBs sysAlipayConfig= sysAlipayConfigService.findByMerchantNo(sysTransaction.getSerialNo());
 			// 交易状态
 			String trade_status = request.getParameter("trade_status");
-			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getKey(),sysAlipayConfig.getPid())) {// 验证成功
+			if (AlipayNotify.verify(params,AlipayConfig.sign_type,sysAlipayConfig.getAlipaymrikey(),sysAlipayConfig.getPid())) {// 验证成功
 				if (!Objects.equal("TRADE_CLOSED", trade_status)) {
 					alipayService.notify(params, true, "","scan");
 				} else {

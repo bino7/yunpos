@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -66,7 +67,7 @@ public class MobileLoginController extends BaseController{
               	jsonMap.put("error", Code.NAME_ERROR);
               	return objectMapper.writeValueAsString(jsonMap);
               }
-             if(!sysUsers.get(0).getPassword().equals(password)){
+             if(!sysUsers.get(0).getPassword().equals(DigestUtils.md5DigestAsHex(password.trim().getBytes()))){
              	jsonMap.put("error", Code.PASSWORD_ERROR);
              	return objectMapper.writeValueAsString(jsonMap);
              }

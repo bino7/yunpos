@@ -49,4 +49,8 @@ public class SysStoreService extends EntityService<SysStore> {
 		response.setTotalRowCount(sysApps.size());
 		return response;
 	}
+
+	public SysStore findByStorNo(String orgNo) {
+		return sysStoreMapper.findByStorNo(orgNo);
+	}
 }

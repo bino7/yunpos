@@ -129,3 +129,22 @@ ADD COLUMN `subject`  varchar(256) NULL COMMENT '订单简要描述（支付宝�
 --20151012 杨学勇  用户表新增字段组织结构号
 ALTER TABLE `sys_user`
 ADD COLUMN `orgNo`  varchar(20) NULL AFTER `orgId`;
+
+--20151014 杨学勇  新增条码扫码商户异步回调地址（将支付宝异步回调信息）
+ALTER TABLE `sys_alipay_config`
+ADD COLUMN `merchantBarNotify`  varchar(255) NULL COMMENT '商户条码支付异步回调地址' AFTER `merchanAsynNotify`,
+ADD COLUMN `merchantScanNotify`  varchar(255) NULL COMMENT '商户扫码异步回调地址' AFTER `merchantBarNotify`;
+
+ALTER TABLE `sys_wechat_config`
+ADD COLUMN `merchantScanNotif`  varchar(255) NULL COMMENT '商户扫码异步回调地址' AFTER `certPassword`;
+
+--20151014 解决关键字冲突
+ALTER TABLE `sys_alipay_config`
+CHANGE COLUMN `key` `alipaymrikey`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '支付宝安全校验码' AFTER `pid`;
+
+--20151014 微信新增字段
+ALTER TABLE `sys_wechat_config`
+ADD COLUMN `mchType`  tinyint(4) NULL COMMENT '类型（服务商0、特约商户1）' AFTER `mchId`,
+ADD COLUMN `parentMchId`  varchar(20) NULL COMMENT '父级服务商' AFTER `mchType`;
+
+

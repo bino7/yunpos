@@ -31,4 +31,7 @@ public interface SysStoreMapper  extends EntityMapper<SysStore> {
 	 * @return
 	 */
 	List<SysStore> selectByParm(SysStore sysStore);
+	
+	@Select("select * from sys_store where storeNeo=#{storeNo} ")
+	SysStore findByStorNo(String storeNo);
 }

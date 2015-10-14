@@ -760,6 +760,9 @@ public class WchatpayController extends BaseController{
 			} else {
 				wechatPayService.scanNotify(responseXml, false, "TRADE_CLOSED");
 			}
+			//向商户推送信息
+			
+			
 			writer.write("success");
 			writer.flush();
 		} catch (Exception e) {

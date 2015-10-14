@@ -127,9 +127,9 @@ app.controller('SysPayCtl',  function($scope, $http, $state, $stateParams) {
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams,Session) {
+app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams) {
     $scope.alipayInit = function() {
-    	alert(Session.userAuthority);
+    	//alert(Session.userAuthority);
 	    $http({
 	        method  : 'get',
 	        url     : '/ajax/alipayconfig/'+ 1
@@ -143,7 +143,7 @@ app.controller('SysAlipayEditCtl', function($scope, $http, $state, $stateParams,
     	 $scope.saved = angular.copy(pay);
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/alipayconfig/'+1,
+	        url     : '/ajax/alipayconfig/'+ $scope.saved.id,
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");

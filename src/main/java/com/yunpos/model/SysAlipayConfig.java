@@ -11,7 +11,7 @@ public class SysAlipayConfig {
 
 	private String pid;
 
-	private String key;
+	private String alipaymrikey;
 
 	private String merchanSynNotify;
 
@@ -59,12 +59,12 @@ public class SysAlipayConfig {
 		this.pid = pid == null ? null : pid.trim();
 	}
 
-	public String getKey() {
-		return key;
+	public String getAlipaymrikey() {
+		return alipaymrikey;
 	}
 
-	public void setKey(String key) {
-		this.key = key == null ? null : key.trim();
+	public void setAlipaymrikey(String alipaymrikey) {
+		this.alipaymrikey = alipaymrikey;
 	}
 
 	public String getToken() {

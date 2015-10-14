@@ -8,6 +8,8 @@
     <result column="alipaymrikey" property="alipaymrikey" jdbcType="VARCHAR" />
     <result column="merchanSynNotify" property="merchanSynNotify" jdbcType="VARCHAR" />
     <result column="merchanAsynNotify" property="merchanAsynNotify" jdbcType="VARCHAR" />
+    <result column="merchantBarNotify" property="merchantBarNotify" jdbcType="VARCHAR" />
+    <result column="merchantScanNotify" property="merchantScanNotify" jdbcType="VARCHAR" />
     <result column="synNotify" property="synNotify" jdbcType="VARCHAR" />
     <result column="asynNotify" property="asynNotify" jdbcType="VARCHAR" />
     <result column="devGetway" property="devGetway" jdbcType="VARCHAR" />
@@ -26,25 +28,29 @@
     <result column="devPublicKey" property="devPublicKey" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, sellerEmail, pid, alipaymrikey, merchanSynNotify, merchanAsynNotify, synNotify, asynNotify, 
-    devGetway, token, pagentId, mark, info, status, merchantNo
+    id, sellerEmail, pid, alipaymrikey, merchanSynNotify, merchanAsynNotify, merchantBarNotify, 
+    merchantScanNotify, synNotify, asynNotify, devGetway, token, pagentId, mark, info, 
+    status, merchantNo
   </sql>
   <sql id="Blob_Column_List" >
     merchantPrivateKey, alipayPublicKey, appPrivateKey, appPublicKey, devPublicKey
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select id, sellerEmail, pid, alipaymrikey, merchanSynNotify, merchanAsynNotify, synNotify, asynNotify, 
-    devGetway, token, pagentId, mark, info, status, merchantNo,merchantPrivateKey, alipayPublicKey, appPrivateKey, appPublicKey, devPublicKey
- 	from sys_alipay_config
-    where id = #{id,jdbcType=INTEGER}   
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_alipay_config
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_alipay_config
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id">
-    insert into sys_alipay_config ( sellerEmail, pid, 
+  <insert id="insert" parameterType="com.yunpos.model.SysAlipayConfigWithBLOBs" useGeneratedKeys="true"  keyProperty="id">
+    insert into sys_alipay_config (sellerEmail, pid, 
       alipaymrikey, merchanSynNotify, merchanAsynNotify, 
+      merchantBarNotify, merchantScanNotify, 
       synNotify, asynNotify, devGetway, 
       token, pagentId, mark, 
       info, status, merchantNo, 
@@ -53,6 +59,7 @@
       )
     values (#{sellerEmail,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, 
       #{alipaymrikey,jdbcType=VARCHAR}, #{merchanSynNotify,jdbcType=VARCHAR}, #{merchanAsynNotify,jdbcType=VARCHAR}, 
+      #{merchantBarNotify,jdbcType=VARCHAR}, #{merchantScanNotify,jdbcType=VARCHAR}, 
       #{synNotify,jdbcType=VARCHAR}, #{asynNotify,jdbcType=VARCHAR}, #{devGetway,jdbcType=VARCHAR}, 
       #{token,jdbcType=VARCHAR}, #{pagentId,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}, 
       #{info,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{merchantNo,jdbcType=VARCHAR}, 
@@ -80,6 +87,12 @@
       </if>
       <if test="merchanAsynNotify != null" >
         merchanAsynNotify,
+      </if>
+      <if test="merchantBarNotify != null" >
+        merchantBarNotify,
+      </if>
+      <if test="merchantScanNotify != null" >
+        merchantScanNotify,
       </if>
       <if test="synNotify != null" >
         synNotify,
@@ -143,6 +156,12 @@
       <if test="merchanAsynNotify != null" >
         #{merchanAsynNotify,jdbcType=VARCHAR},
       </if>
+      <if test="merchantBarNotify != null" >
+        #{merchantBarNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantScanNotify != null" >
+        #{merchantScanNotify,jdbcType=VARCHAR},
+      </if>
       <if test="synNotify != null" >
         #{synNotify,jdbcType=VARCHAR},
       </if>
@@ -205,6 +224,12 @@
       <if test="merchanAsynNotify != null" >
         merchanAsynNotify = #{merchanAsynNotify,jdbcType=VARCHAR},
       </if>
+      <if test="merchantBarNotify != null" >
+        merchantBarNotify = #{merchantBarNotify,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantScanNotify != null" >
+        merchantScanNotify = #{merchantScanNotify,jdbcType=VARCHAR},
+      </if>
       <if test="synNotify != null" >
         synNotify = #{synNotify,jdbcType=VARCHAR},
       </if>
@@ -257,6 +282,8 @@
       alipaymrikey = #{alipaymrikey,jdbcType=VARCHAR},
       merchanSynNotify = #{merchanSynNotify,jdbcType=VARCHAR},
       merchanAsynNotify = #{merchanAsynNotify,jdbcType=VARCHAR},
+      merchantBarNotify = #{merchantBarNotify,jdbcType=VARCHAR},
+      merchantScanNotify = #{merchantScanNotify,jdbcType=VARCHAR},
       synNotify = #{synNotify,jdbcType=VARCHAR},
       asynNotify = #{asynNotify,jdbcType=VARCHAR},
       devGetway = #{devGetway,jdbcType=VARCHAR},
@@ -274,12 +301,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yunpos.model.SysAlipayConfig" >
-    update  sys_alipay_config
+    update sys_alipay_config
     set sellerEmail = #{sellerEmail,jdbcType=VARCHAR},
       pid = #{pid,jdbcType=VARCHAR},
-     alipaymrikey = #{alipaymrikey,jdbcType=VARCHAR},
-      merchanSynNotify = #{merchanSynNotify,jdbcType=VARCHAR}, 
+      alipaymrikey = #{alipaymrikey,jdbcType=VARCHAR},
+      merchanSynNotify = #{merchanSynNotify,jdbcType=VARCHAR},
       merchanAsynNotify = #{merchanAsynNotify,jdbcType=VARCHAR},
+      merchantBarNotify = #{merchantBarNotify,jdbcType=VARCHAR},
+      merchantScanNotify = #{merchantScanNotify,jdbcType=VARCHAR},
       synNotify = #{synNotify,jdbcType=VARCHAR},
       asynNotify = #{asynNotify,jdbcType=VARCHAR},
       devGetway = #{devGetway,jdbcType=VARCHAR},

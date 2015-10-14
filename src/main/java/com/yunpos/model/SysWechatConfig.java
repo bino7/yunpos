@@ -10,10 +10,16 @@ public class SysWechatConfig {
     private String appId;
 
     private String mchId;
+    
+    private Byte mchType;
+
+    private String parentMchId;
 
     private String certLocalPath;
-
+   
     private String certPassword;
+    
+    private String merchantScanNotify;
 
     private String info;
 
@@ -95,7 +101,33 @@ public class SysWechatConfig {
         this.merchantNo = merchantNo == null ? null : merchantNo.trim();
     }
     
-    public Map<String, Object> toMap() {
+    
+
+	public Byte getMchType() {
+		return mchType;
+	}
+
+	public void setMchType(Byte mchType) {
+		this.mchType = mchType;
+	}
+
+	public String getParentMchId() {
+		return parentMchId;
+	}
+
+	public void setParentMchId(String parentMchId) {
+		this.parentMchId = parentMchId;
+	}
+
+	public String getMerchantScanNotify() {
+		return merchantScanNotify;
+	}
+
+	public void setMerchantScanNotify(String merchantScanNotify) {
+		this.merchantScanNotify = merchantScanNotify;
+	}
+
+	public Map<String, Object> toMap() {
   		Map<String, Object> map = new HashMap<String, Object>();
   		Field[] fields = this.getClass().getDeclaredFields();
   		for (Field field : fields) {

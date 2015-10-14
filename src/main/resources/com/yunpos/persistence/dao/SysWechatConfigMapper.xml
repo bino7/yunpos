@@ -5,8 +5,11 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="appId" property="appId" jdbcType="VARCHAR" />
     <result column="mchId" property="mchId" jdbcType="VARCHAR" />
+    <result column="mchType" property="mchType" jdbcType="TINYINT" />
+    <result column="parentMchId" property="parentMchId" jdbcType="VARCHAR" />
     <result column="certLocalPath" property="certLocalPath" jdbcType="VARCHAR" />
     <result column="certPassword" property="certPassword" jdbcType="VARCHAR" />
+    <result column="merchantScanNotify" property="merchantScanNotify" jdbcType="VARCHAR" />
     <result column="info" property="info" jdbcType="VARCHAR" />
     <result column="mark" property="mark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
@@ -18,7 +21,8 @@
     <result column="appKey" property="appKey" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, appId, mchId, certLocalPath, certPassword, info, mark, status, merchantNo
+    id, appId, mchId, mchType, parentMchId, certLocalPath, certPassword, merchantScanNotify, 
+    info, mark, status, merchantNo
   </sql>
   <sql id="Blob_Column_List" >
     apiSecret, appSecret, appKey
@@ -35,14 +39,16 @@
     delete from sys_wechat_config
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
-    insert into sys_wechat_config ( appId, mchId, 
-      certLocalPath, certPassword, info, 
+  <insert id="insert" parameterType="com.yunpos.model.SysWechatConfigWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_wechat_config (appId, mchId, 
+      mchType, parentMchId, certLocalPath, 
+      certPassword, merchantScanNotify, info, 
       mark, status, merchantNo, 
       apiSecret, appSecret, appKey
       )
     values (#{appId,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
-      #{certLocalPath,jdbcType=VARCHAR}, #{certPassword,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, 
+      #{mchType,jdbcType=TINYINT}, #{parentMchId,jdbcType=VARCHAR}, #{certLocalPath,jdbcType=VARCHAR}, 
+      #{certPassword,jdbcType=VARCHAR}, #{merchantScanNotify,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, 
       #{mark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{merchantNo,jdbcType=VARCHAR}, 
       #{apiSecret,jdbcType=LONGVARCHAR}, #{appSecret,jdbcType=LONGVARCHAR}, #{appKey,jdbcType=LONGVARCHAR}
       )
@@ -59,11 +65,20 @@
       <if test="mchId != null" >
         mchId,
       </if>
+      <if test="mchType != null" >
+        mchType,
+      </if>
+      <if test="parentMchId != null" >
+        parentMchId,
+      </if>
       <if test="certLocalPath != null" >
         certLocalPath,
       </if>
       <if test="certPassword != null" >
         certPassword,
+      </if>
+      <if test="merchantScanNotify != null" >
+        merchantScanNotify,
       </if>
       <if test="info != null" >
         info,
@@ -97,11 +112,20 @@
       <if test="mchId != null" >
         #{mchId,jdbcType=VARCHAR},
       </if>
+      <if test="mchType != null" >
+        #{mchType,jdbcType=TINYINT},
+      </if>
+      <if test="parentMchId != null" >
+        #{parentMchId,jdbcType=VARCHAR},
+      </if>
       <if test="certLocalPath != null" >
         #{certLocalPath,jdbcType=VARCHAR},
       </if>
       <if test="certPassword != null" >
         #{certPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantScanNotify != null" >
+        #{merchantScanNotify,jdbcType=VARCHAR},
       </if>
       <if test="info != null" >
         #{info,jdbcType=VARCHAR},
@@ -135,11 +159,20 @@
       <if test="mchId != null" >
         mchId = #{mchId,jdbcType=VARCHAR},
       </if>
+      <if test="mchType != null" >
+        mchType = #{mchType,jdbcType=TINYINT},
+      </if>
+      <if test="parentMchId != null" >
+        parentMchId = #{parentMchId,jdbcType=VARCHAR},
+      </if>
       <if test="certLocalPath != null" >
         certLocalPath = #{certLocalPath,jdbcType=VARCHAR},
       </if>
       <if test="certPassword != null" >
         certPassword = #{certPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantScanNotify != null" >
+        merchantScanNotify = #{merchantScanNotify,jdbcType=VARCHAR},
       </if>
       <if test="info != null" >
         info = #{info,jdbcType=VARCHAR},
@@ -169,8 +202,11 @@
     update sys_wechat_config
     set appId = #{appId,jdbcType=VARCHAR},
       mchId = #{mchId,jdbcType=VARCHAR},
+      mchType = #{mchType,jdbcType=TINYINT},
+      parentMchId = #{parentMchId,jdbcType=VARCHAR},
       certLocalPath = #{certLocalPath,jdbcType=VARCHAR},
       certPassword = #{certPassword,jdbcType=VARCHAR},
+      merchantScanNotify = #{merchantScanNotify,jdbcType=VARCHAR},
       info = #{info,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
@@ -184,8 +220,11 @@
     update sys_wechat_config
     set appId = #{appId,jdbcType=VARCHAR},
       mchId = #{mchId,jdbcType=VARCHAR},
+      mchType = #{mchType,jdbcType=TINYINT},
+      parentMchId = #{parentMchId,jdbcType=VARCHAR},
       certLocalPath = #{certLocalPath,jdbcType=VARCHAR},
       certPassword = #{certPassword,jdbcType=VARCHAR},
+      merchantScanNotify = #{merchantScanNotify,jdbcType=VARCHAR},
       info = #{info,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},

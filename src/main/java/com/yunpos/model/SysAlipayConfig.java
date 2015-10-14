@@ -16,6 +16,10 @@ public class SysAlipayConfig {
 	private String merchanSynNotify;
 
 	private String merchanAsynNotify;
+	
+    private String merchantBarNotify;
+
+    private String merchantScanNotify;
 
 	private String synNotify;
 
@@ -153,6 +157,23 @@ public class SysAlipayConfig {
 
 	public void setDevGetway(String devGetway) {
 		this.devGetway = devGetway;
+	}
+	
+
+	public String getMerchantBarNotify() {
+		return merchantBarNotify;
+	}
+
+	public void setMerchantBarNotify(String merchantBarNotify) {
+		this.merchantBarNotify = merchantBarNotify;
+	}
+
+	public String getMerchantScanNotify() {
+		return merchantScanNotify;
+	}
+
+	public void setMerchantScanNotify(String merchantScanNotify) {
+		this.merchantScanNotify = merchantScanNotify;
 	}
 
 	public Map<String, Object> toMap() {

@@ -22,12 +22,13 @@ app.controller('SysOrgController', ['$scope', '$http', '$interval', 'uiGridTreeV
 					type : 'date',
 					cellFilter : 'date:"yyyy-MM-dd"',
 					width : '20%'
-				}, {
-					name : 'id',
-					displayName : '操作',
-					width : '23%',
-					cellTemplate:'<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span><button class="btn btn-success" ng-click="grid.appScope.Delete(row)">删除</button>' 
 				}
+//				{
+//					name : 'id',
+//					displayName : '操作',
+//					width : '23%',
+//					cellTemplate:'<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span><button class="btn btn-success" ng-click="grid.appScope.Delete(row)">删除</button>' 
+//				}
 			];
 			//数据获取
 			$http.get('/ajax/org/select').success(function (data) {

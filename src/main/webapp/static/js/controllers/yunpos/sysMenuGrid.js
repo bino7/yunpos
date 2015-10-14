@@ -27,7 +27,12 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 					enableCellEditOnFocus : false,
 					width : '28%',
 					//cellTemplate : '<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span> <button class="btn btn-success" ng-click="deleted({id:row.getProperty(col.field) , id})">删除</button>'
-					cellTemplate : '<span ng-controller="SysMenuEditModalCtrl"> <script type="text/ng-template" id="sys_menu_edit"><div ng-include="\'tpl/system/sys_menu_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_menu_edit\',row)">添加下级</button></span><span ng-controller="SysMenuController"> <button class="btn btn-success" ng-click="deleted({id:row.getProperty(col.field) , menu:row})">删除</button></span>'
+					cellTemplate : '<span ng-controller="SysMenuEditModalCtrl">'
+								  +'<script type="text/ng-template" id="sys_menu_edit"><div ng-include="\'tpl/system/sys_menu_edit.html\'"></div></script>'
+								  +'<button ng-if="row.entity.isLeaf==0"  ng-click="open(lg,\'sys_menu_edit\',row)">添加下级</button>'
+								  +'<button ng-if="row.entity.id==1"  ng-click="open(lg,\'sys_menu_edit\',row)">添加同级</button>'
+								  +'<button ng-if="row.entity.isLeaf==1"  ng-click="grid.appScope.deleted(row)">删除</button>'
+								  +'</span>'
 				}
 			];
 			
@@ -50,14 +55,14 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 			};
 
 			//删除
-			$scope.deleted = function (obj) {
-				//$scope.gridOptions.data.splice(1, 1);
-				if (obj.menu.entity.id != null && obj.menu.entity.id != "") {
+			$scope.deleted = function (row) {
+				var index = $scope.gridOptions.data.indexOf(row.entity);
+				if(row.entity.id!=null && row.entity.id!=""){
 					$http({
 						method : 'delete',
-						url : '/ajax/menu/' + obj.menu.entity.id
+						url : '/ajax/menu/' + row.entity.id
 					}).success(function () {
-						//$state.go('app.table.menu');
+						$scope.gridOptions.data.splice(index, 1);
 						alert("删除成功！");
 					}).error(function (data, status, headers, config) {
 						alert("删除失败！");
@@ -114,8 +119,16 @@ app.controller('SysMenuEditModalInstanceCtrl', ['$scope', '$http', '$state','$lo
 				}).success(function (data) {
 					console.log(data);
 					alert("添加成功！");
+					$http.get('/ajax/menu/select').success(function (data) {
+						for(var i=0;i<data.length;i++){
+							if(data[i].isLeaf==0){
+								data[i].$$treeLevel = 0;
+							}
+						}
+						$scope.gridOptions.data = data;
+					});
 					//$location.path('/menu');
-					$state.go('app.table.menu');
+					//$state.go('app.table.menu');
 					//$scope.$state.go('app.table.menu');
 				}).error(function (data) {
 					alert("出错");

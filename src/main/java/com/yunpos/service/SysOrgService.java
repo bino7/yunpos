@@ -79,7 +79,11 @@ public class SysOrgService extends EntityService<SysOrg> {
 	public String getOrgNo(SysOrg sysOrg){
 		String  maxOrgNo = sysOrgMapper.findMaxOrgNo(sysOrg);
 		if(Tools.isNullOrEmpty(maxOrgNo)){
-			maxOrgNo = sysOrg.getOrgParentNo() + "0001";
+			maxOrgNo = "";
+			if(!Tools.isNullOrEmpty(sysOrg.getOrgParentNo())){
+				maxOrgNo = sysOrg.getOrgParentNo() ;
+			}
+			maxOrgNo +=  "0000";
 		}
 		String orgNo = Integer.parseInt(maxOrgNo) + 1 +"";
 		if(orgNo.length() % 4 == 1 ){

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.card.SysCardBaseinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.card.SysCardBaseinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="logo_url" property="logo_url" jdbcType="VARCHAR" />
+    <result column="code_type" property="code_type" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brand_name" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sub_title" property="sub_title" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="notice" property="notice" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="sku_quantity" property="sku_quantity" jdbcType="VARCHAR" />
+    <result column="date_info_type" property="date_info_type" jdbcType="VARCHAR" />
+    <result column="begin_timestamp" property="begin_timestamp" jdbcType="INTEGER" />
+    <result column="end_timestamp" property="end_timestamp" jdbcType="INTEGER" />
+    <result column="fixed_term" property="fixed_term" jdbcType="INTEGER" />
+    <result column="fixed_begin_term" property="fixed_begin_term" jdbcType="INTEGER" />
+    <result column="use_custom_code" property="use_custom_code" jdbcType="TINYINT" />
+    <result column="bind_openid" property="bind_openid" jdbcType="TINYINT" />
+    <result column="service_phone" property="service_phone" jdbcType="VARCHAR" />
+    <result column="location_id_list" property="location_id_list" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="custom_url_name" property="custom_url_name" jdbcType="VARCHAR" />
+    <result column="custom_url" property="custom_url" jdbcType="VARCHAR" />
+    <result column="custom_url_sub_title" property="custom_url_sub_title" jdbcType="VARCHAR" />
+    <result column="promotion_url_name" property="promotion_url_name" jdbcType="VARCHAR" />
+    <result column="promotion_url" property="promotion_url" jdbcType="VARCHAR" />
+    <result column="promotion_url_sub_title" property="promotion_url_sub_title" jdbcType="VARCHAR" />
+    <result column="get_limit" property="get_limit" jdbcType="INTEGER" />
+    <result column="can_share" property="can_share" jdbcType="TINYINT" />
+    <result column="can_give_friend" property="can_give_friend" jdbcType="TINYINT" />
+    <result column="need_push_on_view" property="need_push_on_view" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, logo_url, code_type, brand_name, title, sub_title, color, notice, description, 
+    sku_quantity, date_info_type, begin_timestamp, end_timestamp, fixed_term, fixed_begin_term, 
+    use_custom_code, bind_openid, service_phone, location_id_list, source, custom_url_name, 
+    custom_url, custom_url_sub_title, promotion_url_name, promotion_url, promotion_url_sub_title, 
+    get_limit, can_share, can_give_friend, need_push_on_view
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_card_baseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_card_baseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.card.SysCardBaseinfo" >
+    insert into sys_card_baseinfo (id, logo_url, code_type, 
+      brand_name, title, sub_title, 
+      color, notice, description, 
+      sku_quantity, date_info_type, begin_timestamp, 
+      end_timestamp, fixed_term, fixed_begin_term, 
+      use_custom_code, bind_openid, service_phone, 
+      location_id_list, source, custom_url_name, 
+      custom_url, custom_url_sub_title, promotion_url_name, 
+      promotion_url, promotion_url_sub_title, 
+      get_limit, can_share, can_give_friend, 
+      need_push_on_view)
+    values (#{id,jdbcType=INTEGER}, #{logo_url,jdbcType=VARCHAR}, #{code_type,jdbcType=VARCHAR}, 
+      #{brand_name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{sub_title,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{sku_quantity,jdbcType=VARCHAR}, #{date_info_type,jdbcType=VARCHAR}, #{begin_timestamp,jdbcType=INTEGER}, 
+      #{end_timestamp,jdbcType=INTEGER}, #{fixed_term,jdbcType=INTEGER}, #{fixed_begin_term,jdbcType=INTEGER}, 
+      #{use_custom_code,jdbcType=TINYINT}, #{bind_openid,jdbcType=TINYINT}, #{service_phone,jdbcType=VARCHAR}, 
+      #{location_id_list,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{custom_url_name,jdbcType=VARCHAR}, 
+      #{custom_url,jdbcType=VARCHAR}, #{custom_url_sub_title,jdbcType=VARCHAR}, #{promotion_url_name,jdbcType=VARCHAR}, 
+      #{promotion_url,jdbcType=VARCHAR}, #{promotion_url_sub_title,jdbcType=VARCHAR}, 
+      #{get_limit,jdbcType=INTEGER}, #{can_share,jdbcType=TINYINT}, #{can_give_friend,jdbcType=TINYINT}, 
+      #{need_push_on_view,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.card.SysCardBaseinfo" >
+    insert into sys_card_baseinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="logo_url != null" >
+        logo_url,
+      </if>
+      <if test="code_type != null" >
+        code_type,
+      </if>
+      <if test="brand_name != null" >
+        brand_name,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="sub_title != null" >
+        sub_title,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="notice != null" >
+        notice,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="sku_quantity != null" >
+        sku_quantity,
+      </if>
+      <if test="date_info_type != null" >
+        date_info_type,
+      </if>
+      <if test="begin_timestamp != null" >
+        begin_timestamp,
+      </if>
+      <if test="end_timestamp != null" >
+        end_timestamp,
+      </if>
+      <if test="fixed_term != null" >
+        fixed_term,
+      </if>
+      <if test="fixed_begin_term != null" >
+        fixed_begin_term,
+      </if>
+      <if test="use_custom_code != null" >
+        use_custom_code,
+      </if>
+      <if test="bind_openid != null" >
+        bind_openid,
+      </if>
+      <if test="service_phone != null" >
+        service_phone,
+      </if>
+      <if test="location_id_list != null" >
+        location_id_list,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="custom_url_name != null" >
+        custom_url_name,
+      </if>
+      <if test="custom_url != null" >
+        custom_url,
+      </if>
+      <if test="custom_url_sub_title != null" >
+        custom_url_sub_title,
+      </if>
+      <if test="promotion_url_name != null" >
+        promotion_url_name,
+      </if>
+      <if test="promotion_url != null" >
+        promotion_url,
+      </if>
+      <if test="promotion_url_sub_title != null" >
+        promotion_url_sub_title,
+      </if>
+      <if test="get_limit != null" >
+        get_limit,
+      </if>
+      <if test="can_share != null" >
+        can_share,
+      </if>
+      <if test="can_give_friend != null" >
+        can_give_friend,
+      </if>
+      <if test="need_push_on_view != null" >
+        need_push_on_view,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="logo_url != null" >
+        #{logo_url,jdbcType=VARCHAR},
+      </if>
+      <if test="code_type != null" >
+        #{code_type,jdbcType=VARCHAR},
+      </if>
+      <if test="brand_name != null" >
+        #{brand_name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_title != null" >
+        #{sub_title,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null" >
+        #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sku_quantity != null" >
+        #{sku_quantity,jdbcType=VARCHAR},
+      </if>
+      <if test="date_info_type != null" >
+        #{date_info_type,jdbcType=VARCHAR},
+      </if>
+      <if test="begin_timestamp != null" >
+        #{begin_timestamp,jdbcType=INTEGER},
+      </if>
+      <if test="end_timestamp != null" >
+        #{end_timestamp,jdbcType=INTEGER},
+      </if>
+      <if test="fixed_term != null" >
+        #{fixed_term,jdbcType=INTEGER},
+      </if>
+      <if test="fixed_begin_term != null" >
+        #{fixed_begin_term,jdbcType=INTEGER},
+      </if>
+      <if test="use_custom_code != null" >
+        #{use_custom_code,jdbcType=TINYINT},
+      </if>
+      <if test="bind_openid != null" >
+        #{bind_openid,jdbcType=TINYINT},
+      </if>
+      <if test="service_phone != null" >
+        #{service_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="location_id_list != null" >
+        #{location_id_list,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_url_name != null" >
+        #{custom_url_name,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_url != null" >
+        #{custom_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_url_sub_title != null" >
+        #{custom_url_sub_title,jdbcType=VARCHAR},
+      </if>
+      <if test="promotion_url_name != null" >
+        #{promotion_url_name,jdbcType=VARCHAR},
+      </if>
+      <if test="promotion_url != null" >
+        #{promotion_url,jdbcType=VARCHAR},
+      </if>
+      <if test="promotion_url_sub_title != null" >
+        #{promotion_url_sub_title,jdbcType=VARCHAR},
+      </if>
+      <if test="get_limit != null" >
+        #{get_limit,jdbcType=INTEGER},
+      </if>
+      <if test="can_share != null" >
+        #{can_share,jdbcType=TINYINT},
+      </if>
+      <if test="can_give_friend != null" >
+        #{can_give_friend,jdbcType=TINYINT},
+      </if>
+      <if test="need_push_on_view != null" >
+        #{need_push_on_view,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.card.SysCardBaseinfo" >
+    update sys_card_baseinfo
+    <set >
+      <if test="logo_url != null" >
+        logo_url = #{logo_url,jdbcType=VARCHAR},
+      </if>
+      <if test="code_type != null" >
+        code_type = #{code_type,jdbcType=VARCHAR},
+      </if>
+      <if test="brand_name != null" >
+        brand_name = #{brand_name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_title != null" >
+        sub_title = #{sub_title,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null" >
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sku_quantity != null" >
+        sku_quantity = #{sku_quantity,jdbcType=VARCHAR},
+      </if>
+      <if test="date_info_type != null" >
+        date_info_type = #{date_info_type,jdbcType=VARCHAR},
+      </if>
+      <if test="begin_timestamp != null" >
+        begin_timestamp = #{begin_timestamp,jdbcType=INTEGER},
+      </if>
+      <if test="end_timestamp != null" >
+        end_timestamp = #{end_timestamp,jdbcType=INTEGER},
+      </if>
+      <if test="fixed_term != null" >
+        fixed_term = #{fixed_term,jdbcType=INTEGER},
+      </if>
+      <if test="fixed_begin_term != null" >
+        fixed_begin_term = #{fixed_begin_term,jdbcType=INTEGER},
+      </if>
+      <if test="use_custom_code != null" >
+        use_custom_code = #{use_custom_code,jdbcType=TINYINT},
+      </if>
+      <if test="bind_openid != null" >
+        bind_openid = #{bind_openid,jdbcType=TINYINT},
+      </if>
+      <if test="service_phone != null" >
+        service_phone = #{service_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="location_id_list != null" >
+        location_id_list = #{location_id_list,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_url_name != null" >
+        custom_url_name = #{custom_url_name,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_url != null" >
+        custom_url = #{custom_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_url_sub_title != null" >
+        custom_url_sub_title = #{custom_url_sub_title,jdbcType=VARCHAR},
+      </if>
+      <if test="promotion_url_name != null" >
+        promotion_url_name = #{promotion_url_name,jdbcType=VARCHAR},
+      </if>
+      <if test="promotion_url != null" >
+        promotion_url = #{promotion_url,jdbcType=VARCHAR},
+      </if>
+      <if test="promotion_url_sub_title != null" >
+        promotion_url_sub_title = #{promotion_url_sub_title,jdbcType=VARCHAR},
+      </if>
+      <if test="get_limit != null" >
+        get_limit = #{get_limit,jdbcType=INTEGER},
+      </if>
+      <if test="can_share != null" >
+        can_share = #{can_share,jdbcType=TINYINT},
+      </if>
+      <if test="can_give_friend != null" >
+        can_give_friend = #{can_give_friend,jdbcType=TINYINT},
+      </if>
+      <if test="need_push_on_view != null" >
+        need_push_on_view = #{need_push_on_view,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.card.SysCardBaseinfo" >
+    update sys_card_baseinfo
+    set logo_url = #{logo_url,jdbcType=VARCHAR},
+      code_type = #{code_type,jdbcType=VARCHAR},
+      brand_name = #{brand_name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      sub_title = #{sub_title,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      notice = #{notice,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      sku_quantity = #{sku_quantity,jdbcType=VARCHAR},
+      date_info_type = #{date_info_type,jdbcType=VARCHAR},
+      begin_timestamp = #{begin_timestamp,jdbcType=INTEGER},
+      end_timestamp = #{end_timestamp,jdbcType=INTEGER},
+      fixed_term = #{fixed_term,jdbcType=INTEGER},
+      fixed_begin_term = #{fixed_begin_term,jdbcType=INTEGER},
+      use_custom_code = #{use_custom_code,jdbcType=TINYINT},
+      bind_openid = #{bind_openid,jdbcType=TINYINT},
+      service_phone = #{service_phone,jdbcType=VARCHAR},
+      location_id_list = #{location_id_list,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      custom_url_name = #{custom_url_name,jdbcType=VARCHAR},
+      custom_url = #{custom_url,jdbcType=VARCHAR},
+      custom_url_sub_title = #{custom_url_sub_title,jdbcType=VARCHAR},
+      promotion_url_name = #{promotion_url_name,jdbcType=VARCHAR},
+      promotion_url = #{promotion_url,jdbcType=VARCHAR},
+      promotion_url_sub_title = #{promotion_url_sub_title,jdbcType=VARCHAR},
+      get_limit = #{get_limit,jdbcType=INTEGER},
+      can_share = #{can_share,jdbcType=TINYINT},
+      can_give_friend = #{can_give_friend,jdbcType=TINYINT},
+      need_push_on_view = #{need_push_on_view,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

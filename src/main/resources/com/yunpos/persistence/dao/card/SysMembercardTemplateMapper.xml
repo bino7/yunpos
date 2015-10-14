@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunpos.persistence.dao.card.SysMembercardTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.yunpos.model.card.SysMembercardTemplate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="card_type" property="card_type" jdbcType="VARCHAR" />
+    <result column="base_info_id" property="base_info_id" jdbcType="INTEGER" />
+    <result column="prerogative" property="prerogative" jdbcType="VARCHAR" />
+    <result column="auto_activate" property="auto_activate" jdbcType="TINYINT" />
+    <result column="wx_activate" property="wx_activate" jdbcType="TINYINT" />
+    <result column="supply_bonus" property="supply_bonus" jdbcType="TINYINT" />
+    <result column="bonus_url" property="bonus_url" jdbcType="VARCHAR" />
+    <result column="supply_balance" property="supply_balance" jdbcType="TINYINT" />
+    <result column="balance_url" property="balance_url" jdbcType="VARCHAR" />
+    <result column="custom_field1_name_type" property="custom_field1_name_type" jdbcType="VARCHAR" />
+    <result column="custom_field1_url" property="custom_field1_url" jdbcType="VARCHAR" />
+    <result column="custom_field2_name_type" property="custom_field2_name_type" jdbcType="VARCHAR" />
+    <result column="custom_field2_url" property="custom_field2_url" jdbcType="VARCHAR" />
+    <result column="custom_field3_name_type" property="custom_field3_name_type" jdbcType="VARCHAR" />
+    <result column="custom_field3_url" property="custom_field3_url" jdbcType="VARCHAR" />
+    <result column="bonus_cleared" property="bonus_cleared" jdbcType="VARCHAR" />
+    <result column="bonus_rules" property="bonus_rules" jdbcType="VARCHAR" />
+    <result column="balance_rules" property="balance_rules" jdbcType="VARCHAR" />
+    <result column="activate_url" property="activate_url" jdbcType="VARCHAR" />
+    <result column="custom_cell1_name" property="custom_cell1_name" jdbcType="VARCHAR" />
+    <result column="custom_cell1_tips" property="custom_cell1_tips" jdbcType="VARCHAR" />
+    <result column="custom_cell1_url" property="custom_cell1_url" jdbcType="VARCHAR" />
+    <result column="bonus_rule" property="bonus_rule" jdbcType="VARCHAR" />
+    <result column="cost_money_unit" property="cost_money_unit" jdbcType="INTEGER" />
+    <result column="increase_bonus" property="increase_bonus" jdbcType="INTEGER" />
+    <result column="max_increase_bonus" property="max_increase_bonus" jdbcType="INTEGER" />
+    <result column="init_increase_bonus" property="init_increase_bonus" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, card_type, base_info_id, prerogative, auto_activate, wx_activate, supply_bonus, 
+    bonus_url, supply_balance, balance_url, custom_field1_name_type, custom_field1_url, 
+    custom_field2_name_type, custom_field2_url, custom_field3_name_type, custom_field3_url, 
+    bonus_cleared, bonus_rules, balance_rules, activate_url, custom_cell1_name, custom_cell1_tips, 
+    custom_cell1_url, bonus_rule, cost_money_unit, increase_bonus, max_increase_bonus, 
+    init_increase_bonus, discount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_membercard_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_membercard_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunpos.model.card.SysMembercardTemplate" >
+    insert into sys_membercard_template (id, card_type, base_info_id, 
+      prerogative, auto_activate, wx_activate, 
+      supply_bonus, bonus_url, supply_balance, 
+      balance_url, custom_field1_name_type, custom_field1_url, 
+      custom_field2_name_type, custom_field2_url, 
+      custom_field3_name_type, custom_field3_url, 
+      bonus_cleared, bonus_rules, balance_rules, 
+      activate_url, custom_cell1_name, custom_cell1_tips, 
+      custom_cell1_url, bonus_rule, cost_money_unit, 
+      increase_bonus, max_increase_bonus, init_increase_bonus, 
+      discount)
+    values (#{id,jdbcType=INTEGER}, #{card_type,jdbcType=VARCHAR}, #{base_info_id,jdbcType=INTEGER}, 
+      #{prerogative,jdbcType=VARCHAR}, #{auto_activate,jdbcType=TINYINT}, #{wx_activate,jdbcType=TINYINT}, 
+      #{supply_bonus,jdbcType=TINYINT}, #{bonus_url,jdbcType=VARCHAR}, #{supply_balance,jdbcType=TINYINT}, 
+      #{balance_url,jdbcType=VARCHAR}, #{custom_field1_name_type,jdbcType=VARCHAR}, #{custom_field1_url,jdbcType=VARCHAR}, 
+      #{custom_field2_name_type,jdbcType=VARCHAR}, #{custom_field2_url,jdbcType=VARCHAR}, 
+      #{custom_field3_name_type,jdbcType=VARCHAR}, #{custom_field3_url,jdbcType=VARCHAR}, 
+      #{bonus_cleared,jdbcType=VARCHAR}, #{bonus_rules,jdbcType=VARCHAR}, #{balance_rules,jdbcType=VARCHAR}, 
+      #{activate_url,jdbcType=VARCHAR}, #{custom_cell1_name,jdbcType=VARCHAR}, #{custom_cell1_tips,jdbcType=VARCHAR}, 
+      #{custom_cell1_url,jdbcType=VARCHAR}, #{bonus_rule,jdbcType=VARCHAR}, #{cost_money_unit,jdbcType=INTEGER}, 
+      #{increase_bonus,jdbcType=INTEGER}, #{max_increase_bonus,jdbcType=INTEGER}, #{init_increase_bonus,jdbcType=INTEGER}, 
+      #{discount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunpos.model.card.SysMembercardTemplate" >
+    insert into sys_membercard_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="card_type != null" >
+        card_type,
+      </if>
+      <if test="base_info_id != null" >
+        base_info_id,
+      </if>
+      <if test="prerogative != null" >
+        prerogative,
+      </if>
+      <if test="auto_activate != null" >
+        auto_activate,
+      </if>
+      <if test="wx_activate != null" >
+        wx_activate,
+      </if>
+      <if test="supply_bonus != null" >
+        supply_bonus,
+      </if>
+      <if test="bonus_url != null" >
+        bonus_url,
+      </if>
+      <if test="supply_balance != null" >
+        supply_balance,
+      </if>
+      <if test="balance_url != null" >
+        balance_url,
+      </if>
+      <if test="custom_field1_name_type != null" >
+        custom_field1_name_type,
+      </if>
+      <if test="custom_field1_url != null" >
+        custom_field1_url,
+      </if>
+      <if test="custom_field2_name_type != null" >
+        custom_field2_name_type,
+      </if>
+      <if test="custom_field2_url != null" >
+        custom_field2_url,
+      </if>
+      <if test="custom_field3_name_type != null" >
+        custom_field3_name_type,
+      </if>
+      <if test="custom_field3_url != null" >
+        custom_field3_url,
+      </if>
+      <if test="bonus_cleared != null" >
+        bonus_cleared,
+      </if>
+      <if test="bonus_rules != null" >
+        bonus_rules,
+      </if>
+      <if test="balance_rules != null" >
+        balance_rules,
+      </if>
+      <if test="activate_url != null" >
+        activate_url,
+      </if>
+      <if test="custom_cell1_name != null" >
+        custom_cell1_name,
+      </if>
+      <if test="custom_cell1_tips != null" >
+        custom_cell1_tips,
+      </if>
+      <if test="custom_cell1_url != null" >
+        custom_cell1_url,
+      </if>
+      <if test="bonus_rule != null" >
+        bonus_rule,
+      </if>
+      <if test="cost_money_unit != null" >
+        cost_money_unit,
+      </if>
+      <if test="increase_bonus != null" >
+        increase_bonus,
+      </if>
+      <if test="max_increase_bonus != null" >
+        max_increase_bonus,
+      </if>
+      <if test="init_increase_bonus != null" >
+        init_increase_bonus,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="card_type != null" >
+        #{card_type,jdbcType=VARCHAR},
+      </if>
+      <if test="base_info_id != null" >
+        #{base_info_id,jdbcType=INTEGER},
+      </if>
+      <if test="prerogative != null" >
+        #{prerogative,jdbcType=VARCHAR},
+      </if>
+      <if test="auto_activate != null" >
+        #{auto_activate,jdbcType=TINYINT},
+      </if>
+      <if test="wx_activate != null" >
+        #{wx_activate,jdbcType=TINYINT},
+      </if>
+      <if test="supply_bonus != null" >
+        #{supply_bonus,jdbcType=TINYINT},
+      </if>
+      <if test="bonus_url != null" >
+        #{bonus_url,jdbcType=VARCHAR},
+      </if>
+      <if test="supply_balance != null" >
+        #{supply_balance,jdbcType=TINYINT},
+      </if>
+      <if test="balance_url != null" >
+        #{balance_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field1_name_type != null" >
+        #{custom_field1_name_type,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field1_url != null" >
+        #{custom_field1_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field2_name_type != null" >
+        #{custom_field2_name_type,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field2_url != null" >
+        #{custom_field2_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field3_name_type != null" >
+        #{custom_field3_name_type,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field3_url != null" >
+        #{custom_field3_url,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus_cleared != null" >
+        #{bonus_cleared,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus_rules != null" >
+        #{bonus_rules,jdbcType=VARCHAR},
+      </if>
+      <if test="balance_rules != null" >
+        #{balance_rules,jdbcType=VARCHAR},
+      </if>
+      <if test="activate_url != null" >
+        #{activate_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_cell1_name != null" >
+        #{custom_cell1_name,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_cell1_tips != null" >
+        #{custom_cell1_tips,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_cell1_url != null" >
+        #{custom_cell1_url,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus_rule != null" >
+        #{bonus_rule,jdbcType=VARCHAR},
+      </if>
+      <if test="cost_money_unit != null" >
+        #{cost_money_unit,jdbcType=INTEGER},
+      </if>
+      <if test="increase_bonus != null" >
+        #{increase_bonus,jdbcType=INTEGER},
+      </if>
+      <if test="max_increase_bonus != null" >
+        #{max_increase_bonus,jdbcType=INTEGER},
+      </if>
+      <if test="init_increase_bonus != null" >
+        #{init_increase_bonus,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunpos.model.card.SysMembercardTemplate" >
+    update sys_membercard_template
+    <set >
+      <if test="card_type != null" >
+        card_type = #{card_type,jdbcType=VARCHAR},
+      </if>
+      <if test="base_info_id != null" >
+        base_info_id = #{base_info_id,jdbcType=INTEGER},
+      </if>
+      <if test="prerogative != null" >
+        prerogative = #{prerogative,jdbcType=VARCHAR},
+      </if>
+      <if test="auto_activate != null" >
+        auto_activate = #{auto_activate,jdbcType=TINYINT},
+      </if>
+      <if test="wx_activate != null" >
+        wx_activate = #{wx_activate,jdbcType=TINYINT},
+      </if>
+      <if test="supply_bonus != null" >
+        supply_bonus = #{supply_bonus,jdbcType=TINYINT},
+      </if>
+      <if test="bonus_url != null" >
+        bonus_url = #{bonus_url,jdbcType=VARCHAR},
+      </if>
+      <if test="supply_balance != null" >
+        supply_balance = #{supply_balance,jdbcType=TINYINT},
+      </if>
+      <if test="balance_url != null" >
+        balance_url = #{balance_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field1_name_type != null" >
+        custom_field1_name_type = #{custom_field1_name_type,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field1_url != null" >
+        custom_field1_url = #{custom_field1_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field2_name_type != null" >
+        custom_field2_name_type = #{custom_field2_name_type,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field2_url != null" >
+        custom_field2_url = #{custom_field2_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field3_name_type != null" >
+        custom_field3_name_type = #{custom_field3_name_type,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_field3_url != null" >
+        custom_field3_url = #{custom_field3_url,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus_cleared != null" >
+        bonus_cleared = #{bonus_cleared,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus_rules != null" >
+        bonus_rules = #{bonus_rules,jdbcType=VARCHAR},
+      </if>
+      <if test="balance_rules != null" >
+        balance_rules = #{balance_rules,jdbcType=VARCHAR},
+      </if>
+      <if test="activate_url != null" >
+        activate_url = #{activate_url,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_cell1_name != null" >
+        custom_cell1_name = #{custom_cell1_name,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_cell1_tips != null" >
+        custom_cell1_tips = #{custom_cell1_tips,jdbcType=VARCHAR},
+      </if>
+      <if test="custom_cell1_url != null" >
+        custom_cell1_url = #{custom_cell1_url,jdbcType=VARCHAR},
+      </if>
+      <if test="bonus_rule != null" >
+        bonus_rule = #{bonus_rule,jdbcType=VARCHAR},
+      </if>
+      <if test="cost_money_unit != null" >
+        cost_money_unit = #{cost_money_unit,jdbcType=INTEGER},
+      </if>
+      <if test="increase_bonus != null" >
+        increase_bonus = #{increase_bonus,jdbcType=INTEGER},
+      </if>
+      <if test="max_increase_bonus != null" >
+        max_increase_bonus = #{max_increase_bonus,jdbcType=INTEGER},
+      </if>
+      <if test="init_increase_bonus != null" >
+        init_increase_bonus = #{init_increase_bonus,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunpos.model.card.SysMembercardTemplate" >
+    update sys_membercard_template
+    set card_type = #{card_type,jdbcType=VARCHAR},
+      base_info_id = #{base_info_id,jdbcType=INTEGER},
+      prerogative = #{prerogative,jdbcType=VARCHAR},
+      auto_activate = #{auto_activate,jdbcType=TINYINT},
+      wx_activate = #{wx_activate,jdbcType=TINYINT},
+      supply_bonus = #{supply_bonus,jdbcType=TINYINT},
+      bonus_url = #{bonus_url,jdbcType=VARCHAR},
+      supply_balance = #{supply_balance,jdbcType=TINYINT},
+      balance_url = #{balance_url,jdbcType=VARCHAR},
+      custom_field1_name_type = #{custom_field1_name_type,jdbcType=VARCHAR},
+      custom_field1_url = #{custom_field1_url,jdbcType=VARCHAR},
+      custom_field2_name_type = #{custom_field2_name_type,jdbcType=VARCHAR},
+      custom_field2_url = #{custom_field2_url,jdbcType=VARCHAR},
+      custom_field3_name_type = #{custom_field3_name_type,jdbcType=VARCHAR},
+      custom_field3_url = #{custom_field3_url,jdbcType=VARCHAR},
+      bonus_cleared = #{bonus_cleared,jdbcType=VARCHAR},
+      bonus_rules = #{bonus_rules,jdbcType=VARCHAR},
+      balance_rules = #{balance_rules,jdbcType=VARCHAR},
+      activate_url = #{activate_url,jdbcType=VARCHAR},
+      custom_cell1_name = #{custom_cell1_name,jdbcType=VARCHAR},
+      custom_cell1_tips = #{custom_cell1_tips,jdbcType=VARCHAR},
+      custom_cell1_url = #{custom_cell1_url,jdbcType=VARCHAR},
+      bonus_rule = #{bonus_rule,jdbcType=VARCHAR},
+      cost_money_unit = #{cost_money_unit,jdbcType=INTEGER},
+      increase_bonus = #{increase_bonus,jdbcType=INTEGER},
+      max_increase_bonus = #{max_increase_bonus,jdbcType=INTEGER},
+      init_increase_bonus = #{init_increase_bonus,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

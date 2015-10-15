@@ -23,6 +23,8 @@ public class RefundQueryReqData {
     private String transaction_id = "";
     private String out_trade_no = "";
     private String sdk_version = "";
+    private String sub_appid = "";//子商户公众账号ID
+    private String sub_mch_id=""; //子商户号
 
     /**
      * 请求退款查询服务
@@ -65,7 +67,7 @@ public class RefundQueryReqData {
         setSign(sign);//把签名数据设置到Sign这个属性中
 
     }
-    
+    //普通商户
     public RefundQueryReqData(String out_trade_no,String device_info,SysWechatConfigWithBLOBs sysWechatConfig){
     	 //微信分配的公众号ID（开通公众号之后可以获取到）
         setAppid(sysWechatConfig.getAppId());
@@ -94,6 +96,40 @@ public class RefundQueryReqData {
         String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
         setSign(sign);//把签名数据设置到Sign这个属性中
         
+    }
+    //服务商
+    public RefundQueryReqData(String out_trade_no,String device_info, SysWechatConfigWithBLOBs sysWechatConfigPar,
+			SysWechatConfigWithBLOBs sysWechatConfigSub){
+    	//微信分配的公众号ID（开通公众号之后可以获取到）
+		setAppid(sysWechatConfigPar.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setMch_id(sysWechatConfigPar.getMchId());
+		//微信分配的公众号ID（开通公众号之后可以获取到）
+		setSub_appid(sysWechatConfigSub.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setSub_mch_id(sysWechatConfigSub.getMchId());
+    	
+    	//transaction_id是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
+    	//setTransaction_id(transactionID);
+    	
+    	//商户系统自己生成的唯一的订单号
+    	setOut_trade_no(out_trade_no);
+    	
+    	//微信支付分配的终端设备号，与下单一致
+    	setDevice_info(device_info);
+    	
+    	//setOut_refund_no(outRefundNo);
+    	
+    	//商户系统自己管理的退款号，商户自身必须保证这个号在系统内唯一
+    	//setRefund_id(refundID);
+    	
+    	//随机字符串，不长于32 位
+    	setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
+    	
+    	//根据API给的签名规则进行签名
+    	String sign = Signature.getSign(toMap(),sysWechatConfigPar.getApiSecret());
+    	setSign(sign);//把签名数据设置到Sign这个属性中
+    	
     }
 
     public String getAppid() {
@@ -176,7 +212,23 @@ public class RefundQueryReqData {
         this.sdk_version = sdk_version;
     }
 
-    private String out_refund_no;
+    public String getSub_appid() {
+		return sub_appid;
+	}
+
+	public void setSub_appid(String sub_appid) {
+		this.sub_appid = sub_appid;
+	}
+
+	public String getSub_mch_id() {
+		return sub_mch_id;
+	}
+
+	public void setSub_mch_id(String sub_mch_id) {
+		this.sub_mch_id = sub_mch_id;
+	}
+
+	private String out_refund_no;
     private String refund_id;
 
     public Map<String,Object> toMap(){

@@ -27,6 +27,8 @@ public class RefundReqData {
 	private String refund_fee_type = "CNY";
 	private String op_user_id = "";
 	private String sdk_version = "";
+	private String sub_appid = "";//子商户公众账号ID
+    private String sub_mch_id=""; //子商户号
 
 	// 业务附加传递信息（非接口参数）
 	private String pay_channel = "";
@@ -55,6 +57,7 @@ public class RefundReqData {
 	 * @param refundFeeType
 	 *            货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
 	 */
+	//普通商戶
 	public RefundReqData(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee,
 			int refundFee, String opUserID, String refundFeeType,SysWechatConfigWithBLOBs sysWechatConfig) {
 
@@ -90,6 +93,69 @@ public class RefundReqData {
 		String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
 		setSign(sign);// 把签名数据设置到Sign这个属性中
 
+	}
+	/**
+	 * 请求退款服务
+	 * 
+	 * @param transactionID
+	 *            是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
+	 *            建议优先使用
+	 * @param outTradeNo
+	 *            商户系统内部的订单号,transaction_id 、out_trade_no
+	 *            二选一，如果同时存在优先级：transaction_id>out_trade_no
+	 * @param deviceInfo
+	 *            微信支付分配的终端设备号，与下单一致
+	 * @param outRefundNo
+	 *            商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
+	 * @param totalFee
+	 *            订单总金额，单位为分
+	 * @param refundFee
+	 *            退款总金额，单位为分,可以做部分退款
+	 * @param opUserID
+	 *            操作员帐号, 默认为商户号
+	 * @param refundFeeType
+	 *            货币类型，符合ISO 4217标准的三位字母代码，默认为CNY（人民币）
+	 */
+	//服務商
+	public RefundReqData(String transactionID, String outTradeNo, String deviceInfo, String outRefundNo, int totalFee,
+			int refundFee, String opUserID, String refundFeeType, SysWechatConfigWithBLOBs sysWechatConfigPar,
+			SysWechatConfigWithBLOBs sysWechatConfigSub) {
+		
+		// setSdk_version(Configure.getSdkVersion());
+		
+		//微信分配的公众号ID（开通公众号之后可以获取到）
+		setAppid(sysWechatConfigPar.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setMch_id(sysWechatConfigPar.getMchId());
+		//微信分配的公众号ID（开通公众号之后可以获取到）
+		setSub_appid(sysWechatConfigSub.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setSub_mch_id(sysWechatConfigSub.getMchId());
+		
+		// transaction_id是微信系统为每一笔支付交易分配的订单号，通过这个订单号可以标识这笔交易，它由支付订单API支付成功时返回的数据里面获取到。
+		// setTransaction_id(transactionID);
+		
+		// 商户系统自己生成的唯一的订单号
+		setOut_trade_no(outTradeNo);
+		
+		// 微信支付分配的终端设备号，与下单一致
+		setDevice_info(deviceInfo);
+		
+		setOut_refund_no(outRefundNo);
+		
+		setTotal_fee(totalFee);
+		
+		setRefund_fee(refundFee);
+		
+		setOp_user_id(opUserID);
+		
+		// 随机字符串，不长于32 位
+		setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
+		
+		// 根据API给的签名规则进行签名
+		String sign = Signature.getSign(toMap(),sysWechatConfigPar.getApiSecret());
+		setSign(sign);// 把签名数据设置到Sign这个属性中
+		
 	}
 
 	public String getPay_channel() {
@@ -218,6 +284,22 @@ public class RefundReqData {
 
 	public void setSdk_version(String sdk_version) {
 		this.sdk_version = sdk_version;
+	}
+
+	public String getSub_appid() {
+		return sub_appid;
+	}
+
+	public void setSub_appid(String sub_appid) {
+		this.sub_appid = sub_appid;
+	}
+
+	public String getSub_mch_id() {
+		return sub_mch_id;
+	}
+
+	public void setSub_mch_id(String sub_mch_id) {
+		this.sub_mch_id = sub_mch_id;
 	}
 
 	public Map<String, Object> toMap() {

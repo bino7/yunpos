@@ -24,6 +24,8 @@ public class DownloadBillReqData {
     private String bill_date = "";
     private String bill_type = "";
     private String sdk_version = "";
+    private String sub_appid = "";//子商户公众账号ID
+    private String sub_mch_id=""; //子商户号
 
     /**
      * 请求对账单下载服务

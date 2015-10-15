@@ -20,6 +20,8 @@ public class RefundOrderData {
     private int refundFee = 0;//退款金额
     private int couponRefundFee = 0;//企业红包退款金额
     private String refundStatus = "";//退款状态
+    private String sub_appid = "";//子商户公众账号ID
+    private String sub_mch_id=""; //子商户号
 
     public String getOutRefundNo() {
         return outRefundNo;

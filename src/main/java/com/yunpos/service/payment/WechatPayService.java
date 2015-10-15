@@ -159,11 +159,27 @@ public class WechatPayService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Message query(Map<String,String> map) throws Exception {
+	public Message query(Map<String, String> map) throws Exception {
 		try {
+
 			SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(map.get("merchant_num"));
-			
-			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", map.get("trace_num"),sysWechatConfig);
+			ScanPayQueryReqData scanPayQueryReqData = new ScanPayQueryReqData("", map.get("trace_num"),
+					sysWechatConfig);
+			return query(scanPayQueryReqData, sysWechatConfig, map);
+		} catch (Exception e) {
+			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
+		}
+	}
+	/**
+	 * 支付查询
+	 * 
+	 * @param outTradeNo
+	 *            订单号
+	 * @return
+	 * @throws Exception
+	 */
+	public Message query(ScanPayQueryReqData scanPayQueryReqData,SysWechatConfigWithBLOBs sysWechatConfig ,Map<String,String> map ) throws Exception {
+		try {
 			HttpsRequest serviceRequest = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword());
 			String payQueryServiceResponseString = serviceRequest.sendPost(WechatPayConfig.PAY_QUERY_API,
 					scanPayQueryReqData,sysWechatConfig);

@@ -45,7 +45,10 @@ public class ScanCodePayReqData {
 	private String product_id = "";
 	private String limit_pay = "";
 	private String openid = "";
-
+    private String sub_appid = "";//子商户公众账号ID
+    private String sub_mch_id=""; //子商户号
+    private String sub_openid=""; //用户子标识
+	//普通商户扫码支付
 	public ScanCodePayReqData(String body, String outTradeNo, int totalFee,
 			String deviceInfo, String spBillCreateIP, String goodsTag,String attach,SysWechatConfigWithBLOBs sysWechatConfig) {
 		//****************必填选项***************************
@@ -86,6 +89,55 @@ public class ScanCodePayReqData {
 		setGoods_tag(goodsTag);
 		//根据API给的签名规则进行签名
 		String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
+		
+		setSign(sign);//把签名数据设置到Sign这个属性中
+	}
+	//服务商扫码支付
+	public ScanCodePayReqData(String body, String outTradeNo, int totalFee, String deviceInfo, String spBillCreateIP,
+			String goodsTag, String attach, SysWechatConfigWithBLOBs sysWechatConfigPar,
+			SysWechatConfigWithBLOBs sysWechatConfigSub) {
+		//****************必填选项***************************
+		//微信分配的公众号ID（开通公众号之后可以获取到）
+		setAppid(sysWechatConfigPar.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setMch_id(sysWechatConfigPar.getMchId());
+		//微信分配的公众号ID（开通公众号之后可以获取到）
+		setSub_appid(sysWechatConfigSub.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setSub_mch_id(sysWechatConfigSub.getMchId());
+		//随机字符串，不长于32 位
+		setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
+		
+		//要支付的商品的描述信息，用户会在支付成功页面里看到这个信息
+		setBody(body); 
+		//商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
+		setOut_trade_no(outTradeNo); // 商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
+		//订单总金额，单位为“分”，只能整数
+		setTotal_fee(totalFee);	
+		// 订单生成的机器IP
+		setSpbill_create_ip(spBillCreateIP);
+		//接收微信支付异步通知回调地址
+		setNotify_url(WechatPayConfig.scan_notify_url);
+		//取值如下：JSAPI，NATIVE，APP，WAP,详细说明见参数规定
+		setTrade_type("NATIVE");
+		//trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+		setProduct_id(outTradeNo);
+		
+		
+		//****************非必填选项***************************
+		//商户自己定义的扫码支付终端设备号，方便追溯这笔交易发生在哪台终端设备上
+		setDevice_info(deviceInfo);
+		//支付订单里面可以填的附加数据，API会将提交的这个附加数据原样返回，有助于商户自己可以注明该笔消费的具体内容，方便后续的运营和记录
+		setAttach(attach);
+		// 订单生成时间， 格式为yyyyMMddHHmmss，如2009年12 月25 日9 点10 分10
+		// 秒表示为20091225091010。时区为GMT+8 beijing。该时间取自商户服务器
+		setTime_start(DateUtil.getNow("yyyyMMddHHmmss"));
+		// 订单失效时间，格式同上yyyyMMddHHmmss
+		setTime_expire(DateUtil.getDateAfter(DateUtil.getNow("yyyyMMddHHmmss"), "yyyyMMddHHmmss", 1));
+		// 商品标记，微信平台配置的商品标记，用于优惠券或者满减使用
+		setGoods_tag(goodsTag);
+		//根据API给的签名规则进行签名
+		String sign = Signature.getSign(toMap(),sysWechatConfigPar.getApiSecret());
 		
 		setSign(sign);//把签名数据设置到Sign这个属性中
 	}
@@ -250,7 +302,31 @@ public class ScanCodePayReqData {
 		this.openid = openid;
 	}
 
-    public Map<String,Object> toMap(){
+	public String getSub_appid() {
+		return sub_appid;
+	}
+
+	public void setSub_appid(String sub_appid) {
+		this.sub_appid = sub_appid;
+	}
+
+	public String getSub_mch_id() {
+		return sub_mch_id;
+	}
+
+	public void setSub_mch_id(String sub_mch_id) {
+		this.sub_mch_id = sub_mch_id;
+	}
+
+	public String getSub_openid() {
+		return sub_openid;
+	}
+
+	public void setSub_openid(String sub_openid) {
+		this.sub_openid = sub_openid;
+	}
+	
+	public Map<String,Object> toMap(){
         Map<String,Object> map = new HashMap<String, Object>();
         Field[] fields = this.getClass().getDeclaredFields();
         for (Field field : fields) {

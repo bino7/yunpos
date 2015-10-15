@@ -4,7 +4,7 @@ app.controller('SysOrgController', function($scope, $q,$http, ngTreetableParams)
     	getNodes: function(parent) {
 	        var deferred = $q.defer();
 	        //vendor/modules/ui-grid/data/500_complex2.json
-	        $http({method  : 'get', url: 'vendor/modules/ui-grid/data/500_complex2.json' }).success(function(data) {
+	        $http({method  : 'get', url: '/ajax/org/json'}).success(function(data) {
 	        		deferred.resolve(data);
 		        });
 	        return deferred.promise;

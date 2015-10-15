@@ -2,6 +2,7 @@ package com.yunpos.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -151,8 +152,24 @@ public class SysAgentMerchantController extends BaseController {
 		}
 		return new GridRowResponse(sysAgentMerchant.getId());
 	}
-
 	
+	
+	/**
+	 * 代理商审核， 更新代理商审核信息
+	 * @param sysAgentMerchant
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/ajax/agentmerchantreview/{id}", method = RequestMethod.PUT)
+	public boolean review(@Valid SysAgentMerchant sysAgentMerchant, @PathVariable("id") int id) {		
+		try {
+			return sysAgentMerchantService.reviewSysAgentMerchant(sysAgentMerchant , id);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} 
+	}	
 	
 	/**
 	 * 代理商更新 更新代理商用户信息
@@ -162,10 +179,24 @@ public class SysAgentMerchantController extends BaseController {
 	 */
 	@RequestMapping(value = "/ajax/agentmerchant/updateStatus/{id}", method = RequestMethod.PUT)
 	public GridRowResponse updateStatus(@Valid SysAgentMerchant sysAgentMerchant, @PathVariable("id") int id) {
+		/*
 		SysAgentMerchant sagentMerchant = sysAgentMerchantService.findById(id);
 		sagentMerchant.setStatus(sysAgentMerchant.getStatus());
-		 sysAgentMerchantService.update(sagentMerchant);
+		 sysAgentMerchantService.update(sagentMerchant);	 
 		return new GridRowResponse(sagentMerchant.getId());
+		*/
+		try {
+			SysAgentMerchant agentMerchant = sysAgentMerchantService.updateStatus(sysAgentMerchant, id);
+			if (agentMerchant != null) {
+				return new GridRowResponse(agentMerchant.getId());
+			} else {
+				return new GridRowResponse(-1);
+			}			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new GridRowResponse(-1);
+		}	
 	}
 	
 	/**

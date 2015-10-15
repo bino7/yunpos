@@ -37,8 +37,8 @@ app.controller('AgentmerchantListCtrl',  function($scope, $http, $state, $stateP
                {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 }, 
                {field: 'auditStatus', displayName: '审核状态', enableCellEdit: false, width: 100 }, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.agentmerchantDetail({id:row.getProperty(col.field)})" '
-                	+ 'id="{{row.getProperty(col.field)}}"> <button>查看编辑{{row.status}}</button> </a> ' 
+                cellTemplate: '<div><a ui-sref="app.table.agentmerchantReview({id:row.getProperty(col.field)})" '
+                	+ 'id="{{row.getProperty(col.field)}}"> <button>审核</button> </a> ' 
                 	+ '<button ng-if="row.getProperty(\'status\')==0" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:1})">启用</button>'
                 	+ '<button ng-if="row.getProperty(\'status\')==1" ng-click="updateStatus({id:row.getProperty(col.field) , agentmerchant:row, status:0})">停用</button></div>'
             }],
@@ -246,4 +246,55 @@ app.controller('AgentmerchantInfoCtrl', function($scope, $http, $state, $statePa
     	      });     
     	    }    
     	    };
+});
+
+/**
+ * 代理商审核
+ * @type {[type]}
+ */
+app.controller('AgentmerchantReviewCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/agentmerchant/'+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.agentmerchant = data;
+	        }).error(function(data,status,headers,config){
+	        	alert("获取代理商信息出错！");      	
+	     });
+	};
+	 
+	 /**
+	  * 审核代理商
+	  * @param {Object} agentmerchant
+	  */	
+		$scope.reviewd = {};
+		$scope.review = function(agentmerchant) {
+			var auditStatus = agentmerchant.auditStatus;
+			if (auditStatus < 2 ) {
+				alert("请对代理商信息进行审核");
+			} else {
+				$scope.reviewd.id = agentmerchant.id;
+				$scope.reviewd.auditStatus = agentmerchant.auditStatus;
+				$scope.reviewd.auditOpinion = agentmerchant.auditOpinion;
+				$http({
+					method: 'put',
+					url: '/ajax/agentmerchantreview/' + $scope.reviewd.id,
+					params: $scope.reviewd
+				}).success(function(data) {
+					if (data) {
+						alert("审核成功");
+					    $state.go('app.table.agentmerchant');	
+					}else {
+						alert("审核失败！");
+					}				
+				}).error(function(data, status, headers, config) {
+					alert("审核失败！");
+				});
+			}
+		};
+		$scope.back = function() {
+			$state.go('app.table.agentmerchant');	
+		}
 });

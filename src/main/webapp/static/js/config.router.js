@@ -372,6 +372,20 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       }]
                   }
               })
+              .state('app.table.agentmerchantReview', {//代理商审核
+                  url: '/agentmerchantReview/:id',
+                  templateUrl: 'tpl/system/sys_agentmerchant_review.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysAgentmerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              }) 
                .state('app.table.merchant', {//商户管理
                   url: '/merchant',
                   templateUrl: 'tpl/system/sys_merchant.html',

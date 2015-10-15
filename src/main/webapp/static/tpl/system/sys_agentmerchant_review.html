@@ -1,0 +1,170 @@
+<div class="well" ng-controller="AgentmerchantReviewCtrl" ng-init="processForm()">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" name="form">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	用户名：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.userName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                              	 昵称：
+                            </label>
+                            <div class="col-md-10">
+                           		 <input type="text" class="form-control" placeholder="" ng-model="agentmerchant.nickname">
+                            </div>
+                        </div>                       
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	状态：
+                            </label>
+                           	<div class="col-md-10">
+                                 <div class="radio">
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" ng-model="agentmerchant.status" disabled="value">
+					                启用
+					              </label>
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="0" ng-model="agentmerchant.status" disabled="value">
+					                停用
+					              </label>
+					            </div>
+                            </div>
+                        </div>  
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核状态：
+                            </label>
+                             <div class="col-md-10">
+                                 <div class="radio">
+					              <label>
+					                <input type="radio"  value="2" ng-model="agentmerchant.auditStatus"  >
+					               审核通过
+					              </label>
+					               <label>
+					                <input type="radio"  value="3" ng-model="agentmerchant.auditStatus"  >
+					               驳回
+					              </label>
+					              <label>
+					                <input type="radio" value="4" ng-model="agentmerchant.auditStatus"  >
+					               回退
+					              </label>
+					            </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核意见：
+                            </label>
+                            <div class="col-md-9">
+                               <textarea rows="3" ng-model="agentmerchant.auditOpinion" style="width:65%" ></textarea>
+                            </div>	
+                        </div>
+                  		<div class="form-group">
+				          <label class="col-sm-2 control-label">合同到期时间:</label>
+				           <div class="col-md-10">
+				           {{agentmerchant.endTime}}
+				           </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	代理商营业执照：
+                            </label>
+                            <div class="col-md-10">
+							                            
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+								  <div class="upload-buttons">
+									<div id="editArea">
+										<img ngf-src="agentmerchant.businessLicense" src="" id="businessLicenseImg" class="thumb">
+									</div>
+								        <br/>
+								  </div>
+								  </div>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	法人/经营者身份证：
+                            </label>
+                            <div class="col-md-10">
+                            	<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+								  <div class="upload-buttons">
+								<div id="editArea">
+									<img ngf-src="agentmerchant.identityCard" src="" id="identityCardImg" class="thumb">
+								</div>
+								<br/>
+								</div>
+								  </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	公司名称：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.companyName" disabled="value">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	营业执照注册号：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.registerNumber" disabled="value">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	联系人：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.contactMan" disabled="value">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	联系电话：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.phone" disabled="value">
+                            </div>
+                        </div>
+                          <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	手机号码：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.tel" disabled="value">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	详细地址：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" placeholder="" ng-model="agentmerchant.address" disabled="value">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        	<div class="col-md-4">
+                            </div>
+                            <div class="col-md-2">
+                            	<button  ng-disabled="form.$invalid" ng-click="review(agentmerchant)">保存</button>
+                            </div>
+                            <div class="col-md-2">
+                            	<button  ng-click="back()">取消</button>
+                            </div>
+                        </div>
+                     </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

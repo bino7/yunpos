@@ -1,10 +1,17 @@
 package com.yunpos.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
+import com.yunpos.model.SysMenu;
 import com.yunpos.model.SysOrg;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysOrgMapper;
@@ -38,7 +45,24 @@ public class SysOrgService extends EntityService<SysOrg> {
 	}
 	
 	public List<SysOrg> findAll(){
-		return sysOrgMapper.findAll();
+		List<SysOrg> sysOrgList = sysOrgMapper.findAll();
+	
+		List<String> orgParentNos = new ArrayList<>();
+		
+		for(SysOrg org :sysOrgList){
+			String orgParentNo = org.getOrgParentNo();
+			if(!Strings.isNullOrEmpty(orgParentNo)){
+				orgParentNos.add(orgParentNo);
+			}
+		}
+		
+		for(SysOrg org :sysOrgList){
+			if(orgParentNos.contains(org.getOrgNo())){
+				org.setIsLeaf(0);
+			}
+		}
+		return sysOrgList;
+	
 	}
 
 	public GridResponse<SysOrg> findPageUsers(GridRequest gridRequest) {
@@ -107,5 +131,28 @@ public class SysOrgService extends EntityService<SysOrg> {
 		sysOrg.setOrgParentId(orgParentId);
 		sysOrg.setOrgParentNo(orgParentNo);
 		return getOrgNo(sysOrg);
+	}
+	
+	public List<SysOrg> getJsonOrg() {
+		List<SysOrg> level1 = sysOrgMapper.findLevelOne();
+		List<SysOrg> resultList = new ArrayList<SysOrg>();
+		for(SysOrg org:level1){
+			SysOrg node = jsonMenu(org.getOrgNo());
+			resultList.add(node);
+		}
+		return resultList;
+	}
+
+	private SysOrg jsonMenu(String orgNo) {
+		List<SysOrg> resultList = new ArrayList<SysOrg>();
+			SysOrg node = sysOrgMapper.selectByOrgNo(orgNo);
+			// 查询cid下的所有子节点(SELECT * FROM tb_tree t WHERE t.pid=?)
+			List<SysOrg> childTreeNodes = sysOrgMapper.findChildByParenOrgNo(orgNo);
+			// 遍历子节点
+			for (SysOrg child : childTreeNodes) {
+				SysOrg n = jsonMenu(child.getOrgNo()); // 递归
+				node.getChildren().add(n);
+			}
+		return node;
 	}
 }

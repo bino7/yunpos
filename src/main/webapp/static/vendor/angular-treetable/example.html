@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="example">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Example - Dynamic Table</title>
+
+    <link rel="stylesheet" type="text/css" href="style/jquery.treetable.css" />
+    <link rel="stylesheet" type="text/css" href="style/jquery.treetable.theme.default.css" />
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/jquery.treetable.js"></script>
+    <script src="lib/angular.min.js"></script>
+
+    <script src="../src/angular-treetable.js"></script>
+
+    <script src="js/example.js"></script>
+
+</head>
+<body ng-controller="ExampleCtrl">
+
+    <script type="text/ng-template" id="tree_node">
+        <tr tt-node is-branch="node.type == 'folder'">
+            <td><span ng-bind="node.name"></span></td>
+            <td ng-bind="node.type"></td>
+            <td ng-bind="node.size"></td>
+        </tr>
+    </script>
+
+    <h3>Basic File Browser</h3>
+
+    <table tt-table tt-params="dynamic_params">
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Type</th>
+                <th>Size</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h3>Variant - Expanded</h3>
+
+    <table tt-table tt-params="expanded_params">
+        <thead>
+        <tr>
+            <th>Filename</th>
+            <th>Type</th>
+            <th>Size</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</body>
+</html>

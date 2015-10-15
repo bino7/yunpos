@@ -1,6 +1,6 @@
 'use strict';
 
-var modules = [  'ngAnimate',
+var modules = ['ngAnimate',
                'ngCookies',
                'ngResource',
                'ngSanitize',
@@ -18,7 +18,8 @@ var modules = [  'ngAnimate',
                'ui.grid.edit', 
                'ui.grid.cellNav',
                'infinite-scroll',
-               'ngFileUpload'
+               'ngFileUpload',
+               'ngTreetable'
                ];
 
 //全局app

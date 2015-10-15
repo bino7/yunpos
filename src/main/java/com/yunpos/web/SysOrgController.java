@@ -100,6 +100,12 @@ public class SysOrgController extends BaseController{
 		return list;
 	}
 	
+	@RequestMapping(value = "/ajax/org/json", method =RequestMethod.GET )
+	public List<SysOrg> getJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<SysOrg> list = sysOrgService.getJsonOrg();
+		return list;
+	}
+	
 	
 	@RequestMapping(value = "/ajax/org/exist/{orgName}", method = RequestMethod.GET)
 	public Object exist(HttpServletRequest request, @PathVariable("orgName") String orgName) throws Exception {

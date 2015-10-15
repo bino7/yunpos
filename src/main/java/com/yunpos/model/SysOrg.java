@@ -1,6 +1,8 @@
 package com.yunpos.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 功能描述：
@@ -37,6 +39,11 @@ public class SysOrg {
 	private Integer modifyUserId;
 
 	private Date modifyDate;
+	
+	private Integer  isLeaf;
+	
+	
+	private List children = new ArrayList();
 
 
 	public Integer getId() {
@@ -134,6 +141,24 @@ public class SysOrg {
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
 	}
+
+	public Integer getIsLeaf() {
+		return isLeaf;
+	}
+
+	public void setIsLeaf(Integer isLeaf) {
+		this.isLeaf = isLeaf;
+	}
+
+	public List getChildren() {
+		return children;
+	}
+
+	public void setChildren(List children) {
+		this.children = children;
+	}
+	
+	
 	
 	
 	

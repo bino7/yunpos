@@ -28,6 +28,11 @@ public class SysWechatConfig {
     private Byte status;
 
     private String merchantNo;
+    
+    //服务商
+    public static Byte mchType_service = 1;
+	//商户
+    public static Byte mchType_mch = 0;
 
     public Integer getId() {
         return id;

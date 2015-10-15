@@ -37,6 +37,10 @@ angular.module('app')
                           'vendor/jquery/jvectormap/jquery-jvectormap.css'],
       footable:       ['vendor/jquery/footable/footable.all.min.js',
                           'vendor/jquery/footable/footable.core.css']
+//      dataTabletree:  ['vendor/angular-treetable/lib/jquery.treetable.js',
+//                       'vendor/angular-treetable/lib/angular.min.js',
+//                       'vendor/angular-treetable/style/jquery.treetable.css',
+//                       'vendor/angular-treetable/style/jquery.treetable.theme.default.css']             
       }
   )
   // oclazyload config

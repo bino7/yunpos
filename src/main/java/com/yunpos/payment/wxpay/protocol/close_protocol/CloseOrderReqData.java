@@ -28,7 +28,10 @@ public class CloseOrderReqData {
 	private String out_trade_no = "";
 	private String nonce_str = "";
 	private String sign = "";
+    private String sub_appid = "";//子商户公众账号ID
+    private String sub_mch_id=""; //子商户号
 
+	//普通商户
 	public CloseOrderReqData(String mch_id, String out_trade_no,SysWechatConfigWithBLOBs sysWechatConfig) {
 		// ****************必填选项***************************
 		// 微信分配的公众号ID（开通公众号之后可以获取到）
@@ -42,6 +45,25 @@ public class CloseOrderReqData {
 		String sign = Signature.getSign(toMap(),sysWechatConfig.getApiSecret());
 		setSign(sign);// 把签名数据设置到Sign这个属性中
 
+	}
+	//服务商
+	public CloseOrderReqData(String mch_id, String out_trade_no,SysWechatConfigWithBLOBs sysWechatConfigPar,SysWechatConfigWithBLOBs sysWechatConfigSub) {
+		// ****************必填选项***************************
+		//微信分配的公众号ID（开通公众号之后可以获取到）
+		setAppid(sysWechatConfigPar.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setMch_id(sysWechatConfigPar.getMchId());
+		//微信分配的公众号ID（开通公众号之后可以获取到）
+		setSub_appid(sysWechatConfigSub.getAppId());
+		//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
+		setSub_mch_id(sysWechatConfigSub.getMchId());
+		// 随机字符串，不长于32 位
+		setNonce_str(RandomStringGenerator.getRandomStringByLength(32));
+		// 商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
+		setOut_trade_no(out_trade_no); // 商户系统内部的订单号,32个字符内可包含字母, 确保在商户系统唯一
+		String sign = Signature.getSign(toMap(),sysWechatConfigPar.getApiSecret());
+		setSign(sign);// 把签名数据设置到Sign这个属性中
+		
 	}
 
 	public String getAppid() {
@@ -84,6 +106,18 @@ public class CloseOrderReqData {
 		this.sign = sign;
 	}
 
+	public String getSub_appid() {
+		return sub_appid;
+	}
+	public void setSub_appid(String sub_appid) {
+		this.sub_appid = sub_appid;
+	}
+	public String getSub_mch_id() {
+		return sub_mch_id;
+	}
+	public void setSub_mch_id(String sub_mch_id) {
+		this.sub_mch_id = sub_mch_id;
+	}
 	public Map<String, Object> toMap() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Field[] fields = this.getClass().getDeclaredFields();

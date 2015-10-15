@@ -1,0 +1,30 @@
+﻿<table class="tree">
+    <thead ng-show="records.length" class="bg-info">
+        <tr class="bg-info">
+            <td></td>
+            <td ng-repeat="item in properties">
+                <input class="form-control" ng-model="filter[item.property]" placeholder="{{item.label}}" type="text" />
+            </td>
+        </tr>
+    </thead>
+    <tbody ng-repeat="record in records | filter:filter">
+        <tr>
+            <td style="width:30px;height:30px;">
+                <div tree-collapse=""
+                     ng-click="click()"
+                     ng-show="record.children.length"></div>
+            </td>
+            <td ng-repeat="item in properties">
+                {{record[item.property]}}
+            </td>
+        </tr>
+        <tr class="tree-children">
+            <td></td>
+            <td colspan="2">
+                <div class="collapse">
+                    <div ng-show="record.children.length" model="model" tree="children" records="record.children"></div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

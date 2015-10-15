@@ -69,22 +69,12 @@ public class SysOrgController extends BaseController{
 	public GridRowResponse create(@Valid  SysOrg  org) {
 		org.setCreateDate(new Date());
 		//org.setCreateUserId(this.getUser().getId());
-		org.setExtExpanded(true);
-		org.setExtLoaded(true);
-		org.setExtParent(org.getOrgParentId());
 		if(org.getOrgParentId()!=null){
 			SysOrg parantOrg = sysOrgService.findById(org.getOrgParentId());
-			org.setExtLevel(parantOrg.getExtLevel()+1);
-			org.setExtIsLeaf(true);
 			org.setOrgParentName(parantOrg.getOrgName());
 			org.setOrgParentNo(parantOrg.getOrgNo());
 			org.setOrgParentId(parantOrg.getId());
-			
-			parantOrg.setExtIsLeaf(false);
 			sysOrgService.update(parantOrg);
-		}else{
-			org.setExtIsLeaf(true);
-			org.setExtLevel(0);
 		}
 		sysOrgService.save(org);
 		return new  GridRowResponse(org.getId());
@@ -107,6 +97,12 @@ public class SysOrgController extends BaseController{
 	@RequestMapping(value = "/ajax/org/select", method =RequestMethod.GET )
 	public List<SysOrg> getRoleSelectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysOrg> list = sysOrgService.findAll();
+		return list;
+	}
+	
+	@RequestMapping(value = "/ajax/org/json", method =RequestMethod.GET )
+	public List<SysOrg> getJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<SysOrg> list = sysOrgService.getJsonOrg();
 		return list;
 	}
 	

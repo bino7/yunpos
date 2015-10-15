@@ -1,9 +1,20 @@
 package com.yunpos.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
+/**
+ * 功能描述：
+ * <p>
+ * 版权所有：小牛信息科技有限公司
+ * <p>
+ * 未经本公司许可，不得以任何方式复制或使用本程序任何部分
+ * 
+ * @author Devin_Yang 新增日期：2015年10月14日
+ * @author Devin_Yang 修改日期：2015年10月14日
+ * 
+ */
 public class SysOrg {
 	private Integer id;
 	
@@ -28,16 +39,12 @@ public class SysOrg {
 	private Integer modifyUserId;
 
 	private Date modifyDate;
+	
+	private Integer  isLeaf;
+	
+	
+	private List children = new ArrayList();
 
-	private Integer extLevel;
-
-	private Boolean extIsLeaf;
-
-	private Boolean extLoaded;
-
-	private Boolean extExpanded;
-
-	private Integer extParent;
 
 	public Integer getId() {
 		return id;
@@ -119,46 +126,6 @@ public class SysOrg {
 		this.modifyDate = modifyDate;
 	}
 
-	public Integer getExtLevel() {
-		return extLevel;
-	}
-
-	public void setExtLevel(Integer extLevel) {
-		this.extLevel = extLevel;
-	}
-
-	public Boolean getExtIsLeaf() {
-		return extIsLeaf;
-	}
-
-	public void setExtIsLeaf(Boolean extIsLeaf) {
-		this.extIsLeaf = extIsLeaf;
-	}
-
-	public Boolean getExtLoaded() {
-		return extLoaded;
-	}
-
-	public void setExtLoaded(Boolean extLoaded) {
-		this.extLoaded = extLoaded;
-	}
-
-	public Boolean getExtExpanded() {
-		return extExpanded;
-	}
-
-	public void setExtExpanded(Boolean extExpanded) {
-		this.extExpanded = extExpanded;
-	}
-
-	public Integer getExtParent() {
-		return extParent;
-	}
-
-	public void setExtParent(Integer extParent) {
-		this.extParent = extParent;
-	}
-
 	public Integer getLevel() {
 		return level;
 	}
@@ -174,6 +141,26 @@ public class SysOrg {
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
 	}
+
+	public Integer getIsLeaf() {
+		return isLeaf;
+	}
+
+	public void setIsLeaf(Integer isLeaf) {
+		this.isLeaf = isLeaf;
+	}
+
+	public List getChildren() {
+		return children;
+	}
+
+	public void setChildren(List children) {
+		this.children = children;
+	}
+	
+	
+	
+	
 	
 	
 

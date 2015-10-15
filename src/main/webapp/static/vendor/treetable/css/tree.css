@@ -1,0 +1,18 @@
+﻿.tree {
+    width:100%;
+}
+.tree > thead {
+    background-color:#d9edf7;
+    border:solid 1px #d8d8d8;
+    border-bottom:none;
+}
+.tree tbody {
+    border:solid 1px #d8d8d8;
+    border-bottom:none;
+}
+.tree td{
+    padding:3px;
+}
+.tree-children > td{
+    padding:0;
+}

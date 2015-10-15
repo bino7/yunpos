@@ -1,15 +1,33 @@
-<div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">组织结构管理</h1>
-</div>
+<span ng-controller="SysOrgController">
+  <!--  
+    <script type="text/ng-template" id="tree_node">
+        <tr tt-node is-branch="node.type == 'folder'">
+            <td><span ng-bind="node.name"></span></td>
+            <td ng-bind="node.type"></td>
+            <td ng-bind="node.size"></td>
+        </tr>
+    </script>
+-->
 
+   <script type="text/ng-template" id="tree_node">
+        <tr tt-node is-branch="node.orgParentId==1">
+            <td><span ng-bind="node.orgNo"></span></td>
+            <td ng-bind="node.orgName"></td>
+            <td ng-bind="node.createDate | date:'yyyy-MM-dd HH:mm:ss'"></td>
+        </tr>
+    </script>
 
-<div class="wrapper-md" ng-controller="SysOrgController">
-<!--       <button id="expandAll" type="button" class="btn btn-success" ng-click="expandAll()">Expand All</button>
-      <button id="toggleFirstRow" type="button" class="btn btn-success" ng-click="toggleRow(0)">Toggle First Row</button>
-      <button id="toggleSecondRow" type="button" class="btn btn-success" ng-click="toggleRow(1)">Toggle Second Row</button>
-      <button id="toggleExpandNoChildren" type="button" class="btn btn-success" ng-click="toggleExpandNoChildren()">Toggle Expand No Children</button>
-      -->
-      <!--   <button id="removeFirstRow" type="button" class="btn btn-success" ng-click="removeFirstRow()">removeFirstRow</button> -->
-      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-tree-view class="grid"></div>
-</div>
+    <h3>组织结构</h3>
 
+    <table tt-table tt-params="expanded_params">
+        <thead>
+        <tr>
+            <th>组织结构编号</th>
+            <th>组织结构名称</th>
+            <th>创建时间</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+</span>

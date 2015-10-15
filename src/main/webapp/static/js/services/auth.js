@@ -41,6 +41,11 @@ app.factory('AuthService', function ($http, $window, Session) {
 	return authService;	
 });
 
+
+
+
+
+
 //授权事件常量
 app.constant('AUTH_EVENTS', {
 	loginSuccess : 'auth-login-success',

@@ -11,10 +11,10 @@ import com.yunpos.utils.jqgrid.GridRequest;
 
 public interface SysUserMapper extends EntityMapper<SysUser> {
 
-	@Select("select * from sys_user u where u.userName=#{userName}")
+	@Select("select * from sys_user u where u.userName=#{userName} and u.delete_status = 0")
 	List<SysUser> findByUserName(@Param("userName") String userName);
 
-	@Select("select * from sys_user")
+	@Select("select * from sys_user u where u.delete_status=0")
 	List<SysUser> findAll();
 	
 	

@@ -141,9 +141,9 @@ public class SecurityRealm extends AuthorizingRealm {
 	        if (sysUsers != null) {
 	        	 SysUser sysUser  = sysUsers.get(0);
 	            // 检查用户是否禁用
-	            if (SysUser.STATUS_DISABLED.equalsIgnoreCase(sysUser.getStatus())) {
+	         /*   if (SysUser.STATUS_DISABLED.equalsIgnoreCase(sysUser.getStatus())) {
 	                throw new DisabledAccountException();
-	            }
+	            }*/
 	            return new SimpleAuthenticationInfo(token.getUsername(),token.getPassword(),getName());
 	        }
 	        return null;

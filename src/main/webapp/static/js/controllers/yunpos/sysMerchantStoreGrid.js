@@ -65,8 +65,8 @@ app
 									sortable : false,
 									pinnable : false,
 									cellTemplate : '<div class="ngCellText ng-scope ngCellElement col3 colt3">'
-											+ '<span ng-cell-text ng-if="row.getProperty(\'status\')==1" >启用</span>'
-											+ '<span ng-cell-text ng-if="row.getProperty(\'status\')==0" >停用</span>'
+											+ '<span ng-cell-text ng-if="row.getProperty(\'status\')==1" >停用</span>'
+											+ '<span ng-cell-text ng-if="row.getProperty(\'status\')==0" >启用</span>'
 											+ '</div>'
 								},
 								{
@@ -90,8 +90,8 @@ app
 									sortable : false,
 									pinnable : false,
 									cellTemplate : '<div ><a ui-sref="app.table.merchantStoreDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a> '
-											+ '<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field)},{store:row})">启用</button>'
-											+ '<button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field)},{store:row})">停用</button>'
+											+ '<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field)},{store:row})">停用</button>'
+											+ '<button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field)},{store:row})">启用</button>'
 											+ '</div>'
 								} ],
 						enablePaging : true,

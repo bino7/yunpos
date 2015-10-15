@@ -95,7 +95,16 @@ public class SysUserService extends EntityService<SysUser> {
 	 */
 	public void creatSysUser(SysUser user) {
 		user.setCreatedAt(new Date());
-		user.setStatus("1");
+		user.setStatus(user.getStatus());
+		user.setUserName(user.getUserName());
+		user.setNickname(user.getNickname());
+		user.setFullname(user.getFullname());
+		user.setPassword(user.getPassword());
+		user.setRole(user.getRole());
+		user.setPhone(user.getPhone());
+		user.setDescription(user.getDescription());
+		user.setEmail(user.getEmail());
+		user.setDelete_status(0);
 		save(user);
 		
 		if(!Strings.isNullOrEmpty(user.getRole())){
@@ -116,7 +125,7 @@ public class SysUserService extends EntityService<SysUser> {
 	 */
 	public void updateSysUser(SysUser user) {
 		user.setUpdatedAt(new Date());
-		user.setStatus("1");
+		user.setStatus(user.getStatus());
 		update(user);
 		sysUserRoleService.deleteByUserId(user.getId());
 		if(!Strings.isNullOrEmpty(user.getRole())){

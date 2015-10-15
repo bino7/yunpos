@@ -34,10 +34,21 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
                {field: 'fullname', displayName: '联系人', enableCellEdit: false, width: 220},
                {field: 'role', displayName: '用户角色', enableCellEdit: false, width: 120}, 
                {field: 'createdBy',displayName: '添加人',enableCellEdit: false, width: 120}, 
-               {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 }, 
+               {field: 'statusStr', displayName: '状态', enableCellEdit: false, width: 80, 
+               cellTemplate: '<div class="ngCellText ng-scope ngCellElement col3 colt3">'
+          	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==1" >停用</span>'
+          	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==0" >启用</span>'
+          			+'</div>'},
+          			
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a>     <button ng-click="deleted({id:row.getProperty(col.field) , user:row})">删除</button></div>'
-            }],
+                cellTemplate: '<div><a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" ' 
+                	+'id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a> '     
+                	 +'<button ng-click="deleted({id:row.getProperty(col.field) , user:row})">删除</button> '
+//                	<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field),user:row})">启用</button> <button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field),user:row})">停用</button> </div>'
+        	        +'<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field),user:row,status:1})">停用</button> '
+        	        +'<button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field),user:row,status:0})">启用</button> '
+        			+'</div>'
+         }],
             enablePaging: true,
             showFooter: true,        
             totalServerItems: 'totalServerItems',
@@ -81,7 +92,7 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
 	     $http({
 	        method  : 'delete',
 	        url     : '/ajax/user/' + obj.id,
-	        params  : {"id":obj.id}
+	        params  : {"id":obj.id}    //deleted({id:row.getProperty(col.field) , user:row})
 	     }).success(function() {
 	    	 alert("删除成功！");
 	    	 $scope.userData.splice(obj.user.rowIndex, 1);
@@ -90,6 +101,48 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
 	      	alert("删除失败！");
 	     });
 	};
+	
+
+		
+//	 $scope.saved_st = {};
+     $scope.saveStatus = function(user) {
+    	 user.user.entity.status = user.status;
+//    	 $scope.saved_st = angular.copy(user.user.entity);
+    	 if (user.status == 0){
+ 	   		user.status= 1;
+ 	   		user.statusStr = "停用";
+ 	   	 }else{
+ 	   		 user.status= 0;
+ 	   		 user.statusStr ="启用";
+ 	   	 }
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/user/' + user.id,
+	        params  : user.user.entity
+//	     }).success(function(data) {
+//	    	 alert("保存成功！");
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+  /*  $scope.delete_st = {} ;
+    $scope.deleted = function(obj) {
+    	 $scope.delete_st = angular.copy(obj);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/user/' + obj.id,
+	        params  : $scope.delete_st    //deleted({id:row.getProperty(col.field) , user:row})
+	     }).success(function(data) {
+	    	 alert("删除成功！");
+	    	 $scope.userData.splice(obj.user.rowIndex, 0);
+	    	 $scope.setPagingData($scope.userData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	     }).error(function(data,status,headers,config){
+	      	alert("删除失败！");
+	     });
+	};
+  	*/
+
+	
 	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;

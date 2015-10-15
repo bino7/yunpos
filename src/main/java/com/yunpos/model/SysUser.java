@@ -47,7 +47,9 @@ public class SysUser implements Serializable{
 
 	private String fullname; // 全名
 
-	private String status; // 用户状态
+	private Integer status; // 用户状态
+	
+	private String statusStr;  //页面显示
 
 	private String salt; // 盐值
 
@@ -64,6 +66,8 @@ public class SysUser implements Serializable{
 	private Date updatedAt; // 更新时间
 
 	private Integer updatedBy; // 更新人
+	
+	private Integer	delete_status; //删除状态
 
 	// 下面表单接收数据使用，非实体数据库字段
 	private String role; //
@@ -148,12 +152,12 @@ public class SysUser implements Serializable{
 		this.fullname = fullname == null ? null : fullname.trim();
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status == null ? null : status.trim();
+	public void setStatus(Integer status) {
+		this.status = status == null ? null : status;
 	}
 
 	public String getSalt() {
@@ -237,6 +241,32 @@ public class SysUser implements Serializable{
 
 	public void setOrgNo(String orgNo) {
 		this.orgNo = orgNo;
+	}
+
+	public Integer getDelete_status() {
+		return delete_status;
+	}
+
+	public void setDelete_status(Integer delete_status) {
+		this.delete_status = delete_status;
+	}
+
+	public String getStatusStr() {
+	if (this.status!=null ){
+		if(this.status==1){
+			return "停用";
+		}else if(this.status== 0){
+			return "启用";
+		}else{
+			return null;
+		}	
+	}else{
+		return "启用";
+	}
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
 	}
 
 	

@@ -59,10 +59,18 @@ public class SysUserController extends BaseController {
 		
 		SysUser currentUser = (SysUser) request.getSession().getAttribute("user");
 		user.setCreatedAt(new Date());
-		user.setCreatedBy(currentUser.getId());
-		user.setOrgId(currentUser.getOrgId());
-		user.setOrgName(currentUser.getOrgName());
-		user.setStatus("1");
+		user.setCreatedBy(user.getId());
+		user.setOrgId(user.getOrgId());
+		user.setOrgName(user.getOrgName());
+		user.setUserName(user.getUserName());
+		user.setNickname(user.getNickname());
+		
+		user.setFullname(user.getFullname());
+		user.setPhone(user.getPhone());
+		user.setDescription(user.getDescription());
+		user.setEmail(user.getEmail());
+		user.setDelete_status(0);
+		user.setStatus(0);
 		user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 		sysUserService.save(user);
 		
@@ -84,6 +92,7 @@ public class SysUserController extends BaseController {
 		user.setId(id);
 		user.setUpdatedAt(new Date());
 		user.setUpdatedBy(getUser().getId());
+		user.setStatus(user.getStatus());
 		user.setSalt(SecurityUtils.generateSalt());
 		if(user.getPassword()!=null && !"".equals(user.getPassword()))
 			user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
@@ -124,11 +133,18 @@ public class SysUserController extends BaseController {
 	/**
 	 * 删除用户需要将对应关联的角色删除
 	 * @param id
+	 * @return 
 	 */
 	@RequestMapping(value = "/ajax/user/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable("id") int id) {
-		sysUserService.delete(id);
-		sysUserRoleService.deleteByUserId(id);
+	public GridRowResponse delete(@Valid SysUser user,@PathVariable("id") int id) {
+		SysUser sysUser = sysUserService.findById(id);
+		user.setDelete_status(1);
+		sysUserService.update(user);
+		return new GridRowResponse(user.getId());
+		/*sysUserService.delete(id);
+		sysUserRoleService.deleteByUserId(id);*/
+		
+		
 	}
 	
 	@RequestMapping(value = "/ajax/user/deleteUserRole/{id}", method = RequestMethod.DELETE)

@@ -5,7 +5,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.base.Strings;
 import com.yunpos.card.weixin.WxCardBaseInfo;
 import com.yunpos.card.weixin.WxCardGroupon;
 import com.yunpos.exception.ServiceException;
-import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.model.card.SysCardTemplate;
 import com.yunpos.payment.wxwap.utils.HttpTool;
@@ -28,6 +30,7 @@ import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysWechatConfigService;
 import com.yunpos.service.card.SysCardTemplateService;
 import com.yunpos.utils.Tools;
+import com.yunpos.utils.XMLUtil;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
 import com.yunpos.utils.jqgrid.JqGridResponse;
@@ -219,15 +222,73 @@ public class SysCardTemplateController extends BaseController {
 	@RequestMapping(value = "/weixin/msg")
 	public void weixinMsg(HttpServletRequest request , HttpServletResponse response) {
 		System.out.println("request = " + request);
-		System.out.println("request = " + request.getParameterMap());
-		System.out.println("request = " + request.getParameter("signature"));
-		System.out.println("request = " + request.getParameter("echostr"));
-		System.out.println("request = " + request.getParameter("timestamp"));
-		System.out.println("request = " + request.getParameter("nonce"));
-		System.out.println("request = " + request.getParameterNames());
 		try {
-			response.getWriter().println("");
-		} catch (IOException e) {
+			response.getWriter().println("adad");
+			System.out.println("request = " + request.getParameterMap());
+			System.out.println("request = " + request.getParameter("signature"));
+			System.out.println("request = " + request.getParameter("echostr"));
+			System.out.println("request = " + request.getParameter("timestamp"));
+			System.out.println("request = " + request.getParameter("nonce"));
+			System.out.println("request = " + request.getParameterNames());
+			
+			java.io.BufferedReader bis = new java.io.BufferedReader(new java.io.InputStreamReader(request.getInputStream()));
+		      
+			 String line = null;
+			 String result = "";
+			   
+			 try {
+			  while ((line = bis.readLine()) != null) {
+			      result += line+"\r\n";
+			  }
+			 } catch (Exception e) {
+			  e.printStackTrace();
+			 } finally {
+			  bis.close();
+			 }
+			 System.out.println("result = " + result);
+			 if (!Strings.isNullOrEmpty(result)) {
+				 Map<String, String> resultMap = new HashMap<String, String>();
+				 XMLUtil.parse(result, resultMap);
+
+				 if(!Tools.isNullOrEmpty(resultMap.get("Event"))){
+					 String Event = resultMap.get("Event").toString();
+					 
+					 System.out.println("resultMap = " + resultMap.size());
+					 
+					 System.out.println("ToUserName = " + resultMap.get("ToUserName"));
+					 System.out.println("FromUserName = " + resultMap.get("FromUserName"));
+					 System.out.println("CreateTime = " + resultMap.get("CreateTime"));
+					 System.out.println("MsgType = " + resultMap.get("MsgType"));
+					 System.out.println("Event = " + resultMap.get("Event"));
+					 System.out.println("CardId = " + resultMap.get("CardId"));
+					
+					 if(Event.equals("card_pass_check") || Event.equals("card_not_pass_check") ){//卡券通过审核 , 卡券未通过审核
+						 System.out.println("卡券通过审核,未通过审核");
+					 }else {
+						 System.out.println("UserCardCode = " + resultMap.get("UserCardCode"));
+						
+						 if(Event.equals("user_get_card")){//用户领取卡券
+							 System.out.println("IsGiveByFriend = " + resultMap.get("IsGiveByFriend"));
+							 System.out.println("OuterId = " + resultMap.get("OuterId"));
+							 System.out.println("FriendUserName = " + resultMap.get("FriendUserName"));
+						 }else if(Event.equals("user_consume_card")){//核销事件
+							 System.out.println("核销事件");
+							 System.out.println("ConsumeSource = " + resultMap.get("ConsumeSource"));
+							 System.out.println("OutTradeNo = " + resultMap.get("OutTradeNo"));
+							 System.out.println("TransId = " + resultMap.get("TransId"));
+							 System.out.println("LocationName = " + resultMap.get("LocationName"));
+							 System.out.println("StaffOpenId = " + resultMap.get("StaffOpenId"));
+							 
+						 } else if(Event.equals("user_del_card")){//用户删除卡券
+							 
+						 }else if(Event.equals("user_view_card")){//进入会员卡事件推送
+							 
+						 }
+					 }
+				 }
+			}
+				
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

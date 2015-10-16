@@ -113,6 +113,7 @@ public class SysAgentMerchantService extends EntityService<SysAgentMerchant>{
 				params.put("password", sysUser.getPassword());//密码
 				params.put("linkman", entity.getContactMan());//联系人
 				params.put("phone", entity.getPhone());//联系电话
+				params.put("user_flg", "1");//商户存在
 				params.put("expire_time", String.valueOf(entity.getEndTime().getTime()/1000));//过期时间
 				params.put("company_name", entity.getCompanyName());//公司名称
 				params.put("status", "1");//状态为启用
@@ -142,7 +143,7 @@ public class SysAgentMerchantService extends EntityService<SysAgentMerchant>{
 	}
 	
 	/**
-	 * 更新商户停用、启用状态
+	 * 更新代理商停用、启用状态
 	 * @param sysAgentMerchant
 	 * @param id
 	 * @return

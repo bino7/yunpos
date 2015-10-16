@@ -73,4 +73,9 @@ public class SysTransactionService extends EntityService<SysTransaction> {
 		return sysTransactionMapper.findbyOrderNoAndMerchantNo(orderNo,merchantNo);
 		
 	}
+
+	public SysTransaction findByUserOrderNo(String user_order_no) {
+		// TODO Auto-generated method stub
+		return sysTransactionMapper.findByUserOrderNo(user_order_no);
+	}
 }

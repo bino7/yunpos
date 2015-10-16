@@ -156,3 +156,9 @@ DROP COLUMN `extExpanded`,
 DROP COLUMN `extParent`;
 
 
+--
+ALTER TABLE `sys_user`
+DROP COLUMN `delete_status`,
+ADD COLUMN `delete_status`  int NULL DEFAULT 1 COMMENT '删除状态' AFTER `fullname`;
+
+

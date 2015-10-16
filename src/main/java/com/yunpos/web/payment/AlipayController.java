@@ -522,23 +522,32 @@ public class AlipayController extends BaseController{
 		String merchant_num = request.getParameter("merchant_num");
 		String user_order_no = request.getParameter("user_order_no");
 		String trace_num = request.getParameter("trace_num");
-		String refund_amount = request.getParameter("refund_amount");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
 		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
-				|| Strings.isNullOrEmpty(user_order_no) || Strings.isNullOrEmpty(refund_amount)
-				|| Strings.isNullOrEmpty(terminal_unique_no)) {
+				|| Strings.isNullOrEmpty(user_order_no)|| Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
+		if(Strings.isNullOrEmpty(user_order_no) && Strings.isNullOrEmpty(trace_num)){
+			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "商户订单号,平台交易流水号不能同时为空!！", null);
+		}
+		
 		if(Strings.isNullOrEmpty(reqParamMap.get("sign"))){
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "签名为空!！", null);
 		}
 		Message payMsg = null;
 		try {
 			//获取原支付流水
-			SysTransaction sysTransaction = sysTransactionService.findByTransNum(trace_num);
+			SysTransaction sysTransaction = null;
+			if(!Strings.isNullOrEmpty(trace_num)){
+				sysTransaction = sysTransactionService.findByTransNum(trace_num);
+			}else{
+				sysTransaction = sysTransactionService.findByUserOrderNo(user_order_no);
+			}
+			
 			if(sysTransaction == null){
 				return new Message(ResultCode.FAIL.name(),"original_order_not_fund", "找不到原支付流水号！", null);
 			}
+			
 			SysAlipayConfigWithBLOBs sysAlipayConfig = sysAlipayConfigService.findByMerchantNo(merchant_num);
 			if(sysAlipayConfig == null){
 				return new Message(ResultCode.FAIL.name(), "payconfig_not_find", "支付信息未配置", null);
@@ -548,10 +557,6 @@ public class AlipayController extends BaseController{
 			if(!MD5Utils.verify(reqParamMap, reqParamMap.get("sign"), sysMerchant.getMd5Key(), "utf-8")){
 				return new Message(ResultCode.FAIL.name(), "ILLEGAL_SIGN", "验签错误，请求数据可能被篡改", null);
 			}
-//			SysTransaction temSysTransaction = sysTransactionService.findbyOrderNoAndMerchantNo(user_order_no, merchant_num);
-//			if(temSysTransaction!=null){
-//				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
-//			}
 			
 			String out_trade_no="";
 			if(Strings.isNullOrEmpty(trace_num)){
@@ -585,12 +590,14 @@ public class AlipayController extends BaseController{
 			sysTransaction.setTerminalNum(terminal_unique_no);
 			sysTransaction.setTransNum(refundOrderNo);
 			sysTransaction.setTransTime(new Date());
-			sysTransaction.setTotalPrice(Float.valueOf(refund_amount));
+			sysTransaction.setTotalPrice(Float.valueOf(sysTransaction.getTotalPrice()));
 			sysTransaction.setStatus(4); 		//付款状态， 0：未付款，1：付款中，2：已付款 ，3：退款，4：退款中，5：退款失败，6：付款失败
 			sysTransaction.setTransType(1);	//交易类型，0:支付，1:退款
 			sysTransaction.setInfo("退款");
 			sysTransaction.setUser_order_no(user_order_no);
 			sysTransactionService.save(sysTransaction);
+			
+			String refund_amount = sysTransaction.getTotalPrice().toString();
 			
 			AlipayRefundReqData alipayRefundReqData = new AlipayRefundReqData(sysAlipayConfig.getPid(), out_trade_no,refund_amount);
 			alipayRefundReqData.setPay_channel(pay_channel);

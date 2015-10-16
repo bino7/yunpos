@@ -1,4 +1,4 @@
-<span ng-controller="SysOrgController" ng-init="init()">
+<div ng-controller="SysOrgController">
    <!--  
     <script type="text/ng-template" id="tree_node">
         <tr tt-node is-branch="node.type == 'folder'">
@@ -10,7 +10,7 @@
 -->
  
    <script type="text/ng-template" id="tree_node">
-        <tr tt-node is-branch="node.orgParentId==1">
+        <tr tt-node is-branch="node.orgParentId">
             <td><span ng-bind="node.orgNo"></span></td>
             <td ng-bind="node.orgName"></td>
             <td ng-bind="node.createDate | date:'yyyy-MM-dd HH:mm:ss'"></td>
@@ -30,4 +30,4 @@
         <tbody></tbody>
     </table>
     
-</span>
+</div>

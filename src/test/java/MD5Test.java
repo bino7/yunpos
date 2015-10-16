@@ -86,7 +86,8 @@ public class MD5Test {
 	public void password() {
 		//System.out.println(MD5Utils.genRandomNum(36));
 		//System.out.println(Constant.getAlipayTradeStatus("TRADE_SUCCESS"));
-		System.out.println("123456789012".substring(0, 8));
+		Float a = (float) 5.90;
+		System.out.println(a.toString());
 		
 	}
 	

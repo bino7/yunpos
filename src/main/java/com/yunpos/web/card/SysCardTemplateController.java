@@ -275,10 +275,18 @@ public class SysCardTemplateController extends BaseController {
 							 SysCardTemplate sysCardTemplate = new SysCardTemplate();
 							 sysCardTemplate.setWeixin_card_id(resultMap.get("CardId").toString());
 							 List<SysCardTemplate> sysCardTemplateSendList = sysCardTemplateService.findByParms(sysCardTemplate);
+							 sysCardTemplate = sysCardTemplateSendList.get(0);
 							 SysCardCoupon sysCardCoupon = new SysCardCoupon();
 							 sysCardCoupon.setAppid_cardId(sysCardTemplateSendList.get(0).getWeixin_card_id());
 							 sysCardCoupon.setSn(resultMap.get("UserCardCode").toString());
 							 sysCardCoupon.setStatus(new Byte("0"));
+							 sysCardCoupon.setTitle(sysCardTemplate.getTitle());
+							 sysCardCoupon.setSource("微信");
+							 sysCardCoupon.setAppid_userId(resultMap.get("FromUserName").toString());
+							 sysCardCoupon.setCreatedAt(new Date());
+							 sysCardCoupon.setStartTime(sysCardTemplate.getStartDate());
+							 sysCardCoupon.setEndTime(sysCardTemplate.getEndDate());
+							 sysCardCoupon.setType(new Byte("3"));
 							 sysCardCouponService.insert(sysCardCoupon);
 							 System.out.println("IsGiveByFriend = " + resultMap.get("IsGiveByFriend"));
 							 System.out.println("OuterId = " + resultMap.get("OuterId"));

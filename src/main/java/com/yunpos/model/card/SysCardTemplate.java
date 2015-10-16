@@ -18,9 +18,12 @@ public class SysCardTemplate extends GridRequest {
 
 	private String subtitle;
 
-	private Integer type; // 卡券类型 1：通用券
-
-
+	private Integer type; 				// 卡券类型 1：通用券
+	
+	private Integer orgId;				//组织结构ID
+	
+	private String merNo;				//商户编号
+	
 	private Integer number;
 
 	private Integer inventory;
@@ -45,28 +48,31 @@ public class SysCardTemplate extends GridRequest {
 
 	private Date updatedAt;
 
-	private String validityDate;
-
-	private String discount;// 折扣额度
-
+	private String discount;				// 折扣额度
 	
-	private String customtitle;// 自定义标题
+	private String customtitle;				// 自定义标题
 
-	
-	private String share;// 卡券分享
+	private String share;					// 卡券分享
 
+	private String notice;					// 操作提示
 	
-	private String notice;// 操作提示
+	private String urltitle;				// 入口名称
 	
-	private String urltitle; // 入口名称
-	
-	private String urldesc;// 引导语
+	private String urldesc;					// 引导语
 
-	private Integer status;
+	private Integer status;    				//0 未投放 ，1已投放
 	
 	private String putchannel;
 	
-	private String  typeDescription; //卡券类型
+	private String weixin_card_id; 			//微信卡券ID 
+	
+	private String weixin_show_qrcode_url; 	//微信卡券二维码地址
+	
+	private String  typeDescription; 		//卡券类型
+	
+	private String validityDate;    		//有效期
+	
+	private String statusDescription;    	//0 未投放 ，1已投放
 
 	public Integer getId() {
 		return id;
@@ -297,6 +303,55 @@ public class SysCardTemplate extends GridRequest {
 
 	public void setPutchannel(String putchannel) {
 		this.putchannel = putchannel;
+	}
+
+	public Integer getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getMerNo() {
+		return merNo;
+	}
+
+	public void setMerNo(String merNo) {
+		this.merNo = merNo;
+	}
+
+	public String getWeixin_card_id() {
+		return weixin_card_id;
+	}
+
+	public void setWeixin_card_id(String weixin_card_id) {
+		this.weixin_card_id = weixin_card_id;
+	}
+
+	public String getStatusDescription() {
+		if(!Tools.isNullOrEmpty(status)){
+	    	switch(status){
+		    	case 0 :statusDescription = "待投放" ;
+		    		break;
+		    	case 1 :statusDescription = "已投放" ;
+		    		break;
+		    	default : statusDescription = "";
+	    	}
+    	}
+		return statusDescription;
+	}
+
+	public void setStatusDescription(String statusDescription) {
+		this.statusDescription = statusDescription;
+	}
+
+	public String getWeixin_show_qrcode_url() {
+		return weixin_show_qrcode_url;
+	}
+
+	public void setWeixin_show_qrcode_url(String weixin_show_qrcode_url) {
+		this.weixin_show_qrcode_url = weixin_show_qrcode_url;
 	}
 
 	

@@ -8,6 +8,10 @@
     <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="orgId" property="orgId" jdbcType="INTEGER" />
+    <result column="merNo" property="merNo" jdbcType="VARCHAR" />
+    <result column="weixin_card_id" property="weixin_card_id" jdbcType="VARCHAR" />
+    <result column="weixin_show_qrcode_url" property="weixin_show_qrcode_url" jdbcType="VARCHAR" />
     <result column="putchannel" property="putchannel" jdbcType="VARCHAR" />
     <result column="number" property="number" jdbcType="INTEGER" />
     <result column="inventory" property="inventory" jdbcType="INTEGER" />
@@ -29,7 +33,7 @@
     <result column="urldesc" jdbcType="VARCHAR" property="urldesc" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, cardColor, subtitle, type, status, putchannel, number, inventory, background, logo, startDate, 
+    id, title, cardColor, subtitle, type, status, orgId, merNo, weixin_card_id, weixin_show_qrcode_url, putchannel, number, inventory, background, logo, startDate, 
     endDate, tel, operation, merchant, createdAt, updatedAt , discount, customtitle, limitNum, 
     share, notice, urltitle, urldesc
   </sql>
@@ -48,6 +52,18 @@
       </if>
        <if test="status != null" >
        and status = #{status,jdbcType=INTEGER}
+      </if>
+       <if test="orgId != null" >
+       and orgId = #{orgId,jdbcType=INTEGER}
+      </if>
+       <if test="merNo != null" >
+       and merNo = #{merNo,jdbcType=VARCHAR}
+      </if>
+       <if test="weixin_card_id != null" >
+       and weixin_card_id = #{weixin_card_id,jdbcType=VARCHAR}
+      </if>
+      <if test="weixin_show_qrcode_url != null" >
+       and weixin_show_qrcode_url = #{weixin_show_qrcode_url,jdbcType=VARCHAR}
       </if>
       <if test="putchannel != null" >
        and putchannel = #{putchannel,jdbcType=VARCHAR}
@@ -122,7 +138,7 @@
   </delete>
   <insert id="insert" parameterType="com.yunpos.model.card.SysCardTemplate" >
     insert into sys_card_template (id, title, cardColor, 
-      subtitle, type, status, putchannel, number, 
+      subtitle, type, status, orgId, merNo, weixin_card_id, weixin_show_qrcode_url, putchannel, number, 
       inventory, background, logo, 
       startDate, endDate, tel, 
       operation, merchant, createdAt, 
@@ -130,7 +146,9 @@
       limitNum, share, notice, 
       urltitle, urldesc)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cardColor,jdbcType=VARCHAR}, 
-      #{subtitle,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{putchannel,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{subtitle,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{orgId,jdbcType=INTEGER}, #{merNo,jdbcType=VARCHAR}, #{weixin_card_id,jdbcType=VARCHAR},
+      #{weixin_show_qrcode_url,jdbcType=VARCHAR}, #{putchannel,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
       #{inventory,jdbcType=INTEGER}, #{background,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{tel,jdbcType=VARCHAR}, 
       #{operation,jdbcType=VARCHAR}, #{merchant,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
@@ -159,6 +177,18 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="orgId != null" >
+        orgId,
+      </if>
+      <if test="merNo != null" >
+        merNo,
+      </if>
+      <if test="weixin_card_id != null" >
+        weixin_card_id
+      </if>
+      <if test="weixin_show_qrcode_url != null" >
+        weixin_show_qrcode_url
+      </if> 
       <if test="putchannel != null" >
         putchannel,
       </if>
@@ -235,6 +265,18 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="merNo != null" >
+        #{merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_card_id != null" >
+        #{weixin_card_id,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_show_qrcode_url != null" >
+        #{weixin_show_qrcode_url,jdbcType=VARCHAR},
       </if>
       <if test="putchannel != null" >
         #{putchannel,jdbcType=VARCHAR},
@@ -313,6 +355,18 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="orgId != null" >
+        orgId = #{orgId,jdbcType=INTEGER},
+      </if>
+       <if test="merNo != null" >
+        merNo = #{merNo,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_card_id != null" >
+        weixin_card_id = #{weixin_card_id,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_show_qrcode_url != null" >
+        weixin_show_qrcode_url = #{weixin_show_qrcode_url,jdbcType=VARCHAR},
+      </if>
       <if test="putchannel != null" >
         putchannel = #{putchannel,jdbcType=VARCHAR},
       </if>
@@ -380,6 +434,10 @@
       subtitle = #{subtitle,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
+      orgId = #{orgId,jdbcType=INTEGER},
+      merNo = #{merNo,jdbcType=VARCHAR},
+      weixin_card_id = #{weixin_card_id,jdbcType=VARCHAR},
+      weixin_show_qrcode_url = #{weixin_show_qrcode_url,jdbcType=VARCHAR},
       putchannel = #{putchannel,jdbcType=VARCHAR},
       number = #{number,jdbcType=INTEGER},
       inventory = #{inventory,jdbcType=INTEGER},

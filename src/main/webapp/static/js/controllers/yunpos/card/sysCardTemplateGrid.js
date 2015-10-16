@@ -31,13 +31,13 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
             columnDefs: [
                {field: 'title', displayName: '卡券名称', width: 120,  pinnable: false,  sortable: false}, 
                {field: 'typeDescription', displayName: '卡券类型', enableCellEdit: false , width: 120}, 
-               {field: 'validityDate' , displayName: '有效期', enableCellEdit: false, width: 180},
+               {field: 'validityDate' , displayName: '有效期', enableCellEdit: false, width: 320},
                {field: 'createdBy',displayName: '投放平台',enableCellEdit: false, width: 120}, 
-               {field: 'createdAt',displayName: '投放状态',enableCellEdit: false, width: 140}, 
+               {field: 'statusDescription',displayName: '投放状态',enableCellEdit: false, width: 140}, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                 cellTemplate: '<div><a ui-sref="app.table.sysCardTemplateDetail({id:row.getProperty(col.field)})" '
                 	+ 'id="{{row.getProperty(col.field)}}"> <button>详情{{row.status}}</button> </a> ' 
-                	+ '<button ng-click="updateStatus({id:row.getProperty(col.field) , sysCardTemplate:row, status:1})">投放</button>'
+                	+ '<button ng-click="send({id:row.getProperty(col.field) , sysCardTemplate:row, status:1})">投放</button>'
                 	+ '<button ng-click="deleted({id:row.getProperty(col.field) , sysCardTemplate:row})">删除</button></div>'
             }],
             enablePaging: true,
@@ -79,18 +79,18 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
         }
     }, true);
 
-    $scope.updateStatus = function(obj) {
+    $scope.send = function(obj) {
     	obj.sysCardTemplate.entity.status = obj.status;
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/sysCardTemplate/updateStatus/' + obj.id,
+	        url     : '/ajax/sysCardTemplate/send/' + obj.id,
 	        params  :  obj.sysCardTemplate.entity 
 	     }).success(function() {
-	    	 alert("更新成功！");
+	    	 alert("投放成功！");
 	    //	 $scope.sysCardTemplateData[obj.sysCardTemplate.rowIndex] = obj.sysCardTemplate.entity;
 	    //	 $scope.setPagingData($scope.sysCardTemplateData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
 	     }).error(function(data,status,headers,config){
-	      	alert("更新失败！");
+	      	alert("投放失败！");
 	     });
 	};
 	

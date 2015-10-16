@@ -104,7 +104,7 @@ public class SysMerchantController extends BaseController{
 		sysOrg.setOrgName(sysMerchant.getCompanyName());
 		sysOrg.setCreateUserId(getUser().getId());
 		sysOrg.setCreateDate(new Date());
-		sysOrg.setLevel(1);
+		sysOrg.setLevel(2);
 		sysOrg.setOrgParentId(sysAgentMerchant.getOrgId());
 		sysOrg.setOrgParentNo(sysAgentMerchant.getAgentSerialNo());
 		sysOrg.setOrgNo(sysOrgService.getOrgNo(sysOrg));

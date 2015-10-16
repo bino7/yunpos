@@ -1,9 +1,9 @@
 spring:
   # default datasource
   datasource-primary:
-    url: "jdbc:mysql://120.25.13.69:3306/yunpos_zhengshi?useUnicode=true&characterEncoding=utf8"
+    url: "jdbc:mysql://120.25.13.69:3306/yunpos?useUnicode=true&characterEncoding=utf8"
     driverClassName: com.mysql.jdbc.Driver
-    username: root
+    username: yunpos
     password: 123456
     min-idle: 1
     max-idle: 1

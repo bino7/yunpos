@@ -117,7 +117,7 @@ public class ScanCodePayReqData {
 		// 订单生成的机器IP
 		setSpbill_create_ip(spBillCreateIP);
 		//接收微信支付异步通知回调地址
-		setNotify_url(WechatPayConfig.scan_notify_url);
+		setNotify_url(WechatPayConfig.scan_notify_url_sl);
 		//取值如下：JSAPI，NATIVE，APP，WAP,详细说明见参数规定
 		setTrade_type("NATIVE");
 		//trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。

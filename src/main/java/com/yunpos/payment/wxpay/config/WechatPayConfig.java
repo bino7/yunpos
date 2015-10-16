@@ -58,12 +58,14 @@ public class WechatPayConfig {
 	
 	//扫码支付相关配置
 	public static String scan_notify_url = "";
+	public static String scan_notify_url_sl = "";
 	public static String scan_unifiedorder_api = "";
 	public static String CLOSE_ORDER_API = "";
 	
 	public static String PATERNER_KEY = "";
 	
 	public static String WAP_NOTIFY_URL = "";
+	public static String WAP_NOTIFY_URL_SL = "";
 	
 
 	static {
@@ -80,9 +82,11 @@ public class WechatPayConfig {
 		
 		//扫码支付相关配置
 		WechatPayConfig.scan_notify_url = rb.getString("scan_notify_url").trim();
+		WechatPayConfig.scan_notify_url_sl = rb.getString("scan_notify_url_sl").trim();
 		WechatPayConfig.scan_unifiedorder_api = rb.getString("scan_unifiedorder_api").trim();
 		WechatPayConfig.CLOSE_ORDER_API = rb.getString("CLOSE_ORDER_API").trim();
 		WechatPayConfig.WAP_NOTIFY_URL = rb.getString("WAP_NOTIFY_URL").trim();
+		WechatPayConfig.WAP_NOTIFY_URL_SL = rb.getString("WAP_NOTIFY_URL_SL").trim();
 		
 	}
 

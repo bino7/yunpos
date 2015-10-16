@@ -115,7 +115,7 @@ public class WapPayReqData {
 		setSpbill_create_ip(spBillCreateIP);
 		
 		// 异步通知地址
-		setNotify_url(WechatPayConfig.WAP_NOTIFY_URL);
+		setNotify_url(WechatPayConfig.WAP_NOTIFY_URL_SL);
 		
 		// 交易类型（JSAPI时，openid必填）
 		setTrade_type("JSAPI");

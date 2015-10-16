@@ -2,6 +2,7 @@ package com.yunpos.web.card;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -219,8 +220,17 @@ public class SysCardTemplateController extends BaseController {
 	public void weixinMsg(HttpServletRequest request , HttpServletResponse response) {
 		System.out.println("request = " + request);
 		System.out.println("request = " + request.getParameterMap());
-		System.out.println("request = " + request.getAttributeNames());
+		System.out.println("request = " + request.getParameter("signature"));
+		System.out.println("request = " + request.getParameter("echostr"));
+		System.out.println("request = " + request.getParameter("timestamp"));
+		System.out.println("request = " + request.getParameter("nonce"));
 		System.out.println("request = " + request.getParameterNames());
+		try {
+			response.getWriter().println("");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**

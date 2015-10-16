@@ -318,8 +318,8 @@ public class HttpTool {
 			inputStream = null;
 			httpUrlConn.disconnect();
 			jsonObject = JSONObject.fromObject(buffer.toString());
-		} catch (ConnectException ce) {
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return jsonObject;
 	}

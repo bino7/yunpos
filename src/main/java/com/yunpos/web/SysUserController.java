@@ -21,7 +21,6 @@ import com.yunpos.model.SysUserRole;
 import com.yunpos.security.SecurityUtils;
 import com.yunpos.service.SysUserRoleService;
 import com.yunpos.service.SysUserService;
-import com.yunpos.utils.Upload;
 import com.yunpos.utils.jqgrid.GridRequest;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;

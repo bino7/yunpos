@@ -2,9 +2,15 @@ package com.yunpos.web.card;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +19,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.base.Strings;
+import com.yunpos.card.weixin.WxCardBaseInfo;
+import com.yunpos.card.weixin.WxCardGroupon;
 import com.yunpos.exception.ServiceException;
+import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.model.card.SysCardTemplate;
+import com.yunpos.payment.wxwap.utils.HttpTool;
+import com.yunpos.service.SysMerchantService;
+import com.yunpos.service.SysWechatConfigService;
 import com.yunpos.service.card.SysCardTemplateService;
 import com.yunpos.utils.Tools;
+import com.yunpos.utils.XMLUtil;
 import com.yunpos.utils.jqgrid.GridResponse;
 import com.yunpos.utils.jqgrid.GridRowResponse;
 import com.yunpos.utils.jqgrid.JqGridResponse;
 import com.yunpos.web.BaseController;
+
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -40,6 +56,13 @@ public class SysCardTemplateController extends BaseController {
 	@Autowired
 	private  SysCardTemplateService sysCardTemplateService;
 	
+	@Autowired
+	private  SysMerchantService sysMerchantService;
+	
+	@Autowired
+	private SysWechatConfigService sysWechatConfigService;
+	
+
 	/**
 	 * 卡券列表
 	 * @return
@@ -81,7 +104,9 @@ public class SysCardTemplateController extends BaseController {
 	@RequestMapping(value = "/ajax/sysCardTemplate", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysCardTemplate sysCardTemplate) {
 		sysCardTemplate.setType(1);
+		sysCardTemplate.setOrgId(getUser().getOrgId());
 		sysCardTemplate.setCreatedAt(new Date());
+		sysCardTemplate.setStatus(0);
 		sysCardTemplateService.save(sysCardTemplate);
 
 		return new GridRowResponse(-2);
@@ -110,11 +135,75 @@ public class SysCardTemplateController extends BaseController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/ajax/sysCardTemplate/updateStatus/{id}", method = RequestMethod.PUT)
-	public GridRowResponse updateStatus(@Valid SysCardTemplate sysCardTemplate, @PathVariable("id") int id) {
-		SysCardTemplate sCardTemplate = sysCardTemplateService.findById(id);
-		 sysCardTemplateService.update(sCardTemplate);
-		return new GridRowResponse(sCardTemplate.getId());
+	@RequestMapping(value = "/ajax/sysCardTemplate/send/{id}", method = RequestMethod.PUT)
+	public GridRowResponse sendCard(@Valid SysCardTemplate sysCardTemplate, @PathVariable("id") int id) {
+		SysCardTemplate sysCardTemplateSend = sysCardTemplateService.findById(id);
+		
+		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysCardTemplateSend.getMerNo());
+		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
+		
+		  WxCardGroupon card = new WxCardGroupon();
+	        WxCardBaseInfo baseInfo = card.getBaseInfo();
+	        baseInfo.setLogoUrl("123");
+	        baseInfo.setDateInfoTimeRange(sysCardTemplateSend.getStartDate(), sysCardTemplateSend.getEndDate());
+	        baseInfo.setBrandName("brandname");
+	        baseInfo.setBindOpenid(false);
+	        baseInfo.setCanGiveFriend(false);
+	        baseInfo.setCanShare(true);
+	        baseInfo.setCodeType(WxCardBaseInfo.CODE_TYPE_QRCODE);
+	        baseInfo.setColor("Color010");
+	        baseInfo.setDescription("desc");
+	        baseInfo.setGetLimit(3);
+	        baseInfo.setUseCustomCode(false);
+	        baseInfo.setNotice("notice");
+	        baseInfo.setServicePhone("phone");
+	        baseInfo.addLocationIdList(123123);
+	        baseInfo.addLocationIdList(5345);
+	        baseInfo.setUseLimit(5);
+	        baseInfo.setQuantity(10000000);
+	        
+	        baseInfo.setTitle(sysCardTemplateSend.getTitle());
+	        baseInfo.setSub_title("小牛卡券测试");
+	        baseInfo.setCustom_url_name("立即使用");
+	        baseInfo.setCustom_url("http://www.qq.com");
+	        baseInfo.setCustom_url_sub_title("6个汉字tips");
+	        baseInfo.setPromotion_url_name("更多优惠");
+	        baseInfo.setPromotion_url("http://www.qq.com");
+	        baseInfo.setSource("大众点评");
+	        
+	        System.out.println(baseInfo.toJsonString());
+	        baseInfo.setLogoUrl("http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0");
+	        ArrayList<Integer> locationIdList = new ArrayList<Integer>();
+	        locationIdList.add(809809);
+	        locationIdList.add(423532);
+	        card.setDealDetail("小牛卡券测试！！！");
+	        
+	        System.out.println(locationIdList.getClass().isArray());
+	        baseInfo.setLocationIdList(locationIdList);
+	        System.out.println(card.toJsonString());
+	        System.out.println(access_token);	
+	   String requestUrl = "https://api.weixin.qq.com/card/create?access_token=" + access_token;
+	   
+	   JSONObject jsonObject =HttpTool.httpRequest(requestUrl,"POST", card.toJsonString());
+	    if("0".equals(jsonObject.get("errcode").toString())){
+	    	 sysCardTemplateSend.setWeixin_card_id(jsonObject.get("card_id").toString());
+	    	 sysCardTemplateSend.setStatus(1);
+	    	 sysCardTemplateService.update(sysCardTemplateSend);
+	    	 
+	    	 //获取二维码地址
+	    	 String jsondata = "{\"action_name\":\"QR_CARD\",\"action_info\":{\"card\":{\"card_id\":\"" + jsonObject.get("card_id").toString() + "\"}}}";
+	    	 
+	    	 String qrcodeRequestUrl = "https://api.weixin.qq.com/card/qrcode/create?access_token=" + access_token;
+	    	 JSONObject qrcodeJsonObject =HttpTool.httpRequest(qrcodeRequestUrl,"POST", jsondata);
+	    	 System.out.println(jsondata);
+	    	 System.out.println(qrcodeJsonObject.toString());
+	    	 if("0".equals(qrcodeJsonObject.get("errcode").toString())){
+	    		 String show_qrcode_url = qrcodeJsonObject.get("show_qrcode_url").toString();
+	    		 sysCardTemplateSend.setWeixin_show_qrcode_url(show_qrcode_url);
+	    		 sysCardTemplateService.update(sysCardTemplateSend);
+	    	 }
+	    }
+		return new GridRowResponse(sysCardTemplate.getId());
 	}
 	
 	/**
@@ -126,5 +215,109 @@ public class SysCardTemplateController extends BaseController {
 		sysCardTemplateService.delete(id);
 	}
 	
+	/**
+	 * 接收微信推送信息
+	 * @param id
+	 */
+	@RequestMapping(value = "/weixin/msg")
+	public void weixinMsg(HttpServletRequest request , HttpServletResponse response) {
+		System.out.println("request = " + request);
+		try {
+			response.getWriter().println("adad");
+			System.out.println("request = " + request.getParameterMap());
+			System.out.println("request = " + request.getParameter("signature"));
+			System.out.println("request = " + request.getParameter("echostr"));
+			System.out.println("request = " + request.getParameter("timestamp"));
+			System.out.println("request = " + request.getParameter("nonce"));
+			System.out.println("request = " + request.getParameterNames());
+			
+			java.io.BufferedReader bis = new java.io.BufferedReader(new java.io.InputStreamReader(request.getInputStream()));
+		      
+			 String line = null;
+			 String result = "";
+			   
+			 try {
+			  while ((line = bis.readLine()) != null) {
+			      result += line+"\r\n";
+			  }
+			 } catch (Exception e) {
+			  e.printStackTrace();
+			 } finally {
+			  bis.close();
+			 }
+			 System.out.println("result = " + result);
+			 if (!Strings.isNullOrEmpty(result)) {
+				 Map<String, String> resultMap = new HashMap<String, String>();
+				 XMLUtil.parse(result, resultMap);
+
+				 if(!Tools.isNullOrEmpty(resultMap.get("Event"))){
+					 String Event = resultMap.get("Event").toString();
+					 
+					 System.out.println("resultMap = " + resultMap.size());
+					 
+					 System.out.println("ToUserName = " + resultMap.get("ToUserName"));
+					 System.out.println("FromUserName = " + resultMap.get("FromUserName"));
+					 System.out.println("CreateTime = " + resultMap.get("CreateTime"));
+					 System.out.println("MsgType = " + resultMap.get("MsgType"));
+					 System.out.println("Event = " + resultMap.get("Event"));
+					 System.out.println("CardId = " + resultMap.get("CardId"));
+					
+					 if(Event.equals("card_pass_check") || Event.equals("card_not_pass_check") ){//卡券通过审核 , 卡券未通过审核
+						 System.out.println("卡券通过审核,未通过审核");
+					 }else {
+						 System.out.println("UserCardCode = " + resultMap.get("UserCardCode"));
+						
+						 if(Event.equals("user_get_card")){//用户领取卡券
+							 System.out.println("IsGiveByFriend = " + resultMap.get("IsGiveByFriend"));
+							 System.out.println("OuterId = " + resultMap.get("OuterId"));
+							 System.out.println("FriendUserName = " + resultMap.get("FriendUserName"));
+						 }else if(Event.equals("user_consume_card")){//核销事件
+							 System.out.println("核销事件");
+							 System.out.println("ConsumeSource = " + resultMap.get("ConsumeSource"));
+							 System.out.println("OutTradeNo = " + resultMap.get("OutTradeNo"));
+							 System.out.println("TransId = " + resultMap.get("TransId"));
+							 System.out.println("LocationName = " + resultMap.get("LocationName"));
+							 System.out.println("StaffOpenId = " + resultMap.get("StaffOpenId"));
+							 
+						 } else if(Event.equals("user_del_card")){//用户删除卡券
+							 
+						 }else if(Event.equals("user_view_card")){//进入会员卡事件推送
+							 
+						 }
+					 }
+				 }
+			}
+				
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
+	/**
+	 * 卡券核销
+	 * @param id
+	 */
+	@RequestMapping(value = "/ajax/cardConsume", method = RequestMethod.POST)
+	public void cardConsume(HttpServletRequest request , HttpServletResponse response) {
+		
+		String merNo = "201509020001";
+		String cardCode = "659117245973";
+		String card_id = "px6wPuHrD4dkjl1JaktPhRBHSS9w";
+		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merNo);
+		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
+		
+		String cardCodeCheckRequestUrl = "https://api.weixin.qq.com/card/code/get?access_token=" + access_token;
+		String cardCodeCheckJson = "{\"card_id\" : \"" + card_id + "\",\"code\" : \"" + cardCode + "\",\"check_consume\" : true}";   
+		JSONObject jsonCheckObject =HttpTool.httpRequest(cardCodeCheckRequestUrl,"POST", cardCodeCheckJson);
+		System.out.println(jsonCheckObject);
+		 if("0".equals(jsonCheckObject.get("errcode").toString())){
+			String cardCodeRequestUrl = "https://api.weixin.qq.com/card/code/consume?access_token=" + access_token;
+			String cardCodeJson = "{\"code\" : \"" + cardCode + "\",\"card_id\" : \"" + card_id + "\"}";   
+			JSONObject jsonObject =HttpTool.httpRequest(cardCodeRequestUrl,"POST", cardCodeJson);
+			System.out.println(jsonObject);
+		 }else {
+			 System.out.println(jsonCheckObject);
+		 }
+	}
 }

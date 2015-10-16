@@ -196,6 +196,28 @@ app.controller('SysAlipayTestCtl', function($scope, $http, $state, $stateParams)
 		};
 		
 		//扫码支付退款测试
+	    $scope.alipaybarrefunddata = {};
+	    $scope.alipayScanRefundTest = function(alipaybarrefunddata) {
+	   	 $scope.alipaybarrefunddata = angular.copy(alipaybarrefunddata);
+		     $http({
+		        method  : 'post',
+		        url     : '/ajax/alipay/barRefund/test',
+		        params  : $scope.alipaybarrefunddata
+		     }).success(function(data) {
+		    	 if(data.result_code=='SUCCESS'){
+		    		 alert("退款成功"+data.lists);
+		    	 }else{
+		    		 alert("|"+data.result_code+"|"+data.err_code +"|"+data.result_msg);
+		    	 }
+		     }).error(function(data,status,headers,config){
+		      	alert("系统错误！");
+		     });
+		};
+		
+		
+		
+		
+		//扫码支付退款测试
 	    $scope.alipayscanrecanceldata = {};
 	    $scope.alipayscanrecanceldata = function(alipayscanrecanceldata) {
 	   	 $scope.alipayscanrefunddata = angular.copy(alipayscanrecanceldata);
@@ -215,24 +237,7 @@ app.controller('SysAlipayTestCtl', function($scope, $http, $state, $stateParams)
 		};
 
 		
-		//扫码支付退款测试
-	    $scope.alipaybarrefunddata = {};
-	    $scope.alipayScanRefundTest = function(alipaybarrefunddata) {
-	   	 $scope.alipaybarrefunddata = angular.copy(alipaybarrefunddata);
-		     $http({
-		        method  : 'post',
-		        url     : '/ajax/alipay/scanRefund/test',
-		        params  : $scope.alipaybarrefunddata
-		     }).success(function(data) {
-		    	 if(data.result_code=='SUCCESS'){
-		    		 alert("退款成功")
-		    	 }else{
-		    		 alert("|"+data.result_code+"|"+data.err_code +"|"+data.result_msg);
-		    	 }
-		     }).error(function(data,status,headers,config){
-		      	alert("系统错误！");
-		     });
-		};
+		
 
 	     
 		//扫码支付测试

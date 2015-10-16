@@ -72,7 +72,7 @@ public class PayTestController extends BaseController{
 		return returnStr;
 	}
 	
-	@RequestMapping(value = "/ajax/alipay/scanRefund/test")
+	@RequestMapping(value = "/ajax/alipay/barRefund/test")
 	@ResponseBody
 	public String alipayBarRefund(@Valid PayReq payReq) {
 		Map<String,String> params = payReq.toMap();

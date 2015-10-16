@@ -1,0 +1,90 @@
+.iui-treegrid-column-header-cell, .iui-treegrid-column-footer-cell {
+	padding: 2px 2px;
+}
+
+.iui-treegrid-row-cell-content {
+	padding: 2px 2px;
+}
+
+.row-hovered {
+	background-color: #efefef;
+}
+
+.row-cell-hovered {
+	color: #000080;
+}
+
+.row-selected {
+	background-color: #dedede;
+	color: #008000;
+}
+
+.checkbox {
+	width: 32px;
+	margin: auto;
+}
+
+.checkbox-box {
+	border: 0;
+	display: inline-block;
+	width: 32px;
+	height: 14px;
+}
+
+.checkbox-checked {
+	background-image:
+		url("../resources/checkbox/checkbox-checked-3.png");
+}
+
+.checkbox-unchecked {
+	background-image:
+		url("../resources/checkbox/checkbox-unchecked-3.png");
+}
+
+/* Sample settings */
+.control-panel {
+	width: 170px;
+	margin-top: 20px;
+}
+
+.feature-content {
+	width: 900px;
+}
+
+.feature-list {
+	width: 300px;
+}
+
+.directive {
+	width: 900px;
+	height: 360px;
+}
+
+.feature-list {
+	color: black;
+	line-height: 1.2em;
+	list-style-type: none;
+	margin: 0;
+	padding: 5px 0;
+	width: 900px;
+}
+
+.feature-list li a {
+	padding: 3px 5px;
+	text-decoration: none;
+}
+
+.feature-list li a:hover {
+	background: #9F0B0B;
+	border: thin solid #3E0404;
+	color: white;
+	padding: 3px 5px;
+	text-decoration: none;
+}
+
+.feature-list li {
+	display: inline;
+	float: left;
+	padding: 3px 0;
+	width: 33.33%;
+}

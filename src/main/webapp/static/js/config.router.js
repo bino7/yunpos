@@ -19,12 +19,15 @@ app.run(['$rootScope', '$state','$window', '$stateParams','Session','OrgService'
 		//this.setCurrentUser(user);
  	}
  	
- 	var promise = OrgService.query();
-	   promise.then(function(data) {  // 调用承诺API获取数据 .resolve  
-		   $rootScope.orgs = data;  
-	    }, function(data) {  // 处理错误 .reject  
-	    	$rootScope.orgs = {error: '用户不存在！'};  
-	    })
+// 	var promise = OrgService.query();
+//	   promise.then(function(data) {  // 调用承诺API获取数据 .resolve  
+//		   $rootScope.orgs = data;  
+//	    }, function(data) {  // 处理错误 .reject  
+//	    	$rootScope.orgs = {error: '用户不存在！'};  
+//	    })
+// 	
+
+
      
    //监听$stateChangeStart事件并作相应的逻辑处理
      $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){

@@ -41,7 +41,7 @@ public class Upload {
 		if (file != null && !file.isEmpty()) {
 			// System.out.println("文件名为：" + file.getOriginalFilename());
 			String extend = file.getOriginalFilename()
-					.substring(file.getOriginalFilename().lastIndexOf(".") + 1)
+					.substring(file.getOriginalFilename().lastIndexOf(".") + 1)    /**获取文件的后缀**/    
 					.toLowerCase();
 			if (saveFileName == null || saveFileName.trim().equals("")) {
 				saveFileName = UUID.randomUUID().toString() + "." + extend;
@@ -58,7 +58,7 @@ public class Upload {
 			 * 如果文件后缀为.jsp,.php,.aspx,.asp,.aspx
 			 * 文件，进行过滤
 			 */
-			String imageSuffix = "gif|jpg|jpeg|bmp|png|tbi";
+			String imageSuffix = "gif|jpg|jpeg|bmp|png|tbi|zip|rar";
 			
 			if (!isImg(extend,imageSuffix)) {
 				flag = false;
@@ -69,6 +69,7 @@ public class Upload {
 						flag = true;
 				}
 			}
+			
 			if (flag) {
 				File path = new File(saveFilePathName);
 				if (!path.exists()) {
@@ -103,7 +104,7 @@ public class Upload {
 						BufferedImage bis = ImageIO.read(img);
 						int w = bis.getWidth();
 						int h = bis.getHeight();
-						map.put("path", img.getPath().replace(ConfigContants.IMAGEPATH, ConfigContants.IMAGEURL));
+						map.put("path", img.getPath().replace(ConfigContants.IMAGEPATH, ConfigContants.IMAGEURL));//路径替换
 						map.put("width", w);
 						map.put("height", h);
 					} catch (Exception e) {
@@ -116,6 +117,8 @@ public class Upload {
 				map.put("fileSize", fileSize);
 				map.put("error", errors);
 				map.put("oldName", file.getOriginalFilename());
+				map.put("path",  new File(saveFilePathName + File.separator
+						+ saveFileName).getPath().replace(ConfigContants.IMAGEPATH, ConfigContants.IMAGEURL));
 				// System.out.println("上传结束，生成的文件名为:" + fileName);
 			} else {
 				// System.out.println("不允许的扩展名");
@@ -150,6 +153,8 @@ public class Upload {
 			list.add("png");
 			list.add("tif");
 			list.add("tbi");
+			list.add("zip");
+			list.add("rar");
 		}
 		
 		

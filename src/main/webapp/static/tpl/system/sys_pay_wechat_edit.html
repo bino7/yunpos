@@ -58,6 +58,30 @@
 									ng-model="wechat.certLocalPath">
 							</div>
 						</div>
+						<div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	证书上传：
+                            </label>
+
+							<div class="col-md-10">
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">											
+												<input type="file" ngf-select ng-model="picFile" name="file" accept="image/*"> 
+												<img ngf-src="picFile" src="" id="operatePhotoImg" class="thumb">
+												<button ng-click="uploadPic(picFile,'operatePhoto')" id="operatePhotoButton">上传</button>
+												<span ng-show="picFile.result">Upload Successful</span>
+												<span class="progress" ng-show="picFile.progress >= 0">
+													<div style="width: {{picFile.progress"
+														ng-bind="picFile.progress + '%'"></div>
+												</span> <input type="hidden" ng-model="merchant.operatePhoto"
+													value='' id="operatePhoto"> 								
+										</div>
+										<br />
+									</div>
+								</div>
+							</div>
+						</div>
 
 						<div class="form-group">
 							<label class="col-md-2 control-label"> 证书密码： </label>
@@ -84,7 +108,7 @@
                             </div>
                         </div>
 						<button ng-disabled="form.$invalid" ng-click="wechatSave(wechat)">保存</button>
-						<button><a <a ui-sref="app.table.pay">返回</a></button>
+						<button>  <a ui-sref="app.table.pay">返回</a></button>
 					</form>
 				</div>
 

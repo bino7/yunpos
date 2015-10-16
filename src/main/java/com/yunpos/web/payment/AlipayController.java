@@ -523,8 +523,8 @@ public class AlipayController extends BaseController{
 		String user_order_no = request.getParameter("user_order_no");
 		String trace_num = request.getParameter("trace_num");
 		String terminal_unique_no = request.getParameter("terminal_unique_no");
-		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)
-				|| Strings.isNullOrEmpty(user_order_no)|| Strings.isNullOrEmpty(terminal_unique_no)) {
+		if (Strings.isNullOrEmpty(pay_channel) || Strings.isNullOrEmpty(merchant_num)||
+				 Strings.isNullOrEmpty(terminal_unique_no)) {
 			return new Message(ResultCode.FAIL.name(),ErrorCode.PARAM_IS_NULL.name(), "传递参数为空！", null);
 		}
 		if(Strings.isNullOrEmpty(user_order_no) && Strings.isNullOrEmpty(trace_num)){

@@ -215,7 +215,7 @@ public class SysCardTemplateController extends BaseController {
 	 * 接收微信推送信息
 	 * @param id
 	 */
-	@RequestMapping(value = "/weixin/msg", method = RequestMethod.POST)
+	@RequestMapping(value = "/weixin/msg")
 	public void weixinMsg(HttpServletRequest request , HttpServletResponse response) {
 		System.out.println("request = " + request);
 		System.out.println("request = " + request.getParameterMap());

@@ -134,8 +134,6 @@ public class SysCardTemplateController extends BaseController {
 	@RequestMapping(value = "/ajax/sysCardTemplate/send/{id}", method = RequestMethod.PUT)
 	public GridRowResponse sendCard(@Valid SysCardTemplate sysCardTemplate, @PathVariable("id") int id) {
 		SysCardTemplate sysCardTemplateSend = sysCardTemplateService.findById(id);
-		SysMerchant sysMerchant = new SysMerchant();
-		sysMerchant.setOrgId(sysCardTemplateSend.getOrgId());
 		
 		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysCardTemplateSend.getMerNo());
 		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
@@ -217,7 +215,7 @@ public class SysCardTemplateController extends BaseController {
 	 * 接收微信推送信息
 	 * @param id
 	 */
-	@RequestMapping(value = "/weixin/msg", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/weixin/msg", method = RequestMethod.POST)
 	public void weixinMsg(HttpServletRequest request , HttpServletResponse response) {
 		System.out.println("request = " + request);
 		System.out.println("request = " + request.getParameterMap());
@@ -225,4 +223,30 @@ public class SysCardTemplateController extends BaseController {
 		System.out.println("request = " + request.getParameterNames());
 	}
 	
+	/**
+	 * 卡券核销
+	 * @param id
+	 */
+	@RequestMapping(value = "/ajax/cardConsume", method = RequestMethod.POST)
+	public void cardConsume(HttpServletRequest request , HttpServletResponse response) {
+		
+		String merNo = "201509020001";
+		String cardCode = "659117245973";
+		String card_id = "px6wPuHrD4dkjl1JaktPhRBHSS9w";
+		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merNo);
+		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
+		
+		String cardCodeCheckRequestUrl = "https://api.weixin.qq.com/card/code/get?access_token=" + access_token;
+		String cardCodeCheckJson = "{\"card_id\" : \"" + card_id + "\",\"code\" : \"" + cardCode + "\",\"check_consume\" : true}";   
+		JSONObject jsonCheckObject =HttpTool.httpRequest(cardCodeCheckRequestUrl,"POST", cardCodeCheckJson);
+		System.out.println(jsonCheckObject);
+		 if("0".equals(jsonCheckObject.get("errcode").toString())){
+			String cardCodeRequestUrl = "https://api.weixin.qq.com/card/code/consume?access_token=" + access_token;
+			String cardCodeJson = "{\"code\" : \"" + cardCode + "\",\"card_id\" : \"" + card_id + "\"}";   
+			JSONObject jsonObject =HttpTool.httpRequest(cardCodeRequestUrl,"POST", cardCodeJson);
+			System.out.println(jsonObject);
+		 }else {
+			 System.out.println(jsonCheckObject);
+		 }
+	}
 }

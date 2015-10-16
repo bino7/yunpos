@@ -2,6 +2,7 @@ package com.yunpos.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -131,6 +132,45 @@ public class SysMerchantController extends BaseController{
 		return null;
 	}
 
+	/**
+	 * 商户审核， 更新商户审核信息
+	 * @param sysAgentMerchant
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/ajax/merchantreview/{id}", method = RequestMethod.PUT)
+	public boolean review(@Valid SysMerchant sysMerchant, @PathVariable("id") int id) {		
+		try {
+			return sysMerchantService.reviewSysMerchant(sysMerchant , id);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} 
+	}
+	
+	/**
+	 * 更新商户状态
+	 * @param sysMerchant
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/ajax/merchant/updateStatus/{id}", method = RequestMethod.PUT)
+	public GridRowResponse updateStatus(@Valid SysMerchant sysMerchant, @PathVariable("id") int id) {
+		try {
+			SysMerchant agentMerchant = sysMerchantService.updateStatus(sysMerchant, id);
+			if (agentMerchant != null) {
+				return new GridRowResponse(agentMerchant.getId());
+			} else {
+				return new GridRowResponse(-1);
+			}			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new GridRowResponse(-1);
+		}	
+	}
+	
 	/**
 	 * 更新商户信息 ，更新商户用户信息
 	 * @param sysMerchant

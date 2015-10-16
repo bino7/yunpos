@@ -438,6 +438,20 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       }]
                   }
               })
+              .state('app.table.merchantReview', {//商户审核
+                  url: '/merchantReview/:id',
+                  templateUrl: 'tpl/system/sys_merchant_review.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load('ngGrid').then(
+                              function(){
+                                  return $ocLazyLoad.load('js/controllers/yunpos/sysMerchantGrid.js');
+                              }
+                          );
+                      }]
+                  }
+              })
               .state('app.table.store', {//门店管理
                   url: '/store',
                   templateUrl: 'tpl/system/sys_store.html',

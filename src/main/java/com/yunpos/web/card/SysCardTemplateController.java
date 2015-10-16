@@ -2,7 +2,6 @@ package com.yunpos.web.card;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,10 +23,12 @@ import com.yunpos.card.weixin.WxCardBaseInfo;
 import com.yunpos.card.weixin.WxCardGroupon;
 import com.yunpos.exception.ServiceException;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
+import com.yunpos.model.card.SysCardCoupon;
 import com.yunpos.model.card.SysCardTemplate;
 import com.yunpos.payment.wxwap.utils.HttpTool;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysWechatConfigService;
+import com.yunpos.service.card.SysCardCouponService;
 import com.yunpos.service.card.SysCardTemplateService;
 import com.yunpos.utils.Tools;
 import com.yunpos.utils.XMLUtil;
@@ -62,7 +63,8 @@ public class SysCardTemplateController extends BaseController {
 	@Autowired
 	private SysWechatConfigService sysWechatConfigService;
 	
-
+	@Autowired
+	private  SysCardCouponService sysCardCouponService;
 	/**
 	 * 卡券列表
 	 * @return
@@ -223,13 +225,15 @@ public class SysCardTemplateController extends BaseController {
 	public void weixinMsg(HttpServletRequest request , HttpServletResponse response) {
 		System.out.println("request = " + request);
 		try {
-			response.getWriter().println("adad");
-			System.out.println("request = " + request.getParameterMap());
-			System.out.println("request = " + request.getParameter("signature"));
-			System.out.println("request = " + request.getParameter("echostr"));
-			System.out.println("request = " + request.getParameter("timestamp"));
-			System.out.println("request = " + request.getParameter("nonce"));
-			System.out.println("request = " + request.getParameterNames());
+			if(!Strings.isNullOrEmpty(request.getParameter("echostr"))){
+				response.getWriter().println(request.getParameter("echostr").toString());
+				System.out.println("request = " + request.getParameterMap());
+				System.out.println("request = " + request.getParameter("signature"));
+				System.out.println("request = " + request.getParameter("echostr"));
+				System.out.println("request = " + request.getParameter("timestamp"));
+				System.out.println("request = " + request.getParameter("nonce"));
+				System.out.println("request = " + request.getParameterNames());
+			}
 			
 			java.io.BufferedReader bis = new java.io.BufferedReader(new java.io.InputStreamReader(request.getInputStream()));
 		      
@@ -268,11 +272,34 @@ public class SysCardTemplateController extends BaseController {
 						 System.out.println("UserCardCode = " + resultMap.get("UserCardCode"));
 						
 						 if(Event.equals("user_get_card")){//用户领取卡券
+							 SysCardTemplate sysCardTemplate = new SysCardTemplate();
+							 sysCardTemplate.setWeixin_card_id(resultMap.get("CardId").toString());
+							 List<SysCardTemplate> sysCardTemplateSendList = sysCardTemplateService.findByParms(sysCardTemplate);
+							 sysCardTemplate = sysCardTemplateSendList.get(0);
+							 SysCardCoupon sysCardCoupon = new SysCardCoupon();
+							 sysCardCoupon.setAppid_cardId(sysCardTemplateSendList.get(0).getWeixin_card_id());
+							 sysCardCoupon.setSn(resultMap.get("UserCardCode").toString());
+							 sysCardCoupon.setStatus(new Byte("0"));
+							 sysCardCoupon.setTitle(sysCardTemplate.getTitle());
+							 sysCardCoupon.setSource("微信");
+							 sysCardCoupon.setAppid_userId(resultMap.get("FromUserName").toString());
+							 sysCardCoupon.setCreatedAt(new Date());
+							 sysCardCoupon.setStartTime(sysCardTemplate.getStartDate());
+							 sysCardCoupon.setEndTime(sysCardTemplate.getEndDate());
+							 sysCardCoupon.setType(new Byte("3"));
+							 sysCardCouponService.insert(sysCardCoupon);
 							 System.out.println("IsGiveByFriend = " + resultMap.get("IsGiveByFriend"));
 							 System.out.println("OuterId = " + resultMap.get("OuterId"));
 							 System.out.println("FriendUserName = " + resultMap.get("FriendUserName"));
 						 }else if(Event.equals("user_consume_card")){//核销事件
 							 System.out.println("核销事件");
+							 SysCardCoupon sysCardCoupon = new SysCardCoupon();
+							 sysCardCoupon.setSn(resultMap.get("UserCardCode").toString());
+							 List<SysCardCoupon> sysCardCouponList = sysCardCouponService.findByParms(sysCardCoupon); 
+							 SysCardCoupon sysCardCouponConsume = sysCardCouponList.get(0);
+							 sysCardCoupon.setStatus(new Byte("1"));
+							 sysCardCouponService.update(sysCardCouponConsume);;
+							 
 							 System.out.println("ConsumeSource = " + resultMap.get("ConsumeSource"));
 							 System.out.println("OutTradeNo = " + resultMap.get("OutTradeNo"));
 							 System.out.println("TransId = " + resultMap.get("TransId"));
@@ -282,6 +309,7 @@ public class SysCardTemplateController extends BaseController {
 						 } else if(Event.equals("user_del_card")){//用户删除卡券
 							 
 						 }else if(Event.equals("user_view_card")){//进入会员卡事件推送
+							 System.out.println("进入会员卡事件推送");
 							 
 						 }
 					 }

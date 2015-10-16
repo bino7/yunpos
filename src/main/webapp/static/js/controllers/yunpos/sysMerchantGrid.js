@@ -38,7 +38,9 @@ app.controller('MerchantListCtrl',  function($scope, $http, $state, $stateParams
                {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 }, 
                {field: 'auditStatus', displayName: '审核状态', enableCellEdit: false, width: 100 }, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.merchantDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a>     <button ng-click="deleted({id:row.getProperty(col.field) , merchant:row})">删除</button></div>'
+                cellTemplate: '<div><a ui-sref="app.table.merchantReview({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>审核</button> </a>'
+                + '<button ng-if="row.getProperty(\'status\')==0" ng-click="updateStatus({id:row.getProperty(col.field) , merchant:row, status:1})">启用</button>'
+                + '<button ng-if="row.getProperty(\'status\')==1" ng-click="updateStatus({id:row.getProperty(col.field) , merchant:row, status:0})">停用</button></div>'
             }],
             enablePaging: true,
             showFooter: true,        
@@ -90,6 +92,23 @@ app.controller('MerchantListCtrl',  function($scope, $http, $state, $stateParams
 	    	 $scope.setPagingData($scope.merchantData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
 	     }).error(function(data,status,headers,config){
 	      	alert("删除失败！");
+	     });
+	};
+	
+	$scope.updateStatus = function(obj) {
+		var merchant={};
+		merchant.id = obj.id;
+		merchant.status = obj.status;
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/merchant/updateStatus/' + obj.id,
+	        params  :  merchant 
+	     }).success(function() {
+	    	 alert("更新成功！");
+	    //	 $scope.agentmerchantData[obj.agentmerchant.rowIndex] = obj.agentmerchant.entity;
+	    //	 $scope.setPagingData($scope.agentmerchantData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	     }).error(function(data,status,headers,config){
+	      	alert("更新失败！");
 	     });
 	};
 	
@@ -359,4 +378,53 @@ app.controller('MerchantInfoCtrl', function($scope, $http, $state, $stateParams)
 	}
 });
 
+/**
+ * 商户审核
+ * @type {[type]}
+ */
+app.controller('MerchantReviewCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/merchant/'+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.merchant = data;
+	        });
+	};
+	/**
+	  * 审核商户
+	  * @param {Object} merchant
+	  */	
+		$scope.reviewd = {};	
+		$scope.review = function(merchant) {
+			var auditStatus = merchant.auditStatus;
+			if (auditStatus < 2 ) {
+				alert("请对商户信息进行审核");
+			} else {
+				$scope.reviewd.id = merchant.id;
+				$scope.reviewd.auditStatus = merchant.auditStatus;
+				$scope.reviewd.auditMemo = merchant.auditMemo;			
+				$http({
+					method: 'put',
+					url: '/ajax/merchantreview/' + $scope.reviewd.id,
+					params: $scope.reviewd
+				}).success(function(data) {
+					if (data) {
+						alert("审核成功");
+					    $state.go('app.table.merchant');	
+					}else {
+						alert("审核失败！");
+					}				
+				}).error(function(data, status, headers, config) {
+					alert("审核失败！");
+				});
+				
+			}
+		};
+		
+		$scope.back = function() {
+			$state.go('app.table.merchant');	
+		};
+});
 

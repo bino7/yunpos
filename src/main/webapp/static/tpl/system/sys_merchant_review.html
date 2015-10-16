@@ -1,0 +1,179 @@
+<div class="well" ng-controller="MerchantReviewCtrl" ng-init="processForm()">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-12">
+					<form class="form-horizontal" role="form" name="form">
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								用户名：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.userName" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								昵称：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.nickname" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								状态：
+							</label>
+							<div class="col-md-10">
+								<div class="radio">
+									<label>
+										<input type="radio" name="optionsRadios" id="optionsRadios1" value="1" ng-model="merchant.status" disabled="value"> 启用
+									</label>
+									<label>
+										<input type="radio" name="optionsRadios" id="optionsRadios2" value="0" ng-model="merchant.status" disabled="value"> 停用
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								审核状态：
+							</label>
+							<div class="col-md-10">
+								<div class="radio">
+									<label>
+										<input type="radio" value="2" ng-model="merchant.auditStatus"> 审核通过
+									</label>
+									<label>
+										<input type="radio" value="3" ng-model="merchant.auditStatus"> 驳回
+									</label>
+									<label>
+										<input type="radio" value="4" ng-model="merchant.auditStatus"> 回退
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	审核意见：
+                            </label>
+                            <div class="col-md-9">
+                               <textarea rows="3" ng-model="merchant.auditMemo" style="width:65%" ></textarea>
+                            </div>	
+                        </div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">合同到期时间:</label>
+							<div class="col-md-10">
+								{{merchant.endTime}}
+							</div>
+						</div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	代理商营业执照：
+                            </label>
+                            <div class="col-md-10">
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div class="upload-buttons">
+										<div id="editArea">
+											<img ngf-src="merchant.businessLicense" src="" id="businessLicenseImg" class="thumb">
+										</div>
+										<br/>
+									</div>
+								</div>
+							</div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	法人/经营者身份证：
+                            </label>
+							<div class="col-md-3">
+								<label>正面：</label>
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div id="editArea">
+										<img ngf-src="merchant.identityCardOn" src="" id="identityCardImg" class="thumb">
+									</div>
+									<br />
+								</div>
+							</div>
+							<div class="col-md-3">
+								<label>反面：</label>
+								<div class="upload-div" ng-app="app" ng-controller="FileUploadCtrl">
+									<div id="editArea">
+										<img ngf-src="merchant.identityCardOff" src="" id="identityCardImg" class="thumb">
+									</div>
+									<br />
+								</div>
+							</div>
+                        </div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								公司名称：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.companyName" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								营业执照注册号：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.identityType" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								联系人：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.contactMan" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								联系电话：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.phone" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								手机号码：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.tel" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								电子邮箱：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.email" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">
+								详细地址：
+							</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder="" ng-model="merchant.address" disabled="value">
+							</div>
+						</div>
+						<div class="form-group">
+                        	<div class="col-md-4">
+                            </div>
+                            <div class="col-md-2">
+                            	<button  ng-disabled="form.$invalid" ng-click="review(merchant)">保存</button>
+                            </div>
+                            <div class="col-md-2">
+                            	<button  ng-click="back()">取消</button>
+                            </div>
+                        </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

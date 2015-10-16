@@ -42,9 +42,9 @@ public class ReportService {
         
     	String responseString = new HttpsRequest(sysWechatConfig.getCertLocalPath(),sysWechatConfig.getCertPassword()).sendPost(WechatPayConfig.REPORT_API, reqData,sysWechatConfig);
 
-        Util.log("   report返回的数据：" + responseString);
+        Util.log("   report返回的数据：" + new String(responseString.getBytes("GBK"),"UTF-8"));
 
-        return responseString;
+        return new String(responseString.getBytes("GBK"),"UTF-8");
     }
 
     /**

@@ -30,9 +30,9 @@ public class SysWechatConfig {
     private String merchantNo;
     
     //服务商
-    public static Byte mchType_service = 1;
+    public static Byte mchType_service = 0;
 	//商户
-    public static Byte mchType_mch = 0;
+    public static Byte mchType_mch = 1;
 
     public Integer getId() {
         return id;

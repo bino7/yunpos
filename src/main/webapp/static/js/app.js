@@ -19,9 +19,9 @@ var modules = ['ngAnimate',
                'ui.grid.cellNav',
                'infinite-scroll',
                'ngFileUpload',
-               'ngTreetable'
+               'ngTreetable',
+               'integralui'
                ];
-
 //全局app
 var app = angular.module('app', modules), permissionList,user;
 

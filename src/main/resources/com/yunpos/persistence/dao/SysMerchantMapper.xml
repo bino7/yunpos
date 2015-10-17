@@ -933,7 +933,7 @@
         and baseUserId = #{baseUserId,jdbcType=INTEGER}
       </if>
        <if test="orgId != null" >
-        and orgId = #{orgId,jdbcType=INTEGER}
+        and merc.orgId = #{orgId,jdbcType=INTEGER}
       </if>
       <if test="serialNo != null" >
         and serialNo = #{serialNo,jdbcType=VARCHAR}

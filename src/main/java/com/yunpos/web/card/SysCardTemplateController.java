@@ -2,6 +2,7 @@ package com.yunpos.web.card;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,15 +15,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.WritableResource;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import com.google.common.base.Strings;
 import com.yunpos.card.weixin.WxCardBaseInfo;
 import com.yunpos.card.weixin.WxCardGroupon;
 import com.yunpos.exception.ServiceException;
+import com.yunpos.model.SysMerchant;
 import com.yunpos.model.SysWechatConfigWithBLOBs;
 import com.yunpos.model.card.SysCardCoupon;
 import com.yunpos.model.card.SysCardTemplate;
@@ -31,6 +40,7 @@ import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysWechatConfigService;
 import com.yunpos.service.card.SysCardCouponService;
 import com.yunpos.service.card.SysCardTemplateService;
+import com.yunpos.utils.ConfigContants;
 import com.yunpos.utils.Tools;
 import com.yunpos.utils.XMLUtil;
 import com.yunpos.utils.jqgrid.GridResponse;
@@ -105,9 +115,29 @@ public class SysCardTemplateController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/ajax/sysCardTemplate", method = RequestMethod.POST)
-	public GridRowResponse create(@Valid SysCardTemplate sysCardTemplate) {
+	public GridRowResponse create(HttpServletRequest request , @Valid SysCardTemplate sysCardTemplate) {
+		SysMerchant  sysMerchant = new SysMerchant();
+		sysMerchant.setOrgId(this.getUser().getOrgId());
+		List<SysMerchant> sysMerchantList = sysMerchantService.findByParms(sysMerchant);
+		sysMerchant = sysMerchantList.get(0);
+		
+		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysMerchant.getSerialNo());
+		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
+		
+		//*****************************************多媒体上传图片 begin***************************************************
+		WritableResource resource = new FileSystemResource(new File(sysCardTemplate.getLogo().replace(ConfigContants.IMAGEURL, ConfigContants.IMAGEPATH)));
+		MultiValueMap data = new LinkedMultiValueMap();
+		data.add("buffer", resource);
+		
+		String urlString = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token="+access_token;
+		RestTemplate restTemplate = new RestTemplate();
+		String result = restTemplate.postForObject(urlString, data, String.class);
+		JSONObject jsonObject = JSONObject.fromObject(result);
+		System.out.println(result);
+		sysCardTemplate.setLogo(jsonObject.getString("url").toString());
 		sysCardTemplate.setType(1);
 		sysCardTemplate.setOrgId(getUser().getOrgId());
+		sysCardTemplate.setMerNo(sysMerchant.getSerialNo());
 		sysCardTemplate.setCreatedAt(new Date());
 		sysCardTemplate.setStatus(0);
 		sysCardTemplateService.save(sysCardTemplate);
@@ -175,7 +205,7 @@ public class SysCardTemplateController extends BaseController {
 	        baseInfo.setSource("大众点评");
 	        
 	        System.out.println(baseInfo.toJsonString());
-	        baseInfo.setLogoUrl("http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0");
+	        baseInfo.setLogoUrl(sysCardTemplateSend.getLogo());
 	        ArrayList<Integer> locationIdList = new ArrayList<Integer>();
 	        locationIdList.add(809809);
 	        locationIdList.add(423532);
@@ -385,5 +415,33 @@ public class SysCardTemplateController extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * 微信上传logo
+	 * @param id
+	 */
+	@RequestMapping(value = "/weixin/uplodLogo")
+	public void uplodLogo(HttpServletRequest request , HttpServletResponse response) {
+		System.out.println("request = " + request);
+		
+		SysMerchant  sysMerchant = new SysMerchant();
+		sysMerchant.setOrgId(this.getUser().getOrgId());
+		List<SysMerchant> sysMerchantList = sysMerchantService.findByParms(sysMerchant);
+		sysMerchant = sysMerchantList.get(0);
+		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysMerchant.getSerialNo());
+		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
+		
+		
+		//*****************************************多媒体上传图片 begin***************************************************
+		WritableResource resource = new FileSystemResource(new File("C:/Users/IBM_ADMIN/Desktop/a.jpg"));
+		MultiValueMap data = new LinkedMultiValueMap();
+		data.add("media", resource);
+		String urlString = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token="+access_token+"&type=image";
+		RestTemplate restTemplate = new RestTemplate();
+		String result = restTemplate.postForObject(urlString, data, String.class);
+		 
+		System.out.println(result);
 	}
 }

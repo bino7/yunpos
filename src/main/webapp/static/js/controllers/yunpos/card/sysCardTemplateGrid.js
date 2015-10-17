@@ -134,6 +134,7 @@ app.controller('SysCardTemplateAddCtrl', function($scope, $http, $state, $stateP
 	  $scope.add = function(sysCardTemplate) {
 		sysCardTemplate.endDate = formatDateTime(sysCardTemplate.endDate);
 		sysCardTemplate.startDate = formatDateTime(sysCardTemplate.startDate);
+		sysCardTemplate.logo = document.getElementById("logo").value;
 	    $scope.master = angular.copy(sysCardTemplate);
 	    $http({
 	        method  : 'post',
@@ -168,10 +169,12 @@ app.controller('SysCardTemplateDetailCtrl', function($scope, $http, $state, $sta
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.sysCardTemplate = data;
-	            $scope.sysCardTemplate.oldPassword = data.password;
-	            $scope.sysCardTemplate.password = "";
-	            $scope.newPassword = "";
-	           // alert(data.id);
+	            
+	            if($scope.sysCardTemplate.logo != null && $scope.sysCardTemplate.logo != '' ){
+	            	document.getElementById("logoImg").className  = "thumb";
+	            	document.getElementById("logoImg").src = $scope.sysCardTemplate.logo;
+	            	document.getElementById("logoButton").removeAttribute("disabled");
+	            }
 	        });
 	};
 	 $scope.saved = {};
@@ -196,68 +199,3 @@ app.controller('SysCardTemplateDetailCtrl', function($scope, $http, $state, $sta
 });
 
 
-
-/**
- * 这里是卡券企业信息
- * @type {[type]}
- */
-app.controller('sysCardTemplateInfoCtrl', function($scope, $http, $state, $stateParams) {
-    $scope.processForm = function() {
-	    $http({
-	        method  : 'get',
-	        url     : '/ajax/sysCardTemplate/1'
-	    }).success(function(data) {
-	           // console.log(data);
-	            $scope.sysCardTemplate = data;
-	            $scope.sysCardTemplate.oldPassword = data.password;
-	            $scope.sysCardTemplate.password = "";
-	            $scope.newPassword = "";
-	            if($scope.sysCardTemplate.identityCard != null && $scope.sysCardTemplate.identityCard != '' ){
-	            	document.getElementById("identityCardImg").className  = "thumb";
-	            	document.getElementById("identityCardImg").src = $scope.sysCardTemplate.identityCard;
-	            	document.getElementById("identityCardButton").removeAttribute("disabled");
-	            }
-	            if($scope.sysCardTemplate.businessLicense != null && $scope.sysCardTemplate.businessLicense != '' ){
-	            	document.getElementById("businessLicenseImg").className  = "thumb";
-	            	document.getElementById("businessLicenseImg").src = $scope.sysCardTemplate.businessLicense;
-	            	document.getElementById("businessLicenseButton").removeAttribute("disabled");
-	            }
-	        });
-	};
-	 $scope.saved = {};
-     $scope.save = function(sysCardTemplate) {
-    	 sysCardTemplate.endTime = formatDateTime(sysCardTemplate.endTime);
-    	 sysCardTemplate.businessLicense = document.getElementById("businessLicense").value;
-    	 sysCardTemplate.identityCard = document.getElementById("identityCard").value;
-    	 if(sysCardTemplate.password == ""){
-    		 sysCardTemplate.password = sysCardTemplate.oldPassword;
-    	 }
-    	 sysCardTemplate.newPassword = sysCardTemplate.password ;
-    	 $scope.saved = angular.copy(sysCardTemplate);
-	     $http({
-	        method  : 'put',
-	        url     : '/ajax/sysCardTemplate/' + $scope.saved.id,
-	        params  : $scope.saved
-	     }).success(function(data) {
-	    	 alert("保存成功！");
-	     }).error(function(data,status,headers,config){
-	      	alert("保存失败！");
-	     });
-	};
-	
-     //上传图片
-     $scope.onFileSelect = function($files) {    
-    	    for (var i = 0; i < $files.length; i++) {      var file = $files[i];
-    	      $scope.upload = $upload.upload({
-    	    	method  : 'post',
-    	        url: '/ajax/upload',  
-    	        data: {myObj: $scope.myModelObj},
-    	        file: file,  
-    	      }).progress(function(evt) {        
-    	    	  console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-    	      }).success(function(data, status, headers, config) {        
-    	        console.log(data);
-    	      });     
-    	    }    
-    	    };
-});

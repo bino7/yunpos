@@ -1080,6 +1080,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       );
                   }]
               }
+          }) .state('app.table.sysCardTemplateDetail', {//卡券模板详情
+              url: '/sysCardTemplateDetail/:id',
+              templateUrl: 'tpl/system/card/sys_card_template_detail.html',
+              resolve: {
+                  deps: ['$ocLazyLoad',
+                    function( $ocLazyLoad ){
+                      return $ocLazyLoad.load('ngGrid').then(
+                          function(){
+                              return $ocLazyLoad.load('js/controllers/yunpos/card/sysCardTemplateGrid.js');
+                          }
+                      );
+                  }]
+              }
           })
       }
     ]

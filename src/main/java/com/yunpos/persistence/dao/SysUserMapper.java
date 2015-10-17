@@ -17,7 +17,6 @@ public interface SysUserMapper extends EntityMapper<SysUser> {
 	@Select("select * from sys_user u where u.delete_status=0")
 	List<SysUser> findAll();
 	
-	
 	List<SysUser> findByCondition(GridRequest gridRequest);
 	
 	 //通过邮件查询

@@ -3,6 +3,7 @@ package com.yunpos.web;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,18 +61,24 @@ public class SysRoleController extends BaseController {
 	}
 
 	@RequestMapping(value = "/ajax/role/{id}", method = GET)
-	public SysRole read(@PathVariable("id") int id) {
+	public SysRole read(@Valid SysRole role,@PathVariable("id") int id) {
+		role.setCreateDate(/*(role.getCreateDate()!=null) ?*/ role.getCreateDate()/* : new Date()*/);
+		role.setModifyDate(new Date());
 		return sysRoleService.findById(id);
 	}
 
 	@RequestMapping(value = "/ajax/role", method = RequestMethod.POST)
 	public GridRowResponse create(@Valid SysRole role) {
+		role.setCreateDate(new Date());
+		role.setModifyDate(new Date());
 		sysRoleService.save(role);
 		return new GridRowResponse(role.getId());
 	}
 
 	@RequestMapping(value = "/ajax/role/{id}", method = RequestMethod.PUT)
 	public GridRowResponse update(@Valid SysRole role, @PathVariable("id") int id) {
+		role.setCreateDate((role.getCreateDate()!=null) ? role.getCreateDate() : new Date());
+		role.setModifyDate(new Date());
 		role.setOrgId(id);
 		sysRoleService.update(role);
 		return new GridRowResponse(role.getId());

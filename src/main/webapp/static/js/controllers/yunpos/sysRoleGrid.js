@@ -1,6 +1,4 @@
-//分润管理
-
-app.controller('SysShareManageCtl',  function($scope, $http, $state, $stateParams) {
+app.controller('roleControllerCtrl',  function($scope, $http, $state, $stateParams) {
     $scope.filterOptions = {
         filterText: "",
         useExternalFilter: true
@@ -13,14 +11,14 @@ app.controller('SysShareManageCtl',  function($scope, $http, $state, $stateParam
     };  
     $scope.setPagingData = function(data, page, pageSize){  
         var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-        $scope.userListData = pagedData;
+        $scope.roleData = pagedData;
         $scope.totalServerItems = data.length;
         if (!$scope.$$phase) {
             $scope.$apply();
         }
     };
     $scope.gridOptions = {
-            data: 'userListData',
+            data: 'roleData',
             rowTemplate: '<div style="height: 100%"><div ng-style="{ \'cursor\': row.cursor }" ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
                 '<div class="ngVerticalBar" ng-style="{height: rowHeight}" ng-class="{ ngVerticalBarVisible: !$last }"> </div>' +
                 '<div ng-cell></div>' +
@@ -31,15 +29,16 @@ app.controller('SysShareManageCtl',  function($scope, $http, $state, $stateParam
             enableCellEdit: true,
           //  enablePinning: true,
             columnDefs: [
-               {field: 'userName', displayName: '用户名', width: 120,  pinnable: false,  sortable: false}, 
-               {field: 'nickname', displayName: '昵称', enableCellEdit: false}, 
-               {field: 'fullname', displayName: '联系人', enableCellEdit: false, width: 220},
-               {field: 'role', displayName: '用户角色', enableCellEdit: false, width: 120}, 
-               {field: 'createdBy',displayName: '添加人',enableCellEdit: false, width: 120}, 
-               {field: 'status', displayName: '状态', enableCellEdit: false, width: 60 }, 
+               {field: 'roleName', displayName: '角色名', width: 200, enableCellEdit: false, pinnable: false,  sortable: false}, 
+               {field: 'createDate', displayName: '添加时间', enableCellEdit: false,width: 300}, 
+               {field: 'modifyDate', displayName: '最后修改时间', enableCellEdit: false, width: 300},
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
-                cellTemplate: '<div><a ui-sref="app.table.userDetail({id:row.getProperty(col.field)})" id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a>     <button ng-click="deleted({id:row.getProperty(col.field) , user:row})">删除</button></div>'
-            }],
+                cellTemplate: '<div><a ui-sref="app.table.roleDetail({id:row.getProperty(col.field)})" ' 
+                	+'id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a> '  
+                	+'<button ng-click="permissionSetting({id:row.getProperty(col.field) , role:row})">权限设置</button> '
+                	 +'<button ng-click="deleted({id:row.getProperty(col.field) , role:row})">删除</button> '
+        			+'</div>'
+         }],
             enablePaging: true,
             showFooter: true,        
             totalServerItems: 'totalServerItems',
@@ -51,14 +50,14 @@ app.controller('SysShareManageCtl',  function($scope, $http, $state, $stateParam
             var data;
             if (searchText) {
                 var ft = searchText.toLowerCase();
-                data = $scope.userData.filter(function(item) {
+                data = $scope.roleData.filter(function(item) {
                      return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
                 });
                 $scope.setPagingData(data,page,pageSize);
             } else {
-                $http.get('/ajax/user/search').success(function (largeLoad) {
-                    $scope.userData = largeLoad.rows;
-                    $scope.setPagingData($scope.userData,page,pageSize);
+                $http.get('/ajax/role/search').success(function (largeLoad) {
+                    $scope.roleData = largeLoad.rows;
+                    $scope.setPagingData($scope.roleData,page,pageSize);
                 });
             }
         }, 100);
@@ -82,20 +81,62 @@ app.controller('SysShareManageCtl',  function($scope, $http, $state, $stateParam
     $scope.deleted = function(obj) {
 	     $http({
 	        method  : 'delete',
-	        url     : '/ajax/user/' + obj.id,
-	        params  : {"id":obj.id}
+	        url     : '/ajax/role/' + obj.id,
+	        params  : {"id":obj.id}    //deleted({id:row.getProperty(col.field) , user:row})
 	     }).success(function() {
 	    	 alert("删除成功！");
-	    	 $scope.userData.splice(obj.user.rowIndex, 1);
-	    	 $scope.setPagingData($scope.userData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	    	 $scope.roleData.splice(obj.role.rowIndex, 1);
+	    	 $scope.setPagingData($scope.roleData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
 	     }).error(function(data,status,headers,config){
 	      	alert("删除失败！");
 	     });
 	};
 	
+
+		
+/*//	 $scope.saved_st = {};
+     $scope.saveStatus = function(user) {
+    	 user.user.entity.status = user.status;
+//    	 $scope.saved_st = angular.copy(user.user.entity);
+    	 if (user.status == 0){
+ 	   		user.status= 1;
+ 	   		user.statusStr = "停用";
+ 	   	 }else{
+ 	   		 user.status= 0;
+ 	   		 user.statusStr ="启用";
+ 	   	 }
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/user/' + user.id,
+	        params  : user.user.entity
+//	     }).success(function(data) {
+//	    	 alert("保存成功！");
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}*/
+  /*  $scope.delete_st = {} ;
+    $scope.deleted = function(obj) {
+    	 $scope.delete_st = angular.copy(obj);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/user/' + obj.id,
+	        params  : $scope.delete_st    //deleted({id:row.getProperty(col.field) , user:row})
+	     }).success(function(data) {
+	    	 alert("删除成功！");
+	    	 $scope.roleData.splice(obj.user.rowIndex, 0);
+	    	 $scope.setPagingData($scope.userData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
+	     }).error(function(data,status,headers,config){
+	      	alert("删除失败！");
+	     });
+	};
+  	*/
+
+	
+	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
-          var data = $scope.userData.filter(function(item) {
+          var data = $scope.roleData.filter(function(item) {
                   return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
          });
          $scope.setPagingData(data, $scope.pagingOptions.currentPage , $scope.pagingOptions.pageSize);
@@ -110,28 +151,26 @@ app.controller('SysShareManageCtl',  function($scope, $http, $state, $stateParam
  * 
  * @type {[type]}
  */
-app.controller('UserAddCtrl', function($scope, $http, $state, $stateParams) {
+app.controller('roleAddCtrl', function($scope, $http, $state, $stateParams) {
     console.log($stateParams);
-    
     $scope.master = {};
-
-	  $scope.add = function(user) {
-	    $scope.master = angular.copy(user);
+	  $scope.add = function(role) {
+	    $scope.master = angular.copy(role);
 	    $http({
 	        method  : 'post',
-	        url     : '/ajax/user',
-	        params    : user  
+	        url     : '/ajax/role',
+	        params    : role
 	    }).success(function(data) {
 	            console.log(data);
 	            alert("添加成功！");
-	            $state.go('app.table.user');
+	            $state.go('app.table.role');
 	    }).error(function(data){
 	    	alert("出错");
 	    });
 	  };
 
 	  $scope.reset = function() {
-	    $scope.user = angular.copy($scope.master);
+	    $scope.role = angular.copy($scope.master);
 	  };
 
 	  $scope.reset();
@@ -142,30 +181,29 @@ app.controller('UserAddCtrl', function($scope, $http, $state, $stateParams) {
  * 这里是用户编辑
  * @type {[type]}
  */
-app.controller('UserDetailCtrl', function($scope, $http, $state, $stateParams) {
+app.controller('roleDetailCtrl', function($scope, $http, $state, $stateParams) {
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',
-	        url     : '/ajax/user/'+ $stateParams.id
+	        url     : '/ajax/role/'+ $stateParams.id
 	    }).success(function(data) {
 	           // console.log(data);
-	            $scope.user = data;
+	            $scope.role = data;
 	           // alert(data.id);
 	        });
 	};
 	 $scope.saved = {};
-     $scope.save = function(user) {
-    	 $scope.saved = angular.copy(user);
+     $scope.save = function(role) {
+    	 $scope.saved = angular.copy(role);
 	     $http({
 	        method  : 'put',
-	        url     : '/ajax/user/' + $scope.saved.id,
+	        url     : '/ajax/role/' + $scope.saved.id,
 	        params  : $scope.saved
 	     }).success(function(data) {
 	    	 alert("保存成功！");
+	    	 $state.go('app.table.role');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });
 	}
 });
-
-

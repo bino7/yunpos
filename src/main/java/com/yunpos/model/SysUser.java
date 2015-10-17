@@ -68,6 +68,8 @@ public class SysUser implements Serializable{
 	private Integer updatedBy; // 更新人
 	
 	private Integer	delete_status; //删除状态
+	
+	private String newPassword;//新密码与旧密码匹对
 
 	// 下面表单接收数据使用，非实体数据库字段
 	private String role; //
@@ -267,6 +269,14 @@ public class SysUser implements Serializable{
 
 	public void setStatusStr(String statusStr) {
 		this.statusStr = statusStr;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
 	

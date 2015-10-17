@@ -29,6 +29,10 @@ public class SysRole implements Serializable {
 	private Integer modifyUserId;
 
 	private Date modifyDate;
+	
+	private Integer roleProperty;//角色属性
+	
+	private String info; //备注
 
 	public Integer getId() {
 		return id;
@@ -102,6 +106,22 @@ public class SysRole implements Serializable {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public Integer getRoleProperty() {
+		return roleProperty;
+	}
+
+	public void setRoleProperty(Integer roleProperty) {
+		this.roleProperty = roleProperty;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 }

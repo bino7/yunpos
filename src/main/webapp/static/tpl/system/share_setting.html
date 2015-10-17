@@ -1,7 +1,38 @@
 <div class="bg-light lter b-b wrapper-md">
   <h1 class="m-n font-thin h3">分润设置</h1>
 </div>
-<div class="wrapper-md">
+<div class="wrapper-md" ng-controller="SysShareSettingCtl">
+  <div class="panel panel-default">
+	  <div class="panel-heading">
+		  <div class="row">
+		    <div class="col-xs-3" style ="float: right;">
+		   	 	<input ng-model='filterText'/><button ng-click='search()'>查询</button>
+			</div>
+		</div>
+    </div>
+    <div class="table-responsive">
+      <div style="float:left;">
+		     <label >交易渠道：</label>
+		     <select id="select_source" ng-model="selcet_source"  name="order_state"> 
+				<option value = "">  请选择 </option> 
+				<option value="支付宝线下">支付宝线下</option> 
+				<option value="支付宝线上">支付宝线上</option> 	
+				<option value="微信线下">微信线下</option> 
+				<option value="微信线上">微信线上</option> 		
+			</select> 
+			<label>返佣:</label>
+			<label style="padding:0 0 0 80px;">分润比例：<input type="text" class="form_min" placeholder="" ng-model='shareSetting.'/></label>
+			<label class="filter-column">直接代理商：<input type="text" class="form_min" ng-model='shareSetting.'/></label>
+			<label>第二层代理商：<input type="text" class="form_min" ng-model='shareSetting.'/></label>
+			<label class="filter-column">第三层代理商：<input type="text" class="form_min" ng-model='shareSetting.'/></label>
+			</div>
+      <div ng-grid="gridOptions" style="min-height:420px"></div>
+    </div>
+  </div>
+</div>
+
+
+<!--  <div class="wrapper-md">
  <div class="panel panel-default">
     <div class="panel-heading font-bold">                  
       Inline form
@@ -34,3 +65,4 @@
 
  </div>
 </div>
+-->

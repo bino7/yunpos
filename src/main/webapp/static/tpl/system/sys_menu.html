@@ -8,5 +8,9 @@
       <button id="toggleExpandNoChildren" type="button" class="btn btn-success" ng-click="toggleExpandNoChildren()">Toggle Expand No Children</button>
       --> 
     <!--   <div id="grid1" ui-grid="gridOptions" ui-grid-tree-view class="grid"></div> -->
-       <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-tree-view class="grid"></div>
+     <button id="refreshButton" type="button" class="btn btn-success" ng-click="add()">新增</button>
+     <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">刷新</button>
+   
+     <br>
+     <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-tree-view class="grid"></div>
 </div>

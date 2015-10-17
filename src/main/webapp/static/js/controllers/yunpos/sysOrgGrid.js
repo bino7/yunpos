@@ -10,7 +10,7 @@ app.controller("SysOrgController", ["$scope","$rootScope", "IntegralUITreeGridSe
 //		column : {headerText : 'columnTitle',headerAlignment : 'columnAlignment',contentAlignment : 'cellAlignment',width : 'size'},
 //		row : {id : 'rowID',pid : 'parentID',text : 'rowText'},
 //		cell : {text : 'cellText'}
-		column : {headerText : 'headerText',headerAlignment : 'headerAlignment',contentAlignment : 'cellAlignment',width : 'width'},
+		column : {fixedWidth:true,headerText : 'headerText',headerAlignment : 'headerAlignment',contentAlignment : 'cellAlignment',width : 'width'},
 		row : {id : 'orgNo',pid : 'orgParentNo',text : 'text'},
 		cell : {text : 'text',cid:'cid'}
 	}

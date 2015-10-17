@@ -1,15 +1,17 @@
 [{
 		"id" : 46,
 		"sequence" : null,
+		"icon":"icons-medium people"
 		"orgNo" : "0002",
 		"orgName" : "ttt2",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 6,
-		"createDate" : 1444811928000,
+		"createDate" : "2015-10-14 16:38:48",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822683000,
+		"modifyDate" : "2015-10-14 19:38:03",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0002",
@@ -18,23 +20,25 @@
 				"text" : "ttt2",
 				"cid" : "3"
 			}, {
-				"text" : 1444811928000,
+				"text" : "2015-10-14 16:38:48",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:38:48"
 	}, {
 		"id" : 47,
 		"sequence" : null,
 		"orgNo" : "0003",
 		"orgName" : "ttt2",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 6,
-		"createDate" : 1444811978000,
+		"createDate" : "2015-10-14 16:39:38",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822687000,
+		"modifyDate" : "2015-10-14 19:38:07",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0003",
@@ -43,23 +47,25 @@
 				"text" : "ttt2",
 				"cid" : "3"
 			}, {
-				"text" : 1444811978000,
+				"text" : "2015-10-14 16:39:38",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:39:38"
 	}, {
 		"id" : 77,
 		"sequence" : null,
 		"orgNo" : "0004",
 		"orgName" : "ttt2",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 6,
-		"createDate" : 1444812011000,
+		"createDate" : "2015-10-14 16:40:11",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822689000,
+		"modifyDate" : "2015-10-14 19:38:09",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0004",
@@ -68,23 +74,25 @@
 				"text" : "ttt2",
 				"cid" : "3"
 			}, {
-				"text" : 1444812011000,
+				"text" : "2015-10-14 16:40:11",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:40:11"
 	}, {
 		"id" : 49,
 		"sequence" : null,
 		"orgNo" : "0005",
 		"orgName" : "ttt4",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 6,
-		"createDate" : 1444812088000,
+		"createDate" : "2015-10-14 16:41:28",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822692000,
+		"modifyDate" : "2015-10-14 19:38:12",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0005",
@@ -93,11 +101,12 @@
 				"text" : "ttt4",
 				"cid" : "3"
 			}, {
-				"text" : 1444812088000,
+				"text" : "2015-10-14 16:41:28",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:41:28"
 	}, {
 		"id" : 60,
 		"sequence" : null,
@@ -108,9 +117,9 @@
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 6,
-		"createDate" : 1444812272000,
+		"createDate" : "2015-10-14 16:44:32",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822694000,
+		"modifyDate" : "2015-10-14 19:38:14",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0006",
@@ -119,23 +128,25 @@
 				"text" : "ttt4",
 				"cid" : "3"
 			}, {
-				"text" : 1444812272000,
+				"text" : "2015-10-14 16:44:32",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:44:32"
 	}, {
 		"id" : 51,
 		"sequence" : null,
 		"orgNo" : "00060002",
 		"orgName" : "m1",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "0006",
 		"level" : 2,
 		"createUserId" : 13,
-		"createDate" : 1444812518000,
+		"createDate" : "2015-10-14 16:48:38",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822697000,
+		"modifyDate" : "2015-10-14 19:38:17",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "00060002",
@@ -144,23 +155,25 @@
 				"text" : "m1",
 				"cid" : "3"
 			}, {
-				"text" : 1444812518000,
+				"text" : "2015-10-14 16:48:38",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:48:38"
 	}, {
 		"id" : 52,
 		"sequence" : null,
 		"orgNo" : "00060003",
 		"orgName" : "m2",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "0006",
 		"level" : 2,
 		"createUserId" : 13,
-		"createDate" : 1444812953000,
+		"createDate" : "2015-10-14 16:55:53",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822699000,
+		"modifyDate" : "2015-10-14 19:38:19",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "00060003",
@@ -169,23 +182,25 @@
 				"text" : "m2",
 				"cid" : "3"
 			}, {
-				"text" : 1444812953000,
+				"text" : "2015-10-14 16:55:53",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:55:53"
 	}, {
 		"id" : 53,
 		"sequence" : null,
 		"orgNo" : "0007",
 		"orgName" : "m3",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 12,
-		"createDate" : 1444813087000,
+		"createDate" : "2015-10-14 16:58:07",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822703000,
+		"modifyDate" : "2015-10-14 19:38:23",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0007",
@@ -194,23 +209,25 @@
 				"text" : "m3",
 				"cid" : "3"
 			}, {
-				"text" : 1444813087000,
+				"text" : "2015-10-14 16:58:07",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 16:58:07"
 	}, {
 		"id" : 54,
 		"sequence" : null,
 		"orgNo" : "0008",
 		"orgName" : "m4",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 12,
-		"createDate" : 1444813213000,
+		"createDate" : "2015-10-14 17:00:13",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822706000,
+		"modifyDate" : "2015-10-14 19:38:26",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0008",
@@ -219,11 +236,12 @@
 				"text" : "m4",
 				"cid" : "3"
 			}, {
-				"text" : 1444813213000,
+				"text" : "2015-10-14 17:00:13",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 17:00:13"
 	}, {
 		"id" : 55,
 		"sequence" : null,
@@ -234,9 +252,9 @@
 		"orgParentNo" : "",
 		"level" : 1,
 		"createUserId" : 6,
-		"createDate" : 1444813603000,
+		"createDate" : "2015-10-14 17:06:43",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822708000,
+		"modifyDate" : "2015-10-14 19:38:28",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "0009",
@@ -245,23 +263,25 @@
 				"text" : "1",
 				"cid" : "3"
 			}, {
-				"text" : 1444813603000,
+				"text" : "2015-10-14 17:06:43",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 17:06:43"
 	}, {
 		"id" : 56,
 		"sequence" : null,
 		"orgNo" : "00090001",
 		"orgName" : "s1",
+		"orgParentId" : null,
 		"orgParentName" : "",
 		"orgParentNo" : "0009",
 		"level" : 2,
 		"createUserId" : 18,
-		"createDate" : 1444813713000,
+		"createDate" : "2015-10-14 17:08:33",
 		"modifyUserId" : null,
-		"modifyDate" : 1444822711000,
+		"modifyDate" : "2015-10-14 19:38:31",
 		"isLeaf" : null,
 		"cells" : [{
 				"text" : "00090001",
@@ -270,10 +290,11 @@
 				"text" : "s1",
 				"cid" : "3"
 			}, {
-				"text" : 1444813713000,
+				"text" : "2015-10-14 17:08:33",
 				"cid" : "4"
 			}
 		],
-		"children" : []
+		"children" : [],
+		"createDateStr" : "2015-10-14 17:08:33"
 	}
 ]

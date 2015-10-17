@@ -175,6 +175,11 @@ public class SysCardTemplateController extends BaseController {
 		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysCardTemplateSend.getMerNo());
 		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
 		
+		SysMerchant  sysMerchant = new SysMerchant();
+		sysMerchant.setOrgId(sysCardTemplateSend.getOrgId());
+		List<SysMerchant> sysMerchantList = sysMerchantService.findByParms(sysMerchant);
+		sysMerchant = sysMerchantList.get(0);
+		
 		  WxCardGroupon card = new WxCardGroupon();
 	        WxCardBaseInfo baseInfo = card.getBaseInfo();
 	        baseInfo.setLogoUrl("123");
@@ -196,20 +201,20 @@ public class SysCardTemplateController extends BaseController {
 	        baseInfo.setQuantity(10000000);
 	        
 	        baseInfo.setTitle(sysCardTemplateSend.getTitle());
-	        baseInfo.setSub_title("小牛卡券测试");
-	        baseInfo.setCustom_url_name("立即使用");
-	        baseInfo.setCustom_url("http://www.qq.com");
-	        baseInfo.setCustom_url_sub_title("6个汉字tips");
-	        baseInfo.setPromotion_url_name("更多优惠");
-	        baseInfo.setPromotion_url("http://www.qq.com");
-	        baseInfo.setSource("大众点评");
+	        baseInfo.setSub_title(sysCardTemplateSend.getSubtitle());
+	        baseInfo.setCustom_url_name(sysCardTemplateSend.getUrltitle());
+	        baseInfo.setCustom_url(sysCardTemplateSend.getUrlcontent());
+	        baseInfo.setCustom_url_sub_title(sysCardTemplateSend.getUrldesc());
+//	        baseInfo.setPromotion_url_name("更多优惠");
+//	        baseInfo.setPromotion_url("http://www.qq.com");
+	        baseInfo.setSource(sysMerchant.getMerchantName());
 	        
 	        System.out.println(baseInfo.toJsonString());
 	        baseInfo.setLogoUrl(sysCardTemplateSend.getLogo());
 	        ArrayList<Integer> locationIdList = new ArrayList<Integer>();
 	        locationIdList.add(809809);
 	        locationIdList.add(423532);
-	        card.setDealDetail("小牛卡券测试！！！");
+	        card.setDealDetail(sysMerchant.getMerchantName());
 	        
 	        System.out.println(locationIdList.getClass().isArray());
 	        baseInfo.setLocationIdList(locationIdList);

@@ -59,6 +59,8 @@ public class SysCardTemplate extends GridRequest {
 	private String urltitle;				// 入口名称
 	
 	private String urldesc;					// 引导语
+	
+	private String urlcontent;				// 入口名称
 
 	private Integer status;    				//0 未投放 ，1已投放
 	
@@ -358,6 +360,13 @@ public class SysCardTemplate extends GridRequest {
 		this.weixin_show_qrcode_url = weixin_show_qrcode_url;
 	}
 
+	public String getUrlcontent() {
+		return urlcontent;
+	}
+
+	public void setUrlcontent(String urlcontent) {
+		this.urlcontent = urlcontent;
+	}
 	
 }
 

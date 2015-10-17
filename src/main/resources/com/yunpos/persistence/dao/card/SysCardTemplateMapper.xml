@@ -31,11 +31,12 @@
     <result column="notice" jdbcType="VARCHAR" property="notice" />
     <result column="urltitle" jdbcType="VARCHAR" property="urltitle" />
     <result column="urldesc" jdbcType="VARCHAR" property="urldesc" />
+    <result column="urlcontent" jdbcType="VARCHAR" property="urlcontent" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, title, cardColor, subtitle, type, status, orgId, merNo, weixin_card_id, weixin_show_qrcode_url, putchannel, number, inventory, background, logo, startDate, 
     endDate, tel, operation, merchant, createdAt, updatedAt , discount, customtitle, limitNum, 
-    share, notice, urltitle, urldesc
+    share, notice, urltitle, urldesc, urlcontent
   </sql>
    <sql id="Select_Parm_Column_List" >
      <if test="title != null" >
@@ -125,6 +126,9 @@
       <if test="urldesc != null">
        and urldesc = #{urldesc,jdbcType=VARCHAR}
       </if>
+      <if test="urlcontent != null">
+       and urlcontent = #{urlcontent,jdbcType=VARCHAR}
+      </if>
    </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -144,7 +148,7 @@
       operation, merchant, createdAt, 
       updatedAt, discount, customtitle, 
       limitNum, share, notice, 
-      urltitle, urldesc)
+      urltitle, urldesc, urlcontent)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cardColor,jdbcType=VARCHAR}, 
       #{subtitle,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{orgId,jdbcType=INTEGER}, #{merNo,jdbcType=VARCHAR}, #{weixin_card_id,jdbcType=VARCHAR},
@@ -154,7 +158,7 @@
       #{operation,jdbcType=VARCHAR}, #{merchant,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{discount,jdbcType=DOUBLE}, #{customtitle,jdbcType=VARCHAR}, 
       #{limitNum,jdbcType=INTEGER}, #{share,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, 
-      #{urltitle,jdbcType=VARCHAR}, #{urldesc,jdbcType=VARCHAR})
+      #{urltitle,jdbcType=VARCHAR}, #{urldesc,jdbcType=VARCHAR}, #{urlcontent,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yunpos.model.card.SysCardTemplate" >
     insert into sys_card_template
@@ -246,6 +250,9 @@
       <if test="urldesc != null">
         urldesc,
       </if>
+      <if test="urlcontent != null">
+        urlcontent,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -334,6 +341,9 @@
       </if>
       <if test="urldesc != null">
         #{urldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="urlcontent != null">
+        #{urlcontent,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -424,6 +434,9 @@
       <if test="urldesc != null">
         urldesc = #{urldesc,jdbcType=VARCHAR},
       </if>
+      <if test="urlcontent != null">
+        urlcontent = #{urlcontent,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -456,7 +469,8 @@
       share = #{share,jdbcType=VARCHAR},
       notice = #{notice,jdbcType=VARCHAR},
       urltitle = #{urltitle,jdbcType=VARCHAR},
-      urldesc = #{urldesc,jdbcType=VARCHAR}
+      urldesc = #{urldesc,jdbcType=VARCHAR},
+      urlcontent = #{urlcontent,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

@@ -11,7 +11,7 @@ app.controller("SysOrgController", ["$scope","$rootScope", "IntegralUITreeGridSe
 //		row : {id : 'rowID',pid : 'parentID',text : 'rowText'},
 //		cell : {text : 'cellText'}
 		column : {headerText : 'headerText',headerAlignment : 'headerAlignment',contentAlignment : 'cellAlignment',width : 'width'},
-		row : {id : 'id',pid : 'pid',text : 'text'},
+		row : {id : 'orgNo',pid : 'orgParentNo',text : 'text'},
 		cell : {text : 'text',cid:'cid'}
 	}
 	

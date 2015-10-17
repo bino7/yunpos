@@ -1,8 +1,15 @@
 package com.yunpos.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yunpos.utils.DateUtil;
+import com.yunpos.utils.serializer.JsonDateSerializer;
 
 /**
  * 功能描述：
@@ -41,6 +48,8 @@ public class SysOrg {
 	private Date modifyDate;
 	
 	private Integer  isLeaf;
+	
+	private List<Map<String,Object>> cells;
 	
 	
 	private List children = new ArrayList();
@@ -101,9 +110,17 @@ public class SysOrg {
 	public void setCreateUserId(Integer createUserId) {
 		this.createUserId = createUserId;
 	}
-
+	
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getCreateDate() {
 		return createDate;
+	}
+	
+	public String getCreateDateStr() {
+		if(null !=createDate){
+			return DateUtil.format(createDate);
+		}
+		return "";
 	}
 
 	public void setCreateDate(Date createDate) {
@@ -117,7 +134,7 @@ public class SysOrg {
 	public void setModifyUserId(Integer modifyUserId) {
 		this.modifyUserId = modifyUserId;
 	}
-
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getModifyDate() {
 		return modifyDate;
 	}
@@ -156,6 +173,14 @@ public class SysOrg {
 
 	public void setChildren(List children) {
 		this.children = children;
+	}
+
+	public List<Map<String, Object>> getCells() {
+		return cells;
+	}
+
+	public void setCells(List<Map<String, Object>> cells) {
+		this.cells = cells;
 	}
 	
 	

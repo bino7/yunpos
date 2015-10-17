@@ -1,0 +1,58 @@
+
+<div class="well" ng-controller="roleAddCtrl" ng-init="processForm()">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form" name="form">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	角色名称：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="role.roleName">
+                            </div>
+                        </div>
+                     <!--    <div class="form-group">
+                            <label class="col-md-2 control-label">
+                               	所属组织机构：	
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="role.roleName">
+                            </div>
+                        </div> -->
+                       	<div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	角色属性：
+                            </label>
+                            <div class="col-md-10">
+                                 <div class="radio">
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" ng-model="role.roleProperty">
+					               通用
+					              </label>
+					              <label>
+					                <input type="radio" name="optionsRadios" id="optionsRadios2" value="0" ng-model="role.roleProperty">
+					                非通用
+					              </label>
+					            </div>
+                            </div>
+                        </div>
+                      <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	备注：
+                            </label>
+                            <div class="col-md-10">
+                            	<input type="text" class="form-control" ng-model="role.info">
+                            </div>
+                        </div>
+                    
+                      <button  ng-click="add(role)">保存</button>
+                      
+                     </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

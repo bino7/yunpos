@@ -1,37 +1,279 @@
 [{
-		"id" : "1",
-		"text" : "Books",
+		"id" : 46,
+		"sequence" : null,
+		"orgNo" : "0002",
+		"orgName" : "ttt2",
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 6,
+		"createDate" : 1444811928000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822683000,
+		"isLeaf" : null,
 		"cells" : [{
-				"cid" : "2",
-				"text" : "Books"
+				"text" : "0002",
+				"cid" : "2"
+			}, {
+				"text" : "ttt2",
+				"cid" : "3"
+			}, {
+				"text" : 1444811928000,
+				"cid" : "4"
 			}
-		]
+		],
+		"children" : []
 	}, {
-		"id" : "11",
-		"pid" : "1",
-		"text" : "History",
+		"id" : 47,
+		"sequence" : null,
+		"orgNo" : "0003",
+		"orgName" : "ttt2",
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 6,
+		"createDate" : 1444811978000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822687000,
+		"isLeaf" : null,
 		"cells" : [{
-				"cid" : "2",
-				"text" : "History"
+				"text" : "0003",
+				"cid" : "2"
+			}, {
+				"text" : "ttt2",
+				"cid" : "3"
+			}, {
+				"text" : 1444811978000,
+				"cid" : "4"
 			}
-		]
+		],
+		"children" : []
 	}, {
-		"id" : "111",
-		"pid" : "11",
-		"text" : "The Wright Brothers",
+		"id" : 77,
+		"sequence" : null,
+		"orgNo" : "0004",
+		"orgName" : "ttt2",
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 6,
+		"createDate" : 1444812011000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822689000,
+		"isLeaf" : null,
 		"cells" : [{
-				"cid" : "1",
-				"value" : "true"
+				"text" : "0004",
+				"cid" : "2"
 			}, {
-				"cid" : "2",
-				"text" : "The Wright Brothers"
+				"text" : "ttt2",
+				"cid" : "3"
 			}, {
-				"cid" : "3",
-				"text" : "David McCullough"
-			}, {
-				"cid" : "4",
-				"text" : "2015-10-16 13:54:09"
+				"text" : 1444812011000,
+				"cid" : "4"
 			}
-		]
+		],
+		"children" : []
+	}, {
+		"id" : 49,
+		"sequence" : null,
+		"orgNo" : "0005",
+		"orgName" : "ttt4",
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 6,
+		"createDate" : 1444812088000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822692000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "0005",
+				"cid" : "2"
+			}, {
+				"text" : "ttt4",
+				"cid" : "3"
+			}, {
+				"text" : 1444812088000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
+	}, {
+		"id" : 60,
+		"sequence" : null,
+		"orgNo" : "0006",
+		"orgName" : "ttt4",
+		"orgParentId" : 1,
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 6,
+		"createDate" : 1444812272000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822694000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "0006",
+				"cid" : "2"
+			}, {
+				"text" : "ttt4",
+				"cid" : "3"
+			}, {
+				"text" : 1444812272000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
+	}, {
+		"id" : 51,
+		"sequence" : null,
+		"orgNo" : "00060002",
+		"orgName" : "m1",
+		"orgParentName" : "",
+		"orgParentNo" : "0006",
+		"level" : 2,
+		"createUserId" : 13,
+		"createDate" : 1444812518000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822697000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "00060002",
+				"cid" : "2"
+			}, {
+				"text" : "m1",
+				"cid" : "3"
+			}, {
+				"text" : 1444812518000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
+	}, {
+		"id" : 52,
+		"sequence" : null,
+		"orgNo" : "00060003",
+		"orgName" : "m2",
+		"orgParentName" : "",
+		"orgParentNo" : "0006",
+		"level" : 2,
+		"createUserId" : 13,
+		"createDate" : 1444812953000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822699000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "00060003",
+				"cid" : "2"
+			}, {
+				"text" : "m2",
+				"cid" : "3"
+			}, {
+				"text" : 1444812953000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
+	}, {
+		"id" : 53,
+		"sequence" : null,
+		"orgNo" : "0007",
+		"orgName" : "m3",
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 12,
+		"createDate" : 1444813087000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822703000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "0007",
+				"cid" : "2"
+			}, {
+				"text" : "m3",
+				"cid" : "3"
+			}, {
+				"text" : 1444813087000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
+	}, {
+		"id" : 54,
+		"sequence" : null,
+		"orgNo" : "0008",
+		"orgName" : "m4",
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 12,
+		"createDate" : 1444813213000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822706000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "0008",
+				"cid" : "2"
+			}, {
+				"text" : "m4",
+				"cid" : "3"
+			}, {
+				"text" : 1444813213000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
+	}, {
+		"id" : 55,
+		"sequence" : null,
+		"orgNo" : "0009",
+		"orgName" : "1",
+		"orgParentId" : 1,
+		"orgParentName" : "",
+		"orgParentNo" : "",
+		"level" : 1,
+		"createUserId" : 6,
+		"createDate" : 1444813603000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822708000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "0009",
+				"cid" : "2"
+			}, {
+				"text" : "1",
+				"cid" : "3"
+			}, {
+				"text" : 1444813603000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
+	}, {
+		"id" : 56,
+		"sequence" : null,
+		"orgNo" : "00090001",
+		"orgName" : "s1",
+		"orgParentName" : "",
+		"orgParentNo" : "0009",
+		"level" : 2,
+		"createUserId" : 18,
+		"createDate" : 1444813713000,
+		"modifyUserId" : null,
+		"modifyDate" : 1444822711000,
+		"isLeaf" : null,
+		"cells" : [{
+				"text" : "00090001",
+				"cid" : "2"
+			}, {
+				"text" : "s1",
+				"cid" : "3"
+			}, {
+				"text" : 1444813713000,
+				"cid" : "4"
+			}
+		],
+		"children" : []
 	}
 ]

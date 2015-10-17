@@ -11,11 +11,13 @@
 		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
 		<result column="modifyUserId" property="modifyUserId" jdbcType="INTEGER" />
 		<result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+		<result column="roleProperty" property="roleProperty" jdbcType="INTEGER" />
+		<result column="info" property="info" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, roleName, roleDesc, orgId, orgName, createUserId,
 		createDate,
-		modifyUserId, modifyDate
+		modifyUserId, modifyDate,roleProperty,info
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -37,7 +39,9 @@
 		orgId, orgName, createUserId,
 		createDate,
 		modifyUserId,
-		modifyDate
+		modifyDate,
+		roleProperty,
+		info
 		)
 		values (
 		#{roleName,jdbcType=VARCHAR},
@@ -47,7 +51,9 @@
 		#{createUserId,jdbcType=INTEGER},
 		#{createDate,jdbcType=TIMESTAMP},
 		#{modifyUserId,jdbcType=INTEGER},
-		#{modifyDate,jdbcType=TIMESTAMP}
+		#{modifyDate,jdbcType=TIMESTAMP},
+		#{roleProperty,jdbcType=INTEGER},
+		#{info,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.yunpos.model.SysRole">
@@ -80,6 +86,12 @@
 			<if test="modifyDate != null">
 				modifyDate,
 			</if>
+			<if test="roleProperty != null">
+				roleProperty,
+			</if>
+			<if test="info != null">
+				info,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -108,6 +120,12 @@
 			</if>
 			<if test="modifyDate != null">
 				#{modifyDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="roleProperty != null">
+				#{roleProperty,jdbcType=INTEGER},
+			</if>
+			<if test="info != null">
+			#{info,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -138,6 +156,12 @@
 			<if test="modifyDate != null">
 				modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
 			</if>
+			<if test="roleProperty != null">
+				roleProperty = #{roleProperty,jdbcType=INTEGER},
+			</if>
+			<if test="info != null">
+				info = #{info,jdbcType=VARCHAR}
+			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
@@ -155,7 +179,12 @@
 		modifyUserId =
 		#{modifyUserId,jdbcType=INTEGER},
 		modifyDate =
-		#{modifyDate,jdbcType=TIMESTAMP}
+		#{modifyDate,jdbcType=TIMESTAMP},
+		roleProperty =
+	    #{roleProperty,jdbcType=INTEGER},
+		info = 
+		#{info,jdbcType=VARCHAR}
+		
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 

@@ -36,8 +36,8 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
                {field: 'createdBy',displayName: '添加人',enableCellEdit: false, width: 120}, 
                {field: 'statusStr', displayName: '状态', enableCellEdit: false, width: 80, 
                cellTemplate: '<div class="ngCellText ng-scope ngCellElement col3 colt3">'
-          	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==1" >停用</span>'
-          	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==0" >启用</span>'
+          	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==1" >启用</span>'
+          	        +'<span ng-cell-text ng-if="row.getProperty(\'status\')==0" >停用</span>'
           			+'</div>'},
           			
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
@@ -45,8 +45,8 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
                 	+'id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a> '     
                 	 +'<button ng-click="deleted({id:row.getProperty(col.field) , user:row})">删除</button> '
 //                	<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field),user:row})">启用</button> <button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field),user:row})">停用</button> </div>'
-        	        +'<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field),user:row,status:1})">停用</button> '
-        	        +'<button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field),user:row,status:0})">启用</button> '
+        	        +'<button ng-if="row.getProperty(\'status\')==0" ng-click="saveStatus({id:row.getProperty(col.field),user:row,status:1})">启用</button> '
+        	        +'<button ng-if="row.getProperty(\'status\')==1" ng-click="saveStatus({id:row.getProperty(col.field),user:row,status:0})">停用</button> '
         			+'</div>'
          }],
             enablePaging: true,
@@ -110,10 +110,10 @@ app.controller('UserListCtrl',  function($scope, $http, $state, $stateParams) {
 //    	 $scope.saved_st = angular.copy(user.user.entity);
     	 if (user.status == 0){
  	   		user.status= 1;
- 	   		user.statusStr = "停用";
+ 	   		user.statusStr = "启用";
  	   	 }else{
  	   		 user.status= 0;
- 	   		 user.statusStr ="启用";
+ 	   		 user.statusStr ="停用";
  	   	 }
 	     $http({
 	        method  : 'put',
@@ -201,18 +201,27 @@ app.controller('UserDetailCtrl', function($scope, $http, $state, $stateParams) {
 	    }).success(function(data) {
 	           // console.log(data);
 	            $scope.user = data;
+	            $scope.user.oldPassword = data.password;
+	            $scope.user.password = "";
+	            $scope.newPassword = "";
 	           // alert(data.id);
 	        });
 	};
 	 $scope.saved = {};
      $scope.save = function(user) {
+    	 if(user.password == ""){
+    		 user.password = user.oldPassword;
+    	 }
+    	 user.newPassword = user.password ;
     	 $scope.saved = angular.copy(user);
 	     $http({
 	        method  : 'put',
 	        url     : '/ajax/user/' + $scope.saved.id,
 	        params  : $scope.saved
 	     }).success(function(data) {
+	    	 
 	    	 alert("保存成功！");
+	    	 $state.go('app.table.user');
 	     }).error(function(data,status,headers,config){
 	      	alert("保存失败！");
 	     });

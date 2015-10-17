@@ -69,8 +69,8 @@ public class SysUserController extends BaseController {
 		user.setDescription(user.getDescription());
 		user.setEmail(user.getEmail());
 		user.setDelete_status(0);
-		user.setStatus(0);
-		user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+		user.setStatus(1);
+		user.setPassword(DigestUtils.md5DigestAsHex(user.getNewPassword().getBytes()));
 		sysUserService.save(user);
 		
 		if(!Strings.isNullOrEmpty(user.getRole())){
@@ -92,8 +92,8 @@ public class SysUserController extends BaseController {
 		user.setUpdatedAt(new Date());
 		user.setUpdatedBy(getUser().getId());
 		user.setStatus(user.getStatus());
-		user.setSalt(SecurityUtils.generateSalt());
-		if(user.getPassword()!=null && !"".equals(user.getPassword()))
+		user.setSalt(SecurityUtils.generateSalt());		
+//		if(user.getPassword()!=null && !"".equals(user.getPassword()))
 			user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 		sysUserService.update(user);
 		

@@ -29,7 +29,7 @@ app.controller('OrderListCtrl',  function($scope, $http, $state, $stateParams) {
             enableCellEdit: true,
           //  enablePinning: true,
             columnDefs: [
-               {field: 'orderId', displayName: '订单号', width: 200,  pinnable: false,  sortable: false}, 
+               {field: 'orderId', displayName: '订单号', width: 200, enableCellEdit: false, pinnable: false,  sortable: false}, 
                {field: 'merchantName', displayName: '商户名称', enableCellEdit: false, width: 80}, 
                {field: 'productPrice', displayName: '订单金额', enableCellEdit: false, width: 80},
                {field: 'trueName', displayName: '联系人', enableCellEdit: false, width: 100}, 

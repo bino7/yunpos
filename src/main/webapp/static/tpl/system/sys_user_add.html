@@ -20,22 +20,19 @@
                            		 <input type="text" class="form-control" placeholder="" ng-model="user.nickname">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                               	 登录密码：
-                            </label>
-                            <div class="col-md-10">
-                            	<input type="password" class="form-control" placeholder="" ng-model="user.password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">
-                                	确认密码：
-                            </label>
-                            <div class="col-md-10">
-                                <input type="password" class="form-control" placeholder="" ng-model="user.password">
-                            </div>
-                        </div>
+                     <div class="form-group has-feedback">
+							<label class="col-md-2 control-label"> 登录密码： </label>
+							<div class="col-md-10">
+							 <input type="password" class="form-control" name="password" ng-model="user.password" required > 
+							</div> 	
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-md-2 control-label"> 确认密码： </label>
+							<div class="col-md-10">
+							<input type="password" class="form-control" name="confirm_password" required ng-model="user.newPassword" ui-validate=" '$value==user.password' " ui-validate-watch=" 'password' ">
+							<span ng-show='form.confirm_password.$error.validator' style="color: #ff4a0d">两次输入密码不一致！</span>
+							</div>
+						</div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">
                            			 角色：

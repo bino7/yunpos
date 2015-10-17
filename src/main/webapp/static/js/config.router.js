@@ -296,7 +296,45 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
               })
               .state('app.table.role', {//角色管理
                   url: '/role',
-                  templateUrl: 'tpl/system/sys_role.html'
+                  templateUrl: 'tpl/system/sys_role.html',
+                	   resolve: {
+                           deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('ngGrid').then(
+                                   function(){
+                                       return $ocLazyLoad.load('js/controllers/yunpos/sysRoleGrid.js');
+                                   }
+                               );
+                           }]
+                       }
+              })
+               .state('app.table.roleAdd', {//角色新增
+                  url: '/role/add',
+                  templateUrl: 'tpl/system/sys_roleAdd.html',
+                	   resolve: {
+                           deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('ngGrid').then(
+                                   function(){
+                                       return $ocLazyLoad.load('js/controllers/yunpos/sysRoleGrid.js');
+                                   }
+                               );
+                           }]
+                       }
+              })
+               .state('app.table.roleDetail', {//角色编辑
+                  url: '/role/:id',
+                  templateUrl: 'tpl/system/sys_role_detail.html',
+                	   resolve: {
+                           deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('ngGrid').then(
+                                   function(){
+                                       return $ocLazyLoad.load('js/controllers/yunpos/sysRoleGrid.js');
+                                   }
+                               );
+                           }]
+                       }
               })
               .state('app.table.user', {//用户管理
                   url: '/user',
@@ -1035,9 +1073,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                   url:'/role_authority',
                   templateUrl: 'tpl/system/role_authority.html'
               })
-              .state('app.authority_man', {
-                  url:'/authority_man',
-                  templateUrl: 'tpl/system/authority_man.html'
+              .state('app.role', {
+                  url:'/sys_role',
+                  templateUrl: 'tpl/system/sys_role.html'
               }) 
               .state('app.table.sysCardTemplate', {//云卡券
             	  url: '/sysCardTemplate',
@@ -1070,6 +1108,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
       }) .state('app.table.sysCardTemplateAdd', {//用户新增
               url: '/sysCardTemplateAdd',
               templateUrl: 'tpl/system/card/sys_card_template_add.html',
+              resolve: {
+                  deps: ['$ocLazyLoad',
+                    function( $ocLazyLoad ){
+                      return $ocLazyLoad.load('ngGrid').then(
+                          function(){
+                              return $ocLazyLoad.load('js/controllers/yunpos/card/sysCardTemplateGrid.js');
+                          }
+                      );
+                  }]
+              }
+          }) .state('app.table.sysCardTemplateDetail', {//卡券模板详情
+              url: '/sysCardTemplateDetail/:id',
+              templateUrl: 'tpl/system/card/sys_card_template_detail.html',
               resolve: {
                   deps: ['$ocLazyLoad',
                     function( $ocLazyLoad ){

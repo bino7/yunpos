@@ -155,15 +155,15 @@ DROP COLUMN `extLoaded`,
 DROP COLUMN `extExpanded`,
 DROP COLUMN `extParent`;
 
+--修改字段类型
+ALTER TABLE `sys_user`
+ADD COLUMN `delete_status`  int NULL DEFAULT 0 COMMENT '删除状态' AFTER `fullname`;
 --用户修改字段
 ALTER TABLE `sys_user`
 MODIFY COLUMN `status`  int(2) NULL DEFAULT NULL COMMENT '用户状态' AFTER `delete_status`;
 
 
-
---修改字段类型
-ALTER TABLE `sys_user`
-DROP COLUMN `delete_status`,
-ADD COLUMN `delete_status`  int NULL DEFAULT 1 COMMENT '删除状态' AFTER `fullname`;
-
-
+--20151017 张旭  添加角色字段
+ALTER TABLE `sys_role`
+ADD COLUMN `roleProperty`  tinyint(2) NULL COMMENT '角色属性 1：通用 0:非通用' AFTER `modifyDate`;
+ADD COLUMN `info`  vachar NULL COMMENT '备注' AFTER `roleProperty`;

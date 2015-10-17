@@ -2,6 +2,7 @@ package com.yunpos.web.card;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -152,7 +153,7 @@ public class SysCardTemplateController extends BaseController {
 	        baseInfo.setBindOpenid(false);
 	        baseInfo.setCanGiveFriend(false);
 	        baseInfo.setCanShare(true);
-	        baseInfo.setCodeType(WxCardBaseInfo.CODE_TYPE_QRCODE);
+	        baseInfo.setCodeType(WxCardBaseInfo.CODE_TYPE_BARCODE);   //卡券展示类型，条形码、二维码
 	        baseInfo.setColor("Color010");
 	        baseInfo.setDescription("desc");
 	        baseInfo.setGetLimit(3);
@@ -329,23 +330,39 @@ public class SysCardTemplateController extends BaseController {
 	@RequestMapping(value = "/ajax/cardConsume", method = RequestMethod.POST)
 	public void cardConsume(HttpServletRequest request , HttpServletResponse response) {
 		
-		String merNo = "201509020001";
-		String cardCode = "659117245973";
-		String card_id = "px6wPuHrD4dkjl1JaktPhRBHSS9w";
+		String merNo = request.getParameter("merNo");
+		String cardCode = request.getParameter("cardCode");
+//		String card_id = "px6wPuHrD4dkjl1JaktPhRBHSS9w";
 		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merNo);
 		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
+		
+		 SysCardCoupon sysCardCoupon = new SysCardCoupon();
+		 sysCardCoupon.setSn(cardCode);
+		 List<SysCardCoupon> sysCardCouponList = sysCardCouponService.findByParms(sysCardCoupon); 
+		 SysCardCoupon sysCardCouponConsume = sysCardCouponList.get(0);
+		
+		String card_id = sysCardCouponConsume.getAppid_cardId();
 		
 		String cardCodeCheckRequestUrl = "https://api.weixin.qq.com/card/code/get?access_token=" + access_token;
 		String cardCodeCheckJson = "{\"card_id\" : \"" + card_id + "\",\"code\" : \"" + cardCode + "\",\"check_consume\" : true}";   
 		JSONObject jsonCheckObject =HttpTool.httpRequest(cardCodeCheckRequestUrl,"POST", cardCodeCheckJson);
 		System.out.println(jsonCheckObject);
+		String returnJson = "";
 		 if("0".equals(jsonCheckObject.get("errcode").toString())){
 			String cardCodeRequestUrl = "https://api.weixin.qq.com/card/code/consume?access_token=" + access_token;
 			String cardCodeJson = "{\"code\" : \"" + cardCode + "\",\"card_id\" : \"" + card_id + "\"}";   
 			JSONObject jsonObject =HttpTool.httpRequest(cardCodeRequestUrl,"POST", cardCodeJson);
+			returnJson = "{\"status\" : \"success\" }";
 			System.out.println(jsonObject);
 		 }else {
 			 System.out.println(jsonCheckObject);
+			 returnJson = "{\"status\" : \"fail\" , \"errmsg\": \"" + jsonCheckObject.get("errmsg").toString() + "\" }";
 		 }
+		 try {
+			response.getWriter().print(returnJson);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

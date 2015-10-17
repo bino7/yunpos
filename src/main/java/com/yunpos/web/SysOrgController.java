@@ -107,6 +107,13 @@ public class SysOrgController extends BaseController{
 	}
 	
 	
+	@RequestMapping(value = "/ajax/org/tree", method =RequestMethod.GET )
+	public List<SysOrg> getTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<SysOrg> list = sysOrgService.getTree();
+		return list;
+	}
+	
+	
 	@RequestMapping(value = "/ajax/org/exist/{orgName}", method = RequestMethod.GET)
 	public Object exist(HttpServletRequest request, @PathVariable("orgName") String orgName) throws Exception {
 		return sysOrgService.existOrgName(orgName);

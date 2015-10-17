@@ -2,16 +2,13 @@ package com.yunpos.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.yunpos.model.SysMenu;
 import com.yunpos.model.SysOrg;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysOrgMapper;
@@ -154,5 +151,31 @@ public class SysOrgService extends EntityService<SysOrg> {
 				node.getChildren().add(n);
 			}
 		return node;
+	}
+	
+	public List<SysOrg> getTree() {
+		 List<SysOrg>  orgs = sysOrgMapper.findAll();
+		 Map<String,Object> map1 =  null;
+		 Map<String,Object> map2 =  null;
+		 Map<String,Object> map3 =  null;
+		 List<Map<String,Object>> list = null;
+		 for(SysOrg org: orgs){
+			  map1 = new HashMap<>();
+			  map2 = new HashMap<>();
+			  map3 = new HashMap<>();
+			  list = new ArrayList<>();
+			  map1.put("cid", "2");
+			  map1.put("text", org.getOrgNo());
+			  list.add(map1);
+			  map2.put("cid", "3");
+			  map2.put("text", org.getOrgName());
+			  list.add(map2);
+			  map3.put("cid", "4");
+			  map3.put("text", org.getCreateDateStr());
+			  list.add(map3);
+			  org.setCells(list);
+			  
+		 }
+		return orgs;
 	}
 }

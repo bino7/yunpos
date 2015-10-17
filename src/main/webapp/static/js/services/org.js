@@ -1,10 +1,11 @@
 app.factory('OrgService', [ '$http', '$q', function($http, $q) {
 	return {
+		//vendor/modules/ui-grid/data/500_complex4.json
 		query : function() {
 			var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
 			$http({
 				method : 'get',
-				url : 'vendor/modules/ui-grid/data/500_complex4.json'
+				url : '/ajax/org/tree'
 			}).success(function(data, status, headers, config) {
 				deferred.resolve(data); // 声明执行成功，即http请求数据成功，可以返回数据了
 			}).error(function(data, status, headers, config) {

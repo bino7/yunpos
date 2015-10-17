@@ -268,6 +268,17 @@ public class SysCardTemplateController extends BaseController {
 					 System.out.println("CardId = " + resultMap.get("CardId"));
 					
 					 if(Event.equals("card_pass_check") || Event.equals("card_not_pass_check") ){//卡券通过审核 , 卡券未通过审核
+						 
+						 SysCardTemplate sysCardTemplate = new SysCardTemplate();
+						 sysCardTemplate.setWeixin_card_id(resultMap.get("CardId").toString());
+						 List<SysCardTemplate> sysCardTemplateSendList = sysCardTemplateService.findByParms(sysCardTemplate);
+						 sysCardTemplate = sysCardTemplateSendList.get(0);
+						 if(Event.equals("card_pass_check") ){
+							 sysCardTemplate.setStatus(3);
+						 }else if(Event.equals("card_not_pass_check") ){
+							 sysCardTemplate.setStatus(2);
+						 }
+						 sysCardTemplateService.update(sysCardTemplate);
 						 System.out.println("卡券通过审核,未通过审核");
 					 }else {
 						 System.out.println("UserCardCode = " + resultMap.get("UserCardCode"));
@@ -308,6 +319,12 @@ public class SysCardTemplateController extends BaseController {
 							 System.out.println("StaffOpenId = " + resultMap.get("StaffOpenId"));
 							 
 						 } else if(Event.equals("user_del_card")){//用户删除卡券
+							 SysCardCoupon sysCardCoupon = new SysCardCoupon();
+							 sysCardCoupon.setSn(resultMap.get("UserCardCode").toString());
+							 List<SysCardCoupon> sysCardCouponList = sysCardCouponService.findByParms(sysCardCoupon); 
+							 SysCardCoupon sysCardCouponConsume = sysCardCouponList.get(0);
+							 sysCardCoupon.setStatus(new Byte("3"));
+							 sysCardCouponService.update(sysCardCouponConsume);;
 							 
 						 }else if(Event.equals("user_view_card")){//进入会员卡事件推送
 							 System.out.println("进入会员卡事件推送");
@@ -352,6 +369,10 @@ public class SysCardTemplateController extends BaseController {
 			String cardCodeRequestUrl = "https://api.weixin.qq.com/card/code/consume?access_token=" + access_token;
 			String cardCodeJson = "{\"code\" : \"" + cardCode + "\",\"card_id\" : \"" + card_id + "\"}";   
 			JSONObject jsonObject =HttpTool.httpRequest(cardCodeRequestUrl,"POST", cardCodeJson);
+			
+			 sysCardCouponConsume.setStatus(new Byte("1"));
+			 sysCardCouponService.update(sysCardCouponConsume);;
+			
 			returnJson = "{\"status\" : \"success\" }";
 			System.out.println(jsonObject);
 		 }else {

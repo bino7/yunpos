@@ -332,10 +332,14 @@ public class SysCardTemplate extends GridRequest {
 	public String getStatusDescription() {
 		if(!Tools.isNullOrEmpty(status)){
 	    	switch(status){
-		    	case 0 :statusDescription = "待投放" ;
+		    	case 0 :statusDescription = "待审核" ;
 		    		break;
 		    	case 1 :statusDescription = "已投放" ;
 		    		break;
+		    	case 2 :statusDescription = "审核未通过" ;
+	    			break;
+		    	case 3 :statusDescription = "审核通过" ;
+	    			break;
 		    	default : statusDescription = "";
 	    	}
     	}

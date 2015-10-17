@@ -37,8 +37,9 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                 cellTemplate: '<div><a ui-sref="app.table.sysCardTemplateDetail({id:row.getProperty(col.field)})" '
                 	+ 'id="{{row.getProperty(col.field)}}"> <button>详情{{row.status}}</button> </a> ' 
-                	+ '<button ng-click="send({id:row.getProperty(col.field) , sysCardTemplate:row, status:1})">投放</button>'
-                	+ '<button ng-click="deleted({id:row.getProperty(col.field) , sysCardTemplate:row})">删除</button></div>'
+                	+ '<button ng-click="deleted({id:row.getProperty(col.field) , sysCardTemplate:row})">删除</button>'
+                	+ '<button ng-if="row.getProperty(\'status\')==2" ng-click="send({id:row.getProperty(col.field) , sysCardTemplate:row, status:1})">投放</button>'
+                	+ '</div>'
             }],
             enablePaging: true,
             showFooter: true,        

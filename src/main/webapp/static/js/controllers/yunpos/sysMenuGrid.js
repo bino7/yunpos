@@ -1,9 +1,14 @@
 app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'uiGridTreeViewConstants', 'uiGridConstants', function ($scope, $http, $interval,$state, uiGridTreeViewConstants, uiGridConstants) {
 		//添加新增更新事件
-//		$scope.$on("AddUpdate",function(event,msg){
-//			alert("监听到新增更新事件");
-//			refreshData();
-//		});
+		$scope.$on("AddUpdate",function(event,obj){
+			 $scope.myData.push({
+				 "orgNo":obj.menuNo,
+				 "orgName":obj.menuName,
+				 "menuUrl":obj.menuUrl,
+				 "isVisible":1,
+				 "isLeaf": 1
+			 });
+		});
 
 		$scope.gridOptions = {};
 		$scope.gridOptions.data = 'myData';
@@ -45,8 +50,9 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 				width : '28%',
 				//cellTemplate : '<span ng-controller="SysOrgEditModalCtrl"> <script type="text/ng-template" id="sys_org_edit"><div ng-include="\'tpl/system/sys_org_edit.html\'"></div></script> <button class="btn btn-success" ng-click="open(lg,\'sys_org_edit\',row)">添加下级</button></span> <button class="btn btn-success" ng-click="deleted({id:row.getProperty(col.field) , id})">删除</button>'
 				cellTemplate : '<span ng-controller="SysMenuEditModalCtrl">'
-							  +'<script type="text/ng-template" id="sys_menu_edit"><div ng-include="\'tpl/system/sys_menu_edit.html\'"></div></script>'
-							  +'<button ng-if="row.entity.isLeaf==0"  ng-click="open(lg,\'sys_menu_edit\',row)">添加下级</button>'
+					//		  +'<script type="text/ng-template" id="sys_menu_edit"><div ng-include="\'tpl/system/sys_menu_edit.html\'"></div></script>'
+//							  +'<button ng-if="row.entity.isLeaf==0"  ng-click="open(lg,\'sys_menu_edit\',row)">添加下级</button>'
+//							  +'<button ng-if="row.entity.id==1"  ng-click="open(lg,\'sys_menu_edit\',row)">添加同级</button>'
 							  +'<button ng-if="row.entity.isLeaf==1"  ng-click="grid.appScope.deleted(row)">删除</button>'
 							  +'</span>'
 			}
@@ -62,7 +68,24 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 			$scope.myData = data;
 		});
 		
+		$scope.add = function(){
+			$state.go('app.table.menuedit');
+		};
 		
+		//菜单保存
+		$scope.menuSave = function(menu){
+			$http({
+				method : 'post',
+				url : '/ajax/menu',
+				params : menu
+			}).success(function (data) {
+				alert("添加成功！");
+				$state.go('app.table.menu');
+			}).error(function (data) {
+				alert("出错");
+			});
+		}
+		 
 		//刷新属性
 		$scope.refreshData = function(){
 	    $scope.myData = [];
@@ -151,13 +174,12 @@ app.controller('SysMenuEditModalInstanceCtrl', ['$scope', '$http', '$state','$lo
 					url : '/ajax/menu',
 					params : obj
 				}).success(function (data) {
-					$scope.$emit("AddUpdate", data);
 					alert("添加成功！");
 				}).error(function (data) {
 					alert("出错");
 				});
-
 				$modalInstance.close($scope.selected.item);
+				$scope.$broadcast("AddUpdate", obj);
 			};
 
 			//弹出框取消按钮触发处理方法

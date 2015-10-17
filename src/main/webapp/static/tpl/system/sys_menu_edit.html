@@ -1,26 +1,47 @@
-<div class="wrapper-md">
-	<div class="panel panel-default">
-		<div class="panel-heading font-bold">新增菜单</div>
-		<div class="panel-body">
-			<form role="form">
-				<div class="form-group">
-					<label>菜单编号：</label> <input type="text" ng-model="menu.menuNo"
-						class="form-control" placeholder="菜单编号">
+<div class="well" ng-controller="SysMenuController" ng-init="alipayInit()">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-12">
+					<form class="form-horizontal" role="form" name="form">
+						<div class="form-group">
+						<label class="col-md-2 control-label"> 父级菜单： </label>
+						<div class="col-md-2">
+							<select ng-model="menu.menuNo" ng-change="selectedCity=''"
+								ng-options="addr.name for addr in addresses"
+								class=" form-control" required>
+								<option value="">---请选择父级菜单---</option>
+							</select>
+						</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 菜单编号： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="menu.menuNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label"> 菜单名称： </label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="menu.menuName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">菜单链接：</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" placeholder=""
+									ng-model="menu.menuUrl">
+							</div>
+						</div>
+						<button ng-disabled="form.$invalid" ng-click="menuSave(menu)">保存</button>
+						<button><a ui-sref="app.table.menu">返回</a></button>
+					</form>
 				</div>
-				<div class="form-group">
-					<label>菜单名称：</label> <input type="text" ng-model="menu.menuName" class="form-control"
-						placeholder="菜单名称">
-				</div>
-				<div class="form-group">
-					<label>菜单链接：</label> <input type="text" ng-model="menu.menuUrl" class="form-control"
-						placeholder="菜单链接">
-				</div>
-				<!-- <div class="form-group">
-					<label>创建时间：</label> <input type="text" ng-model="corg.createDate" class="form-control"
-						placeholder="Password">
-				</div> -->
-				<button type="submit" class="btn btn-sm btn-primary" ng-click="ok(menu)">提交</button>
-			</form>
+
+			</div>
 		</div>
 	</div>
 </div>
+

@@ -294,6 +294,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
             		  }]
             	  }
               })
+               .state('app.table.menuedit', {//菜单管理
+                  url: '/menu/edit',
+                  templateUrl: 'tpl/system/sys_menu_edit.html',
+                  resolve: {
+            		  deps: ['uiLoad',
+            		         function( uiLoad ){
+            			  return uiLoad.load( ['js/controllers/yunpos/sysMenuGrid.js'] );
+            		  }]
+            	  }
+              })
               .state('app.table.role', {//角色管理
                   url: '/role',
                   templateUrl: 'tpl/system/sys_role.html',

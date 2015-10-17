@@ -1,5 +1,7 @@
 package com.yunpos.model.card;
 
+import java.util.Date;
+
 public class SysCardBaseinfo {
     private Integer id;
 
@@ -23,9 +25,9 @@ public class SysCardBaseinfo {
 
     private String date_info_type;
 
-    private Integer begin_timestamp;
+    private Date begin_times;
 
-    private Integer end_timestamp;
+    private Date end_times;
 
     private Integer fixed_term;
 
@@ -149,20 +151,20 @@ public class SysCardBaseinfo {
         this.date_info_type = date_info_type == null ? null : date_info_type.trim();
     }
 
-    public Integer getBegin_timestamp() {
-        return begin_timestamp;
+    public Date getBegin_times() {
+        return begin_times;
     }
 
-    public void setBegin_timestamp(Integer begin_timestamp) {
-        this.begin_timestamp = begin_timestamp;
+    public void setBegin_times(Date begin_times) {
+        this.begin_times = begin_times;
     }
 
-    public Integer getEnd_timestamp() {
-        return end_timestamp;
+    public Date getEnd_times() {
+        return end_times;
     }
 
-    public void setEnd_timestamp(Integer end_timestamp) {
-        this.end_timestamp = end_timestamp;
+    public void setEnd_times(Date end_times) {
+        this.end_times = end_times;
     }
 
     public Integer getFixed_term() {

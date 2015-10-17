@@ -13,8 +13,8 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="sku_quantity" property="sku_quantity" jdbcType="VARCHAR" />
     <result column="date_info_type" property="date_info_type" jdbcType="VARCHAR" />
-    <result column="begin_timestamp" property="begin_timestamp" jdbcType="INTEGER" />
-    <result column="end_timestamp" property="end_timestamp" jdbcType="INTEGER" />
+    <result column="begin_times" property="begin_times" jdbcType="TIMESTAMP" />
+    <result column="end_times" property="end_times" jdbcType="TIMESTAMP" />
     <result column="fixed_term" property="fixed_term" jdbcType="INTEGER" />
     <result column="fixed_begin_term" property="fixed_begin_term" jdbcType="INTEGER" />
     <result column="use_custom_code" property="use_custom_code" jdbcType="TINYINT" />
@@ -35,7 +35,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, logo_url, code_type, brand_name, title, sub_title, color, notice, description, 
-    sku_quantity, date_info_type, begin_timestamp, end_timestamp, fixed_term, fixed_begin_term, 
+    sku_quantity, date_info_type, begin_times, end_times, fixed_term, fixed_begin_term, 
     use_custom_code, bind_openid, service_phone, location_id_list, source, custom_url_name, 
     custom_url, custom_url_sub_title, promotion_url_name, promotion_url, promotion_url_sub_title, 
     get_limit, can_share, can_give_friend, need_push_on_view
@@ -50,23 +50,23 @@
     delete from sys_card_baseinfo
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yunpos.model.card.SysCardBaseinfo" >
-    insert into sys_card_baseinfo (id, logo_url, code_type, 
+  <insert id="insert" parameterType="com.yunpos.model.card.SysCardBaseinfo" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_card_baseinfo (logo_url, code_type, 
       brand_name, title, sub_title, 
       color, notice, description, 
-      sku_quantity, date_info_type, begin_timestamp, 
-      end_timestamp, fixed_term, fixed_begin_term, 
+      sku_quantity, date_info_type, begin_times, 
+      end_times, fixed_term, fixed_begin_term, 
       use_custom_code, bind_openid, service_phone, 
       location_id_list, source, custom_url_name, 
       custom_url, custom_url_sub_title, promotion_url_name, 
       promotion_url, promotion_url_sub_title, 
       get_limit, can_share, can_give_friend, 
       need_push_on_view)
-    values (#{id,jdbcType=INTEGER}, #{logo_url,jdbcType=VARCHAR}, #{code_type,jdbcType=VARCHAR}, 
+    values (#{logo_url,jdbcType=VARCHAR}, #{code_type,jdbcType=VARCHAR}, 
       #{brand_name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{sub_title,jdbcType=VARCHAR}, 
       #{color,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{sku_quantity,jdbcType=VARCHAR}, #{date_info_type,jdbcType=VARCHAR}, #{begin_timestamp,jdbcType=INTEGER}, 
-      #{end_timestamp,jdbcType=INTEGER}, #{fixed_term,jdbcType=INTEGER}, #{fixed_begin_term,jdbcType=INTEGER}, 
+      #{sku_quantity,jdbcType=VARCHAR}, #{date_info_type,jdbcType=VARCHAR}, #{begin_times,jdbcType=TIMESTAMP}, 
+      #{end_times,jdbcType=TIMESTAMP}, #{fixed_term,jdbcType=INTEGER}, #{fixed_begin_term,jdbcType=INTEGER}, 
       #{use_custom_code,jdbcType=TINYINT}, #{bind_openid,jdbcType=TINYINT}, #{service_phone,jdbcType=VARCHAR}, 
       #{location_id_list,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{custom_url_name,jdbcType=VARCHAR}, 
       #{custom_url,jdbcType=VARCHAR}, #{custom_url_sub_title,jdbcType=VARCHAR}, #{promotion_url_name,jdbcType=VARCHAR}, 
@@ -110,11 +110,11 @@
       <if test="date_info_type != null" >
         date_info_type,
       </if>
-      <if test="begin_timestamp != null" >
-        begin_timestamp,
+      <if test="begin_times != null" >
+        begin_times,
       </if>
-      <if test="end_timestamp != null" >
-        end_timestamp,
+      <if test="end_times != null" >
+        end_times,
       </if>
       <if test="fixed_term != null" >
         fixed_term,
@@ -202,11 +202,11 @@
       <if test="date_info_type != null" >
         #{date_info_type,jdbcType=VARCHAR},
       </if>
-      <if test="begin_timestamp != null" >
-        #{begin_timestamp,jdbcType=INTEGER},
+      <if test="begin_times != null" >
+        #{begin_times,jdbcType=TIMESTAMP},
       </if>
-      <if test="end_timestamp != null" >
-        #{end_timestamp,jdbcType=INTEGER},
+      <if test="end_times != null" >
+        #{end_times,jdbcType=TIMESTAMP},
       </if>
       <if test="fixed_term != null" >
         #{fixed_term,jdbcType=INTEGER},
@@ -294,11 +294,11 @@
       <if test="date_info_type != null" >
         date_info_type = #{date_info_type,jdbcType=VARCHAR},
       </if>
-      <if test="begin_timestamp != null" >
-        begin_timestamp = #{begin_timestamp,jdbcType=INTEGER},
+      <if test="begin_times != null" >
+        begin_times = #{begin_times,jdbcType=TIMESTAMP},
       </if>
-      <if test="end_timestamp != null" >
-        end_timestamp = #{end_timestamp,jdbcType=INTEGER},
+      <if test="end_times != null" >
+        end_times = #{end_times,jdbcType=TIMESTAMP},
       </if>
       <if test="fixed_term != null" >
         fixed_term = #{fixed_term,jdbcType=INTEGER},
@@ -366,8 +366,8 @@
       description = #{description,jdbcType=VARCHAR},
       sku_quantity = #{sku_quantity,jdbcType=VARCHAR},
       date_info_type = #{date_info_type,jdbcType=VARCHAR},
-      begin_timestamp = #{begin_timestamp,jdbcType=INTEGER},
-      end_timestamp = #{end_timestamp,jdbcType=INTEGER},
+      begin_times = #{begin_times,jdbcType=TIMESTAMP},
+      end_times = #{end_times,jdbcType=TIMESTAMP},
       fixed_term = #{fixed_term,jdbcType=INTEGER},
       fixed_begin_term = #{fixed_begin_term,jdbcType=INTEGER},
       use_custom_code = #{use_custom_code,jdbcType=TINYINT},

@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yunpos.exception.ServiceException;
+import com.yunpos.model.SysMerchant;
+import com.yunpos.model.SysWechatConfigWithBLOBs;
+import com.yunpos.model.card.SysCardBaseinfo;
 import com.yunpos.model.card.SysMembercardTemplate;
+import com.yunpos.payment.wxwap.utils.HttpTool;
+import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.card.SysMembercardTemplateService;
 import com.yunpos.utils.jqgrid.GridRowResponse;
 import com.yunpos.web.BaseController;
@@ -26,6 +31,9 @@ public class SysMembercardTemplateController extends BaseController {
 	
 	@Autowired
 	private  SysMembercardTemplateService sysMembercardTemplateService;
+	
+	@Autowired
+	private  SysMerchantService sysMerchantService;
 	
 	/**
 	 * 会员卡列表
@@ -54,8 +62,18 @@ public class SysMembercardTemplateController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/ajax/membercardTemplate", method = RequestMethod.POST)
-	public GridRowResponse create(@Valid SysMembercardTemplate sysMembercardTemplate) {
-		sysMembercardTemplateService.save(sysMembercardTemplate);
+	public GridRowResponse create(@Valid SysCardBaseinfo sysCardBaseinfo,@Valid SysMembercardTemplate sysMembercardTemplate) {
+		//保存会员卡信息
+		sysMembercardTemplateService.saveMembercard(sysCardBaseinfo, sysMembercardTemplate);
+		//获取ACCESS_TOKEN信息
+		SysMerchant  sysMerchant = new SysMerchant();
+		sysMerchant.setOrgId(this.getUser().getOrgId());
+		List<SysMerchant> sysMerchantList = sysMerchantService.findByParms(sysMerchant);
+		sysMerchant = sysMerchantList.get(0);
+		//SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(sysMerchant.getSerialNo());
+		//String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
+		
+		
 		return new GridRowResponse(-2);
 	}
 }

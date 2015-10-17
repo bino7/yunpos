@@ -1081,6 +1081,36 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                   }]
               }
           })
+        .state('app.table.sysMembercardTemplate', {//会员卡列表
+              url: '/sysMembercardTemplate',
+              templateUrl: 'tpl/system/card/sys_membercard_template.html',
+              resolve: {
+                  deps: ['$ocLazyLoad',
+                    function( $ocLazyLoad ){
+                      return $ocLazyLoad.load('ngGrid').then(
+                          function(){
+                              return $ocLazyLoad.load('js/controllers/yunpos/card/sysMembercardTemplateGrid.js');
+                          }
+                      );
+                  }]
+              }
+          })
+        .state('app.table.sysMembercardTemplateAdd', {//会员卡新增
+              url: '/sysMembercardTemplateAdd',
+              templateUrl: 'tpl/system/card/sys_membercard_template_add.html',
+              resolve: {
+                  deps: ['$ocLazyLoad',
+                    function( $ocLazyLoad ){
+                      return $ocLazyLoad.load('ngGrid').then(
+                          function(){
+                              return $ocLazyLoad.load('js/controllers/yunpos/card/sysMembercardTemplateGrid.js');
+                          }
+                      );
+                  }]
+              }
+          })
+      
+      
       }
     ]
   );

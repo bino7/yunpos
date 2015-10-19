@@ -32,7 +32,7 @@ app.controller('SysCardTemplateListCtrl',  function($scope, $http, $state, $stat
                {field: 'title', displayName: '卡券名称', width: 220,  pinnable: false,  sortable: false}, 
                {field: 'typeDescription', displayName: '卡券类型', enableCellEdit: false , width: 120}, 
                {field: 'validityDate' , displayName: '有效期', enableCellEdit: false, width: 320},
-               {field: 'createdBy',displayName: '投放平台',enableCellEdit: false, width: 120}, 
+               {field: 'putchannelDescription',displayName: '投放平台',enableCellEdit: false, width: 120}, 
                {field: 'statusDescription',displayName: '投放状态',enableCellEdit: false, width: 140}, 
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                 cellTemplate: '<div><a ui-sref="app.table.sysCardTemplateDetail({id:row.getProperty(col.field)})" '
@@ -135,6 +135,7 @@ app.controller('SysCardTemplateAddCtrl', function($scope, $http, $state, $stateP
 		sysCardTemplate.endDate = formatDateTime(sysCardTemplate.endDate);
 		sysCardTemplate.startDate = formatDateTime(sysCardTemplate.startDate);
 		sysCardTemplate.logo = document.getElementById("logo").value;
+		sysCardTemplate.putchannel = document.getElementById("putchannel").value;
 	    $scope.master = angular.copy(sysCardTemplate);
 	    $http({
 	        method  : 'post',

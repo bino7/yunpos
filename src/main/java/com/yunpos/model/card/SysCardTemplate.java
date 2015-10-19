@@ -64,7 +64,7 @@ public class SysCardTemplate extends GridRequest {
 
 	private Integer status;    				//0 未投放 ，1已投放
 	
-	private String putchannel;
+	private String putchannel;				//投放平台
 	
 	private String weixin_card_id; 			//微信卡券ID 
 	
@@ -75,6 +75,8 @@ public class SysCardTemplate extends GridRequest {
 	private String validityDate;    		//有效期
 	
 	private String statusDescription;    	//0 未投放 ，1已投放
+	
+	private String putchannelDescription;
 
 	public Integer getId() {
 		return id;
@@ -367,6 +369,25 @@ public class SysCardTemplate extends GridRequest {
 	public void setUrlcontent(String urlcontent) {
 		this.urlcontent = urlcontent;
 	}
+
+	public String getPutchannelDescription() {
+		if(!Tools.isNullOrEmpty(putchannel)){
+	    	switch(putchannel){
+		    	case "1" :putchannelDescription = "微信" ;
+		    		break;
+		    	case "2" :putchannelDescription = "支付宝" ;
+		    		break;
+		    	default : putchannelDescription = "";
+	    	}
+    	}
+		return putchannelDescription;
+	}
+
+	public void setPutchannelDescription(String putchannelDescription) {
+		this.putchannelDescription = putchannelDescription;
+	}
+	
+	
 	
 }
 

@@ -1143,7 +1143,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       }]
                   }
             	  
-      }) .state('app.table.sysCardTemplateAdd', {//用户新增
+      }) .state('app.table.sysCardTemplateAdd', {//微信卡券模板添加
               url: '/sysCardTemplateAdd',
               templateUrl: 'tpl/system/card/sys_card_template_add.html',
               resolve: {
@@ -1156,7 +1156,20 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                       );
                   }]
               }
-          }) .state('app.table.sysCardTemplateDetail', {//卡券模板详情
+          }).state('app.table.sysCardTemplateAlipayAdd', {//支付宝卡券模板添加
+              url: '/sysCardTemplateAlipayAdd',
+              templateUrl: 'tpl/system/card/sys_card_template_alipay_add.html',
+              resolve: {
+                  deps: ['$ocLazyLoad',
+                    function( $ocLazyLoad ){
+                      return $ocLazyLoad.load('ngGrid').then(
+                          function(){
+                              return $ocLazyLoad.load('js/controllers/yunpos/card/sysCardTemplateGrid.js');
+                          }
+                      );
+                  }]
+              }
+          })  .state('app.table.sysCardTemplateDetail', {//卡券模板详情
               url: '/sysCardTemplateDetail/:id',
               templateUrl: 'tpl/system/card/sys_card_template_detail.html',
               resolve: {

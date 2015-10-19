@@ -384,6 +384,7 @@ public class SysCardTemplateController extends BaseController {
 		
 		String merNo = request.getParameter("merNo");
 		String cardCode = request.getParameter("cardCode");
+		System.out.println("merNo = " + merNo + " ,cardCode = " + cardCode);
 //		String card_id = "px6wPuHrD4dkjl1JaktPhRBHSS9w";
 		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merNo);
 		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());

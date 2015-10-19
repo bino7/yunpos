@@ -35,6 +35,7 @@ import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.payment.wxwap.model.WapPayReqData;
 import com.yunpos.payment.wxwap.utils.HttpTool;
 import com.yunpos.payment.wxwap.utils.Sha1Util;
+import com.yunpos.payment.wxwap.utils.WechatpayTools;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.SysWechatConfigService;
@@ -424,27 +425,24 @@ public class WchatpaySLController extends BaseController{
 				modelAndView.addObject("signType", wxPayParamMap.get("signType"));
 				modelAndView.addObject("paySign", wxPayParamMap.get("paySign"));
 				modelAndView.addObject("id", sysTransaction.getId());
-				request.getSession().setAttribute("appId", wxPayParamMap.get("appId"));
-				request.getSession().setAttribute("timeStamp", wxPayParamMap.get("timeStamp"));
-				request.getSession().setAttribute("nonceStr", wxPayParamMap.get("nonceStr"));
-				request.getSession().setAttribute("package", wxPayParamMap.get("package"));
-				request.getSession().setAttribute("signType", wxPayParamMap.get("signType"));
-				request.getSession().setAttribute("paySign", wxPayParamMap.get("paySign"));
-				request.getSession().setAttribute("id", sysTransaction.getId());
+				Map<String,String> wxPayParamPageMap = new HashMap<>();
+				wxPayParamPageMap.put("appId", reMap.get("appid"));
+				wxPayParamPageMap.put("timeStamp", (String)wxPayParamMap.get("timeStamp"));
+				wxPayParamPageMap.put("nonceStr", reMap.get("nonce_str"));
+				wxPayParamPageMap.put("packagess", (String)wxPayParamMap.get("package"));
+				wxPayParamPageMap.put("signType", (String)wxPayParamMap.get("signType"));
+				wxPayParamPageMap.put("paySign", (String)wxPayParamMap.get("paySign"));
+				wxPayParamPageMap.put("id", sysTransaction.getId().toString());
+				String redString = WechatpayTools.buildForm(wxPayParamPageMap);
+				PrintWriter writer = response.getWriter();
+				writer.write(redString);
+				writer.flush();
 			}else{
 				return payMsg;
 			}
 		} catch (Exception e) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
-		
-//		modelAndView.addObject("appId", "appid1");
-//		modelAndView.addObject("timeStamp", "timeStamp");
-//		modelAndView.addObject("nonceStr", "nonceStr");
-//		modelAndView.addObject("packagess", "package");
-//		modelAndView.addObject("signType", "signType");
-//		modelAndView.addObject("paySign", "paySign");
-//		modelAndView.addObject("id", "1111");
 		return modelAndView;
 	}
 	

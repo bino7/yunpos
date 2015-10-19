@@ -1,3 +1,4 @@
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import com.yunpos.payment.alipay.util.Constant;
 import com.yunpos.utils.MD5Utils;
 
 public class MD5Test {
-	private String text = "pay_channel=alipay&total_fee=0.01&dynamic_id=288618955476404818&merchant_num=201509020001&terminal_unique_no=1&cashier_num=1&client_type=PC";
+	private String text = "pay_channel=alipay&total_fee=0.01&merchant_num=201510160002&terminal_unique_no=1&cashier_num=1&client_type=PC&user_order_no=201509300111";
 	//private String key = "9gq2tx2r0yk1z6s6z8iumzjvdp7at3c0mbyl";
 	private String key = "a1h1iqlwkkx2yenfh2wzg3o15lqejya3uvuo";
 	private String input_charset = "utf-8";
@@ -25,7 +26,7 @@ public class MD5Test {
 		//params.put("refund_amount", "0.01");
 		params.put("total_fee", "0.01");
 		params.put("sign_type", "MD5");
-		params.put("dynamic_id", "130373695908066812");
+//		params.put("dynamic_id", "130373695908066812");
 		params.put("user_order_no", "201509300009");
 		params.put("body", "微信支付商品测试");
 		System.out.println(MD5Utils.sign(params, "MD5", key, input_charset));
@@ -79,7 +80,10 @@ public class MD5Test {
 	
 	@Test
 	public void verify() {
-		MD5.verify(text, "MD5", key, input_charset);//
+//		MD5.verify(text, "MD5", key, input_charset);//
+		String s = MD5Utils.sign(text, "MD5", key, input_charset);
+		System.out.println(s);
+		System.out.println(URLEncoder.encode("http://pay.o2o520.com/pay/wechatpaysl/wap/create?"+s));
 	}
 	
 	@Test

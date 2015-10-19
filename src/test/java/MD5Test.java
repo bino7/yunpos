@@ -10,7 +10,7 @@ import com.yunpos.payment.alipay.util.Constant;
 import com.yunpos.utils.MD5Utils;
 
 public class MD5Test {
-	private String text = "pay_channel=wechat&total_fee=0.01&merchant_num=201510160002&terminal_unique_no=1&cashier_num=1&client_type=PC&user_order_no=201509300118";
+	private String text = "pay_channel=wechat&total_fee=0.01&merchant_num=201510160002&terminal_unique_no=1&cashier_num=1&client_type=PC&user_order_no=201509300119";
 	// private String key = "9gq2tx2r0yk1z6s6z8iumzjvdp7at3c0mbyl";
 	private String key = "a1h1iqlwkkx2yenfh2wzg3o15lqejya3uvuo";
 	private String input_charset = "utf-8";

@@ -424,6 +424,13 @@ public class WchatpaySLController extends BaseController{
 				modelAndView.addObject("signType", wxPayParamMap.get("signType"));
 				modelAndView.addObject("paySign", wxPayParamMap.get("paySign"));
 				modelAndView.addObject("id", sysTransaction.getId());
+				request.getSession().setAttribute("appId", wxPayParamMap.get("appId"));
+				request.getSession().setAttribute("timeStamp", wxPayParamMap.get("timeStamp"));
+				request.getSession().setAttribute("nonceStr", wxPayParamMap.get("nonceStr"));
+				request.getSession().setAttribute("package", wxPayParamMap.get("package"));
+				request.getSession().setAttribute("signType", wxPayParamMap.get("signType"));
+				request.getSession().setAttribute("paySign", wxPayParamMap.get("paySign"));
+				request.getSession().setAttribute("id", sysTransaction.getId());
 			}else{
 				return payMsg;
 			}

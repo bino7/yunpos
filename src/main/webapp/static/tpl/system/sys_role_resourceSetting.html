@@ -1,0 +1,61 @@
+<div class="well" ng-controller="resourceSettingCtrl">
+	<div>
+		<tabset class="tab-container"> 
+		<tab> <tab-heading>菜单权限</tab-heading>
+		<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							<div class="form-group">
+								<label class="col-md-2 control-label"> 支付方式： </label>
+								<div class="col-sm-10">
+									<p class="form-control-static">支付宝条码支付测试</p>
+								</div>
+							</div>
+							
+							
+							<button ng-click="alipayBarTest(bardata)">测试</button>
+							<button ng-click="getOrderNo(bardata)">生成订单</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab> 
+		
+		</tab> <tab> <tab-heading>数据权限</tab-heading> 
+				<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							
+							<button ng-click="alipayBarQueryTest(alipaybarquerydata)">查询</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab>
+		</tab> <tab> <tab-heading>资源管理</tab-heading> 
+				<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal" role="form" name="form">
+							
+							<button ng-click="alipayscanrecanceldata(alipayscanrecanceldata)">撤单</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</tab>
+		</tab> 
+		</tabset>
+	</div>
+</div>

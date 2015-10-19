@@ -384,6 +384,7 @@ public class SysCardTemplateController extends BaseController {
 		
 		String merNo = request.getParameter("merNo");
 		String cardCode = request.getParameter("cardCode");
+		System.out.println("merNo = " + merNo + " ,cardCode = " + cardCode);
 //		String card_id = "px6wPuHrD4dkjl1JaktPhRBHSS9w";
 		SysWechatConfigWithBLOBs sysWechatConfig = sysWechatConfigService.findByMerchantNo(merNo);
 		String access_token = HttpTool.getAccessToken(sysWechatConfig.getAppId(),sysWechatConfig.getAppSecret());
@@ -396,13 +397,16 @@ public class SysCardTemplateController extends BaseController {
 		String card_id = sysCardCouponConsume.getAppid_cardId();
 		
 		String cardCodeCheckRequestUrl = "https://api.weixin.qq.com/card/code/get?access_token=" + access_token;
-		String cardCodeCheckJson = "{\"card_id\" : \"" + card_id + "\",\"code\" : \"" + cardCode + "\",\"check_consume\" : true}";   
+		String cardCodeCheckJson = "{\"card_id\" : \"" + card_id + "\",\"code\" : \"" + cardCode + "\",\"check_consume\" : true}";
+		System.out.println("cardCodeCheckJson = " + cardCodeCheckJson);
 		JSONObject jsonCheckObject =HttpTool.httpRequest(cardCodeCheckRequestUrl,"POST", cardCodeCheckJson);
 		System.out.println(jsonCheckObject);
 		String returnJson = "";
-		 if("0".equals(jsonCheckObject.get("errcode").toString())){
+		String errcode = jsonCheckObject.get("errcode").toString();
+		 if("0".equals(returnJson)){
 			String cardCodeRequestUrl = "https://api.weixin.qq.com/card/code/consume?access_token=" + access_token;
 			String cardCodeJson = "{\"code\" : \"" + cardCode + "\",\"card_id\" : \"" + card_id + "\"}";   
+			System.out.println("cardCodeJson = " + cardCodeJson);
 			JSONObject jsonObject =HttpTool.httpRequest(cardCodeRequestUrl,"POST", cardCodeJson);
 			
 			 sysCardCouponConsume.setStatus(new Byte("1"));
@@ -412,7 +416,11 @@ public class SysCardTemplateController extends BaseController {
 			System.out.println(jsonObject);
 		 }else {
 			 System.out.println(jsonCheckObject);
-			 returnJson = "{\"status\" : \"fail\" , \"errmsg\": \"" + jsonCheckObject.get("errmsg").toString() + "\" }";
+			 String errmsg = "卡券无效";
+			 if("40099".equals(returnJson)){
+				 errmsg = "卡券已使用";
+			 }
+			 returnJson = "{\"status\" : \"fail\" , \"errmsg\": \"" + errmsg + "\" }";
 		 }
 		 try {
 			response.getWriter().print(returnJson);

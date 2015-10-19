@@ -35,6 +35,7 @@ import com.yunpos.payment.wxpay.protocol.reverse_protocol.ReverseReqData;
 import com.yunpos.payment.wxwap.model.WapPayReqData;
 import com.yunpos.payment.wxwap.utils.HttpTool;
 import com.yunpos.payment.wxwap.utils.Sha1Util;
+import com.yunpos.payment.wxwap.utils.WechatpayTools;
 import com.yunpos.service.SysMerchantService;
 import com.yunpos.service.SysTransactionService;
 import com.yunpos.service.SysWechatConfigService;
@@ -359,6 +360,7 @@ public class WchatpaySLController extends BaseController{
 			//获取access_token 和openid
 			String returnJSON= HttpTool.getToken(sysWechatConfigSub.getAppId(), sysWechatConfigSub.getAppSecret(), "authorization_code", code);
 			log.info("#####returnJSON="+returnJSON);
+//			returnJSON = "{\"access_token\":\"OezXcEiiBSKSxW0eoylIeH-q9vqE-jhgMh7ctvbIRWisjMAZt19piQEI7X5YcjesSIlIjgIUVEfDXZohaSvtcb7llGOSALKMwM4PNnMN41P6PCSxTf2UqluNrH6Sqn4nUT4BgDLUY9YWhG1ZVNhV8w\",\"expires_in\":7200,\"refresh_token\":\"OezXcEiiBSKSxW0eoylIeH-q9vqE-jhgMh7ctvbIRWisjMAZt19piQEI7X5YcjesJ72gMw6mmVN-bNFGFTPIzZaNSkQG4skRgvjekvL2MJYx7O8bsg2z5qEnnckdd3Ov_qXYcEMxTg5cCIaVhjlfCQ\",\"openid\":\"oM4YVs6DpFBXteF3MBZEu31c5aDU\",\"scope\":\"snsapi_base\"}";
 			JSONObject obj = JSONObject.fromObject(returnJSON);
 			String openid=obj.get("openid").toString();
 			// 生成流水表信息
@@ -402,6 +404,7 @@ public class WchatpaySLController extends BaseController{
 			// 支付请求
 			WapPayReqData  wapPayReqData =new WapPayReqData(orderNo, "wechat pay test", totalFee, terminal_unique_no, ip,openid,sysWechatConfigPar, sysWechatConfigSub);
 			payMsg = wechatWapPayService.unifiedOrder(wapPayReqData,sysWechatConfigPar);
+			
 			if(payMsg.getResult_code().equals("SUCCESS")){
 				payMsg.getLists().put("package", "prepay_id="+payMsg.getLists().get("prepay_id"));
 				Map<String ,String> reMap = payMsg.getLists();
@@ -422,6 +425,18 @@ public class WchatpaySLController extends BaseController{
 				modelAndView.addObject("signType", wxPayParamMap.get("signType"));
 				modelAndView.addObject("paySign", wxPayParamMap.get("paySign"));
 				modelAndView.addObject("id", sysTransaction.getId());
+				Map<String,String> wxPayParamPageMap = new HashMap<>();
+				wxPayParamPageMap.put("appId", reMap.get("appid"));
+				wxPayParamPageMap.put("timeStamp", (String)wxPayParamMap.get("timeStamp"));
+				wxPayParamPageMap.put("nonceStr", reMap.get("nonce_str"));
+				wxPayParamPageMap.put("packagess", (String)wxPayParamMap.get("package"));
+				wxPayParamPageMap.put("signType", (String)wxPayParamMap.get("signType"));
+				wxPayParamPageMap.put("paySign", (String)wxPayParamMap.get("paySign"));
+				wxPayParamPageMap.put("id", sysTransaction.getId().toString());
+				String redString = WechatpayTools.buildForm(wxPayParamPageMap);
+				PrintWriter writer = response.getWriter();
+				writer.write(redString);
+				writer.flush();
 			}else{
 				return payMsg;
 			}

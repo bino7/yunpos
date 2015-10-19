@@ -1,14 +1,5 @@
 app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'uiGridTreeViewConstants', 'uiGridConstants', function ($scope, $http, $interval,$state, uiGridTreeViewConstants, uiGridConstants) {
 		//添加新增更新事件
-		$scope.$on("AddUpdate",function(event,obj){
-			 $scope.myData.push({
-				 "orgNo":obj.menuNo,
-				 "orgName":obj.menuName,
-				 "menuUrl":obj.menuUrl,
-				 "isVisible":1,
-				 "isLeaf": 1
-			 });
-		});
 
 		$scope.gridOptions = {};
 		$scope.gridOptions.data = 'myData';
@@ -58,10 +49,12 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 			}
 		];
 		
+		
+		
 		//数据获取
 		$http.get('/ajax/menu/select').success(function (data) {
 			for(var i=0;i<data.length;i++){
-				if(data[i].isLeaf==0){
+				if(data[i].isLeaf==0 || data[i].menuParentNo==''){
 					data[i].$$treeLevel = 0;
 				}
 			}
@@ -92,7 +85,7 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 	    $http.get('/ajax/menu/select')
 	        .success(function(data) {
 	          data.forEach(function(row){
-	        	  if(row.isLeaf==0){
+	        	  if(row.isLeaf==0 || row.menuParentNo==''){
 	        		  row.$$treeLevel = 0;
 					}
 	            $scope.myData.push(row);
@@ -120,7 +113,8 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 					method : 'delete',
 					url : '/ajax/menu/' + row.entity.id
 				}).success(function () {
-					$scope.gridOptions.data.splice(index, 1);
+					//$scope.gridOptions.data.splice(index, 1);
+					$scope.myData.splice(index, 1);
 					alert("删除成功！");
 				}).error(function (data, status, headers, config) {
 					alert("删除失败！");
@@ -157,6 +151,49 @@ app.controller('SysMenuController', ['$scope', '$http', '$interval','$state', 'u
 	}
 ]);
 
+
+
+
+/**
+ * 菜单编辑控制器
+ */
+app.controller('SysMenuEditCtrl' ,['$scope', '$http','$state', function ($scope, $http,$state) {
+	//获取下拉列表数据
+	$scope.menus={};
+	$scope.init = function() {
+		$http.get('/ajax/menu/select/levelOne').success(function (data) {    
+			$scope.menus= data;
+        })
+	};
+	
+	//新增
+	$scope.add = function(data){
+		
+		var menu = {
+				menuParentNo:data.parent?data.parent.menuNo:"",
+				menuName:data.menuName,
+				menuUrl:data.menuUrl
+		};
+		
+		$http({
+			method : 'post',
+			url : '/ajax/menu',
+			params : menu
+		}).success(function (data) {
+			alert("添加成功！");
+			$state.go('app.table.menu');
+		}).error(function (data) {
+			alert("出错");
+		});
+	}
+	
+
+}]);
+
+
+
+	
+	
 /**
  * 弹出框势实例化控制器
  */
@@ -179,7 +216,6 @@ app.controller('SysMenuEditModalInstanceCtrl', ['$scope', '$http', '$state','$lo
 					alert("出错");
 				});
 				$modalInstance.close($scope.selected.item);
-				$scope.$broadcast("AddUpdate", obj);
 			};
 
 			//弹出框取消按钮触发处理方法

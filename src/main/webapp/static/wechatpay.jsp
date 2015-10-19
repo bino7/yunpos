@@ -1,8 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%--  <%@ include file="../views/commons/taglibs.jsp" %>
+<%@ include file="../views/commons/meta.jsp" %>  --%>
 <!DOCTYPE html>
 <html>
 <head>
 <script type="text/javascript">
-	//Î¢ĞÅÖ§¸¶
+	//å¾®ä¿¡æ”¯ä»˜
 	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 		if (typeof WeixinJSBridge == "undefined") {
 			if (document.addEventListener) {
@@ -21,25 +24,23 @@
 	function jsApiCall() {
 		var str = window.navigator.userAgent;
 		var version = str.substring(8, 11);
-		var orderid = document.getElementById('id').textContent;
-		alert("orderid"+orderid);
 		if (version != "5.0") {
-			alert("Î¢ĞÅä¯ÀÀÆ÷ÏµÍ³°æ±¾¹ıµÍ£¬Çë½«Î¢ĞÅÉı¼¶ÖÁ5.0ÒÔÉÏ");
+			alert("å¾®ä¿¡æµè§ˆå™¨ç³»ç»Ÿç‰ˆæœ¬è¿‡ä½ï¼Œè¯·å°†å¾®ä¿¡å‡çº§è‡³5.0ä»¥ä¸Š");
 		} else {
 			WeixinJSBridge.invoke('getBrandWCPayRequest', {
-				"appId" : document.getElementById('appId').textContent,
-				"timeStamp" : document.getElementById('timeStamp').textContent,
-				"nonceStr" : document.getElementById('nonceStr').textContent,
-				"package" : document.getElementById('package').textContent,
-				"signType" : document.getElementById('signType').textContent,
-				"paySign" : document.getElementById('paySign').textContent
+				"appId" : "${appId}",
+				"timeStamp" : "${timeStamp}",
+				"nonceStr" : "${nonceStr}",
+				"package" : "${packagess}",
+				"signType" : "${signType}",
+				"paySign" : "${paySign}"
 			}, function(res) {
-				if (res.err_msg == "get_brand_wcpay_request£ºok") {
-					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+orderid+"?status=2";
+				if (res.err_msg == "get_brand_wcpay_requestï¼šok") {
+					window.location.href = "${ctx}/ajax/transaction/update/${id}?status=2";
 				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+orderid+"?status=6";
+					window.location.href = "${ctx}/ajax/transaction/update/${id}?status=6";
 				} else if (res.err_msg == "get_brand_wcpay_request:fail") {
-					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+orderid+"?status=6";
+					window.location.href = "${ctx}/ajax/transaction/update/${id}?status=6";
 				}
 			});
 		}

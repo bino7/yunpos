@@ -305,6 +305,13 @@ public class WchatpaySLController extends BaseController{
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("wechatpay");
 		Map<String,String> reqParamMap = this.getRequestParams(request);
+		//前段页面授权跳转到该地址，应用获取授权code发起
+		String code = request.getParameter("code");
+		log.info("#####code="+code);
+		if(Strings.isNullOrEmpty(code)){
+			return new Message(ResultCode.FAIL.name(),"auth_code_not_found", "未获取到授权码！", null);
+		}
+		reqParamMap.remove("code");
 		String pay_channel = request.getParameter("pay_channel");
 		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
 		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）
@@ -333,9 +340,6 @@ public class WchatpaySLController extends BaseController{
 			if(temSysTransaction!=null){
 				return new Message(ResultCode.FAIL.name(), "USER_ORDER_NOT_EXIST", "商户订单号已存在", null);
 			}
-			//前段页面授权跳转到该地址，应用获取授权code发起
-			String code = request.getParameter("code");
-			log.info("#####code="+code);
 			//子商户配置
 			SysWechatConfigWithBLOBs sysWechatConfigSub = sysWechatConfigService.findByMerchantNo(merchant_num);
 			if (sysWechatConfigSub == null) {

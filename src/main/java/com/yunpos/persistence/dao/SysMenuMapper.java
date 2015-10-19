@@ -9,13 +9,13 @@ import com.yunpos.model.SysMenu;
 
 public interface SysMenuMapper extends EntityMapper<SysMenu>{
 	
-	@Select("select * from sys_menu order by sequence")
+	@Select("select * from sys_menu order by menuNo")
 	List<SysMenu> findAll();
 
 	List<SysMenu> findListByIds(Object[] array);
 
-	@Select("select * from sys_menu where menuParentNo=#{id} order by sequence")
-	List<SysMenu> findBymenuParentNo(int id);
+	@Select("select * from sys_menu where menuParentNo=#{menuNo} order by menuNo")
+	List<SysMenu> findBymenuParentNo(String menuNo);
 	
 	@Select("select * from sys_menu  where menuName=#{menuName}")
 	List<SysMenu> findByMenuName(String menuName);
@@ -23,7 +23,17 @@ public interface SysMenuMapper extends EntityMapper<SysMenu>{
 	@Select("select * from sys_menu  where menuParentNo=#{menuNo}")
 	List<SysMenu> findChildByParentId(int menuNo);
 
-	@Select("select * from sys_menu where menuParentNo is null order by sequence")
+	@Select("select * from sys_menu where menuParentNo ='' order by menuNo")
 	List<SysMenu> findLevelOne();
+	
+	
+	public String findMaxMenuNo();
+	
+	public String findMaxChildMenuNo(String parentMenuNo);
+	
+	@Select("select * from sys_menu where menuNo=#{menuNo}")
+	SysMenu findByMenuNo(String menuNo);
+
+
 
 }

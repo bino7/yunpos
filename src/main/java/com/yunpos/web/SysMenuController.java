@@ -101,8 +101,8 @@ public class SysMenuController extends BaseController{
 	 */
 	@RequestMapping(value="/ajax/menu/{id}/haschild",method = RequestMethod.GET)
 	@ResponseBody
-	public Object hasChild(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") int id)throws Exception{
-		return sysMenuService.hasChild(id);
+	public Object hasChild(HttpServletRequest request, HttpServletResponse response,@PathVariable("menuNo") String menuNo)throws Exception{
+		return sysMenuService.hasChild(menuNo);
 	}
 	
 	//判断菜单名是否存在
@@ -115,6 +115,12 @@ public class SysMenuController extends BaseController{
 	@RequestMapping(value = "/ajax/menu/getchild/{menuNo}", method = RequestMethod.GET)
 	public Object getChild(HttpServletRequest request, @PathVariable("menuNo") String menuNo) throws Exception {
 		return sysMenuService.findChildByParentId(Integer.valueOf(menuNo));
+	}
+	
+	//获取一级菜单
+	@RequestMapping(value = "/ajax/menu/select/levelOne", method = RequestMethod.GET)
+	public Object selectOne(HttpServletRequest request) throws Exception {
+		return sysMenuService.findLevelOne();
 	}
 	
 	

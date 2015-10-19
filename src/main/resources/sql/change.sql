@@ -164,3 +164,9 @@ CREATE TABLE key_param
     primary_column VARCHAR(45)
 );
 
+--20150119 杨学勇 菜单字段类型修改
+ALTER TABLE `sys_menu`
+MODIFY COLUMN `menuNo`  varchar(10) NULL DEFAULT NULL COMMENT '系统菜单编号' AFTER `sequence`,
+MODIFY COLUMN `menuParentNo`  varchar(10) NULL DEFAULT NULL COMMENT '父级菜单编号' AFTER `applicationCode`;
+
+

@@ -402,7 +402,8 @@ public class SysCardTemplateController extends BaseController {
 		JSONObject jsonCheckObject =HttpTool.httpRequest(cardCodeCheckRequestUrl,"POST", cardCodeCheckJson);
 		System.out.println(jsonCheckObject);
 		String returnJson = "";
-		 if("0".equals(jsonCheckObject.get("errcode").toString())){
+		String errcode = jsonCheckObject.get("errcode").toString();
+		 if("0".equals(returnJson)){
 			String cardCodeRequestUrl = "https://api.weixin.qq.com/card/code/consume?access_token=" + access_token;
 			String cardCodeJson = "{\"code\" : \"" + cardCode + "\",\"card_id\" : \"" + card_id + "\"}";   
 			System.out.println("cardCodeJson = " + cardCodeJson);
@@ -415,7 +416,11 @@ public class SysCardTemplateController extends BaseController {
 			System.out.println(jsonObject);
 		 }else {
 			 System.out.println(jsonCheckObject);
-			 returnJson = "{\"status\" : \"fail\" , \"errmsg\": \"" + jsonCheckObject.get("errmsg").toString() + "\" }";
+			 String errmsg = "卡券无效";
+			 if("40099".equals(returnJson)){
+				 errmsg = "卡券已使用";
+			 }
+			 returnJson = "{\"status\" : \"fail\" , \"errmsg\": \"" + errmsg + "\" }";
 		 }
 		 try {
 			response.getWriter().print(returnJson);

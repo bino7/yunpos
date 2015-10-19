@@ -312,6 +312,12 @@ public class WchatpaySLController extends BaseController{
 			return new Message(ResultCode.FAIL.name(),"auth_code_not_found", "未获取到授权码！", null);
 		}
 		reqParamMap.remove("code");
+		String state = request.getParameter("state");
+		log.info("#####state="+state);
+		if(Strings.isNullOrEmpty(state) && state.equals("123")){
+			return new Message(ResultCode.FAIL.name(),"auth_state_not_found", "未获取到状态码！", null);
+		}
+		reqParamMap.remove("state");
 		String pay_channel = request.getParameter("pay_channel");
 		String total_fee = request.getParameter("total_fee"); // 支付金额（非空）
 		String merchant_num = request.getParameter("merchant_num"); // 商户号（非空）

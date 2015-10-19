@@ -33,7 +33,7 @@
                                	卡券颜色：
                             </label>
                             <div class="col-md-10">
-                            	<input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.background">
+                            	<input type="text" class="form-control" placeholder="" id ="background" ng-model="sysCardTemplate.background">
                             </div>
                         </div>
                         <div class="form-group">
@@ -153,6 +153,14 @@
 					                <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.urldesc">
 					         </div>
                         </div>
+                          <div class="form-group">
+                            <label class="col-md-2 control-label">
+                                	网页链接：
+                            </label>
+                             <div class="col-md-10">
+					                   <input type="text" class="form-control" placeholder="" ng-model="sysCardTemplate.urlcontent">
+					         </div>
+                        </div>
                     <!--   <div class="form-group">
                             <label class="col-md-2 control-label">
                                 	触发动作：
@@ -231,3 +239,13 @@
         </div>
     </div>
 </div>
+<script>
+
+$(document).ready(function(){
+	// No color indicator
+	$('#background').colorpicker({
+		displayIndicator: false
+	});
+});
+
+</script>

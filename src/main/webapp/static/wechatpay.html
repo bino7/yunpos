@@ -22,6 +22,7 @@
 		var str = window.navigator.userAgent;
 		var version = str.substring(8, 11);
 		var orderid = document.getElementById('id').textContent;
+		alert("orderid"+orderid);
 		if (version != "5.0") {
 			alert("微信浏览器系统版本过低，请将微信升级至5.0以上");
 		} else {
@@ -34,11 +35,11 @@
 				"paySign" : document.getElementById('paySign').textContent
 			}, function(res) {
 				if (res.err_msg == "get_brand_wcpay_request：ok") {
-					window.location.href = "${ctx}/ajax/transaction/update/"+orderid+"?status=2";
+					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+orderid+"?status=2";
 				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-					window.location.href = "${ctx}/ajax/transaction/update/"+orderid+"?status=6";
+					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+orderid+"?status=6";
 				} else if (res.err_msg == "get_brand_wcpay_request:fail") {
-					window.location.href = "${ctx}/ajax/transaction/update/"+orderid+"?status=6";
+					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+orderid+"?status=6";
 				}
 			});
 		}

@@ -359,6 +359,7 @@ public class WchatpaySLController extends BaseController{
 			//获取access_token 和openid
 			String returnJSON= HttpTool.getToken(sysWechatConfigSub.getAppId(), sysWechatConfigSub.getAppSecret(), "authorization_code", code);
 			log.info("#####returnJSON="+returnJSON);
+			returnJSON = "{\"access_token\":\"OezXcEiiBSKSxW0eoylIeH-q9vqE-jhgMh7ctvbIRWisjMAZt19piQEI7X5YcjesSIlIjgIUVEfDXZohaSvtcb7llGOSALKMwM4PNnMN41P6PCSxTf2UqluNrH6Sqn4nUT4BgDLUY9YWhG1ZVNhV8w\",\"expires_in\":7200,\"refresh_token\":\"OezXcEiiBSKSxW0eoylIeH-q9vqE-jhgMh7ctvbIRWisjMAZt19piQEI7X5YcjesJ72gMw6mmVN-bNFGFTPIzZaNSkQG4skRgvjekvL2MJYx7O8bsg2z5qEnnckdd3Ov_qXYcEMxTg5cCIaVhjlfCQ\",\"openid\":\"oM4YVs6DpFBXteF3MBZEu31c5aDU\",\"scope\":\"snsapi_base\"}";
 			JSONObject obj = JSONObject.fromObject(returnJSON);
 			String openid=obj.get("openid").toString();
 			// 生成流水表信息
@@ -402,6 +403,7 @@ public class WchatpaySLController extends BaseController{
 			// 支付请求
 			WapPayReqData  wapPayReqData =new WapPayReqData(orderNo, "wechat pay test", totalFee, terminal_unique_no, ip,openid,sysWechatConfigPar, sysWechatConfigSub);
 			payMsg = wechatWapPayService.unifiedOrder(wapPayReqData,sysWechatConfigPar);
+			
 			if(payMsg.getResult_code().equals("SUCCESS")){
 				payMsg.getLists().put("package", "prepay_id="+payMsg.getLists().get("prepay_id"));
 				Map<String ,String> reMap = payMsg.getLists();
@@ -428,6 +430,14 @@ public class WchatpaySLController extends BaseController{
 		} catch (Exception e) {
 			return new Message(ResultCode.FAIL.name(), ErrorCode.SYSTEM_EXCEPTION.name(), "支付出现异常！", null);
 		}
+		
+		modelAndView.addObject("appId", "appid1");
+		modelAndView.addObject("timeStamp", "timeStamp");
+		modelAndView.addObject("nonceStr", "nonceStr");
+		modelAndView.addObject("packagess", "package");
+		modelAndView.addObject("signType", "signType");
+		modelAndView.addObject("paySign", "paySign");
+		modelAndView.addObject("id", "1111");
 		return modelAndView;
 	}
 	

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="js/jquerysession.js"></script>
+<script src="http://pay.o2o520.com/static/vendor/jquery/jquery.min.js"></script>
+<script src="http://pay.o2o520.com/static/js/jquerysession.js"></script>
 <script type="text/javascript">
 
-	//Î¢ĞÅÖ§¸¶
+	//å¾®ä¿¡æ”¯ä»˜
 	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 		if (typeof WeixinJSBridge == "undefined") {
 			if (document.addEventListener) {
@@ -27,17 +27,17 @@
 		var id = $.session.get('id');
 		alert('id:'+id)
 		if (version != "5.0") {
-			alert("Î¢ĞÅä¯ÀÀÆ÷ÏµÍ³°æ±¾¹ıµÍ£¬Çë½«Î¢ĞÅÉı¼¶ÖÁ5.0ÒÔÉÏ");
+			alert("å¾®ä¿¡æµè§ˆå™¨ç³»ç»Ÿç‰ˆæœ¬è¿‡ä½ï¼Œè¯·å°†å¾®ä¿¡å‡çº§è‡³5.0ä»¥ä¸Š");
 		} else {
 			WeixinJSBridge.invoke('getBrandWCPayRequest', {
 				"appId" : $.session.get('appId'),
 				"timeStamp" : $.session.get('timeStamp'),
 				"nonceStr" : $.session.get('nonceStr'),
 				"package" : $.session.get('packagess'),
-				"signType" : $.session.get('signType'),
+				"signType" : $.session.get('signType'), 	
 				"paySign" : $.session.get('paySign')
 			}, function(res) {
-				if (res.err_msg == "get_brand_wcpay_request£ºok") {
+				if (res.err_msg == "get_brand_wcpay_requestï¼šok") {
 					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+id+"?status=2";
 				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/"+id+"?status=6";

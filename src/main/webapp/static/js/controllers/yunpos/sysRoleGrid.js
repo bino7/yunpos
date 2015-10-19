@@ -35,7 +35,8 @@ app.controller('roleControllerCtrl',  function($scope, $http, $state, $statePara
                {field: 'id', displayName: '操作', enableCellEdit: false, sortable: false,  pinnable: false,
                 cellTemplate: '<div><a ui-sref="app.table.roleDetail({id:row.getProperty(col.field)})" ' 
                 	+'id="{{row.getProperty(col.field)}}"> <button>查看编辑</button> </a> '  
-                	+'<button ng-click="permissionSetting({id:row.getProperty(col.field) , role:row})">权限设置</button> '
+                	+'<a ui-sref="app.table.roleAuthoritySetting({id:row.getProperty(col.field)})" '
+                	+'id="{{row.getProperty(col.field)}}"> <button>权限设置</button> </a> '
                 	 +'<button ng-click="deleted({id:row.getProperty(col.field) , role:row})">删除</button> '
         			+'</div>'
          }],
@@ -91,49 +92,6 @@ app.controller('roleControllerCtrl',  function($scope, $http, $state, $statePara
 	      	alert("删除失败！");
 	     });
 	};
-	
-
-		
-/*//	 $scope.saved_st = {};
-     $scope.saveStatus = function(user) {
-    	 user.user.entity.status = user.status;
-//    	 $scope.saved_st = angular.copy(user.user.entity);
-    	 if (user.status == 0){
- 	   		user.status= 1;
- 	   		user.statusStr = "停用";
- 	   	 }else{
- 	   		 user.status= 0;
- 	   		 user.statusStr ="启用";
- 	   	 }
-	     $http({
-	        method  : 'put',
-	        url     : '/ajax/user/' + user.id,
-	        params  : user.user.entity
-//	     }).success(function(data) {
-//	    	 alert("保存成功！");
-	     }).error(function(data,status,headers,config){
-	      	alert("保存失败！");
-	     });
-	}*/
-  /*  $scope.delete_st = {} ;
-    $scope.deleted = function(obj) {
-    	 $scope.delete_st = angular.copy(obj);
-	     $http({
-	        method  : 'put',
-	        url     : '/ajax/user/' + obj.id,
-	        params  : $scope.delete_st    //deleted({id:row.getProperty(col.field) , user:row})
-	     }).success(function(data) {
-	    	 alert("删除成功！");
-	    	 $scope.roleData.splice(obj.user.rowIndex, 0);
-	    	 $scope.setPagingData($scope.userData, $scope.pagingOptions.currentPage, $scope.pagingOptions.pageSize);
-	     }).error(function(data,status,headers,config){
-	      	alert("删除失败！");
-	     });
-	};
-  	*/
-
-	
-	
 	 $scope.search = function() {
 		  var ft = $scope.filterText;
           var data = $scope.roleData.filter(function(item) {
@@ -147,7 +105,7 @@ app.controller('roleControllerCtrl',  function($scope, $http, $state, $statePara
 
 
 /**
- * 这里是用户 新增 模块
+ * 这里是角色 新增 模块
  * 
  * @type {[type]}
  */
@@ -176,12 +134,72 @@ app.controller('roleAddCtrl', function($scope, $http, $state, $stateParams) {
 	  $scope.reset();
 });
 
-
 /**
  * 这里是用户编辑
  * @type {[type]}
  */
 app.controller('roleDetailCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.processForm = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/role/'+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.role = data;
+	           // alert(data.id);
+	        });
+	};
+	 $scope.saved = {};
+     $scope.save = function(role) {
+    	 $scope.saved = angular.copy(role);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/role/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	    	 $state.go('app.table.role');
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+});
+
+/**
+ * 这里是角色权限设置
+ * @type {[type]}
+ */
+app.controller('authoritySettingCtrl', function($scope, $http, $state, $stateParams) {
+    $scope.setting = function() {
+	    $http({
+	        method  : 'get',
+	        url     : '/ajax/role/'+ $stateParams.id
+	    }).success(function(data) {
+	           // console.log(data);
+	            $scope.role = data;
+	           // alert(data.id);
+	        });
+	};
+	 $scope.saved = {};
+     $scope.save = function(role) {
+    	 $scope.saved = angular.copy(role);
+	     $http({
+	        method  : 'put',
+	        url     : '/ajax/role/' + $scope.saved.id,
+	        params  : $scope.saved
+	     }).success(function(data) {
+	    	 alert("保存成功！");
+	    	 $state.go('app.table.role');
+	     }).error(function(data,status,headers,config){
+	      	alert("保存失败！");
+	     });
+	}
+});
+/**
+ * 这里是角色资源配置
+ * @type {[type]}
+ */
+app.controller('resourceSettingCtrl', function($scope, $http, $state, $stateParams) {
     $scope.processForm = function() {
 	    $http({
 	        method  : 'get',

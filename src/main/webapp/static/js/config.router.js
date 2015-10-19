@@ -346,6 +346,34 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                            }]
                        }
               })
+               .state('app.table.roleAuthoritySetting', {//角色权限设置
+                  url: '/role:id',
+                  templateUrl: 'tpl/system/sys_role_authoritySetting.html',
+                	   resolve: {
+                           deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('ngGrid').then(
+                                   function(){
+                                       return $ocLazyLoad.load('js/controllers/yunpos/sysRoleGrid.js');
+                                   }
+                               );
+                           }]
+                       }
+              })
+               .state('app.table.roleResourceSetting', {//角色资源配置
+                  url: '/role:id',
+                  templateUrl: 'tpl/system/sys_role_resourceSetting.html',
+                	   resolve: {
+                           deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('ngGrid').then(
+                                   function(){
+                                       return $ocLazyLoad.load('js/controllers/yunpos/sysRoleGrid.js');
+                                   }
+                               );
+                           }]
+                       }
+              })
               .state('app.table.user', {//用户管理
                   url: '/user',
                   templateUrl: 'tpl/system/sys_user.html',

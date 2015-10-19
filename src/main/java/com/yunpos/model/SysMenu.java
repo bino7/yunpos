@@ -8,11 +8,11 @@ public class SysMenu {
 
 	private Integer sequence;
 
-	private Integer menuNo;
+	private String menuNo;
 
 	private Integer applicationCode;
 
-	private Integer menuParentNo;
+	private String menuParentNo;
 
 	private Integer menuOrder;
 
@@ -24,12 +24,8 @@ public class SysMenu {
 	private Integer isVisible;
 
 	private Integer isLeaf;
-	
+
 	private List nodes = new ArrayList();
-	
-	
-	
-	
 
 	public List getNodes() {
 		return nodes;
@@ -47,12 +43,20 @@ public class SysMenu {
 		this.id = id;
 	}
 
-	public Integer getMenuNo() {
+	public String getMenuNo() {
 		return menuNo;
 	}
 
-	public void setMenuNo(Integer menuNo) {
+	public void setMenuNo(String menuNo) {
 		this.menuNo = menuNo;
+	}
+
+	public String getMenuParentNo() {
+		return menuParentNo;
+	}
+
+	public void setMenuParentNo(String menuParentNo) {
+		this.menuParentNo = menuParentNo;
 	}
 
 	public Integer getApplicationCode() {
@@ -61,14 +65,6 @@ public class SysMenu {
 
 	public void setApplicationCode(Integer applicationCode) {
 		this.applicationCode = applicationCode;
-	}
-
-	public Integer getMenuParentNo() {
-		return menuParentNo;
-	}
-
-	public void setMenuParentNo(Integer menuParentNo) {
-		this.menuParentNo = menuParentNo;
 	}
 
 	public Integer getMenuOrder() {
@@ -126,6 +122,5 @@ public class SysMenu {
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
 	}
-	
 
 }

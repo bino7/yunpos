@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.yunpos.model.SysMenu;
 import com.yunpos.persistence.dao.EntityMapper;
 import com.yunpos.persistence.dao.SysMenuMapper;
@@ -42,8 +43,8 @@ public class SysMenuService extends EntityService<SysMenu> {
 	}
 
 	// 判断菜单是否有子菜单
-	public boolean hasChild(int id) {
-		List<SysMenu> sysMenus = sysMenuMapper.findBymenuParentNo(id);
+	public boolean hasChild(String  menuNo) {
+		List<SysMenu> sysMenus = sysMenuMapper.findBymenuParentNo(menuNo);
 		if (sysMenus != null && sysMenus.size() > 0) {
 			return true;
 		}
@@ -60,6 +61,11 @@ public class SysMenuService extends EntityService<SysMenu> {
 
 	public List<SysMenu> findChildByParentId(int menuNo) {
 		return sysMenuMapper.findChildByParentId(menuNo);
+	}
+	
+	
+	public List<SysMenu> findLevelOne(){
+		return sysMenuMapper.findLevelOne();
 	}
 
 
@@ -90,5 +96,80 @@ public class SysMenuService extends EntityService<SysMenu> {
 			}
 		return node;
 	}
+	
+	
+	@Override
+	public void save(SysMenu sysMenu) {
+		String menuNo = getMaxNo(sysMenu);
+		sysMenu.setMenuNo(menuNo);
+		sysMenu.setIsVisible(1);
+		sysMenu.setIsLeaf(1);
+		if(!Strings.isNullOrEmpty(sysMenu.getMenuParentNo())){
+			SysMenu menu = sysMenuMapper.findByMenuNo(sysMenu.getMenuParentNo());
+			if(menu.getIsLeaf()==1){
+				menu.setIsLeaf(0);
+				sysMenuMapper.updateByPrimaryKey(menu);
+			}
+		}
+		sysMenuMapper.insert(sysMenu);
+	}
+	
+	
+	private String getMaxNo(SysMenu sysMenu){
+		String nextMaxMenuNo = "";
+		String maxMenuNo = "";
+		String childMaxMenuNo = "";
+		if(Strings.isNullOrEmpty(sysMenu.getMenuParentNo())){
+			 maxMenuNo = sysMenuMapper.findMaxMenuNo();
+			if(Strings.isNullOrEmpty(maxMenuNo)){
+				maxMenuNo = "0000";
+			}
+			nextMaxMenuNo  = (Integer.parseInt(maxMenuNo)+1)+"";
+			if(nextMaxMenuNo.length() % 4 == 1 ){
+				nextMaxMenuNo = "000" + nextMaxMenuNo;
+			}else if(nextMaxMenuNo.length() % 4 == 2 ){
+				nextMaxMenuNo = "00" + nextMaxMenuNo;
+			}else if(nextMaxMenuNo.length() % 4 == 3 ){
+				nextMaxMenuNo = "0" + nextMaxMenuNo;
+			} 
+		}else{
+			childMaxMenuNo = sysMenuMapper.findMaxChildMenuNo(sysMenu.getMenuParentNo());
+			if(Strings.isNullOrEmpty(childMaxMenuNo)){
+				childMaxMenuNo = "00000000";
+			}
+			nextMaxMenuNo =Integer.parseInt(childMaxMenuNo.substring(4))+1+"";
+			if(nextMaxMenuNo.length() % 4 == 1 ){
+				nextMaxMenuNo = "000" + nextMaxMenuNo;
+			}else if(nextMaxMenuNo.length() % 4 == 2 ){
+				nextMaxMenuNo = "00" + nextMaxMenuNo;
+			}else if(nextMaxMenuNo.length() % 4 == 3 ){
+				nextMaxMenuNo = "0" + nextMaxMenuNo;
+			} 
+			nextMaxMenuNo = sysMenu.getMenuParentNo()+nextMaxMenuNo;
+		}
+		return nextMaxMenuNo;
+	}
+	
+	
+	@Override
+	public void delete(Integer id) {
+		SysMenu sysMenu =  sysMenuMapper.selectByPrimaryKey(id);
+		if(!Strings.isNullOrEmpty(sysMenu.getMenuParentNo())){
+			List<SysMenu > list = sysMenuMapper.findBymenuParentNo(sysMenu.getMenuParentNo());
+			if(list!=null && list.size()>1){
+				sysMenuMapper.deleteByPrimaryKey(id);
+			}else{
+				SysMenu temp =  sysMenuMapper.findByMenuNo(sysMenu.getMenuParentNo());
+				temp.setIsLeaf(1);
+				sysMenuMapper.updateByPrimaryKey(temp);
+				sysMenuMapper.deleteByPrimaryKey(id);
+			}
+		}
+		if(hasChild(sysMenu.getMenuNo())){
+			
+		}
+		super.delete(id);
+	}
+	
 
 }

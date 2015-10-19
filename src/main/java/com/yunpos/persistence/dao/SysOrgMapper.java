@@ -32,5 +32,7 @@ public interface SysOrgMapper extends EntityMapper<SysOrg>{
 	
 	@Select("select * from sys_org  where orgNo=#{orgNo}")
 	public SysOrg selectByOrgNo(String orgNo); 
+	
+	
     
 }

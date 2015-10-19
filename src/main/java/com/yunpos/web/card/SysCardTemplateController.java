@@ -396,13 +396,15 @@ public class SysCardTemplateController extends BaseController {
 		String card_id = sysCardCouponConsume.getAppid_cardId();
 		
 		String cardCodeCheckRequestUrl = "https://api.weixin.qq.com/card/code/get?access_token=" + access_token;
-		String cardCodeCheckJson = "{\"card_id\" : \"" + card_id + "\",\"code\" : \"" + cardCode + "\",\"check_consume\" : true}";   
+		String cardCodeCheckJson = "{\"card_id\" : \"" + card_id + "\",\"code\" : \"" + cardCode + "\",\"check_consume\" : true}";
+		System.out.println("cardCodeCheckJson = " + cardCodeCheckJson);
 		JSONObject jsonCheckObject =HttpTool.httpRequest(cardCodeCheckRequestUrl,"POST", cardCodeCheckJson);
 		System.out.println(jsonCheckObject);
 		String returnJson = "";
 		 if("0".equals(jsonCheckObject.get("errcode").toString())){
 			String cardCodeRequestUrl = "https://api.weixin.qq.com/card/code/consume?access_token=" + access_token;
 			String cardCodeJson = "{\"code\" : \"" + cardCode + "\",\"card_id\" : \"" + card_id + "\"}";   
+			System.out.println("cardCodeJson = " + cardCodeJson);
 			JSONObject jsonObject =HttpTool.httpRequest(cardCodeRequestUrl,"POST", cardCodeJson);
 			
 			 sysCardCouponConsume.setStatus(new Byte("1"));

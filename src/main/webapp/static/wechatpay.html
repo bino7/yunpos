@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+	//微信支付
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		if (typeof WeixinJSBridge == "undefined") {
+			if (document.addEventListener) {
+				document.addEventListener('WeixinJSBridgeReady', jsApiCall,
+						false);
+			} else if (document.attachEvent) {
+				document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+				document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+			}
+		} else {
+			jsApiCall();
+			
+		}
+	});
+
+	function jsApiCall() {
+		var str = window.navigator.userAgent;
+		var version = str.substring(8, 11);
+		var orderid = document.getElementById('id').textContent;
+		if (version != "5.0") {
+			alert("微信浏览器系统版本过低，请将微信升级至5.0以上");
+		} else {
+			WeixinJSBridge.invoke('getBrandWCPayRequest', {
+				"appId" : document.getElementById('appId').textContent,
+				"timeStamp" : document.getElementById('timeStamp').textContent,
+				"nonceStr" : document.getElementById('nonceStr').textContent,
+				"package" : document.getElementById('package').textContent,
+				"signType" : document.getElementById('signType').textContent,
+				"paySign" : document.getElementById('paySign').textContent
+			}, function(res) {
+				if (res.err_msg == "get_brand_wcpay_request：ok") {
+					window.location.href = "${ctx}/ajax/transaction/update/"+orderid+"?status=2";
+				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+					window.location.href = "${ctx}/ajax/transaction/update/"+orderid+"?status=6";
+				} else if (res.err_msg == "get_brand_wcpay_request:fail") {
+					window.location.href = "${ctx}/ajax/transaction/update/"+orderid+"?status=6";
+				}
+			});
+		}
+	}
+</script>
+</head>
+<body>
+</body>
+</html>

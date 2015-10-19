@@ -1170,8 +1170,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,   
                   }]
               }
           })
-      
-      
-      }
+              .state('app.table.sourceConfigure', {//资源配置
+                  url: '/sourceConfigure',
+                  templateUrl: 'tpl/system/authority_man.html',
+              })
+
+
+    }
     ]
   );

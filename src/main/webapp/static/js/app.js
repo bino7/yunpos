@@ -20,7 +20,11 @@ var modules = ['ngAnimate',
                'infinite-scroll',
                'ngFileUpload',
                'ngTreetable',
-               'integralui'
+               'integralui',
+                'dataAuthority',
+                'jsTag',
+                'isteven-multi-select'
+
                ];
 //全局app
 var app = angular.module('app', modules), permissionList,user;

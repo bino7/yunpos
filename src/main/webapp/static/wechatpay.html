@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="js/jquerysession.js"></script>
+<script type="text/javascript">
+
+	//微信支付
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		if (typeof WeixinJSBridge == "undefined") {
+			if (document.addEventListener) {
+				document.addEventListener('WeixinJSBridgeReady', jsApiCall,
+						false);
+			} else if (document.attachEvent) {
+				document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+				document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+			}
+		} else {
+			jsApiCall();
+			
+		}
+	});
+
+	function jsApiCall() {
+		var str = window.navigator.userAgent;
+		var version = str.substring(8, 11);
+		if (version != "5.0") {
+			alert("微信浏览器系统版本过低，请将微信升级至5.0以上");
+		} else {
+			WeixinJSBridge.invoke('getBrandWCPayRequest', {
+				"appId" : $.session.get('appId'),
+				"timeStamp" : $.session.get('timeStamp'),
+				"nonceStr" : $.session.get('nonceStr'),
+				"package" : $.session.get('packagess'),
+				"signType" : $.session.get('signType'),
+				"paySign" : $.session.get('paySign')
+			}, function(res) {
+				if (res.err_msg == "get_brand_wcpay_request：ok") {
+					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/$.session.get('id')?status=2";
+				} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/$.session.get('id')?status=6";
+				} else if (res.err_msg == "get_brand_wcpay_request:fail") {
+					window.location.href = "http://pay.o2o520.com/ajax/transaction/update/$.session.get('id')?status=6";
+				}
+			});
+		}
+	}
+</script>
+</head>
+<body>
+</body>
+</html>
